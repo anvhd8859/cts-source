@@ -1,0 +1,31 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.fu.capstone"
+    },
+    "jhipsterVersion": "5.5.0",
+    "applicationType": "microservice",
+    "baseName": "ctsmicroservice",
+    "packageName": "com.fu.capstone",
+    "packageFolder": "com/fu/capstone",
+    "serverPort": "8082",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "gradle",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "NTkwZTYxMjQwYTBhZTRjZTA0ZTUzYTliMjcxMzU5MmZmZTlkNjdlOTUxN2U4N2RhYjlmZWJkNjdkZjM3NDViNzlmZDY5ZTMyNTJhOWUwM2Y0MWIzNjFjZDI1NjU0NmFkNWJlZmE0ZTUzODA1NzA4MmRhYjM0OWQ2YTRlZTYyMGQ=",
+    "enableTranslation": false,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "clientPackageManager": "npm",
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}

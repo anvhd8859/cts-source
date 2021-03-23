@@ -1,0 +1,32 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.fu.capstone"
+    },
+    "jhipsterVersion": "5.5.0",
+    "applicationType": "gateway",
+    "baseName": "ctsgateway",
+    "packageName": "com.fu.capstone",
+    "packageFolder": "com/fu/capstone",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "gradle",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "YTVmNDNhODBlY2ZjNmFlM2NiZmQzM2Q3OTE4ZDUzMDM3MTY2MGRmZTBjOTY2ZDVjNjU5Y2JjOWU4MDMwMmZjOWY3Yjk2MTU4NzUyYzJiNDdmMzFjNjBmYmNmY2NhNjA0OWZlNTYyZTU5ZTQ5NWU2MWFlYTVjODVmYmE3ZjJkOTM=",
+    "clientFramework": "angularX",
+    "useSass": false,
+    "clientPackageManager": "npm",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "enableTranslation": false
+  }
+}
