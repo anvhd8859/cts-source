@@ -1,2 +1,4 @@
 # cts-source
- cts_v2
+ 
+ Architech: Microservice
+ Authentication: JSON Web Token (JWT) - stateless
