@@ -1,0 +1,41 @@
+{
+    "name": "SubDistrict",
+    "fields": [
+        {
+            "fieldName": "subDistrictName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "street",
+            "otherEntityName": "street",
+            "otherEntityRelationshipName": "subDistrictId"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "districtId",
+            "otherEntityName": "district",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20210401184033",
+    "entityTableName": "sub_district",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}
