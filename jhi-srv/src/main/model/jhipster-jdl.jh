@@ -1,0 +1,35 @@
+entity Street {
+    streetName String
+    createDate Instant
+    updateDate Instant
+}
+
+entity SubDistrict {
+    subDistrictName String
+    createDate Instant
+    updateDate Instant
+}
+
+entity District {
+    districtName String
+    createDate Instant
+    updateDate Instant
+}
+
+entity Province {
+    provinceName String
+    createDate Instant
+    updateDate Instant
+}
+
+relationship OneToMany {
+    SubDistrict to Street{subDistrictId}
+    District to SubDistrict{districtId}
+    Province to District{provinceId}
+}
+
+dto * with mapstruct
+
+paginate Street, SubDistrict, District, Province with pagination
+
+service all with serviceImpl

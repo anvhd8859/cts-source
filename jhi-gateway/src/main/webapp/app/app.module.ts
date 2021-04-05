@@ -20,9 +20,44 @@ import { CtsgatewayEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
+import {
+    NgxUiLoaderConfig,
+    NgxUiLoaderHttpModule,
+    NgxUiLoaderModule,
+    NgxUiLoaderRouterModule,
+    PB_DIRECTION,
+    POSITION,
+    SPINNER
+} from 'ngx-ui-loader';
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+    bgsColor: '#3ce6ff',
+    bgsOpacity: 0.2,
+    bgsPosition: POSITION.centerCenter,
+    bgsSize: 100,
+    bgsType: SPINNER.threeStrings,
+    blur: 2,
+    fgsColor: '#3ce6ff',
+    fgsPosition: POSITION.centerCenter,
+    fgsSize: 100,
+    fgsType: SPINNER.threeStrings,
+    gap: 24,
+    overlayBorderRadius: '0',
+    overlayColor: 'rgba(40, 40, 40, 0.8)',
+    pbColor: '#3ce6ff',
+    pbDirection: PB_DIRECTION.leftToRight,
+    pbThickness: 3,
+    hasProgressBar: true,
+    text: 'LOADING',
+    textColor: '#FFFFFF',
+    textPosition: POSITION.centerCenter
+};
 
 @NgModule({
     imports: [
+        NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+        NgxUiLoaderRouterModule,
+        NgxUiLoaderHttpModule,
         BrowserModule,
         CtsgatewayAppRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),

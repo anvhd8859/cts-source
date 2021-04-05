@@ -248,6 +248,7 @@ dependencies {
     testCompile "com.mattbertolini:liquibase-slf4j"
     testCompile "org.hamcrest:hamcrest-library"
     testCompile "com.h2database:h2"
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 
