@@ -1,10 +1,11 @@
 import { Component, AfterViewInit, Renderer, ElementRef } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { LoginService } from 'app/core/login/login.service';
 import { StateStorageService } from 'app/core/auth/state-storage.service';
+import { RegisterModalService } from 'app/account/register/register-modal.service';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -16,6 +17,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
     rememberMe: boolean;
     username: string;
     credentials: any;
+    modalRef: NgbModalRef;
 
     constructor(
         private eventManager: JhiEventManager,
@@ -24,7 +26,8 @@ export class JhiLoginModalComponent implements AfterViewInit {
         private elementRef: ElementRef,
         private renderer: Renderer,
         private router: Router,
-        public activeModal: NgbActiveModal
+        public activeModal: NgbActiveModal,
+        private registerModalService: RegisterModalService
     ) {
         this.credentials = {};
     }
@@ -77,7 +80,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
 
     register() {
         this.activeModal.dismiss('to state register');
-        this.router.navigate(['/register']);
+        this.modalRef = this.registerModalService.open();
     }
 
     requestResetPassword() {

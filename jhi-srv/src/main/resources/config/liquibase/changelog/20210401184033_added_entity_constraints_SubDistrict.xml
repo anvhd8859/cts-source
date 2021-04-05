@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity SubDistrict.
+    -->
+    <changeSet id="20210401184033-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="district_id_id"
+                                 baseTableName="sub_district"
+                                 constraintName="fk_sub_district_district_id_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="district"/>
+
+    </changeSet>
+</databaseChangeLog>

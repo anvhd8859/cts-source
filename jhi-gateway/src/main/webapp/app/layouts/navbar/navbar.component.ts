@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { RegisterModalService } from 'app/account/register/register-modal.service';
 
 import { VERSION } from 'app/app.constants';
-import { Principal, LoginModalService, LoginService } from 'app/core';
+import { Principal, LoginModalService, LoginService, AccountService } from 'app/core';
 import { ProfileService } from '../profiles/profile.service';
 
 @Component({
@@ -18,13 +19,16 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
+    username: string;
 
     constructor(
         private loginService: LoginService,
         private principal: Principal,
         private loginModalService: LoginModalService,
+        private registerModalService: RegisterModalService,
         private profileService: ProfileService,
-        private router: Router
+        private router: Router,
+        private accountService: AccountService
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
@@ -34,6 +38,9 @@ export class NavbarComponent implements OnInit {
         this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
+        });
+        this.accountService.get().subscribe(res => {
+            this.username = res.body['firstName'];
         });
     }
 
@@ -49,6 +56,10 @@ export class NavbarComponent implements OnInit {
         this.modalRef = this.loginModalService.open();
     }
 
+    register() {
+        this.modalRef = this.registerModalService.open();
+    }
+
     logout() {
         this.collapseNavbar();
         this.loginService.logout();
@@ -61,5 +72,15 @@ export class NavbarComponent implements OnInit {
 
     getImageUrl() {
         return this.isAuthenticated() ? this.principal.getImageUrl() : null;
+    }
+
+    getUsername() {
+        if (this.isAuthenticated()) {
+            this.accountService.get().subscribe(res => {
+                this.username = res.body['firstname'] != null ? res.body['firstname'] : null;
+            });
+        } else {
+            this.username = null;
+        }
     }
 }

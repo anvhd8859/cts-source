@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/shared';
 import { LoginModalService } from 'app/core';
@@ -24,7 +24,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         private loginModalService: LoginModalService,
         private registerService: Register,
         private elementRef: ElementRef,
-        private renderer: Renderer
+        private renderer: Renderer,
+        public activeModal: NgbActiveModal
     ) {}
 
     ngOnInit() {
@@ -55,6 +56,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     openLogin() {
+        this.activeModal.dismiss('closed');
         this.modalRef = this.loginModalService.open();
     }
 

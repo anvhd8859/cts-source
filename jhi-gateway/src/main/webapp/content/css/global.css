@@ -2,6 +2,24 @@
 Bootstrap tweaks
 ===============================================================*/
 
+/* LamDT9 Start */
+button {
+    border-radius: 0px !important;
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+    overflow: hidden;
+    background-color: #e5e5e5;
+    border-bottom: 1px solid #e9ecef;
+}
+/* LamDT9 End */
+
 body,
 h1,
 h2,

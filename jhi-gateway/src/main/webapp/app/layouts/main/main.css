@@ -1,0 +1,24 @@
+.page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+.content-wrap {
+    padding-bottom: 15rem;
+}
+
+.jhi-body {
+    margin-top: 120px;
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+.bottom-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 14rem;
+    color: whitesmoke;
+    background-color: rgb(85, 85, 85);
+}
