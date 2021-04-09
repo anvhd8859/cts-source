@@ -1,21 +1,25 @@
 {
-    "name": "EmployeeShift",
+    "name": "Shift",
     "fields": [
         {
-            "fieldName": "employeeId",
-            "fieldType": "Long"
+            "fieldName": "shiftName",
+            "fieldType": "String"
         },
         {
-            "fieldName": "shiftId",
-            "fieldType": "Long"
+            "fieldName": "startHour",
+            "fieldType": "Integer"
         },
         {
-            "fieldName": "startDate",
-            "fieldType": "Instant"
+            "fieldName": "startMinute",
+            "fieldType": "Integer"
         },
         {
-            "fieldName": "endDate",
-            "fieldType": "Instant"
+            "fieldName": "endHour",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "endMinute",
+            "fieldType": "Integer"
         },
         {
             "fieldName": "createDate",
@@ -27,8 +31,8 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20210408154014",
-    "entityTableName": "employee_shift",
+    "changelogDate": "20210408154013",
+    "entityTableName": "shift",
     "dto": "mapstruct",
     "pagination": "no",
     "service": "serviceImpl",

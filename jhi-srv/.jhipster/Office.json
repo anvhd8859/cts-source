@@ -1,21 +1,17 @@
 {
-    "name": "EmployeeShift",
+    "name": "Office",
     "fields": [
         {
-            "fieldName": "employeeId",
+            "fieldName": "officeName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "streetId",
             "fieldType": "Long"
-        },
-        {
-            "fieldName": "shiftId",
-            "fieldType": "Long"
-        },
-        {
-            "fieldName": "startDate",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "endDate",
-            "fieldType": "Instant"
         },
         {
             "fieldName": "createDate",
@@ -27,8 +23,8 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20210408154014",
-    "entityTableName": "employee_shift",
+    "changelogDate": "20210408154027",
+    "entityTableName": "office",
     "dto": "mapstruct",
     "pagination": "no",
     "service": "serviceImpl",

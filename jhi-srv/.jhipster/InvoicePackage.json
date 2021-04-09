@@ -1,17 +1,13 @@
 {
-    "name": "InvoiceDetails",
+    "name": "InvoicePackage",
     "fields": [
         {
             "fieldName": "invoiceHeaderId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "itemName",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "itemType",
-            "fieldType": "String"
+            "fieldName": "itemTotal",
+            "fieldType": "Integer"
         },
         {
             "fieldName": "weight",
@@ -30,16 +26,20 @@
             "fieldType": "Float"
         },
         {
-            "fieldName": "description",
+            "fieldName": "delivered",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "status",
             "fieldType": "String"
         },
         {
-            "fieldName": "originImage",
+            "fieldName": "note",
             "fieldType": "String"
         },
         {
-            "fieldName": "damagesImage",
-            "fieldType": "String"
+            "fieldName": "warehouseId",
+            "fieldType": "Long"
         },
         {
             "fieldName": "createDate",
@@ -51,10 +51,10 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20210408154020",
-    "entityTableName": "invoice_details",
+    "changelogDate": "20210408154021",
+    "entityTableName": "invoice_package",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

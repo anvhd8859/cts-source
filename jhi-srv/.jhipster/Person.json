@@ -1,44 +1,36 @@
 {
-    "name": "Employee",
+    "name": "Person",
     "fields": [
         {
-            "fieldName": "personId",
-            "fieldType": "Long"
-        },
-        {
-            "fieldName": "officeId",
-            "fieldType": "Long"
-        },
-        {
-            "fieldName": "socialNumber",
+            "fieldName": "email",
             "fieldType": "String"
         },
         {
-            "fieldName": "jobTitle",
+            "fieldName": "password",
             "fieldType": "String"
         },
         {
-            "fieldName": "salary",
-            "fieldType": "BigDecimal"
+            "fieldName": "fullname",
+            "fieldType": "String"
         },
         {
-            "fieldName": "active",
+            "fieldName": "gender",
             "fieldType": "Boolean"
         },
         {
-            "fieldName": "managerId",
+            "fieldName": "address",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "streetId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "hireDate",
-            "fieldType": "Instant"
+            "fieldName": "phoneNumber",
+            "fieldType": "String"
         },
         {
-            "fieldName": "startDate",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "endDate",
+            "fieldName": "dateOfBirth",
             "fieldType": "Instant"
         },
         {
@@ -51,10 +43,10 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20210408154015",
-    "entityTableName": "employee",
+    "changelogDate": "20210408154012",
+    "entityTableName": "person",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

@@ -1,21 +1,29 @@
 {
-    "name": "EmployeeShift",
+    "name": "Payment",
     "fields": [
+        {
+            "fieldName": "invoiceHeaderId",
+            "fieldType": "Long"
+        },
         {
             "fieldName": "employeeId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "shiftId",
-            "fieldType": "Long"
+            "fieldName": "paymentType",
+            "fieldType": "String"
         },
         {
-            "fieldName": "startDate",
-            "fieldType": "Instant"
+            "fieldName": "senderPay",
+            "fieldType": "Boolean"
         },
         {
-            "fieldName": "endDate",
-            "fieldType": "Instant"
+            "fieldName": "amountPaid",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "amountDue",
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "createDate",
@@ -27,10 +35,10 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20210408154014",
-    "entityTableName": "employee_shift",
+    "changelogDate": "20210408154019",
+    "entityTableName": "payment",
     "dto": "mapstruct",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
