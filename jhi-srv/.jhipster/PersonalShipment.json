@@ -1,45 +1,29 @@
 {
-    "name": "Employee",
+    "name": "PersonalShipment",
     "fields": [
         {
-            "fieldName": "personId",
+            "fieldName": "invoiceHeaderId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "officeId",
+            "fieldName": "employeeId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "socialNumber",
+            "fieldName": "shipmentType",
             "fieldType": "String"
         },
         {
-            "fieldName": "jobTitle",
+            "fieldName": "shipTime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "finishTime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "status",
             "fieldType": "String"
-        },
-        {
-            "fieldName": "salary",
-            "fieldType": "BigDecimal"
-        },
-        {
-            "fieldName": "active",
-            "fieldType": "Boolean"
-        },
-        {
-            "fieldName": "managerId",
-            "fieldType": "Long"
-        },
-        {
-            "fieldName": "hireDate",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "startDate",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "endDate",
-            "fieldType": "Instant"
         },
         {
             "fieldName": "createDate",
@@ -51,8 +35,8 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20210408154015",
-    "entityTableName": "employee",
+    "changelogDate": "20210408154017",
+    "entityTableName": "personal_shipment",
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",

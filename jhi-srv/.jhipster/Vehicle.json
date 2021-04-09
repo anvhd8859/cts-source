@@ -1,21 +1,21 @@
 {
-    "name": "EmployeeShift",
+    "name": "Vehicle",
     "fields": [
         {
-            "fieldName": "employeeId",
+            "fieldName": "driverId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "shiftId",
-            "fieldType": "Long"
+            "fieldName": "vehicleName",
+            "fieldType": "String"
         },
         {
-            "fieldName": "startDate",
-            "fieldType": "Instant"
+            "fieldName": "vehicleType",
+            "fieldType": "String"
         },
         {
-            "fieldName": "endDate",
-            "fieldType": "Instant"
+            "fieldName": "status",
+            "fieldType": "String"
         },
         {
             "fieldName": "createDate",
@@ -27,8 +27,8 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20210408154014",
-    "entityTableName": "employee_shift",
+    "changelogDate": "20210408154023",
+    "entityTableName": "vehicle",
     "dto": "mapstruct",
     "pagination": "no",
     "service": "serviceImpl",

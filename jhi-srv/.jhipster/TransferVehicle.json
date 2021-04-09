@@ -1,44 +1,36 @@
 {
-    "name": "InvoiceDetails",
+    "name": "TransferVehicle",
     "fields": [
         {
             "fieldName": "invoiceHeaderId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "itemName",
-            "fieldType": "String"
+            "fieldName": "shipDate",
+            "fieldType": "Instant"
         },
         {
-            "fieldName": "itemType",
-            "fieldType": "String"
+            "fieldName": "startHour",
+            "fieldType": "Integer"
         },
         {
-            "fieldName": "weight",
-            "fieldType": "Float"
+            "fieldName": "startMinute",
+            "fieldType": "Integer"
         },
         {
-            "fieldName": "height",
-            "fieldType": "Float"
+            "fieldName": "endHour",
+            "fieldType": "Integer"
         },
         {
-            "fieldName": "length",
-            "fieldType": "Float"
+            "fieldName": "endMinute",
+            "fieldType": "Integer"
         },
         {
-            "fieldName": "width",
-            "fieldType": "Float"
+            "fieldName": "vehicleId",
+            "fieldType": "Long"
         },
         {
-            "fieldName": "description",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "originImage",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "damagesImage",
+            "fieldName": "status",
             "fieldType": "String"
         },
         {
@@ -51,8 +43,8 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20210408154020",
-    "entityTableName": "invoice_details",
+    "changelogDate": "20210408154024",
+    "entityTableName": "transfer_vehicle",
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",

@@ -1,21 +1,29 @@
 {
-    "name": "EmployeeShift",
+    "name": "Warehouse",
     "fields": [
         {
-            "fieldName": "employeeId",
+            "fieldName": "warehouseName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "keeperId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "shiftId",
+            "fieldName": "address",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "streetId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "warehouseType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "masterWarehouseId",
             "fieldType": "Long"
-        },
-        {
-            "fieldName": "startDate",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "endDate",
-            "fieldType": "Instant"
         },
         {
             "fieldName": "createDate",
@@ -27,8 +35,8 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20210408154014",
-    "entityTableName": "employee_shift",
+    "changelogDate": "20210408154022",
+    "entityTableName": "warehouse",
     "dto": "mapstruct",
     "pagination": "no",
     "service": "serviceImpl",

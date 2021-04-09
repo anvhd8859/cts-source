@@ -1,0 +1,201 @@
+entity Person {
+    email String
+    password String
+    fullname String
+    gender Boolean
+    address String
+    streetId Long
+    phoneNumber String
+    dateOfBirth Instant
+    createDate Instant
+    updateDate Instant
+}
+
+entity Shift {
+    shiftName String
+    startHour Integer
+    startMinute Integer
+    endHour Integer
+    endMinute Integer
+    createDate Instant
+    updateDate Instant
+}
+
+entity EmployeeShift {
+	employeeId Long
+	shiftId Long
+    startDate Instant
+    endDate Instant
+    createDate Instant
+    updateDate Instant
+    
+}
+
+entity Employee {
+	personId Long
+	officeId Long
+    socialNumber String
+    jobTitle String
+    salary BigDecimal
+    active Boolean 
+    managerId Long
+    hireDate Instant
+    startDate Instant
+    endDate Instant    
+    createDate Instant
+    updateDate Instant
+}
+
+entity WorkingArea {
+	streetId Long
+    employeeId Long
+    createDate Instant
+    updateDate Instant    
+}
+
+entity PersonalShipment {
+	invoiceHeaderId Long
+	employeeId Long
+	shipmentType String
+    shipTime Instant
+    finishTime Instant
+    status String
+    createDate Instant
+    updateDate Instant
+}
+
+entity InvoiceHeader {
+	customerId Long
+	officeId Long
+    invoiceNo String
+    invoiceType String
+    status String
+    startAddress String
+    startStreetId Long
+    destinationAddress String
+    destinationStreetId Long
+    subTotal BigDecimal
+    taxAmount BigDecimal
+    totalDue BigDecimal
+    note String
+    cancel Boolean
+    cancelReason String
+    customerConfirm Boolean
+    changeNote String
+    finish Boolean
+    dueDate Instant
+    finishDate Instant
+    createDate Instant
+    updateDate Instant
+}
+
+entity Payment {
+	invoiceHeaderId Long
+	employeeId Long
+    paymentType String
+    senderPay Boolean
+    amountPaid BigDecimal
+    amountDue BigDecimal
+    createDate Instant
+    updateDate Instant
+}
+
+entity InvoiceDetails {
+	invoiceHeaderId Long
+    itemName String
+    itemType String
+	weight Float
+    height Float
+    length Float
+    width Float
+    description String
+    originImage String
+    damagesImage String
+    createDate Instant
+    updateDate Instant
+}
+
+entity InvoicePackage {
+	invoiceHeaderId Long
+    itemTotal Integer
+	weight Float
+    height Float
+    length Float
+    width Float
+    delivered Boolean
+    status String
+    note String
+    warehouseId Long
+    createDate Instant
+    updateDate Instant
+}
+
+entity Warehouse {
+    warehouseName String
+    keeperId Long
+    address String
+    streetId String
+  	warehouseType String
+    masterWarehouseId Long
+    createDate Instant
+    updateDate Instant
+}
+
+entity Vehicle {
+	driverId Long
+    vehicleName String
+    vehicleType String
+    status String
+    createDate Instant
+    updateDate Instant
+}
+
+entity TransferVehicle {
+	invoiceHeaderId Long
+    shipDate Instant
+    startHour Integer
+    startMinute Integer
+    endHour Integer
+    endMinute Integer
+    vehicleId Long
+    status String
+    createDate Instant
+    updateDate Instant
+}
+
+entity TransferPacking {
+	employeeId Long
+	invoiceHeaderId Long
+    packDate Instant
+    startHour Integer
+    startMinute Integer
+    endHour Integer
+    endMinute Integer
+    status String
+    createDate Instant
+    updateDate Instant
+}
+
+entity ReceiptNote {
+	employeeId Long
+	invoiceHeaderId Long
+    note String
+    customerConfirm Boolean
+    createDate Instant
+    updateDate Instant
+}
+
+entity Office {
+	officeName String
+	address String
+	streetId Long
+    createDate Instant
+    updateDate Instant
+}
+
+dto * with mapstruct
+
+paginate InvoiceHeader, PersonalShipment, Employee, InvoiceDetails, Payment, ReceiptNote with pagination
+paginate TransferPacking, TransferVehicle with pagination
+
+service all with serviceImpl

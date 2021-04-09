@@ -1,21 +1,37 @@
 {
-    "name": "EmployeeShift",
+    "name": "TransferPacking",
     "fields": [
         {
             "fieldName": "employeeId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "shiftId",
+            "fieldName": "invoiceHeaderId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "startDate",
+            "fieldName": "packDate",
             "fieldType": "Instant"
         },
         {
-            "fieldName": "endDate",
-            "fieldType": "Instant"
+            "fieldName": "startHour",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "startMinute",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "endHour",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "endMinute",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "String"
         },
         {
             "fieldName": "createDate",
@@ -27,10 +43,10 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20210408154014",
-    "entityTableName": "employee_shift",
+    "changelogDate": "20210408154025",
+    "entityTableName": "transfer_packing",
     "dto": "mapstruct",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
