@@ -18,6 +18,8 @@ import { CtsgatewayHomeModule } from './home/home.module';
 import { CtsgatewayAccountModule } from './account/account.module';
 import { CtsgatewayEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
 import {
@@ -55,6 +57,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 
 @NgModule({
     imports: [
+        NgSelectModule,
+        FormsModule,
         NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
         NgxUiLoaderRouterModule,
         NgxUiLoaderHttpModule,
