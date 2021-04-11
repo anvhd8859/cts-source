@@ -17,7 +17,6 @@ import org.springframework.stereotype.Repository;
 public interface StreetRepository extends JpaRepository<Street, Long> {
 
 	@Query(
-//			name = "get_sub_district_id",  
 			value = "SELECT * FROM street WHERE sub_district_id_id = :subDistrictId",
 			countQuery = "SELECT count(*) FROM street WHERE sub_district_id_id = :subDistrictId", 
 			nativeQuery = true)
