@@ -84,6 +84,30 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <ng-select  [clearable]="false"
+                                            [hideSelected]="true"
+                                            [items]="this.lstGender"
+                                            bindLabel="text"
+                                            bindValue="id"
+                                            id="gender"
+                                            name="gender"
+                                            [(ngModel)]="this.userProfile.gender"
+                                            >
+                                    <ng-option *ngFor="let item of lstGender">{{item.text}}</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="gender">Phone Number</label>
+                                <input class="form-control" type="text" [(ngModel)]="this.userProfile.phoneNumber" value="{{this.userProfile.phoneNumber}}">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <br>
                 <label for="user-address"><b>User Address</b></label>
@@ -169,14 +193,13 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="lstStrategy">Street</label>
+                                <label for="address">Address</label>
                                 <textarea class="form-control" 
                                     style="resize: none;"
                                     rows="3"
                                     id="address" 
                                     name="address" 
-                                    [ngModelOptions]="{standalone: true}"
-                                    [(ngModel)]="this.selectedAddress"
+                                    [(ngModel)]="this.userProfile.address"
                                 >
                                 </textarea>
                             </div>
