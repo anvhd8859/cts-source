@@ -24,13 +24,13 @@ public class UserProfile implements Serializable {
     private Long userId;
 
     @Column(name = "gender")
-    private Boolean gender;
+    private String gender;
 
     @Column(name = "address")
     private String address;
 
     @Column(name = "street_id")
-    private String streetId;
+    private Long streetId;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -66,17 +66,9 @@ public class UserProfile implements Serializable {
         this.userId = userId;
     }
 
-    public Boolean isGender() {
-        return gender;
-    }
-
-    public UserProfile gender(Boolean gender) {
+    public UserProfile gender(String gender) {
         this.gender = gender;
         return this;
-    }
-
-    public void setGender(Boolean gender) {
-        this.gender = gender;
     }
 
     public String getAddress() {
@@ -92,16 +84,16 @@ public class UserProfile implements Serializable {
         this.address = address;
     }
 
-    public String getStreetId() {
+    public Long getStreetId() {
         return streetId;
     }
 
-    public UserProfile streetId(String streetId) {
+    public UserProfile streetId(Long streetId) {
         this.streetId = streetId;
         return this;
     }
 
-    public void setStreetId(String streetId) {
+    public void setStreetId(Long streetId) {
         this.streetId = streetId;
     }
 
@@ -156,9 +148,17 @@ public class UserProfile implements Serializable {
     public void setUpdatedDate(Instant updatedDate) {
         this.updatedDate = updatedDate;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+    
+    public String getGender() {
+		return gender;
+	}
 
-    @Override
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+   
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -183,7 +183,7 @@ public class UserProfile implements Serializable {
         return "UserProfile{" +
             "id=" + getId() +
             ", userId=" + getUserId() +
-            ", gender='" + isGender() + "'" +
+            ", gender='" + getGender() + "'" +
             ", address='" + getAddress() + "'" +
             ", streetId='" + getStreetId() + "'" +
             ", phoneNumber='" + getPhoneNumber() + "'" +
