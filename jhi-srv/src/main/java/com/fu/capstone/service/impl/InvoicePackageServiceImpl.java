@@ -88,4 +88,11 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
         log.debug("Request to delete InvoicePackage : {}", id);
         invoicePackageRepository.deleteById(id);
     }
+    
+    // AnhVD new code
+
+	@Override
+	public List<InvoicePackageDTO> getInvoicePackageByHeaderId(Long id) {
+		return invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(id));
+	}
 }

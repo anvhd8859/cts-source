@@ -8,6 +8,7 @@ import com.fu.capstone.service.dto.InvoicePackageDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -114,5 +115,19 @@ public class InvoicePackageResource {
         log.debug("REST request to delete InvoicePackage : {}", id);
         invoicePackageService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+    // AnhVD new code
+    /**
+     * GET  /invoice-packages/by-invoice-header?:id : get the invoicePackage by header id.
+     *
+     * @param id the id of the invoice header to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the invoicePackageDTO, or with status 404 (Not Found)
+     */
+    @GetMapping("/invoice-packages/by-invoice-header")
+    @Timed
+    public ResponseEntity<List<InvoicePackageDTO>> getInvoicePackageByHeaderId(@RequestParam("id") Long id) {
+    	List<InvoicePackageDTO> invoicePackageDTO = invoicePackageService.getInvoicePackageByHeaderId(id);
+        return new ResponseEntity<>(invoicePackageDTO, HttpStatus.OK);
     }
 }
