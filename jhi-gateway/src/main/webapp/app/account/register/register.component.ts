@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/shared';
-import { LoginModalService } from 'app/core';
+import { IUser, LoginModalService } from 'app/core';
 import { Register } from './register.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     error: string;
     errorEmailExists: string;
     errorUserExists: string;
-    registerAccount: any;
+    registerAccount: IUser;
     success: boolean;
     modalRef: NgbModalRef;
 
@@ -37,6 +37,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#login'), 'focus', []);
     }
 
+    /* HaiNM Start */
     register() {
         if (this.registerAccount.password !== this.confirmPassword) {
             this.doNotMatch = 'ERROR';
@@ -46,6 +47,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.errorUserExists = null;
             this.errorEmailExists = null;
             this.registerAccount.langKey = 'en';
+            this.registerAccount.login = this.registerAccount.email;
             this.registerService.save(this.registerAccount).subscribe(
                 () => {
                     this.success = true;
@@ -54,6 +56,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             );
         }
     }
+    /* HaiNM Start */
 
     openLogin() {
         this.activeModal.dismiss('closed');
