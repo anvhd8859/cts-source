@@ -1,6 +1,5 @@
 package com.fu.capstone.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -155,7 +154,6 @@ public class District implements Serializable {
             ", districtName='" + getDistrictName() + "'" +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
-            ", subDistrict='" + getSubDistricts() + "'" +
             "}";
     }
 }
