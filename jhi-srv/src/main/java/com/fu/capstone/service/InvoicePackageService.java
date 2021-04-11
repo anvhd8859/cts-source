@@ -40,4 +40,8 @@ public interface InvoicePackageService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+    // AnhVD new code
+
+	List<InvoicePackageDTO> getInvoicePackageByHeaderId(Long id);
 }
