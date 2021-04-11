@@ -5,6 +5,7 @@ import com.fu.capstone.service.dto.InvoiceDetailsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -43,4 +44,7 @@ public interface InvoiceDetailsService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    // AnhVD new code
+	List<InvoiceDetailsDTO> getInvoiceDetailsByHeaderId(Long id);
 }
