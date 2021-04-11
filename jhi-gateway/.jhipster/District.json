@@ -1,0 +1,41 @@
+{
+    "name": "District",
+    "fields": [
+        {
+            "fieldName": "districtName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "subDistrict",
+            "otherEntityName": "subDistrict",
+            "otherEntityRelationshipName": "districtId"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "provinceId",
+            "otherEntityName": "province",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20210401184034",
+    "entityTableName": "district",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

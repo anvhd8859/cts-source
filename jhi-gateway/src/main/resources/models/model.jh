@@ -1,0 +1,11 @@
+entity UserProfile {
+	id Long,
+    userId Long,
+    gender Boolean,
+    address String,
+    streetId String,
+    phoneNumber String,
+    dateOfBirth Instant,
+    createdDate Instant,
+    updatedDate Instant,
+}

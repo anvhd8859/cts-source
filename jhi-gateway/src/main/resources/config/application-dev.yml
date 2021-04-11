@@ -24,7 +24,7 @@ eureka:
         prefer-ip-address: true
     client:
         service-url:
-            defaultZone: http://admin:admin@139.180.142.131:8761/eureka/
+            defaultZone: http://admin:admin@66.42.60.140:8761/eureka/
 
 spring:
     profiles:
@@ -42,7 +42,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://139.180.142.131:3306/cts_gateway?useUnicode=true&characterEncoding=utf8&useSSL=false
+        url: jdbc:mysql://66.42.60.140:3306/cts_gateway?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: cts_master
         password: a12345
         hikari:

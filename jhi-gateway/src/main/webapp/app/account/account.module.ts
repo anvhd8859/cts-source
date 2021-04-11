@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import { NgSelectConfig, NgSelectModule } from '@ng-select/ng-select';
 import { CtsgatewaySharedModule } from 'app/shared';
 
 import {
@@ -15,7 +16,7 @@ import {
 } from './';
 
 @NgModule({
-    imports: [CtsgatewaySharedModule, RouterModule.forChild(accountState)],
+    imports: [CtsgatewaySharedModule, RouterModule.forChild(accountState), NgSelectModule, FormsModule],
     declarations: [
         ActivateComponent,
         RegisterComponent,
