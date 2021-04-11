@@ -1,6 +1,7 @@
 package com.fu.capstone.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fu.capstone.domain.Street;
 import com.fu.capstone.service.StreetService;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
@@ -124,6 +125,9 @@ public class StreetResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
     
+    
+    // AnhVD new code
+    
     /**
      * GET  /streets/by-sub-district : get all the streets by sub-district id.
      *
@@ -136,5 +140,18 @@ public class StreetResource {
         Page<StreetDTO> page = streetService.getAllStreetsBySubDistrictId(id, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/streets/by-sub-district");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    /**
+     * GET  /streets/get-full-address?id=:id get all the streets by street id.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of streets in body
+     */
+    @GetMapping("/streets/get-full-address")
+    @Timed
+    public ResponseEntity<Street> getFullAddressByStreetId(@RequestParam("id") Long id) {
+    	Optional<Street> street = streetService.getFullAddressByStreetId(id);
+        return ResponseUtil.wrapOrNotFound(street);
     }
 }

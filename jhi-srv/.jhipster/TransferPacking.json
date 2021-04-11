@@ -1,0 +1,56 @@
+{
+    "name": "TransferPacking",
+    "fields": [
+        {
+            "fieldName": "employeeId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "invoiceHeaderId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "packDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "startHour",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "startMinute",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "endHour",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "endMinute",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20210408154025",
+    "entityTableName": "transfer_packing",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}
