@@ -90,7 +90,6 @@ public class StreetServiceImpl implements StreetService {
 
 	@Override
 	public Page<StreetDTO> getAllStreetsBySubDistrictId(Long id, Pageable pageable) {
-		// TODO Auto-generated method stub
 		return streetRepository.getAllStreetsBySubDistrictId(id, pageable)
 				.map(streetMapper::toDto);
 	}
