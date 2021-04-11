@@ -88,9 +88,15 @@ public class StreetServiceImpl implements StreetService {
         streetRepository.deleteById(id);
     }
 
+    // AnhVD new code
 	@Override
 	public Page<StreetDTO> getAllStreetsBySubDistrictId(Long id, Pageable pageable) {
 		return streetRepository.getAllStreetsBySubDistrictId(id, pageable)
 				.map(streetMapper::toDto);
+	}
+
+	@Override
+	public Optional<Street> getFullAddressByStreetId(Long id) {
+		return streetRepository.getFullAddressByStreetId(id);
 	}
 }
