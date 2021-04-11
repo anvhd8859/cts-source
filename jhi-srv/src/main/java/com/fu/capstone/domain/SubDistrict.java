@@ -1,6 +1,5 @@
 package com.fu.capstone.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -165,8 +164,12 @@ public class SubDistrict implements Serializable {
 
 	@Override
 	public String toString() {
-		return "SubDistrict{" + "id=" + getId() + ", subDistrictName='" + getSubDistrictName() + "'" + ", createDate='"
-				+ getCreateDate() + "'" + ", updateDate='" + getUpdateDate() + "'" + ", streets='" + getStreets() + "'"
-				+ "}";
+		return "SubDistrict{" + 
+			"id=" + getId() + 
+			", subDistrictName='" + getSubDistrictName() + "'" + 
+			", createDate='" + getCreateDate() + "'" + 
+			", updateDate='" + getUpdateDate() + "'" + 
+			", streets='" + getStreets() + "'" + 
+			"}";
 	}
 }
