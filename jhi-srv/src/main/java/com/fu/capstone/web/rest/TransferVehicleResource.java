@@ -123,4 +123,20 @@ public class TransferVehicleResource {
         transferVehicleService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+
+    // AnhVD new code
+    
+    /**
+     * GET  /transfer-vehicles/invoice-header?id=:id : get the transferVehicle by invoice header id.
+     *
+     * @param id the id of the invoice header to retrieve transferVehicle.
+     * @return the ResponseEntity with status 200 (OK) and with body the transferVehicleDTO, or with status 404 (Not Found)
+     */
+    @GetMapping("/transfer-vehicles/invoice-header")
+    @Timed
+    public ResponseEntity<List<TransferVehicleDTO>> getTransferVehiclesByInvoiceHeaderId(@RequestParam("id") Long id) {
+        List<TransferVehicleDTO> transferVehicleDTO = transferVehicleService.getTransferVehiclesByInvoiceHeaderId(id);
+        return new ResponseEntity<>(transferVehicleDTO, HttpStatus.OK);
+    }
 }
