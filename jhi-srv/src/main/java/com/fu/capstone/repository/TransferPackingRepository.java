@@ -1,7 +1,11 @@
 package com.fu.capstone.repository;
 
 import com.fu.capstone.domain.TransferPacking;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
@@ -12,4 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransferPackingRepository extends JpaRepository<TransferPacking, Long> {
 
+	@Query( value = "SELECT t FROM TransferPacking t WHERE t.invoiceHeaderId = :invoiceHeaderId")
+	List<TransferPacking> getTransferPackingByInvoiceHeaderId(@Param("invoiceHeaderId") Long id);
+	
 }
