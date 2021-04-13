@@ -1,0 +1,63 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="transferPacking">
+            <h2><span>Transfer Packing</span> {{transferPacking.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Employee Id</span></dt>
+                <dd>
+                    <span>{{transferPacking.employeeId}}</span>
+                </dd>
+                <dt><span>Invoice Header Id</span></dt>
+                <dd>
+                    <span>{{transferPacking.invoiceHeaderId}}</span>
+                </dd>
+                <dt><span>Pack Date</span></dt>
+                <dd>
+                    <span>{{transferPacking.packDate}}</span>
+                </dd>
+                <dt><span>Start Hour</span></dt>
+                <dd>
+                    <span>{{transferPacking.startHour}}</span>
+                </dd>
+                <dt><span>Start Minute</span></dt>
+                <dd>
+                    <span>{{transferPacking.startMinute}}</span>
+                </dd>
+                <dt><span>End Hour</span></dt>
+                <dd>
+                    <span>{{transferPacking.endHour}}</span>
+                </dd>
+                <dt><span>End Minute</span></dt>
+                <dd>
+                    <span>{{transferPacking.endMinute}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{transferPacking.status}}</span>
+                </dd>
+                <dt><span>Create Date</span></dt>
+                <dd>
+                    <span>{{transferPacking.createDate}}</span>
+                </dd>
+                <dt><span>Update Date</span></dt>
+                <dd>
+                    <span>{{transferPacking.updateDate}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/transfer-packing', transferPacking.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
