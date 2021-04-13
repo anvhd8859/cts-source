@@ -1,0 +1,104 @@
+<div>
+    <h2 id="page-heading">
+        <span>Invoice Headers</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-invoice-header" [routerLink]="['/invoice-header/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Invoice Header
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="invoiceHeaders">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="customerId"><span>Customer Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="officeId"><span>Office Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="invoiceNo"><span>Invoice No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="invoiceType"><span>Invoice Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="startAddress"><span>Start Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="startStreetId"><span>Start Street Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="destinationAddress"><span>Destination Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="destinationStreetId"><span>Destination Street Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="subTotal"><span>Sub Total</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="taxAmount"><span>Tax Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="totalDue"><span>Total Due</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="note"><span>Note</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="cancel"><span>Cancel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="cancelReason"><span>Cancel Reason</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="customerConfirm"><span>Customer Confirm</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="changeNote"><span>Change Note</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="finish"><span>Finish</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="dueDate"><span>Due Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="finishDate"><span>Finish Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createDate"><span>Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updateDate"><span>Update Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let invoiceHeader of invoiceHeaders ;trackBy: trackId">
+                <td><a [routerLink]="['/invoice-header', invoiceHeader.id, 'view' ]">{{invoiceHeader.id}}</a></td>
+                <td>{{invoiceHeader.customerId}}</td>
+                <td>{{invoiceHeader.officeId}}</td>
+                <td>{{invoiceHeader.invoiceNo}}</td>
+                <td>{{invoiceHeader.invoiceType}}</td>
+                <td>{{invoiceHeader.status}}</td>
+                <td>{{invoiceHeader.startAddress}}</td>
+                <td>{{invoiceHeader.startStreetId}}</td>
+                <td>{{invoiceHeader.destinationAddress}}</td>
+                <td>{{invoiceHeader.destinationStreetId}}</td>
+                <td>{{invoiceHeader.subTotal}}</td>
+                <td>{{invoiceHeader.taxAmount}}</td>
+                <td>{{invoiceHeader.totalDue}}</td>
+                <td>{{invoiceHeader.note}}</td>
+                <td>{{invoiceHeader.cancel}}</td>
+                <td>{{invoiceHeader.cancelReason}}</td>
+                <td>{{invoiceHeader.customerConfirm}}</td>
+                <td>{{invoiceHeader.changeNote}}</td>
+                <td>{{invoiceHeader.finish}}</td>
+                <td>{{invoiceHeader.dueDate | date:'medium'}}</td>
+                <td>{{invoiceHeader.finishDate | date:'medium'}}</td>
+                <td>{{invoiceHeader.createDate | date:'medium'}}</td>
+                <td>{{invoiceHeader.updateDate | date:'medium'}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/invoice-header', invoiceHeader.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/invoice-header', invoiceHeader.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'invoice-header/'+ invoiceHeader.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="invoiceHeaders && invoiceHeaders.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

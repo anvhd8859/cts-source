@@ -11,7 +11,7 @@
             <div class="alert alert-success" *ngIf="success">
                 <strong>Settings saved!</strong>
             </div>
-
+            <jhi-alert></jhi-alert>
             <jhi-alert-error></jhi-alert-error>
 
             <form name="form" role="form" (ngSubmit)="save()" #settingsForm="ngForm" *ngIf="settingsAccount" novalidate>
@@ -80,6 +80,53 @@
                                     *ngIf="lastNameInput.errors.maxlength">
                                         Your last name cannot be longer than 50 characters.
                                     </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <ng-select  [clearable]="false"
+                                            [hideSelected]="true"
+                                            [items]="this.lstGender"
+                                            bindLabel="text"
+                                            bindValue="id"
+                                            id="gender"
+                                            name="gender"
+                                            [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.userProfile.gender"
+                                            >
+                                    <ng-option *ngFor="let item of lstGender">{{item.text}}</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="gender">Phone Number</label>
+                                <input  class="form-control" 
+                                        type="text" 
+                                        [(ngModel)]="this.userProfile.phoneNumber" 
+                                        value="{{this.userProfile.phoneNumber}}"
+                                        id="gender"
+                                        name="gender"
+                                        >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="dob">Date of Birth</label>
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="yyyy-mm-dd"
+                                           name="dp" [(ngModel)]="this.userProfile.dateOfBirth" ngbDatepicker #d="ngbDatepicker" readonly>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                                            <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +205,7 @@
                                             id="street"
                                             name="street"
                                             [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.selectedStreet"
+                                            [(ngModel)]="this.userProfile.streetId"
                                             [disabled]="!this.selectedSubDistrict"
                                             >
                                     <ng-option *ngFor="let item of lstStreet">{{item.streetName}}</ng-option>
@@ -169,14 +216,13 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="lstStrategy">Street</label>
+                                <label for="address">Address</label>
                                 <textarea class="form-control" 
                                     style="resize: none;"
                                     rows="3"
                                     id="address" 
                                     name="address" 
-                                    [ngModelOptions]="{standalone: true}"
-                                    [(ngModel)]="this.selectedAddress"
+                                    [(ngModel)]="this.userProfile.address"
                                 >
                                 </textarea>
                             </div>
