@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -87,4 +88,12 @@ public class TransferVehicleServiceImpl implements TransferVehicleService {
         log.debug("Request to delete TransferVehicle : {}", id);
         transferVehicleRepository.deleteById(id);
     }
+
+
+    // AnhVD new code
+
+	@Override
+	public List<TransferVehicleDTO> getTransferVehiclesByInvoiceHeaderId(Long id) {
+		return transferVehicleMapper.toDto(transferVehicleRepository.getTransferVehiclesByInvoiceHeaderId(id));
+	}
 }
