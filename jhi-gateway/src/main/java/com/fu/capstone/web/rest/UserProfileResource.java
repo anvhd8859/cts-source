@@ -123,7 +123,7 @@ public class UserProfileResource {
     public ResponseEntity<UserProfile> getUserProfileByUserID(@RequestParam("id") Long id) {
         log.debug("REST request to get UserProfile : {}", id);
         Optional<UserProfile> userProfile = userProfileRepository.findByUserId(id);
-        return ResponseUtil.wrapOrNotFound(userProfile);
+        return ResponseEntity.ok(userProfile.isPresent() ? userProfile.get() : new UserProfile());
     }
     // HaiNM
 }
