@@ -87,4 +87,10 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
         log.debug("Request to delete PersonalShipment : {}", id);
         personalShipmentRepository.deleteById(id);
     }
+    
+    // START TuyenVNT 14/04/2021
+ 	@Override
+ 	public List<InvoicePackageDTO> getInvoicePackageByHeaderId(Long id) {
+ 		return invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(id));
+ 	}
 }
