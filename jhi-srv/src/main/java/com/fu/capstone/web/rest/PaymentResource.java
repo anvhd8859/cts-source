@@ -128,7 +128,7 @@ public class PaymentResource {
     @GetMapping("/payments/by-invoice-header")
     @Timed
     public ResponseEntity<List<PaymentDTO>> getPaymentByHeaderId(@RequestParam("id") Long id) {
-    	List<PersonalShipmentDTO> personalShipmentDTO = personalShipmentService.getPersonalShipmentByHeaderId(id);
+    	List<PaymentDTO> paymentDTO = paymentService.getPaymentByHeaderId(id);
         return new ResponseEntity<>(personalShipmentDTO, HttpStatus.OK);
     }
 }
