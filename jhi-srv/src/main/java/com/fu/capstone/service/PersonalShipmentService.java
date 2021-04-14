@@ -50,5 +50,5 @@ public interface PersonalShipmentService {
      * 
      * @param id the headerId
      */
-    List<InvoicePackageDTO> getInvoicePackageByHeaderId(Long id);
+    List<PersonalShipmentDTO> getPersonalShipmentByHeaderId(Long id);
 }
