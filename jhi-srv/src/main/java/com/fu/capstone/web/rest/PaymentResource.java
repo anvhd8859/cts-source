@@ -131,4 +131,5 @@ public class PaymentResource {
     	List<PaymentDTO> paymentDTO = paymentService.getPaymentByHeaderId(id);
         return new ResponseEntity<>(paymentDTO, HttpStatus.OK);
     }
+    // END TuyenVNT 14/04/2021
 }
