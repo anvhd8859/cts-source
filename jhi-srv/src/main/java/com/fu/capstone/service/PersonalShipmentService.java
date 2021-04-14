@@ -45,5 +45,10 @@ public interface PersonalShipmentService {
     void delete(Long id);
     
     // START TuyenVNT 14/04/2021
+    /**
+     * Get the personalShipment by headerId
+     * 
+     * @param id the headerId
+     */
     List<InvoicePackageDTO> getInvoicePackageByHeaderId(Long id);
 }
