@@ -129,6 +129,6 @@ public class PaymentResource {
     @Timed
     public ResponseEntity<List<PaymentDTO>> getPaymentByHeaderId(@RequestParam("id") Long id) {
     	List<PaymentDTO> paymentDTO = paymentService.getPaymentByHeaderId(id);
-        return new ResponseEntity<>(personalShipmentDTO, HttpStatus.OK);
+        return new ResponseEntity<>(paymentDTO, HttpStatus.OK);
     }
 }
