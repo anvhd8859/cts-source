@@ -125,6 +125,11 @@ public class PaymentResource {
     }
     
     // START TuyenVNT 14/04/2021
+    /**
+     * GET  /payment/by-invoice-header?:id : get the payment by header id.
+     * 
+     * @param id HeaderId
+     */
     @GetMapping("/payments/by-invoice-header")
     @Timed
     public ResponseEntity<List<PaymentDTO>> getPaymentByHeaderId(@RequestParam("id") Long id) {
