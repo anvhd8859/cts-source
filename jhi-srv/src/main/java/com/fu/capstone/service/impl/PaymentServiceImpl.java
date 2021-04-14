@@ -87,4 +87,6 @@ public class PaymentServiceImpl implements PaymentService {
         log.debug("Request to delete Payment : {}", id);
         paymentRepository.deleteById(id);
     }
+    
+    // START TuyenVNT 14/04/2021
 }
