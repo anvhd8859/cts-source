@@ -13,4 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
 	// START TuyenVNT 14/04/2021
+	@Query(value="SELECT p FROM Payment p WHERE p.invoiceHeaderId = :invoiceHeaderId")
+	List<Payment> getPaymentByHeaderId(@Param("invoiceHeaderId") Long id);
 }
