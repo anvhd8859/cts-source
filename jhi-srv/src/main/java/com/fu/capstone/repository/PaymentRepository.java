@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
+	// START TuyenVNT 14/04/2021
 }
