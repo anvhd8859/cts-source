@@ -45,6 +45,11 @@ public interface PaymentService {
     void delete(Long id);
     
     // START TuyenVNT 14/04/2021
+    /**
+     * Get the payment by headerId
+     * 
+     * @param id the headerId
+     */
     List<PaymentDTO> getPaymentByHeaderId(Long id);
     // END TuyenVNT 14/04/2021
 }
