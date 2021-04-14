@@ -123,4 +123,7 @@ public class PaymentResource {
         paymentService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    // START TuyenVNT 14/04/2021
+    
 }
