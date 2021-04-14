@@ -137,4 +137,5 @@ public class PersonalShipmentResource {
     	List<PersonalShipmentDTO> personalShipmentDTO = personalShipmentService.getPersonalShipmentByHeaderId(id);
         return new ResponseEntity<>(personalShipmentDTO, HttpStatus.OK);
     }
+    // END TuyenVNT 14/04/2021
 }
