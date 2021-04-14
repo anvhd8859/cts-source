@@ -1,0 +1,32 @@
+{
+    "name": "WorkingArea",
+    "fields": [
+        {
+            "fieldName": "streetId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "employeeId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20210408154016",
+    "entityTableName": "working_area",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

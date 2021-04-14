@@ -1,0 +1,40 @@
+{
+    "name": "Vehicle",
+    "fields": [
+        {
+            "fieldName": "driverId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "vehicleName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "vehicleType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20210408154023",
+    "entityTableName": "vehicle",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

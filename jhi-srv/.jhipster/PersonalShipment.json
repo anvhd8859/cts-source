@@ -1,0 +1,48 @@
+{
+    "name": "PersonalShipment",
+    "fields": [
+        {
+            "fieldName": "invoiceHeaderId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "employeeId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "shipmentType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipTime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "finishTime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20210408154017",
+    "entityTableName": "personal_shipment",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

@@ -1,0 +1,56 @@
+{
+    "name": "TransferVehicle",
+    "fields": [
+        {
+            "fieldName": "invoiceHeaderId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "shipDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "startHour",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "startMinute",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "endHour",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "endMinute",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "vehicleId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20210408154024",
+    "entityTableName": "transfer_vehicle",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

@@ -73,14 +73,4 @@ export class NavbarComponent implements OnInit {
     getImageUrl() {
         return this.isAuthenticated() ? this.principal.getImageUrl() : null;
     }
-
-    getUsername() {
-        if (this.isAuthenticated()) {
-            this.accountService.get().subscribe(res => {
-                this.username = res.body['firstname'] != null ? res.body['firstname'] : null;
-            });
-        } else {
-            this.username = null;
-        }
-    }
 }

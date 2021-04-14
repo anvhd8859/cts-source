@@ -1,7 +1,8 @@
 {
   "generator-jhipster": {
     "promptValues": {
-      "packageName": "com.fu.capstone"
+      "packageName": "com.fu.capstone",
+      "microservicePath": "C:\\Users\\LamDT9\\Desktop\\Microservice Source Code\\cts-hainm\\cts-source\\jhi-srv"
     },
     "jhipsterVersion": "5.5.0",
     "applicationType": "gateway",

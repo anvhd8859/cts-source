@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="district">
+            <h2><span>District</span> {{district.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>District Name</span></dt>
+                <dd>
+                    <span>{{district.districtName}}</span>
+                </dd>
+                <dt><span>Create Date</span></dt>
+                <dd>
+                    <span>{{district.createDate}}</span>
+                </dd>
+                <dt><span>Update Date</span></dt>
+                <dd>
+                    <span>{{district.updateDate}}</span>
+                </dd>
+                <dt><span>Province Id</span></dt>
+                <dd>
+                    <div *ngIf="district.provinceIdId">
+                        <a [routerLink]="['/province', district.provinceIdId, 'view']">{{district.provinceIdId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/district', district.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

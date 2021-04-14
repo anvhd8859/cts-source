@@ -1,0 +1,48 @@
+{
+    "name": "Payment",
+    "fields": [
+        {
+            "fieldName": "invoiceHeaderId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "employeeId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "paymentType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "senderPay",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "amountPaid",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "amountDue",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20210408154019",
+    "entityTableName": "payment",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

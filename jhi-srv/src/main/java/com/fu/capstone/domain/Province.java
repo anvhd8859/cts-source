@@ -1,6 +1,5 @@
 package com.fu.capstone.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
@@ -137,7 +136,6 @@ public class Province implements Serializable {
             ", provinceName='" + getProvinceName() + "'" +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
-            ", districts='" + getDistricts() + "'" +
             "}";
     }
 }

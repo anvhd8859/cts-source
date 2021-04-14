@@ -53,7 +53,7 @@
     "relationships": [],
     "changelogDate": "20210408154015",
     "entityTableName": "employee",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,

@@ -31,9 +31,23 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <form name="form" role="form" (ngSubmit)="register()" #registerForm="ngForm" *ngIf="!success">
+                <!-- HaiNM -->
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" [(ngModel)]="registerAccount.firstName" id="firstName" name="firstName" #login="ngModel" placeholder="First Name"  required minlength="1" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" [(ngModel)]="registerAccount.lastName" id="lastName" name="lastName" #login="ngModel" placeholder="Last Name"  required minlength="1" maxlength="50">
+                        </div>
+                    </div>
+                </div>
+                <!-- HaiNM -->
                 <div class="form-group">
-                    <input type="text" class="form-control" [(ngModel)]="registerAccount.login" id="login" name="login" #login="ngModel" placeholder="Username"
-                            required minlength="1" maxlength="50" pattern="^[_.@A-Za-z0-9-]*$">
+                    <!-- <input type="text" class="form-control" [(ngModel)]="registerAccount.login" id="login" name="login" #login="ngModel" placeholder="Username"
+                            required minlength="1" maxlength="50" pattern="^[_.@A-Za-z0-9-]*$"> -->
                     <div *ngIf="login.dirty && login.invalid">
                         <small class="form-text text-danger" *ngIf="login.errors.required">
                             Your username is required.

@@ -1,0 +1,88 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-invoice-package-heading">Create or edit a Invoice Package</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!invoicePackage.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="invoicePackage.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_invoiceHeaderId">Invoice Header Id</label>
+                    <input type="number" class="form-control" name="invoiceHeaderId" id="field_invoiceHeaderId"
+                        [(ngModel)]="invoicePackage.invoiceHeaderId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_itemTotal">Item Total</label>
+                    <input type="number" class="form-control" name="itemTotal" id="field_itemTotal"
+                        [(ngModel)]="invoicePackage.itemTotal" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_weight">Weight</label>
+                    <input type="number" class="form-control" name="weight" id="field_weight"
+                        [(ngModel)]="invoicePackage.weight" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_height">Height</label>
+                    <input type="number" class="form-control" name="height" id="field_height"
+                        [(ngModel)]="invoicePackage.height" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_length">Length</label>
+                    <input type="number" class="form-control" name="length" id="field_length"
+                        [(ngModel)]="invoicePackage.length" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_width">Width</label>
+                    <input type="number" class="form-control" name="width" id="field_width"
+                        [(ngModel)]="invoicePackage.width" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_delivered">Delivered</label>
+                    <input type="checkbox" class="form-control" name="delivered" id="field_delivered"
+                        [(ngModel)]="invoicePackage.delivered" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <input type="text" class="form-control" name="status" id="field_status"
+                        [(ngModel)]="invoicePackage.status" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_note">Note</label>
+                    <input type="text" class="form-control" name="note" id="field_note"
+                        [(ngModel)]="invoicePackage.note" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_warehouseId">Warehouse Id</label>
+                    <input type="number" class="form-control" name="warehouseId" id="field_warehouseId"
+                        [(ngModel)]="invoicePackage.warehouseId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createDate">Create Date</label>
+                    <div class="d-flex">
+                        <input id="field_createDate" type="datetime-local" class="form-control" name="createDate" [(ngModel)]="createDate"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updateDate">Update Date</label>
+                    <div class="d-flex">
+                        <input id="field_updateDate" type="datetime-local" class="form-control" name="updateDate" [(ngModel)]="updateDate"
+                        />
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

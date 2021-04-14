@@ -29,7 +29,7 @@
     "relationships": [],
     "changelogDate": "20210408154014",
     "entityTableName": "employee_shift",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,

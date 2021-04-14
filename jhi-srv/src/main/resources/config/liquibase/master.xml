@@ -9,6 +9,22 @@
     <include file="config/liquibase/changelog/20210401184033_added_entity_SubDistrict.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210401184034_added_entity_District.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210401184035_added_entity_Province.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154012_added_entity_Person.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154013_added_entity_Shift.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154014_added_entity_EmployeeShift.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154015_added_entity_Employee.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154016_added_entity_WorkingArea.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154017_added_entity_PersonalShipment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154018_added_entity_InvoiceHeader.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154019_added_entity_Payment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154020_added_entity_InvoiceDetails.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154021_added_entity_InvoicePackage.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154022_added_entity_Warehouse.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154023_added_entity_Vehicle.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154024_added_entity_TransferVehicle.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154025_added_entity_TransferPacking.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154026_added_entity_ReceiptNote.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210408154027_added_entity_Office.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20210401184032_added_entity_constraints_Street.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210401184033_added_entity_constraints_SubDistrict.xml" relativeToChangelogFile="false"/>

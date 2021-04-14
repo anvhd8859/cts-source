@@ -1,0 +1,35 @@
+{
+    "name": "Province",
+    "fields": [
+        {
+            "fieldName": "provinceName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "district",
+            "otherEntityName": "district",
+            "otherEntityRelationshipName": "provinceId"
+        }
+    ],
+    "changelogDate": "20210401184035",
+    "entityTableName": "province",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

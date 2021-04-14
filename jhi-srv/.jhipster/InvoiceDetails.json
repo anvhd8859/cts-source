@@ -53,7 +53,7 @@
     "relationships": [],
     "changelogDate": "20210408154020",
     "entityTableName": "invoice_details",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,

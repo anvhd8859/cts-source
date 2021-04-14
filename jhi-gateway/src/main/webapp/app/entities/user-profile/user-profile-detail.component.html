@@ -1,0 +1,55 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="userProfile">
+            <h2><span>User Profile</span> {{userProfile.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>User Id</span></dt>
+                <dd>
+                    <span>{{userProfile.userId}}</span>
+                </dd>
+                <dt><span>Gender</span></dt>
+                <dd>
+                    <span>{{userProfile.gender}}</span>
+                </dd>
+                <dt><span>Address</span></dt>
+                <dd>
+                    <span>{{userProfile.address}}</span>
+                </dd>
+                <dt><span>Street Id</span></dt>
+                <dd>
+                    <span>{{userProfile.streetId}}</span>
+                </dd>
+                <dt><span>Phone Number</span></dt>
+                <dd>
+                    <span>{{userProfile.phoneNumber}}</span>
+                </dd>
+                <dt><span>Date Of Birth</span></dt>
+                <dd>
+                    <span>{{userProfile.dateOfBirth}}</span>
+                </dd>
+                <dt><span>Created Date</span></dt>
+                <dd>
+                    <span>{{userProfile.createdDate}}</span>
+                </dd>
+                <dt><span>Updated Date</span></dt>
+                <dd>
+                    <span>{{userProfile.updatedDate}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/user-profile', userProfile.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

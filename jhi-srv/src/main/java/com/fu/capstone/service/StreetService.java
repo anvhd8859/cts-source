@@ -1,5 +1,6 @@
 package com.fu.capstone.service;
 
+import com.fu.capstone.domain.Street;
 import com.fu.capstone.service.dto.StreetDTO;
 
 import org.springframework.data.domain.Page;
@@ -44,5 +45,8 @@ public interface StreetService {
      */
     void delete(Long id);
     
+    // AnhVD new code
     Page<StreetDTO> getAllStreetsBySubDistrictId(Long id, Pageable pageable);
+
+	Optional<Street> getFullAddressByStreetId(Long id);
 }
