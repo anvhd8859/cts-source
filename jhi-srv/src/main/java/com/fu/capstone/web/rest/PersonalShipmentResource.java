@@ -123,4 +123,18 @@ public class PersonalShipmentResource {
         personalShipmentService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    // START TuyenVNT 14/04/2021
+    /**
+     * GET  /personal-shipment/by-invoice-header?:id : get the personalShipment by header id.
+     *
+     * @param id the id of the invoice header to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the personalShipmentDTO, or with status 404 (Not Found)
+     */
+    @GetMapping("/personal-shipment/by-invoice-header")
+    @Timed
+    public ResponseEntity<List<PersonalShipmentDTO>> getPersonalShipmentByHeaderId(@RequestParam("id") Long id) {
+    	List<PersonalShipmentDTO> personalShipmentDTO = personalShipmentService.getPersonalShipmentByHeaderId(id);
+        return new ResponseEntity<>(personalShipmentDTO, HttpStatus.OK);
+    }
 }
