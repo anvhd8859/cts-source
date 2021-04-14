@@ -43,4 +43,7 @@ public interface PersonalShipmentService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+    // START TuyenVNT 14/04/2021
+    List<InvoicePackageDTO> getInvoicePackageByHeaderId(Long id);
 }
