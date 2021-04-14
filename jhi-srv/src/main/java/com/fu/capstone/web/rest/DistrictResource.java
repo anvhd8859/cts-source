@@ -29,8 +29,6 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class DistrictResource {
 
-    private final Logger log = LoggerFactory.getLogger(DistrictResource.class);
-
     private static final String ENTITY_NAME = "ctsmicroserviceDistrict";
 
     private DistrictService districtService;
