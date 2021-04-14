@@ -131,7 +131,7 @@ public class PersonalShipmentResource {
      * @param id the id of the invoice header to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the personalShipmentDTO, or with status 404 (Not Found)
      */
-    @GetMapping("/personal-shipment/by-invoice-header")
+    @GetMapping("/personal-shipments/by-invoice-header")
     @Timed
     public ResponseEntity<List<PersonalShipmentDTO>> getPersonalShipmentByHeaderId(@RequestParam("id") Long id) {
     	List<PersonalShipmentDTO> personalShipmentDTO = personalShipmentService.getPersonalShipmentByHeaderId(id);
