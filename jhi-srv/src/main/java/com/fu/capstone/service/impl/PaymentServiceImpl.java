@@ -89,4 +89,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
     
     // START TuyenVNT 14/04/2021
+    @Override
+ 	public List<PaymentDTO> getPaymentByHeaderId(Long id) {
+ 		return paymentMapper.toDto(paymentRepository.getPaymentByHeaderId(id));
+ 	}
 }
