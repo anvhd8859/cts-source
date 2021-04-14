@@ -1,0 +1,104 @@
+{
+    "name": "InvoiceHeader",
+    "fields": [
+        {
+            "fieldName": "customerId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "officeId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "invoiceNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "invoiceType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "startAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "startStreetId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "destinationAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "destinationStreetId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "subTotal",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "taxAmount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "totalDue",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "note",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "cancel",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "cancelReason",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "customerConfirm",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "changeNote",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "finish",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "dueDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "finishDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20210408154018",
+    "entityTableName": "invoice_header",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

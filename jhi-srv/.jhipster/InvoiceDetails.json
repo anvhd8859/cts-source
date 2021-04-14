@@ -1,0 +1,64 @@
+{
+    "name": "InvoiceDetails",
+    "fields": [
+        {
+            "fieldName": "invoiceHeaderId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "itemName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "itemType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "weight",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "height",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "length",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "width",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "originImage",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "damagesImage",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20210408154020",
+    "entityTableName": "invoice_details",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

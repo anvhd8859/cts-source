@@ -1,0 +1,48 @@
+{
+    "name": "Warehouse",
+    "fields": [
+        {
+            "fieldName": "warehouseName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "keeperId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "streetId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "warehouseType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "masterWarehouseId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20210408154022",
+    "entityTableName": "warehouse",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

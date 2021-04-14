@@ -3,6 +3,8 @@ package com.fu.capstone.repository;
 import com.fu.capstone.domain.Street;
 import com.fu.capstone.service.dto.StreetDTO;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
@@ -16,11 +18,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StreetRepository extends JpaRepository<Street, Long> {
 
-	@Query(
-//			name = "get_sub_district_id",  
-			value = "SELECT * FROM street WHERE sub_district_id_id = :subDistrictId",
+	@Query( value = "SELECT * FROM street WHERE sub_district_id_id = :subDistrictId",
 			countQuery = "SELECT count(*) FROM street WHERE sub_district_id_id = :subDistrictId", 
 			nativeQuery = true)
 	Page<Street> getAllStreetsBySubDistrictId(@Param("subDistrictId") Long id,Pageable pageable);
+
+	@Query( value = "SELECT s FROM Street s WHERE s.id = :id")
+	Optional<Street> getFullAddressByStreetId(@Param("id") Long id);
 
 }
