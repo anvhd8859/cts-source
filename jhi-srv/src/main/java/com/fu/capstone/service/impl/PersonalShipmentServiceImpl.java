@@ -91,6 +91,6 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
     // START TuyenVNT 14/04/2021
  	@Override
  	public List<PersonalShipmentDTO> getPersonalShipmentByHeaderId(Long id) {
- 		return invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(id));
+ 		return personalShipmentMapper.toDto(personalShipmentRepository.getPersonalShipmentByHeaderId(id));
  	}
 }
