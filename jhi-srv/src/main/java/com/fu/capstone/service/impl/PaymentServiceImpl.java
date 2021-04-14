@@ -93,4 +93,5 @@ public class PaymentServiceImpl implements PaymentService {
  	public List<PaymentDTO> getPaymentByHeaderId(Long id) {
  		return paymentMapper.toDto(paymentRepository.getPaymentByHeaderId(id));
  	}
+    // END TuyenVNT 14/04/2021
 }
