@@ -3,9 +3,9 @@ import { Moment } from 'moment';
 export interface IUserProfile {
     id?: number;
     userId?: number;
-    gender?: boolean;
+    gender?: string;
     address?: string;
-    streetId?: string;
+    streetId?: number;
     phoneNumber?: string;
     dateOfBirth?: Moment;
     createdDate?: Moment;
@@ -16,14 +16,12 @@ export class UserProfile implements IUserProfile {
     constructor(
         public id?: number,
         public userId?: number,
-        public gender?: boolean,
+        public gender?: string,
         public address?: string,
-        public streetId?: string,
+        public streetId?: number,
         public phoneNumber?: string,
         public dateOfBirth?: Moment,
         public createdDate?: Moment,
         public updatedDate?: Moment
-    ) {
-        this.gender = this.gender || false;
-    }
+    ) {}
 }

@@ -1,0 +1,71 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="invoicePackage">
+            <h2><span>Invoice Package</span> {{invoicePackage.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Invoice Header Id</span></dt>
+                <dd>
+                    <span>{{invoicePackage.invoiceHeaderId}}</span>
+                </dd>
+                <dt><span>Item Total</span></dt>
+                <dd>
+                    <span>{{invoicePackage.itemTotal}}</span>
+                </dd>
+                <dt><span>Weight</span></dt>
+                <dd>
+                    <span>{{invoicePackage.weight}}</span>
+                </dd>
+                <dt><span>Height</span></dt>
+                <dd>
+                    <span>{{invoicePackage.height}}</span>
+                </dd>
+                <dt><span>Length</span></dt>
+                <dd>
+                    <span>{{invoicePackage.length}}</span>
+                </dd>
+                <dt><span>Width</span></dt>
+                <dd>
+                    <span>{{invoicePackage.width}}</span>
+                </dd>
+                <dt><span>Delivered</span></dt>
+                <dd>
+                    <span>{{invoicePackage.delivered}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{invoicePackage.status}}</span>
+                </dd>
+                <dt><span>Note</span></dt>
+                <dd>
+                    <span>{{invoicePackage.note}}</span>
+                </dd>
+                <dt><span>Warehouse Id</span></dt>
+                <dd>
+                    <span>{{invoicePackage.warehouseId}}</span>
+                </dd>
+                <dt><span>Create Date</span></dt>
+                <dd>
+                    <span>{{invoicePackage.createDate}}</span>
+                </dd>
+                <dt><span>Update Date</span></dt>
+                <dd>
+                    <span>{{invoicePackage.updateDate}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/invoice-package', invoicePackage.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -116,4 +116,14 @@ public class UserProfileResource {
         userProfileRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    // HaiNM
+    @GetMapping("/user-profiles/find-by-user-id")
+    @Timed
+    public ResponseEntity<UserProfile> getUserProfileByUserID(@RequestParam("id") Long id) {
+        log.debug("REST request to get UserProfile : {}", id);
+        Optional<UserProfile> userProfile = userProfileRepository.findByUserId(id);
+        return ResponseEntity.ok(userProfile.isPresent() ? userProfile.get() : new UserProfile());
+    }
+    // HaiNM
 }
