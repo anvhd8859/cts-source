@@ -49,6 +49,15 @@ export class InvoiceHeaderService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
+    // ThangND Start
+    searchByParam(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IInvoiceHeader[]>(this.resourceUrl + '/search', { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+    // ThangND End
+
     private convertDateFromClient(invoiceHeader: IInvoiceHeader): IInvoiceHeader {
         const copy: IInvoiceHeader = Object.assign({}, invoiceHeader, {
             dueDate: invoiceHeader.dueDate != null && invoiceHeader.dueDate.isValid() ? invoiceHeader.dueDate.toJSON() : null,
