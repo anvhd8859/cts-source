@@ -7,8 +7,6 @@ import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.DistrictDTO;
 import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
