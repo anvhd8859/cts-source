@@ -53,7 +53,7 @@ public class InvoiceHeaderResource {
         if (invoiceHeaderDTO.getId() != null) {
             throw new BadRequestAlertException("A new invoiceHeader cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        InvoiceHeaderDTO result = invoiceHeaderService.save(invoiceHeaderDTO);
+        InvoiceHeaderDTO result = invoiceHeaderService.createNewInvoice(invoiceHeaderDTO);
         return ResponseEntity.created(new URI("/api/invoice-headers/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
