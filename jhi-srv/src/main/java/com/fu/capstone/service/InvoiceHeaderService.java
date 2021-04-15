@@ -50,4 +50,6 @@ public interface InvoiceHeaderService {
 
 	Page<InvoiceHeaderDTO> getInvoiceHeadersByParams(String invoiceNo, String status, Instant receiveDate,
 			Instant createDate, Instant updateDate, Pageable pageable);
+
+	InvoiceHeaderDTO createNewInvoice(InvoiceHeaderDTO invoiceHeaderDTO);
 }
