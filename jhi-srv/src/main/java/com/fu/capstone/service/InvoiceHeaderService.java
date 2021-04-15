@@ -46,9 +46,9 @@ public interface InvoiceHeaderService {
 
     
     // AnhVD new code
-
-	Page<InvoiceHeaderDTO> getInvoiceHeadersByParams(String invoiceNo, String status, String receiveDate,
+	  Page<InvoiceHeaderDTO> getInvoiceHeadersByParams(String invoiceNo, String status, String receiveDate,
 			String createDate, String updateDate, Pageable pageable);
 
-	InvoiceHeaderDTO createNewInvoice(InvoiceHeaderDTO invoiceHeaderDTO);
+    // DongPH code
+	  InvoiceHeaderDTO createNewInvoice(InvoiceHeaderDTO invoiceHeaderDTO);
 }

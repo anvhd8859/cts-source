@@ -93,7 +93,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	}
 
 	// AnhVD new code
-
 	@Override
 	public Page<InvoiceHeaderDTO> getInvoiceHeadersByParams(String invoiceNo, String status, String receiveDate,
 			String createDate, String updateDate, Pageable pageable) {
