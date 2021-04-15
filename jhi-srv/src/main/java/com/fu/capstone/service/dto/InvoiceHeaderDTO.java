@@ -30,6 +30,10 @@ public class InvoiceHeaderDTO implements Serializable {
 
     private Long destinationStreetId;
 
+    private String receiverName;
+
+    private String receiverPhone;
+
     private BigDecimal subTotal;
 
     private BigDecimal taxAmount;
@@ -47,6 +51,8 @@ public class InvoiceHeaderDTO implements Serializable {
     private String changeNote;
 
     private Boolean finish;
+
+    private Instant receiveDate;
 
     private Instant dueDate;
 
@@ -136,6 +142,22 @@ public class InvoiceHeaderDTO implements Serializable {
         this.destinationStreetId = destinationStreetId;
     }
 
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
+
     public BigDecimal getSubTotal() {
         return subTotal;
     }
@@ -208,6 +230,14 @@ public class InvoiceHeaderDTO implements Serializable {
         this.finish = finish;
     }
 
+    public Instant getReceiveDate() {
+        return receiveDate;
+    }
+
+    public void setReceiveDate(Instant receiveDate) {
+        this.receiveDate = receiveDate;
+    }
+
     public Instant getDueDate() {
         return dueDate;
     }
@@ -274,6 +304,8 @@ public class InvoiceHeaderDTO implements Serializable {
             ", startStreetId=" + getStartStreetId() +
             ", destinationAddress='" + getDestinationAddress() + "'" +
             ", destinationStreetId=" + getDestinationStreetId() +
+            ", receiverName='" + getReceiverName() + "'" +
+            ", receiverPhone='" + getReceiverPhone() + "'" +
             ", subTotal=" + getSubTotal() +
             ", taxAmount=" + getTaxAmount() +
             ", totalDue=" + getTotalDue() +
@@ -283,6 +315,7 @@ public class InvoiceHeaderDTO implements Serializable {
             ", customerConfirm='" + isCustomerConfirm() + "'" +
             ", changeNote='" + getChangeNote() + "'" +
             ", finish='" + isFinish() + "'" +
+            ", receiveDate='" + getReceiveDate() + "'" +
             ", dueDate='" + getDueDate() + "'" +
             ", finishDate='" + getFinishDate() + "'" +
             ", createDate='" + getCreateDate() + "'" +

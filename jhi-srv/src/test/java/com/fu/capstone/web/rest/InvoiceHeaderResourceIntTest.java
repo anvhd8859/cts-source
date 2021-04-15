@@ -72,6 +72,12 @@ public class InvoiceHeaderResourceIntTest {
     private static final Long DEFAULT_DESTINATION_STREET_ID = 1L;
     private static final Long UPDATED_DESTINATION_STREET_ID = 2L;
 
+    private static final String DEFAULT_RECEIVER_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_RECEIVER_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_RECEIVER_PHONE = "AAAAAAAAAA";
+    private static final String UPDATED_RECEIVER_PHONE = "BBBBBBBBBB";
+
     private static final BigDecimal DEFAULT_SUB_TOTAL = new BigDecimal(1);
     private static final BigDecimal UPDATED_SUB_TOTAL = new BigDecimal(2);
 
@@ -98,6 +104,9 @@ public class InvoiceHeaderResourceIntTest {
 
     private static final Boolean DEFAULT_FINISH = false;
     private static final Boolean UPDATED_FINISH = true;
+
+    private static final Instant DEFAULT_RECEIVE_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_RECEIVE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Instant DEFAULT_DUE_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DUE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -164,6 +173,8 @@ public class InvoiceHeaderResourceIntTest {
             .startStreetId(DEFAULT_START_STREET_ID)
             .destinationAddress(DEFAULT_DESTINATION_ADDRESS)
             .destinationStreetId(DEFAULT_DESTINATION_STREET_ID)
+            .receiverName(DEFAULT_RECEIVER_NAME)
+            .receiverPhone(DEFAULT_RECEIVER_PHONE)
             .subTotal(DEFAULT_SUB_TOTAL)
             .taxAmount(DEFAULT_TAX_AMOUNT)
             .totalDue(DEFAULT_TOTAL_DUE)
@@ -173,6 +184,7 @@ public class InvoiceHeaderResourceIntTest {
             .customerConfirm(DEFAULT_CUSTOMER_CONFIRM)
             .changeNote(DEFAULT_CHANGE_NOTE)
             .finish(DEFAULT_FINISH)
+            .receiveDate(DEFAULT_RECEIVE_DATE)
             .dueDate(DEFAULT_DUE_DATE)
             .finishDate(DEFAULT_FINISH_DATE)
             .createDate(DEFAULT_CREATE_DATE)
@@ -210,6 +222,8 @@ public class InvoiceHeaderResourceIntTest {
         assertThat(testInvoiceHeader.getStartStreetId()).isEqualTo(DEFAULT_START_STREET_ID);
         assertThat(testInvoiceHeader.getDestinationAddress()).isEqualTo(DEFAULT_DESTINATION_ADDRESS);
         assertThat(testInvoiceHeader.getDestinationStreetId()).isEqualTo(DEFAULT_DESTINATION_STREET_ID);
+        assertThat(testInvoiceHeader.getReceiverName()).isEqualTo(DEFAULT_RECEIVER_NAME);
+        assertThat(testInvoiceHeader.getReceiverPhone()).isEqualTo(DEFAULT_RECEIVER_PHONE);
         assertThat(testInvoiceHeader.getSubTotal()).isEqualTo(DEFAULT_SUB_TOTAL);
         assertThat(testInvoiceHeader.getTaxAmount()).isEqualTo(DEFAULT_TAX_AMOUNT);
         assertThat(testInvoiceHeader.getTotalDue()).isEqualTo(DEFAULT_TOTAL_DUE);
@@ -219,6 +233,7 @@ public class InvoiceHeaderResourceIntTest {
         assertThat(testInvoiceHeader.isCustomerConfirm()).isEqualTo(DEFAULT_CUSTOMER_CONFIRM);
         assertThat(testInvoiceHeader.getChangeNote()).isEqualTo(DEFAULT_CHANGE_NOTE);
         assertThat(testInvoiceHeader.isFinish()).isEqualTo(DEFAULT_FINISH);
+        assertThat(testInvoiceHeader.getReceiveDate()).isEqualTo(DEFAULT_RECEIVE_DATE);
         assertThat(testInvoiceHeader.getDueDate()).isEqualTo(DEFAULT_DUE_DATE);
         assertThat(testInvoiceHeader.getFinishDate()).isEqualTo(DEFAULT_FINISH_DATE);
         assertThat(testInvoiceHeader.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
@@ -265,6 +280,8 @@ public class InvoiceHeaderResourceIntTest {
             .andExpect(jsonPath("$.[*].startStreetId").value(hasItem(DEFAULT_START_STREET_ID.intValue())))
             .andExpect(jsonPath("$.[*].destinationAddress").value(hasItem(DEFAULT_DESTINATION_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].destinationStreetId").value(hasItem(DEFAULT_DESTINATION_STREET_ID.intValue())))
+            .andExpect(jsonPath("$.[*].receiverName").value(hasItem(DEFAULT_RECEIVER_NAME.toString())))
+            .andExpect(jsonPath("$.[*].receiverPhone").value(hasItem(DEFAULT_RECEIVER_PHONE.toString())))
             .andExpect(jsonPath("$.[*].subTotal").value(hasItem(DEFAULT_SUB_TOTAL.intValue())))
             .andExpect(jsonPath("$.[*].taxAmount").value(hasItem(DEFAULT_TAX_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].totalDue").value(hasItem(DEFAULT_TOTAL_DUE.intValue())))
@@ -274,6 +291,7 @@ public class InvoiceHeaderResourceIntTest {
             .andExpect(jsonPath("$.[*].customerConfirm").value(hasItem(DEFAULT_CUSTOMER_CONFIRM.booleanValue())))
             .andExpect(jsonPath("$.[*].changeNote").value(hasItem(DEFAULT_CHANGE_NOTE.toString())))
             .andExpect(jsonPath("$.[*].finish").value(hasItem(DEFAULT_FINISH.booleanValue())))
+            .andExpect(jsonPath("$.[*].receiveDate").value(hasItem(DEFAULT_RECEIVE_DATE.toString())))
             .andExpect(jsonPath("$.[*].dueDate").value(hasItem(DEFAULT_DUE_DATE.toString())))
             .andExpect(jsonPath("$.[*].finishDate").value(hasItem(DEFAULT_FINISH_DATE.toString())))
             .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
@@ -300,6 +318,8 @@ public class InvoiceHeaderResourceIntTest {
             .andExpect(jsonPath("$.startStreetId").value(DEFAULT_START_STREET_ID.intValue()))
             .andExpect(jsonPath("$.destinationAddress").value(DEFAULT_DESTINATION_ADDRESS.toString()))
             .andExpect(jsonPath("$.destinationStreetId").value(DEFAULT_DESTINATION_STREET_ID.intValue()))
+            .andExpect(jsonPath("$.receiverName").value(DEFAULT_RECEIVER_NAME.toString()))
+            .andExpect(jsonPath("$.receiverPhone").value(DEFAULT_RECEIVER_PHONE.toString()))
             .andExpect(jsonPath("$.subTotal").value(DEFAULT_SUB_TOTAL.intValue()))
             .andExpect(jsonPath("$.taxAmount").value(DEFAULT_TAX_AMOUNT.intValue()))
             .andExpect(jsonPath("$.totalDue").value(DEFAULT_TOTAL_DUE.intValue()))
@@ -309,6 +329,7 @@ public class InvoiceHeaderResourceIntTest {
             .andExpect(jsonPath("$.customerConfirm").value(DEFAULT_CUSTOMER_CONFIRM.booleanValue()))
             .andExpect(jsonPath("$.changeNote").value(DEFAULT_CHANGE_NOTE.toString()))
             .andExpect(jsonPath("$.finish").value(DEFAULT_FINISH.booleanValue()))
+            .andExpect(jsonPath("$.receiveDate").value(DEFAULT_RECEIVE_DATE.toString()))
             .andExpect(jsonPath("$.dueDate").value(DEFAULT_DUE_DATE.toString()))
             .andExpect(jsonPath("$.finishDate").value(DEFAULT_FINISH_DATE.toString()))
             .andExpect(jsonPath("$.createDate").value(DEFAULT_CREATE_DATE.toString()))
@@ -345,6 +366,8 @@ public class InvoiceHeaderResourceIntTest {
             .startStreetId(UPDATED_START_STREET_ID)
             .destinationAddress(UPDATED_DESTINATION_ADDRESS)
             .destinationStreetId(UPDATED_DESTINATION_STREET_ID)
+            .receiverName(UPDATED_RECEIVER_NAME)
+            .receiverPhone(UPDATED_RECEIVER_PHONE)
             .subTotal(UPDATED_SUB_TOTAL)
             .taxAmount(UPDATED_TAX_AMOUNT)
             .totalDue(UPDATED_TOTAL_DUE)
@@ -354,6 +377,7 @@ public class InvoiceHeaderResourceIntTest {
             .customerConfirm(UPDATED_CUSTOMER_CONFIRM)
             .changeNote(UPDATED_CHANGE_NOTE)
             .finish(UPDATED_FINISH)
+            .receiveDate(UPDATED_RECEIVE_DATE)
             .dueDate(UPDATED_DUE_DATE)
             .finishDate(UPDATED_FINISH_DATE)
             .createDate(UPDATED_CREATE_DATE)
@@ -378,6 +402,8 @@ public class InvoiceHeaderResourceIntTest {
         assertThat(testInvoiceHeader.getStartStreetId()).isEqualTo(UPDATED_START_STREET_ID);
         assertThat(testInvoiceHeader.getDestinationAddress()).isEqualTo(UPDATED_DESTINATION_ADDRESS);
         assertThat(testInvoiceHeader.getDestinationStreetId()).isEqualTo(UPDATED_DESTINATION_STREET_ID);
+        assertThat(testInvoiceHeader.getReceiverName()).isEqualTo(UPDATED_RECEIVER_NAME);
+        assertThat(testInvoiceHeader.getReceiverPhone()).isEqualTo(UPDATED_RECEIVER_PHONE);
         assertThat(testInvoiceHeader.getSubTotal()).isEqualTo(UPDATED_SUB_TOTAL);
         assertThat(testInvoiceHeader.getTaxAmount()).isEqualTo(UPDATED_TAX_AMOUNT);
         assertThat(testInvoiceHeader.getTotalDue()).isEqualTo(UPDATED_TOTAL_DUE);
@@ -387,6 +413,7 @@ public class InvoiceHeaderResourceIntTest {
         assertThat(testInvoiceHeader.isCustomerConfirm()).isEqualTo(UPDATED_CUSTOMER_CONFIRM);
         assertThat(testInvoiceHeader.getChangeNote()).isEqualTo(UPDATED_CHANGE_NOTE);
         assertThat(testInvoiceHeader.isFinish()).isEqualTo(UPDATED_FINISH);
+        assertThat(testInvoiceHeader.getReceiveDate()).isEqualTo(UPDATED_RECEIVE_DATE);
         assertThat(testInvoiceHeader.getDueDate()).isEqualTo(UPDATED_DUE_DATE);
         assertThat(testInvoiceHeader.getFinishDate()).isEqualTo(UPDATED_FINISH_DATE);
         assertThat(testInvoiceHeader.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
