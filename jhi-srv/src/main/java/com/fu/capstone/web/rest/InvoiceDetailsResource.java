@@ -49,7 +49,6 @@ public class InvoiceDetailsResource {
     @PostMapping("/invoice-details")
     @Timed
     public ResponseEntity<InvoiceDetailsDTO> createInvoiceDetails(@RequestBody InvoiceDetailsDTO invoiceDetailsDTO) throws URISyntaxException {
-        log.debug("REST request to save InvoiceDetails : {}", invoiceDetailsDTO);
         if (invoiceDetailsDTO.getId() != null) {
             throw new BadRequestAlertException("A new invoiceDetails cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -71,7 +70,6 @@ public class InvoiceDetailsResource {
     @PutMapping("/invoice-details")
     @Timed
     public ResponseEntity<InvoiceDetailsDTO> updateInvoiceDetails(@RequestBody InvoiceDetailsDTO invoiceDetailsDTO) throws URISyntaxException {
-        log.debug("REST request to update InvoiceDetails : {}", invoiceDetailsDTO);
         if (invoiceDetailsDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }

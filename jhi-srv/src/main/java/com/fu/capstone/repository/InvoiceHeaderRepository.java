@@ -22,12 +22,12 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 	@Query(	  value = "SELECT i FROM InvoiceHeader i "
 					+ " WHERE ( :invoiceNo = '' OR i.invoiceNo = :invoiceNo ) "
 					+ " AND ( :status = '' OR i.status = :status ) "
-					+ " AND ( :receiveDate IS NULL OR i.receiveDate = :receiveDate ) "
-					+ " AND ( :createDate IS NULL OR i.createDate = :createDate ) "
-					+ " AND ( :updateDate IS NULL OR i.updateDate = :updateDate ) ")
+					+ " AND ( :receiveDate = '' OR i.receiveDate BETWEEN CONCAT(:receiveDate, ' 00:00:00') AND CONCAT(:receiveDate,' 23:59:59')  ) "
+					+ " AND ( :createDate = ''  OR i.createDate  BETWEEN CONCAT(:createDate, ' 00:00:00')  AND CONCAT(:createDate, ' 23:59:59')  ) "
+					+ " AND ( :updateDate = ''  OR i.updateDate  BETWEEN CONCAT(:updateDate, ' 00:00:00')  AND CONCAT(:updateDate, ' 23:59:59')  ) ")
 	Page<InvoiceHeader> getInvoiceHeadersByParams(
 			@RequestParam("invoiceNo") String invoiceNo, @RequestParam("status") String status,
-    		@RequestParam("receiveDate") Instant receiveDate, @RequestParam("createDate") Instant createDate, 
-    		@RequestParam("updateDate") Instant updateDate, Pageable pageable);
+    		@RequestParam("receiveDate") String receiveDate, @RequestParam("createDate") String createDate, 
+    		@RequestParam("updateDate") String updateDate, Pageable pageable);
 
 }
