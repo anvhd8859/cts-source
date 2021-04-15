@@ -87,7 +87,7 @@
         </div>
         <div class="col-lg-4 col-md-6 col-sm-6 text-center">
             <div class="form-group">
-                <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary">
+                <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary" (click)="this.loadAll()">
                     <fa-icon [icon]="'search'"></fa-icon>
                     <span >Search</span>
                 </button>
@@ -99,24 +99,24 @@
     <div class="table-responsive" *ngIf="invoiceHeaders">
         <table class="table table-striped">
             <thead>
-                <th>#</th>
-                <th>Invoice Number</th>
-                <th>Due Date</th>
-                <th>Receive Date</th>
-                <th>Status</th>
-                <th>Created Date</th>
-                <th>Updated Date </th>
-                <th>Action</th>
+                <th>#               </th>
+                <th>Invoice Number  </th>
+                <th>Due Date        </th>
+                <th>Receive Date    </th>
+                <th>Status          </th>
+                <th>Created Date    </th>
+                <th>Updated Date    </th>
+                <th>Action          </th>
             </thead>
             <tbody>
             <tr *ngFor="let invoiceHeader of invoiceHeaders ;trackBy: trackId">
-                <td>{{invoiceHeader.id}}</td>
-                <td>{{invoiceHeader.invoiceNo}}</td>
-                <td>{{invoiceHeader.dueDate | date:'yyyy-mm-dd HH:mm'}}</td>
-                <td>{{invoiceHeader.finishDate | date:'yyyy-mm-dd HH:mm'}}</td>
-                <td>{{invoiceHeader.status}}</td>
-                <td>{{invoiceHeader.createDate | date:'yyyy-mm-dd HH:mm'}}</td>
-                <td>{{invoiceHeader.updateDate | date:'yyyy-mm-dd HH:mm'}}</td>
+                <td>{{invoiceHeader.id}}                                    </td>
+                <td>{{invoiceHeader.invoiceNo}}                             </td>
+                <td>{{invoiceHeader.dueDate     | date:'yyyy-mm-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.finishDate  | date:'yyyy-mm-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.status}}                                </td>
+                <td>{{invoiceHeader.createDate  | date:'yyyy-mm-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.updateDate  | date:'yyyy-mm-dd HH:mm'}} </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
