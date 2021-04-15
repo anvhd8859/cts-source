@@ -9,7 +9,7 @@ import { Principal } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { InvoiceHeaderService } from './invoice-header.service';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
     selector: 'jhi-invoice-header',
@@ -33,9 +33,9 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
     lstStatus: any = [{ id: 'New', text: 'New' }, { id: 'Shipped', text: 'Shipped' }, { id: 'Cancelled', text: 'Cancelled' }];
     selectedStatus: any;
     selectedInvoiceNumber: any;
-    createTime: any;
-    updateTime: any;
-    receiveTime: any;
+    createTime: moment.Moment;
+    updateTime: moment.Moment;
+    receiveTime: moment.Moment;
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -56,12 +56,18 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+        const param = {
+            invoiceNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
+            status: this.selectedStatus ? this.selectedStatus : '',
+            receiveDate: this.receiveTime ? this.receiveTime.date() + '-' + this.receiveTime.month() + '-' + this.receiveTime.year() : '',
+            createDate: this.createTime ? this.createTime.date() + '-' + this.createTime.month() + '-' + this.createTime.year() : '',
+            updateDate: this.updateTime ? this.updateTime.date() + '-' + this.updateTime.month() + '-' + this.updateTime.year() : '',
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort()
+        };
         this.invoiceHeaderService
-            .query({
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
+            .searchByParam(param)
             .subscribe(
                 (res: HttpResponse<IInvoiceHeader[]>) => this.paginateInvoiceHeaders(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
