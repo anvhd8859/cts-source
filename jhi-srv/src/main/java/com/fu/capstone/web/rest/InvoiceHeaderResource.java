@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -132,7 +131,7 @@ public class InvoiceHeaderResource {
     @GetMapping("/invoice-headers/search")
     @Timed
     public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersByParams(@RequestParam("invoiceNo") String invoiceNo, @RequestParam("status") String status,
-    		@RequestParam("receiveDate") Instant receiveDate, @RequestParam("createDate") Instant createDate, @RequestParam("updateDate") Instant updateDate, Pageable pageable) {
+    		@RequestParam("receiveDate") String receiveDate, @RequestParam("createDate") String createDate, @RequestParam("updateDate") String updateDate, Pageable pageable) {
         Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByParams(invoiceNo, status, receiveDate, createDate, updateDate, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/search");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
