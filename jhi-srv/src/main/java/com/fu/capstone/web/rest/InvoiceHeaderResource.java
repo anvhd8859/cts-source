@@ -49,7 +49,6 @@ public class InvoiceHeaderResource {
     @PostMapping("/invoice-headers")
     @Timed
     public ResponseEntity<InvoiceHeaderDTO> createInvoiceHeader(@RequestBody InvoiceHeaderDTO invoiceHeaderDTO) throws URISyntaxException {
-        log.debug("REST request to save InvoiceHeader : {}", invoiceHeaderDTO);
         if (invoiceHeaderDTO.getId() != null) {
             throw new BadRequestAlertException("A new invoiceHeader cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -71,7 +70,6 @@ public class InvoiceHeaderResource {
     @PutMapping("/invoice-headers")
     @Timed
     public ResponseEntity<InvoiceHeaderDTO> updateInvoiceHeader(@RequestBody InvoiceHeaderDTO invoiceHeaderDTO) throws URISyntaxException {
-        log.debug("REST request to update InvoiceHeader : {}", invoiceHeaderDTO);
         if (invoiceHeaderDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
