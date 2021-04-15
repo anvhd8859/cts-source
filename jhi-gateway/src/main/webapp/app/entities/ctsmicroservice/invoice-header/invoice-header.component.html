@@ -112,11 +112,11 @@
             <tr *ngFor="let invoiceHeader of invoiceHeaders ;trackBy: trackId">
                 <td>{{invoiceHeader.id}}                                    </td>
                 <td>{{invoiceHeader.invoiceNo}}                             </td>
-                <td>{{invoiceHeader.dueDate     | date:'yyyy-mm-dd HH:mm'}} </td>
-                <td>{{invoiceHeader.finishDate  | date:'yyyy-mm-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.dueDate     | date:'yyyy-MM-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.finishDate  | date:'yyyy-MM-dd HH:mm'}} </td>
                 <td>{{invoiceHeader.status}}                                </td>
-                <td>{{invoiceHeader.createDate  | date:'yyyy-mm-dd HH:mm'}} </td>
-                <td>{{invoiceHeader.updateDate  | date:'yyyy-mm-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.createDate  | date:'yyyy-MM-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.updateDate  | date:'yyyy-MM-dd HH:mm'}} </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
