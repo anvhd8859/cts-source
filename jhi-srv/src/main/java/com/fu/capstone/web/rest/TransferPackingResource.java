@@ -123,4 +123,20 @@ public class TransferPackingResource {
         transferPackingService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+
+    // AnhVD new code
+
+    /**
+     * GET  /transfer-packings/invoice-header?id=:id : get the "id" invoice header.
+     *
+     * @param id the id of the invoice header to retrieve TransferPacking
+     * @return the ResponseEntity with status 200 (OK) and with body the transferPackingDTO, or with status 404 (Not Found)
+     */
+    @GetMapping("/transfer-packings/invoice-header")
+    @Timed
+    public ResponseEntity<List<TransferPackingDTO>> getTransferPackingByInvoiceHeaderId(@RequestParam("id") Long id) {
+        List<TransferPackingDTO> transferPackingDTO = transferPackingService.getTransferPackingByInvoiceHeaderId(id);
+        return new ResponseEntity<>(transferPackingDTO, HttpStatus.OK);
+    }
 }

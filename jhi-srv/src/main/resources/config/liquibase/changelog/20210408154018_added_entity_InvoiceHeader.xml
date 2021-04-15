@@ -58,6 +58,14 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="receiver_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="receiver_phone" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="sub_total" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
@@ -94,6 +102,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="receive_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
             <column name="due_date" type="datetime">
                 <constraints nullable="true" />
             </column>
@@ -112,6 +124,7 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="invoice_header" columnName="receive_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="invoice_header" columnName="due_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="invoice_header" columnName="finish_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="invoice_header" columnName="create_date" columnDataType="datetime"/>

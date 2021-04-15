@@ -5,6 +5,7 @@ import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -43,4 +44,10 @@ public interface InvoiceHeaderService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    
+    // AnhVD new code
+
+	Page<InvoiceHeaderDTO> getInvoiceHeadersByParams(String invoiceNo, String status, Instant receiveDate,
+			Instant createDate, Instant updateDate, Pageable pageable);
 }
