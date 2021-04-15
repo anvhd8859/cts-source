@@ -30,7 +30,7 @@
                 <label for="createOn">Create On</label>
                 <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd"
-                           name="createOn" [(ngModel)]="this.updateTime" ngbDatepicker #b="ngbDatepicker" readonly>
+                           name="createOn" [(ngModel)]="this.createTime" ngbDatepicker #b="ngbDatepicker" readonly>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" (click)="b.toggle()" type="button">
                             <fa-icon [icon]="'calendar-alt'"></fa-icon>
@@ -44,7 +44,7 @@
                 <label for="updateOn">Update On</label>
                 <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd"
-                           name="updateOn" [(ngModel)]="this.createTime" ngbDatepicker #c="ngbDatepicker" readonly>
+                           name="updateOn" [(ngModel)]="this.updateTime" ngbDatepicker #c="ngbDatepicker" readonly>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
                             <fa-icon [icon]="'calendar-alt'"></fa-icon>

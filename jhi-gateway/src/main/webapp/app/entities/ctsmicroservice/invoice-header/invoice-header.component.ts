@@ -59,9 +59,11 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
         const param = {
             invoiceNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
             status: this.selectedStatus ? this.selectedStatus : '',
-            receiveDate: this.receiveTime ? this.receiveTime.date() + '-' + this.receiveTime.month() + '-' + this.receiveTime.year() : '',
-            createDate: this.createTime ? this.createTime.date() + '-' + this.createTime.month() + '-' + this.createTime.year() : '',
-            updateDate: this.updateTime ? this.updateTime.date() + '-' + this.updateTime.month() + '-' + this.updateTime.year() : '',
+            receiveDate: this.receiveTime
+                ? this.receiveTime.year() + '-' + (this.receiveTime.month() + 1) + '-' + this.receiveTime.date()
+                : '',
+            createDate: this.createTime ? this.createTime.year() + '-' + (this.createTime.month() + 1) + '-' + this.createTime.date() : '',
+            updateDate: this.updateTime ? this.updateTime.year() + '-' + (this.updateTime.month() + 1) + '-' + this.updateTime.date() : '',
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()
