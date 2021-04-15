@@ -9,6 +9,7 @@ import { Principal } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { InvoiceHeaderService } from './invoice-header.service';
+import moment = require('moment');
 
 @Component({
     selector: 'jhi-invoice-header',
@@ -29,6 +30,12 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    lstStatus: any = [{ id: 'New', text: 'New' }, { id: 'Shipped', text: 'Shipped' }, { id: 'Cancelled', text: 'Cancelled' }];
+    selectedStatus: any;
+    selectedInvoiceNumber: any;
+    createTime: any;
+    updateTime: any;
+    receiveTime: any;
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
