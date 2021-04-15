@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -87,4 +88,10 @@ public class InvoiceDetailsServiceImpl implements InvoiceDetailsService {
         log.debug("Request to delete InvoiceDetails : {}", id);
         invoiceDetailsRepository.deleteById(id);
     }
+
+    // AnhVD new code
+	@Override
+	public List<InvoiceDetailsDTO> getInvoiceDetailsByHeaderId(Long id) {
+		return invoiceDetailsMapper.toDto(invoiceDetailsRepository.getInvoiceDetailsByHeaderId(id));
+	}
 }

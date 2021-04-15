@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -87,4 +88,14 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
         log.debug("Request to delete InvoiceHeader : {}", id);
         invoiceHeaderRepository.deleteById(id);
     }
+
+
+    // AnhVD new code
+
+	@Override
+	public Page<InvoiceHeaderDTO> getInvoiceHeadersByParams(String invoiceNo, String status, Instant receiveDate,
+			Instant createDate, Instant updateDate, Pageable pageable) {
+		return invoiceHeaderRepository.getInvoiceHeadersByParams(invoiceNo, status, receiveDate, createDate, updateDate, pageable)
+	            .map(invoiceHeaderMapper::toDto);
+	}
 }
