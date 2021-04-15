@@ -5,7 +5,6 @@ import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -48,8 +47,8 @@ public interface InvoiceHeaderService {
     
     // AnhVD new code
 
-	Page<InvoiceHeaderDTO> getInvoiceHeadersByParams(String invoiceNo, String status, Instant receiveDate,
-			Instant createDate, Instant updateDate, Pageable pageable);
+	Page<InvoiceHeaderDTO> getInvoiceHeadersByParams(String invoiceNo, String status, String receiveDate,
+			String createDate, String updateDate, Pageable pageable);
 
 	InvoiceHeaderDTO createNewInvoice(InvoiceHeaderDTO invoiceHeaderDTO);
 }
