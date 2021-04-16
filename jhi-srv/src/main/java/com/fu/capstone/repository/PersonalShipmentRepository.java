@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface PersonalShipmentRepository extends JpaRepository<PersonalShipment, Long> {
 
 	// START TuyenVNT 14/04/2021
-	@Query( value="SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :invoiceHeaderId",
+	@Query( value="SELECT * FROM personal_shipment WHERE invoice_header_id = :invoiceHeaderId",
 			countQuery = "SELECT count(p) FROM PersonalShipment p WHERE p.invoiceHeaderId = :invoiceHeaderId", 
 			nativeQuery = true)
 	Page<PersonalShipment> getPersonalShipmentByHeaderId(@Param("invoiceHeaderId") Long id,Pageable pageable);
