@@ -20,8 +20,6 @@ export class SubDistrictUpdateComponent implements OnInit {
     isSaving: boolean;
 
     districts: IDistrict[];
-    createDate: string;
-    updateDate: string;
 
     constructor(
         private jhiAlertService: JhiAlertService,
@@ -34,8 +32,6 @@ export class SubDistrictUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ subDistrict }) => {
             this.subDistrict = subDistrict;
-            this.createDate = this.subDistrict.createDate != null ? this.subDistrict.createDate.format(DATE_TIME_FORMAT) : null;
-            this.updateDate = this.subDistrict.updateDate != null ? this.subDistrict.updateDate.format(DATE_TIME_FORMAT) : null;
         });
         this.districtService.query().subscribe(
             (res: HttpResponse<IDistrict[]>) => {
@@ -51,8 +47,8 @@ export class SubDistrictUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.subDistrict.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
-        this.subDistrict.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
+        if (this.subDistrict.createDate == null) this.subDistrict.createDate = moment(new Date(), DATE_TIME_FORMAT);
+        this.subDistrict.updateDate = moment(new Date(), DATE_TIME_FORMAT);
         if (this.subDistrict.id !== undefined) {
             this.subscribeToSaveResponse(this.subDistrictService.update(this.subDistrict));
         } else {
