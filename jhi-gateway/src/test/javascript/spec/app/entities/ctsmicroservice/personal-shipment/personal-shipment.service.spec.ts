@@ -6,8 +6,8 @@ import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { PersonalShipmentService } from 'app/entities/ctsmicroservice/personal-shipment/personal-shipment.service';
 import { IPersonalShipment, PersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
+import { PersonalShipmentService } from 'app/entities/ctsmicroservice/invoice-header/personal-shipment';
 
 describe('Service Tests', () => {
     describe('PersonalShipment Service', () => {

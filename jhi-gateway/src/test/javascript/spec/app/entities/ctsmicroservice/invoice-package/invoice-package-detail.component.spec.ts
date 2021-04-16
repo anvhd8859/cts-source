@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { InvoicePackageDetailComponent } from 'app/entities/ctsmicroservice/invoice-package/invoice-package-detail.component';
+import { InvoicePackageDetailComponent } from 'app/entities/ctsmicroservice/invoice-header/invoice-package/invoice-package-detail.component';
 import { InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 
 describe('Component Tests', () => {

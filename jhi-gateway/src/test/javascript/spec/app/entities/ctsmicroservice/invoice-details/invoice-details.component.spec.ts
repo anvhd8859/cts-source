@@ -5,9 +5,9 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Data } from '@angular/router';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { InvoiceDetailsComponent } from 'app/entities/ctsmicroservice/invoice-details/invoice-details.component';
-import { InvoiceDetailsService } from 'app/entities/ctsmicroservice/invoice-details/invoice-details.service';
 import { InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
+import { InvoiceDetailsComponent } from 'app/entities/ctsmicroservice/invoice-header/invoice-details/invoice-details.component';
+import { InvoiceDetailsService } from 'app/entities/ctsmicroservice/invoice-header/invoice-details';
 
 describe('Component Tests', () => {
     describe('InvoiceDetails Management Component', () => {

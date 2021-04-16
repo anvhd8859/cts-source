@@ -5,9 +5,8 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Data } from '@angular/router';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { TransferPackingComponent } from 'app/entities/ctsmicroservice/transfer-packing/transfer-packing.component';
-import { TransferPackingService } from 'app/entities/ctsmicroservice/transfer-packing/transfer-packing.service';
 import { TransferPacking } from 'app/shared/model/ctsmicroservice/transfer-packing.model';
+import { TransferPackingComponent, TransferPackingService } from 'app/entities/ctsmicroservice/invoice-header/transfer-packing';
 
 describe('Component Tests', () => {
     describe('TransferPacking Management Component', () => {
