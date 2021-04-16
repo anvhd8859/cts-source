@@ -144,5 +144,7 @@ public class PersonalShipmentResource {
     @GetMapping("/personal-shipments/not-assigned")
     @Timed
     public ResponseEntity<List<PersonalShipmentDTO>> getPersonalShipmentNotAssigned(@RequestParam("id") Long id, Pageable pageable) {
+    	
+    }
     // END TuyenVNT 16/04/2021
 }
