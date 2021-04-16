@@ -134,7 +134,7 @@ public class PaymentResource {
     @Timed
     public ResponseEntity<List<PaymentDTO>> getPaymentByHeaderId(@RequestParam("id") Long id, Pageable pageable) {
     	Page<PaymentDTO> page = paymentService.getPaymentByHeaderId(id, pageable);
-    	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/payments/by-header-id");
+    	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/payments/by-invoice-header");
     	return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     // END TuyenVNT 16/04/2021
