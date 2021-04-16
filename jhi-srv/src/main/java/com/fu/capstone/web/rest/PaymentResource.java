@@ -133,7 +133,7 @@ public class PaymentResource {
     @GetMapping("/payments/by-invoice-header")
     @Timed
     public ResponseEntity<List<PaymentDTO>> getPaymentByHeaderId(@RequestParam("id") Long id, Pageable pageable) {
-    	List<PaymentDTO> paymentDTO = paymentService.getPaymentByHeaderId(id);
+    	Page<PaymentDTO> page = paymentService.getPaymentByHeaderId(id, pageable);
         return new ResponseEntity<>(paymentDTO, HttpStatus.OK);
     }
     // END TuyenVNT 14/04/2021
