@@ -54,5 +54,6 @@ public interface PersonalShipmentService {
     // END TuyenVNT 16/04/2021
     
     // START TuyenVNT 16/04/2021
+    Page<PersonalShipmentDTO> getPersonalShipmentNotAssigned(Pageable pageable);
     // END TuyenVNT 16/04/2021
 }
