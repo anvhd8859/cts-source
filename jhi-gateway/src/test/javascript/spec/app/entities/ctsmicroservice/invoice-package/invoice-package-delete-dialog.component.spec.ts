@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { InvoicePackageDeleteDialogComponent } from 'app/entities/ctsmicroservice/invoice-package/invoice-package-delete-dialog.component';
-import { InvoicePackageService } from 'app/entities/ctsmicroservice/invoice-package/invoice-package.service';
+import { InvoicePackageDeleteDialogComponent } from 'app/entities/ctsmicroservice/invoice-header/invoice-package/invoice-package-delete-dialog.component';
+import { InvoicePackageService } from 'app/entities/ctsmicroservice/invoice-header/invoice-package/invoice-package.service';
 
 describe('Component Tests', () => {
     describe('InvoicePackage Management Delete Component', () => {
