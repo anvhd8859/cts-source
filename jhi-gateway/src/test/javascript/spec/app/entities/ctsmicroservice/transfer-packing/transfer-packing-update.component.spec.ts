@@ -4,9 +4,8 @@ import { HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { TransferPackingUpdateComponent } from 'app/entities/ctsmicroservice/transfer-packing/transfer-packing-update.component';
-import { TransferPackingService } from 'app/entities/ctsmicroservice/transfer-packing/transfer-packing.service';
 import { TransferPacking } from 'app/shared/model/ctsmicroservice/transfer-packing.model';
+import { TransferPackingUpdateComponent, TransferPackingService } from 'app/entities/ctsmicroservice/invoice-header/transfer-packing';
 
 describe('Component Tests', () => {
     describe('TransferPacking Management Update Component', () => {
