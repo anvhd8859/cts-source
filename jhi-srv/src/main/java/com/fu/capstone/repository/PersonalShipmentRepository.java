@@ -18,4 +18,7 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 			nativeQuery = true)
 	Page<PersonalShipment> getPersonalShipmentByHeaderId(@Param("invoiceHeaderId") Long id,Pageable pageable);
 	// END TuyenVNT 16/04/2021
+	
+	// START TuyenVNT 16/04/2021
+	// END TuyenVNT 16/04/2021
 }
