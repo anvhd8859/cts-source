@@ -128,4 +128,18 @@ public class DistrictResource {
         List<DistrictDTO> districtDTO = districtService.getDistrictByProvinceId(id);
         return new ResponseEntity<>(districtDTO, HttpStatus.OK);
     }
+    
+    // DongPH new code
+    /**
+     * GET  /districts/by-street?id : get the district by street.
+     *
+     * @param id the street id of the street to retrieve district
+     * @return the ResponseEntity with status 200 (OK) and with body the districtDTO
+     */
+    @GetMapping("/districts/by-street")
+    @Timed
+    public ResponseEntity<DistrictDTO> getDistrictByStreetId(@RequestParam("id")Long id) {
+        DistrictDTO districtDTO = districtService.getDistrictByStreetId(id);
+        return new ResponseEntity<>(districtDTO, HttpStatus.OK);
+    }
 }
