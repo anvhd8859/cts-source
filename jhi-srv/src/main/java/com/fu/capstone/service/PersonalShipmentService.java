@@ -50,6 +50,6 @@ public interface PersonalShipmentService {
      * 
      * @param id the headerId
      */
-    List<PersonalShipmentDTO> getPersonalShipmentByHeaderId(Long id);
+    List<PersonalShipmentDTO> getPersonalShipmentByHeaderId(Long id, Pageable page);
     // END TuyenVNT 14/04/2021
 }
