@@ -13,7 +13,9 @@ import org.springframework.stereotype.Repository;
 public interface PersonalShipmentRepository extends JpaRepository<PersonalShipment, Long> {
 
 	// START TuyenVNT 14/04/2021
-	@Query(value="SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :invoiceHeaderId")
+	@Query( value="SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :invoiceHeaderId",
+			countQuery = "SELECT count(p) FROM PersonalShipment p WHERE p.invoiceHeaderId = :invoiceHeaderId", 
+			nativeQuery = true)
 	List<PersonalShipment> getPersonalShipmentByHeaderId(@Param("invoiceHeaderId") Long id);
 	// END TuyenVNT 14/04/2021
 }
