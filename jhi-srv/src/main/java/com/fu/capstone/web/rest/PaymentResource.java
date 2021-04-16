@@ -137,5 +137,5 @@ public class PaymentResource {
     	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/payments/by-header-id");
     	return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-    // END TuyenVNT 14/04/2021
+    // END TuyenVNT 16/04/2021
 }
