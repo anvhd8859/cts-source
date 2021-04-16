@@ -142,5 +142,6 @@ public class PersonalShipmentResource {
     
     // START TuyenVNT 16/04/2021
     @GetMapping("/personal-shipments/not-assigned")
+    @Timed
     // END TuyenVNT 16/04/2021
 }
