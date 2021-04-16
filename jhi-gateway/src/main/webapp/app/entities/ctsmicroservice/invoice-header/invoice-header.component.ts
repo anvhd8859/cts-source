@@ -10,6 +10,7 @@ import { Principal } from 'app/core';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { InvoiceHeaderService } from './invoice-header.service';
 import * as moment from 'moment';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
     selector: 'jhi-invoice-header',
@@ -44,7 +45,8 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private ngxUiLoaderService: NgxUiLoaderService
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -56,6 +58,7 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+        this.ngxUiLoaderService.start();
         const param = {
             invoiceNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
             status: this.selectedStatus ? this.selectedStatus : '',
@@ -68,12 +71,16 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
             size: this.itemsPerPage,
             sort: this.sort()
         };
-        this.invoiceHeaderService
-            .searchByParam(param)
-            .subscribe(
-                (res: HttpResponse<IInvoiceHeader[]>) => this.paginateInvoiceHeaders(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        this.invoiceHeaderService.searchByParam(param).subscribe(
+            (res: HttpResponse<IInvoiceHeader[]>) => {
+                this.paginateInvoiceHeaders(res.body, res.headers);
+                this.ngxUiLoaderService.stop();
+            },
+            (res: HttpErrorResponse) => {
+                this.onError(res.message);
+                this.ngxUiLoaderService.stop();
+            }
+        );
     }
 
     loadPage(page: number) {
@@ -132,6 +139,10 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
             result.push('id');
         }
         return result;
+    }
+
+    clearReceiveTime() {
+        this.receiveTime = null;
     }
 
     private paginateInvoiceHeaders(data: IInvoiceHeader[], headers: HttpHeaders) {
