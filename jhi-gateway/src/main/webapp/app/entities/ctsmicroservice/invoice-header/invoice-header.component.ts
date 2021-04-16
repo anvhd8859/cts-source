@@ -145,6 +145,10 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
         this.receiveTime = null;
     }
 
+    clearCreateTime() {
+        this.createTime = null;
+    }
+
     private paginateInvoiceHeaders(data: IInvoiceHeader[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
