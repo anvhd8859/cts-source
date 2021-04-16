@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { InvoicePackageService } from 'app/entities/ctsmicroservice/invoice-package/invoice-package.service';
+import { InvoicePackageService } from 'app/entities/ctsmicroservice/invoice-header/invoice-package/invoice-package.service';
 import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 
 describe('Service Tests', () => {
