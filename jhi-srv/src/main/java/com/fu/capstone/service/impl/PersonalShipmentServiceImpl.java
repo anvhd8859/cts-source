@@ -94,5 +94,5 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
  		return personalShipmentRepository.getPersonalShipmentByHeaderId(id, pageable)
 				.map(personalShipment::toDto);
  	}
- 	// END TuyenVNT 14/04/2021
+ 	// END TuyenVNT 16/04/2021
 }
