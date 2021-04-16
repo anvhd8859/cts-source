@@ -99,7 +99,8 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
  	// START TuyenVNT 16/04/2021
  	@Override
  	public Page<PersonalShipmentDTO> getPersonalShipmentNotAssigned(Pageable pageable) {
- 		
+ 		return personalShipmentRepository.getPersonalShipmentNotAssigned(pageable)
+				.map(personalShipmentMapper::toDto);
  	}
  	// END TuyenVNT 16/04/2021
 }
