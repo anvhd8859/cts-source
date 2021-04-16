@@ -91,7 +91,8 @@ public class PaymentServiceImpl implements PaymentService {
     // START TuyenVNT 14/04/2021
     @Override
  	public Page<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable) {
- 		return paymentMapper.toDto(paymentRepository.getPaymentByHeaderId(id));
+ 		return paymentRepository.getPaymentByHeaderId(id, pageable)
+				.map(payment::toDto);
  	}
     // END TuyenVNT 14/04/2021
 }
