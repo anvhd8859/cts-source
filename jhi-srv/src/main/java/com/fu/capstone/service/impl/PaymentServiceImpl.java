@@ -94,5 +94,5 @@ public class PaymentServiceImpl implements PaymentService {
  		return paymentRepository.getPaymentByHeaderId(id, pageable)
 				.map(paymentMapper::toDto);
  	}
-    // END TuyenVNT 14/04/2021
+    // END TuyenVNT 16/04/2021
 }
