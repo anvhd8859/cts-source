@@ -141,12 +141,16 @@ public class PersonalShipmentResource {
     // END TuyenVNT 16/04/2021
     
     // START TuyenVNT 16/04/2021
+    /**
+     * GET /personal-shipment/not-assigned : get all personalShipment not assigned
+     * 
+     */
     @GetMapping("/personal-shipments/not-assigned")
     @Timed
     public ResponseEntity<List<PersonalShipmentDTO>> getPersonalShipmentNotAssigned(Pageable pageable) {
     	Page<PersonalShipmentDTO> page = personalShipmentService.getPersonalShipmentNotAssigned(pageable);
     	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/personal-shipments/not-assigned");
-        
+    	return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     // END TuyenVNT 16/04/2021
 }
