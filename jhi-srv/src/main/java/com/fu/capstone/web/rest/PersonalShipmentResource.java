@@ -134,8 +134,7 @@ public class PersonalShipmentResource {
     @GetMapping("/personal-shipments/by-invoice-header")
     @Timed
     public ResponseEntity<List<PersonalShipmentDTO>> getPersonalShipmentByHeaderId(@RequestParam("id") Long id, Pageable pageable) {
-    	List<PersonalShipmentDTO> personalShipmentDTO = personalShipmentService.getPersonalShipmentByHeaderId(id);
-    	Page<PersonalShipmentDTO> page = personalShipmentService.findAll(pageable);
+    	Page<PersonalShipmentDTO> page = personalShipmentService.getPersonalShipmentByHeaderId(id, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
