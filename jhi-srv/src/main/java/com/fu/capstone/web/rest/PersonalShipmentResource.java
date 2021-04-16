@@ -135,7 +135,7 @@ public class PersonalShipmentResource {
     @Timed
     public ResponseEntity<List<PersonalShipmentDTO>> getPersonalShipmentByHeaderId(@RequestParam("id") Long id, Pageable pageable) {
     	Page<PersonalShipmentDTO> page = personalShipmentService.getPersonalShipmentByHeaderId(id, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments");
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/personal-shipments/by-header-id");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     // END TuyenVNT 14/04/2021
