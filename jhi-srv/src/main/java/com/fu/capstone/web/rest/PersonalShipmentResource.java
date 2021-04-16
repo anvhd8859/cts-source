@@ -133,9 +133,11 @@ public class PersonalShipmentResource {
      */
     @GetMapping("/personal-shipments/by-invoice-header")
     @Timed
-    public ResponseEntity<List<PersonalShipmentDTO>> getPersonalShipmentByHeaderId(@RequestParam("id") Long id) {
+    public ResponseEntity<List<PersonalShipmentDTO>> getPersonalShipmentByHeaderId(@RequestParam("id") Long id, Pageable pageable) {
     	List<PersonalShipmentDTO> personalShipmentDTO = personalShipmentService.getPersonalShipmentByHeaderId(id);
-        return new ResponseEntity<>(personalShipmentDTO, HttpStatus.OK);
+    	Page<PersonalShipmentDTO> page = personalShipmentService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     // END TuyenVNT 14/04/2021
 }
