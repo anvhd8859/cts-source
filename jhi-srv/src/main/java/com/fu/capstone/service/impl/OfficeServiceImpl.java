@@ -85,7 +85,11 @@ public class OfficeServiceImpl implements OfficeService {
      */
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Office : {}", id);
         officeRepository.deleteById(id);
     }
+
+	@Override
+	public OfficeDTO getOfficeByStreetId(Long id) {
+		return officeMapper.toDto(officeRepository.getOfficeByStreetId(id));
+	}
 }

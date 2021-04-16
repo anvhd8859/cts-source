@@ -135,5 +135,5 @@ public class InvoiceHeaderResource {
         Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByParams(invoiceNo, status, receiveDate, createDate, updateDate, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/search");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }
+    }    
 }

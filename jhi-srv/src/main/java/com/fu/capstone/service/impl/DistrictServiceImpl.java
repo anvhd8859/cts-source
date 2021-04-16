@@ -93,4 +93,9 @@ public class DistrictServiceImpl implements DistrictService {
 	public List<DistrictDTO> getDistrictByProvinceId(Long id) {
 		return districtMapper.toDto(districtRepository.getDistrictByProvinceId(id));
 	}
+
+	@Override
+	public DistrictDTO getDistrictByStreetId(Long id) {
+		return districtMapper.toDto(districtRepository.getDistrictByStreetId(id));
+	}
 }
