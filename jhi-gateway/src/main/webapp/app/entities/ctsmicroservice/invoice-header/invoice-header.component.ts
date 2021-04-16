@@ -141,16 +141,18 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
         return result;
     }
 
-    clearReceiveTime() {
-        this.receiveTime = null;
-    }
-
-    clearCreateTime() {
-        this.createTime = null;
-    }
-
-    clearUpdateTime() {
-        this.updateTime = null;
+    clearDatepicker(id: number) {
+        switch (id) {
+            case 1:
+                this.receiveTime = null;
+                break;
+            case 2:
+                this.createTime = null;
+                break;
+            case 3:
+                this.updateTime = null;
+                break;
+        }
     }
 
     private paginateInvoiceHeaders(data: IInvoiceHeader[], headers: HttpHeaders) {
