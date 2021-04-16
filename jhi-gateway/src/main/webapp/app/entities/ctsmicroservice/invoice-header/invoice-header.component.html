@@ -18,6 +18,11 @@
                     <input class="form-control" placeholder="yyyy-mm-dd"
                            name="receiveTime" [(ngModel)]="this.receiveTime" ngbDatepicker #a="ngbDatepicker" readonly>
                     <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="this.clearReceiveTime()" type="button">
+                        <fa-icon [icon]="'times'"></fa-icon>
+                    </button>
+                    </div>
+                    <div class="input-group-append">
                         <button class="btn btn-outline-secondary" (click)="a.toggle()" type="button">
                             <fa-icon [icon]="'calendar-alt'"></fa-icon>
                         </button>
@@ -45,6 +50,7 @@
                 <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd"
                            name="updateOn" [(ngModel)]="this.updateTime" ngbDatepicker #c="ngbDatepicker" readonly>
+                    
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
                             <fa-icon [icon]="'calendar-alt'"></fa-icon>
