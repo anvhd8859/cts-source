@@ -16,6 +16,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 	@Query( value="SELECT p FROM Payment p WHERE p.invoiceHeaderId = :invoiceHeaderId"
 			countQuery = "SELECT count(p) FROM Payment p WHERE p.invoiceHeaderId = :invoiceHeaderId", 
 			nativeQuery = true)
-	List<Payment> getPaymentByHeaderId(@Param("invoiceHeaderId") Long id);
+	Page<Payment> getPaymentByHeaderId(@Param("invoiceHeaderId") Long id,Pageable pageable);
 	// END TuyenVNT 14/04/2021
 }
