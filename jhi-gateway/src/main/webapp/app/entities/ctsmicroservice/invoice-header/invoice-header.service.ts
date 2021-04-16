@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { IUser } from 'app/core';
 
 type EntityResponseType = HttpResponse<IInvoiceHeader>;
 type EntityArrayResponseType = HttpResponse<IInvoiceHeader[]>;
@@ -55,6 +56,11 @@ export class InvoiceHeaderService {
         return this.http
             .get<IInvoiceHeader[]>(this.resourceUrl + '/search', { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
+    getLstUser(req?: any): Observable<HttpResponse<IUser[]>> {
+        const options = createRequestOption(req);
+        return this.http.get<IUser[]>(this.resourceUrl, { params: options, observe: 'response' });
     }
     // ThangND End
 
