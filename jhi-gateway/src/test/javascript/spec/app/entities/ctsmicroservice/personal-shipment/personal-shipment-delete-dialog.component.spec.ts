@@ -5,8 +5,10 @@ import { Observable, of } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { PersonalShipmentDeleteDialogComponent } from 'app/entities/ctsmicroservice/personal-shipment/personal-shipment-delete-dialog.component';
-import { PersonalShipmentService } from 'app/entities/ctsmicroservice/personal-shipment/personal-shipment.service';
+import {
+    PersonalShipmentDeleteDialogComponent,
+    PersonalShipmentService
+} from 'app/entities/ctsmicroservice/invoice-header/personal-shipment';
 
 describe('Component Tests', () => {
     describe('PersonalShipment Management Delete Component', () => {

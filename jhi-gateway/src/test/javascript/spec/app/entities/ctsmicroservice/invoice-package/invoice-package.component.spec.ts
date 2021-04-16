@@ -4,8 +4,8 @@ import { Observable, of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { InvoicePackageComponent } from 'app/entities/ctsmicroservice/invoice-package/invoice-package.component';
-import { InvoicePackageService } from 'app/entities/ctsmicroservice/invoice-package/invoice-package.service';
+import { InvoicePackageComponent } from 'app/entities/ctsmicroservice/invoice-header/invoice-package/invoice-package.component';
+import { InvoicePackageService } from 'app/entities/ctsmicroservice/invoice-header/invoice-package/invoice-package.service';
 import { InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 
 describe('Component Tests', () => {
