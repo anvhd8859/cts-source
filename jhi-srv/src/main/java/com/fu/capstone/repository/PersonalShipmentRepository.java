@@ -20,5 +20,8 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 	// END TuyenVNT 16/04/2021
 	
 	// START TuyenVNT 16/04/2021
+	@Query( value="SELECT * FROM personal_shipment WHERE employee_id is null",
+			countQuery = "SELECT count(*) FROM personal_shipment WHERE employee_id is null", 
+			nativeQuery = true)
 	// END TuyenVNT 16/04/2021
 }
