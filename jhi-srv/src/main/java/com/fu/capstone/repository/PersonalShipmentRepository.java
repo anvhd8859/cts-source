@@ -16,6 +16,6 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 	@Query( value="SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :invoiceHeaderId",
 			countQuery = "SELECT count(p) FROM PersonalShipment p WHERE p.invoiceHeaderId = :invoiceHeaderId", 
 			nativeQuery = true)
-	List<PersonalShipment> getPersonalShipmentByHeaderId(@Param("invoiceHeaderId") Long id);
+	Page<PersonalShipment> getPersonalShipmentByHeaderId(@Param("invoiceHeaderId") Long id,Pageable pageable);
 	// END TuyenVNT 14/04/2021
 }
