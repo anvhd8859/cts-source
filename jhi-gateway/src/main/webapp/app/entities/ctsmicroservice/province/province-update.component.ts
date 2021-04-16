@@ -16,7 +16,6 @@ export class ProvinceUpdateComponent implements OnInit {
     province: IProvince;
     isSaving: boolean;
     createDate: string;
-    updateDate: string;
 
     constructor(private provinceService: ProvinceService, private activatedRoute: ActivatedRoute) {}
 
@@ -24,8 +23,6 @@ export class ProvinceUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ province }) => {
             this.province = province;
-            this.createDate = this.province.createDate != null ? this.province.createDate.format(DATE_TIME_FORMAT) : null;
-            this.updateDate = this.province.updateDate != null ? this.province.updateDate.format(DATE_TIME_FORMAT) : null;
         });
     }
 
@@ -35,8 +32,8 @@ export class ProvinceUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.province.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
-        this.province.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
+        if (this.province.createDate == null) this.province.createDate = moment(new Date(), DATE_TIME_FORMAT);
+        this.province.updateDate = moment(new Date(), DATE_TIME_FORMAT);
         if (this.province.id !== undefined) {
             this.subscribeToSaveResponse(this.provinceService.update(this.province));
         } else {
