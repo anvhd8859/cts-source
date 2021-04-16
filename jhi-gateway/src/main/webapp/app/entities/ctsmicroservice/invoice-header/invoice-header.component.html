@@ -55,7 +55,11 @@
                 <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd"
                            name="updateOn" [(ngModel)]="this.updateTime" ngbDatepicker #c="ngbDatepicker" readonly>
-                    
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="this.clearUpdateTime()" type="button">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </div>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
                             <fa-icon [icon]="'calendar-alt'"></fa-icon>
