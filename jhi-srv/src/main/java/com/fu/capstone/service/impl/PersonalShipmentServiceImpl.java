@@ -92,7 +92,7 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
  	@Override
  	public Page<PersonalShipmentDTO> getPersonalShipmentByHeaderId(Long id, Pageable pageable) {
  		return personalShipmentRepository.getPersonalShipmentByHeaderId(id, pageable)
-				.map(personalShipment::toDto);
+				.map(personalShipmentMapper::toDto);
  	}
  	// END TuyenVNT 16/04/2021
 }
