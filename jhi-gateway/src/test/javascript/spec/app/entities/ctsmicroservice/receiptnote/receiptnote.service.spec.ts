@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { ReceiptnoteService } from 'app/entities/ctsmicroservice/receiptnote/receiptnote.service';
+import { ReceiptnoteService } from 'app/entities/ctsmicroservice/invoice-header/receiptnote/receiptnote.service';
 import { IReceiptnote, Receiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
 
 describe('Service Tests', () => {
