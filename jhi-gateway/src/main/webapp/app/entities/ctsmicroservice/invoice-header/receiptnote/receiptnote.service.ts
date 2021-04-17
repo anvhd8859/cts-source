@@ -14,7 +14,7 @@ type EntityArrayResponseType = HttpResponse<IReceiptnote[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ReceiptnoteService {
-    public resourceUrl = SERVER_API_URL + 'ctsmicroservice/api/receiptnotes';
+    public resourceUrl = SERVER_API_URL + 'ctsmicroservice/api/receipt-notes';
 
     constructor(private http: HttpClient) {}
 
@@ -48,6 +48,12 @@ export class ReceiptnoteService {
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
+
+    // ThangND
+    getReceiveNote(req?: any): Observable<EntityResponseType> {
+        return this.http.get<IReceiptnote>(this.resourceUrl + '/by-header', { params: req, observe: 'response' });
+    }
+    // ThangND
 
     private convertDateFromClient(receiptnote: IReceiptnote): IReceiptnote {
         const copy: IReceiptnote = Object.assign({}, receiptnote, {

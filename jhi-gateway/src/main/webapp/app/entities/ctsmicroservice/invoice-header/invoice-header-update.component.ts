@@ -13,6 +13,7 @@ import { IProvince } from 'app/shared/model/ctsmicroservice/province.model';
 import { IStreet } from 'app/shared/model/ctsmicroservice/street.model';
 import { ISubDistrict } from 'app/shared/model/ctsmicroservice/sub-district.model';
 import { JhiAlertService } from 'ng-jhipster';
+import { IUserProfile } from 'app/shared/model/user-profile.model';
 
 @Component({
     selector: 'jhi-invoice-header-update',
@@ -44,6 +45,8 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     selectedSubDistrictTo: any;
     selectedStreetTo: any;
     selectedAddressTo: any;
+    selectedUser: IUser;
+    selectedUserProfile: IUserProfile;
     lstIvnType: any = [{ id: 'Personal', text: 'Personal Shippemnt' }, { id: 'Transfer', text: 'House Transfer' }];
     lstStatus: any = [{ id: 'New', text: 'New' }, { id: 'Shipped', text: 'Shipped' }, { id: 'Cancelled', text: 'Cancelled' }];
 
@@ -98,6 +101,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 this.selectedDistrictTo.districtName +
                 ', ' +
                 this.selectedProvinceTo.provinceName;
+            this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
@@ -108,6 +112,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
             }
         } else {
+            window.scroll(0, 0);
             this.alertService.error(msg);
         }
     }
@@ -157,6 +162,12 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     }
 
     // ThangND Start
+    changeUser() {
+        this.accountService.findByUserID({ id: this.selectedUser.id }).subscribe(res => {
+            this.selectedUserProfile = res.body;
+        });
+    }
+
     changeCity(opt: any) {
         if (opt === 'from') {
             this.lstDistrictFrom = null;
