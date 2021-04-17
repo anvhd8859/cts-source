@@ -32,7 +32,9 @@ export class ProvinceUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.province.createDate == null) this.province.createDate = moment(new Date(), DATE_TIME_FORMAT);
+        if (this.province.createDate == null) {
+            this.province.createDate = moment(new Date(), DATE_TIME_FORMAT);
+        }
         this.province.updateDate = moment(new Date(), DATE_TIME_FORMAT);
         if (this.province.id !== undefined) {
             this.subscribeToSaveResponse(this.provinceService.update(this.province));
