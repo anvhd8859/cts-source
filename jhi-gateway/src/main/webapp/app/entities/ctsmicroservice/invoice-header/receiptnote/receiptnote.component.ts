@@ -4,23 +4,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
+import { IReceiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
 import { Principal } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
-import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
-import moment = require('moment');
-import { InvoiceHeaderService } from '..';
-import { NgxUiLoaderService } from 'ngx-ui-loader/';
+import { ReceiptnoteService } from './receiptnote.service';
 
 @Component({
-    selector: 'jhi-personal-shipment',
-    templateUrl: './personal-shipment.component.html'
+    selector: 'jhi-receiptnote',
+    templateUrl: './receiptnote.component.html'
 })
-export class PersonalShipmentComponent implements OnInit, OnDestroy {
+export class ReceiptnoteComponent implements OnInit, OnDestroy {
     currentAccount: any;
-    invoiceHeaders: IInvoiceHeader[];
-    personalShipments: IPersonalShipment[];
+    receiptnotes: IReceiptnote[];
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -33,21 +29,15 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
-    selectedTypeShipment: any;
-    listTypeShipment: any = [{ id: 'collect', text: 'Lấy hàng' }, { id: 'delivery', text: 'Giao hàng' }];
-    collectAddress: any;
-    shipAddress: any;
-    selectedInvoiceNumber: any;
 
     constructor(
-        private invoiceHeaderService: InvoiceHeaderService,
+        private receiptnoteService: ReceiptnoteService,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private eventManager: JhiEventManager,
-        private ngxUiLoaderService: NgxUiLoaderService
+        private eventManager: JhiEventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -59,24 +49,16 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.ngxUiLoaderService.start();
-        const param = {
-            invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
-            type: this.selectedTypeShipment ? this.selectedTypeShipment : '',
-            page: this.page - 1,
-            size: this.itemsPerPage,
-            sort: this.sort()
-        };
-        this.invoiceHeaderService.searchInvoiceByStatus(param).subscribe(
-            (res: HttpResponse<IInvoiceHeader[]>) => {
-                this.paginateInvoiceHeaders(res.body, res.headers);
-                this.ngxUiLoaderService.stop();
-            },
-            (res: HttpErrorResponse) => {
-                this.onError(res.message);
-                this.ngxUiLoaderService.stop();
-            }
-        );
+        this.receiptnoteService
+            .query({
+                page: this.page - 1,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<IReceiptnote[]>) => this.paginateReceiptnotes(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     loadPage(page: number) {
@@ -87,7 +69,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     }
 
     transition() {
-        this.router.navigate(['/personal-shipment'], {
+        this.router.navigate(['/receiptnote'], {
             queryParams: {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -100,7 +82,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     clear() {
         this.page = 0;
         this.router.navigate([
-            '/personal-shipment',
+            '/receiptnote',
             {
                 page: this.page,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
@@ -114,19 +96,19 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
         this.principal.identity().then(account => {
             this.currentAccount = account;
         });
-        this.registerChangeInPersonalShipments();
+        this.registerChangeInReceiptnotes();
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: IPersonalShipment) {
+    trackId(index: number, item: IReceiptnote) {
         return item.id;
     }
 
-    registerChangeInPersonalShipments() {
-        this.eventSubscriber = this.eventManager.subscribe('personalShipmentListModification', response => this.loadAll());
+    registerChangeInReceiptnotes() {
+        this.eventSubscriber = this.eventManager.subscribe('receiptnoteListModification', response => this.loadAll());
     }
 
     sort() {
@@ -137,11 +119,11 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
         return result;
     }
 
-    private paginateInvoiceHeaders(data: IInvoiceHeader[], headers: HttpHeaders) {
+    private paginateReceiptnotes(data: IReceiptnote[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.queryCount = this.totalItems;
-        this.invoiceHeaders = data;
+        this.receiptnotes = data;
     }
 
     private onError(errorMessage: string) {
