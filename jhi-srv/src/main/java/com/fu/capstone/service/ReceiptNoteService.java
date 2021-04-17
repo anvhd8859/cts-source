@@ -43,4 +43,6 @@ public interface ReceiptNoteService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+	Optional<ReceiptNoteDTO> getReceiptNoteByHeaderId(Long id);
 }
