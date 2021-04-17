@@ -4,8 +4,8 @@ import { HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { ReceiptnoteUpdateComponent } from 'app/entities/ctsmicroservice/receiptnote/receiptnote-update.component';
-import { ReceiptnoteService } from 'app/entities/ctsmicroservice/receiptnote/receiptnote.service';
+import { ReceiptnoteUpdateComponent } from 'app/entities/ctsmicroservice/invoice-header/receiptnote/receiptnote-update.component';
+import { ReceiptnoteService } from 'app/entities/ctsmicroservice/invoice-header/receiptnote/receiptnote.service';
 import { Receiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
 
 describe('Component Tests', () => {
