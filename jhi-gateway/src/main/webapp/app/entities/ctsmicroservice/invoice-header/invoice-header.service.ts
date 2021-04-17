@@ -15,6 +15,7 @@ type EntityArrayResponseType = HttpResponse<IInvoiceHeader[]>;
 
 @Injectable({ providedIn: 'root' })
 export class InvoiceHeaderService {
+    public userResourceUrl = SERVER_API_URL + 'api/users';
     public resourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-headers';
 
     constructor(private http: HttpClient) {}
@@ -60,7 +61,7 @@ export class InvoiceHeaderService {
 
     getLstUser(req?: any): Observable<HttpResponse<IUser[]>> {
         const options = createRequestOption(req);
-        return this.http.get<IUser[]>(this.resourceUrl, { params: options, observe: 'response' });
+        return this.http.get<IUser[]>(this.userResourceUrl, { params: options, observe: 'response' });
     }
     // ThangND End
 
