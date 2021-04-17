@@ -157,7 +157,7 @@
                                             name="province"
                                             [ngModelOptions]="{standalone: true}"
                                             [(ngModel)]="this.selectedProvinceTo"
-                                            (change)="this.changeCity()"
+                                            (change)="this.changeCity('to')"
                                             >
                                     <ng-option *ngFor="let item of lstProvinceTo">{{item.provinceName}}</ng-option>
                                 </ng-select>
@@ -174,7 +174,7 @@
                                             name="district"
                                             [ngModelOptions]="{standalone: true}"
                                             [(ngModel)]="this.selectedDistrictTo"
-                                            (change)="this.changeDistrict()"
+                                            (change)="this.changeDistrict('to')"
                                             [disabled]="!this.selectedProvinceTo"
                                             >
                                     <ng-option *ngFor="let item of lstDistrictTo">{{item.districtName}}</ng-option>
@@ -194,7 +194,7 @@
                                             name="subDistrict"
                                             [ngModelOptions]="{standalone: true}"
                                             [(ngModel)]="this.selectedSubDistrictTo"
-                                            (change)="this.changeSubDistrict()"
+                                            (change)="this.changeSubDistrict('to')"
                                             [disabled]="!this.selectedDistrictTo"
                                             >
                                     <ng-option *ngFor="let item of lstSubDistrictTo">{{item.subDistrictName}}</ng-option>
