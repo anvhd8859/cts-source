@@ -34,8 +34,10 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 	
 	@Query( value = "SELECT i.* FROM invoice_header i, personal_shipment ps, employee e, person p "
 				  + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = e.id AND e.person_id = p.id AND p.email = :userName "
-				  + " AND ps.status <> 'finish' AND (ps.shipment_type = '' OR ps.shipment_type = :type) ",
+				  + " AND ps.status <> 'finish' "
+				  + " AND (ps.shipment_type = '' OR ps.shipment_type = :type) "
+				  + " AND (i.invoice_no = '' OR i.invoice_no like '%:invNo%')",
 				  nativeQuery = true)
-	Page<InvoiceHeader> getInvoiceHeadersByShipperId (@Param("userName") String userName, @Param("type")  String type, Pageable pageable );
+	Page<InvoiceHeader> getInvoiceHeadersByShipperId (@Param("userName") String userName, @Param("invNo") String invNo, @Param("type") String type, Pageable pageable );
 
 }
