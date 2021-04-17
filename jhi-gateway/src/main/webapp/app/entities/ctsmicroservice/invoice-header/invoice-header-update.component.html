@@ -4,7 +4,7 @@
             <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading">Create Invoice</h2>
             <h2 *ngIf="this.invoiceHeader.id"> Edit Invoice: <b>{{this.invoiceHeader.invoiceNo}}</b></h2>
             <br>
-            <div>
+            <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
                 <jhi-alert></jhi-alert>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="divider"></div>
@@ -25,8 +25,27 @@
                             <ng-option *ngFor="let item of lstUser">{{item.email}}</ng-option>
                         </ng-select>
                     </div>
+                    <br>
+                    <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="form-control-label" for="">Information</label>
                     <div *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="col-lg-12">
-
+                        <table class="table">
+                            <tr>
+                                <th class="text-left">Full Name</th>
+                                <td class="text-left" >{{this.selectedUser.firstName + ' ' +this.selectedUser.lastName}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Gender</th>
+                                <td class="text-left" >{{this.selectedUserProfile.gender}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Phone Number</th>
+                                <td class="text-left" >{{this.selectedUserProfile.phoneNumber}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Address</th>
+                                <td class="text-left" >{{this.selectedUserProfile.address}}</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
                 <br>
@@ -86,7 +105,7 @@
                 </div>
                 <br>
                 <div class="divider"></div>
-                <div class="row">
+                <div class="row" *ngIf="!this.invoiceHeader.id">
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <label class="form-control-label" for="from-address"><b>From Address</b></label>
                         <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 5%;">
@@ -277,6 +296,34 @@
                         </div>
                     </div>
                 </div>
+                <div class="row" *ngIf="this.invoiceHeader.id">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <label class="form-control-label" for="addressFrom"><b>From Address</b></label>
+                        <div class="form-group">
+                            <textarea class="form-control" 
+                                style="resize: none;"
+                                rows="3"
+                                id="addressFrom" 
+                                name="addressFrom" 
+                                [(ngModel)]="this.invoiceHeader.startAddress"
+                            >
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <label class="form-control-label" for="addressTo"><b>To Address</b></label>
+                        <div class="form-group">
+                            <textarea class="form-control" 
+                                style="resize: none;"
+                                rows="3"
+                                id="addressTo" 
+                                name="addressTo" 
+                                [(ngModel)]="this.invoiceHeader.destinationAddress"
+                            >
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
                 <br>
 
                 <div *ngIf="this.invoiceHeader.id" class="form-group">
@@ -287,13 +334,19 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_updateDate">Update Date</label>
+                <div *ngIf="this.invoiceHeader.id" class="form-group">
+                    <label class="form-control-label" for="field_createDate">Create Date</label>
                     <div class="d-flex">
-                        <input id="field_updateDate" type="datetime-local" class="form-control" name="updateDate" [(ngModel)]="updateDate"
+                        <input id="field_createDate" type="datetime-local" class="form-control" name="updateDate" [(ngModel)]="createDate"
                         />
                     </div>
                 </div>
+            </div>
+            <div *jhiHasAnyAuthority="'ROLE_USER'">
+                <jhi-alert></jhi-alert>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="divider"></div>
+                asdawdsa
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
