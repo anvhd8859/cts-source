@@ -10,7 +10,7 @@ import { CtsgatewayInvoiceHeaderModule as CtsmicroserviceInvoiceHeaderModule } f
 import { CtsgatewayInvoiceDetailsModule as CtsmicroserviceInvoiceDetailsModule } from './ctsmicroservice/invoice-header/invoice-details/invoice-details.module';
 import { CtsgatewayPersonalShipmentModule as CtsmicroservicePersonalShipmentModule } from './ctsmicroservice/invoice-header/personal-shipment/personal-shipment.module';
 import { CtsgatewayTransferPackingModule as CtsmicroserviceTransferPackingModule } from './ctsmicroservice/invoice-header/transfer-packing/transfer-packing.module';
-import { CtsgatewayReceiptnoteModule as CtsmicroserviceReceiptnoteModule } from './ctsmicroservice/receiptnote/receiptnote.module';
+import { CtsgatewayReceiptnoteModule as CtsmicroserviceReceiptnoteModule } from 'app/entities/ctsmicroservice/invoice-header/receiptnote/receiptnote.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
