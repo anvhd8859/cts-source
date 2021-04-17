@@ -117,7 +117,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	}
 
 	@Override
-	public Page<InvoiceHeaderDTO> getInvoiceHeadersByShipperId(String userName, String invNo, String type, Pageable pageable) {
-		return invoiceHeaderRepository.getInvoiceHeadersByShipperId(userName, invNo, type, pageable).map(invoiceHeaderMapper::toDto);
+	public Page<InvoiceHeaderDTO> getInvoiceHeadersByShipper(String userName, String invNo, String type, Pageable pageable) {
+		return invoiceHeaderRepository.getInvoiceHeadersByShipper(userName, invNo, type, pageable).map(invoiceHeaderMapper::toDto);
 	}
 }
