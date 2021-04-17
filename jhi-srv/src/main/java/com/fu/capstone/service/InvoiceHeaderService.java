@@ -51,4 +51,6 @@ public interface InvoiceHeaderService {
 
     // DongPH code
 	  InvoiceHeaderDTO createNewInvoice(InvoiceHeaderDTO invoiceHeaderDTO);
+
+	Page<InvoiceHeaderDTO> getInvoiceHeadersByShipperId(String userName, String type, Pageable pageable);
 }
