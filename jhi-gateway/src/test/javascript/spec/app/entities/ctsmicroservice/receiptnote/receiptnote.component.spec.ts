@@ -5,8 +5,8 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Data } from '@angular/router';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { ReceiptnoteComponent } from 'app/entities/ctsmicroservice/receiptnote/receiptnote.component';
-import { ReceiptnoteService } from 'app/entities/ctsmicroservice/receiptnote/receiptnote.service';
+import { ReceiptnoteComponent } from 'app/entities/ctsmicroservice/invoice-header/receiptnote/receiptnote.component';
+import { ReceiptnoteService } from 'app/entities/ctsmicroservice/invoice-header/receiptnote/receiptnote.service';
 import { Receiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
 
 describe('Component Tests', () => {
