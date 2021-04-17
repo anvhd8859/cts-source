@@ -70,6 +70,10 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             this.lstUser = res[0].body.filter(e => e.authorities.filter(i => i === 'ROLE_USER'));
             this.lstProvinceFrom = res[1].body;
             this.lstProvinceTo = res[1].body;
+            if (this.invoiceHeader.id) {
+                this.selectedUser = this.lstUser.find(e => e.id === this.invoiceHeader.customerId);
+                this.changeUser();
+            }
         });
     }
 
@@ -81,26 +85,28 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         const msg = this.validateInput();
         if (msg === '') {
             this.isSaving = true;
-            this.invoiceHeader.startAddress =
-                this.selectedAddressFrom +
-                ' | ' +
-                this.selectedStreetFrom.streetName +
-                ', ' +
-                this.selectedSubDistrictFrom.subDistrictName +
-                ', ' +
-                this.selectedDistrictFrom.districtName +
-                ', ' +
-                this.selectedProvinceFrom.provinceName;
-            this.invoiceHeader.destinationAddress =
-                this.selectedAddressTo +
-                ' | ' +
-                this.selectedStreetTo.streetName +
-                ', ' +
-                this.selectedSubDistrictTo.subDistrictName +
-                ', ' +
-                this.selectedDistrictTo.districtName +
-                ', ' +
-                this.selectedProvinceTo.provinceName;
+            if (!this.invoiceHeader.id) {
+                this.invoiceHeader.startAddress =
+                    this.selectedAddressFrom +
+                    ' | ' +
+                    (this.selectedStreetFrom ? this.selectedStreetFrom.streetName : '') +
+                    ', ' +
+                    (this.selectedSubDistrictFrom ? this.selectedSubDistrictFrom.subDistrictName : '') +
+                    ', ' +
+                    (this.selectedDistrictFrom ? this.selectedDistrictFrom.districtName : '') +
+                    ', ' +
+                    (this.selectedProvinceFrom ? this.selectedProvinceFrom.provinceName : '');
+                this.invoiceHeader.destinationAddress =
+                    this.selectedAddressTo +
+                    ' | ' +
+                    (this.selectedStreetTo ? this.selectedStreetTo.streetName : '') +
+                    ', ' +
+                    (this.selectedSubDistrictTo ? this.selectedSubDistrictTo.subDistrictName : '') +
+                    ', ' +
+                    (this.selectedDistrictTo ? this.selectedDistrictTo.districtName : '') +
+                    ', ' +
+                    (this.selectedProvinceTo ? this.selectedProvinceTo.provinceName : '');
+            }
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
@@ -119,34 +125,38 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
 
     validateInput(): string {
         let msg = '';
-        if (!this.selectedAddressFrom || this.selectedAddressFrom.trim() === '') {
+        if ((!this.selectedAddressFrom || this.selectedAddressFrom.trim() === '') && !this.invoiceHeader.id) {
+            msg += 'From Address must not be blank! <br>';
+        } else if (!this.invoiceHeader.startAddress || this.invoiceHeader.startAddress.trim() === '') {
             msg += 'From Address must not be blank! <br>';
         }
-        if (!this.selectedStreetFrom) {
+        if (!this.selectedStreetFrom && !this.invoiceHeader.id) {
             msg += 'From Street must not be blank! <br>';
         }
-        if (!this.selectedSubDistrictFrom) {
+        if (!this.selectedSubDistrictFrom && !this.invoiceHeader.id) {
             msg += 'From Ward/Commune must not be blank! <br>';
         }
-        if (!this.selectedDistrictFrom) {
+        if (!this.selectedDistrictFrom && !this.invoiceHeader.id) {
             msg += 'From District must not be blank! <br>';
         }
-        if (!this.selectedProvinceFrom) {
+        if (!this.selectedProvinceFrom && !this.invoiceHeader.id) {
             msg += 'From Province/City must not be blank! <br>';
         }
-        if (!this.selectedAddressTo || this.selectedAddressTo.trim() === '') {
+        if ((!this.selectedAddressTo || this.selectedAddressTo.trim() === '') && !this.invoiceHeader.id) {
+            msg += 'To Address must not be blank! <br>';
+        } else if (!this.invoiceHeader.destinationAddress || this.invoiceHeader.destinationAddress.trim() === '') {
             msg += 'To Address must not be blank! <br>';
         }
-        if (!this.selectedStreetTo) {
+        if (!this.selectedStreetTo && !this.invoiceHeader.id) {
             msg += 'To Street must not be blank! <br>';
         }
-        if (!this.selectedSubDistrictTo) {
+        if (!this.selectedSubDistrictTo && !this.invoiceHeader.id) {
             msg += 'To Ward/Commune must not be blank! <br>';
         }
-        if (!this.selectedDistrictTo) {
+        if (!this.selectedDistrictTo && !this.invoiceHeader.id) {
             msg += 'To District must not be blank! <br>';
         }
-        if (!this.selectedProvinceTo) {
+        if (!this.selectedProvinceTo && !this.invoiceHeader.id) {
             msg += 'To Province/City must not be blank! <br>';
         }
         if (!this.invoiceHeader.customerId) {
