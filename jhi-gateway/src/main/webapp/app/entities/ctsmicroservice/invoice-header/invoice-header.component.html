@@ -153,12 +153,12 @@
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'invoice-header/'+ invoiceHeader.id + '/delete'} }]"
+                                [routerLink]="['/receiptnote', invoiceHeader.id, 'view']"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
+                                class="btn btn-success btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">Receive Note</span>
                         </button>
                     </div>
                 </td>

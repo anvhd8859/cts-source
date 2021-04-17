@@ -87,4 +87,10 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
         log.debug("Request to delete ReceiptNote : {}", id);
         receiptNoteRepository.deleteById(id);
     }
+
+	@Override
+	public Optional<ReceiptNoteDTO> getReceiptNoteByHeaderId(Long id) {
+		return receiptNoteRepository.getReceiptNoteByHeaderId(id)
+	            .map(receiptNoteMapper::toDto);
+	}
 }
