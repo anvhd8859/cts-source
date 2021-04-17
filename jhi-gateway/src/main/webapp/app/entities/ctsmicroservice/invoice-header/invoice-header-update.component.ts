@@ -45,6 +45,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     selectedSubDistrictTo: any;
     selectedStreetTo: any;
     selectedAddressTo: any;
+    selectedUser: IUser;
     selectedUserProfile: IUserProfile;
     lstIvnType: any = [{ id: 'Personal', text: 'Personal Shippemnt' }, { id: 'Transfer', text: 'House Transfer' }];
     lstStatus: any = [{ id: 'New', text: 'New' }, { id: 'Shipped', text: 'Shipped' }, { id: 'Cancelled', text: 'Cancelled' }];
@@ -100,6 +101,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 this.selectedDistrictTo.districtName +
                 ', ' +
                 this.selectedProvinceTo.provinceName;
+            this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
@@ -160,6 +162,12 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     }
 
     // ThangND Start
+    changeUser() {
+        this.accountService.findByUserID({ id: this.selectedUser.id }).subscribe(res => {
+            this.selectedUserProfile = res.body;
+        });
+    }
+
     changeCity(opt: any) {
         if (opt === 'from') {
             this.lstDistrictFrom = null;
