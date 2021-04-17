@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { ReceiptnoteDeleteDialogComponent } from 'app/entities/ctsmicroservice/receiptnote/receiptnote-delete-dialog.component';
-import { ReceiptnoteService } from 'app/entities/ctsmicroservice/receiptnote/receiptnote.service';
+import { ReceiptnoteDeleteDialogComponent } from 'app/entities/ctsmicroservice/invoice-header/receiptnote/receiptnote-delete-dialog.component';
+import { ReceiptnoteService } from 'app/entities/ctsmicroservice/invoice-header/receiptnote/receiptnote.service';
 
 describe('Component Tests', () => {
     describe('Receiptnote Management Delete Component', () => {
