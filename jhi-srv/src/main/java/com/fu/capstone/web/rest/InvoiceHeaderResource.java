@@ -141,10 +141,10 @@ public class InvoiceHeaderResource {
     
     @GetMapping("/invoice-headers/by-shipper")
     @Timed
-    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersByShipperId(@RequestParam("type") String type, Pageable pageable) {
+    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersByShipperId(@RequestParam("invNo") String invNo, @RequestParam("type") String type, Pageable pageable) {
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	String userName = ((User) authentication.getPrincipal()).getUsername();
-    	Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByShipperId(userName, type, pageable);
+    	Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByShipperId(userName, invNo, type, pageable);
         return new ResponseEntity<>(page.getContent(), HttpStatus.OK);
     }   
 }
