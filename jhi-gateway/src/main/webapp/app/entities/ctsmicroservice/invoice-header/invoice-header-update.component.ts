@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, from, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
@@ -12,6 +12,7 @@ import { IDistrict } from 'app/shared/model/ctsmicroservice/district.model';
 import { IProvince } from 'app/shared/model/ctsmicroservice/province.model';
 import { IStreet } from 'app/shared/model/ctsmicroservice/street.model';
 import { ISubDistrict } from 'app/shared/model/ctsmicroservice/sub-district.model';
+import { JhiAlertService } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-invoice-header-update',
@@ -49,7 +50,8 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
         private accountService: AccountService,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private alertService: JhiAlertService
     ) {}
 
     ngOnInit() {
@@ -73,16 +75,85 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     }
 
     save() {
-        this.isSaving = true;
-        this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
-        this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
-        this.invoiceHeader.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
-        this.invoiceHeader.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
-        if (this.invoiceHeader.id !== undefined) {
-            this.subscribeToSaveResponse(this.invoiceHeaderService.update(this.invoiceHeader));
+        const msg = this.validateInput();
+        if (msg === '') {
+            this.isSaving = true;
+            this.invoiceHeader.startAddress =
+                this.selectedAddressFrom +
+                ' | ' +
+                this.selectedStreetFrom.streetName +
+                ', ' +
+                this.selectedSubDistrictFrom.subDistrictName +
+                ', ' +
+                this.selectedDistrictFrom.districtName +
+                ', ' +
+                this.selectedProvinceFrom.provinceName;
+            this.invoiceHeader.destinationAddress =
+                this.selectedAddressTo +
+                ' | ' +
+                this.selectedStreetTo.streetName +
+                ', ' +
+                this.selectedSubDistrictTo.subDistrictName +
+                ', ' +
+                this.selectedDistrictTo.districtName +
+                ', ' +
+                this.selectedProvinceTo.provinceName;
+            this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
+            this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
+            this.invoiceHeader.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
+            this.invoiceHeader.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
+            if (this.invoiceHeader.id !== undefined) {
+                this.subscribeToSaveResponse(this.invoiceHeaderService.update(this.invoiceHeader));
+            } else {
+                this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
+            }
         } else {
-            this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
+            this.alertService.error(msg);
         }
+    }
+
+    validateInput(): string {
+        let msg = '';
+        if (!this.selectedAddressFrom || this.selectedAddressFrom.trim() === '') {
+            msg += 'From Address must not be blank! <br>';
+        }
+        if (!this.selectedStreetFrom) {
+            msg += 'From Street must not be blank! <br>';
+        }
+        if (!this.selectedSubDistrictFrom) {
+            msg += 'From Ward/Commune must not be blank! <br>';
+        }
+        if (!this.selectedDistrictFrom) {
+            msg += 'From District must not be blank! <br>';
+        }
+        if (!this.selectedProvinceFrom) {
+            msg += 'From Province/City must not be blank! <br>';
+        }
+        if (!this.selectedAddressTo || this.selectedAddressTo.trim() === '') {
+            msg += 'To Address must not be blank! <br>';
+        }
+        if (!this.selectedStreetTo) {
+            msg += 'To Street must not be blank! <br>';
+        }
+        if (!this.selectedSubDistrictTo) {
+            msg += 'To Ward/Commune must not be blank! <br>';
+        }
+        if (!this.selectedDistrictTo) {
+            msg += 'To District must not be blank! <br>';
+        }
+        if (!this.selectedProvinceTo) {
+            msg += 'To Province/City must not be blank! <br>';
+        }
+        if (!this.invoiceHeader.customerId) {
+            msg += 'Customer must not be blank! <br>';
+        }
+        if (!this.invoiceHeader.invoiceType) {
+            msg += 'Type of Invoice must not be blank! <br>';
+        }
+        if (!this.invoiceHeader.status) {
+            msg += 'Status of Invoice must not be blank! <br>';
+        }
+        return msg;
     }
 
     // ThangND Start
