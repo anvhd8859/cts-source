@@ -1,13 +1,19 @@
 <div>
-    <h2 id="page-heading">
-        <span>Invoice Headers</span>
-        <!-- <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-invoice-header" [routerLink]="['/invoice-header/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-            Create new Invoice Header
-            </span>
-        </button> -->
-    </h2>
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-md-12">
+            <h2 id="page-heading">
+                <span>Invoice Headers</span>
+            </h2>
+        </div>
+        <div class="col-lg-6 col-md-12 col-md-12">
+            <button type="submit"
+                    routerLink="new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    class="btn btn-primary float-right">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                <span class="d-none d-md-inline">Create New Invoice</span>
+            </button>
+        </div>
+    </div>
     <jhi-alert></jhi-alert>
     <br/>
     <div class="row">
