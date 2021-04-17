@@ -85,4 +85,13 @@ export class InvoiceHeaderService {
         });
         return res;
     }
+
+    // AnhVD start
+    searchInvoiceByStatus(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IInvoiceHeader[]>(this.resourceUrl + '/by-shipper', { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+    // AnhVD end
 }
