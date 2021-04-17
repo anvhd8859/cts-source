@@ -7,6 +7,7 @@
             <div>
                 <jhi-alert></jhi-alert>
                 <jhi-alert-error></jhi-alert-error>
+                <div class="divider"></div>
                 <label class="form-control-label" for="from-address"><b>Customer Information</b></label>
                 <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                     <div class="form-group">
@@ -15,15 +16,23 @@
                                     [hideSelected]="true"
                                     [items]="this.lstUser"
                                     bindLabel="email"
-                                    bindValue="id"
                                     id="field_customerId"
                                     name="field_customerId"
                                     [ngModelOptions]="{standalone: true}"
-                                    [(ngModel)]="this.invoiceHeader.customerId"
+                                    [(ngModel)]="this.selectedUser"
+                                    (change)="this.changeUser()"
                                 >
                             <ng-option *ngFor="let item of lstUser">{{item.email}}</ng-option>
                         </ng-select>
                     </div>
+                    <div *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="col-lg-12">
+
+                    </div>
+                </div>
+                <br>
+                <div class="divider"></div>
+                <label class="form-control-label" for="from-address"><b>Invoice Information</b></label>
+                <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">                  
                     <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
@@ -60,8 +69,23 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group">
+                                <label class="form-control-label" for="customerNote">Customer Note</label>
+                                <textarea class="form-control" 
+                                    style="resize: none;"
+                                    rows="3"
+                                    id="customerNote" 
+                                    name="customerNote" 
+                                    [(ngModel)]="this.invoiceHeader.note"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <br>
+                <div class="divider"></div>
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <label class="form-control-label" for="from-address"><b>From Address</b></label>
@@ -254,12 +278,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_note">Note</label>
-                    <input type="text" class="form-control" name="note" id="field_note"
-                        [(ngModel)]="invoiceHeader.note" />
-                </div>
-                
+
                 <div *ngIf="this.invoiceHeader.id" class="form-group">
                     <label class="form-control-label" for="field_dueDate">Due Date</label>
                     <div class="d-flex">

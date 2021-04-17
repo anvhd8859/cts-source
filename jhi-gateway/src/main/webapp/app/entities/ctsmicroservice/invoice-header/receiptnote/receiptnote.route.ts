@@ -26,6 +26,18 @@ export class ReceiptnoteResolve implements Resolve<IReceiptnote> {
     }
 }
 
+export class InvoiceHeaderResolve implements Resolve<IReceiptnote> {
+    constructor(private service: ReceiptnoteService) {}
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const id = route.params['id'] ? route.params['id'] : null;
+        if (id) {
+            return this.service.getReceiveNote(id).pipe(map((receiptnote: HttpResponse<Receiptnote>) => receiptnote.body));
+        }
+        return of(new Receiptnote());
+    }
+}
+
 export const receiptnoteRoute: Routes = [
     {
         path: 'receiptnote',
