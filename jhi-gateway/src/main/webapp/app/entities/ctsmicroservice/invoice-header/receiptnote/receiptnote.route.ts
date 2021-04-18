@@ -54,18 +54,6 @@ export const receiptnoteRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'receiptnote/:id/view',
-        component: ReceiptnoteDetailComponent,
-        resolve: {
-            receiptnote: InvoiceHeaderResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'Receiptnotes'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
         path: 'receiptnote/new',
         component: ReceiptnoteUpdateComponent,
         resolve: {
@@ -86,6 +74,30 @@ export const receiptnoteRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Receiptnotes'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'receiptnote/:id/view',
+        component: ReceiptnoteDetailComponent,
+        resolve: {
+            receiptnote: InvoiceHeaderResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Receive Note'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'receiptnote/:id/new-receive',
+        component: ReceiptnoteUpdateComponent,
+        resolve: {
+            receiptnote: InvoiceHeaderResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Receive Note'
         },
         canActivate: [UserRouteAccessService]
     }
