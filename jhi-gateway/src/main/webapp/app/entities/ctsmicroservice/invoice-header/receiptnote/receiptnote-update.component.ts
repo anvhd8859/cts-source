@@ -5,8 +5,9 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
-import { IReceiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
+import { IReceiptnote, Receiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
 import { ReceiptnoteService } from './receiptnote.service';
+import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 
 @Component({
     selector: 'jhi-receiptnote-update',
@@ -14,6 +15,7 @@ import { ReceiptnoteService } from './receiptnote.service';
 })
 export class ReceiptnoteUpdateComponent implements OnInit {
     receiptnote: IReceiptnote;
+    invoiceHeader: IInvoiceHeader;
     isSaving: boolean;
     createDate: string;
     updateDate: string;
@@ -23,9 +25,19 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ receiptnote }) => {
-            this.receiptnote = receiptnote;
+            if (receiptnote !== undefined) {
+                this.receiptnote = receiptnote;
+            } else {
+                this.receiptnote = new Receiptnote();
+            }
             this.createDate = this.receiptnote.createDate != null ? this.receiptnote.createDate.format(DATE_TIME_FORMAT) : null;
             this.updateDate = this.receiptnote.updateDate != null ? this.receiptnote.updateDate.format(DATE_TIME_FORMAT) : null;
+        });
+        this.activatedRoute.data.subscribe(({ invoiceHeader }) => {
+            if (invoiceHeader !== undefined) {
+                this.invoiceHeader = invoiceHeader;
+                this.receiptnote.invoiceHeaderId = this.invoiceHeader.id;
+            }
         });
     }
 
@@ -35,8 +47,9 @@ export class ReceiptnoteUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.receiptnote.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
-        this.receiptnote.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
+        this.receiptnote.createDate =
+            this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : moment(new Date(), DATE_TIME_FORMAT);
+        this.receiptnote.updateDate = moment(new Date(), DATE_TIME_FORMAT);
         if (this.receiptnote.id !== undefined) {
             this.subscribeToSaveResponse(this.receiptnoteService.update(this.receiptnote));
         } else {
