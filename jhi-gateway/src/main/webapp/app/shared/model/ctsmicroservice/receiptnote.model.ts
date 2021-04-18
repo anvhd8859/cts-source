@@ -11,6 +11,7 @@ export interface IReceiptnote {
 }
 
 export class Receiptnote implements IReceiptnote {
+    constructor();
     constructor(
         public id?: number,
         public employeeId?: number,
