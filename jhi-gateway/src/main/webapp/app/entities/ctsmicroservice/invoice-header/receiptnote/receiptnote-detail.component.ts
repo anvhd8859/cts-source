@@ -11,6 +11,7 @@ import { IReceiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model
 export class ReceiptnoteDetailComponent implements OnInit {
     receiptnote: IReceiptnote;
     currentUser: IUser;
+    id: number;
 
     constructor(private activatedRoute: ActivatedRoute, private principal: Principal, private router: Router) {}
 
@@ -21,6 +22,7 @@ export class ReceiptnoteDetailComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ receiptnote }) => {
             this.receiptnote = receiptnote;
         });
+        this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     }
 
     previousState() {
