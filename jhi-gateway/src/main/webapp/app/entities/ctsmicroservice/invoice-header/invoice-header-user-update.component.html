@@ -1,9 +1,8 @@
 <div class="row justify-content-center">
     <div class="col-10">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">    
-            <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
-            <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading">Create Invoice</h2>
-            <h2 *ngIf="this.invoiceHeader.id"> Edit Invoice: <b>{{this.invoiceHeader.invoiceNo}}</b></h2>
+            <div *jhiHasAnyAuthority="'ROLE_USER'">
+            <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading">Service Type</h2>
             <br>
                 <jhi-alert></jhi-alert>
                 <jhi-alert-error></jhi-alert-error>
@@ -12,7 +11,7 @@
                 <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                     <div class="form-group">
                         <label class="form-control-label" for="field_customerId">Customer</label>
-                        <ng-select  [clearable]="true"
+                        <!-- <ng-select  [clearable]="true"
                                     [hideSelected]="true"
                                     [items]="this.lstUser"
                                     bindLabel="email"
@@ -21,9 +20,16 @@
                                     [ngModelOptions]="{standalone: true}"
                                     [(ngModel)]="this.selectedUser"
                                     (change)="this.changeUser()"
+                                    readonly
                                 >
                             <ng-option *ngFor="let item of lstUser">{{item.email}}</ng-option>
-                        </ng-select>
+                        </ng-select> -->
+                        <input  type="text" 
+                                class="form-control"
+                                [ngModelOptions]="{standalone: true}" 
+                                [(ngModel)]="this.selectedUser.email" 
+                                value="{{this.selectedUser.email}}"
+                                readonly>
                     </div>
                     <br>
                     <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="form-control-label" for="">Information</label>
@@ -55,7 +61,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label class="form-control-label" for="field_invoiceType">Invoice Type</label>
+                                <label class="form-control-label" for="field_invoiceType">Service Type</label>
                                 <ng-select  [clearable]="false"
                                             [hideSelected]="true"
                                             [items]="this.lstIvnType"
@@ -67,23 +73,6 @@
                                             [(ngModel)]="this.invoiceHeader.invoiceType"
                                         >
                                     <ng-option *ngFor="let item of lstIvnType">{{item.text}}</ng-option>
-                                </ng-select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12">
-                            <div class="form-group">
-                                <label class="form-control-label" for="field_status">Status</label>
-                                <ng-select  [clearable]="false"
-                                            [hideSelected]="true"
-                                            [items]="this.lstStatus"
-                                            bindLabel="text"
-                                            bindValue="id"
-                                            id="field_status"
-                                            name="field_status"
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.invoiceHeader.status"
-                                        >
-                                    <ng-option *ngFor="let item of lstStatus">{{item.text}}</ng-option>
                                 </ng-select>
                             </div>
                         </div>
@@ -342,14 +331,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div *jhiHasAnyAuthority="'ROLE_USER'">
-                <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading">1. Select Service</h2>
-                <h2 *ngIf="this.invoiceHeader.id">Invoice: <b>{{this.invoiceHeader.invoiceNo}}</b></h2>
-                <br>
-                <jhi-alert></jhi-alert>
-                <jhi-alert-error></jhi-alert-error>
-                <div class="divider"></div>
-            </div> -->
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
