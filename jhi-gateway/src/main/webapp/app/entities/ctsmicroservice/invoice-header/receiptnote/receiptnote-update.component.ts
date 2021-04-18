@@ -8,6 +8,7 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { IReceiptnote, Receiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
 import { ReceiptnoteService } from './receiptnote.service';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { IUser, Principal } from 'app/core';
 
 @Component({
     selector: 'jhi-receiptnote-update',
@@ -19,8 +20,9 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     isSaving: boolean;
     createDate: string;
     updateDate: string;
+    currentUser: IUser;
 
-    constructor(private receiptnoteService: ReceiptnoteService, private activatedRoute: ActivatedRoute) {}
+    constructor(private receiptnoteService: ReceiptnoteService, private activatedRoute: ActivatedRoute, private principal: Principal) {}
 
     ngOnInit() {
         this.isSaving = false;
@@ -38,6 +40,10 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                 this.invoiceHeader = invoiceHeader;
                 this.receiptnote.invoiceHeaderId = this.invoiceHeader.id;
             }
+        });
+        this.principal.identity().then(account => {
+            this.currentUser = account;
+            this.receiptnote.employeeId = this.currentUser.id;
         });
     }
 
