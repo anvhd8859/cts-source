@@ -51,7 +51,7 @@ describe('Component Tests', () => {
             spyOn(service, 'query').and.returnValue(
                 of(
                     new HttpResponse({
-                        body: [new Receiptnote(123)],
+                        body: [new Receiptnote()],
                         headers
                     })
                 )
@@ -71,7 +71,7 @@ describe('Component Tests', () => {
             spyOn(service, 'query').and.returnValue(
                 of(
                     new HttpResponse({
-                        body: [new Receiptnote(123)],
+                        body: [new Receiptnote()],
                         headers
                     })
                 )
@@ -101,7 +101,7 @@ describe('Component Tests', () => {
             spyOn(service, 'query').and.returnValue(
                 of(
                     new HttpResponse({
-                        body: [new Receiptnote(123)],
+                        body: [new Receiptnote()],
                         headers
                     })
                 )

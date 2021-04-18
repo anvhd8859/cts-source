@@ -19,7 +19,7 @@
                 </dd>
                 <dt><span>Customer Confirm</span></dt>
                 <dd>
-                    <span>{{receiptnote.customerConfirm}}</span>
+                    <span>{{receiptnote.customerConfirm ? "Yes" : "No"}}</span>
                 </dd>
                 <dt><span>Create Date</span></dt>
                 <dd>
@@ -42,6 +42,11 @@
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
+        </div>
+        <div *ngIf="!receiptnote">
+            <h2>Receipt note in not created</h2>
+            <button type="button" class="btn btn-primary"
+                [routerLink]="['/receiptnote', id, 'new-receive']">Create receive note</button>
         </div>
     </div>
 </div>

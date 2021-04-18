@@ -12,6 +12,8 @@ import { ReceiptnoteDetailComponent } from './receiptnote-detail.component';
 import { ReceiptnoteUpdateComponent } from './receiptnote-update.component';
 import { ReceiptnoteDeletePopupComponent } from './receiptnote-delete-dialog.component';
 import { IReceiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
+import { InvoiceHeaderService } from '../invoice-header.service';
+import { InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 
 @Injectable({ providedIn: 'root' })
 export class ReceiptnoteResolve implements Resolve<IReceiptnote> {
@@ -27,7 +29,7 @@ export class ReceiptnoteResolve implements Resolve<IReceiptnote> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class InvoiceHeaderResolve implements Resolve<IReceiptnote> {
+export class ReceiveNoeByInvoiceResolve implements Resolve<IReceiptnote> {
     constructor(private service: ReceiptnoteService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -36,6 +38,19 @@ export class InvoiceHeaderResolve implements Resolve<IReceiptnote> {
             return this.service.getReceiveNote({ id: id }).pipe(map((receiptnote: HttpResponse<Receiptnote>) => receiptnote.body));
         }
         return of(new Receiptnote());
+    }
+}
+
+@Injectable({ providedIn: 'root' })
+export class InvoiceHeaderResolve implements Resolve<IReceiptnote> {
+    constructor(private service: InvoiceHeaderService) {}
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const id = route.params['id'] ? route.params['id'] : null;
+        if (id) {
+            return this.service.find(id).pipe(map((receiptnote: HttpResponse<InvoiceHeader>) => receiptnote.body));
+        }
+        return of(new InvoiceHeader());
     }
 }
 
@@ -49,18 +64,6 @@ export const receiptnoteRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Receiptnotes'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'receiptnote/:id/view',
-        component: ReceiptnoteDetailComponent,
-        resolve: {
-            receiptnote: InvoiceHeaderResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
             pageTitle: 'Receiptnotes'
         },
         canActivate: [UserRouteAccessService]
@@ -86,6 +89,30 @@ export const receiptnoteRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Receiptnotes'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'receiptnote/:id/view',
+        component: ReceiptnoteDetailComponent,
+        resolve: {
+            receiptnote: ReceiveNoeByInvoiceResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Receive Note'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'receiptnote/:id/new-receive',
+        component: ReceiptnoteUpdateComponent,
+        resolve: {
+            invoiceHeader: InvoiceHeaderResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Receive Note'
         },
         canActivate: [UserRouteAccessService]
     }

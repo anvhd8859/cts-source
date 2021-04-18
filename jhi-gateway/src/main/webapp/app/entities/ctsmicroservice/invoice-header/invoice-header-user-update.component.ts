@@ -16,8 +16,8 @@ import { JhiAlertService } from 'ng-jhipster';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 
 @Component({
-    selector: 'jhi-invoice-header-update',
-    templateUrl: './invoice-header-update.component.html'
+    selector: 'jhi-invoice-header-user-update',
+    templateUrl: './invoice-header-user-update.component.html'
 })
 export class InvoiceHeaderUpdateComponent implements OnInit {
     invoiceHeader: IInvoiceHeader;

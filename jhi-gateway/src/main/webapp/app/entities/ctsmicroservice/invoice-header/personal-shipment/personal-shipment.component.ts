@@ -49,6 +49,9 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private ngxUiLoaderService: NgxUiLoaderService
     ) {
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+        });
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
@@ -61,6 +64,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     loadAll() {
         this.ngxUiLoaderService.start();
         const param = {
+            id: this.currentAccount.id,
             invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
             type: this.selectedTypeShipment ? this.selectedTypeShipment : '',
             page: this.page - 1,
@@ -111,9 +115,6 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        this.principal.identity().then(account => {
-            this.currentAccount = account;
-        });
         this.registerChangeInPersonalShipments();
     }
 
