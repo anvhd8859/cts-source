@@ -7,7 +7,7 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { InvoiceHeaderService } from './invoice-header.service';
-import { AccountService, IUser } from 'app/core';
+import { AccountService, IUser, Principal } from 'app/core';
 import { IDistrict } from 'app/shared/model/ctsmicroservice/district.model';
 import { IProvince } from 'app/shared/model/ctsmicroservice/province.model';
 import { IStreet } from 'app/shared/model/ctsmicroservice/street.model';
@@ -19,7 +19,7 @@ import { IUserProfile } from 'app/shared/model/user-profile.model';
     selector: 'jhi-invoice-header-user-update',
     templateUrl: './invoice-header-user-update.component.html'
 })
-export class InvoiceHeaderUpdateComponent implements OnInit {
+export class InvoiceHeaderUserUpdateComponent implements OnInit {
     invoiceHeader: IInvoiceHeader;
     isSaving: boolean;
     dueDate: string;
@@ -48,13 +48,19 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     selectedUser: IUser;
     selectedUserProfile: IUserProfile;
     lstIvnType: any = [{ id: 'Personal', text: 'Personal Shippemnt' }, { id: 'Transfer', text: 'House Transfer' }];
-    lstStatus: any = [{ id: 'New', text: 'New' }, { id: 'Shipped', text: 'Shipped' }, { id: 'Cancelled', text: 'Cancelled' }];
+    lstStatus: any = [
+        { id: 'Pending', text: 'Pending' },
+        { id: 'New', text: 'New' },
+        { id: 'Shipped', text: 'Shipped' },
+        { id: 'Cancelled', text: 'Cancelled' }
+    ];
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
         private accountService: AccountService,
         private activatedRoute: ActivatedRoute,
-        private alertService: JhiAlertService
+        private alertService: JhiAlertService,
+        private principal: Principal
     ) {}
 
     ngOnInit() {
@@ -66,14 +72,10 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             this.createDate = this.invoiceHeader.createDate != null ? this.invoiceHeader.createDate.format(DATE_TIME_FORMAT) : null;
             this.updateDate = this.invoiceHeader.updateDate != null ? this.invoiceHeader.updateDate.format(DATE_TIME_FORMAT) : null;
         });
-        forkJoin(this.invoiceHeaderService.getLstUser(), this.accountService.getLstCity()).subscribe(res => {
-            this.lstUser = res[0].body.filter(e => e.authorities.filter(i => i === 'ROLE_USER'));
-            this.lstProvinceFrom = res[1].body;
+        forkJoin(this.principal.identity(), this.accountService.getLstCity()).subscribe(res => {
+            (this.selectedUser = res[0]), (this.lstProvinceFrom = res[1].body);
             this.lstProvinceTo = res[1].body;
-            if (this.invoiceHeader.id) {
-                this.selectedUser = this.lstUser.find(e => e.id === this.invoiceHeader.customerId);
-                this.changeUser();
-            }
+            this.changeUser();
         });
     }
 
@@ -107,6 +109,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                     ', ' +
                     (this.selectedProvinceTo ? this.selectedProvinceTo.provinceName : '');
             }
+            this.invoiceHeader.status = 'Pending';
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
