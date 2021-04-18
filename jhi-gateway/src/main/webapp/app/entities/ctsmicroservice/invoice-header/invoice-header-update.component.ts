@@ -48,7 +48,12 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     selectedUser: IUser;
     selectedUserProfile: IUserProfile;
     lstIvnType: any = [{ id: 'Personal', text: 'Personal Shippemnt' }, { id: 'Transfer', text: 'House Transfer' }];
-    lstStatus: any = [{ id: 'New', text: 'New' }, { id: 'Shipped', text: 'Shipped' }, { id: 'Cancelled', text: 'Cancelled' }];
+    lstStatus: any = [
+        { id: 'Pending', text: 'Pending' },
+        { id: 'New', text: 'New' },
+        { id: 'Shipped', text: 'Shipped' },
+        { id: 'Cancelled', text: 'Cancelled' }
+    ];
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
