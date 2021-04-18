@@ -32,17 +32,17 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
     		@RequestParam("updateDate") String updateDate, Pageable pageable );
 
 	
-	@Query( value = "SELECT i.* FROM invoice_header i, personal_shipment ps, employee e, person p "
-				  + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = e.id AND e.person_id = p.id AND p.email = :userName "
+	@Query( value = "SELECT i.* FROM invoice_header i, personal_shipment ps "
+				  + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
 				  + " AND ps.status <> 'finish' "
 				  + " AND (:type = '' OR ps.shipment_type = :type) "
 				  + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) ",
 				  countQuery =  "SELECT COUNT(*) FROM invoice_header i, personal_shipment ps, employee e, person p "
-						  + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = e.id AND e.person_id = p.id AND p.email = :userName "
+						  + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
 						  + " AND ps.status <> 'finish' "
 						  + " AND (:type = '' OR ps.shipment_type = :type) "
 						  + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) ",
 				  nativeQuery = true)
-	Page<InvoiceHeader> getInvoiceHeadersByShipper (@Param("userName") String userName, @Param("invNo") String invNo, @Param("type") String type, Pageable pageable );
+	Page<InvoiceHeader> getInvoiceHeadersByShipper (@Param("id") Long id, @Param("invNo") String invNo, @Param("type") String type, Pageable pageable );
 
 }
