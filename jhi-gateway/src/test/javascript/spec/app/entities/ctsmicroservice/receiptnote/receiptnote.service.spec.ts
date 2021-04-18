@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Receiptnote(0, 0, 0, 'AAAAAAA', false, currentDate, currentDate);
+            elemDefault = new Receiptnote();
         });
 
         describe('Service methods', async () => {
@@ -63,7 +63,7 @@ describe('Service Tests', () => {
                     returnedFromService
                 );
                 service
-                    .create(new Receiptnote(null))
+                    .create(new Receiptnote())
                     .pipe(take(1))
                     .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
                 const req = httpMock.expectOne({ method: 'POST' });

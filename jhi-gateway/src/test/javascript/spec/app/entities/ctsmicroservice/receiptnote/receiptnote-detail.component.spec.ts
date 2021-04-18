@@ -11,7 +11,7 @@ describe('Component Tests', () => {
     describe('Receiptnote Management Detail Component', () => {
         let comp: ReceiptnoteDetailComponent;
         let fixture: ComponentFixture<ReceiptnoteDetailComponent>;
-        const route = ({ data: of({ receiptnote: new Receiptnote(123) }) } as any) as ActivatedRoute;
+        const route = ({ data: of({ receiptnote: new Receiptnote() }) } as any) as ActivatedRoute;
 
         beforeEach(() => {
             TestBed.configureTestingModule({

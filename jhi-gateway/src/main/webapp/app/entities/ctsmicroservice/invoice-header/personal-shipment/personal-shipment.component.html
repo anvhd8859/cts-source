@@ -66,6 +66,14 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
+                        <button type="submit"
+                                [routerLink]="['/receiptnote', invoiceHeader.id, 'view']"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-success btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">Receive Note</span>
+                        </button>
                     </td>
                 </tr>
             </tbody>
