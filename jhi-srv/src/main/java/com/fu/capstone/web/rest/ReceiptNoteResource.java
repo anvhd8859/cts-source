@@ -129,6 +129,6 @@ public class ReceiptNoteResource {
     @Timed
     public ResponseEntity<ReceiptNoteDTO> getReceiptNoteByHeaderId(@RequestParam("id") Long id) {
         Optional<ReceiptNoteDTO> receiptNoteDTO = receiptNoteService.getReceiptNoteByHeaderId(id);
-        return ResponseUtil.wrapOrNotFound(receiptNoteDTO);
+        return ResponseEntity.ok(receiptNoteDTO.isPresent() ? receiptNoteDTO.get() : null);
     }
 }
