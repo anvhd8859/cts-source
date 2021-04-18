@@ -1,10 +1,10 @@
 <div class="row justify-content-center">
     <div class="col-10">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">    
+            <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading">Create Invoice</h2>
             <h2 *ngIf="this.invoiceHeader.id"> Edit Invoice: <b>{{this.invoiceHeader.invoiceNo}}</b></h2>
             <br>
-            <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
                 <jhi-alert></jhi-alert>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="divider"></div>
@@ -342,12 +342,14 @@
                     </div>
                 </div>
             </div>
-            <div *jhiHasAnyAuthority="'ROLE_USER'">
+            <!-- <div *jhiHasAnyAuthority="'ROLE_USER'">
+                <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading">1. Select Service</h2>
+                <h2 *ngIf="this.invoiceHeader.id">Invoice: <b>{{this.invoiceHeader.invoiceNo}}</b></h2>
+                <br>
                 <jhi-alert></jhi-alert>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="divider"></div>
-                asdawdsa
-            </div>
+            </div> -->
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
