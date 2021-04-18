@@ -14,26 +14,12 @@
                     <input type="text" class="form-control" name="streetName" id="field_streetName"
                         [(ngModel)]="street.streetName" />
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_createDate">Create Date</label>
-                    <div class="d-flex">
-                        <input id="field_createDate" type="datetime-local" class="form-control" name="createDate" [(ngModel)]="createDate"
-                        />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_updateDate">Update Date</label>
-                    <div class="d-flex">
-                        <input id="field_updateDate" type="datetime-local" class="form-control" name="updateDate" [(ngModel)]="updateDate"
-                        />
-                    </div>
-                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_subDistrictId">Sub District Id</label>
                     <select class="form-control" id="field_subDistrictId" name="subDistrictId" [(ngModel)]="street.subDistrictIdId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="subDistrictOption.id" *ngFor="let subDistrictOption of subdistricts; trackBy: trackSubDistrictById">{{subDistrictOption.id}}</option>
+                        <option [ngValue]="subDistrictOption.id" *ngFor="let subDistrictOption of subdistricts; trackBy: trackSubDistrictById">{{subDistrictOption.subDistrictName}}</option>
                     </select>
                 </div>
             </div>

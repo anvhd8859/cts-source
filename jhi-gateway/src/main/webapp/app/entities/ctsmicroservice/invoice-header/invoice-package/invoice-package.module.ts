@@ -10,7 +10,7 @@ import {
     InvoicePackageDeleteDialogComponent,
     invoicePackageRoute,
     invoicePackagePopupRoute
-} from './';
+} from '.';
 
 const ENTITY_STATES = [...invoicePackageRoute, ...invoicePackagePopupRoute];
 

@@ -6,8 +6,8 @@ import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { TransferPackingService } from 'app/entities/ctsmicroservice/transfer-packing/transfer-packing.service';
 import { ITransferPacking, TransferPacking } from 'app/shared/model/ctsmicroservice/transfer-packing.model';
+import { TransferPackingService } from 'app/entities/ctsmicroservice/invoice-header/transfer-packing';
 
 describe('Service Tests', () => {
     describe('TransferPacking Service', () => {

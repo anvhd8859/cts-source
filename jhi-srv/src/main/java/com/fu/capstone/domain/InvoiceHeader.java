@@ -48,6 +48,12 @@ public class InvoiceHeader implements Serializable {
     @Column(name = "destination_street_id")
     private Long destinationStreetId;
 
+    @Column(name = "receiver_name")
+    private String receiverName;
+
+    @Column(name = "receiver_phone")
+    private String receiverPhone;
+
     @Column(name = "sub_total", precision = 10, scale = 2)
     private BigDecimal subTotal;
 
@@ -74,6 +80,9 @@ public class InvoiceHeader implements Serializable {
 
     @Column(name = "finish")
     private Boolean finish;
+
+    @Column(name = "receive_date")
+    private Instant receiveDate;
 
     @Column(name = "due_date")
     private Instant dueDate;
@@ -213,6 +222,32 @@ public class InvoiceHeader implements Serializable {
         this.destinationStreetId = destinationStreetId;
     }
 
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public InvoiceHeader receiverName(String receiverName) {
+        this.receiverName = receiverName;
+        return this;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public InvoiceHeader receiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+        return this;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
+
     public BigDecimal getSubTotal() {
         return subTotal;
     }
@@ -330,6 +365,19 @@ public class InvoiceHeader implements Serializable {
         this.finish = finish;
     }
 
+    public Instant getReceiveDate() {
+        return receiveDate;
+    }
+
+    public InvoiceHeader receiveDate(Instant receiveDate) {
+        this.receiveDate = receiveDate;
+        return this;
+    }
+
+    public void setReceiveDate(Instant receiveDate) {
+        this.receiveDate = receiveDate;
+    }
+
     public Instant getDueDate() {
         return dueDate;
     }
@@ -416,6 +464,8 @@ public class InvoiceHeader implements Serializable {
             ", startStreetId=" + getStartStreetId() +
             ", destinationAddress='" + getDestinationAddress() + "'" +
             ", destinationStreetId=" + getDestinationStreetId() +
+            ", receiverName='" + getReceiverName() + "'" +
+            ", receiverPhone='" + getReceiverPhone() + "'" +
             ", subTotal=" + getSubTotal() +
             ", taxAmount=" + getTaxAmount() +
             ", totalDue=" + getTotalDue() +
@@ -425,6 +475,7 @@ public class InvoiceHeader implements Serializable {
             ", customerConfirm='" + isCustomerConfirm() + "'" +
             ", changeNote='" + getChangeNote() + "'" +
             ", finish='" + isFinish() + "'" +
+            ", receiveDate='" + getReceiveDate() + "'" +
             ", dueDate='" + getDueDate() + "'" +
             ", finishDate='" + getFinishDate() + "'" +
             ", createDate='" + getCreateDate() + "'" +

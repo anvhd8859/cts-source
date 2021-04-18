@@ -8,6 +8,8 @@ import com.fu.capstone.service.dto.OfficeDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -114,5 +116,12 @@ public class OfficeResource {
         log.debug("REST request to delete Office : {}", id);
         officeService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+    @GetMapping("/offices/by-street")
+    @Timed
+    public ResponseEntity<OfficeDTO> getOfficeByStreetId(@Param("id") Long id) {
+        OfficeDTO office = officeService.getOfficeByStreetId(id);
+        return new ResponseEntity<>(office, HttpStatus.OK);
     }
 }

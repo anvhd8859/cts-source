@@ -12,35 +12,48 @@ import java.util.Optional;
  */
 public interface InvoiceHeaderService {
 
-    /**
-     * Save a invoiceHeader.
-     *
-     * @param invoiceHeaderDTO the entity to save
-     * @return the persisted entity
-     */
-    InvoiceHeaderDTO save(InvoiceHeaderDTO invoiceHeaderDTO);
+	/**
+	 * Save a invoiceHeader.
+	 *
+	 * @param invoiceHeaderDTO
+	 *            the entity to save
+	 * @return the persisted entity
+	 */
+	InvoiceHeaderDTO save(InvoiceHeaderDTO invoiceHeaderDTO);
 
-    /**
-     * Get all the invoiceHeaders.
-     *
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    Page<InvoiceHeaderDTO> findAll(Pageable pageable);
+	/**
+	 * Get all the invoiceHeaders.
+	 *
+	 * @param pageable
+	 *            the pagination information
+	 * @return the list of entities
+	 */
+	Page<InvoiceHeaderDTO> findAll(Pageable pageable);
 
+	/**
+	 * Get the "id" invoiceHeader.
+	 *
+	 * @param id
+	 *            the id of the entity
+	 * @return the entity
+	 */
+	Optional<InvoiceHeaderDTO> findOne(Long id);
 
-    /**
-     * Get the "id" invoiceHeader.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    Optional<InvoiceHeaderDTO> findOne(Long id);
+	/**
+	 * Delete the "id" invoiceHeader.
+	 *
+	 * @param id
+	 *            the id of the entity
+	 */
+	void delete(Long id);
 
-    /**
-     * Delete the "id" invoiceHeader.
-     *
-     * @param id the id of the entity
-     */
-    void delete(Long id);
+	// AnhVD new code
+	Page<InvoiceHeaderDTO> getInvoiceHeadersByParams(String invoiceNo, String status, String receiveDate,
+			String createDate, String updateDate, Pageable pageable);
+
+	// DongPH code
+	InvoiceHeaderDTO createNewInvoice(InvoiceHeaderDTO invoiceHeaderDTO);
+
+	Page<InvoiceHeaderDTO> getInvoiceHeadersByShipper(Long id, String invNo, String type, Pageable pageable);
+
 }

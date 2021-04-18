@@ -5,9 +5,8 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Data } from '@angular/router';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { PersonalShipmentComponent } from 'app/entities/ctsmicroservice/personal-shipment/personal-shipment.component';
-import { PersonalShipmentService } from 'app/entities/ctsmicroservice/personal-shipment/personal-shipment.service';
 import { PersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
+import { PersonalShipmentComponent, PersonalShipmentService } from 'app/entities/ctsmicroservice/invoice-header/personal-shipment';
 
 describe('Component Tests', () => {
     describe('PersonalShipment Management Component', () => {

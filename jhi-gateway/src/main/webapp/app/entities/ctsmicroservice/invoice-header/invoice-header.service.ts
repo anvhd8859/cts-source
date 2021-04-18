@@ -8,12 +8,14 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { IUser } from 'app/core';
 
 type EntityResponseType = HttpResponse<IInvoiceHeader>;
 type EntityArrayResponseType = HttpResponse<IInvoiceHeader[]>;
 
 @Injectable({ providedIn: 'root' })
 export class InvoiceHeaderService {
+    public userResourceUrl = SERVER_API_URL + 'api/users';
     public resourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-headers';
 
     constructor(private http: HttpClient) {}
@@ -49,6 +51,20 @@ export class InvoiceHeaderService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
+    // ThangND Start
+    searchByParam(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IInvoiceHeader[]>(this.resourceUrl + '/search', { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
+    getLstUser(req?: any): Observable<HttpResponse<IUser[]>> {
+        const options = createRequestOption(req);
+        return this.http.get<IUser[]>(this.userResourceUrl, { params: options, observe: 'response' });
+    }
+    // ThangND End
+
     private convertDateFromClient(invoiceHeader: IInvoiceHeader): IInvoiceHeader {
         const copy: IInvoiceHeader = Object.assign({}, invoiceHeader, {
             dueDate: invoiceHeader.dueDate != null && invoiceHeader.dueDate.isValid() ? invoiceHeader.dueDate.toJSON() : null,
@@ -76,4 +92,13 @@ export class InvoiceHeaderService {
         });
         return res;
     }
+
+    // AnhVD start
+    searchInvoiceByStatus(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IInvoiceHeader[]>(this.resourceUrl + '/by-shipper', { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+    // AnhVD end
 }

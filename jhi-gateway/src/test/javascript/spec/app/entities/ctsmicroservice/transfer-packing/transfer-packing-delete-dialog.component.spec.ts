@@ -5,8 +5,7 @@ import { Observable, of } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { TransferPackingDeleteDialogComponent } from 'app/entities/ctsmicroservice/transfer-packing/transfer-packing-delete-dialog.component';
-import { TransferPackingService } from 'app/entities/ctsmicroservice/transfer-packing/transfer-packing.service';
+import { TransferPackingDeleteDialogComponent, TransferPackingService } from 'app/entities/ctsmicroservice/invoice-header/transfer-packing';
 
 describe('Component Tests', () => {
     describe('TransferPacking Management Delete Component', () => {

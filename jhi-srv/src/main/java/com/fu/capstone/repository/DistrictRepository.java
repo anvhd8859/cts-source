@@ -18,6 +18,11 @@ import org.springframework.stereotype.Repository;
 public interface DistrictRepository extends JpaRepository<District, Long> {
 
 	@Query(value="SELECT d FROM District d WHERE d.provinceId.id = :provinceId")
-	List<District> getDistrictByProvinceId(@Param("provinceId")Long id);
+	List<District> getDistrictByProvinceId(@Param("provinceId") Long id);
+
+	@Query(value="SELECT d.* FROM district d, sub_district sd ,street s "
+			+ " WHERE d.id = sd.district_id_id AND sd.id = s.sub_district_id_id AND s.id = :id",
+			nativeQuery = true)
+	District getDistrictByStreetId(@Param("id") Long id);
 
 }

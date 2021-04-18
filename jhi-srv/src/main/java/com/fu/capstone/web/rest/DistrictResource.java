@@ -7,8 +7,6 @@ import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.DistrictDTO;
 import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -29,8 +27,6 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class DistrictResource {
 
-    private final Logger log = LoggerFactory.getLogger(DistrictResource.class);
-
     private static final String ENTITY_NAME = "ctsmicroserviceDistrict";
 
     private DistrictService districtService;
@@ -49,7 +45,6 @@ public class DistrictResource {
     @PostMapping("/districts")
     @Timed
     public ResponseEntity<DistrictDTO> createDistrict(@RequestBody DistrictDTO districtDTO) throws URISyntaxException {
-        log.debug("REST request to save District : {}", districtDTO);
         if (districtDTO.getId() != null) {
             throw new BadRequestAlertException("A new district cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -71,7 +66,6 @@ public class DistrictResource {
     @PutMapping("/districts")
     @Timed
     public ResponseEntity<DistrictDTO> updateDistrict(@RequestBody DistrictDTO districtDTO) throws URISyntaxException {
-        log.debug("REST request to update District : {}", districtDTO);
         if (districtDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -90,7 +84,6 @@ public class DistrictResource {
     @GetMapping("/districts")
     @Timed
     public ResponseEntity<List<DistrictDTO>> getAllDistricts(Pageable pageable) {
-        log.debug("REST request to get a page of Districts");
         Page<DistrictDTO> page = districtService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/districts");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
@@ -105,7 +98,6 @@ public class DistrictResource {
     @GetMapping("/districts/{id}")
     @Timed
     public ResponseEntity<DistrictDTO> getDistrict(@PathVariable Long id) {
-        log.debug("REST request to get District : {}", id);
         Optional<DistrictDTO> districtDTO = districtService.findOne(id);
         return ResponseUtil.wrapOrNotFound(districtDTO);
     }
@@ -119,7 +111,6 @@ public class DistrictResource {
     @DeleteMapping("/districts/{id}")
     @Timed
     public ResponseEntity<Void> deleteDistrict(@PathVariable Long id) {
-        log.debug("REST request to delete District : {}", id);
         districtService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
@@ -135,6 +126,20 @@ public class DistrictResource {
     @Timed
     public ResponseEntity<List<DistrictDTO>> getDistrictByProvinceId(@RequestParam("provinceId")Long id) {
         List<DistrictDTO> districtDTO = districtService.getDistrictByProvinceId(id);
+        return new ResponseEntity<>(districtDTO, HttpStatus.OK);
+    }
+    
+    // DongPH new code
+    /**
+     * GET  /districts/by-street?id : get the district by street.
+     *
+     * @param id the street id of the street to retrieve district
+     * @return the ResponseEntity with status 200 (OK) and with body the districtDTO
+     */
+    @GetMapping("/districts/by-street")
+    @Timed
+    public ResponseEntity<DistrictDTO> getDistrictByStreetId(@RequestParam("id")Long id) {
+        DistrictDTO districtDTO = districtService.getDistrictByStreetId(id);
         return new ResponseEntity<>(districtDTO, HttpStatus.OK);
     }
 }

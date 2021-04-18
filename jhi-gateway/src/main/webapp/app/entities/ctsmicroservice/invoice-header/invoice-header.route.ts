@@ -12,6 +12,7 @@ import { InvoiceHeaderDetailComponent } from './invoice-header-detail.component'
 import { InvoiceHeaderUpdateComponent } from './invoice-header-update.component';
 import { InvoiceHeaderDeletePopupComponent } from './invoice-header-delete-dialog.component';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { InvoiceHeaderUserUpdateComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class InvoiceHeaderResolve implements Resolve<IInvoiceHeader> {
@@ -73,6 +74,18 @@ export const invoiceHeaderRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'InvoiceHeaders'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'invoice-header-user/new',
+        component: InvoiceHeaderUserUpdateComponent,
+        resolve: {
+            invoiceHeader: InvoiceHeaderResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Services Register'
         },
         canActivate: [UserRouteAccessService]
     }

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -49,11 +48,10 @@ public class InvoiceHeaderResource {
     @PostMapping("/invoice-headers")
     @Timed
     public ResponseEntity<InvoiceHeaderDTO> createInvoiceHeader(@RequestBody InvoiceHeaderDTO invoiceHeaderDTO) throws URISyntaxException {
-        log.debug("REST request to save InvoiceHeader : {}", invoiceHeaderDTO);
         if (invoiceHeaderDTO.getId() != null) {
             throw new BadRequestAlertException("A new invoiceHeader cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        InvoiceHeaderDTO result = invoiceHeaderService.save(invoiceHeaderDTO);
+        InvoiceHeaderDTO result = invoiceHeaderService.createNewInvoice(invoiceHeaderDTO);
         return ResponseEntity.created(new URI("/api/invoice-headers/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -71,7 +69,6 @@ public class InvoiceHeaderResource {
     @PutMapping("/invoice-headers")
     @Timed
     public ResponseEntity<InvoiceHeaderDTO> updateInvoiceHeader(@RequestBody InvoiceHeaderDTO invoiceHeaderDTO) throws URISyntaxException {
-        log.debug("REST request to update InvoiceHeader : {}", invoiceHeaderDTO);
         if (invoiceHeaderDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -123,4 +120,28 @@ public class InvoiceHeaderResource {
         invoiceHeaderService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    // AnhVD new code
+    /**
+     * GET  /invoice-headers/search : get all the invoiceHeaders by filter.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of invoiceHeaders in body
+     */
+    @GetMapping("/invoice-headers/search")
+    @Timed
+    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersByParams(@RequestParam("invoiceNo") String invoiceNo, @RequestParam("status") String status,
+    		@RequestParam("receiveDate") String receiveDate, @RequestParam("createDate") String createDate, @RequestParam("updateDate") String updateDate, Pageable pageable) {
+        Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByParams(invoiceNo, status, receiveDate, createDate, updateDate, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/search");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    @GetMapping("/invoice-headers/by-shipper")
+    @Timed
+    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersByShipper(@RequestParam("id")Long id, @RequestParam("invNo") String invNo, @RequestParam("type") String type, Pageable pageable) {
+    	Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByShipper(id, invNo, type, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/by-shipper");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }   
 }

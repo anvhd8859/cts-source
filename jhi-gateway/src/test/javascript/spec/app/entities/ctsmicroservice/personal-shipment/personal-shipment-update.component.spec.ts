@@ -4,9 +4,8 @@ import { HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { PersonalShipmentUpdateComponent } from 'app/entities/ctsmicroservice/personal-shipment/personal-shipment-update.component';
-import { PersonalShipmentService } from 'app/entities/ctsmicroservice/personal-shipment/personal-shipment.service';
 import { PersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
+import { PersonalShipmentUpdateComponent, PersonalShipmentService } from 'app/entities/ctsmicroservice/invoice-header/personal-shipment';
 
 describe('Component Tests', () => {
     describe('PersonalShipment Management Update Component', () => {

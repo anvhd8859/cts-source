@@ -9,6 +9,8 @@ import { Principal } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { InvoiceHeaderService } from './invoice-header.service';
+import * as moment from 'moment';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
     selector: 'jhi-invoice-header',
@@ -29,6 +31,12 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    lstStatus: any = [{ id: 'New', text: 'New' }, { id: 'Shipped', text: 'Shipped' }, { id: 'Cancelled', text: 'Cancelled' }];
+    selectedStatus: any;
+    selectedInvoiceNumber: any;
+    createTime: moment.Moment;
+    updateTime: moment.Moment;
+    receiveTime: moment.Moment;
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -37,7 +45,8 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private ngxUiLoaderService: NgxUiLoaderService
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -49,16 +58,29 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.invoiceHeaderService
-            .query({
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<IInvoiceHeader[]>) => this.paginateInvoiceHeaders(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        this.ngxUiLoaderService.start();
+        const param = {
+            invoiceNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
+            status: this.selectedStatus ? this.selectedStatus : '',
+            receiveDate: this.receiveTime
+                ? this.receiveTime.year() + '-' + (this.receiveTime.month() + 1) + '-' + this.receiveTime.date()
+                : '',
+            createDate: this.createTime ? this.createTime.year() + '-' + (this.createTime.month() + 1) + '-' + this.createTime.date() : '',
+            updateDate: this.updateTime ? this.updateTime.year() + '-' + (this.updateTime.month() + 1) + '-' + this.updateTime.date() : '',
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort()
+        };
+        this.invoiceHeaderService.searchByParam(param).subscribe(
+            (res: HttpResponse<IInvoiceHeader[]>) => {
+                this.paginateInvoiceHeaders(res.body, res.headers);
+                this.ngxUiLoaderService.stop();
+            },
+            (res: HttpErrorResponse) => {
+                this.onError(res.message);
+                this.ngxUiLoaderService.stop();
+            }
+        );
     }
 
     loadPage(page: number) {
@@ -117,6 +139,20 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
             result.push('id');
         }
         return result;
+    }
+
+    clearDatepicker(id: number) {
+        switch (id) {
+            case 1:
+                this.receiveTime = null;
+                break;
+            case 2:
+                this.createTime = null;
+                break;
+            case 3:
+                this.updateTime = null;
+                break;
+        }
     }
 
     private paginateInvoiceHeaders(data: IInvoiceHeader[], headers: HttpHeaders) {

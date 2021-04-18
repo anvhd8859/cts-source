@@ -49,7 +49,6 @@ public class EmployeeResource {
     @PostMapping("/employees")
     @Timed
     public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO) throws URISyntaxException {
-        log.debug("REST request to save Employee : {}", employeeDTO);
         if (employeeDTO.getId() != null) {
             throw new BadRequestAlertException("A new employee cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -71,7 +70,6 @@ public class EmployeeResource {
     @PutMapping("/employees")
     @Timed
     public ResponseEntity<EmployeeDTO> updateEmployee(@RequestBody EmployeeDTO employeeDTO) throws URISyntaxException {
-        log.debug("REST request to update Employee : {}", employeeDTO);
         if (employeeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -90,7 +88,6 @@ public class EmployeeResource {
     @GetMapping("/employees")
     @Timed
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees(Pageable pageable) {
-        log.debug("REST request to get a page of Employees");
         Page<EmployeeDTO> page = employeeService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/employees");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);

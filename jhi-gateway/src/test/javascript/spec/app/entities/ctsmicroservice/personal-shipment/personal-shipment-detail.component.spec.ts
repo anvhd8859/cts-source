@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { PersonalShipmentDetailComponent } from 'app/entities/ctsmicroservice/personal-shipment/personal-shipment-detail.component';
 import { PersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
+import { PersonalShipmentDetailComponent } from 'app/entities/ctsmicroservice/invoice-header/personal-shipment';
 
 describe('Component Tests', () => {
     describe('PersonalShipment Management Detail Component', () => {

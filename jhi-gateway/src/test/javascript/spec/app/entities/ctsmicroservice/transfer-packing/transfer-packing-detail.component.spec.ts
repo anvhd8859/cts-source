@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { TransferPackingDetailComponent } from 'app/entities/ctsmicroservice/transfer-packing/transfer-packing-detail.component';
 import { TransferPacking } from 'app/shared/model/ctsmicroservice/transfer-packing.model';
+import { TransferPackingDetailComponent } from 'app/entities/ctsmicroservice/invoice-header/transfer-packing';
 
 describe('Component Tests', () => {
     describe('TransferPacking Management Detail Component', () => {

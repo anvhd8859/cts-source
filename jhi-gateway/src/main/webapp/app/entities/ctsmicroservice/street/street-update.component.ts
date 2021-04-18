@@ -20,8 +20,6 @@ export class StreetUpdateComponent implements OnInit {
     isSaving: boolean;
 
     subdistricts: ISubDistrict[];
-    createDate: string;
-    updateDate: string;
 
     constructor(
         private jhiAlertService: JhiAlertService,
@@ -34,8 +32,6 @@ export class StreetUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ street }) => {
             this.street = street;
-            this.createDate = this.street.createDate != null ? this.street.createDate.format(DATE_TIME_FORMAT) : null;
-            this.updateDate = this.street.updateDate != null ? this.street.updateDate.format(DATE_TIME_FORMAT) : null;
         });
         this.subDistrictService.query().subscribe(
             (res: HttpResponse<ISubDistrict[]>) => {
@@ -51,8 +47,8 @@ export class StreetUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.street.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
-        this.street.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
+        if (this.street.createDate == null) this.street.createDate = moment(new Date(), DATE_TIME_FORMAT);
+        this.street.updateDate = moment(new Date(), DATE_TIME_FORMAT);
         if (this.street.id !== undefined) {
             this.subscribeToSaveResponse(this.streetService.update(this.street));
         } else {

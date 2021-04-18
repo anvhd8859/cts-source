@@ -49,7 +49,6 @@ public class InvoiceDetailsResource {
     @PostMapping("/invoice-details")
     @Timed
     public ResponseEntity<InvoiceDetailsDTO> createInvoiceDetails(@RequestBody InvoiceDetailsDTO invoiceDetailsDTO) throws URISyntaxException {
-        log.debug("REST request to save InvoiceDetails : {}", invoiceDetailsDTO);
         if (invoiceDetailsDTO.getId() != null) {
             throw new BadRequestAlertException("A new invoiceDetails cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -71,7 +70,6 @@ public class InvoiceDetailsResource {
     @PutMapping("/invoice-details")
     @Timed
     public ResponseEntity<InvoiceDetailsDTO> updateInvoiceDetails(@RequestBody InvoiceDetailsDTO invoiceDetailsDTO) throws URISyntaxException {
-        log.debug("REST request to update InvoiceDetails : {}", invoiceDetailsDTO);
         if (invoiceDetailsDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -122,5 +120,19 @@ public class InvoiceDetailsResource {
         log.debug("REST request to delete InvoiceDetails : {}", id);
         invoiceDetailsService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+    // AnhVD new code
+    /**
+     * GET  /invoice-details/by-invoice-header?id=:id : get the invoiceDetails by header Id.
+     *
+     * @param id the id of the invoice header to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the invoiceDetailsDTO, or with status 404 (Not Found)
+     */
+    @GetMapping("/invoice-details/by-invoice-header")
+    @Timed
+    public ResponseEntity<List<InvoiceDetailsDTO>> getInvoiceDetailsByHeaderId(@RequestParam("id") Long id) {
+    	List<InvoiceDetailsDTO> invoiceDetailsDTO = invoiceDetailsService.getInvoiceDetailsByHeaderId(id);
+        return new ResponseEntity<>(invoiceDetailsDTO, HttpStatus.OK);
     }
 }

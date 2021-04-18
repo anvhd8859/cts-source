@@ -8,7 +8,10 @@ import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shi
 import { Principal } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
-import { PersonalShipmentService } from './personal-shipment.service';
+import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import moment = require('moment');
+import { InvoiceHeaderService } from '..';
+import { NgxUiLoaderService } from 'ngx-ui-loader/';
 
 @Component({
     selector: 'jhi-personal-shipment',
@@ -16,6 +19,7 @@ import { PersonalShipmentService } from './personal-shipment.service';
 })
 export class PersonalShipmentComponent implements OnInit, OnDestroy {
     currentAccount: any;
+    invoiceHeaders: IInvoiceHeader[];
     personalShipments: IPersonalShipment[];
     error: any;
     success: any;
@@ -29,16 +33,25 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    selectedTypeShipment: any;
+    listTypeShipment: any = [{ id: 'collect', text: 'Lấy hàng' }, { id: 'delivery', text: 'Giao hàng' }];
+    collectAddress: any;
+    shipAddress: any;
+    selectedInvoiceNumber: any;
 
     constructor(
-        private personalShipmentService: PersonalShipmentService,
+        private invoiceHeaderService: InvoiceHeaderService,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private ngxUiLoaderService: NgxUiLoaderService
     ) {
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+        });
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
@@ -49,16 +62,25 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.personalShipmentService
-            .query({
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<IPersonalShipment[]>) => this.paginatePersonalShipments(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        this.ngxUiLoaderService.start();
+        const param = {
+            id: this.currentAccount.id,
+            invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
+            type: this.selectedTypeShipment ? this.selectedTypeShipment : '',
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort()
+        };
+        this.invoiceHeaderService.searchInvoiceByStatus(param).subscribe(
+            (res: HttpResponse<IInvoiceHeader[]>) => {
+                this.paginateInvoiceHeaders(res.body, res.headers);
+                this.ngxUiLoaderService.stop();
+            },
+            (res: HttpErrorResponse) => {
+                this.onError(res.message);
+                this.ngxUiLoaderService.stop();
+            }
+        );
     }
 
     loadPage(page: number) {
@@ -93,9 +115,6 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        this.principal.identity().then(account => {
-            this.currentAccount = account;
-        });
         this.registerChangeInPersonalShipments();
     }
 
@@ -119,11 +138,11 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
         return result;
     }
 
-    private paginatePersonalShipments(data: IPersonalShipment[], headers: HttpHeaders) {
+    private paginateInvoiceHeaders(data: IInvoiceHeader[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.queryCount = this.totalItems;
-        this.personalShipments = data;
+        this.invoiceHeaders = data;
     }
 
     private onError(errorMessage: string) {

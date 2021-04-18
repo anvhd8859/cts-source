@@ -51,8 +51,10 @@ export class DistrictUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.district.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
-        this.district.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
+        this.district.createDate =
+            this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : moment(new Date(), DATE_TIME_FORMAT);
+        this.district.updateDate =
+            this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : moment(new Date(), DATE_TIME_FORMAT);
         if (this.district.id !== undefined) {
             this.subscribeToSaveResponse(this.districtService.update(this.district));
         } else {

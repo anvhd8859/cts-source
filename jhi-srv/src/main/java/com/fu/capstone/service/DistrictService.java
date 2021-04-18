@@ -46,4 +46,6 @@ public interface DistrictService {
     void delete(Long id);
 
 	List<DistrictDTO> getDistrictByProvinceId(Long id);
+
+	DistrictDTO getDistrictByStreetId(Long id);
 }

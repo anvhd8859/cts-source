@@ -1,70 +1,143 @@
 <div>
-    <h2 id="page-heading">
-        <span>Invoice Headers</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-invoice-header" [routerLink]="['/invoice-header/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-            Create new Invoice Header
-            </span>
-        </button>
-    </h2>
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-md-12">
+            <h2 id="page-heading">
+                <span>Invoice Headers</span>
+            </h2>
+        </div>
+        <div class="col-lg-6 col-md-12 col-md-12">
+            <button type="submit"
+                    routerLink="new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    class="btn btn-primary float-right">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                <span class="d-none d-md-inline">Create New Invoice</span>
+            </button>
+        </div>
+    </div>
     <jhi-alert></jhi-alert>
     <br/>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="receiveTime">Receive Time</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="receiveTime" [(ngModel)]="this.receiveTime" ngbDatepicker #a="ngbDatepicker" readonly>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(1)" type="button">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="a.toggle()" type="button">
+                            <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="createOn">Create On</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="createOn" [(ngModel)]="this.createTime" ngbDatepicker #b="ngbDatepicker" readonly>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(2)" type="button">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="b.toggle()" type="button">
+                            <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="updateOn">Update On</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="updateOn" [(ngModel)]="this.updateTime" ngbDatepicker #c="ngbDatepicker" readonly>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(3)" type="button">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
+                            <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="invoiceNumber">Invoice Number</label>
+                <input  type="text"
+                        class="form-control"
+                        placeholder="(ALL)"
+                        [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="selectedInvoiceNumber"
+                        value="{{selectedInvoiceNumber}}"
+                        >
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="status">Status</label>
+                <ng-select  [clearable]="true"
+                            [hideSelected]="true"
+                            [items]="this.lstStatus"
+                            bindLabel="text"
+                            bindValue="id"
+                            id="status"
+                            name="status"
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="this.selectedStatus"
+                            placeholder="(ALL)"
+                            >
+                    <ng-option *ngFor="let item of lstStatus">{{item.text}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 text-center">
+            <div class="form-group">
+                <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary" (click)="this.loadAll()">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                    <span >Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h4>My Shipment</h4>
     <div class="table-responsive" *ngIf="invoiceHeaders">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="customerId"><span>Customer Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="officeId"><span>Office Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="invoiceNo"><span>Invoice No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="invoiceType"><span>Invoice Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="startAddress"><span>Start Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="startStreetId"><span>Start Street Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="destinationAddress"><span>Destination Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="destinationStreetId"><span>Destination Street Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="subTotal"><span>Sub Total</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="taxAmount"><span>Tax Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="totalDue"><span>Total Due</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="note"><span>Note</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="cancel"><span>Cancel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="cancelReason"><span>Cancel Reason</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="customerConfirm"><span>Customer Confirm</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="changeNote"><span>Change Note</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="finish"><span>Finish</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="dueDate"><span>Due Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="finishDate"><span>Finish Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createDate"><span>Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updateDate"><span>Update Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
-            </tr>
+                <th>#               </th>
+                <th>Invoice Number  </th>
+                <th>Due Date        </th>
+                <th>Receive Date    </th>
+                <th>Status          </th>
+                <th>Created Date    </th>
+                <th>Updated Date    </th>
+                <th>Action          </th>
             </thead>
             <tbody>
             <tr *ngFor="let invoiceHeader of invoiceHeaders ;trackBy: trackId">
-                <td><a [routerLink]="['/invoice-header', invoiceHeader.id, 'view' ]">{{invoiceHeader.id}}</a></td>
-                <td>{{invoiceHeader.customerId}}</td>
-                <td>{{invoiceHeader.officeId}}</td>
-                <td>{{invoiceHeader.invoiceNo}}</td>
-                <td>{{invoiceHeader.invoiceType}}</td>
-                <td>{{invoiceHeader.status}}</td>
-                <td>{{invoiceHeader.startAddress}}</td>
-                <td>{{invoiceHeader.startStreetId}}</td>
-                <td>{{invoiceHeader.destinationAddress}}</td>
-                <td>{{invoiceHeader.destinationStreetId}}</td>
-                <td>{{invoiceHeader.subTotal}}</td>
-                <td>{{invoiceHeader.taxAmount}}</td>
-                <td>{{invoiceHeader.totalDue}}</td>
-                <td>{{invoiceHeader.note}}</td>
-                <td>{{invoiceHeader.cancel}}</td>
-                <td>{{invoiceHeader.cancelReason}}</td>
-                <td>{{invoiceHeader.customerConfirm}}</td>
-                <td>{{invoiceHeader.changeNote}}</td>
-                <td>{{invoiceHeader.finish}}</td>
-                <td>{{invoiceHeader.dueDate | date:'medium'}}</td>
-                <td>{{invoiceHeader.finishDate | date:'medium'}}</td>
-                <td>{{invoiceHeader.createDate | date:'medium'}}</td>
-                <td>{{invoiceHeader.updateDate | date:'medium'}}</td>
+                <td>{{invoiceHeader.id}}                                    </td>
+                <td>{{invoiceHeader.invoiceNo}}                             </td>
+                <td>{{invoiceHeader.dueDate     | date:'yyyy-MM-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.finishDate  | date:'yyyy-MM-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.status}}                                </td>
+                <td>{{invoiceHeader.createDate  | date:'yyyy-MM-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.updateDate  | date:'yyyy-MM-dd HH:mm'}} </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
@@ -80,12 +153,12 @@
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'invoice-header/'+ invoiceHeader.id + '/delete'} }]"
+                                [routerLink]="['/receiptnote', invoiceHeader.id, 'view']"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
+                                class="btn btn-success btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">Receive Note</span>
                         </button>
                     </div>
                 </td>

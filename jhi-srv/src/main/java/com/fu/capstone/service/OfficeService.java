@@ -40,4 +40,6 @@ public interface OfficeService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    OfficeDTO getOfficeByStreetId(Long id);
 }

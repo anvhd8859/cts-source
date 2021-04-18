@@ -123,4 +123,12 @@ public class ReceiptNoteResource {
         receiptNoteService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    // dongPh new code
+    @GetMapping("/receipt-notes/by-header")
+    @Timed
+    public ResponseEntity<ReceiptNoteDTO> getReceiptNoteByHeaderId(@RequestParam("id") Long id) {
+        Optional<ReceiptNoteDTO> receiptNoteDTO = receiptNoteService.getReceiptNoteByHeaderId(id);
+        return ResponseEntity.ok(receiptNoteDTO.isPresent() ? receiptNoteDTO.get() : null);
+    }
 }
