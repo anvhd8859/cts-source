@@ -14,9 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -142,10 +139,8 @@ public class InvoiceHeaderResource {
     
     @GetMapping("/invoice-headers/by-shipper")
     @Timed
-    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersByShipper(@RequestParam("invNo") String invNo, @RequestParam("type") String type, Pageable pageable) {
-    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    	String userName = ((User) authentication.getPrincipal()).getUsername();
-    	Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByShipper(userName, invNo, type, pageable);
+    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersByShipper(@RequestParam("id")Long id, @RequestParam("invNo") String invNo, @RequestParam("type") String type, Pageable pageable) {
+    	Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByShipper(id, invNo, type, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/by-shipper");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }   
