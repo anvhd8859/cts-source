@@ -35,7 +35,7 @@ spring:
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://66.42.60.140:3306/cts_test_gateway?useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: root
+        username: cts_master
         password: a12345
         hikari:
             auto-commit: false
