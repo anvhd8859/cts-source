@@ -1,0 +1,68 @@
+<div>
+    <h2 id="page-heading">
+        <span>Warehouses</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-warehouse" [routerLink]="['/warehouse/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Warehouse
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="warehouses">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Warehouse Name</span></th>
+            <th><span>Keeper Id</span></th>
+            <th><span>Address</span></th>
+            <th><span>Street Id</span></th>
+            <th><span>Warehouse Type</span></th>
+            <th><span>Master Warehouse Id</span></th>
+            <th><span>Create Date</span></th>
+            <th><span>Update Date</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let warehouse of warehouses ;trackBy: trackId">
+                <td><a [routerLink]="['/warehouse', warehouse.id, 'view' ]">{{warehouse.id}}</a></td>
+                <td>{{warehouse.warehouseName}}</td>
+                <td>{{warehouse.keeperId}}</td>
+                <td>{{warehouse.address}}</td>
+                <td>{{warehouse.streetId}}</td>
+                <td>{{warehouse.warehouseType}}</td>
+                <td>{{warehouse.masterWarehouseId}}</td>
+                <td>{{warehouse.createDate | date:'medium'}}</td>
+                <td>{{warehouse.updateDate | date:'medium'}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/warehouse', warehouse.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/warehouse', warehouse.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'warehouse/'+ warehouse.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
