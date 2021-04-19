@@ -11,6 +11,10 @@ import { CtsgatewayInvoiceDetailsModule as CtsmicroserviceInvoiceDetailsModule }
 import { CtsgatewayPersonalShipmentModule as CtsmicroservicePersonalShipmentModule } from './ctsmicroservice/invoice-header/personal-shipment/personal-shipment.module';
 import { CtsgatewayTransferPackingModule as CtsmicroserviceTransferPackingModule } from './ctsmicroservice/invoice-header/transfer-packing/transfer-packing.module';
 import { CtsgatewayReceiptnoteModule as CtsmicroserviceReceiptnoteModule } from 'app/entities/ctsmicroservice/invoice-header/receiptnote/receiptnote.module';
+import { CtsgatewayWorkingAreaModule as CtsmicroserviceWorkingAreaModule } from './ctsmicroservice/working-area/working-area.module';
+import { CtsgatewayWarehouseModule as CtsmicroserviceWarehouseModule } from './ctsmicroservice/warehouse/warehouse.module';
+import { CtsgatewayPaymentModule as CtsmicroservicePaymentModule } from './ctsmicroservice/payment/payment.module';
+import { CtsgatewayShiftModule as CtsmicroserviceShiftModule } from './ctsmicroservice/shift/shift.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -27,6 +31,10 @@ import { CtsgatewayReceiptnoteModule as CtsmicroserviceReceiptnoteModule } from 
         CtsmicroservicePersonalShipmentModule,
         CtsmicroserviceTransferPackingModule,
         CtsmicroserviceReceiptnoteModule,
+        CtsmicroserviceWorkingAreaModule,
+        CtsmicroserviceWarehouseModule,
+        CtsmicroservicePaymentModule,
+        CtsmicroserviceShiftModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],
