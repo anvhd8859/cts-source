@@ -101,4 +101,13 @@ export class InvoiceHeaderService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
     // AnhVD end
+
+    // new code for request cancel invoiceHeader
+    getAllRequestCancelInvoice(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IInvoiceHeader[]>(this.resourceUrl + '/request-cancel', { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+    // end new code
 }
