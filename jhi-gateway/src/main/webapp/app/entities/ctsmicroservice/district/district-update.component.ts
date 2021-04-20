@@ -18,7 +18,6 @@ import { ProvinceService } from 'app/entities/ctsmicroservice/province';
 export class DistrictUpdateComponent implements OnInit {
     district: IDistrict;
     isSaving: boolean;
-
     provinces: IProvince[];
     createDate: string;
     updateDate: string;
