@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
 
-export interface IInvoiceHeader {
+export interface ICancelInvoice {
     id?: number;
     customerId?: number;
     officeId?: number;
@@ -28,7 +28,7 @@ export interface IInvoiceHeader {
     updateDate?: Moment;
 }
 
-export class InvoiceHeader implements IInvoiceHeader {
+export class CancelInvoice implements ICancelInvoice {
     constructor(
         public id?: number,
         public customerId?: number,

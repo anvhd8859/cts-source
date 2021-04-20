@@ -70,6 +70,12 @@
                             <span>Invoices User</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="cancel-invoice" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
+                            <span>Approve Request Cancel</span>
+                        </a>
+                    </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>

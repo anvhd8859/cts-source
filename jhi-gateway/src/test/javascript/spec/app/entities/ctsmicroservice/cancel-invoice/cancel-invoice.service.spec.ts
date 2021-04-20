@@ -6,26 +6,26 @@ import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { InvoiceHeaderService } from 'app/entities/ctsmicroservice/invoice-header/invoice-header.service';
-import { IInvoiceHeader, InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { CancelInvoiceService } from 'app/entities/ctsmicroservice/cancel-invoice/cancel-invoice.service';
+import { ICancelInvoice, CancelInvoice } from 'app/shared/model/ctsmicroservice/cancel-invoice.model';
 
 describe('Service Tests', () => {
-    describe('InvoiceHeader Service', () => {
+    describe('CancelInvoice Service', () => {
         let injector: TestBed;
-        let service: InvoiceHeaderService;
+        let service: CancelInvoiceService;
         let httpMock: HttpTestingController;
-        let elemDefault: IInvoiceHeader;
+        let elemDefault: ICancelInvoice;
         let currentDate: moment.Moment;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
             });
             injector = getTestBed();
-            service = injector.get(InvoiceHeaderService);
+            service = injector.get(CancelInvoiceService);
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new InvoiceHeader(
+            elemDefault = new CancelInvoice(
                 0,
                 0,
                 0,
@@ -74,7 +74,7 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should create a InvoiceHeader', async () => {
+            it('should create a CancelInvoice', async () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
@@ -95,14 +95,14 @@ describe('Service Tests', () => {
                     returnedFromService
                 );
                 service
-                    .create(new InvoiceHeader(null))
+                    .create(new CancelInvoice(null))
                     .pipe(take(1))
                     .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
                 const req = httpMock.expectOne({ method: 'POST' });
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should update a InvoiceHeader', async () => {
+            it('should update a CancelInvoice', async () => {
                 const returnedFromService = Object.assign(
                     {
                         customerId: 1,
@@ -114,6 +114,8 @@ describe('Service Tests', () => {
                         startStreetId: 1,
                         destinationAddress: 'BBBBBB',
                         destinationStreetId: 1,
+                        receiverName: 'BBBBBB',
+                        receiverPhone: 'BBBBBB',
                         subTotal: 1,
                         taxAmount: 1,
                         totalDue: 1,
@@ -148,7 +150,7 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should return a list of InvoiceHeader', async () => {
+            it('should return a list of CancelInvoice', async () => {
                 const returnedFromService = Object.assign(
                     {
                         customerId: 1,
@@ -160,6 +162,8 @@ describe('Service Tests', () => {
                         startStreetId: 1,
                         destinationAddress: 'BBBBBB',
                         destinationStreetId: 1,
+                        receiverName: 'BBBBBB',
+                        receiverPhone: 'BBBBBB',
                         subTotal: 1,
                         taxAmount: 1,
                         totalDue: 1,
@@ -194,7 +198,7 @@ describe('Service Tests', () => {
                 httpMock.verify();
             });
 
-            it('should delete a InvoiceHeader', async () => {
+            it('should delete a CancelInvoice', async () => {
                 const rxPromise = service.delete(123).subscribe(resp => expect(resp.ok));
 
                 const req = httpMock.expectOne({ method: 'DELETE' });
