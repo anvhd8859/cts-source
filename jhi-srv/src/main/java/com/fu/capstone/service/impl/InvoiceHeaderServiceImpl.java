@@ -121,4 +121,9 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		return invoiceHeaderRepository.getInvoiceHeadersByShipper(id, invNo, type, pageable).map(invoiceHeaderMapper::toDto);
 	}
 
+	@Override
+	public Page<InvoiceHeaderDTO> getInvoiceHeadersRequestCancel(Pageable pageable) {
+		return invoiceHeaderRepository.getInvoiceHeadersRequestCancel().map(invoiceHeaderMapper::toDto) ;
+	}
+
 }
