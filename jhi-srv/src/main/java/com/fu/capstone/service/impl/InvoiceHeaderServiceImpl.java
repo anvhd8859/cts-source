@@ -123,7 +123,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 	@Override
 	public Page<InvoiceHeaderDTO> getInvoiceHeadersRequestCancel(Pageable pageable) {
-		return invoiceHeaderRepository.getInvoiceHeadersRequestCancel().map(invoiceHeaderMapper::toDto) ;
+		return invoiceHeaderRepository.getInvoiceHeadersRequestCancel(pageable).map(invoiceHeaderMapper::toDto) ;
 	}
 
 }
