@@ -14,6 +14,7 @@ import { IStreet } from 'app/shared/model/ctsmicroservice/street.model';
 import { ISubDistrict } from 'app/shared/model/ctsmicroservice/sub-district.model';
 import { JhiAlertService } from 'ng-jhipster';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
+import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 
 @Component({
     selector: 'jhi-invoice-header-update',
@@ -54,6 +55,10 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         { id: 'Shipped', text: 'Shipped' },
         { id: 'Cancelled', text: 'Cancelled' }
     ];
+    // HaiNM
+    lstInvoiceDetails: IInvoiceDetails[] = [];
+    InvDetailCount: number;
+    // HaiNM
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -85,6 +90,15 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     previousState() {
         window.history.back();
     }
+
+    // HaiNM
+    addNewInvoiceDetailElement() {
+        this.InvDetailCount++;
+        let obj = new InvoiceDetails(null, null, '', '', null, null, null, null, '', '', '', null, null);
+        this.lstInvoiceDetails.push(obj);
+        console.log(this.lstInvoiceDetails);
+    }
+    // HaiNM
 
     save() {
         const msg = this.validateInput();
