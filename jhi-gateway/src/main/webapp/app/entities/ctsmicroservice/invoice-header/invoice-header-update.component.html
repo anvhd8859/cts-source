@@ -1,10 +1,10 @@
 <div class="row justify-content-center">
     <div class="col-10">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">    
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
-            <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading">Create Invoice</h2>
-            <h2 *ngIf="this.invoiceHeader.id"> Edit Invoice: <b>{{this.invoiceHeader.invoiceNo}}</b></h2>
-            <br>
+                <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading">Create Invoice</h2>
+                <h2 *ngIf="this.invoiceHeader.id"> Edit Invoice: <b>{{this.invoiceHeader.invoiceNo}}</b></h2>
+                <br>
                 <jhi-alert></jhi-alert>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="divider"></div>
@@ -12,38 +12,33 @@
                 <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                     <div class="form-group">
                         <label class="form-control-label" for="field_customerId">Customer</label>
-                        <ng-select  [clearable]="true"
-                                    [hideSelected]="true"
-                                    [items]="this.lstUser"
-                                    bindLabel="email"
-                                    id="field_customerId"
-                                    name="field_customerId"
-                                    [ngModelOptions]="{standalone: true}"
-                                    [(ngModel)]="this.selectedUser"
-                                    (change)="this.changeUser()"
-                                >
+                        <ng-select [clearable]="true" [hideSelected]="true" [items]="this.lstUser" bindLabel="email"
+                            id="field_customerId" name="field_customerId" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="this.selectedUser" (change)="this.changeUser()">
                             <ng-option *ngFor="let item of lstUser">{{item.email}}</ng-option>
                         </ng-select>
                     </div>
                     <br>
-                    <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="form-control-label" for="">Information</label>
+                    <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="form-control-label"
+                        for="">Information</label>
                     <div *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="col-lg-12">
                         <table class="table">
                             <tr>
                                 <th class="text-left">Full Name</th>
-                                <td class="text-left" >{{this.selectedUser.firstName + ' ' +this.selectedUser.lastName}}</td>
+                                <td class="text-left">{{this.selectedUser.firstName + ' ' +this.selectedUser.lastName}}
+                                </td>
                             </tr>
                             <tr>
                                 <th class="text-left">Gender</th>
-                                <td class="text-left" >{{this.selectedUserProfile.gender}}</td>
+                                <td class="text-left">{{this.selectedUserProfile.gender}}</td>
                             </tr>
                             <tr>
                                 <th class="text-left">Phone Number</th>
-                                <td class="text-left" >{{this.selectedUserProfile.phoneNumber}}</td>
+                                <td class="text-left">{{this.selectedUserProfile.phoneNumber}}</td>
                             </tr>
                             <tr>
                                 <th class="text-left">Address</th>
-                                <td class="text-left" >{{this.selectedUserProfile.address}}</td>
+                                <td class="text-left">{{this.selectedUserProfile.address}}</td>
                             </tr>
                         </table>
                     </div>
@@ -51,21 +46,14 @@
                 <br>
                 <div class="divider"></div>
                 <label class="form-control-label" for="from-address"><b>Invoice Information</b></label>
-                <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">                  
+                <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                     <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label class="form-control-label" for="field_invoiceType">Invoice Type</label>
-                                <ng-select  [clearable]="false"
-                                            [hideSelected]="true"
-                                            [items]="this.lstIvnType"
-                                            bindLabel="text"
-                                            bindValue="id"
-                                            id="field_invoiceType"
-                                            name="field_invoiceType"
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.invoiceHeader.invoiceType"
-                                        >
+                                <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstIvnType"
+                                    bindLabel="text" bindValue="id" id="field_invoiceType" name="field_invoiceType"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="this.invoiceHeader.invoiceType">
                                     <ng-option *ngFor="let item of lstIvnType">{{item.text}}</ng-option>
                                 </ng-select>
                             </div>
@@ -73,16 +61,9 @@
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label class="form-control-label" for="field_status">Status</label>
-                                <ng-select  [clearable]="false"
-                                            [hideSelected]="true"
-                                            [items]="this.lstStatus"
-                                            bindLabel="text"
-                                            bindValue="id"
-                                            id="field_status"
-                                            name="field_status"
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.invoiceHeader.status"
-                                        >
+                                <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstStatus"
+                                    bindLabel="text" bindValue="id" id="field_status" name="field_status"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="this.invoiceHeader.status">
                                     <ng-option *ngFor="let item of lstStatus">{{item.text}}</ng-option>
                                 </ng-select>
                             </div>
@@ -92,16 +73,28 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label class="form-control-label" for="customerNote">Customer Note</label>
-                                <textarea class="form-control" 
-                                    style="resize: none;"
-                                    rows="3"
-                                    id="customerNote" 
-                                    name="customerNote" 
-                                    [(ngModel)]="this.invoiceHeader.note"
-                                ></textarea>
+                                <textarea class="form-control" style="resize: none;" rows="3" id="customerNote"
+                                    name="customerNote" [(ngModel)]="this.invoiceHeader.note"></textarea>
                             </div>
                         </div>
                     </div>
+                    <label class="form-control-label" for="from-address"><b>Package Details</b></label>
+                    <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
+                            <ng-container *ngFor="let item of lstInvoiceDetails; let i = index">               
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="customerNote">Item Name</label>
+                                            <input placeholder="Copy and paste XPath here ..." class="form-control"
+                                                type="text" name="{{i}}" id="{{i}}" [(ngModel)]="item.itemName">
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        <label class="form-control-label" for="field_xpath">Package(s):</label>
+                        <button type="button" class="btn btn-primary" (click)="this.addNewInvoiceDetailElement()">Add Package</button>
+                    </div>
+                    <br>
                 </div>
                 <br>
                 <div class="divider"></div>
@@ -113,35 +106,26 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="province">Province/City</label>
-                                        <ng-select  [clearable]="false"
-                                                    [hideSelected]="true"
-                                                    [items]="this.lstProvinceFrom"
-                                                    bindLabel="provinceName"
-                                                    id="province"
-                                                    name="province"
-                                                    [ngModelOptions]="{standalone: true}"
-                                                    [(ngModel)]="this.selectedProvinceFrom"
-                                                    (change)="this.changeCity('from')"
-                                                    >
-                                            <ng-option *ngFor="let item of lstProvinceFrom">{{item.provinceName}}</ng-option>
+                                        <ng-select [clearable]="false" [hideSelected]="true"
+                                            [items]="this.lstProvinceFrom" bindLabel="provinceName" id="province"
+                                            name="province" [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.selectedProvinceFrom" (change)="this.changeCity('from')">
+                                            <ng-option *ngFor="let item of lstProvinceFrom">{{item.provinceName}}
+                                            </ng-option>
                                         </ng-select>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="district">District</label>
-                                        <ng-select  [clearable]="false"
-                                                    [hideSelected]="true"
-                                                    [items]="this.lstDistrictFrom"
-                                                    bindLabel="districtName"
-                                                    id="district"
-                                                    name="district"
-                                                    [ngModelOptions]="{standalone: true}"
-                                                    [(ngModel)]="this.selectedDistrictFrom"
-                                                    (change)="this.changeDistrict('from')"
-                                                    [disabled]="!this.selectedProvinceFrom"
-                                                    >
-                                            <ng-option *ngFor="let item of lstDistrictFrom">{{item.districtName}}</ng-option>
+                                        <ng-select [clearable]="false" [hideSelected]="true"
+                                            [items]="this.lstDistrictFrom" bindLabel="districtName" id="district"
+                                            name="district" [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.selectedDistrictFrom"
+                                            (change)="this.changeDistrict('from')"
+                                            [disabled]="!this.selectedProvinceFrom">
+                                            <ng-option *ngFor="let item of lstDistrictFrom">{{item.districtName}}
+                                            </ng-option>
                                         </ng-select>
                                     </div>
                                 </div>
@@ -150,35 +134,27 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="subDistrict">Ward/Commune</label>
-                                        <ng-select  [clearable]="false"
-                                                    [hideSelected]="true"
-                                                    [items]="this.lstSubDistrictFrom"
-                                                    bindLabel="subDistrictName"
-                                                    id="subDistrict"
-                                                    name="subDistrict"
-                                                    [ngModelOptions]="{standalone: true}"
-                                                    [(ngModel)]="this.selectedSubDistrictFrom"
-                                                    (change)="this.changeSubDistrict('from')"
-                                                    [disabled]="!this.selectedDistrictFrom"
-                                                    >
-                                            <ng-option *ngFor="let item of lstSubDistrictFrom">{{item.subDistrictName}}</ng-option>
+                                        <ng-select [clearable]="false" [hideSelected]="true"
+                                            [items]="this.lstSubDistrictFrom" bindLabel="subDistrictName"
+                                            id="subDistrict" name="subDistrict" [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.selectedSubDistrictFrom"
+                                            (change)="this.changeSubDistrict('from')"
+                                            [disabled]="!this.selectedDistrictFrom">
+                                            <ng-option *ngFor="let item of lstSubDistrictFrom">{{item.subDistrictName}}
+                                            </ng-option>
                                         </ng-select>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="street">Street</label>
-                                        <ng-select  [clearable]="false"
-                                                    [hideSelected]="true"
-                                                    [items]="this.lstStreetFrom"
-                                                    bindLabel="streetName"
-                                                    id="street"
-                                                    name="street"
-                                                    [ngModelOptions]="{standalone: true}"
-                                                    [(ngModel)]="this.selectedStreetFrom"
-                                                    [disabled]="!this.selectedSubDistrictFrom"
-                                                    >
-                                            <ng-option *ngFor="let item of lstStreetFrom">{{item.streetName}}</ng-option>
+                                        <ng-select [clearable]="false" [hideSelected]="true"
+                                            [items]="this.lstStreetFrom" bindLabel="streetName" id="street"
+                                            name="street" [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.selectedStreetFrom"
+                                            [disabled]="!this.selectedSubDistrictFrom">
+                                            <ng-option *ngFor="let item of lstStreetFrom">{{item.streetName}}
+                                            </ng-option>
                                         </ng-select>
                                     </div>
                                 </div>
@@ -187,13 +163,8 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="address">Address</label>
-                                        <textarea class="form-control" 
-                                            style="resize: none;"
-                                            rows="3"
-                                            id="address" 
-                                            name="address" 
-                                            [(ngModel)]="this.selectedAddressFrom"
-                                        >
+                                        <textarea class="form-control" style="resize: none;" rows="3" id="address"
+                                            name="address" [(ngModel)]="this.selectedAddressFrom">
                                         </textarea>
                                     </div>
                                 </div>
@@ -208,35 +179,25 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="province">Province/City</label>
-                                        <ng-select  [clearable]="false"
-                                                    [hideSelected]="true"
-                                                    [items]="this.lstProvinceTo"
-                                                    bindLabel="provinceName"
-                                                    id="province"
-                                                    name="province"
-                                                    [ngModelOptions]="{standalone: true}"
-                                                    [(ngModel)]="this.selectedProvinceTo"
-                                                    (change)="this.changeCity('to')"
-                                                    >
-                                            <ng-option *ngFor="let item of lstProvinceTo">{{item.provinceName}}</ng-option>
+                                        <ng-select [clearable]="false" [hideSelected]="true"
+                                            [items]="this.lstProvinceTo" bindLabel="provinceName" id="province"
+                                            name="province" [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.selectedProvinceTo" (change)="this.changeCity('to')">
+                                            <ng-option *ngFor="let item of lstProvinceTo">{{item.provinceName}}
+                                            </ng-option>
                                         </ng-select>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="district">District</label>
-                                        <ng-select  [clearable]="false"
-                                                    [hideSelected]="true"
-                                                    [items]="this.lstDistrictTo"
-                                                    bindLabel="districtName"
-                                                    id="district"
-                                                    name="district"
-                                                    [ngModelOptions]="{standalone: true}"
-                                                    [(ngModel)]="this.selectedDistrictTo"
-                                                    (change)="this.changeDistrict('to')"
-                                                    [disabled]="!this.selectedProvinceTo"
-                                                    >
-                                            <ng-option *ngFor="let item of lstDistrictTo">{{item.districtName}}</ng-option>
+                                        <ng-select [clearable]="false" [hideSelected]="true"
+                                            [items]="this.lstDistrictTo" bindLabel="districtName" id="district"
+                                            name="district" [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.selectedDistrictTo" (change)="this.changeDistrict('to')"
+                                            [disabled]="!this.selectedProvinceTo">
+                                            <ng-option *ngFor="let item of lstDistrictTo">{{item.districtName}}
+                                            </ng-option>
                                         </ng-select>
                                     </div>
                                 </div>
@@ -245,34 +206,24 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="subDistrict">Ward/Commune</label>
-                                        <ng-select  [clearable]="false"
-                                                    [hideSelected]="true"
-                                                    [items]="this.lstSubDistrictTo"
-                                                    bindLabel="subDistrictName"
-                                                    id="subDistrict"
-                                                    name="subDistrict"
-                                                    [ngModelOptions]="{standalone: true}"
-                                                    [(ngModel)]="this.selectedSubDistrictTo"
-                                                    (change)="this.changeSubDistrict('to')"
-                                                    [disabled]="!this.selectedDistrictTo"
-                                                    >
-                                            <ng-option *ngFor="let item of lstSubDistrictTo">{{item.subDistrictName}}</ng-option>
+                                        <ng-select [clearable]="false" [hideSelected]="true"
+                                            [items]="this.lstSubDistrictTo" bindLabel="subDistrictName" id="subDistrict"
+                                            name="subDistrict" [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.selectedSubDistrictTo"
+                                            (change)="this.changeSubDistrict('to')"
+                                            [disabled]="!this.selectedDistrictTo">
+                                            <ng-option *ngFor="let item of lstSubDistrictTo">{{item.subDistrictName}}
+                                            </ng-option>
                                         </ng-select>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="street">Street</label>
-                                        <ng-select  [clearable]="false"
-                                                    [hideSelected]="true"
-                                                    [items]="this.lstStreetTo"
-                                                    bindLabel="streetName"
-                                                    id="street"
-                                                    name="street"
-                                                    [ngModelOptions]="{standalone: true}"
-                                                    [(ngModel)]="this.selectedStreetTo"
-                                                    [disabled]="!this.selectedSubDistrictTo"
-                                                    >
+                                        <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstStreetTo"
+                                            bindLabel="streetName" id="street" name="street"
+                                            [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedStreetTo"
+                                            [disabled]="!this.selectedSubDistrictTo">
                                             <ng-option *ngFor="let item of lstStreetTo">{{item.streetName}}</ng-option>
                                         </ng-select>
                                     </div>
@@ -282,13 +233,8 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="address">Address</label>
-                                        <textarea class="form-control" 
-                                            style="resize: none;"
-                                            rows="3"
-                                            id="address" 
-                                            name="address" 
-                                            [(ngModel)]="this.selectedAddressTo"
-                                        >
+                                        <textarea class="form-control" style="resize: none;" rows="3" id="address"
+                                            name="address" [(ngModel)]="this.selectedAddressTo">
                                         </textarea>
                                     </div>
                                 </div>
@@ -300,26 +246,16 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <label class="form-control-label" for="addressFrom"><b>From Address</b></label>
                         <div class="form-group">
-                            <textarea class="form-control" 
-                                style="resize: none;"
-                                rows="3"
-                                id="addressFrom" 
-                                name="addressFrom" 
-                                [(ngModel)]="this.invoiceHeader.startAddress"
-                            >
+                            <textarea class="form-control" style="resize: none;" rows="3" id="addressFrom"
+                                name="addressFrom" [(ngModel)]="this.invoiceHeader.startAddress">
                             </textarea>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <label class="form-control-label" for="addressTo"><b>To Address</b></label>
                         <div class="form-group">
-                            <textarea class="form-control" 
-                                style="resize: none;"
-                                rows="3"
-                                id="addressTo" 
-                                name="addressTo" 
-                                [(ngModel)]="this.invoiceHeader.destinationAddress"
-                            >
+                            <textarea class="form-control" style="resize: none;" rows="3" id="addressTo"
+                                name="addressTo" [(ngModel)]="this.invoiceHeader.destinationAddress">
                             </textarea>
                         </div>
                     </div>
@@ -329,16 +265,16 @@
                 <div *ngIf="this.invoiceHeader.id" class="form-group">
                     <label class="form-control-label" for="field_dueDate">Due Date</label>
                     <div class="d-flex">
-                        <input id="field_dueDate" type="datetime-local" class="form-control" name="dueDate" [(ngModel)]="dueDate"
-                        />
+                        <input id="field_dueDate" type="datetime-local" class="form-control" name="dueDate"
+                            [(ngModel)]="dueDate" />
                     </div>
                 </div>
 
                 <div *ngIf="this.invoiceHeader.id" class="form-group">
                     <label class="form-control-label" for="field_createDate">Create Date</label>
                     <div class="d-flex">
-                        <input id="field_createDate" type="datetime-local" class="form-control" name="updateDate" [(ngModel)]="createDate"
-                        />
+                        <input id="field_createDate" type="datetime-local" class="form-control" name="updateDate"
+                            [(ngModel)]="createDate" />
                     </div>
                 </div>
             </div>
@@ -351,10 +287,11 @@
                 <div class="divider"></div>
             </div> -->
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                    class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                 </button>
             </div>
