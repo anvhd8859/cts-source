@@ -15,6 +15,7 @@ import { ISubDistrict } from 'app/shared/model/ctsmicroservice/sub-district.mode
 import { JhiAlertService } from 'ng-jhipster';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
+import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 
 @Component({
     selector: 'jhi-invoice-header-user-update',
@@ -55,6 +56,12 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         { id: 'Shipped', text: 'Shipped' },
         { id: 'Cancelled', text: 'Cancelled' }
     ];
+    // HaiNM
+    lstInvoicePackage: IInvoicePackage[] = [];
+    invPackageCount: number;
+    lstInvoiceDetails: IInvoiceDetails[] = [];
+    invDetailCount: number;
+    // HaiNM
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -79,6 +86,34 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
             this.changeUser();
         });
     }
+
+    // HaiNM
+    addNewInvoiceDetailElement() {
+        this.invDetailCount++;
+        const obj = new InvoiceDetails(null, null, '', '', null, null, null, null, '', '', '', null, null);
+        this.lstInvoiceDetails.push(obj);
+        console.log(this.lstInvoiceDetails);
+    }
+
+    removeInvoiceDetailElement(parent: any, index: any) {
+        this.invDetailCount--;
+        this.lstInvoiceDetails.splice(index, 1);
+        console.log(this.lstInvoiceDetails);
+    }
+
+    addNewInvoicePackageElement() {
+        this.invPackageCount++;
+        const obj = new InvoicePackage(null, null, null, null, null, null, null, false, 'New', '', null, null, null);
+        this.lstInvoicePackage.push(obj);
+        console.log(this.lstInvoicePackage);
+    }
+
+    removeInvoicePackageElement(index: any) {
+        this.invPackageCount--;
+        this.lstInvoicePackage.splice(index, 1);
+        console.log(this.lstInvoicePackage);
+    }
+    // HaiNM
 
     previousState() {
         window.history.back();
