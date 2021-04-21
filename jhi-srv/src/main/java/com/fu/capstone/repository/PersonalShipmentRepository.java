@@ -31,7 +31,7 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 					   + " AND (:type = '' OR ps.shipment_type = :type) "
 					   + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) ",
 			nativeQuery = true)
-	Page<PersonalShipment> personalShipmentRepository(@Param("id") Long id, 
+	Page<PersonalShipment> getPersonalShipmentByShipper(@Param("id") Long id, 
 			@Param("invNo") String invNo, @Param("type") String type, Pageable pageable);
 
 }
