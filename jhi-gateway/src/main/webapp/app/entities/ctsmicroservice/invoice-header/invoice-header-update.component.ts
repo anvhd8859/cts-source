@@ -15,7 +15,7 @@ import { ISubDistrict } from 'app/shared/model/ctsmicroservice/sub-district.mode
 import { JhiAlertService } from 'ng-jhipster';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
-import { IInvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
+import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 
 @Component({
     selector: 'jhi-invoice-header-update',
@@ -109,16 +109,16 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     }
 
     addNewInvoicePackageElement() {
-        this.invDetailCount++;
-        const obj = new InvoiceDetails(null, null, '', '', null, null, null, null, '', '', '', null, null);
-        this.lstInvoiceDetails.push(obj);
-        console.log(this.lstInvoiceDetails);
+        this.invPackageCount++;
+        const obj = new InvoicePackage(null, null, null, null, null, null, null, false, 'New', '', null, null, null);
+        this.lstInvoicePackage.push(obj);
+        console.log(this.lstInvoicePackage);
     }
 
     removeInvoicePackageElement(index: any) {
-        this.invDetailCount--;
-        this.lstInvoiceDetails.splice(index, 1);
-        console.log(this.lstInvoiceDetails);
+        this.invPackageCount--;
+        this.lstInvoicePackage.splice(index, 1);
+        console.log(this.lstInvoicePackage);
     }
     // HaiNM
 
