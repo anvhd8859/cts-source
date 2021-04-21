@@ -65,6 +65,12 @@ export class InvoiceHeaderService {
     }
     // ThangND End
 
+    // HaiNM
+    createNewInvoice(req?: any) {
+        return this.http.post<any>(this.resourceUrl + '/invoice-detail', req, { observe: 'response' });
+    }
+    // HaiNM
+
     private convertDateFromClient(invoiceHeader: IInvoiceHeader): IInvoiceHeader {
         const copy: IInvoiceHeader = Object.assign({}, invoiceHeader, {
             dueDate: invoiceHeader.dueDate != null && invoiceHeader.dueDate.isValid() ? invoiceHeader.dueDate.toJSON() : null,
