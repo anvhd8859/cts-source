@@ -2,8 +2,12 @@ package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.PersonalShipmentService;
 import com.fu.capstone.domain.PersonalShipment;
+import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.PersonalShipmentRepository;
+import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.PersonalShipmentDTO;
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
+import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.PersonalShipmentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +27,21 @@ import java.util.Optional;
 public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 
     private final Logger log = LoggerFactory.getLogger(PersonalShipmentServiceImpl.class);
+    
+    private InvoiceHeaderRepository invoiceHeaderRepository;
+
+    private InvoiceHeaderMapper invoiceHeaderMapper;
 
     private PersonalShipmentRepository personalShipmentRepository;
 
     private PersonalShipmentMapper personalShipmentMapper;
 
-    public PersonalShipmentServiceImpl(PersonalShipmentRepository personalShipmentRepository, PersonalShipmentMapper personalShipmentMapper) {
+    public PersonalShipmentServiceImpl(PersonalShipmentRepository personalShipmentRepository, PersonalShipmentMapper personalShipmentMapper,
+    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper) {
         this.personalShipmentRepository = personalShipmentRepository;
         this.personalShipmentMapper = personalShipmentMapper;
+        this.invoiceHeaderRepository = invoiceHeaderRepository;
+        this.invoiceHeaderMapper = invoiceHeaderMapper;
     }
 
     /**
@@ -87,4 +98,20 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
         log.debug("Request to delete PersonalShipment : {}", id);
         personalShipmentRepository.deleteById(id);
     }
+
+	@Override
+	public Page<PersonalShipmentInvoiceDTO> getPersonalShipmentByShipper(Long id, String invNo, String type, Pageable pageable) {
+		Page<PersonalShipmentDTO> page = personalShipmentRepository.personalShipmentRepository(id, invNo, type, pageable)
+				.map(personalShipmentMapper::toDto);
+		Page<PersonalShipmentInvoiceDTO> result = page.map(this::convert);
+		return result;
+	}
+	private PersonalShipmentInvoiceDTO convert(PersonalShipmentDTO entity) {
+		PersonalShipmentInvoiceDTO dto = new PersonalShipmentInvoiceDTO();
+        InvoiceHeaderDTO invDTO = invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId()));
+        dto.setPersonalShipmentDTO(entity);
+        dto.setInvoiceHeaderDTO(invDTO);
+        return dto;
+    }
+	
 }
