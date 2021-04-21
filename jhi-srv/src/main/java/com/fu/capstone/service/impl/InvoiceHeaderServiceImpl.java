@@ -13,9 +13,12 @@ import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.StreetRepository;
 import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
+import com.fu.capstone.service.dto.InvoiceShipmentDTO;
+import com.fu.capstone.service.dto.PersonalShipmentDTO;
 import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
+import com.fu.capstone.service.mapper.PersonalShipmentMapper;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -55,11 +58,14 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	private InvoiceDetailsMapper invoiceDetailsMapper;
 	
 	private InvoicePackageMapper invoicePackageMapper;
+	
+	private PersonalShipmentMapper personalShipmentMapper;
 
 	public InvoiceHeaderServiceImpl(InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper, 
 			InvoiceDetailsRepository invoiceDetailsRepository, InvoiceDetailsMapper invoiceDetailsMapper, 
 			InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
-			PersonalShipmentRepository personalShipmentRepository, StreetRepository streetRepository) {
+			PersonalShipmentRepository personalShipmentRepository, PersonalShipmentMapper personalShipmentMapper,
+			StreetRepository streetRepository) {
 		this.invoiceHeaderRepository = invoiceHeaderRepository;
 		this.invoiceHeaderMapper = invoiceHeaderMapper;
 		this.invoiceDetailsRepository = invoiceDetailsRepository;
@@ -67,6 +73,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		this.invoicePackageRepository = invoicePackageRepository;
 		this.invoicePackageMapper = invoicePackageMapper;
 		this.personalShipmentRepository = personalShipmentRepository;
+		this.personalShipmentMapper = personalShipmentMapper;
 		this.streetRepository = streetRepository;
 	}
 
@@ -150,10 +157,24 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		return invoiceHeaderMapper.toDto(invoiceHeader);
 	}
 
+	// start function
 	@Override
-	public Page<InvoiceHeaderDTO> getInvoiceHeadersByShipper(Long id, String invNo, String type, Pageable pageable) {
-		return invoiceHeaderRepository.getInvoiceHeadersByShipper(id, invNo, type, pageable).map(invoiceHeaderMapper::toDto);
+	public Page<InvoiceShipmentDTO> getInvoiceHeadersByShipper(Long id, String invNo, String type, Pageable pageable) {
+		Page<InvoiceHeaderDTO> invoicePage = invoiceHeaderRepository.getInvoiceHeadersByShipper(id, invNo, type, pageable)
+				.map(invoiceHeaderMapper::toDto);
+		Page<InvoiceShipmentDTO> dtoPage = invoicePage.map(this::convert);
+		return dtoPage;
 	}
+	// convert
+	private InvoiceShipmentDTO convert(InvoiceHeaderDTO value) {
+		InvoiceShipmentDTO isDTO = new InvoiceShipmentDTO();
+		List<PersonalShipmentDTO> psDTO = personalShipmentMapper.toDto(personalShipmentRepository
+				.getShipmentByInvoice(value.getId()));
+		isDTO.setInvoiceHeader(value);
+		isDTO.setPersonalShipmentList(psDTO);
+		return isDTO;
+	}
+	// end function
 
 	@Override
 	public Page<InvoiceHeaderDTO> getInvoiceHeadersRequestCancel(Pageable pageable) {
