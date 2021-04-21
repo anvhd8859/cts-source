@@ -1,8 +1,9 @@
 package com.fu.capstone.service.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class InvoicePackageDetailDTO {
+public class InvoicePackageDetailDTO implements Serializable {
 	
 	private InvoiceHeaderDTO header;
 	
