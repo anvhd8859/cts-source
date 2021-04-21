@@ -143,5 +143,13 @@ public class InvoiceHeaderResource {
     	Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByShipper(id, invNo, type, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/by-shipper");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }   
+    }
+    
+    @GetMapping("/invoice-headers/request-cancel")
+    @Timed
+    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersRequestCancel(Pageable pageable) {
+    	Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersRequestCancel(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/request-cancel");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 }

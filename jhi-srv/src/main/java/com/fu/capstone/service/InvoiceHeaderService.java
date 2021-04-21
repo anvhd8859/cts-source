@@ -56,4 +56,6 @@ public interface InvoiceHeaderService {
 
 	Page<InvoiceHeaderDTO> getInvoiceHeadersByShipper(Long id, String invNo, String type, Pageable pageable);
 
+	Page<InvoiceHeaderDTO> getInvoiceHeadersRequestCancel(Pageable pageable);
+
 }

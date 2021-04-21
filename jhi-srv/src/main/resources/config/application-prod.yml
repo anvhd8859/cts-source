@@ -24,7 +24,7 @@ eureka:
         prefer-ip-address: true
     client:
         service-url:
-            defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
+            defaultZone: http://admin:admin@66.42.60.140:8761/eureka/
 
 spring:
     devtools:
@@ -34,9 +34,9 @@ spring:
             enabled: false
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/ctsmicroservice?useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: root
-        password:
+        url: jdbc:mysql://66.42.60.140:3306/cts_test_service?useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: cts_master
+        password: a12345
         hikari:
             auto-commit: false
             data-source-properties:
@@ -57,10 +57,16 @@ spring:
     liquibase:
         contexts: prod
     mail:
-        host: localhost
-        port: 25
-        username:
-        password:
+        host: smtp.gmail.com
+        port: 587
+        username: ctsmailsender001@gmail.com
+        password: cts@123456
+        protocol: smtp
+        tls: true
+        properties.mail.smtp:
+            auth: true
+            starttls.enable: true
+            ssl.trust: smtp.gmail.com
     thymeleaf:
         cache: true
     sleuth:
@@ -123,8 +129,8 @@ jhipster:
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: ctsmicroservice@localhost
-        base-url: http://my-server-url-to-change # Modify according to your server's URL
+        from: ctsmailsender001@gmail.com
+        base-url: http://45.77.250.249:8082
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx:
             enabled: true

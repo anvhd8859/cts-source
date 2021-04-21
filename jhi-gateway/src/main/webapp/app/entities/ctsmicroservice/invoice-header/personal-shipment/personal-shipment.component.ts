@@ -9,7 +9,7 @@ import { Principal } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
-import moment = require('moment');
+import * as moment from 'moment';
 import { InvoiceHeaderService } from '..';
 import { NgxUiLoaderService } from 'ngx-ui-loader/';
 
