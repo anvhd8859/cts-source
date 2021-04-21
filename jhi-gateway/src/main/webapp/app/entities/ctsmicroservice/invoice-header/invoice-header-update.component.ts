@@ -16,7 +16,6 @@ import { JhiAlertService } from 'ng-jhipster';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
-import { IInvoicePackagePersonal, InvoicePackagePersonal } from 'app/shared/model/ctsmicroservice/invoice-package-personal.model';
 
 @Component({
     selector: 'jhi-invoice-header-update',
