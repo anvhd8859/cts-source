@@ -16,6 +16,7 @@ import { JhiAlertService } from 'ng-jhipster';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
+import { IInvoicePackagePersonal, InvoicePackagePersonal } from 'app/shared/model/ctsmicroservice/invoice-package-personal.model';
 
 @Component({
     selector: 'jhi-invoice-header-update',
@@ -102,7 +103,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         console.log(this.lstInvoiceDetails);
     }
 
-    removeInvoiceDetailElement(index: any) {
+    removeInvoiceDetailElement(parent: any, index: any) {
         this.invDetailCount--;
         this.lstInvoiceDetails.splice(index, 1);
         console.log(this.lstInvoiceDetails);
@@ -147,18 +148,28 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                     (this.selectedDistrictTo ? this.selectedDistrictTo.districtName : '') +
                     ', ' +
                     (this.selectedProvinceTo ? this.selectedProvinceTo.provinceName : '');
-                this.invoiceHeader.startStreetId = this.selectedStreetFrom;
-                this.invoiceHeader.destinationStreetId = this.selectedStreetTo;
+                this.invoiceHeader.startStreetId = this.selectedStreetFrom.id;
+                this.invoiceHeader.destinationStreetId = this.selectedStreetTo.id;
             }
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
+            const postObject = {
+                header: this.invoiceHeader,
+                lstDetail: this.lstInvoiceDetails,
+                lstPackage: this.lstInvoicePackage
+            };
+            // if (this.invoiceHeader.id !== undefined) {
+            //     this.subscribeToSaveResponse(this.invoiceHeaderService.update(this.invoiceHeader));
+            // } else {
+            //     this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
+            // }
             if (this.invoiceHeader.id !== undefined) {
                 this.subscribeToSaveResponse(this.invoiceHeaderService.update(this.invoiceHeader));
             } else {
-                this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
+                this.subscribeToSaveResponse(this.invoiceHeaderService.createNewInvoice(postObject));
             }
         } else {
             window.scroll(0, 0);
@@ -169,9 +180,9 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     validateInput(): string {
         let msg = '';
         if ((!this.selectedAddressFrom || this.selectedAddressFrom.trim() === '') && !this.invoiceHeader.id) {
-            msg += 'From Address must not be blank! <br>';
-        } else if (!this.invoiceHeader.startAddress || this.invoiceHeader.startAddress.trim() === '') {
-            msg += 'From Address must not be blank! <br>';
+            msg += 'From Address must not be blank! 1 <br>';
+        } else if (!this.selectedAddressFrom || this.selectedAddressFrom.trim() === '') {
+            msg += 'From Address must not be blank! 2<br>';
         }
         if (!this.selectedStreetFrom && !this.invoiceHeader.id) {
             msg += 'From Street must not be blank! <br>';
@@ -187,7 +198,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         }
         if ((!this.selectedAddressTo || this.selectedAddressTo.trim() === '') && !this.invoiceHeader.id) {
             msg += 'To Address must not be blank! <br>';
-        } else if (!this.invoiceHeader.destinationAddress || this.invoiceHeader.destinationAddress.trim() === '') {
+        } else if (!this.selectedAddressTo || this.selectedAddressTo.trim() === '') {
             msg += 'To Address must not be blank! <br>';
         }
         if (!this.selectedStreetTo && !this.invoiceHeader.id) {
@@ -202,14 +213,14 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         if (!this.selectedProvinceTo && !this.invoiceHeader.id) {
             msg += 'To Province/City must not be blank! <br>';
         }
-        if (!this.invoiceHeader.customerId) {
+        if (!this.selectedUser) {
             msg += 'Customer must not be blank! <br>';
         }
         if (!this.invoiceHeader.invoiceType) {
-            msg += 'Type of Invoice must not be blank! <br>';
+            msg += 'Type of Invoice must not be blank! 1 <br>';
         }
         if (!this.invoiceHeader.status) {
-            msg += 'Status of Invoice must not be blank! <br>';
+            msg += 'Status of Invoice must not be blank! 2 <br>';
         }
         return msg;
     }
