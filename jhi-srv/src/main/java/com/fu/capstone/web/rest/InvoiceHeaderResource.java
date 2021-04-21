@@ -142,7 +142,8 @@ public class InvoiceHeaderResource {
     
     @GetMapping("/invoice-headers/by-shipper")
     @Timed
-    public ResponseEntity<List<InvoiceShipmentDTO>> getInvoiceHeadersByShipper(@RequestParam("id")Long id, @RequestParam("invNo") String invNo, @RequestParam("type") String type, Pageable pageable) {
+    public ResponseEntity<List<InvoiceShipmentDTO>> getInvoiceHeadersByShipper(@RequestParam("id")Long id, 
+    		@RequestParam("invNo") String invNo, @RequestParam("type") String type, Pageable pageable) {
     	Page<InvoiceShipmentDTO> page = invoiceHeaderService.getInvoiceHeadersByShipper(id, invNo, type, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/by-shipper");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
