@@ -101,7 +101,7 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 
 	@Override
 	public Page<PersonalShipmentInvoiceDTO> getPersonalShipmentByShipper(Long id, String invNo, String type, Pageable pageable) {
-		Page<PersonalShipmentDTO> page = personalShipmentRepository.personalShipmentRepository(id, invNo, type, pageable)
+		Page<PersonalShipmentDTO> page = personalShipmentRepository.getPersonalShipmentByShipper(id, invNo, type, pageable)
 				.map(personalShipmentMapper::toDto);
 		Page<PersonalShipmentInvoiceDTO> result = page.map(this::convert);
 		return result;
