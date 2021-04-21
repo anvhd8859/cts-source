@@ -8,7 +8,6 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fu.capstone.domain.SubDistrict;
 
 /**
  * A DTO for the District entity.

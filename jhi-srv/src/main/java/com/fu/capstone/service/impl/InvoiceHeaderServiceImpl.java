@@ -1,10 +1,19 @@
 package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.InvoiceHeaderService;
+import com.fu.capstone.domain.InvoiceDetails;
 import com.fu.capstone.domain.InvoiceHeader;
+import com.fu.capstone.domain.InvoicePackage;
+import com.fu.capstone.domain.PersonalShipment;
+import com.fu.capstone.repository.InvoiceDetailsRepository;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
+import com.fu.capstone.repository.InvoicePackageRepository;
+import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.service.dto.InvoiceHeaderDTO;
+import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
+import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
+import com.fu.capstone.service.mapper.InvoicePackageMapper;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -15,6 +24,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,12 +39,29 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 	private InvoiceHeaderRepository invoiceHeaderRepository;
 
+	private InvoiceDetailsRepository invoiceDetailsRepository;
+	
+	private InvoicePackageRepository invoicePackageRepository;
+	
+	private PersonalShipmentRepository personalShipmentRepository;
+	
 	private InvoiceHeaderMapper invoiceHeaderMapper;
+	
+	private InvoiceDetailsMapper invoiceDetailsMapper;
+	
+	private InvoicePackageMapper invoicePackageMapper;
 
-	public InvoiceHeaderServiceImpl(InvoiceHeaderRepository invoiceHeaderRepository,
-			InvoiceHeaderMapper invoiceHeaderMapper) {
+	public InvoiceHeaderServiceImpl(InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper, 
+			InvoiceDetailsRepository invoiceDetailsRepository, InvoiceDetailsMapper invoiceDetailsMapper, 
+			InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
+			PersonalShipmentRepository personalShipmentRepository) {
 		this.invoiceHeaderRepository = invoiceHeaderRepository;
 		this.invoiceHeaderMapper = invoiceHeaderMapper;
+		this.invoiceDetailsRepository = invoiceDetailsRepository;
+		this.invoiceDetailsMapper = invoiceDetailsMapper;
+		this.invoicePackageRepository = invoicePackageRepository;
+		this.invoicePackageMapper = invoicePackageMapper;
+		this.personalShipmentRepository = personalShipmentRepository;
 	}
 
 	/**
@@ -124,6 +152,43 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	@Override
 	public Page<InvoiceHeaderDTO> getInvoiceHeadersRequestCancel(Pageable pageable) {
 		return invoiceHeaderRepository.getInvoiceHeadersRequestCancel(pageable).map(invoiceHeaderMapper::toDto) ;
+	}
+
+	@Override
+	public InvoiceHeaderDTO createInvoiceHeaderDetailPackage(InvoicePackageDetailDTO invoicePackageDetailDTO) {
+		InvoiceHeader invoiceHeader = invoiceHeaderMapper.toEntity(invoicePackageDetailDTO.getHeader());
+		invoiceHeader = invoiceHeaderRepository.save(invoiceHeader);
+		InvoiceHeaderDTO invoiceHeaderDTO = invoiceHeaderMapper.toDto(invoiceHeader);
+		
+		if(invoiceHeaderDTO.getStatus().equalsIgnoreCase("collect")){
+			PersonalShipment psOne = new PersonalShipment();
+			psOne.setStatus("waiting");
+			psOne.setInvoiceHeaderId(invoiceHeaderDTO.getId());
+			psOne.setShipmentType("collect");
+			PersonalShipment psTwo = new PersonalShipment();
+			psTwo.setStatus("waiting");
+			psTwo.setInvoiceHeaderId(invoiceHeaderDTO.getId());
+			psTwo.setShipmentType("delivery");
+			List<PersonalShipment> lstShipment = new ArrayList<>();
+			lstShipment.add(psOne);
+			lstShipment.add(psTwo);
+			personalShipmentRepository.saveAll(lstShipment);
+		}
+		else {
+			PersonalShipment psTwo = new PersonalShipment();
+			psTwo.setStatus("waiting");
+			psTwo.setInvoiceHeaderId(invoiceHeaderDTO.getId());
+			psTwo.setShipmentType("delivery");
+			personalShipmentRepository.save(psTwo);
+		}
+		
+		List<InvoiceDetails> lstDetail = invoiceDetailsMapper.toEntity(invoicePackageDetailDTO.getLstDetail());
+		invoiceDetailsRepository.saveAll(lstDetail);
+		
+		List<InvoicePackage> lstPackage = invoicePackageMapper.toEntity(invoicePackageDetailDTO.getLstPackage());
+		invoicePackageRepository.saveAll(lstPackage);
+		
+		return invoiceHeaderDTO;
 	}
 
 }
