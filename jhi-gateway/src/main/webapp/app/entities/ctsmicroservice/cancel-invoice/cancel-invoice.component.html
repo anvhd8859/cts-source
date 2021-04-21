@@ -1,103 +1,75 @@
 <div>
     <h2 id="page-heading">
         <span>Cancel Invoices</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-cancel-invoice" [routerLink]="['/cancel-invoice/new']">
+        <!-- <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-cancel-invoice" [routerLink]="['/cancel-invoice/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
             Create new Cancel Invoice
             </span>
-        </button>
+        </button> -->
     </h2>
     <jhi-alert></jhi-alert>
-    <br/>
+    <br />
     <div class="table-responsive" *ngIf="cancelInvoices">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="customerId"><span>Customer Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="officeId"><span>Office Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="invoiceNo"><span>Invoice No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="invoiceType"><span>Invoice Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="startAddress"><span>Start Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="startStreetId"><span>Start Street Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="destinationAddress"><span>Destination Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="destinationStreetId"><span>Destination Street Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="receiverName"><span>Receiver Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="receiverPhone"><span>Receiver Phone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="subTotal"><span>Sub Total</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="taxAmount"><span>Tax Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="totalDue"><span>Total Due</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="note"><span>Note</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="cancel"><span>Cancel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="cancelReason"><span>Cancel Reason</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="customerConfirm"><span>Customer Confirm</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="changeNote"><span>Change Note</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="finish"><span>Finish</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="dueDate"><span>Due Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="finishDate"><span>Finish Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createDate"><span>Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updateDate"><span>Update Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
-            </tr>
+                <tr>
+                    <th><span>ID</span> </th>
+                    <th><span>Invoice No</span> </th>
+                    <th><span>Status</span> </th>
+                    <th><span>Start Address</span></th>
+                    <th><span>Destination Address</span> </th>
+                    <th><span>Receiver Name</span> </th>
+                    <th><span>Receiver Phone</span> ></th>
+                    <th><span>Total Due</span> </th>
+                    <th><span>Note</span></th>
+                    <th><span>Cancel</span></th>
+                    <th><span>Cancel Reason</span> </th>
+                    <th><span>Action</span></th>
+                </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let cancelInvoice of cancelInvoices ;trackBy: trackId">
-                <td><a [routerLink]="['/cancel-invoice', cancelInvoice.id, 'view' ]">{{cancelInvoice.id}}</a></td>
-                <td>{{cancelInvoice.customerId}}</td>
-                <td>{{cancelInvoice.officeId}}</td>
-                <td>{{cancelInvoice.invoiceNo}}</td>
-                <td>{{cancelInvoice.invoiceType}}</td>
-                <td>{{cancelInvoice.status}}</td>
-                <td>{{cancelInvoice.startAddress}}</td>
-                <td>{{cancelInvoice.startStreetId}}</td>
-                <td>{{cancelInvoice.destinationAddress}}</td>
-                <td>{{cancelInvoice.destinationStreetId}}</td>
-                <td>{{cancelInvoice.receiverName}}</td>
-                <td>{{cancelInvoice.receiverPhone}}</td>
-                <td>{{cancelInvoice.subTotal}}</td>
-                <td>{{cancelInvoice.taxAmount}}</td>
-                <td>{{cancelInvoice.totalDue}}</td>
-                <td>{{cancelInvoice.note}}</td>
-                <td>{{cancelInvoice.cancel}}</td>
-                <td>{{cancelInvoice.cancelReason}}</td>
-                <td>{{cancelInvoice.customerConfirm}}</td>
-                <td>{{cancelInvoice.changeNote}}</td>
-                <td>{{cancelInvoice.finish}}</td>
-                <td>{{cancelInvoice.dueDate | date:'medium'}}</td>
-                <td>{{cancelInvoice.finishDate | date:'medium'}}</td>
-                <td>{{cancelInvoice.createDate | date:'medium'}}</td>
-                <td>{{cancelInvoice.updateDate | date:'medium'}}</td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
+                <tr *ngFor="let cancelInvoice of cancelInvoices">
+                    <td><a>{{cancelInvoice.id}}</a></td>
+                    <td>{{cancelInvoice.invoiceNo}}</td>
+                    <td>{{cancelInvoice.status}}</td>
+                    <td>{{cancelInvoice.startAddress}}</td>
+                    <td>{{cancelInvoice.destinationAddress}}</td>
+                    <td>{{cancelInvoice.receiverName}}</td>
+                    <td>{{cancelInvoice.receiverPhone}}</td>
+                    <td>{{cancelInvoice.totalDue}}</td>
+                    <td>{{cancelInvoice.note}}</td>
+                    <td>{{cancelInvoice.cancel}}</td>
+                    <td>{{cancelInvoice.cancelReason}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'cancel-invoice/'+ cancelInvoice.id + '/approve'} }]"
                                 class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'check'"></fa-icon>
-                            <span class="d-none d-md-inline">Approve</span>
-                        </button>
+                                <fa-icon [icon]="'check'"></fa-icon>
+                                <span class="d-none d-md-inline">Approve</span>
+                            </button>
 
-                        <button type="submit"
+                            <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'cancel-invoice/'+ cancelInvoice.id + '/reject'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Reject</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
+                                replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline">Reject</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
     <div *ngIf="cancelInvoices && cancelInvoices.length">
         <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
+            </jhi-item-count>
         </div>
         <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
+                [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
     </div>
 </div>
