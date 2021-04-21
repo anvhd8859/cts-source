@@ -1,3 +1,4 @@
+import { IShipmentInvoice, PersonalShipmentService } from './personal-shipment.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,9 +8,9 @@ import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
 import { Principal } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { DATE_TIME_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
-import moment = require('moment');
+import * as moment from 'moment';
 import { InvoiceHeaderService } from '..';
 import { NgxUiLoaderService } from 'ngx-ui-loader/';
 
@@ -19,8 +20,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader/';
 })
 export class PersonalShipmentComponent implements OnInit, OnDestroy {
     currentAccount: any;
-    invoiceHeaders: IInvoiceHeader[];
-    personalShipments: IPersonalShipment[];
+    shipmentInvoices: IShipmentInvoice[];
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -40,7 +40,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     selectedInvoiceNumber: any;
 
     constructor(
-        private invoiceHeaderService: InvoiceHeaderService,
+        private personalShipmentService: PersonalShipmentService,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
         private principal: Principal,
@@ -71,8 +71,8 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
             size: this.itemsPerPage,
             sort: this.sort()
         };
-        this.invoiceHeaderService.searchInvoiceByStatus(param).subscribe(
-            (res: HttpResponse<IInvoiceHeader[]>) => {
+        this.personalShipmentService.getPersonalShipmentByShipper(param).subscribe(
+            (res: HttpResponse<any>) => {
                 this.paginateInvoiceHeaders(res.body, res.headers);
                 this.ngxUiLoaderService.stop();
             },
@@ -122,8 +122,8 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: IPersonalShipment) {
-        return item.id;
+    trackId(index: number, item: IShipmentInvoice) {
+        return item.personalShipmentDTO.id;
     }
 
     registerChangeInPersonalShipments() {
@@ -138,11 +138,11 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
         return result;
     }
 
-    private paginateInvoiceHeaders(data: IInvoiceHeader[], headers: HttpHeaders) {
+    private paginateInvoiceHeaders(data: IShipmentInvoice[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.queryCount = this.totalItems;
-        this.invoiceHeaders = data;
+        this.shipmentInvoices = data;
     }
 
     private onError(errorMessage: string) {

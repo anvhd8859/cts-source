@@ -1,0 +1,119 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="cancelInvoice">
+            <h2><span>Cancel Invoice</span> {{cancelInvoice.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Customer Id</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.customerId}}</span>
+                </dd>
+                <dt><span>Office Id</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.officeId}}</span>
+                </dd>
+                <dt><span>Invoice No</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.invoiceNo}}</span>
+                </dd>
+                <dt><span>Invoice Type</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.invoiceType}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.status}}</span>
+                </dd>
+                <dt><span>Start Address</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.startAddress}}</span>
+                </dd>
+                <dt><span>Start Street Id</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.startStreetId}}</span>
+                </dd>
+                <dt><span>Destination Address</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.destinationAddress}}</span>
+                </dd>
+                <dt><span>Destination Street Id</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.destinationStreetId}}</span>
+                </dd>
+                <dt><span>Receiver Name</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.receiverName}}</span>
+                </dd>
+                <dt><span>Receiver Phone</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.receiverPhone}}</span>
+                </dd>
+                <dt><span>Sub Total</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.subTotal}}</span>
+                </dd>
+                <dt><span>Tax Amount</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.taxAmount}}</span>
+                </dd>
+                <dt><span>Total Due</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.totalDue}}</span>
+                </dd>
+                <dt><span>Note</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.note}}</span>
+                </dd>
+                <dt><span>Cancel</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.cancel}}</span>
+                </dd>
+                <dt><span>Cancel Reason</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.cancelReason}}</span>
+                </dd>
+                <dt><span>Customer Confirm</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.customerConfirm}}</span>
+                </dd>
+                <dt><span>Change Note</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.changeNote}}</span>
+                </dd>
+                <dt><span>Finish</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.finish}}</span>
+                </dd>
+                <dt><span>Due Date</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.dueDate}}</span>
+                </dd>
+                <dt><span>Finish Date</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.finishDate}}</span>
+                </dd>
+                <dt><span>Create Date</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.createDate}}</span>
+                </dd>
+                <dt><span>Update Date</span></dt>
+                <dd>
+                    <span>{{cancelInvoice.updateDate}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/cancel-invoice', cancelInvoice.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -4,6 +4,7 @@ export interface IInvoiceHeader {
     id?: number;
     customerId?: number;
     officeId?: number;
+    employeeId?: number;
     invoiceNo?: string;
     invoiceType?: string;
     status?: string;
@@ -11,6 +12,8 @@ export interface IInvoiceHeader {
     startStreetId?: number;
     destinationAddress?: string;
     destinationStreetId?: number;
+    receiverName?: string;
+    receiverPhone?: string;
     subTotal?: number;
     taxAmount?: number;
     totalDue?: number;
@@ -31,6 +34,7 @@ export class InvoiceHeader implements IInvoiceHeader {
         public id?: number,
         public customerId?: number,
         public officeId?: number,
+        public employeeId?: number,
         public invoiceNo?: string,
         public invoiceType?: string,
         public status?: string,
@@ -38,6 +42,8 @@ export class InvoiceHeader implements IInvoiceHeader {
         public startStreetId?: number,
         public destinationAddress?: string,
         public destinationStreetId?: number,
+        public receiverName?: string,
+        public receiverPhone?: string,
         public subTotal?: number,
         public taxAmount?: number,
         public totalDue?: number,

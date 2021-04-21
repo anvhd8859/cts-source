@@ -6,6 +6,9 @@ import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.InvoiceHeaderDTO;
+import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
+import com.fu.capstone.service.dto.InvoiceShipmentDTO;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,9 +142,30 @@ public class InvoiceHeaderResource {
     
     @GetMapping("/invoice-headers/by-shipper")
     @Timed
-    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersByShipper(@RequestParam("id")Long id, @RequestParam("invNo") String invNo, @RequestParam("type") String type, Pageable pageable) {
-    	Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByShipper(id, invNo, type, pageable);
+    public ResponseEntity<List<InvoiceShipmentDTO>> getInvoiceHeadersByShipper(@RequestParam("id")Long id, 
+    		@RequestParam("invNo") String invNo, @RequestParam("type") String type, Pageable pageable) {
+    	Page<InvoiceShipmentDTO> page = invoiceHeaderService.getInvoiceHeadersByShipper(id, invNo, type, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/by-shipper");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }   
+    }
+    
+    @GetMapping("/invoice-headers/request-cancel")
+    @Timed
+    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersRequestCancel(Pageable pageable) {
+    	Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersRequestCancel(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/request-cancel");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    @PostMapping("/invoice-headers/invoice-detail")
+    @Timed
+    public ResponseEntity<InvoiceHeaderDTO> createInvoiceHeaderDetailPackage(@RequestBody InvoicePackageDetailDTO invoiceHeaderDTO) throws URISyntaxException {
+        if (invoiceHeaderDTO.getHeader().getId() != null) {
+            throw new BadRequestAlertException("A new invoiceHeader cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        InvoiceHeaderDTO result = invoiceHeaderService.createInvoiceHeaderDetailPackage(invoiceHeaderDTO);
+        return ResponseEntity.created(new URI("/api/invoice-headers/invoice-detail/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
 }
