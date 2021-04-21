@@ -107,6 +107,19 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         this.lstInvoiceDetails.splice(index, 1);
         console.log(this.lstInvoiceDetails);
     }
+
+    addNewInvoicePackageElement() {
+        this.invDetailCount++;
+        const obj = new InvoiceDetails(null, null, '', '', null, null, null, null, '', '', '', null, null);
+        this.lstInvoiceDetails.push(obj);
+        console.log(this.lstInvoiceDetails);
+    }
+
+    removeInvoicePackageElement(index: any) {
+        this.invDetailCount--;
+        this.lstInvoiceDetails.splice(index, 1);
+        console.log(this.lstInvoiceDetails);
+    }
     // HaiNM
 
     save() {
