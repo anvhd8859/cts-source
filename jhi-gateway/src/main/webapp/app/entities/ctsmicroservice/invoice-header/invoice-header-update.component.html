@@ -80,11 +80,11 @@
                     </div>
                     <label class="form-control-label" for="from-address"><b>Package Details</b></label>
                     <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
-                            <ng-container *ngFor="let item of lstInvoiceDetails; let i = index">    
+                            <ng-container *ngFor="let item of lstInvoicePackage; let i = index">    
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="row">
-                                            <div class="col-10"> Item #{{i + 1}} </div>
+                                            <div class="col-10"> Package #{{i + 1}} </div>
                                             <div class="col-2">
                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                                                 (click)="this.removeInvoiceDetailElement(i)">&times;</button>
@@ -92,22 +92,6 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                                <div class="form-group">
-                                                    <label class="form-control-label" for="itemName{{i}}">Item Name</label>
-                                                    <input placeholder="... " class="form-control"
-                                                        type="text" name="itemName{{i}}" id="itemName{{i}}" [(ngModel)]="item.itemName">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                                <div class="form-group">
-                                                    <label class="form-control-label" for="itemType{{i}}">Item Type</label>
-                                                    <input placeholder="... " class="form-control"
-                                                        type="text" name="itemType{{i}}" id="itemType{{i}}" [(ngModel)]="item.itemType">
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 col-sm-3">
                                                 <div class="form-group">
@@ -141,11 +125,11 @@
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="description{{i}}">Description</label>
+                                                    <label class="form-control-label" for="description{{i}}">Package Note</label>
                                                     <textarea   class="form-control" 
                                                                 style="resize: none;" 
                                                                 rows="3" id="address"
-                                                                name="address" [(ngModel)]="this.item.description">
+                                                                name="address" [(ngModel)]="this.item.note">
                                                     </textarea>
                                                 </div>
                                             </div>
@@ -154,7 +138,7 @@
                                 </div>
                                 <br>
                             </ng-container>
-                        <button type="button" class="btn btn-primary" (click)="this.addNewInvoiceDetailElement()">Add Package</button>
+                        <button type="button" class="btn btn-primary" (click)="this.addNewInvoicePackageElement()">Add Package</button>
                     </div>
                     <br>
                 </div>
