@@ -80,18 +80,80 @@
                     </div>
                     <label class="form-control-label" for="from-address"><b>Package Details</b></label>
                     <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
-                            <ng-container *ngFor="let item of lstInvoiceDetails; let i = index">               
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="customerNote">Item Name</label>
-                                            <input placeholder="Copy and paste XPath here ..." class="form-control"
-                                                type="text" name="{{i}}" id="{{i}}" [(ngModel)]="item.itemName">
+                            <ng-container *ngFor="let item of lstInvoiceDetails; let i = index">    
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-10"> Item #{{i + 1}} </div>
+                                            <div class="col-2">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                                (click)="this.removeInvoiceDetailElement(i)">&times;</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="itemName{{i}}">Item Name</label>
+                                                    <input placeholder="... " class="form-control"
+                                                        type="text" name="itemName{{i}}" id="itemName{{i}}" [(ngModel)]="item.itemName">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="itemType{{i}}">Item Type</label>
+                                                    <input placeholder="... " class="form-control"
+                                                        type="text" name="itemType{{i}}" id="itemType{{i}}" [(ngModel)]="item.itemType">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="weight{{i}}">Weight</label>
+                                                    <input placeholder="... " class="form-control" step="0.1"
+                                                        type="number" name="weight{{i}}" id="weight{{i}}" [(ngModel)]="item.weight">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="height{{i}}">Height</label>
+                                                    <input placeholder="... " class="form-control" step="0.1"
+                                                        type="number" name="height{{i}}" id="height{{i}}" [(ngModel)]="item.height">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="width{{i}}">Width</label>
+                                                    <input placeholder="... " class="form-control" step="0.1"
+                                                        type="number" name="width{{i}}" id="width{{i}}" [(ngModel)]="item.width">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="length{{i}}">Length</label>
+                                                    <input placeholder="... " class="form-control" step="0.1"
+                                                        type="number" name="length{{i}}" id="length{{i}}" [(ngModel)]="item.length">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="description{{i}}">Description</label>
+                                                    <textarea   class="form-control" 
+                                                                style="resize: none;" 
+                                                                rows="3" id="address"
+                                                                name="address" [(ngModel)]="this.item.description">
+                                                    </textarea>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <br>
                             </ng-container>
-                        <label class="form-control-label" for="field_xpath">Package(s):</label>
                         <button type="button" class="btn btn-primary" (click)="this.addNewInvoiceDetailElement()">Add Package</button>
                     </div>
                     <br>
