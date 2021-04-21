@@ -123,4 +123,19 @@ public class PaymentResource {
         paymentService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    // START TuyenVNT 14/04/2021
+    /**
+     * GET  /payment/by-invoice-header?:id : get the payment by header id.
+     * 
+     * @param id HeaderId
+     */
+    @GetMapping("/payments/by-invoice-header")
+    @Timed
+    public ResponseEntity<List<PaymentDTO>> getPaymentByHeaderId(@RequestParam("id") Long id, Pageable pageable) {
+    	Page<PaymentDTO> page = paymentService.getPaymentByHeaderId(id, pageable);
+    	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/payments/by-invoice-header");
+    	return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    // END TuyenVNT 16/04/2021
 }

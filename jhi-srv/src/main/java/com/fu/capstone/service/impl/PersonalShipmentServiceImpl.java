@@ -99,6 +99,24 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
         personalShipmentRepository.deleteById(id);
     }
 
+    
+    // START TuyenVNT 14/04/2021
+ 	@Override
+ 	public Page<PersonalShipmentDTO> getPersonalShipmentByHeaderId(Long id, Pageable pageable) {
+ 		return personalShipmentRepository.getPersonalShipmentByHeaderId(id, pageable)
+				.map(personalShipmentMapper::toDto);
+ 	}
+ 	// END TuyenVNT 16/04/2021
+ 	
+ 	// START TuyenVNT 16/04/2021
+ 	@Override
+ 	public Page<PersonalShipmentDTO> getPersonalShipmentNotAssigned(Pageable pageable) {
+ 		return personalShipmentRepository.getPersonalShipmentNotAssigned(pageable)
+				.map(personalShipmentMapper::toDto);
+ 	}
+ 	// END TuyenVNT 16/04/2021
+
+
 	@Override
 	public Page<PersonalShipmentInvoiceDTO> getPersonalShipmentByShipper(Long id, String invNo, String type, Pageable pageable) {
 		Page<PersonalShipmentDTO> page = personalShipmentRepository.getPersonalShipmentByShipper(id, invNo, type, pageable)
@@ -114,4 +132,5 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
         return dto;
     }
 	
+
 }

@@ -87,4 +87,12 @@ public class PaymentServiceImpl implements PaymentService {
         log.debug("Request to delete Payment : {}", id);
         paymentRepository.deleteById(id);
     }
+    
+    // START TuyenVNT 14/04/2021
+    @Override
+ 	public Page<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable) {
+ 		return paymentRepository.getPaymentByHeaderId(id, pageable)
+				.map(paymentMapper::toDto);
+ 	}
+    // END TuyenVNT 16/04/2021
 }
