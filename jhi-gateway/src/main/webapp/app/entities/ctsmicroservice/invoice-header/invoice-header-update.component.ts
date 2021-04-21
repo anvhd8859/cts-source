@@ -15,6 +15,7 @@ import { ISubDistrict } from 'app/shared/model/ctsmicroservice/sub-district.mode
 import { JhiAlertService } from 'ng-jhipster';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
+import { IInvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 
 @Component({
     selector: 'jhi-invoice-header-update',
@@ -56,8 +57,10 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         { id: 'Cancelled', text: 'Cancelled' }
     ];
     // HaiNM
+    lstInvoicePackage: IInvoicePackage[] = [];
+    invPackageCount: number;
     lstInvoiceDetails: IInvoiceDetails[] = [];
-    InvDetailCount: number;
+    invDetailCount: number;
     // HaiNM
 
     constructor(
@@ -93,9 +96,15 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
 
     // HaiNM
     addNewInvoiceDetailElement() {
-        this.InvDetailCount++;
-        let obj = new InvoiceDetails(null, null, '', '', null, null, null, null, '', '', '', null, null);
+        this.invDetailCount++;
+        const obj = new InvoiceDetails(null, null, '', '', null, null, null, null, '', '', '', null, null);
         this.lstInvoiceDetails.push(obj);
+        console.log(this.lstInvoiceDetails);
+    }
+
+    removeInvoiceDetailElement(index: any) {
+        this.invDetailCount--;
+        this.lstInvoiceDetails.splice(index, 1);
         console.log(this.lstInvoiceDetails);
     }
     // HaiNM
@@ -125,6 +134,8 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                     (this.selectedDistrictTo ? this.selectedDistrictTo.districtName : '') +
                     ', ' +
                     (this.selectedProvinceTo ? this.selectedProvinceTo.provinceName : '');
+                this.invoiceHeader.startStreetId = this.selectedStreetFrom;
+                this.invoiceHeader.destinationStreetId = this.selectedStreetTo;
             }
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
