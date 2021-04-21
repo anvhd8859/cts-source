@@ -48,5 +48,5 @@ public interface StreetService {
     // AnhVD new code
     Page<StreetDTO> getAllStreetsBySubDistrictId(Long id, Pageable pageable);
 
-	Optional<Street> getFullAddressByStreetId(Long id);
+	Street getFullAddressByStreetId(Long id);
 }
