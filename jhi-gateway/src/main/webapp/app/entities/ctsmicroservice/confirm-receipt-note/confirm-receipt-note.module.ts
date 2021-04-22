@@ -9,7 +9,9 @@ import {
     ConfirmReceiptNoteDeletePopupComponent,
     ConfirmReceiptNoteDeleteDialogComponent,
     confirmReceiptNoteRoute,
-    confirmReceiptNotePopupRoute
+    confirmReceiptNotePopupRoute,
+    ConfirmReceiptNoteDialogComponent,
+    ConfirmReceiptNotePopupComponent
 } from './';
 
 const ENTITY_STATES = [...confirmReceiptNoteRoute, ...confirmReceiptNotePopupRoute];
@@ -21,13 +23,17 @@ const ENTITY_STATES = [...confirmReceiptNoteRoute, ...confirmReceiptNotePopupRou
         ConfirmReceiptNoteDetailComponent,
         ConfirmReceiptNoteUpdateComponent,
         ConfirmReceiptNoteDeleteDialogComponent,
-        ConfirmReceiptNoteDeletePopupComponent
+        ConfirmReceiptNoteDeletePopupComponent,
+        ConfirmReceiptNoteDialogComponent,
+        ConfirmReceiptNotePopupComponent
     ],
     entryComponents: [
         ConfirmReceiptNoteComponent,
         ConfirmReceiptNoteUpdateComponent,
         ConfirmReceiptNoteDeleteDialogComponent,
-        ConfirmReceiptNoteDeletePopupComponent
+        ConfirmReceiptNoteDeletePopupComponent,
+        ConfirmReceiptNoteDialogComponent,
+        ConfirmReceiptNotePopupComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
