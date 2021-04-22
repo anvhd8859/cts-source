@@ -7,6 +7,7 @@ import com.fu.capstone.service.dto.InvoiceShipmentDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -61,5 +62,8 @@ public interface InvoiceHeaderService {
 	Page<InvoiceHeaderDTO> getInvoiceHeadersRequestCancel(Pageable pageable);
 
 	InvoiceHeaderDTO createInvoiceHeaderDetailPackage(InvoicePackageDetailDTO invoicePackageDetailDTO);
+
+	List<InvoiceHeaderDTO> saveInvoiceHeadersApproved(List<InvoiceHeaderDTO> invoiceHeadersDTO);
+	
 
 }

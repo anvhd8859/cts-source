@@ -177,4 +177,16 @@ public class InvoiceHeaderResource {
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
+    
+    @PutMapping("/invoice-headers/approve-invoices")
+    @Timed
+    public ResponseEntity<List<InvoiceHeaderDTO>> saveInvoiceHeadersApproved(@RequestBody List<InvoiceHeaderDTO> invoiceHeadersDTO) throws URISyntaxException {
+    	List<InvoiceHeaderDTO> result = invoiceHeaderService.saveInvoiceHeadersApproved(invoiceHeadersDTO);
+    	String rs = "";
+		for(InvoiceHeaderDTO i : result) rs += i.getId() + ",";
+		rs = rs.substring(0, rs.length() - 1);
+        return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rs))
+                .body(result);
+    }
 }
