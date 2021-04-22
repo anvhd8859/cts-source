@@ -4,6 +4,7 @@ export interface ICancelInvoice {
     id?: number;
     customerId?: number;
     officeId?: number;
+    employeeId?: number;
     invoiceNo?: string;
     invoiceType?: string;
     status?: string;
@@ -33,6 +34,7 @@ export class CancelInvoice implements ICancelInvoice {
         public id?: number,
         public customerId?: number,
         public officeId?: number,
+        public employeeId?: number,
         public invoiceNo?: string,
         public invoiceType?: string,
         public status?: string,
