@@ -12,6 +12,7 @@ import { ConfirmReceiptNoteDetailComponent } from './confirm-receipt-note-detail
 import { ConfirmReceiptNoteUpdateComponent } from './confirm-receipt-note-update.component';
 import { ConfirmReceiptNoteDeletePopupComponent } from './confirm-receipt-note-delete-dialog.component';
 import { IConfirmReceiptNote } from 'app/shared/model/ctsmicroservice/confirm-receipt-note.model';
+import { ConfirmReceiptNotePopupComponent } from './confirm-receipt-note-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class ConfirmReceiptNoteResolve implements Resolve<IConfirmReceiptNote> {
@@ -82,6 +83,19 @@ export const confirmReceiptNotePopupRoute: Routes = [
     {
         path: 'confirm-receipt-note/:id/delete',
         component: ConfirmReceiptNoteDeletePopupComponent,
+        resolve: {
+            confirmReceiptNote: ConfirmReceiptNoteResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ConfirmReceiptNotes'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: 'confirm-receipt-note/:id/confirm',
+        component: ConfirmReceiptNotePopupComponent,
         resolve: {
             confirmReceiptNote: ConfirmReceiptNoteResolve
         },
