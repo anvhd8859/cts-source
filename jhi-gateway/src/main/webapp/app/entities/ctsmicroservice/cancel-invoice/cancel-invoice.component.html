@@ -1,12 +1,13 @@
 <div>
     <h2 id="page-heading">
         <span>Cancel Invoices</span>
-        <!-- <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-cancel-invoice" [routerLink]="['/cancel-invoice/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-cancel-invoice" (click)="approveAll()"
+            [disabled]="cancelInvoices">
+            <fa-icon [icon]="'check'"></fa-icon>
             <span >
-            Create new Cancel Invoice
+            Approve all display request
             </span>
-        </button> -->
+        </button>
     </h2>
     <jhi-alert></jhi-alert>
     <br />
@@ -19,13 +20,9 @@
                     <th><span>Status</span> </th>
                     <th><span>Start Address</span></th>
                     <th><span>Destination Address</span> </th>
-                    <th><span>Receiver Name</span> </th>
-                    <th><span>Receiver Phone</span> ></th>
                     <th><span>Total Due</span> </th>
-                    <th><span>Note</span></th>
-                    <th><span>Cancel</span></th>
                     <th><span>Cancel Reason</span> </th>
-                    <th><span>Action</span></th>
+                    <th class="text-right"><span>Action</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -35,11 +32,7 @@
                     <td>{{cancelInvoice.status}}</td>
                     <td>{{cancelInvoice.startAddress}}</td>
                     <td>{{cancelInvoice.destinationAddress}}</td>
-                    <td>{{cancelInvoice.receiverName}}</td>
-                    <td>{{cancelInvoice.receiverPhone}}</td>
                     <td>{{cancelInvoice.totalDue}}</td>
-                    <td>{{cancelInvoice.note}}</td>
-                    <td>{{cancelInvoice.cancel}}</td>
                     <td>{{cancelInvoice.cancelReason}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
