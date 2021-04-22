@@ -39,7 +39,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 				  + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) ",
 				  countQuery =  "SELECT COUNT(*) FROM invoice_header i, personal_shipment ps, employee e, person p "
 						  + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
-						  + " AND ps.status <> 'finish' "
+						  + " AND (ps.status <> 'finish' OR i.jhi_cancel <> 'true')"
 						  + " AND (:type = '' OR ps.shipment_type = :type) "
 						  + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) ",
 				  nativeQuery = true)
