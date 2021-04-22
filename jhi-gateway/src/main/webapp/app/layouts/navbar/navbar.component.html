@@ -190,7 +190,7 @@
                   <span *ngIf="!getImageUrl()">
                     <fa-icon [icon]="'user'"></fa-icon>
                     <span>
-                        Account
+                        {{this.getUsername()}}
                     </span>
                   </span>
                   <span *ngIf="getImageUrl()">
@@ -201,13 +201,13 @@
                     <li *ngSwitchCase="true">
                         <a class="dropdown-item" routerLink="settings" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon [icon]="'wrench'" [fixedWidth]="true"></fa-icon>
-                            <span>Settings</span>
+                            <span>Profile</span>
                         </a>
                     </li>
                     <li *ngSwitchCase="true">
                         <a class="dropdown-item" routerLink="password" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon [icon]="'clock'" [fixedWidth]="true"></fa-icon>
-                            <span>Password</span>
+                            <span>Change Password</span>
                         </a>
                     </li>
                     <li *ngSwitchCase="true">
