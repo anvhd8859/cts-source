@@ -43,9 +43,11 @@ public class CommonConstant {
 	public static class InvoicePackageConstant {
 
 		public final static Map<String, String> STATUS = Stream.of(new String[][] {
+			  { "new", "Tạo mới" }, 
 			  { "first_import", "Nhập kho chi nhánh đầu" }, 
 			  { "transporting", "Đang vận chuyển" }, 
 			  { "last_import", "Nhập kho chi nhánh cuối" }, 
+			  { "finish", "Giao thành công" }, 
 			}).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 	}
 
