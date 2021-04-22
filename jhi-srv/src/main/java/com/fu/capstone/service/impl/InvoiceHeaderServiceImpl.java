@@ -281,4 +281,9 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		return invoiceHeaderMapper.toDto(result);
 	}
 
+	@Override
+	public Page<InvoiceHeaderDTO> getInvoiceHeadersByCustomer(Long id, Pageable pageable) {
+		return invoiceHeaderRepository.getInvoiceHeadersByCustomer(id, pageable).map(invoiceHeaderMapper::toDto);
+	}
+
 }
