@@ -2,6 +2,7 @@ package com.fu.capstone.repository;
 
 import com.fu.capstone.domain.PersonalShipment;
 
+import java.util.Optional;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -30,7 +31,7 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 	// END TuyenVNT 
 
 
-    // new code DongPH
+  // new code DongPH
 	@Query( value = "SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :invoiceId")
 	List<PersonalShipment> getShipmentByInvoice(@Param("invoiceId") Long id);
 
