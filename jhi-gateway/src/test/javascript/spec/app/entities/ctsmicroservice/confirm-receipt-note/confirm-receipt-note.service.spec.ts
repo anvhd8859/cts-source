@@ -6,61 +6,32 @@ import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { InvoiceHeaderService } from 'app/entities/ctsmicroservice/invoice-header/invoice-header.service';
-import { IInvoiceHeader, InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { ConfirmReceiptNoteService } from 'app/entities/ctsmicroservice/confirm-receipt-note/confirm-receipt-note.service';
+import { IConfirmReceiptNote, ConfirmReceiptNote } from 'app/shared/model/ctsmicroservice/confirm-receipt-note.model';
 
 describe('Service Tests', () => {
-    describe('InvoiceHeader Service', () => {
+    describe('ConfirmReceiptNote Service', () => {
         let injector: TestBed;
-        let service: InvoiceHeaderService;
+        let service: ConfirmReceiptNoteService;
         let httpMock: HttpTestingController;
-        let elemDefault: IInvoiceHeader;
+        let elemDefault: IConfirmReceiptNote;
         let currentDate: moment.Moment;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
             });
             injector = getTestBed();
-            service = injector.get(InvoiceHeaderService);
+            service = injector.get(ConfirmReceiptNoteService);
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new InvoiceHeader(
-                0,
-                0,
-                0,
-                0,
-                'AAAAAAA',
-                'AAAAAAA',
-                'AAAAAAA',
-                'AAAAAAA',
-                0,
-                'AAAAAAA',
-                0,
-                'AAAAAAA',
-                'AAAAAAA',
-                0,
-                0,
-                0,
-                'AAAAAAA',
-                false,
-                'AAAAAAA',
-                false,
-                'AAAAAAA',
-                false,
-                currentDate,
-                currentDate,
-                currentDate,
-                currentDate
-            );
+            elemDefault = new ConfirmReceiptNote(0, 0, 0, 'AAAAAAA', false, currentDate, currentDate);
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        dueDate: currentDate.format(DATE_TIME_FORMAT),
-                        finishDate: currentDate.format(DATE_TIME_FORMAT),
                         createDate: currentDate.format(DATE_TIME_FORMAT),
                         updateDate: currentDate.format(DATE_TIME_FORMAT)
                     },
@@ -75,12 +46,10 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should create a InvoiceHeader', async () => {
+            it('should create a ConfirmReceiptNote', async () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
-                        dueDate: currentDate.format(DATE_TIME_FORMAT),
-                        finishDate: currentDate.format(DATE_TIME_FORMAT),
                         createDate: currentDate.format(DATE_TIME_FORMAT),
                         updateDate: currentDate.format(DATE_TIME_FORMAT)
                     },
@@ -88,44 +57,26 @@ describe('Service Tests', () => {
                 );
                 const expected = Object.assign(
                     {
-                        dueDate: currentDate,
-                        finishDate: currentDate,
                         createDate: currentDate,
                         updateDate: currentDate
                     },
                     returnedFromService
                 );
                 service
-                    .create(new InvoiceHeader(null))
+                    .create(new ConfirmReceiptNote(null))
                     .pipe(take(1))
                     .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
                 const req = httpMock.expectOne({ method: 'POST' });
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should update a InvoiceHeader', async () => {
+            it('should update a ConfirmReceiptNote', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        customerId: 1,
-                        officeId: 1,
-                        invoiceNo: 'BBBBBB',
-                        invoiceType: 'BBBBBB',
-                        status: 'BBBBBB',
-                        startAddress: 'BBBBBB',
-                        startStreetId: 1,
-                        destinationAddress: 'BBBBBB',
-                        destinationStreetId: 1,
-                        subTotal: 1,
-                        taxAmount: 1,
-                        totalDue: 1,
+                        employeeId: 1,
+                        invoiceHeaderId: 1,
                         note: 'BBBBBB',
-                        cancel: true,
-                        cancelReason: 'BBBBBB',
                         customerConfirm: true,
-                        changeNote: 'BBBBBB',
-                        finish: true,
-                        dueDate: currentDate.format(DATE_TIME_FORMAT),
-                        finishDate: currentDate.format(DATE_TIME_FORMAT),
                         createDate: currentDate.format(DATE_TIME_FORMAT),
                         updateDate: currentDate.format(DATE_TIME_FORMAT)
                     },
@@ -134,8 +85,6 @@ describe('Service Tests', () => {
 
                 const expected = Object.assign(
                     {
-                        dueDate: currentDate,
-                        finishDate: currentDate,
                         createDate: currentDate,
                         updateDate: currentDate
                     },
@@ -149,29 +98,13 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should return a list of InvoiceHeader', async () => {
+            it('should return a list of ConfirmReceiptNote', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        customerId: 1,
-                        officeId: 1,
-                        invoiceNo: 'BBBBBB',
-                        invoiceType: 'BBBBBB',
-                        status: 'BBBBBB',
-                        startAddress: 'BBBBBB',
-                        startStreetId: 1,
-                        destinationAddress: 'BBBBBB',
-                        destinationStreetId: 1,
-                        subTotal: 1,
-                        taxAmount: 1,
-                        totalDue: 1,
+                        employeeId: 1,
+                        invoiceHeaderId: 1,
                         note: 'BBBBBB',
-                        cancel: true,
-                        cancelReason: 'BBBBBB',
                         customerConfirm: true,
-                        changeNote: 'BBBBBB',
-                        finish: true,
-                        dueDate: currentDate.format(DATE_TIME_FORMAT),
-                        finishDate: currentDate.format(DATE_TIME_FORMAT),
                         createDate: currentDate.format(DATE_TIME_FORMAT),
                         updateDate: currentDate.format(DATE_TIME_FORMAT)
                     },
@@ -179,8 +112,6 @@ describe('Service Tests', () => {
                 );
                 const expected = Object.assign(
                     {
-                        dueDate: currentDate,
-                        finishDate: currentDate,
                         createDate: currentDate,
                         updateDate: currentDate
                     },
@@ -195,7 +126,7 @@ describe('Service Tests', () => {
                 httpMock.verify();
             });
 
-            it('should delete a InvoiceHeader', async () => {
+            it('should delete a ConfirmReceiptNote', async () => {
                 const rxPromise = service.delete(123).subscribe(resp => expect(resp.ok));
 
                 const req = httpMock.expectOne({ method: 'DELETE' });

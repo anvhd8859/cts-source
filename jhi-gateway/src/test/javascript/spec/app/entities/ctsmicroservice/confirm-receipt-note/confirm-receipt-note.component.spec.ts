@@ -5,19 +5,20 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Data } from '@angular/router';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { PersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
-import { PersonalShipmentComponent, PersonalShipmentService } from 'app/entities/ctsmicroservice/invoice-header/personal-shipment';
+import { ConfirmReceiptNoteComponent } from 'app/entities/ctsmicroservice/confirm-receipt-note/confirm-receipt-note.component';
+import { ConfirmReceiptNoteService } from 'app/entities/ctsmicroservice/confirm-receipt-note/confirm-receipt-note.service';
+import { ConfirmReceiptNote } from 'app/shared/model/ctsmicroservice/confirm-receipt-note.model';
 
 describe('Component Tests', () => {
-    describe('PersonalShipment Management Component', () => {
-        let comp: PersonalShipmentComponent;
-        let fixture: ComponentFixture<PersonalShipmentComponent>;
-        let service: PersonalShipmentService;
+    describe('ConfirmReceiptNote Management Component', () => {
+        let comp: ConfirmReceiptNoteComponent;
+        let fixture: ComponentFixture<ConfirmReceiptNoteComponent>;
+        let service: ConfirmReceiptNoteService;
 
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [CtsgatewayTestModule],
-                declarations: [PersonalShipmentComponent],
+                declarations: [ConfirmReceiptNoteComponent],
                 providers: [
                     {
                         provide: ActivatedRoute,
@@ -36,12 +37,12 @@ describe('Component Tests', () => {
                     }
                 ]
             })
-                .overrideTemplate(PersonalShipmentComponent, '')
+                .overrideTemplate(ConfirmReceiptNoteComponent, '')
                 .compileComponents();
 
-            fixture = TestBed.createComponent(PersonalShipmentComponent);
+            fixture = TestBed.createComponent(ConfirmReceiptNoteComponent);
             comp = fixture.componentInstance;
-            service = fixture.debugElement.injector.get(PersonalShipmentService);
+            service = fixture.debugElement.injector.get(ConfirmReceiptNoteService);
         });
 
         it('Should call load all on init', () => {
@@ -50,7 +51,7 @@ describe('Component Tests', () => {
             spyOn(service, 'query').and.returnValue(
                 of(
                     new HttpResponse({
-                        body: [new PersonalShipment(123)],
+                        body: [new ConfirmReceiptNote(123)],
                         headers
                     })
                 )
@@ -61,7 +62,7 @@ describe('Component Tests', () => {
 
             // THEN
             expect(service.query).toHaveBeenCalled();
-            expect(true).toEqual(true);
+            expect(comp.confirmReceiptNotes[0]).toEqual(jasmine.objectContaining({ id: 123 }));
         });
 
         it('should load a page', () => {
@@ -70,7 +71,7 @@ describe('Component Tests', () => {
             spyOn(service, 'query').and.returnValue(
                 of(
                     new HttpResponse({
-                        body: [new PersonalShipment(123)],
+                        body: [new ConfirmReceiptNote(123)],
                         headers
                     })
                 )
@@ -81,7 +82,7 @@ describe('Component Tests', () => {
 
             // THEN
             expect(service.query).toHaveBeenCalled();
-            expect(true).toEqual(true);
+            expect(comp.confirmReceiptNotes[0]).toEqual(jasmine.objectContaining({ id: 123 }));
         });
 
         it('should not load a page is the page is the same as the previous page', () => {
@@ -100,7 +101,7 @@ describe('Component Tests', () => {
             spyOn(service, 'query').and.returnValue(
                 of(
                     new HttpResponse({
-                        body: [new PersonalShipment(123)],
+                        body: [new ConfirmReceiptNote(123)],
                         headers
                     })
                 )
@@ -113,7 +114,7 @@ describe('Component Tests', () => {
             // THEN
             expect(comp.page).toEqual(0);
             expect(service.query).toHaveBeenCalledTimes(2);
-            expect(true).toEqual(true);
+            expect(comp.confirmReceiptNotes[0]).toEqual(jasmine.objectContaining({ id: 123 }));
         });
         it('should calculate the sort attribute for an id', () => {
             // WHEN
