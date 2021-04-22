@@ -145,6 +145,11 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
                     ', ' +
                     (this.selectedProvinceTo ? this.selectedProvinceTo.provinceName : '');
             }
+            const postObject = {
+                header: this.invoiceHeader,
+                lstDetail: this.lstInvoiceDetails,
+                lstPackage: this.lstInvoicePackage
+            };
             this.invoiceHeader.status = 'Pending';
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
