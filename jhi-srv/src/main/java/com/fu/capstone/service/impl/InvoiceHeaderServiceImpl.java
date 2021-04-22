@@ -4,11 +4,13 @@ import com.fu.capstone.service.InvoiceHeaderService;
 import com.fu.capstone.domain.InvoiceDetails;
 import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.InvoicePackage;
+import com.fu.capstone.domain.Office;
 import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.domain.Street;
 import com.fu.capstone.repository.InvoiceDetailsRepository;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
+import com.fu.capstone.repository.OfficeRepository;
 import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.StreetRepository;
 import com.fu.capstone.service.dto.InvoiceHeaderDTO;
@@ -53,6 +55,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	
 	private StreetRepository streetRepository;
 	
+	private OfficeRepository officeRepository;
+	
 	private InvoiceHeaderMapper invoiceHeaderMapper;
 	
 	private InvoiceDetailsMapper invoiceDetailsMapper;
@@ -65,7 +69,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			InvoiceDetailsRepository invoiceDetailsRepository, InvoiceDetailsMapper invoiceDetailsMapper, 
 			InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
 			PersonalShipmentRepository personalShipmentRepository, PersonalShipmentMapper personalShipmentMapper,
-			StreetRepository streetRepository) {
+			StreetRepository streetRepository, OfficeRepository officeRepository) {
 		this.invoiceHeaderRepository = invoiceHeaderRepository;
 		this.invoiceHeaderMapper = invoiceHeaderMapper;
 		this.invoiceDetailsRepository = invoiceDetailsRepository;
@@ -75,6 +79,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		this.personalShipmentRepository = personalShipmentRepository;
 		this.personalShipmentMapper = personalShipmentMapper;
 		this.streetRepository = streetRepository;
+		this.officeRepository = officeRepository;
 	}
 
 	/**
@@ -145,8 +150,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	// DongPh code
 	@Override
 	public InvoiceHeaderDTO createNewInvoice(InvoiceHeaderDTO invoiceHeaderDTO) {
-		log.debug("Request to save InvoiceHeader : {}", invoiceHeaderDTO);
-
 		InvoiceHeader invoiceHeader = invoiceHeaderMapper.toEntity(invoiceHeaderDTO);
 		invoiceHeader = invoiceHeaderRepository.save(invoiceHeader);
 		// process invoice header no
@@ -190,6 +193,13 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		Street fromStreet = streetRepository.getFullAddressByStreetId(invoiceHeader.getStartStreetId());
 		Street toStreet = streetRepository.getFullAddressByStreetId(invoiceHeader.getDestinationStreetId());
 		
+		// create invoice and get invoice with ID
+		invoiceHeader = invoiceHeaderRepository.save(invoiceHeader);		
+		
+		// set invoice id for package and detail
+		for(InvoiceDetails i : lstDetail) i.setInvoiceHeaderId(invoiceHeader.getId());
+		for(InvoicePackage i : lstPackage) i.setInvoiceHeaderId(invoiceHeader.getId());
+		
 		// process data
 		BigDecimal subTotal = calculateSubTotal(lstPackage, fromStreet, toStreet);
 		invoiceHeader.setSubTotal(subTotal);
@@ -197,31 +207,40 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		invoiceHeader.setTotalDue(subTotal.add(invoiceHeader.getTaxAmount()));
 		
 		// save data
-		invoiceHeader = invoiceHeaderRepository.save(invoiceHeader);
-		InvoiceHeaderDTO invoiceHeaderDTO = invoiceHeaderMapper.toDto(invoiceHeader);
-		if(invoiceHeaderDTO.getStatus().equalsIgnoreCase("collect")){
+		if(invoiceHeader.getStatus().equalsIgnoreCase("collect")){
 			PersonalShipment psOne = new PersonalShipment();
 			psOne.setStatus("waiting");
-			psOne.setInvoiceHeaderId(invoiceHeaderDTO.getId());
+			psOne.setInvoiceHeaderId(invoiceHeader.getId());
 			psOne.setShipmentType("collect");
 			PersonalShipment psTwo = new PersonalShipment();
 			psTwo.setStatus("waiting");
-			psTwo.setInvoiceHeaderId(invoiceHeaderDTO.getId());
+			psTwo.setInvoiceHeaderId(invoiceHeader.getId());
 			psTwo.setShipmentType("delivery");
 			List<PersonalShipment> lstShipment = new ArrayList<>();
 			lstShipment.add(psOne);
 			lstShipment.add(psTwo);
 			personalShipmentRepository.saveAll(lstShipment);
+			Office ofc = officeRepository.searchOfficeNearby(fromStreet.getId(), 
+					fromStreet.getSubDistrictId().getId(), 
+					fromStreet.getSubDistrictId().getDistrictId().getId(), 
+					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
+			if(ofc != null) invoiceHeader.setOfficeId(ofc.getId());
 		} else {
 			PersonalShipment psTwo = new PersonalShipment();
 			psTwo.setStatus("waiting");
-			psTwo.setInvoiceHeaderId(invoiceHeaderDTO.getId());
+			psTwo.setInvoiceHeaderId(invoiceHeader.getId());
 			psTwo.setShipmentType("delivery");
 			personalShipmentRepository.save(psTwo);
 		}
 		invoiceDetailsRepository.saveAll(lstDetail);
-		invoicePackageRepository.saveAll(lstPackage);		
-		return invoiceHeaderDTO;
+		invoicePackageRepository.saveAll(lstPackage);
+		
+		// process invoice header no and save
+		String invNo = "INV" + LocalDate.now().getYear() + "-" + String.format("%010d", invoiceHeader.getId());
+		invoiceHeader.setInvoiceNo(invNo);
+		invoiceHeader = invoiceHeaderRepository.save(invoiceHeader);
+		
+		return invoiceHeaderMapper.toDto(invoiceHeader);
 	}
 	
 	private BigDecimal calculateSubTotal(List<InvoicePackage> lstPackage, Street fromStreet, Street toStreet) {
