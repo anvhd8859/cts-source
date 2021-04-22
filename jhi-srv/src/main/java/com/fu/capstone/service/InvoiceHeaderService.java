@@ -64,6 +64,7 @@ public interface InvoiceHeaderService {
 	InvoiceHeaderDTO createInvoiceHeaderDetailPackage(InvoicePackageDetailDTO invoicePackageDetailDTO);
 
 	List<InvoiceHeaderDTO> saveInvoiceHeadersApproved(List<InvoiceHeaderDTO> invoiceHeadersDTO);
-	
+
+	Page<InvoiceHeaderDTO> getInvoiceHeadersByCustomer(Long id, Pageable pageable);
 
 }
