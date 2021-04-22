@@ -168,4 +168,13 @@ public class InvoiceHeaderResource {
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
+    
+    @PutMapping("/invoice-headers/invoice-detail")
+    @Timed
+    public ResponseEntity<InvoiceHeaderDTO> saveInvoiceHeaderDetailPackage(@RequestBody InvoicePackageDetailDTO invoiceHeaderDTO) throws URISyntaxException {
+        InvoiceHeaderDTO result = invoiceHeaderService.createInvoiceHeaderDetailPackage(invoiceHeaderDTO);
+        return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
+    }
 }
