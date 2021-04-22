@@ -27,6 +27,8 @@ export class ConfirmReceiptNoteDialogComponent {
     }
 
     confirmReceipt(confirmReceiptNote: IConfirmReceiptNote) {
+        this.isSaving = true;
+        confirmReceiptNote.customerConfirm = true;
         this.confirmReceiptNoteService.update(confirmReceiptNote).subscribe(
             (response: HttpResponse<IConfirmReceiptNote>) => {
                 this.isSaving = false;
