@@ -14,6 +14,8 @@ import { IStreet } from 'app/shared/model/ctsmicroservice/street.model';
 import { ISubDistrict } from 'app/shared/model/ctsmicroservice/sub-district.model';
 import { JhiAlertService } from 'ng-jhipster';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
+import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
+import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 
 @Component({
     selector: 'jhi-invoice-header-user-update',
@@ -54,6 +56,12 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         { id: 'Shipped', text: 'Shipped' },
         { id: 'Cancelled', text: 'Cancelled' }
     ];
+    // HaiNM
+    lstInvoicePackage: IInvoicePackage[] = [];
+    invPackageCount: number;
+    lstInvoiceDetails: IInvoiceDetails[] = [];
+    invDetailCount: number;
+    // HaiNM
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -78,6 +86,34 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
             this.changeUser();
         });
     }
+
+    // HaiNM
+    addNewInvoiceDetailElement() {
+        this.invDetailCount++;
+        const obj = new InvoiceDetails(null, null, '', '', null, null, null, null, '', '', '', null, null);
+        this.lstInvoiceDetails.push(obj);
+        console.log(this.lstInvoiceDetails);
+    }
+
+    removeInvoiceDetailElement(parent: any, index: any) {
+        this.invDetailCount--;
+        this.lstInvoiceDetails.splice(index, 1);
+        console.log(this.lstInvoiceDetails);
+    }
+
+    addNewInvoicePackageElement() {
+        this.invPackageCount++;
+        const obj = new InvoicePackage(null, null, null, null, null, null, null, false, 'New', '', null, null, null);
+        this.lstInvoicePackage.push(obj);
+        console.log(this.lstInvoicePackage);
+    }
+
+    removeInvoicePackageElement(index: any) {
+        this.invPackageCount--;
+        this.lstInvoicePackage.splice(index, 1);
+        console.log(this.lstInvoicePackage);
+    }
+    // HaiNM
 
     previousState() {
         window.history.back();
@@ -109,6 +145,11 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
                     ', ' +
                     (this.selectedProvinceTo ? this.selectedProvinceTo.provinceName : '');
             }
+            const postObject = {
+                header: this.invoiceHeader,
+                lstDetail: this.lstInvoiceDetails,
+                lstPackage: this.lstInvoicePackage
+            };
             this.invoiceHeader.status = 'Pending';
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
