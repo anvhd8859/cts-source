@@ -206,6 +206,15 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		invoiceHeader.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
 		invoiceHeader.setTotalDue(subTotal.add(invoiceHeader.getTaxAmount()));
 		
+		// get employee id
+		if (invoiceHeader.getId() == null) {
+			Office ofc = officeRepository.searchOfficeNearby(fromStreet.getId(), 
+					fromStreet.getSubDistrictId().getId(), 
+					fromStreet.getSubDistrictId().getDistrictId().getId(), 
+					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
+			if(ofc != null) invoiceHeader.setOfficeId(ofc.getId());
+		}
+		
 		// save data
 		if(invoiceHeader.getStatus().equalsIgnoreCase("collect")){
 			PersonalShipment psOne = new PersonalShipment();
@@ -220,11 +229,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			lstShipment.add(psOne);
 			lstShipment.add(psTwo);
 			personalShipmentRepository.saveAll(lstShipment);
-			Office ofc = officeRepository.searchOfficeNearby(fromStreet.getId(), 
-					fromStreet.getSubDistrictId().getId(), 
-					fromStreet.getSubDistrictId().getDistrictId().getId(), 
-					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
-			if(ofc != null) invoiceHeader.setOfficeId(ofc.getId());
 		} else {
 			PersonalShipment psTwo = new PersonalShipment();
 			psTwo.setStatus("waiting");
@@ -268,6 +272,13 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			else result = new BigDecimal(3200.0 * totalWeight);
 		}
 		return result;
+	}
+
+	@Override
+	public List<InvoiceHeaderDTO> saveInvoiceHeadersApproved(List<InvoiceHeaderDTO> invoiceHeadersDTO) {
+		List<InvoiceHeader> result = invoiceHeaderMapper.toEntity(invoiceHeadersDTO);
+		result = invoiceHeaderRepository.saveAll(result);
+		return invoiceHeaderMapper.toDto(result);
 	}
 
 }
