@@ -429,7 +429,27 @@ public class InvoiceHeader implements Serializable {
         return this;
     }
 
-    public void setUpdateDate(Instant updateDate) {
+    public Long getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(Long employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public Boolean getCancel() {
+		return cancel;
+	}
+
+	public Boolean getCustomerConfirm() {
+		return customerConfirm;
+	}
+
+	public Boolean getFinish() {
+		return finish;
+	}
+
+	public void setUpdateDate(Instant updateDate) {
         this.updateDate = updateDate;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
