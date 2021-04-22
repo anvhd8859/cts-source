@@ -34,7 +34,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 	
 	@Query( value = "SELECT i.* FROM invoice_header i, personal_shipment ps "
 				  + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
-				  + " AND (ps.status <> 'finish' OR i.status <> 'cancelled') "
+				  + " AND (ps.status <> 'finish' OR i.jhi_cancel <> 'true') "
 				  + " AND (:type = '' OR ps.shipment_type = :type) "
 				  + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) ",
 				  countQuery =  "SELECT COUNT(*) FROM invoice_header i, personal_shipment ps, employee e, person p "
@@ -47,5 +47,8 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 
 	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.status != 'finish' AND i.changeNote = 'request' AND i.cancel != TRUE")
 	Page<InvoiceHeader> getInvoiceHeadersRequestCancel(Pageable pageable);
+
+	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.customerId = :id")
+	Page<InvoiceHeader> getInvoiceHeadersByCustomer(@Param("id") Long id, Pageable pageable);
 
 }
