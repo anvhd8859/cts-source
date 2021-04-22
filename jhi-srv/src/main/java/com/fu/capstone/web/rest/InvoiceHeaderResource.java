@@ -189,4 +189,12 @@ public class InvoiceHeaderResource {
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rs))
                 .body(result);
     }
+    
+    @GetMapping("/invoice-headers/by-customer")
+    @Timed
+    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersByCustomer(@RequestParam("id") Long id, Pageable pageable) {
+    	Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByCustomer(id, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/by-customer");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 }
