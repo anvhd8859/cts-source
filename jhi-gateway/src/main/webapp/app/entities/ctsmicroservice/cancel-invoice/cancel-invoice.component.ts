@@ -1,8 +1,7 @@
-import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { ICancelInvoice } from 'app/shared/model/ctsmicroservice/cancel-invoice.model';
@@ -10,7 +9,6 @@ import { Principal } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { CancelInvoiceService } from './cancel-invoice.service';
-import { InvoiceHeaderService } from '../invoice-header';
 
 @Component({
     selector: 'jhi-cancel-invoice',
@@ -35,7 +33,6 @@ export class CancelInvoiceComponent implements OnInit, OnDestroy {
 
     constructor(
         private cancelInvoiceService: CancelInvoiceService,
-        private invoiceHeaderService: InvoiceHeaderService,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
         private principal: Principal,
@@ -57,7 +54,6 @@ export class CancelInvoiceComponent implements OnInit, OnDestroy {
         for (const i in this.cancelInvoices) {
             this.cancelInvoices[i].cancel = true;
             this.cancelInvoices[i].changeNote = 'approved';
-            this.cancelInvoices[i].status = 'cancelled';
         }
         param = this.cancelInvoices;
         this.subscribeToSaveResponse(this.cancelInvoiceService.updateMany(param));
