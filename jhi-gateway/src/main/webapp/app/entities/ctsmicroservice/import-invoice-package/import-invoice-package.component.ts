@@ -6,6 +6,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { IImportInvoicePackage } from 'app/shared/model/ctsmicroservice/import-invoice-package.model';
 import { Principal } from 'app/core';
 import { ImportInvoicePackageService } from './import-invoice-package.service';
+import { IInvoicePackageShipment } from '.';
 
 @Component({
     selector: 'jhi-import-invoice-package',
@@ -13,6 +14,7 @@ import { ImportInvoicePackageService } from './import-invoice-package.service';
 })
 export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     importInvoicePackages: IImportInvoicePackage[];
+    invoicePackageShipments: IInvoicePackageShipment[];
     currentAccount: any;
     eventSubscriber: Subscription;
 
