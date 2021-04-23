@@ -17,6 +17,8 @@ import { CtsgatewayPaymentModule as CtsmicroservicePaymentModule } from './ctsmi
 import { CtsgatewayShiftModule as CtsmicroserviceShiftModule } from './ctsmicroservice/shift/shift.module';
 import { CtsgatewayCancelInvoiceModule as CtsmicroserviceCancelInvoiceModule } from './ctsmicroservice/cancel-invoice/cancel-invoice.module';
 import { CtsgatewayConfirmReceiptNoteModule as CtsmicroserviceConfirmReceiptNoteModule } from './ctsmicroservice/confirm-receipt-note/confirm-receipt-note.module';
+import { CtsgatewayExportInvoicePackageModule as CtsmicroserviceExportInvoicePackageModule } from './ctsmicroservice/export-invoice-package/export-invoice-package.module';
+import { CtsgatewayImportInvoicePackageModule as CtsmicroserviceImportInvoicePackageModule } from './ctsmicroservice/import-invoice-package/import-invoice-package.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -39,6 +41,8 @@ import { CtsgatewayConfirmReceiptNoteModule as CtsmicroserviceConfirmReceiptNote
         CtsmicroserviceShiftModule,
         CtsmicroserviceCancelInvoiceModule,
         CtsmicroserviceConfirmReceiptNoteModule,
+        CtsmicroserviceExportInvoicePackageModule,
+        CtsmicroserviceImportInvoicePackageModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],
