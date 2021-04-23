@@ -4,3 +4,4 @@ export * from './import-invoice-package-delete-dialog.component';
 export * from './import-invoice-package-detail.component';
 export * from './import-invoice-package.component';
 export * from './import-invoice-package.route';
+export * from './import-invoice-package.model';
