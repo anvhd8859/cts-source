@@ -4,10 +4,16 @@ import com.codahale.metrics.annotation.Timed;
 import com.fu.capstone.service.InvoicePackageService;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
+import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.InvoicePackageDTO;
+import com.fu.capstone.service.dto.InvoicePackageShipmentDTO;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -130,4 +136,13 @@ public class InvoicePackageResource {
     	List<InvoicePackageDTO> invoicePackageDTO = invoicePackageService.getInvoicePackageByHeaderId(id);
         return new ResponseEntity<>(invoicePackageDTO, HttpStatus.OK);
     }
+    
+    @GetMapping("/invoice-packages/import-package")
+    @Timed
+    public ResponseEntity<List<InvoicePackageShipmentDTO>> getImportTransferPackageByOfficeId(@RequestParam("id") Long id, @RequestParam("status") String status, Pageable pageable) {
+    	Page<InvoicePackageShipmentDTO> page = invoicePackageService.getImportPackageByOfficeId(id, status, pageable);
+    	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-packages/import-package");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }
