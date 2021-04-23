@@ -14,7 +14,7 @@ type EntityArrayResponseType = HttpResponse<IImportInvoicePackage[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ImportInvoicePackageService {
-    public resourceUrl = SERVER_API_URL + 'ctsmicroservice/api/import-invoice-packages';
+    public resourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-packages';
 
     constructor(private http: HttpClient) {}
 
