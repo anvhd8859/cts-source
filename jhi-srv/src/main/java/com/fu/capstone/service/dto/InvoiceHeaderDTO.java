@@ -32,6 +32,8 @@ public class InvoiceHeaderDTO implements Serializable {
 
     private Long destinationStreetId;
 
+    private Long destinationOfficeId;
+
     private String receiverName;
 
     private String receiverPhone;
@@ -331,5 +333,13 @@ public class InvoiceHeaderDTO implements Serializable {
 
 	public void setEmployeeId(Long employeeId) {
 		this.employeeId = employeeId;
+	}
+
+	public Long getDestinationOfficeId() {
+		return destinationOfficeId;
+	}
+
+	public void setDestinationOfficeId(Long destinationOfficeId) {
+		this.destinationOfficeId = destinationOfficeId;
 	}
 }
