@@ -51,6 +51,9 @@ public class InvoiceHeader implements Serializable {
     @Column(name = "destination_street_id")
     private Long destinationStreetId;
 
+    @Column(name = "destination_office_id")
+    private Long destinationOfficeId;
+
     @Column(name = "receiver_name")
     private String receiverName;
 
