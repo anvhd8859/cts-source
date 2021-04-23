@@ -2,12 +2,19 @@ package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.InvoicePackageService;
 import com.fu.capstone.domain.InvoicePackage;
+import com.fu.capstone.domain.Street;
+import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
+import com.fu.capstone.repository.StreetRepository;
+import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.InvoicePackageDTO;
+import com.fu.capstone.service.dto.InvoicePackageShipmentDTO;
+import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,12 +33,19 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
     private final Logger log = LoggerFactory.getLogger(InvoicePackageServiceImpl.class);
 
     private InvoicePackageRepository invoicePackageRepository;
+    
+    private InvoiceHeaderRepository invoiceHeaderRepository;
 
     private InvoicePackageMapper invoicePackageMapper;
+    
+    private InvoiceHeaderMapper invoiceHeaderMapper;
 
-    public InvoicePackageServiceImpl(InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper) {
+    public InvoicePackageServiceImpl(InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
+    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper) {
         this.invoicePackageRepository = invoicePackageRepository;
         this.invoicePackageMapper = invoicePackageMapper;
+        this.invoiceHeaderRepository = invoiceHeaderRepository;
+        this.invoiceHeaderMapper = invoiceHeaderMapper;
     }
 
     /**
@@ -93,6 +107,24 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
 
 	@Override
 	public List<InvoicePackageDTO> getInvoicePackageByHeaderId(Long id) {
-		return invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(id));
+		return invoicePackageMapper.toDto(
+				invoicePackageRepository.getInvoicePackageByHeaderId(id));
 	}
+
+	@Override
+	public Page<InvoicePackageShipmentDTO> getImportPackageByOfficeId(Long id, String status, Pageable pageable) {
+		Page<InvoiceHeaderDTO> pageInvoice = invoiceHeaderRepository
+				.getImportPackageByOfficeId(id, status, pageable).map(invoiceHeaderMapper::toDto);
+		Page<InvoicePackageShipmentDTO> page = pageInvoice.map(this::convert);
+		return page;
+	}
+	
+	private InvoicePackageShipmentDTO convert (InvoiceHeaderDTO value) {
+		InvoicePackageShipmentDTO resultDTO = new InvoicePackageShipmentDTO();
+		List<InvoicePackageDTO> lstPackage = invoicePackageMapper.toDto(
+				invoicePackageRepository.getInvoicePackageByHeaderId(value.getId()));
+		resultDTO.setInvoicePackageList(lstPackage);
+		return resultDTO;
+	}
+
 }
