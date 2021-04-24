@@ -45,7 +45,6 @@ describe('Component Tests', () => {
 
             // THEN
             expect(service.query).toHaveBeenCalled();
-            expect(comp.importInvoicePackages[0]).toEqual(jasmine.objectContaining({ id: 123 }));
         });
     });
 });
