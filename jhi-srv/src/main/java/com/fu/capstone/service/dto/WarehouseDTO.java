@@ -13,6 +13,8 @@ public class WarehouseDTO implements Serializable {
 
     private String warehouseName;
 
+    private Long officeId;
+
     private Long keeperId;
 
     private String address;
@@ -43,7 +45,15 @@ public class WarehouseDTO implements Serializable {
         this.warehouseName = warehouseName;
     }
 
-    public Long getKeeperId() {
+    public Long getOfficeId() {
+		return officeId;
+	}
+
+	public void setOfficeId(Long officeId) {
+		this.officeId = officeId;
+	}
+
+	public Long getKeeperId() {
         return keeperId;
     }
 
@@ -125,6 +135,7 @@ public class WarehouseDTO implements Serializable {
         return "WarehouseDTO{" +
             "id=" + getId() +
             ", warehouseName='" + getWarehouseName() + "'" +
+            ", officeId=" + getOfficeId() +
             ", keeperId=" + getKeeperId() +
             ", address='" + getAddress() + "'" +
             ", streetId='" + getStreetId() + "'" +

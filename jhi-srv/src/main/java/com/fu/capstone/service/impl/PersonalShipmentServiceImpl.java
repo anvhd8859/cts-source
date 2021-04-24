@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -55,6 +56,12 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
         log.debug("Request to save PersonalShipment : {}", personalShipmentDTO);
 
         PersonalShipment personalShipment = personalShipmentMapper.toEntity(personalShipmentDTO);
+		Instant instant = Instant.now();
+		if(personalShipment.getId() == null){
+			personalShipment.setCreateDate(instant);
+			personalShipment.setUpdateDate(instant);
+		}
+		else personalShipment.setUpdateDate(instant);
         personalShipment = personalShipmentRepository.save(personalShipment);
         return personalShipmentMapper.toDto(personalShipment);
     }

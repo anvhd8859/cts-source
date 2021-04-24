@@ -23,6 +23,9 @@ public class Warehouse implements Serializable {
     @Column(name = "warehouse_name")
     private String warehouseName;
 
+    @Column(name = "office_id")
+    private Long officeId;
+
     @Column(name = "keeper_id")
     private Long keeperId;
 
@@ -66,7 +69,15 @@ public class Warehouse implements Serializable {
         this.warehouseName = warehouseName;
     }
 
-    public Long getKeeperId() {
+    public Long getOfficeId() {
+		return officeId;
+	}
+
+	public void setOfficeId(Long officeId) {
+		this.officeId = officeId;
+	}
+
+	public Long getKeeperId() {
         return keeperId;
     }
 

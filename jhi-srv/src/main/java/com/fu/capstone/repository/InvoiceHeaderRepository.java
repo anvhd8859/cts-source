@@ -31,7 +31,6 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
     		@RequestParam("receiveDate") String receiveDate, @RequestParam("createDate") String createDate, 
     		@RequestParam("updateDate") String updateDate, Pageable pageable );
 
-	
 	@Query( value = "SELECT i.* FROM invoice_header i, personal_shipment ps "
 				  + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
 				  + " AND (ps.status <> 'finish' OR i.jhi_cancel <> 'true') "
@@ -50,5 +49,10 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 
 	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.customerId = :id")
 	Page<InvoiceHeader> getInvoiceHeadersByCustomer(@Param("id") Long id, Pageable pageable);
+
+	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.destinationOfficeId = :id "
+				  + " AND ((:status = '' AND (i.status = 'transporting' OR i.status = 'delivering')) OR i.status = :status) AND i.cancel != TRUE "
+				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%'))")
+	Page<InvoiceHeader> getImportPackageByOfficeId(@Param("id") Long id,@Param("invNo") String invNo, @Param("status") String status, Pageable pageable);
 
 }

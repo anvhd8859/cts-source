@@ -2,15 +2,25 @@ package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.InvoicePackageService;
 import com.fu.capstone.domain.InvoicePackage;
+import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
+import com.fu.capstone.repository.PersonalShipmentRepository;
+import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.InvoicePackageDTO;
+import com.fu.capstone.service.dto.InvoicePackageShipmentDTO;
+import com.fu.capstone.service.dto.PersonalShipmentDTO;
+import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
+import com.fu.capstone.service.mapper.PersonalShipmentMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -26,12 +36,26 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
     private final Logger log = LoggerFactory.getLogger(InvoicePackageServiceImpl.class);
 
     private InvoicePackageRepository invoicePackageRepository;
+    
+    private InvoiceHeaderRepository invoiceHeaderRepository;
+    
+    private PersonalShipmentRepository personalShipmentRepository;
 
     private InvoicePackageMapper invoicePackageMapper;
+    
+    private InvoiceHeaderMapper invoiceHeaderMapper;
+    
+    private PersonalShipmentMapper personalShipmentMapper;
 
-    public InvoicePackageServiceImpl(InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper) {
+    public InvoicePackageServiceImpl(InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
+    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
+    		PersonalShipmentRepository personalShipmentRepository, PersonalShipmentMapper personalShipmentMapper) {
         this.invoicePackageRepository = invoicePackageRepository;
         this.invoicePackageMapper = invoicePackageMapper;
+        this.invoiceHeaderRepository = invoiceHeaderRepository;
+        this.invoiceHeaderMapper = invoiceHeaderMapper;
+        this.personalShipmentRepository = personalShipmentRepository;
+        this.personalShipmentMapper = personalShipmentMapper;
     }
 
     /**
@@ -45,6 +69,12 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
         log.debug("Request to save InvoicePackage : {}", invoicePackageDTO);
 
         InvoicePackage invoicePackage = invoicePackageMapper.toEntity(invoicePackageDTO);
+		Instant instant = Instant.now();
+		if(invoicePackage.getId() == null){
+			invoicePackage.setCreateDate(instant);
+			invoicePackage.setUpdateDate(instant);
+		}
+		else invoicePackage.setUpdateDate(instant);
         invoicePackage = invoicePackageRepository.save(invoicePackage);
         return invoicePackageMapper.toDto(invoicePackage);
     }
@@ -93,6 +123,26 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
 
 	@Override
 	public List<InvoicePackageDTO> getInvoicePackageByHeaderId(Long id) {
-		return invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(id));
+		return invoicePackageMapper.toDto(
+				invoicePackageRepository.getInvoicePackageByHeaderId(id));
 	}
+
+	@Override
+	public Page<InvoicePackageShipmentDTO> getImportPackageByOfficeId(Long id, String invNo, String status, Pageable pageable) {
+		Page<InvoiceHeaderDTO> pageInvoice = invoiceHeaderRepository
+				.getImportPackageByOfficeId(id, invNo, status, pageable).map(invoiceHeaderMapper::toDto);
+		Page<InvoicePackageShipmentDTO> page = pageInvoice.map(this::convert);
+		return page;
+	}
+	
+	private InvoicePackageShipmentDTO convert (InvoiceHeaderDTO value) {
+		InvoicePackageShipmentDTO resultDTO = new InvoicePackageShipmentDTO();
+		PersonalShipmentDTO shipment = personalShipmentMapper.toDto(personalShipmentRepository.getDeliveryShipmentByHeaderId(value.getId()));
+		List<InvoicePackageDTO> lstPackage = invoicePackageMapper.toDto(
+				invoicePackageRepository.getInvoicePackageByHeaderId(value.getId()));
+		resultDTO.setPersonalShipment(shipment);
+		resultDTO.setInvoicePackageList(lstPackage);
+		return resultDTO;
+	}
+
 }
