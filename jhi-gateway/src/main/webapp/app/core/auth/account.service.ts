@@ -89,7 +89,9 @@ export class AccountService {
         const copy: IUserProfile = Object.assign({}, userProfile, {
             dateOfBirth: userProfile.dateOfBirth != null && userProfile.dateOfBirth.isValid() ? userProfile.dateOfBirth.toJSON() : null,
             createdDate: userProfile.createdDate != null && userProfile.createdDate.isValid() ? userProfile.createdDate.toJSON() : null,
-            updatedDate: userProfile.updatedDate != null && userProfile.updatedDate.isValid() ? userProfile.updatedDate.toJSON() : null
+            updatedDate: userProfile.updatedDate != null && userProfile.updatedDate.isValid() ? userProfile.updatedDate.toJSON() : null,
+            hireDate: userProfile.hireDate != null && userProfile.hireDate.isValid() ? userProfile.hireDate.toJSON() : null,
+            endDate: userProfile.endDate != null && userProfile.endDate.isValid() ? userProfile.endDate.toJSON() : null
         });
         return copy;
     }
@@ -99,6 +101,8 @@ export class AccountService {
             res.body.dateOfBirth = res.body.dateOfBirth != null ? moment(res.body.dateOfBirth) : null;
             res.body.createdDate = res.body.createdDate != null ? moment(res.body.createdDate) : null;
             res.body.updatedDate = res.body.updatedDate != null ? moment(res.body.updatedDate) : null;
+            res.body.hireDate = res.body.hireDate != null ? moment(res.body.hireDate) : null;
+            res.body.endDate = res.body.endDate != null ? moment(res.body.endDate) : null;
         }
         return res;
     }
