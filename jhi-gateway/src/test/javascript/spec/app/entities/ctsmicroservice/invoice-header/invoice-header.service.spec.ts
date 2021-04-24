@@ -24,7 +24,6 @@ describe('Service Tests', () => {
             service = injector.get(InvoiceHeaderService);
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
-
             elemDefault = new InvoiceHeader();
         });
 

@@ -63,13 +63,12 @@ describe('Service Tests', () => {
                     returnedFromService
                 );
                 service
-                    .create(null)
+                    .create(new Object(null))
                     .pipe(take(1))
                     .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
                 const req = httpMock.expectOne({ method: 'POST' });
                 req.flush(JSON.stringify(returnedFromService));
             });
-
             it('should update a ImportInvoicePackage', async () => {
                 const returnedFromService = Object.assign(
                     {
