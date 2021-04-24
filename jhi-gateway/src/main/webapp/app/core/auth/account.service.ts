@@ -7,12 +7,12 @@ import { IProvince } from 'app/shared/model/ctsmicroservice/province.model';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { createRequestOption } from 'app/shared';
 import { map } from 'rxjs/operators';
-import { IStreet } from 'app/shared/model/ctsmicroservice/street.model';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
     public locationResourceUrl = SERVER_API_URL + 'ctsmicroservice/api';
     public profileResourceUrl = SERVER_API_URL + 'api/user-profiles';
+    public officeResourceUrl = SERVER_API_URL + 'ctsmicroservice/api/offices';
 
     constructor(private http: HttpClient) {}
 
@@ -83,6 +83,10 @@ export class AccountService {
         return this.http
             .put<IUserProfile>(this.profileResourceUrl, copy, { observe: 'response' })
             .pipe(map((res: HttpResponse<IUserProfile>) => this.convertDateFromServerUserProfile(res)));
+    }
+
+    getLstOffice(): Observable<HttpResponse<any>> {
+        return this.http.get(this.officeResourceUrl, { observe: 'response' });
     }
 
     private convertDateFromClientUserProfile(userProfile: IUserProfile): IUserProfile {
