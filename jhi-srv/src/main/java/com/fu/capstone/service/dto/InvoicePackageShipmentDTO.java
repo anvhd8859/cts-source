@@ -6,6 +6,8 @@ import java.util.List;
 public class InvoicePackageShipmentDTO implements Serializable{
 
 	private InvoiceHeaderDTO invoiceHeader;
+	
+	private PersonalShipmentDTO personalShipment;
 
 	private List<InvoicePackageDTO> invoicePackageList;
 
@@ -23,6 +25,14 @@ public class InvoicePackageShipmentDTO implements Serializable{
 
 	public void setInvoicePackageList(List<InvoicePackageDTO> invoicePackageList) {
 		this.invoicePackageList = invoicePackageList;
+	}
+
+	public PersonalShipmentDTO getPersonalShipment() {
+		return personalShipment;
+	}
+
+	public void setPersonalShipment(PersonalShipmentDTO personalShipment) {
+		this.personalShipment = personalShipment;
 	}
 
 }
