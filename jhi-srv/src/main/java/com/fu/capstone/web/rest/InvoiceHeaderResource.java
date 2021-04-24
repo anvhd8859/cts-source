@@ -1,6 +1,7 @@
 package com.fu.capstone.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fu.capstone.domain.CustomUser;
 import com.fu.capstone.service.InvoiceHeaderService;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
@@ -12,11 +13,14 @@ import com.fu.capstone.service.dto.InvoiceShipmentDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -192,7 +196,9 @@ public class InvoiceHeaderResource {
     
     @GetMapping("/invoice-headers/by-customer")
     @Timed
-    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersByCustomer(@RequestParam("id") Long id, Pageable pageable) {
+    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersByCustomer(Pageable pageable) {
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	Long id = new Long(( (CustomUser) authentication).getUserID());
     	Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByCustomer(id, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/by-customer");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
