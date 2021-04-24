@@ -139,8 +139,8 @@ public class InvoicePackageResource {
     
     @GetMapping("/invoice-packages/import-package")
     @Timed
-    public ResponseEntity<List<InvoicePackageShipmentDTO>> getImportTransferPackageByOfficeId(@RequestParam("id") Long id, @RequestParam("status") String status, Pageable pageable) {
-    	Page<InvoicePackageShipmentDTO> page = invoicePackageService.getImportPackageByOfficeId(id, status, pageable);
+    public ResponseEntity<List<InvoicePackageShipmentDTO>> getImportPackageByOfficeId(@RequestParam("id") Long id,@RequestParam("invNo") String invNo, @RequestParam("status") String status, Pageable pageable) {
+    	Page<InvoicePackageShipmentDTO> page = invoicePackageService.getImportPackageByOfficeId(id, invNo, status, pageable);
     	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-packages/import-package");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
