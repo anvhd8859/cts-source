@@ -39,11 +39,6 @@ export class ImportInvoicePackageUpdateComponent implements OnInit {
         this.isSaving = true;
         this.importInvoicePackage.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
         this.importInvoicePackage.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
-        if (this.importInvoicePackage.id !== undefined) {
-            this.subscribeToSaveResponse(this.importInvoicePackageService.update(this.importInvoicePackage));
-        } else {
-            this.subscribeToSaveResponse(this.importInvoicePackageService.create(this.importInvoicePackage));
-        }
     }
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<IImportInvoicePackage>>) {
