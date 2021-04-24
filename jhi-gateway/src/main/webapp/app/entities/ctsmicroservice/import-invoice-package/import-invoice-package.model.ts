@@ -4,5 +4,6 @@ import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shi
 
 export interface IInvoicePackageShipment {
     invoiceHeader?: IInvoiceHeader;
+    personalShipment?: IPersonalShipment;
     invoicePackageList?: IInvoicePackage[];
 }
