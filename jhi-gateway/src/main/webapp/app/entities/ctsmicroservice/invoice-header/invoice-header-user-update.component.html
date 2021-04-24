@@ -24,7 +24,8 @@
                                 >
                             <ng-option *ngFor="let item of lstUser">{{item.email}}</ng-option>
                         </ng-select> -->
-                        <input  type="text" 
+                        <input  *ngIf="this.selectedUser"
+                                type="text" 
                                 class="form-control"
                                 [ngModelOptions]="{standalone: true}" 
                                 [(ngModel)]="this.selectedUser.email" 
