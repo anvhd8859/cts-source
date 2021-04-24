@@ -16,6 +16,8 @@ type EntityArrayResponseType = HttpResponse<IInvoiceHeader[]>;
 @Injectable({ providedIn: 'root' })
 export class InvoiceHeaderService {
     public userResourceUrl = SERVER_API_URL + 'api/users';
+    public packageResourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-packages';
+    public detailResourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-details';
     public resourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-headers';
 
     constructor(private http: HttpClient) {}
@@ -68,6 +70,18 @@ export class InvoiceHeaderService {
     // HaiNM
     createNewInvoice(req?: any) {
         return this.http.post<any>(this.resourceUrl + '/invoice-detail', req, { observe: 'response' });
+    }
+
+    updateExistedInvoice(req?: any) {
+        return this.http.put<any>(this.resourceUrl + '/invoice-detail', req, { observe: 'response' });
+    }
+
+    loadPackageByInvoiceId(req?: any) {
+        return this.http.get<any>(this.packageResourceUrl + '/by-invoice-header', { params: req, observe: 'response' });
+    }
+
+    loadDetailByInvoiceId(req?: any) {
+        return this.http.get<any>(this.detailResourceUrl + '/by-invoice-header', { params: req, observe: 'response' });
     }
     // HaiNM
 
