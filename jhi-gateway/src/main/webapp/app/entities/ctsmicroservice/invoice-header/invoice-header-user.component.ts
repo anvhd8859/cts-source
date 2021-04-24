@@ -52,8 +52,8 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
             this.previousPage = data.pagingParams.page;
-            this.reverse = data.pagingParams.ascending;
-            this.predicate = data.pagingParams.predicate;
+            this.reverse = false;
+            this.predicate = 'createDate';
         });
     }
 
@@ -61,13 +61,6 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
         this.ngxUiLoaderService.start();
         const param = {
             id: this.currentAccount.id,
-            invoiceNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
-            status: this.selectedStatus ? this.selectedStatus : '',
-            receiveDate: this.receiveTime
-                ? this.receiveTime.year() + '-' + (this.receiveTime.month() + 1) + '-' + this.receiveTime.date()
-                : '',
-            createDate: this.createTime ? this.createTime.year() + '-' + (this.createTime.month() + 1) + '-' + this.createTime.date() : '',
-            updateDate: this.updateTime ? this.updateTime.year() + '-' + (this.updateTime.month() + 1) + '-' + this.updateTime.date() : '',
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()
@@ -95,17 +88,6 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
         this.router.navigate(['/invoice-header-user'], {
             queryParams: {
                 id: this.currentAccount.id,
-                invoiceNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
-                status: this.selectedStatus ? this.selectedStatus : '',
-                receiveDate: this.receiveTime
-                    ? this.receiveTime.year() + '-' + (this.receiveTime.month() + 1) + '-' + this.receiveTime.date()
-                    : '',
-                createDate: this.createTime
-                    ? this.createTime.year() + '-' + (this.createTime.month() + 1) + '-' + this.createTime.date()
-                    : '',
-                updateDate: this.updateTime
-                    ? this.updateTime.year() + '-' + (this.updateTime.month() + 1) + '-' + this.updateTime.date()
-                    : '',
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
