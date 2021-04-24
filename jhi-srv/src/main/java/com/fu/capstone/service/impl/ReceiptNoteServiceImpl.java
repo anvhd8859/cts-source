@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -44,6 +45,12 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
         log.debug("Request to save ReceiptNote : {}", receiptNoteDTO);
 
         ReceiptNote receiptNote = receiptNoteMapper.toEntity(receiptNoteDTO);
+		Instant instant = Instant.now();
+		if(receiptNote.getId() == null){
+			receiptNote.setCreateDate(instant);
+			receiptNote.setUpdateDate(instant);
+		}
+		else receiptNote.setUpdateDate(instant);
         receiptNote = receiptNoteRepository.save(receiptNote);
         return receiptNoteMapper.toDto(receiptNote);
     }
