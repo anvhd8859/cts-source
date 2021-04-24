@@ -12,7 +12,8 @@ import {
     InvoiceHeaderDeleteDialogComponent,
     invoiceHeaderRoute,
     invoiceHeaderPopupRoute,
-    InvoiceHeaderUserUpdateComponent
+    InvoiceHeaderUserUpdateComponent,
+    InvoiceHeaderUserComponent
 } from './';
 
 const ENTITY_STATES = [...invoiceHeaderRoute, ...invoiceHeaderPopupRoute];
@@ -24,6 +25,7 @@ const ENTITY_STATES = [...invoiceHeaderRoute, ...invoiceHeaderPopupRoute];
         InvoiceHeaderDetailComponent,
         InvoiceHeaderUpdateComponent,
         InvoiceHeaderUserUpdateComponent,
+        InvoiceHeaderUserComponent,
         InvoiceHeaderDeleteDialogComponent,
         InvoiceHeaderDeletePopupComponent
     ],
@@ -31,6 +33,7 @@ const ENTITY_STATES = [...invoiceHeaderRoute, ...invoiceHeaderPopupRoute];
         InvoiceHeaderComponent,
         InvoiceHeaderUpdateComponent,
         InvoiceHeaderUserUpdateComponent,
+        InvoiceHeaderUserComponent,
         InvoiceHeaderDeleteDialogComponent,
         InvoiceHeaderDeletePopupComponent
     ],
