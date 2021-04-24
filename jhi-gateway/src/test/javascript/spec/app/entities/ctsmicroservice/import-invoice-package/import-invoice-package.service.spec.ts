@@ -63,7 +63,7 @@ describe('Service Tests', () => {
                     returnedFromService
                 );
                 service
-                    .create(new ImportInvoicePackage(null))
+                    .create(null)
                     .pipe(take(1))
                     .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
                 const req = httpMock.expectOne({ method: 'POST' });
@@ -97,7 +97,7 @@ describe('Service Tests', () => {
                     returnedFromService
                 );
                 service
-                    .update(expected)
+                    .update(null)
                     .pipe(take(1))
                     .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
                 const req = httpMock.expectOne({ method: 'PUT' });
