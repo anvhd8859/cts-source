@@ -51,7 +51,8 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 	Page<InvoiceHeader> getInvoiceHeadersByCustomer(@Param("id") Long id, Pageable pageable);
 
 	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.destinationOfficeId = :id "
-				  + " AND i.status = :status AND i.cancel != TRUE")
-	Page<InvoiceHeader> getImportPackageByOfficeId(@Param("id") Long id, @Param("status") String status, Pageable pageable);
+				  + " AND ((:status = '' AND (i.status = 'transporting' OR i.status = 'delivering')) OR i.status = :status) AND i.cancel != TRUE "
+				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%'))")
+	Page<InvoiceHeader> getImportPackageByOfficeId(@Param("id") Long id,@Param("invNo") String invNo, @Param("status") String status, Pageable pageable);
 
 }
