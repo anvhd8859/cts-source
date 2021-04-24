@@ -4,31 +4,18 @@ import { RouterModule } from '@angular/router';
 import { CtsgatewaySharedModule } from 'app/shared';
 import {
     ImportInvoicePackageComponent,
-    ImportInvoicePackageDetailComponent,
-    ImportInvoicePackageUpdateComponent,
-    ImportInvoicePackageDeletePopupComponent,
-    ImportInvoicePackageDeleteDialogComponent,
     importInvoicePackageRoute,
-    importInvoicePackagePopupRoute
+    importInvoicePackagePopupRoute,
+    ImportInvoicePackageImportPopupComponent,
+    ImportInvoicePackageImportDialogComponent
 } from './';
 
 const ENTITY_STATES = [...importInvoicePackageRoute, ...importInvoicePackagePopupRoute];
 
 @NgModule({
     imports: [CtsgatewaySharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
-        ImportInvoicePackageComponent,
-        ImportInvoicePackageDetailComponent,
-        ImportInvoicePackageUpdateComponent,
-        ImportInvoicePackageDeleteDialogComponent,
-        ImportInvoicePackageDeletePopupComponent
-    ],
-    entryComponents: [
-        ImportInvoicePackageComponent,
-        ImportInvoicePackageUpdateComponent,
-        ImportInvoicePackageDeleteDialogComponent,
-        ImportInvoicePackageDeletePopupComponent
-    ],
+    declarations: [ImportInvoicePackageComponent, ImportInvoicePackageImportDialogComponent, ImportInvoicePackageImportPopupComponent],
+    entryComponents: [ImportInvoicePackageComponent, ImportInvoicePackageImportDialogComponent, ImportInvoicePackageImportPopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CtsgatewayImportInvoicePackageModule {}
