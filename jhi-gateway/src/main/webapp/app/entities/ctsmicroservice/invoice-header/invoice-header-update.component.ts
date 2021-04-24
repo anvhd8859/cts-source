@@ -78,6 +78,15 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             this.finishDate = this.invoiceHeader.finishDate != null ? this.invoiceHeader.finishDate.format(DATE_TIME_FORMAT) : null;
             this.createDate = this.invoiceHeader.createDate != null ? this.invoiceHeader.createDate.format(DATE_TIME_FORMAT) : null;
             this.updateDate = this.invoiceHeader.updateDate != null ? this.invoiceHeader.updateDate.format(DATE_TIME_FORMAT) : null;
+            if (this.invoiceHeader.id) {
+                forkJoin(
+                    this.invoiceHeaderService.getPackageByInvoiceId({ id: this.invoiceHeader.id }),
+                    this.invoiceHeaderService.getDetailByInvoiceId({ id: this.invoiceHeader.id })
+                ).subscribe(res => {
+                    this.lstInvoicePackage = res[0].body;
+                    this.lstInvoiceDetails = res[1].body;
+                });
+            }
         });
         forkJoin(this.invoiceHeaderService.getLstUser(), this.accountService.getLstCity()).subscribe(res => {
             this.lstUser = res[0].body.filter(e => e.authorities.filter(i => i === 'ROLE_USER'));
@@ -166,7 +175,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             //     this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
             // }
             if (this.invoiceHeader.id !== undefined) {
-                this.subscribeToSaveResponse(this.invoiceHeaderService.update(this.invoiceHeader));
+                this.subscribeToSaveResponse(this.invoiceHeaderService.updateExistedInvoice(postObject));
             } else {
                 this.subscribeToSaveResponse(this.invoiceHeaderService.createNewInvoice(postObject));
             }
@@ -179,9 +188,9 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     validateInput(): string {
         let msg = '';
         if ((!this.selectedAddressFrom || this.selectedAddressFrom.trim() === '') && !this.invoiceHeader.id) {
-            msg += 'From Address must not be blank! 1 <br>';
+            msg += 'From Address must not be blank! <br>';
         } else if (!this.selectedAddressFrom || this.selectedAddressFrom.trim() === '') {
-            msg += 'From Address must not be blank! 2<br>';
+            msg += 'From Address must not be blank! <br>';
         }
         if (!this.selectedStreetFrom && !this.invoiceHeader.id) {
             msg += 'From Street must not be blank! <br>';
@@ -216,10 +225,10 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             msg += 'Customer must not be blank! <br>';
         }
         if (!this.invoiceHeader.invoiceType) {
-            msg += 'Type of Invoice must not be blank! 1 <br>';
+            msg += 'Type of Invoice must not be blank! <br>';
         }
         if (!this.invoiceHeader.status) {
-            msg += 'Status of Invoice must not be blank! 2 <br>';
+            msg += 'Status of Invoice must not be blank! <br>';
         }
         return msg;
     }

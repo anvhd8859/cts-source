@@ -1,0 +1,158 @@
+<div>
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-md-12">
+            <h2 id="page-heading">
+                <span>Invoice History</span>
+            </h2>
+        </div>
+        <div class="col-lg-6 col-md-12 col-md-12">
+
+        </div>
+    </div>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="receiveTime">Receive Time</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="receiveTime" [(ngModel)]="this.receiveTime" ngbDatepicker #a="ngbDatepicker" readonly>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(1)" type="button">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="a.toggle()" type="button">
+                            <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="createOn">Create On</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="createOn" [(ngModel)]="this.createTime" ngbDatepicker #b="ngbDatepicker" readonly>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(2)" type="button">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="b.toggle()" type="button">
+                            <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="updateOn">Update On</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="updateOn" [(ngModel)]="this.updateTime" ngbDatepicker #c="ngbDatepicker" readonly>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(3)" type="button">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
+                            <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="invoiceNumber">Invoice Number</label>
+                <input  type="text"
+                        class="form-control"
+                        placeholder="(ALL)"
+                        [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="selectedInvoiceNumber"
+                        value="{{selectedInvoiceNumber}}"
+                        >
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="status">Status</label>
+                <ng-select  [clearable]="true"
+                            [hideSelected]="true"
+                            [items]="this.lstStatus"
+                            bindLabel="text"
+                            bindValue="id"
+                            id="status"
+                            name="status"
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="this.selectedStatus"
+                            placeholder="(ALL)"
+                            >
+                    <ng-option *ngFor="let item of lstStatus">{{item.text}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 text-center">
+            <div class="form-group">
+                <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary" (click)="this.loadAll()">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                    <span >Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h4>My Shipment</h4>
+    <div class="table-responsive" *ngIf="invoiceHeaders">
+        <table class="table table-striped">
+            <thead>
+                <th>#               </th>
+                <th>Invoice Number  </th>
+                <th>Due Date        </th>
+                <th>Receive Date    </th>
+                <th>Status          </th>
+                <th>Created Date    </th>
+                <th>Updated Date    </th>
+                <th class="text-center">Action</th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let invoiceHeader of invoiceHeaders ;trackBy: trackId">
+                <td>{{invoiceHeader.id}}                                    </td>
+                <td>{{invoiceHeader.invoiceNo}}                             </td>
+                <td>{{invoiceHeader.dueDate     | date:'yyyy-MM-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.finishDate  | date:'yyyy-MM-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.status}}                                </td>
+                <td>{{invoiceHeader.createDate  | date:'yyyy-MM-dd HH:mm'}} </td>
+                <td>{{invoiceHeader.updateDate  | date:'yyyy-MM-dd HH:mm'}} </td>
+                <td class="text-center">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/invoice-header', invoiceHeader.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="invoiceHeaders && invoiceHeaders.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

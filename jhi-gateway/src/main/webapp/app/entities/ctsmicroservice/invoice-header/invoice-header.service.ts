@@ -9,6 +9,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { IUser } from 'app/core';
+import { InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 
 type EntityResponseType = HttpResponse<IInvoiceHeader>;
 type EntityArrayResponseType = HttpResponse<IInvoiceHeader[]>;
@@ -16,6 +17,8 @@ type EntityArrayResponseType = HttpResponse<IInvoiceHeader[]>;
 @Injectable({ providedIn: 'root' })
 export class InvoiceHeaderService {
     public userResourceUrl = SERVER_API_URL + 'api/users';
+    public packageResourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-packages';
+    public detailResourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-details';
     public resourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-headers';
 
     constructor(private http: HttpClient) {}
@@ -66,8 +69,27 @@ export class InvoiceHeaderService {
     // ThangND End
 
     // HaiNM
-    createNewInvoice(req?: any) {
+    createNewInvoice(req?: any): Observable<HttpResponse<any>> {
         return this.http.post<any>(this.resourceUrl + '/invoice-detail', req, { observe: 'response' });
+    }
+
+    updateExistedInvoice(req?: any): Observable<HttpResponse<any>> {
+        return this.http.put<any>(this.resourceUrl + '/invoice-detail', req, { observe: 'response' });
+    }
+
+    getPackageByInvoiceId(req?: any): Observable<HttpResponse<any>> {
+        return this.http.get<any>(this.packageResourceUrl + '/by-invoice-header', { params: req, observe: 'response' });
+    }
+
+    getDetailByInvoiceId(req?: any): Observable<HttpResponse<any>> {
+        return this.http.get<any>(this.detailResourceUrl + '/by-invoice-header', { params: req, observe: 'response' });
+    }
+
+    getInvoiceByUserId(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IInvoiceHeader[]>(this.resourceUrl + '/by-customer', { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
     // HaiNM
 
