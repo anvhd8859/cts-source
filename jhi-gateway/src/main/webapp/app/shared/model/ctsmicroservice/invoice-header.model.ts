@@ -12,6 +12,7 @@ export interface IInvoiceHeader {
     startStreetId?: number;
     destinationAddress?: string;
     destinationStreetId?: number;
+    destinationOfficeId?: number;
     receiverName?: string;
     receiverPhone?: string;
     subTotal?: number;
@@ -42,6 +43,7 @@ export class InvoiceHeader implements IInvoiceHeader {
         public startStreetId?: number,
         public destinationAddress?: string,
         public destinationStreetId?: number,
+        public destinationOfficeId?: number,
         public receiverName?: string,
         public receiverPhone?: string,
         public subTotal?: number,

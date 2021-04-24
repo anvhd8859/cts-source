@@ -6,26 +6,26 @@ import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { WarehouseService } from 'app/entities/ctsmicroservice/warehouse/warehouse.service';
-import { IWarehouse, Warehouse } from 'app/shared/model/ctsmicroservice/warehouse.model';
+import { ExportInvoicePackageService } from 'app/entities/ctsmicroservice/export-invoice-package/export-invoice-package.service';
+import { IExportInvoicePackage, ExportInvoicePackage } from 'app/shared/model/ctsmicroservice/export-invoice-package.model';
 
 describe('Service Tests', () => {
-    describe('Warehouse Service', () => {
+    describe('ExportInvoicePackage Service', () => {
         let injector: TestBed;
-        let service: WarehouseService;
+        let service: ExportInvoicePackageService;
         let httpMock: HttpTestingController;
-        let elemDefault: IWarehouse;
+        let elemDefault: IExportInvoicePackage;
         let currentDate: moment.Moment;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
             });
             injector = getTestBed();
-            service = injector.get(WarehouseService);
+            service = injector.get(ExportInvoicePackageService);
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Warehouse(0, 'AAAAAAA', 0, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, currentDate, currentDate);
+            elemDefault = new ExportInvoicePackage(0, 0, 0, 0, 0, 0, 0, false, 'AAAAAAA', 'AAAAAAA', 0, currentDate, currentDate);
         });
 
         describe('Service methods', async () => {
@@ -46,7 +46,7 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should create a Warehouse', async () => {
+            it('should create a ExportInvoicePackage', async () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
@@ -63,22 +63,26 @@ describe('Service Tests', () => {
                     returnedFromService
                 );
                 service
-                    .create(new Warehouse(null))
+                    .create(new ExportInvoicePackage(null))
                     .pipe(take(1))
                     .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
                 const req = httpMock.expectOne({ method: 'POST' });
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should update a Warehouse', async () => {
+            it('should update a ExportInvoicePackage', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        warehouseName: 'BBBBBB',
-                        keeperId: 1,
-                        address: 'BBBBBB',
-                        streetId: 'BBBBBB',
-                        warehouseType: 'BBBBBB',
-                        masterWarehouseId: 1,
+                        invoiceHeaderId: 1,
+                        itemTotal: 1,
+                        weight: 1,
+                        height: 1,
+                        length: 1,
+                        width: 1,
+                        delivered: true,
+                        status: 'BBBBBB',
+                        note: 'BBBBBB',
+                        warehouseId: 1,
                         createDate: currentDate.format(DATE_TIME_FORMAT),
                         updateDate: currentDate.format(DATE_TIME_FORMAT)
                     },
@@ -100,15 +104,19 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should return a list of Warehouse', async () => {
+            it('should return a list of ExportInvoicePackage', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        warehouseName: 'BBBBBB',
-                        keeperId: 1,
-                        address: 'BBBBBB',
-                        streetId: 'BBBBBB',
-                        warehouseType: 'BBBBBB',
-                        masterWarehouseId: 1,
+                        invoiceHeaderId: 1,
+                        itemTotal: 1,
+                        weight: 1,
+                        height: 1,
+                        length: 1,
+                        width: 1,
+                        delivered: true,
+                        status: 'BBBBBB',
+                        note: 'BBBBBB',
+                        warehouseId: 1,
                         createDate: currentDate.format(DATE_TIME_FORMAT),
                         updateDate: currentDate.format(DATE_TIME_FORMAT)
                     },
@@ -130,7 +138,7 @@ describe('Service Tests', () => {
                 httpMock.verify();
             });
 
-            it('should delete a Warehouse', async () => {
+            it('should delete a ExportInvoicePackage', async () => {
                 const rxPromise = service.delete(123).subscribe(resp => expect(resp.ok));
 
                 const req = httpMock.expectOne({ method: 'DELETE' });
