@@ -69,6 +69,39 @@ describe('Service Tests', () => {
                 const req = httpMock.expectOne({ method: 'POST' });
                 req.flush(JSON.stringify(returnedFromService));
             });
+            it('should update a ImportInvoicePackage', async () => {
+                const returnedFromService = Object.assign(
+                    {
+                        invoiceHeaderId: 1,
+                        itemTotal: 1,
+                        weight: 1,
+                        height: 1,
+                        length: 1,
+                        width: 1,
+                        delivered: true,
+                        status: 'BBBBBB',
+                        note: 'BBBBBB',
+                        warehouseId: 1,
+                        createDate: currentDate.format(DATE_TIME_FORMAT),
+                        updateDate: currentDate.format(DATE_TIME_FORMAT)
+                    },
+                    elemDefault
+                );
+
+                const expected = Object.assign(
+                    {
+                        createDate: currentDate,
+                        updateDate: currentDate
+                    },
+                    returnedFromService
+                );
+                service
+                    .update(null)
+                    .pipe(take(1))
+                    .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
+                const req = httpMock.expectOne({ method: 'PUT' });
+                req.flush(JSON.stringify(returnedFromService));
+            });
 
             it('should return a list of ImportInvoicePackage', async () => {
                 const returnedFromService = Object.assign(

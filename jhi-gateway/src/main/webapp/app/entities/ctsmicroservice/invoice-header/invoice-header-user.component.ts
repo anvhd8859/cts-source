@@ -52,26 +52,20 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
             this.previousPage = data.pagingParams.page;
-            this.reverse = data.pagingParams.ascending;
-            this.predicate = data.pagingParams.predicate;
+            this.reverse = false;
+            this.predicate = 'createDate';
         });
     }
 
     loadAll() {
         this.ngxUiLoaderService.start();
         const param = {
-            invoiceNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
-            status: this.selectedStatus ? this.selectedStatus : '',
-            receiveDate: this.receiveTime
-                ? this.receiveTime.year() + '-' + (this.receiveTime.month() + 1) + '-' + this.receiveTime.date()
-                : '',
-            createDate: this.createTime ? this.createTime.year() + '-' + (this.createTime.month() + 1) + '-' + this.createTime.date() : '',
-            updateDate: this.updateTime ? this.updateTime.year() + '-' + (this.updateTime.month() + 1) + '-' + this.updateTime.date() : '',
+            id: this.currentAccount.id,
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()
         };
-        this.invoiceHeaderService.searchByParam(param).subscribe(
+        this.invoiceHeaderService.getInvoiceByUserId(param).subscribe(
             (res: HttpResponse<IInvoiceHeader[]>) => {
                 this.paginateInvoiceHeaders(res.body, res.headers);
                 this.ngxUiLoaderService.stop();
@@ -91,8 +85,9 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
     }
 
     transition() {
-        this.router.navigate(['/invoice-header'], {
+        this.router.navigate(['/invoice-header-user'], {
             queryParams: {
+                id: this.currentAccount.id,
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
@@ -104,7 +99,7 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
     clear() {
         this.page = 0;
         this.router.navigate([
-            '/invoice-header',
+            '/invoice-header-user',
             {
                 page: this.page,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
@@ -114,9 +109,9 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
         this.principal.identity().then(account => {
             this.currentAccount = account;
+            this.loadAll();
         });
         this.registerChangeInInvoiceHeaders();
     }

@@ -1,5 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { CtsgatewaySharedModule } from 'app/shared';
 /* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
@@ -23,7 +25,9 @@ import {
 @NgModule({
     imports: [
         CtsgatewaySharedModule,
-        RouterModule.forChild(adminState)
+        RouterModule.forChild(adminState),
+        NgSelectModule,
+        FormsModule
         /* jhipster-needle-add-admin-module - JHipster will add admin modules here */
     ],
     declarations: [
