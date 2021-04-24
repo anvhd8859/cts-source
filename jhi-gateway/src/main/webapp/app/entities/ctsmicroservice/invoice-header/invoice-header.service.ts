@@ -76,11 +76,11 @@ export class InvoiceHeaderService {
         return this.http.put<any>(this.resourceUrl + '/invoice-detail', req, { observe: 'response' });
     }
 
-    loadPackageByInvoiceId(req?: any) {
+    getPackageByInvoiceId(req?: any) {
         return this.http.get<any>(this.packageResourceUrl + '/by-invoice-header', { params: req, observe: 'response' });
     }
 
-    loadDetailByInvoiceId(req?: any) {
+    getDetailByInvoiceId(req?: any) {
         return this.http.get<any>(this.detailResourceUrl + '/by-invoice-header', { params: req, observe: 'response' });
     }
     // HaiNM
