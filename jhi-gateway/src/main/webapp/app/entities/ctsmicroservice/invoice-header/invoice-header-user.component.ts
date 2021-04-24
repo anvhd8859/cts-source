@@ -71,7 +71,7 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
             size: this.itemsPerPage,
             sort: this.sort()
         };
-        this.invoiceHeaderService.searchByParam(param).subscribe(
+        this.invoiceHeaderService.getInvoiceByUserId(param).subscribe(
             (res: HttpResponse<IInvoiceHeader[]>) => {
                 this.paginateInvoiceHeaders(res.body, res.headers);
                 this.ngxUiLoaderService.stop();
@@ -91,7 +91,7 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
     }
 
     transition() {
-        this.router.navigate(['/invoice-header'], {
+        this.router.navigate(['/invoice-header-user'], {
             queryParams: {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -104,7 +104,7 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
     clear() {
         this.page = 0;
         this.router.navigate([
-            '/invoice-header',
+            '/invoice-header-user',
             {
                 page: this.page,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
