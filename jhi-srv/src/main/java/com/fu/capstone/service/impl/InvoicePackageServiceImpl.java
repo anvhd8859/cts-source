@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -120,13 +121,45 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
     }
     
     // AnhVD new code
-
 	@Override
 	public List<InvoicePackageDTO> getInvoicePackageByHeaderId(Long id) {
 		return invoicePackageMapper.toDto(
 				invoicePackageRepository.getInvoicePackageByHeaderId(id));
 	}
 
+
+	@Override
+	public List<InvoicePackageShipmentDTO> putImportPackageByOfficeId(
+			List<InvoicePackageShipmentDTO> invoicePackageDTO) {
+		Instant instant = Instant.now();
+		List<InvoiceHeaderDTO> invoiceList = new ArrayList<>();
+		List<InvoicePackageDTO> packageList = new ArrayList<>();
+		for(InvoicePackageShipmentDTO i : invoicePackageDTO) {
+			i.getInvoiceHeader().setUpdateDate(instant);
+			if(i.getInvoiceHeader().getStatus().equalsIgnoreCase("collected")) {
+				i.getInvoiceHeader().setStatus("first_import");
+			}
+			if(i.getInvoiceHeader().getStatus().equalsIgnoreCase("transporting") || 
+					i.getInvoiceHeader().getStatus().equalsIgnoreCase("delivering")) {
+				i.getInvoiceHeader().setStatus("last_import");
+			}
+			invoiceList.add(i.getInvoiceHeader());
+			for(InvoicePackageDTO p : i.getInvoicePackageList()) {
+				p.setUpdateDate(instant);
+				if(i.getInvoiceHeader().getStatus().equalsIgnoreCase("collected")) {
+					p.setStatus("first_import");
+				}
+				if(i.getInvoiceHeader().getStatus().equalsIgnoreCase("transporting") || 
+						i.getInvoiceHeader().getStatus().equalsIgnoreCase("delivering")) {
+					p.setStatus("last_import");
+				}
+				packageList.add(p);
+			}
+		}
+		invoiceHeaderRepository.saveAll(invoiceHeaderMapper.toEntity(invoiceList));
+		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(packageList));
+		return invoicePackageDTO;
+	}
 	@Override
 	public Page<InvoicePackageShipmentDTO> getImportPackageByOfficeId(Long id, String invNo, String status, Pageable pageable) {
 		Page<InvoiceHeaderDTO> pageInvoice = invoiceHeaderRepository
@@ -134,7 +167,48 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
 		Page<InvoicePackageShipmentDTO> page = pageInvoice.map(this::convert);
 		return page;
 	}
-	
+
+
+	@Override
+	public List<InvoicePackageShipmentDTO> putExportPackageByOfficeId(
+			List<InvoicePackageShipmentDTO> invoicePackageDTO) {
+		Instant instant = Instant.now();
+		List<InvoiceHeaderDTO> invoiceList = new ArrayList<>();
+		List<InvoicePackageDTO> packageList = new ArrayList<>();
+		for(InvoicePackageShipmentDTO i : invoicePackageDTO) {
+			i.getInvoiceHeader().setUpdateDate(instant);
+			for(InvoicePackageDTO p : i.getInvoicePackageList()) {
+				p.setUpdateDate(instant);
+				if(i.getInvoiceHeader().getStatus().equalsIgnoreCase("first_import")) {
+					p.setStatus("transporting");
+				}
+				if(i.getInvoiceHeader().getStatus().equalsIgnoreCase("last_import")) {
+					p.setStatus("delivering");
+				}
+				packageList.add(p);
+			}
+			if(i.getInvoiceHeader().getStatus().equalsIgnoreCase("first_import")) {
+				i.getInvoiceHeader().setStatus("transporting");
+			}
+			if(i.getInvoiceHeader().getStatus().equalsIgnoreCase("last_import")) {
+				i.getInvoiceHeader().setStatus("delivering");
+			}
+			invoiceList.add(i.getInvoiceHeader());
+		}
+		invoiceHeaderRepository.saveAll(invoiceHeaderMapper.toEntity(invoiceList));
+		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(packageList));
+		return invoicePackageDTO;
+	}
+	@Override
+	public Page<InvoicePackageShipmentDTO> getExportPackageByOfficeId(Long id, String invNo, String status,
+			Pageable pageable) {
+		Page<InvoiceHeaderDTO> pageInvoice = invoiceHeaderRepository
+				.getExportPackageByOfficeId(id, invNo, status, pageable).map(invoiceHeaderMapper::toDto);
+		Page<InvoicePackageShipmentDTO> page = pageInvoice.map(this::convert);
+		return page;
+	}
+
+
 	private InvoicePackageShipmentDTO convert (InvoiceHeaderDTO value) {
 		InvoicePackageShipmentDTO resultDTO = new InvoicePackageShipmentDTO();
 		PersonalShipmentDTO shipment = personalShipmentMapper.toDto(personalShipmentRepository.getDeliveryShipmentByHeaderId(value.getId()));
