@@ -62,7 +62,7 @@ export const receiptnoteRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Receiptnotes'
         },
@@ -75,7 +75,7 @@ export const receiptnoteRoute: Routes = [
             receiptnote: ReceiptnoteResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
             pageTitle: 'Receiptnotes'
         },
         canActivate: [UserRouteAccessService]
@@ -87,7 +87,7 @@ export const receiptnoteRoute: Routes = [
             receiptnote: ReceiptnoteResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
             pageTitle: 'Receiptnotes'
         },
         canActivate: [UserRouteAccessService]
@@ -99,7 +99,7 @@ export const receiptnoteRoute: Routes = [
             receiptnote: ReceiveNoeByInvoiceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
             pageTitle: 'Receive Note'
         },
         canActivate: [UserRouteAccessService]
@@ -111,7 +111,7 @@ export const receiptnoteRoute: Routes = [
             invoiceHeader: InvoiceHeaderResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
             pageTitle: 'Receive Note'
         },
         canActivate: [UserRouteAccessService]
@@ -126,7 +126,7 @@ export const receiptnotePopupRoute: Routes = [
             receiptnote: ReceiptnoteResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Receiptnotes'
         },
         canActivate: [UserRouteAccessService],
