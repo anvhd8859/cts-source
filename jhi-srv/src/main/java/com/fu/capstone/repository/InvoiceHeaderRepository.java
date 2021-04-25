@@ -56,7 +56,8 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%'))) "
 				  + " OR  (i.officeId = :id "
 				  + " AND ((:status = '' AND i.status = 'collected') OR i.status = :status) "
-				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%')))")
+				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%'))) "
+				  + " ORDER BY i.dueDate ASC")
 	Page<InvoiceHeader> getImportPackageByOfficeId(@Param("id") Long id,@Param("invNo") String invNo, @Param("status") String status, Pageable pageable);
 
 	@Query( value = "SELECT i FROM InvoiceHeader i WHERE (i.destinationOfficeId = :id "
@@ -64,7 +65,8 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%')))"
 				  + " OR  (i.officeId = :id "
 				  + " AND ((:status = '' AND i.status = 'first_import') OR i.status = :status) "
-				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%')))")
+				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%'))) "
+				  + " ORDER BY i.dueDate ASC")
 	Page<InvoiceHeader> getExportPackageByOfficeId(@Param("id") Long id,@Param("invNo") String invNo, @Param("status") String status, Pageable pageable);
 
 }
