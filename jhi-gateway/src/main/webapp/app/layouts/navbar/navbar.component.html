@@ -74,43 +74,49 @@
                     <li>
                         <a class="dropdown-item" routerLink="user-profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>User Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="district" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>District</span>
+                            <span>Manage User Profile</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="province" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Province</span>
+                            <span>Manage Province</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="street" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="district" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Street</span>
+                            <span>Manage District</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="sub-district" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Sub District</span>
+                            <span>Manage Sub District</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="street" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
+                            <span>Manage Street</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="invoice-header" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Invoices</span>
+                            <span>Manage Invoices</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="cancel-invoice" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
                             <span>Approve Request Cancel</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="personal-shipment-admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
+                            <span>Manage Personal Shipment</span>
                         </a>
                     </li>
                     <!-- Divider -->

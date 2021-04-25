@@ -11,7 +11,10 @@ import {
     PersonalShipmentDeletePopupComponent,
     PersonalShipmentDeleteDialogComponent,
     personalShipmentRoute,
-    personalShipmentPopupRoute
+    personalShipmentPopupRoute,
+    PersonalShipmentAdminComponent,
+    PersonalShipmentAssignDialogComponent,
+    PersonalShipmentAssignPopupComponent
 } from './';
 
 const ENTITY_STATES = [...personalShipmentRoute, ...personalShipmentPopupRoute];
@@ -23,13 +26,19 @@ const ENTITY_STATES = [...personalShipmentRoute, ...personalShipmentPopupRoute];
         PersonalShipmentDetailComponent,
         PersonalShipmentUpdateComponent,
         PersonalShipmentDeleteDialogComponent,
-        PersonalShipmentDeletePopupComponent
+        PersonalShipmentDeletePopupComponent,
+        PersonalShipmentAssignDialogComponent,
+        PersonalShipmentAssignPopupComponent,
+        PersonalShipmentAdminComponent
     ],
     entryComponents: [
         PersonalShipmentComponent,
         PersonalShipmentUpdateComponent,
         PersonalShipmentDeleteDialogComponent,
-        PersonalShipmentDeletePopupComponent
+        PersonalShipmentDeletePopupComponent,
+        PersonalShipmentAssignDialogComponent,
+        PersonalShipmentAssignPopupComponent,
+        PersonalShipmentAdminComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
