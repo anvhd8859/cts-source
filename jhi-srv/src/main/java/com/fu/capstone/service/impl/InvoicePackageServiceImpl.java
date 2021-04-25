@@ -1,6 +1,7 @@
 package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.InvoicePackageService;
+import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.InvoicePackage;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
@@ -209,30 +210,32 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
 	}
 
 	@Override
-	public InvoiceHeaderDTO putImportOnePackage(InvoiceHeaderDTO invoice) {
-		List<InvoicePackage> invPackageList = invoicePackageRepository.getInvoicePackageByHeaderId(invoice.getId());
-		if(invoice.getStatus().equalsIgnoreCase("transporting") || invoice.getStatus().equalsIgnoreCase("delivering")) {
-			invoice.setStatus("last_import");
+	public InvoiceHeaderDTO putImportOnePackage(Long id) {
+		InvoiceHeader inv = invoiceHeaderRepository.getOne(id);
+		List<InvoicePackage> invPackageList = invoicePackageRepository.getInvoicePackageByHeaderId(id);
+		if(inv.getStatus().equalsIgnoreCase("transporting") || inv.getStatus().equalsIgnoreCase("delivering")) {
+			inv.setStatus("last_import");
 		}
-		if(invoice.getStatus().equalsIgnoreCase("collected")) {
-			invoice.setStatus("first_import");
+		if(inv.getStatus().equalsIgnoreCase("collected")) {
+			inv.setStatus("first_import");
 		}
 		for(InvoicePackage ip : invPackageList) {
-			if(invoice.getStatus().equalsIgnoreCase("transporting") || invoice.getStatus().equalsIgnoreCase("delivering")) {
+			if(inv.getStatus().equalsIgnoreCase("transporting") || inv.getStatus().equalsIgnoreCase("delivering")) {
 				ip.setStatus("last_import");
 			}
-			if(invoice.getStatus().equalsIgnoreCase("collected")) {
+			if(inv.getStatus().equalsIgnoreCase("collected")) {
 				ip.setStatus("first_import");
 			}
 			ip.setUpdateDate(Instant.now());
 		}
-		invoice.setUpdateDate(Instant.now());
+		inv.setUpdateDate(Instant.now());
 		invoicePackageRepository.saveAll(invPackageList);
-		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(invoiceHeaderMapper.toEntity(invoice)));
+		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(inv));
 	}
 
 	@Override
-	public InvoiceHeaderDTO putExportOnePackage(InvoiceHeaderDTO invoice) {
+	public InvoiceHeaderDTO putExportOnePackage(Long id) {
+		InvoiceHeader invoice = invoiceHeaderRepository.getOne(id);
 		List<InvoicePackage> invPackageList = invoicePackageRepository.getInvoicePackageByHeaderId(invoice.getId());
 		if(invoice.getStatus().equalsIgnoreCase("first_import")) {
 			invoice.setStatus("transporting");
@@ -251,7 +254,7 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
 		}
 		invoice.setUpdateDate(Instant.now());
 		invoicePackageRepository.saveAll(invPackageList);
-		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(invoiceHeaderMapper.toEntity(invoice)));
+		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(invoice));
 	}
 
 }
