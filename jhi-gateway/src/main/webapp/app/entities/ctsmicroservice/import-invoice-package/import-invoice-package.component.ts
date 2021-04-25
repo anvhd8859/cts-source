@@ -16,6 +16,7 @@ import { ITEMS_PER_PAGE } from 'app/shared';
 })
 export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     invoicePackageShipments: IInvoicePackageShipment[];
+    finalData: any;
     currentAccount: any;
     eventSubscriber: Subscription;
     selectedInvoiceStatus: any;
@@ -30,7 +31,11 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
         { id: 'fail_num3', text: 'Giao hàng không thành công lần: 3' },
         { id: 'finish', text: 'Hoàn thành' }
     ];
-    listInvoiceStatus: any = [{ id: 'transporting', text: 'Đang vận chuyển' }, { id: 'delivering', text: 'Đang giao hàng' }];
+    listInvoiceStatus: any = [
+        { id: 'collected', text: 'Nhân viên đã lấy hàng' },
+        { id: 'transporting', text: 'Đang vận chuyển' },
+        { id: 'delivering', text: 'Đang giao hàng' }
+    ];
     routeData: any;
     links: any;
     totalItems: any;
@@ -72,7 +77,8 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
         this.importInvoicePackageService.getImportPackage(param).subscribe(
             (res: HttpResponse<IInvoicePackageShipment[]>) => {
                 this.invoicePackageShipments = res.body;
-                for (let i in this.invoicePackageShipments) {
+                this.finalData = this.invoicePackageShipments;
+                for (const i in this.invoicePackageShipments) {
                     if (this.invoicePackageShipments[i].invoiceHeader.status === this.listShipmentType[0].id) {
                         this.invoicePackageShipments[i].invoiceHeader.status = this.listShipmentType[0].text;
                     } else {
@@ -81,7 +87,7 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
                     if (this.invoicePackageShipments[i].personalShipment.shipmentType === 'delivery') {
                         const status = this.invoicePackageShipments[i].personalShipment.status;
                         let statusText;
-                        for (let st of this.listShipmentStatus) {
+                        for (const st of this.listShipmentStatus) {
                             if (st.id === status) {
                                 statusText = st.text;
                                 break;
@@ -97,17 +103,7 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
 
     importAll() {
         this.isSaving = true;
-        let params: IInvoiceHeader[];
-        for (let i in this.invoicePackageShipments) {
-            let inv = this.invoicePackageShipments[i].invoiceHeader;
-            if (inv.status === this.listInvoiceStatus[0].text) {
-                inv.status = this.listInvoiceStatus[0].id;
-            } else {
-                inv.status = this.listInvoiceStatus[1].id;
-            }
-            params.push(inv);
-        }
-        const finalParams = params;
+        const finalParams = this.finalData;
         this.subscribeToSaveResponse(this.importInvoicePackageService.saveListImportInvoiceHeader(finalParams));
     }
 
