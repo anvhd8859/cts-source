@@ -56,6 +56,8 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         { id: 'Shipped', text: 'Shipped' },
         { id: 'Cancelled', text: 'Cancelled' }
     ];
+    lstCollect: any = [{ id: '1', text: 'Collect From Home' }, { id: '0', text: 'Drop By Office' }];
+    selectedCollect: any;
     // HaiNM
     lstInvoicePackage: IInvoicePackage[] = [];
     invPackageCount: number;
@@ -181,7 +183,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             if (this.invoiceHeader.id !== undefined) {
                 this.subscribeToSaveResponse(this.invoiceHeaderService.updateExistedInvoice(postObject));
             } else {
-                this.subscribeToSaveResponse(this.invoiceHeaderService.createNewInvoice(postObject));
+                this.subscribeToSaveResponse(this.invoiceHeaderService.createNewInvoice(postObject, this.selectedCollect));
             }
         } else {
             window.scroll(0, 0);
