@@ -4,14 +4,11 @@ import com.fu.capstone.service.InvoicePackageService;
 import com.fu.capstone.domain.InvoicePackage;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
-import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.InvoicePackageDTO;
 import com.fu.capstone.service.dto.InvoicePackageShipmentDTO;
-import com.fu.capstone.service.dto.PersonalShipmentDTO;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
-import com.fu.capstone.service.mapper.PersonalShipmentMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,24 +36,17 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
     private InvoicePackageRepository invoicePackageRepository;
     
     private InvoiceHeaderRepository invoiceHeaderRepository;
-    
-    private PersonalShipmentRepository personalShipmentRepository;
 
     private InvoicePackageMapper invoicePackageMapper;
     
     private InvoiceHeaderMapper invoiceHeaderMapper;
-    
-    private PersonalShipmentMapper personalShipmentMapper;
 
     public InvoicePackageServiceImpl(InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
-    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
-    		PersonalShipmentRepository personalShipmentRepository, PersonalShipmentMapper personalShipmentMapper) {
+    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper) {
         this.invoicePackageRepository = invoicePackageRepository;
         this.invoicePackageMapper = invoicePackageMapper;
         this.invoiceHeaderRepository = invoiceHeaderRepository;
         this.invoiceHeaderMapper = invoiceHeaderMapper;
-        this.personalShipmentRepository = personalShipmentRepository;
-        this.personalShipmentMapper = personalShipmentMapper;
     }
 
     /**
@@ -211,12 +201,57 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
 
 	private InvoicePackageShipmentDTO convert (InvoiceHeaderDTO value) {
 		InvoicePackageShipmentDTO resultDTO = new InvoicePackageShipmentDTO();
-		PersonalShipmentDTO shipment = personalShipmentMapper.toDto(personalShipmentRepository.getDeliveryShipmentByHeaderId(value.getId()));
 		List<InvoicePackageDTO> lstPackage = invoicePackageMapper.toDto(
 				invoicePackageRepository.getInvoicePackageByHeaderId(value.getId()));
-		resultDTO.setPersonalShipment(shipment);
+		resultDTO.setInvoiceHeader(value);
 		resultDTO.setInvoicePackageList(lstPackage);
 		return resultDTO;
+	}
+
+	@Override
+	public InvoiceHeaderDTO putImportOnePackage(InvoiceHeaderDTO invoice) {
+		List<InvoicePackage> invPackageList = invoicePackageRepository.getInvoicePackageByHeaderId(invoice.getId());
+		if(invoice.getStatus().equalsIgnoreCase("transporting") || invoice.getStatus().equalsIgnoreCase("delivering")) {
+			invoice.setStatus("last_import");
+		}
+		if(invoice.getStatus().equalsIgnoreCase("collected")) {
+			invoice.setStatus("first_import");
+		}
+		for(InvoicePackage ip : invPackageList) {
+			if(invoice.getStatus().equalsIgnoreCase("transporting") || invoice.getStatus().equalsIgnoreCase("delivering")) {
+				ip.setStatus("last_import");
+			}
+			if(invoice.getStatus().equalsIgnoreCase("collected")) {
+				ip.setStatus("first_import");
+			}
+			ip.setUpdateDate(Instant.now());
+		}
+		invoice.setUpdateDate(Instant.now());
+		invoicePackageRepository.saveAll(invPackageList);
+		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(invoiceHeaderMapper.toEntity(invoice)));
+	}
+
+	@Override
+	public InvoiceHeaderDTO putExportOnePackage(InvoiceHeaderDTO invoice) {
+		List<InvoicePackage> invPackageList = invoicePackageRepository.getInvoicePackageByHeaderId(invoice.getId());
+		if(invoice.getStatus().equalsIgnoreCase("first_import")) {
+			invoice.setStatus("transporting");
+		}
+		if(invoice.getStatus().equalsIgnoreCase("last_import")) {
+			invoice.setStatus("delivering");
+		}
+		for(InvoicePackage ip : invPackageList) {
+			if(invoice.getStatus().equalsIgnoreCase("first_import")) {
+				ip.setStatus("transporting");
+			}
+			if(invoice.getStatus().equalsIgnoreCase("last_import")) {
+				ip.setStatus("delivering");
+			}
+			ip.setUpdateDate(Instant.now());
+		}
+		invoice.setUpdateDate(Instant.now());
+		invoicePackageRepository.saveAll(invPackageList);
+		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(invoiceHeaderMapper.toEntity(invoice)));
 	}
 
 }
