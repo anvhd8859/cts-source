@@ -20,13 +20,18 @@ export class InvoiceHeaderDetailComponent implements OnInit {
     lstInvoiceDetails: IInvoiceDetails[] = [];
     customer: User;
     office: IOffice;
+    showPackage: boolean;
+    showItem: boolean;
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
         private officeService: OfficeService,
         private activatedRoute: ActivatedRoute,
         private accountService: AccountService
-    ) {}
+    ) {
+        this.showPackage = false;
+        this.showItem = false;
+    }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ invoiceHeader }) => {
@@ -43,6 +48,14 @@ export class InvoiceHeaderDetailComponent implements OnInit {
                 this.office = res[3].body;
             });
         });
+    }
+
+    collapsePackage() {
+        this.showPackage = !this.showPackage;
+    }
+
+    collapseItem() {
+        this.showItem = !this.showItem;
     }
 
     previousState() {
