@@ -228,7 +228,15 @@ public class InvoiceHeader implements Serializable {
         this.destinationStreetId = destinationStreetId;
     }
 
-    public String getReceiverName() {
+    public Long getDestinationOfficeId() {
+		return destinationOfficeId;
+	}
+
+	public void setDestinationOfficeId(Long destinationOfficeId) {
+		this.destinationOfficeId = destinationOfficeId;
+	}
+
+	public String getReceiverName() {
         return receiverName;
     }
 
@@ -490,6 +498,7 @@ public class InvoiceHeader implements Serializable {
             ", startStreetId=" + getStartStreetId() +
             ", destinationAddress='" + getDestinationAddress() + "'" +
             ", destinationStreetId=" + getDestinationStreetId() +
+            ", destinationOfficeId=" + getDestinationOfficeId() +
             ", receiverName='" + getReceiverName() + "'" +
             ", receiverPhone='" + getReceiverPhone() + "'" +
             ", subTotal=" + getSubTotal() +

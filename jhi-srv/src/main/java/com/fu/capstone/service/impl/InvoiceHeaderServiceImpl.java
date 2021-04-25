@@ -72,15 +72,12 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 	private PersonalShipmentMapper personalShipmentMapper;
 
-	private WorkingAreaMapper workingAreaMapper;
-
 	public InvoiceHeaderServiceImpl(InvoiceHeaderRepository invoiceHeaderRepository,
 			InvoiceHeaderMapper invoiceHeaderMapper, InvoiceDetailsRepository invoiceDetailsRepository,
 			InvoiceDetailsMapper invoiceDetailsMapper, InvoicePackageRepository invoicePackageRepository,
 			InvoicePackageMapper invoicePackageMapper, PersonalShipmentRepository personalShipmentRepository,
 			PersonalShipmentMapper personalShipmentMapper, StreetRepository streetRepository,
-			OfficeRepository officeRepository,
-			WorkingAreaMapper workingAreaMapper, WorkingAreaRepository workingAreaRepository) {
+			OfficeRepository officeRepository, WorkingAreaRepository workingAreaRepository) {
 		this.invoiceHeaderRepository = invoiceHeaderRepository;
 		this.invoiceHeaderMapper = invoiceHeaderMapper;
 		this.invoiceDetailsRepository = invoiceDetailsRepository;
@@ -91,7 +88,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		this.personalShipmentMapper = personalShipmentMapper;
 		this.streetRepository = streetRepository;
 		this.officeRepository = officeRepository;
-		this.workingAreaMapper = workingAreaMapper;
 		this.workingAreaRepository = workingAreaRepository;
 	}
 
@@ -220,8 +216,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			Office ofc = officeRepository.searchOfficeNearby(toStreet.getId(), toStreet.getSubDistrictId().getId(),
 					toStreet.getSubDistrictId().getDistrictId().getId(),
 					toStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
-			if (ofc != null)
-				invoiceHeaderDTO.setDestinationOfficeId(ofc.getId());
+			invoiceHeaderDTO.setDestinationOfficeId(ofc.getId());
 		}
 
 		// create invoice and get invoice with ID
@@ -255,8 +250,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			Office ofc = officeRepository.searchOfficeNearby(fromStreet.getId(), fromStreet.getSubDistrictId().getId(),
 					fromStreet.getSubDistrictId().getDistrictId().getId(),
 					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
-			if (ofc != null)
-				invoiceHeaderDTO.setOfficeId(ofc.getId());
+			invoiceHeaderDTO.setOfficeId(ofc.getId());
 			
 			// process collect shipment and sub total fee
 			PersonalShipment ps = new PersonalShipment();

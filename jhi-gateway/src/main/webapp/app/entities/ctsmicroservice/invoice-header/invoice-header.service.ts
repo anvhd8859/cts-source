@@ -69,8 +69,8 @@ export class InvoiceHeaderService {
     // ThangND End
 
     // HaiNM
-    createNewInvoice(req?: any): Observable<HttpResponse<any>> {
-        return this.http.post<any>(this.resourceUrl + '/invoice-detail', req, { observe: 'response' });
+    createNewInvoice(req?: any, collect?: number): Observable<HttpResponse<any>> {
+        return this.http.post<any>(`${this.resourceUrl + '/invoice-detail'}/${collect}`, req, { observe: 'response' });
     }
 
     updateExistedInvoice(req?: any): Observable<HttpResponse<any>> {
