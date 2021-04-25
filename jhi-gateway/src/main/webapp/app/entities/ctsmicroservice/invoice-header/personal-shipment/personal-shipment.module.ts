@@ -12,7 +12,9 @@ import {
     PersonalShipmentDeleteDialogComponent,
     personalShipmentRoute,
     personalShipmentPopupRoute,
-    PersonalShipmentAdminComponent
+    PersonalShipmentAdminComponent,
+    PersonalShipmentAssignDialogComponent,
+    PersonalShipmentAssignPopupComponent
 } from './';
 
 const ENTITY_STATES = [...personalShipmentRoute, ...personalShipmentPopupRoute];
@@ -25,6 +27,8 @@ const ENTITY_STATES = [...personalShipmentRoute, ...personalShipmentPopupRoute];
         PersonalShipmentUpdateComponent,
         PersonalShipmentDeleteDialogComponent,
         PersonalShipmentDeletePopupComponent,
+        PersonalShipmentAssignDialogComponent,
+        PersonalShipmentAssignPopupComponent,
         PersonalShipmentAdminComponent
     ],
     entryComponents: [
@@ -32,6 +36,8 @@ const ENTITY_STATES = [...personalShipmentRoute, ...personalShipmentPopupRoute];
         PersonalShipmentUpdateComponent,
         PersonalShipmentDeleteDialogComponent,
         PersonalShipmentDeletePopupComponent,
+        PersonalShipmentAssignDialogComponent,
+        PersonalShipmentAssignPopupComponent,
         PersonalShipmentAdminComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
