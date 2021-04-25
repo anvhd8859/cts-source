@@ -12,6 +12,7 @@ import { PersonalShipmentDetailComponent } from './personal-shipment-detail.comp
 import { PersonalShipmentUpdateComponent } from './personal-shipment-update.component';
 import { PersonalShipmentDeletePopupComponent } from './personal-shipment-delete-dialog.component';
 import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
+import { PersonalShipmentAdminComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class PersonalShipmentResolve implements Resolve<IPersonalShipment> {
@@ -73,6 +74,19 @@ export const personalShipmentRoute: Routes = [
         data: {
             authorities: ['ROLE_ADMIN'],
             pageTitle: 'PersonalShipments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'personal-shipment-admin',
+        component: PersonalShipmentAdminComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_SHIPPER'],
+            defaultSort: 'id,asc',
+            pageTitle: 'Manage Personal Shipment'
         },
         canActivate: [UserRouteAccessService]
     }
