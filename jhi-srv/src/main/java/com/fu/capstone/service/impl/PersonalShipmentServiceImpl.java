@@ -151,12 +151,26 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 		ps.setCreateDate(instant);
 		ps.setUpdateDate(instant);
 		// re-calculate total due 
-		InvoiceHeader inv = invoiceHeaderRepository.getOne(id);
-		BigDecimal subTotal = inv.getSubTotal();
-		subTotal = new BigDecimal(5000).add(subTotal.multiply(new BigDecimal(1.05)));
-		invoiceHeaderRepository.save(inv);
+		InvoiceHeader inv = invoiceHeaderRepository.findById(id).get();
+		if(inv != null) {
+			BigDecimal subTotal = inv.getSubTotal();
+			subTotal = new BigDecimal(5000).add(subTotal.multiply(new BigDecimal(1.05)));
+			invoiceHeaderRepository.save(inv);
+		}
 		return personalShipmentMapper.toDto(personalShipmentRepository.save(ps));
 	}
-	
+
+	@Override
+	public Page<PersonalShipmentInvoiceDTO> getAllPersonaShipmentInvoices(Long empId, String invNo, Long strId,
+			Pageable pageable) {
+		Page<PersonalShipment> pgShipment = personalShipmentRepository.getAllPersonaShipmentInvoices(empId, invNo, strId, pageable);
+		return pgShipment.map(this::convertPersonalShipmentToPersonalShipmentInvoiceDTO);
+	}
+	private PersonalShipmentInvoiceDTO convertPersonalShipmentToPersonalShipmentInvoiceDTO(PersonalShipment entity){
+		PersonalShipmentInvoiceDTO result = new PersonalShipmentInvoiceDTO();
+		result.setPersonalShipmentDTO(personalShipmentMapper.toDto(entity));
+		result.setInvoiceHeaderDTO(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId())));
+		return result;
+	}
 
 }
