@@ -3,10 +3,13 @@ package com.fu.capstone.service;
 import com.fu.capstone.config.Constants;
 import com.fu.capstone.domain.Authority;
 import com.fu.capstone.domain.User;
+import com.fu.capstone.domain.UserProfile;
 import com.fu.capstone.repository.AuthorityRepository;
+import com.fu.capstone.repository.UserProfileRepository;
 import com.fu.capstone.repository.UserRepository;
 import com.fu.capstone.security.AuthoritiesConstants;
 import com.fu.capstone.security.SecurityUtils;
+import com.fu.capstone.service.dto.CustomUserDTO;
 import com.fu.capstone.service.dto.UserDTO;
 import com.fu.capstone.service.util.RandomUtil;
 import com.fu.capstone.web.rest.errors.*;
@@ -36,6 +39,8 @@ public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
+    
+    private final UserProfileRepository userProfileRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -43,11 +48,13 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, 
+    		CacheManager cacheManager, UserProfileRepository userProfileRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.userProfileRepository = userProfileRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -294,5 +301,18 @@ public class UserService {
     @Transactional(readOnly = true)
 	public Page<UserDTO> getAllUsersByFilter(String user, String role, Pageable pageable) {
 		return userRepository.getAllUsersByFilter(user, role, pageable).map(UserDTO::new);
+	}
+
+	public Page<CustomUserDTO> getAllShipperUserByFilter(String user, Pageable pageable) {
+		Page<UserDTO> userPage =  userRepository.getAllShipperUserByFilter(user, pageable).map(UserDTO::new);
+		return userPage.map(this::convertToCustomUserDTO);
+	}
+	
+	private CustomUserDTO convertToCustomUserDTO(UserDTO userDto) {
+		CustomUserDTO customDto = new CustomUserDTO();
+		UserProfile profile = userProfileRepository.findByUserId(userDto.getId()).get();
+		customDto.setUser(userDto);
+		customDto.setProfile(profile);
+		return customDto;
 	}
 }
