@@ -1,10 +1,41 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12">
         <div *ngIf="invoiceHeader">
-            <h2><span>Invoice Header</span> {{invoiceHeader.id}}</h2>
-            <hr>
+            <div class="row">
+                <div class="col-12">
+                    <h2><b><span>Invoice: </span> {{invoiceHeader.invoiceNo}}</b></h2>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-12">
+                    <h4><span>Create Time: </span>{{invoiceHeader.createDate | date:'yyyy-MM-dd HH:mm'}}</h4>
+                </div>
+            </div>
+            <br>
             <jhi-alert-error></jhi-alert-error>
-            <dl class="row-md jh-entity-details">
+            <div class="col-12">
+                <table class="table" style="width: 100%;">
+                    <tr>
+                        <th>Customer: </th>
+                        <td>{{this.customer.firstName + ' ' + this.customer.lastName}}</td>
+                    </tr>
+                    <tr>
+                        <th>Office: </th>
+                        <td>{{this.office.officeName}}</td>
+                    </tr>
+                    <tr>
+                        <th>Invoice Type: </th>
+                        <td>{{this.invoiceHeader.invoiceType}}</td>
+                    </tr>
+                    <tr>
+                        <th>Invoice Status: </th>
+                        <td>{{this.invoiceHeader.status}}</td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <!-- <dl class="row-md jh-entity-details">
                 <dt><span>Customer Id</span></dt>
                 <dd>
                     <span>{{invoiceHeader.customerId}}</span>
@@ -93,18 +124,12 @@
                 <dd>
                     <span>{{invoiceHeader.updateDate}}</span>
                 </dd>
-            </dl>
+            </dl> -->
 
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
-            </button>
-
-            <button type="button"
-                    [routerLink]="['/invoice-header', invoiceHeader.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
         </div>
     </div>

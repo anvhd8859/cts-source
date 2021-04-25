@@ -91,6 +91,10 @@ export class InvoiceHeaderService {
             .get<IInvoiceHeader[]>(this.resourceUrl + '/by-customer', { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
+
+    getUserByID(req?: any): Observable<HttpResponse<IUser>> {
+        return this.http.get<IUser>(this.userResourceUrl + '/by-id', { params: req, observe: 'response' });
+    }
     // HaiNM
 
     private convertDateFromClient(invoiceHeader: IInvoiceHeader): IInvoiceHeader {

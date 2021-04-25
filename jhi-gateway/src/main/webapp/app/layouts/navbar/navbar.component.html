@@ -54,7 +54,7 @@
                     <li>
                         <a class="dropdown-item" routerLink="personal-shipment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span></span>
+                            <span>View My Delivery</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
@@ -196,17 +196,19 @@
                         </a>
                     </li>
                     <!-- Divider -->
-                    <div class="divider"></div>
-                    <!-- Divider -->
-                    <li>
-                        <a class="dropdown-item" routerLink="invoice-header-user" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'note'" [fixedWidth]="true"></fa-icon>
-                            <span>Invoices History</span>
-                        </a>
-                    </li>
-                    <!-- Divider -->
-                    <div class="divider"></div>
-                    <!-- Divider -->
+                    <ng-container *jhiHasAnyAuthority="'ROLE_USER'">
+                        <div class="divider"></div>
+                        <!-- Divider -->
+                        <li>
+                            <a class="dropdown-item" routerLink="invoice-header-user" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                                <fa-icon [icon]="'note'" [fixedWidth]="true"></fa-icon>
+                                <span>Invoices History</span>
+                            </a>
+                        </li>
+                        <!-- Divider -->
+                        <div class="divider"></div>
+                        <!-- Divider -->
+                    </ng-container>
                     <li *ngSwitchCase="true">
                         <a class="dropdown-item" (click)="logout()" id="logout">
                             <fa-icon [icon]="'sign-out-alt'" [fixedWidth]="true"></fa-icon>

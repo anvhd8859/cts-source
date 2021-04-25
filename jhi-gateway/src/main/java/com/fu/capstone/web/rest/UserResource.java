@@ -206,4 +206,13 @@ public class UserResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     
+    // HaiNM
+    @GetMapping("/users/by-id")
+    @Timed
+    public ResponseEntity<UserDTO> getUserByID(@RequestParam("id") Long id) {
+        log.debug("REST request to get User By ID: {}", id);
+        return ResponseUtil.wrapOrNotFound(
+            userService.getUserByID(id).map(UserDTO::new));
+    }
+    // HaiNM
 }

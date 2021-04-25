@@ -54,4 +54,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     @Query(value = "SELECT u FROM User u, UserProfile p WHERE u.id = p.userId AND u.login like CONCAT('%', :user, '%')")
     Page<User> getAllShipperUserByFilter(@Param("user") String user, Pageable pageable);
+
+    @Query(value = "SELECT u FROM User u WHERE u.id = :id")
+	Optional<User> findUserById(@Param("id")Long id);
 }
