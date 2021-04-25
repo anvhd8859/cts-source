@@ -62,6 +62,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     lstInvoiceDetails: IInvoiceDetails[] = [];
     invDetailCount: number;
     currentUser: IUser;
+    currentProfile: IUserProfile;
     // HaiNM
 
     constructor(
@@ -95,6 +96,9 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             this.lstProvinceFrom = res[1].body;
             this.lstProvinceTo = res[1].body;
             this.currentUser = res[2];
+            this.accountService.findByUserID({ id: this.currentUser }).subscribe(profile => {
+                this.currentProfile = profile.body;
+            });
             if (this.invoiceHeader.id) {
                 this.selectedUser = this.lstUser.find(e => e.id === this.invoiceHeader.customerId);
                 this.changeUser();
@@ -161,7 +165,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                     (this.selectedProvinceTo ? this.selectedProvinceTo.provinceName : '');
                 this.invoiceHeader.startStreetId = this.selectedStreetFrom.id;
                 this.invoiceHeader.destinationStreetId = this.selectedStreetTo.id;
-                this.invoiceHeader.officeId = this.selectedUserProfile.officeId;
+                this.invoiceHeader.officeId = this.currentProfile.officeId;
                 this.invoiceHeader.employeeId = this.currentUser.id;
             }
             this.invoiceHeader.customerId = this.selectedUser.id;
