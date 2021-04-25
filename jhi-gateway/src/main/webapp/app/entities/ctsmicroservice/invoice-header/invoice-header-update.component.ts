@@ -7,7 +7,7 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { InvoiceHeaderService } from './invoice-header.service';
-import { AccountService, IUser } from 'app/core';
+import { AccountService, IUser, Principal } from 'app/core';
 import { IDistrict } from 'app/shared/model/ctsmicroservice/district.model';
 import { IProvince } from 'app/shared/model/ctsmicroservice/province.model';
 import { IStreet } from 'app/shared/model/ctsmicroservice/street.model';
@@ -61,12 +61,14 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     invPackageCount: number;
     lstInvoiceDetails: IInvoiceDetails[] = [];
     invDetailCount: number;
+    currentUser: any;
     // HaiNM
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
         private accountService: AccountService,
         private activatedRoute: ActivatedRoute,
+        private principal: Principal,
         private alertService: JhiAlertService
     ) {}
 
@@ -88,10 +90,11 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 });
             }
         });
-        forkJoin(this.invoiceHeaderService.getLstUser(), this.accountService.getLstCity()).subscribe(res => {
+        forkJoin(this.invoiceHeaderService.getLstUser(), this.accountService.getLstCity(), this.principal.identity()).subscribe(res => {
             this.lstUser = res[0].body.filter(e => e.authorities.filter(i => i === 'ROLE_USER'));
             this.lstProvinceFrom = res[1].body;
             this.lstProvinceTo = res[1].body;
+            this.currentUser = res[2];
             if (this.invoiceHeader.id) {
                 this.selectedUser = this.lstUser.find(e => e.id === this.invoiceHeader.customerId);
                 this.changeUser();
@@ -158,6 +161,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                     (this.selectedProvinceTo ? this.selectedProvinceTo.provinceName : '');
                 this.invoiceHeader.startStreetId = this.selectedStreetFrom.id;
                 this.invoiceHeader.destinationStreetId = this.selectedStreetTo.id;
+                this.invoiceHeader.officeId = this.currentUser.officeId;
             }
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
@@ -169,11 +173,6 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 lstDetail: this.lstInvoiceDetails,
                 lstPackage: this.lstInvoicePackage
             };
-            // if (this.invoiceHeader.id !== undefined) {
-            //     this.subscribeToSaveResponse(this.invoiceHeaderService.update(this.invoiceHeader));
-            // } else {
-            //     this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
-            // }
             if (this.invoiceHeader.id !== undefined) {
                 this.subscribeToSaveResponse(this.invoiceHeaderService.updateExistedInvoice(postObject));
             } else {
