@@ -50,28 +50,29 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	private InvoiceHeaderRepository invoiceHeaderRepository;
 
 	private InvoiceDetailsRepository invoiceDetailsRepository;
-	
+
 	private InvoicePackageRepository invoicePackageRepository;
-	
+
 	private PersonalShipmentRepository personalShipmentRepository;
-	
+
 	private StreetRepository streetRepository;
-	
+
 	private OfficeRepository officeRepository;
-	
+
 	private InvoiceHeaderMapper invoiceHeaderMapper;
-	
+
 	private InvoiceDetailsMapper invoiceDetailsMapper;
-	
+
 	private InvoicePackageMapper invoicePackageMapper;
-	
+
 	private PersonalShipmentMapper personalShipmentMapper;
 
-	public InvoiceHeaderServiceImpl(InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper, 
-			InvoiceDetailsRepository invoiceDetailsRepository, InvoiceDetailsMapper invoiceDetailsMapper, 
-			InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
-			PersonalShipmentRepository personalShipmentRepository, PersonalShipmentMapper personalShipmentMapper,
-			StreetRepository streetRepository, OfficeRepository officeRepository) {
+	public InvoiceHeaderServiceImpl(InvoiceHeaderRepository invoiceHeaderRepository,
+			InvoiceHeaderMapper invoiceHeaderMapper, InvoiceDetailsRepository invoiceDetailsRepository,
+			InvoiceDetailsMapper invoiceDetailsMapper, InvoicePackageRepository invoicePackageRepository,
+			InvoicePackageMapper invoicePackageMapper, PersonalShipmentRepository personalShipmentRepository,
+			PersonalShipmentMapper personalShipmentMapper, StreetRepository streetRepository,
+			OfficeRepository officeRepository) {
 		this.invoiceHeaderRepository = invoiceHeaderRepository;
 		this.invoiceHeaderMapper = invoiceHeaderMapper;
 		this.invoiceDetailsRepository = invoiceDetailsRepository;
@@ -97,12 +98,12 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 		InvoiceHeader invoiceHeader = invoiceHeaderMapper.toEntity(invoiceHeaderDTO);
 		Instant instant = Instant.now();
-		if(invoiceHeader.getId() == null){
+		if (invoiceHeader.getId() == null) {
 			invoiceHeader.setCreateDate(instant);
 			invoiceHeader.setUpdateDate(instant);
 			invoiceHeader.setDueDate(instant.plus(7, ChronoUnit.DAYS));
-		}
-		else invoiceHeader.setUpdateDate(instant);
+		} else
+			invoiceHeader.setUpdateDate(instant);
 		invoiceHeader = invoiceHeaderRepository.save(invoiceHeader);
 		return invoiceHeaderMapper.toDto(invoiceHeader);
 	}
@@ -172,16 +173,17 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	// start function
 	@Override
 	public Page<InvoiceShipmentDTO> getInvoiceHeadersByShipper(Long id, String invNo, String type, Pageable pageable) {
-		Page<InvoiceHeaderDTO> invoicePage = invoiceHeaderRepository.getInvoiceHeadersByShipper(id, invNo, type, pageable)
-				.map(invoiceHeaderMapper::toDto);
+		Page<InvoiceHeaderDTO> invoicePage = invoiceHeaderRepository
+				.getInvoiceHeadersByShipper(id, invNo, type, pageable).map(invoiceHeaderMapper::toDto);
 		Page<InvoiceShipmentDTO> dtoPage = invoicePage.map(this::convert);
 		return dtoPage;
 	}
+
 	// convert
 	private InvoiceShipmentDTO convert(InvoiceHeaderDTO value) {
 		InvoiceShipmentDTO isDTO = new InvoiceShipmentDTO();
-		List<PersonalShipmentDTO> psDTO = personalShipmentMapper.toDto(personalShipmentRepository
-				.getShipmentByInvoice(value.getId()));
+		List<PersonalShipmentDTO> psDTO = personalShipmentMapper
+				.toDto(personalShipmentRepository.getShipmentByInvoice(value.getId()));
 		isDTO.setInvoiceHeader(value);
 		isDTO.setPersonalShipmentList(psDTO);
 		return isDTO;
@@ -190,110 +192,125 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 	@Override
 	public Page<InvoiceHeaderDTO> getInvoiceHeadersRequestCancel(Pageable pageable) {
-		return invoiceHeaderRepository.getInvoiceHeadersRequestCancel(pageable).map(invoiceHeaderMapper::toDto) ;
+		return invoiceHeaderRepository.getInvoiceHeadersRequestCancel(pageable).map(invoiceHeaderMapper::toDto);
 	}
 
 	@Override
-	public InvoiceHeaderDTO createInvoiceHeaderDetailPackage(InvoicePackageDetailDTO invoicePackageDetailDTO) {
+	public InvoiceHeaderDTO createInvoiceHeaderDetailPackage(InvoicePackageDetailDTO invoicePackageDetailDTO,
+			int check) {
 		// get data from web
 		InvoiceHeaderDTO invoiceHeaderDTO = invoicePackageDetailDTO.getHeader();
 		List<InvoiceDetailsDTO> lstDetailDTO = invoicePackageDetailDTO.getLstDetail();
 		List<InvoicePackageDTO> lstPackageDTO = invoicePackageDetailDTO.getLstPackage();
 		Street fromStreet = streetRepository.getFullAddressByStreetId(invoiceHeaderDTO.getStartStreetId());
 		Street toStreet = streetRepository.getFullAddressByStreetId(invoiceHeaderDTO.getDestinationStreetId());
-		
+
 		// create invoice and get invoice with ID
-		invoiceHeaderDTO = this.save(invoiceHeaderDTO);		
-		
+		invoiceHeaderDTO = this.save(invoiceHeaderDTO);
+		List<PersonalShipment> lstShipment = new ArrayList<>();
+
 		// set invoice id for package and detail
 		Instant instant = Instant.now();
-		for(InvoiceDetailsDTO i : lstDetailDTO) {
+		for (InvoiceDetailsDTO i : lstDetailDTO) {
 			i.setInvoiceHeaderId(invoiceHeaderDTO.getId());
-			if(i.getId() == null){
+			if (i.getId() == null) {
 				i.setCreateDate(instant);
 				i.setUpdateDate(instant);
-			}
-			else i.setUpdateDate(instant);
+			} else
+				i.setUpdateDate(instant);
 		}
-		for(InvoicePackageDTO i : lstPackageDTO) {
+		for (InvoicePackageDTO i : lstPackageDTO) {
 			i.setInvoiceHeaderId(invoiceHeaderDTO.getId());
-			if(i.getId() == null){
+			if (i.getId() == null) {
 				i.setCreateDate(instant);
 				i.setUpdateDate(instant);
-			}
-			else i.setUpdateDate(instant);
+			} else
+				i.setUpdateDate(instant);
 		}
-		
+
 		// process data
 		BigDecimal subTotal = calculateSubTotal(lstPackageDTO, fromStreet, toStreet);
 		invoiceHeaderDTO.setSubTotal(subTotal);
+		if (check > 0) {
+			PersonalShipment ps = new PersonalShipment();
+			ps.setInvoiceHeaderId(invoiceHeaderDTO.getId());
+			ps.setShipmentType("collect");
+			ps.setStatus("new");
+			ps.setCreateDate(instant);
+			ps.setUpdateDate(instant);
+			subTotal = new BigDecimal(5000).add(subTotal.multiply(new BigDecimal(1.05)));
+			lstShipment.add(ps);
+		}
 		invoiceHeaderDTO.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
 		invoiceHeaderDTO.setTotalDue(subTotal.add(invoiceHeaderDTO.getTaxAmount()));
-		
+
 		// get employee id
 		if (invoiceHeaderDTO.getId() == null) {
-			Office ofc = officeRepository.searchOfficeNearby(fromStreet.getId(), 
-					fromStreet.getSubDistrictId().getId(), 
-					fromStreet.getSubDistrictId().getDistrictId().getId(), 
+			Office ofc = officeRepository.searchOfficeNearby(fromStreet.getId(), fromStreet.getSubDistrictId().getId(),
+					fromStreet.getSubDistrictId().getDistrictId().getId(),
 					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
-			if(ofc != null) invoiceHeaderDTO.setOfficeId(ofc.getId());
+			if (ofc != null)
+				invoiceHeaderDTO.setOfficeId(ofc.getId());
 		}
-		
+
 		// save data
-		if(invoiceHeaderDTO.getStatus().equalsIgnoreCase("collect")){
-			PersonalShipment psOne = new PersonalShipment();
-			psOne.setStatus("waiting");
-			psOne.setInvoiceHeaderId(invoiceHeaderDTO.getId());
-			psOne.setShipmentType("collect");
-			PersonalShipment psTwo = new PersonalShipment();
-			psTwo.setStatus("waiting");
-			psTwo.setInvoiceHeaderId(invoiceHeaderDTO.getId());
-			psTwo.setShipmentType("delivery");
-			List<PersonalShipment> lstShipment = new ArrayList<>();
-			lstShipment.add(psOne);
-			lstShipment.add(psTwo);
-			personalShipmentRepository.saveAll(lstShipment);
-		} else {
-			PersonalShipment psTwo = new PersonalShipment();
-			psTwo.setStatus("waiting");
-			psTwo.setInvoiceHeaderId(invoiceHeaderDTO.getId());
-			psTwo.setShipmentType("delivery");
-			personalShipmentRepository.save(psTwo);
-		}
+		PersonalShipment psDelivery = new PersonalShipment();
+		psDelivery.setInvoiceHeaderId(invoiceHeaderDTO.getId());
+		psDelivery.setStatus("new");
+		psDelivery.setShipmentType("delivery");
+		psDelivery.setCreateDate(instant);
+		psDelivery.setUpdateDate(instant);
+		lstShipment.add(psDelivery);
+
+		personalShipmentRepository.saveAll(lstShipment);
 		invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(lstDetailDTO));
 		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(lstPackageDTO));
-		
+
 		// process invoice header no and save
 		String invNo = "INV" + LocalDate.now().getYear() + "-" + String.format("%010d", invoiceHeaderDTO.getId());
 		invoiceHeaderDTO.setInvoiceNo(invNo);
 		invoiceHeaderDTO = this.save(invoiceHeaderDTO);
-		
+
 		return invoiceHeaderDTO;
 	}
-	
+
 	private BigDecimal calculateSubTotal(List<InvoicePackageDTO> lstPackage, Street fromStreet, Street toStreet) {
 		BigDecimal result = new BigDecimal(0);
 		float totalWeight = 0;
 		for (InvoicePackageDTO ip : lstPackage) {
 			totalWeight += ip.getWeight();
 		}
-		if(fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId() == 
-				toStreet.getSubDistrictId().getDistrictId().getProvinceId().getId()) {
-			if(totalWeight <= 0.25) result = new BigDecimal(9000);
-			else if(totalWeight <= 0.50) result = new BigDecimal(13000);
-			else if(totalWeight <= 1.00) result = new BigDecimal(16000);
-			else if(totalWeight <= 1.50) result = new BigDecimal(25000);
-			else if(totalWeight <= 2.00) result = new BigDecimal(29000);
-			else if(totalWeight <= 100.00) result = new BigDecimal(2600.0 * totalWeight);
-			else result = new BigDecimal(1400.0 * totalWeight);
+		if (fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId() == toStreet.getSubDistrictId()
+				.getDistrictId().getProvinceId().getId()) {
+			if (totalWeight <= 0.25)
+				result = new BigDecimal(9000);
+			else if (totalWeight <= 0.50)
+				result = new BigDecimal(13000);
+			else if (totalWeight <= 1.00)
+				result = new BigDecimal(16000);
+			else if (totalWeight <= 1.50)
+				result = new BigDecimal(25000);
+			else if (totalWeight <= 2.00)
+				result = new BigDecimal(29000);
+			else if (totalWeight <= 100.00)
+				result = new BigDecimal(2600.0 * totalWeight);
+			else
+				result = new BigDecimal(1400.0 * totalWeight);
 		} else {
-			if(totalWeight <= 0.25) result = new BigDecimal(10000);
-			else if(totalWeight <= 0.50) result = new BigDecimal(14000);
-			else if(totalWeight <= 1.00) result = new BigDecimal(17000);
-			else if(totalWeight <= 1.50) result = new BigDecimal(26000);
-			else if(totalWeight <= 2.00) result = new BigDecimal(30000);
-			else if(totalWeight <= 100.00) result = new BigDecimal(5000.0 * totalWeight);
-			else result = new BigDecimal(3200.0 * totalWeight);
+			if (totalWeight <= 0.25)
+				result = new BigDecimal(10000);
+			else if (totalWeight <= 0.50)
+				result = new BigDecimal(14000);
+			else if (totalWeight <= 1.00)
+				result = new BigDecimal(17000);
+			else if (totalWeight <= 1.50)
+				result = new BigDecimal(26000);
+			else if (totalWeight <= 2.00)
+				result = new BigDecimal(30000);
+			else if (totalWeight <= 100.00)
+				result = new BigDecimal(5000.0 * totalWeight);
+			else
+				result = new BigDecimal(3200.0 * totalWeight);
 		}
 		return result;
 	}
@@ -301,7 +318,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	@Override
 	public List<InvoiceHeaderDTO> saveInvoiceHeadersApproved(List<InvoiceHeaderDTO> invoiceHeadersDTO) {
 		List<InvoiceHeader> result = invoiceHeaderMapper.toEntity(invoiceHeadersDTO);
-		for(InvoiceHeader i : result) {
+		for (InvoiceHeader i : result) {
 			i.setUpdateDate(Instant.now());
 			i.setChangeNote("approved");
 		}
@@ -317,7 +334,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	@Override
 	public List<InvoiceHeaderDTO> saveListImportInvoiceHeader(List<InvoiceHeaderDTO> list) {
 		List<InvoiceHeader> result = invoiceHeaderMapper.toEntity(list);
-		for(InvoiceHeader i : result) {
+		for (InvoiceHeader i : result) {
 			i.setUpdateDate(Instant.now());
 			i.setStatus("last_import");
 		}
