@@ -48,7 +48,7 @@
                 <label class="form-control-label" for="from-address"><b>Invoice Information</b></label>
                 <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                     <div class="row">
-                        <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="col-lg-4 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label class="form-control-label" for="field_invoiceType">Invoice Type</label>
                                 <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstIvnType"
@@ -58,13 +58,23 @@
                                 </ng-select>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="col-lg-4 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label class="form-control-label" for="field_status">Status</label>
                                 <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstStatus"
                                     bindLabel="text" bindValue="id" id="field_status" name="field_status"
                                     [ngModelOptions]="{standalone: true}" [(ngModel)]="this.invoiceHeader.status">
                                     <ng-option *ngFor="let item of lstStatus">{{item.text}}</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_status">Collect Type</label>
+                                <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstCollect"
+                                    bindLabel="text" bindValue="id" id="field_status" name="field_status"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedCollect">
+                                    <ng-option *ngFor="let item of lstCollect">{{item.text}}</ng-option>
                                 </ng-select>
                             </div>
                         </div>
