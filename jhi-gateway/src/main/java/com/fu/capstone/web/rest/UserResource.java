@@ -6,6 +6,7 @@ import com.fu.capstone.repository.UserRepository;
 import com.fu.capstone.security.AuthoritiesConstants;
 import com.fu.capstone.service.MailService;
 import com.fu.capstone.service.UserService;
+import com.fu.capstone.service.dto.CustomUserDTO;
 import com.fu.capstone.service.dto.UserDTO;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.errors.EmailAlreadyUsedException;
@@ -194,6 +195,14 @@ public class UserResource {
     public ResponseEntity<List<UserDTO>> getAllUsersByFilter(@RequestParam("user") String user, @RequestParam("role") String role,Pageable pageable) {
         final Page<UserDTO> page = userService.getAllUsersByFilter(user, role, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/filter");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    @GetMapping("/users/shipper")
+    @Timed
+    public ResponseEntity<List<CustomUserDTO>> getAllShipperUserByFilter(@RequestParam("user") String user, Pageable pageable) {
+        final Page<CustomUserDTO> page = userService.getAllShipperUserByFilter(user, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/shipper");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     
