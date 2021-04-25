@@ -197,4 +197,16 @@ public class InvoiceHeaderResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/by-customer");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+    
+    @PutMapping("/invoice-headers/import-invoices")
+    @Timed
+    public ResponseEntity<List<InvoiceHeaderDTO>> saveListImportInvoiceHeader(@RequestBody List<InvoiceHeaderDTO> list) throws URISyntaxException {
+    	List<InvoiceHeaderDTO> result = invoiceHeaderService.saveListImportInvoiceHeader(list);
+    	String rs = "";
+    	for(InvoiceHeaderDTO i : result) rs += i.getId() + ",";
+    	rs = rs.substring(0, rs.length()-1);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rs))
+            .body(result);
+    }
 }
