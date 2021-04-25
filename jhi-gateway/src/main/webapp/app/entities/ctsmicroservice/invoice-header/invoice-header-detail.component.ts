@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AccountService } from 'app/core';
 
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 
@@ -10,7 +11,7 @@ import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.
 export class InvoiceHeaderDetailComponent implements OnInit {
     invoiceHeader: IInvoiceHeader;
 
-    constructor(private activatedRoute: ActivatedRoute) {}
+    constructor(private activatedRoute: ActivatedRoute, private accountService: AccountService) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ invoiceHeader }) => {
