@@ -12,9 +12,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WorkingAreaRepository extends JpaRepository<WorkingArea, Long> {
 
-	@Query(value = "SELECT TOP 1 w.* FROM working_area w, street s, sub_district sd, district d, province p WHERE "
+	@Query(value = "SELECT w.* FROM working_area w, street s, sub_district sd, district d, province p WHERE "
 				 + " w.street_id = s.id AND s.sub_district_id_id = sd.id AND sd.district_id_id = d.id AND d.province_id_id = p.id "
-				 + " AND (s.id = :sid OR sd.id = :sdid OR d.id = :did OR p.id = :pid)",
+				 + " AND (s.id = :sid OR sd.id = :sdid OR d.id = :did OR p.id = :pid) LIMIT 1",
 		   nativeQuery = true)
 	WorkingArea getEmployeeNearBy(@Param("sid") Long id, @Param("sdid") Long id2, @Param("did") Long id3, @Param("pid") Long id4);
 
