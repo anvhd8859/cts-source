@@ -13,6 +13,7 @@ import { PersonalShipmentUpdateComponent } from './personal-shipment-update.comp
 import { PersonalShipmentDeletePopupComponent } from './personal-shipment-delete-dialog.component';
 import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
 import { PersonalShipmentAdminComponent } from '.';
+import { PersonalShipmentAssignPopupComponent } from './personal-shipment-assign-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class PersonalShipmentResolve implements Resolve<IPersonalShipment> {
@@ -96,6 +97,19 @@ export const personalShipmentPopupRoute: Routes = [
     {
         path: 'personal-shipment/:id/delete',
         component: PersonalShipmentDeletePopupComponent,
+        resolve: {
+            personalShipment: PersonalShipmentResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'PersonalShipments'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: 'personal-shipment/:id/assign',
+        component: PersonalShipmentAssignPopupComponent,
         resolve: {
             personalShipment: PersonalShipmentResolve
         },
