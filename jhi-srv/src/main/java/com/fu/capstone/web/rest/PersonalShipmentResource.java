@@ -165,5 +165,12 @@ public class PersonalShipmentResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments/by-shiper");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+    
+    @PostMapping("/personal-shipments")
+    @Timed
+    public ResponseEntity<PersonalShipmentDTO> createCollectPersonalShipmentForInvoice(@RequestParam("id") Long id){
+    	PersonalShipmentDTO dto = personalShipmentService.createCollectPersonalShipmentForInvoice(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 
 }
