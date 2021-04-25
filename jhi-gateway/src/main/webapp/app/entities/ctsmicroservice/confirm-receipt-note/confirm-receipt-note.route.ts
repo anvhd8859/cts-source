@@ -35,7 +35,7 @@ export const confirmReceiptNoteRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'ConfirmReceiptNotes'
         },
@@ -48,7 +48,7 @@ export const confirmReceiptNoteRoute: Routes = [
             confirmReceiptNote: ConfirmReceiptNoteResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'ConfirmReceiptNotes'
         },
         canActivate: [UserRouteAccessService]
@@ -60,7 +60,7 @@ export const confirmReceiptNoteRoute: Routes = [
             confirmReceiptNote: ConfirmReceiptNoteResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'ConfirmReceiptNotes'
         },
         canActivate: [UserRouteAccessService]
@@ -72,7 +72,7 @@ export const confirmReceiptNoteRoute: Routes = [
             confirmReceiptNote: ConfirmReceiptNoteResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'ConfirmReceiptNotes'
         },
         canActivate: [UserRouteAccessService]
@@ -87,7 +87,7 @@ export const confirmReceiptNotePopupRoute: Routes = [
             confirmReceiptNote: ConfirmReceiptNoteResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'ConfirmReceiptNotes'
         },
         canActivate: [UserRouteAccessService],
