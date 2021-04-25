@@ -50,6 +50,7 @@ export class CancelInvoiceComponent implements OnInit, OnDestroy {
     }
 
     approveAll() {
+        this.isSaving = true;
         let param;
         for (const i in this.cancelInvoices) {
             this.cancelInvoices[i].cancel = true;

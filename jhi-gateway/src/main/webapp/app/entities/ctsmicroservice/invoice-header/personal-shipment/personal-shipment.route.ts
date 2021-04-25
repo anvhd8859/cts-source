@@ -34,7 +34,7 @@ export const personalShipmentRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_SHIPPER'],
             defaultSort: 'id,asc',
             pageTitle: 'PersonalShipments'
         },
@@ -47,7 +47,7 @@ export const personalShipmentRoute: Routes = [
             personalShipment: PersonalShipmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_SHIPPER'],
             pageTitle: 'PersonalShipments'
         },
         canActivate: [UserRouteAccessService]
@@ -59,7 +59,7 @@ export const personalShipmentRoute: Routes = [
             personalShipment: PersonalShipmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'PersonalShipments'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const personalShipmentRoute: Routes = [
             personalShipment: PersonalShipmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'PersonalShipments'
         },
         canActivate: [UserRouteAccessService]
@@ -86,7 +86,7 @@ export const personalShipmentPopupRoute: Routes = [
             personalShipment: PersonalShipmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'PersonalShipments'
         },
         canActivate: [UserRouteAccessService],

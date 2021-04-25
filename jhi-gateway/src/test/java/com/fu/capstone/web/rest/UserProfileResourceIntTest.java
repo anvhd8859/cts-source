@@ -44,14 +44,14 @@ public class UserProfileResourceIntTest {
     private static final Long DEFAULT_USER_ID = 1L;
     private static final Long UPDATED_USER_ID = 2L;
 
-    private static final Boolean DEFAULT_GENDER = false;
-    private static final Boolean UPDATED_GENDER = true;
+    private static final String DEFAULT_GENDER = "false";
+    private static final String UPDATED_GENDER = "true";
 
     private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
     private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
 
-    private static final String DEFAULT_STREET_ID = "AAAAAAAAAA";
-    private static final String UPDATED_STREET_ID = "BBBBBBBBBB";
+    private static final Long DEFAULT_STREET_ID = 1L;
+    private static final Long UPDATED_STREET_ID = 2L;
 
     private static final String DEFAULT_PHONE_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_PHONE_NUMBER = "BBBBBBBBBB";
@@ -135,7 +135,7 @@ public class UserProfileResourceIntTest {
         assertThat(userProfileList).hasSize(databaseSizeBeforeCreate + 1);
         UserProfile testUserProfile = userProfileList.get(userProfileList.size() - 1);
         assertThat(testUserProfile.getUserId()).isEqualTo(DEFAULT_USER_ID);
-        assertThat(testUserProfile.isGender()).isEqualTo(DEFAULT_GENDER);
+        assertThat(testUserProfile.getGender()).isEqualTo(DEFAULT_GENDER);
         assertThat(testUserProfile.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testUserProfile.getStreetId()).isEqualTo(DEFAULT_STREET_ID);
         assertThat(testUserProfile.getPhoneNumber()).isEqualTo(DEFAULT_PHONE_NUMBER);
@@ -175,7 +175,7 @@ public class UserProfileResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(userProfile.getId().intValue())))
             .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
-            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.booleanValue())))
+            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].streetId").value(hasItem(DEFAULT_STREET_ID.toString())))
             .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER.toString())))
@@ -196,7 +196,7 @@ public class UserProfileResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(userProfile.getId().intValue()))
             .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()))
-            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.booleanValue()))
+            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()))
             .andExpect(jsonPath("$.streetId").value(DEFAULT_STREET_ID.toString()))
             .andExpect(jsonPath("$.phoneNumber").value(DEFAULT_PHONE_NUMBER.toString()))
@@ -245,7 +245,7 @@ public class UserProfileResourceIntTest {
         assertThat(userProfileList).hasSize(databaseSizeBeforeUpdate);
         UserProfile testUserProfile = userProfileList.get(userProfileList.size() - 1);
         assertThat(testUserProfile.getUserId()).isEqualTo(UPDATED_USER_ID);
-        assertThat(testUserProfile.isGender()).isEqualTo(UPDATED_GENDER);
+        assertThat(testUserProfile.getGender()).isEqualTo(UPDATED_GENDER);
         assertThat(testUserProfile.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testUserProfile.getStreetId()).isEqualTo(UPDATED_STREET_ID);
         assertThat(testUserProfile.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);

@@ -1,3 +1,4 @@
+import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
@@ -39,6 +40,7 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    isSaving: boolean;
 
     constructor(
         private importInvoicePackageService: ImportInvoicePackageService,
@@ -56,7 +58,6 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
             this.page = data.pagingParams.page;
             this.previousPage = data.pagingParams.page;
             this.reverse = data.pagingParams.ascending;
-            this.predicate = 'due_date';
         });
     }
 
@@ -94,7 +95,34 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
         );
     }
 
-    importAll() {}
+    importAll() {
+        this.isSaving = true;
+        let params: IInvoiceHeader[];
+        for (let i in this.invoicePackageShipments) {
+            let inv = this.invoicePackageShipments[i].invoiceHeader;
+            if (inv.status === this.listInvoiceStatus[0].text) {
+                inv.status = this.listInvoiceStatus[0].id;
+            } else {
+                inv.status = this.listInvoiceStatus[1].id;
+            }
+            params.push(inv);
+        }
+        const finalParams = params;
+        this.subscribeToSaveResponse(this.importInvoicePackageService.saveListImportInvoiceHeader(finalParams));
+    }
+
+    private subscribeToSaveResponse(result: any) {
+        result.subscribe((res: any) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    }
+
+    private onSaveSuccess() {
+        this.isSaving = false;
+        this.loadAll();
+    }
+
+    private onSaveError() {
+        this.isSaving = false;
+    }
 
     loadPage(page: number) {
         if (page !== this.previousPage) {
@@ -107,8 +135,7 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
         this.router.navigate(['/import-invoice-package'], {
             queryParams: {
                 page: this.page,
-                size: this.itemsPerPage,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+                size: this.itemsPerPage
             }
         });
         this.loadAll();
@@ -119,8 +146,7 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
         this.router.navigate([
             '/import-invoice-package',
             {
-                page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+                page: this.page
             }
         ]);
         this.loadAll();
