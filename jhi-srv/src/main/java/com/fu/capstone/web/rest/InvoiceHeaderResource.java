@@ -157,7 +157,7 @@ public class InvoiceHeaderResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     
-    @PostMapping("/invoice-headers/invoice-detail")
+    @PostMapping("/invoice-headers/invoice-detail/{check}")
     @Timed
     public ResponseEntity<InvoiceHeaderDTO> createInvoiceHeaderDetailPackage(@RequestBody InvoicePackageDetailDTO invoiceHeaderDTO, @PathVariable int check) throws URISyntaxException {
         if (invoiceHeaderDTO.getHeader().getId() != null) {
