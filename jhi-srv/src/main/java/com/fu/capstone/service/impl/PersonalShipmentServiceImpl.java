@@ -1,6 +1,7 @@
 package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.PersonalShipmentService;
+import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.PersonalShipmentRepository;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -138,6 +140,23 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
         dto.setInvoiceHeaderDTO(invDTO);
         return dto;
     }
+
+	@Override
+	public PersonalShipmentDTO createCollectPersonalShipmentForInvoice(Long id) {
+		PersonalShipment ps = new PersonalShipment();
+		ps.setInvoiceHeaderId(id);
+		ps.setShipmentType("collect");
+		ps.setStatus("new");
+		Instant instant = Instant.now();
+		ps.setCreateDate(instant);
+		ps.setUpdateDate(instant);
+		// re-calculate total due 
+		InvoiceHeader inv = invoiceHeaderRepository.getOne(id);
+		BigDecimal subTotal = inv.getSubTotal();
+		subTotal = new BigDecimal(5000).add(subTotal.multiply(new BigDecimal(1.05)));
+		invoiceHeaderRepository.save(inv);
+		return personalShipmentMapper.toDto(personalShipmentRepository.save(ps));
+	}
 	
 
 }
