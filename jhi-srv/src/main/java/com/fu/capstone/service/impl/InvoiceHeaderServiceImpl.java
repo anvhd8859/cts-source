@@ -204,6 +204,15 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		List<InvoicePackageDTO> lstPackageDTO = invoicePackageDetailDTO.getLstPackage();
 		Street fromStreet = streetRepository.getFullAddressByStreetId(invoiceHeaderDTO.getStartStreetId());
 		Street toStreet = streetRepository.getFullAddressByStreetId(invoiceHeaderDTO.getDestinationStreetId());
+		
+		// get destination office id
+		if (invoiceHeaderDTO.getId() == null) {
+			Office ofc = officeRepository.searchOfficeNearby(toStreet.getId(), toStreet.getSubDistrictId().getId(),
+					toStreet.getSubDistrictId().getDistrictId().getId(),
+					toStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
+			if (ofc != null)
+				invoiceHeaderDTO.setDestinationOfficeId(ofc.getId());
+		}
 
 		// create invoice and get invoice with ID
 		invoiceHeaderDTO = this.save(invoiceHeaderDTO);
@@ -232,6 +241,14 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		BigDecimal subTotal = calculateSubTotal(lstPackageDTO, fromStreet, toStreet);
 		invoiceHeaderDTO.setSubTotal(subTotal);
 		if (check > 0) {
+			// find near office
+			Office ofc = officeRepository.searchOfficeNearby(fromStreet.getId(), fromStreet.getSubDistrictId().getId(),
+					fromStreet.getSubDistrictId().getDistrictId().getId(),
+					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
+			if (ofc != null)
+				invoiceHeaderDTO.setOfficeId(ofc.getId());
+			
+			// process collect shipment and sub total fee
 			PersonalShipment ps = new PersonalShipment();
 			ps.setInvoiceHeaderId(invoiceHeaderDTO.getId());
 			ps.setShipmentType("collect");
@@ -243,15 +260,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		}
 		invoiceHeaderDTO.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
 		invoiceHeaderDTO.setTotalDue(subTotal.add(invoiceHeaderDTO.getTaxAmount()));
-
-		// get employee id
-		if (invoiceHeaderDTO.getId() == null) {
-			Office ofc = officeRepository.searchOfficeNearby(fromStreet.getId(), fromStreet.getSubDistrictId().getId(),
-					fromStreet.getSubDistrictId().getDistrictId().getId(),
-					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
-			if (ofc != null)
-				invoiceHeaderDTO.setOfficeId(ofc.getId());
-		}
 
 		// save data
 		PersonalShipment psDelivery = new PersonalShipment();
