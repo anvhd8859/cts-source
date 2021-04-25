@@ -29,6 +29,11 @@ export class UserService {
         return this.http.get<IUser[]>(this.resourceUrl, { params: options, observe: 'response' });
     }
 
+    queryByFilter(req?: any): Observable<HttpResponse<IUser[]>> {
+        const options = createRequestOption(req);
+        return this.http.get<IUser[]>(this.resourceUrl + '/filter', { params: options, observe: 'response' });
+    }
+
     delete(login: string): Observable<HttpResponse<any>> {
         return this.http.delete(`${this.resourceUrl}/${login}`, { observe: 'response' });
     }
