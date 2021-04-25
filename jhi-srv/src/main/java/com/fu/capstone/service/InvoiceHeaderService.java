@@ -50,18 +50,17 @@ public interface InvoiceHeaderService {
 	 */
 	void delete(Long id);
 
-	// AnhVD new code
+	// new code
 	Page<InvoiceHeaderDTO> getInvoiceHeadersByParams(String invoiceNo, String status, String receiveDate,
 			String createDate, String updateDate, Pageable pageable);
 
-	// DongPH code
 	InvoiceHeaderDTO createNewInvoice(InvoiceHeaderDTO invoiceHeaderDTO);
 
 	Page<InvoiceShipmentDTO> getInvoiceHeadersByShipper(Long id, String invNo, String type, Pageable pageable);
 
 	Page<InvoiceHeaderDTO> getInvoiceHeadersRequestCancel(Pageable pageable);
 
-	InvoiceHeaderDTO createInvoiceHeaderDetailPackage(InvoicePackageDetailDTO invoicePackageDetailDTO);
+	InvoiceHeaderDTO createInvoiceHeaderDetailPackage(InvoicePackageDetailDTO invoicePackageDetailDTO, int check);
 
 	List<InvoiceHeaderDTO> saveInvoiceHeadersApproved(List<InvoiceHeaderDTO> invoiceHeadersDTO);
 
