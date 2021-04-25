@@ -96,11 +96,15 @@
         </div>
         <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="form-group">
-                <label for="type">Type</label>
-                <ng-select [clearable]="true" [hideSelected]="true" [items]="this.listTypeShipment" bindLabel="text"
-                    bindValue="id" id="type" name="type" [ngModelOptions]="{standalone: true}"
-                    [(ngModel)]="this.selectedTypeShipment" placeholder="(ALL)">
-                    <ng-option *ngFor="let item of listTypeShipment">{{item.text}}</ng-option>
+                <label for="type">Shipper</label>
+                <ng-select  [clearable]="true" 
+                            [hideSelected]="true" 
+                            [items]="this.lstShipper" 
+                            bindLabel="email"
+                            id="field_customerId" name="field_customerId" 
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="this.selectedShipper">
+                        <ng-option *ngFor="let item of lstShipper">{{item.email}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -140,6 +144,14 @@
                     <td>{{object.invoiceHeaderDTO.startAddress}} </td>
                     <td>{{object.invoiceHeaderDTO.destinationAddress}} </td>
                     <td class="text-left">
+                        <button type="submit" 
+                            [routerLink]="['/', { outlets: { popup: 'personal-shipment/'+ object.invoiceHeaderDTO.id + '/assign'} }]"
+                            replaceUrl="true"
+                            queryParamsHandling="merge"
+                            class="btn btn-warning btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Re-assign</span>
+                        </button>
                         <button type="submit" [routerLink]="['/invoice-header', object.invoiceHeaderDTO.id, 'view' ]"
                             class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
