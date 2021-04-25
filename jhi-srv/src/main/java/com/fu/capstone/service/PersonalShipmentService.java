@@ -65,4 +65,7 @@ public interface PersonalShipmentService {
 
 	PersonalShipmentDTO createCollectPersonalShipmentForInvoice(Long id);
 
+	Page<PersonalShipmentInvoiceDTO> getAllPersonaShipmentInvoices(Long empId, String invNo, Long strId,
+			Pageable pageable);
+
 }
