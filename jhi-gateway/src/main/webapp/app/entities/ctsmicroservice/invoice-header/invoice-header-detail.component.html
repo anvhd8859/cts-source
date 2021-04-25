@@ -12,16 +12,29 @@
                     <h4><span>Create Time: </span>{{invoiceHeader.createDate | date:'yyyy-MM-dd HH:mm'}}</h4>
                 </div>
             </div>
-            <hr>
+            <br>
             <jhi-alert-error></jhi-alert-error>
             <div class="col-12">
-                <table class="table table-responsive">
+                <table class="table" style="width: 100%;">
                     <tr>
                         <th>Customer: </th>
                         <td>{{this.customer.firstName + ' ' + this.customer.lastName}}</td>
                     </tr>
+                    <tr>
+                        <th>Office: </th>
+                        <td>{{this.office.officeName}}</td>
+                    </tr>
+                    <tr>
+                        <th>Invoice Type: </th>
+                        <td>{{this.invoiceHeader.invoiceType}}</td>
+                    </tr>
+                    <tr>
+                        <th>Invoice Status: </th>
+                        <td>{{this.invoiceHeader.status}}</td>
+                    </tr>
                 </table>
             </div>
+            <br>
             <!-- <dl class="row-md jh-entity-details">
                 <dt><span>Customer Id</span></dt>
                 <dd>
@@ -117,12 +130,6 @@
                     (click)="previousState()"
                     class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
-            </button>
-
-            <button type="button"
-                    [routerLink]="['/invoice-header', invoiceHeader.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
         </div>
     </div>
