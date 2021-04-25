@@ -315,4 +315,11 @@ public class UserService {
 		customDto.setProfile(profile);
 		return customDto;
 	}
+	
+	// HaiNM
+	@Transactional
+	public Optional<User> getUserByID(Long id) {
+		return userRepository.findUserById(id);
+	}
+	// HaiNM
 }
