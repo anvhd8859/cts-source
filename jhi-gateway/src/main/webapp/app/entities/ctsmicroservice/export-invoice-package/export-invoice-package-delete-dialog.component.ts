@@ -1,3 +1,4 @@
+import { IInvoiceHeader } from './../../../shared/model/ctsmicroservice/invoice-header.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -6,13 +7,14 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { IExportInvoicePackage } from 'app/shared/model/ctsmicroservice/export-invoice-package.model';
 import { ExportInvoicePackageService } from './export-invoice-package.service';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 @Component({
     selector: 'jhi-export-invoice-package-delete-dialog',
     templateUrl: './export-invoice-package-delete-dialog.component.html'
 })
 export class ExportInvoicePackageDeleteDialogComponent {
-    exportInvoicePackage: IExportInvoicePackage;
+    exportInvoicePackage: IInvoiceHeader;
 
     constructor(
         private exportInvoicePackageService: ExportInvoicePackageService,
@@ -24,14 +26,23 @@ export class ExportInvoicePackageDeleteDialogComponent {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmDelete(id: number) {
-        this.exportInvoicePackageService.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'exportInvoicePackageListModification',
-                content: 'Deleted an exportInvoicePackage'
-            });
-            this.activeModal.dismiss(true);
-        });
+    confirmExport(invoice: IInvoiceHeader) {
+        this.exportInvoicePackageService.updateExportOnePackage(invoice).subscribe(
+            (response: HttpResponse<IInvoiceHeader>) => {
+                this.eventManager.broadcast({
+                    name: 'exportInvoicePackageListModification',
+                    content: 'Exported an invoice packages'
+                });
+                this.activeModal.dismiss(true);
+            },
+            (response: HttpErrorResponse) => {
+                this.eventManager.broadcast({
+                    name: 'exportInvoicePackageListModification',
+                    content: response.message
+                });
+                this.activeModal.dismiss(true);
+            }
+        );
     }
 }
 

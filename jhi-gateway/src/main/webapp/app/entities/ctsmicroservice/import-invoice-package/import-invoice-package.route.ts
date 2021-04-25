@@ -1,19 +1,18 @@
+import { IInvoiceHeader } from './../../../shared/model/ctsmicroservice/invoice-header.model';
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { of } from 'rxjs';
-import { ImportInvoicePackage } from 'app/shared/model/ctsmicroservice/import-invoice-package.model';
 import { ImportInvoicePackageService } from './import-invoice-package.service';
 import { ImportInvoicePackageComponent } from './import-invoice-package.component';
-import { IImportInvoicePackage } from 'app/shared/model/ctsmicroservice/import-invoice-package.model';
 import { ImportInvoicePackageImportPopupComponent } from './import-invoice-package-import-dialog.component';
 import { InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { map } from 'rxjs/operators';
 import { JhiResolvePagingParams } from 'ng-jhipster';
 
 @Injectable({ providedIn: 'root' })
-export class ImportInvoicePackageResolve implements Resolve<InvoiceHeader> {
+export class ImportInvoicePackageResolve implements Resolve<IInvoiceHeader> {
     constructor(private service: ImportInvoicePackageService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

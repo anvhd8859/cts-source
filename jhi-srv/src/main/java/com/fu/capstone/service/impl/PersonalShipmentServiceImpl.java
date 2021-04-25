@@ -1,6 +1,7 @@
 package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.PersonalShipmentService;
+import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.PersonalShipmentRepository;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -138,6 +140,37 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
         dto.setInvoiceHeaderDTO(invDTO);
         return dto;
     }
-	
+
+	@Override
+	public PersonalShipmentDTO createCollectPersonalShipmentForInvoice(Long id) {
+		PersonalShipment ps = new PersonalShipment();
+		ps.setInvoiceHeaderId(id);
+		ps.setShipmentType("collect");
+		ps.setStatus("new");
+		Instant instant = Instant.now();
+		ps.setCreateDate(instant);
+		ps.setUpdateDate(instant);
+		// re-calculate total due 
+		InvoiceHeader inv = invoiceHeaderRepository.findById(id).get();
+		if(inv != null) {
+			BigDecimal subTotal = inv.getSubTotal();
+			subTotal = new BigDecimal(5000).add(subTotal.multiply(new BigDecimal(1.05)));
+			invoiceHeaderRepository.save(inv);
+		}
+		return personalShipmentMapper.toDto(personalShipmentRepository.save(ps));
+	}
+
+	@Override
+	public Page<PersonalShipmentInvoiceDTO> getAllPersonaShipmentInvoices(Long empId, String invNo, Long strId,
+			Pageable pageable) {
+		Page<PersonalShipment> pgShipment = personalShipmentRepository.getAllPersonaShipmentInvoices(empId, invNo, strId, pageable);
+		return pgShipment.map(this::convertPersonalShipmentToPersonalShipmentInvoiceDTO);
+	}
+	private PersonalShipmentInvoiceDTO convertPersonalShipmentToPersonalShipmentInvoiceDTO(PersonalShipment entity){
+		PersonalShipmentInvoiceDTO result = new PersonalShipmentInvoiceDTO();
+		result.setPersonalShipmentDTO(personalShipmentMapper.toDto(entity));
+		result.setInvoiceHeaderDTO(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId())));
+		return result;
+	}
 
 }

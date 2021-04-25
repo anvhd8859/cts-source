@@ -1,3 +1,5 @@
+import { IUserProfile } from './../../../shared/model/user-profile.model';
+import { AccountService } from './../../../core/auth/account.service';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
@@ -16,11 +18,11 @@ import { ITEMS_PER_PAGE } from 'app/shared';
 })
 export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     invoicePackageShipments: IInvoicePackageShipment[];
+    finalData: any;
     currentAccount: any;
     eventSubscriber: Subscription;
     selectedInvoiceStatus: any;
     selectedInvoiceNo: any;
-    listShipmentType: any = [{ id: 'transporting', text: 'Đang vận chuyển' }, { id: 'delivering', text: 'Đang giao hàng' }];
     listShipmentStatus: any = [
         { id: 'new', text: 'Chưa xử lý' },
         { id: 'collecting', text: 'Nhân viên đang lấy hàng' },
@@ -30,7 +32,11 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
         { id: 'fail_num3', text: 'Giao hàng không thành công lần: 3' },
         { id: 'finish', text: 'Hoàn thành' }
     ];
-    listInvoiceStatus: any = [{ id: 'transporting', text: 'Đang vận chuyển' }, { id: 'delivering', text: 'Đang giao hàng' }];
+    listInvoiceStatus: any = [
+        { id: 'collected', text: 'Nhân viên đã lấy hàng' },
+        { id: 'transporting', text: 'Đang vận chuyển' },
+        { id: 'delivering', text: 'Đang giao hàng' }
+    ];
     routeData: any;
     links: any;
     totalItems: any;
@@ -41,18 +47,17 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     previousPage: any;
     reverse: any;
     isSaving: boolean;
+    officeId: any;
 
     constructor(
         private importInvoicePackageService: ImportInvoicePackageService,
+        private accountService: AccountService,
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private principal: Principal,
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) {
-        this.principal.identity().then(account => {
-            this.currentAccount = account;
-        });
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
@@ -63,32 +68,17 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
 
     loadAll() {
         const param = {
-            id: this.currentAccount.getOfficeId(),
+            id: this.officeId,
             invNo: this.selectedInvoiceNo ? this.selectedInvoiceNo : '',
             status: this.selectedInvoiceStatus ? this.selectedInvoiceStatus : '',
             page: this.page - 1,
             size: this.itemsPerPage
         };
-        this.importInvoicePackageService.getImportPackage(param).subscribe(
+        this.importInvoicePackageService.getImportPackageByOfficeId(param).subscribe(
             (res: HttpResponse<IInvoicePackageShipment[]>) => {
                 this.invoicePackageShipments = res.body;
-                for (let i in this.invoicePackageShipments) {
-                    if (this.invoicePackageShipments[i].invoiceHeader.status === this.listShipmentType[0].id) {
-                        this.invoicePackageShipments[i].invoiceHeader.status = this.listShipmentType[0].text;
-                    } else {
-                        this.invoicePackageShipments[i].invoiceHeader.status = this.listShipmentType[1].text;
-                    }
-                    if (this.invoicePackageShipments[i].personalShipment.shipmentType === 'delivery') {
-                        const status = this.invoicePackageShipments[i].personalShipment.status;
-                        let statusText;
-                        for (let st of this.listShipmentStatus) {
-                            if (st.id === status) {
-                                statusText = st.text;
-                                break;
-                            }
-                        }
-                        this.invoicePackageShipments[i].personalShipment.status = statusText;
-                    }
+                this.finalData = this.invoicePackageShipments;
+                for (const i in this.invoicePackageShipments) {
                 }
             },
             (res: HttpErrorResponse) => this.onError(res.message)
@@ -97,18 +87,8 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
 
     importAll() {
         this.isSaving = true;
-        let params: IInvoiceHeader[];
-        for (let i in this.invoicePackageShipments) {
-            let inv = this.invoicePackageShipments[i].invoiceHeader;
-            if (inv.status === this.listInvoiceStatus[0].text) {
-                inv.status = this.listInvoiceStatus[0].id;
-            } else {
-                inv.status = this.listInvoiceStatus[1].id;
-            }
-            params.push(inv);
-        }
-        const finalParams = params;
-        this.subscribeToSaveResponse(this.importInvoicePackageService.saveListImportInvoiceHeader(finalParams));
+        const finalParams = this.finalData;
+        this.subscribeToSaveResponse(this.importInvoicePackageService.updateImportAllInvoice(finalParams));
     }
 
     private subscribeToSaveResponse(result: any) {
@@ -158,7 +138,13 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+            this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(res => {
+                this.officeId = res.body.officeId;
+                this.loadAll();
+            });
+        });
         this.registerChangeInImportInvoicePackages();
     }
 

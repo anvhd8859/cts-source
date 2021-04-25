@@ -4,6 +4,7 @@ import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 
 import java.time.Instant;
+import java.util.stream.Stream;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,9 +51,22 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.customerId = :id ORDER BY i.createDate DESC")
 	Page<InvoiceHeader> getInvoiceHeadersByCustomer(@Param("id") Long id, Pageable pageable);
 
-	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.destinationOfficeId = :id "
+	@Query( value = "SELECT i FROM InvoiceHeader i WHERE (i.destinationOfficeId = :id "
 				  + " AND ((:status = '' AND (i.status = 'transporting' OR i.status = 'delivering')) OR i.status = :status) AND i.cancel != TRUE "
-				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%'))")
+				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%'))) "
+				  + " OR  (i.officeId = :id "
+				  + " AND ((:status = '' AND i.status = 'collected') OR i.status = :status) "
+				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%'))) "
+				  + " ORDER BY i.dueDate ASC")
 	Page<InvoiceHeader> getImportPackageByOfficeId(@Param("id") Long id,@Param("invNo") String invNo, @Param("status") String status, Pageable pageable);
+
+	@Query( value = "SELECT i FROM InvoiceHeader i WHERE (i.destinationOfficeId = :id "
+			  	  + " AND ((:status = '' AND i.status = 'last_import') OR i.status = :status) AND i.cancel != TRUE "
+				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%')))"
+				  + " OR  (i.officeId = :id "
+				  + " AND ((:status = '' AND i.status = 'first_import') OR i.status = :status) "
+				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%'))) "
+				  + " ORDER BY i.dueDate ASC")
+	Page<InvoiceHeader> getExportPackageByOfficeId(@Param("id") Long id,@Param("invNo") String invNo, @Param("status") String status, Pageable pageable);
 
 }

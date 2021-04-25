@@ -1,5 +1,6 @@
 package com.fu.capstone.service;
 
+import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.InvoicePackageDTO;
 import com.fu.capstone.service.dto.InvoicePackageShipmentDTO;
 
@@ -49,6 +50,16 @@ public interface InvoicePackageService {
 
 	List<InvoicePackageDTO> getInvoicePackageByHeaderId(Long id);
 
+	List<InvoicePackageShipmentDTO> putImportPackageByOfficeId(List<InvoicePackageShipmentDTO> invoicePackageDTO);
+
+	InvoiceHeaderDTO putImportOnePackage(InvoiceHeaderDTO invoice);
+
 	Page<InvoicePackageShipmentDTO> getImportPackageByOfficeId(Long id, String invNo, String type, Pageable pageable);
+	
+	List<InvoicePackageShipmentDTO> putExportPackageByOfficeId(List<InvoicePackageShipmentDTO> invoicePackageDTO);
+
+	InvoiceHeaderDTO putExportOnePackage(InvoiceHeaderDTO invoice);
+
+	Page<InvoicePackageShipmentDTO> getExportPackageByOfficeId(Long id, String invNo, String status, Pageable pageable);
 
 }

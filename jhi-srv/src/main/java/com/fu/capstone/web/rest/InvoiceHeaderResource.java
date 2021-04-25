@@ -157,13 +157,13 @@ public class InvoiceHeaderResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     
-    @PostMapping("/invoice-headers/invoice-detail")
+    @PostMapping("/invoice-headers/invoice-detail/{check}")
     @Timed
-    public ResponseEntity<InvoiceHeaderDTO> createInvoiceHeaderDetailPackage(@RequestBody InvoicePackageDetailDTO invoiceHeaderDTO) throws URISyntaxException {
+    public ResponseEntity<InvoiceHeaderDTO> createInvoiceHeaderDetailPackage(@RequestBody InvoicePackageDetailDTO invoiceHeaderDTO, @PathVariable int check) throws URISyntaxException {
         if (invoiceHeaderDTO.getHeader().getId() != null) {
             throw new BadRequestAlertException("A new invoiceHeader cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        InvoiceHeaderDTO result = invoiceHeaderService.createInvoiceHeaderDetailPackage(invoiceHeaderDTO);
+        InvoiceHeaderDTO result = invoiceHeaderService.createInvoiceHeaderDetailPackage(invoiceHeaderDTO, check);
         return ResponseEntity.created(new URI("/api/invoice-headers/invoice-detail/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -172,7 +172,7 @@ public class InvoiceHeaderResource {
     @PutMapping("/invoice-headers/invoice-detail")
     @Timed
     public ResponseEntity<InvoiceHeaderDTO> saveInvoiceHeaderDetailPackage(@RequestBody InvoicePackageDetailDTO invoiceHeaderDTO) throws URISyntaxException {
-        InvoiceHeaderDTO result = invoiceHeaderService.createInvoiceHeaderDetailPackage(invoiceHeaderDTO);
+        InvoiceHeaderDTO result = invoiceHeaderService.createInvoiceHeaderDetailPackage(invoiceHeaderDTO, 0);
         return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);

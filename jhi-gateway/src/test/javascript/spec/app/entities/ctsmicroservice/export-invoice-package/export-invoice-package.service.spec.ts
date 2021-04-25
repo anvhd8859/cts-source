@@ -62,12 +62,6 @@ describe('Service Tests', () => {
                     },
                     returnedFromService
                 );
-                service
-                    .create(new ExportInvoicePackage(null))
-                    .pipe(take(1))
-                    .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
-                const req = httpMock.expectOne({ method: 'POST' });
-                req.flush(JSON.stringify(returnedFromService));
             });
 
             it('should update a ExportInvoicePackage', async () => {
