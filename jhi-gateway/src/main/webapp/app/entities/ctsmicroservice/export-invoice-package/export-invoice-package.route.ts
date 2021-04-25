@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ExportInvoicePackageService } from './export-invoice-package.service';
 import { ExportInvoicePackageComponent } from './export-invoice-package.component';
 import { ExportInvoicePackageDeletePopupComponent } from './export-invoice-package-delete-dialog.component';
@@ -17,7 +15,7 @@ export class ExportInvoicePackageResolve implements Resolve<IInvoiceHeader> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).pipe(map((invoice: HttpResponse<InvoiceHeader>) => invoice.body));
+            return of((new InvoiceHeader().id = id));
         }
         return of(new InvoiceHeader());
     }
@@ -31,7 +29,7 @@ export const exportInvoicePackageRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_KEEPER', 'ROLE_ADMIN'],
+            authorities: ['ROLE_KEEPER'],
             pageTitle: 'ExportInvoicePackages'
         },
         canActivate: [UserRouteAccessService]
@@ -46,7 +44,7 @@ export const exportInvoicePackagePopupRoute: Routes = [
             exportInvoicePackage: ExportInvoicePackageResolve
         },
         data: {
-            authorities: ['ROLE_KEEPER', 'ROLE_ADMIN'],
+            authorities: ['ROLE_KEEPER'],
             pageTitle: 'ExportInvoicePackages'
         },
         canActivate: [UserRouteAccessService],
