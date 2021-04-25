@@ -66,10 +66,9 @@ export class ImportInvoicePackageService {
             .pipe(map((res: any) => this.convertDateArrayFromServer(res)));
     }
 
-    updateImportOneInvoice(req?: any): any {
-        const copy = req;
+    updateImportOneInvoice(id: number): any {
         return this.http
-            .put<IInvoiceHeader>(this.resourceUrl + '/import-one-package', copy, { observe: 'response' })
+            .put<IInvoiceHeader>(`${this.resourceUrl + '/import-one-package'}/${id}`, { observe: 'response' })
             .pipe(map((res: any) => this.invoiceDateFromServer(res)));
     }
 
