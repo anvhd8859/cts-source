@@ -301,7 +301,10 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	@Override
 	public List<InvoiceHeaderDTO> saveInvoiceHeadersApproved(List<InvoiceHeaderDTO> invoiceHeadersDTO) {
 		List<InvoiceHeader> result = invoiceHeaderMapper.toEntity(invoiceHeadersDTO);
-		for(InvoiceHeader i : result) i.setUpdateDate(Instant.now());
+		for(InvoiceHeader i : result) {
+			i.setUpdateDate(Instant.now());
+			i.setChangeNote("approved");
+		}
 		result = invoiceHeaderRepository.saveAll(result);
 		return invoiceHeaderMapper.toDto(result);
 	}
@@ -309,6 +312,17 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	@Override
 	public Page<InvoiceHeaderDTO> getInvoiceHeadersByCustomer(Long id, Pageable pageable) {
 		return invoiceHeaderRepository.getInvoiceHeadersByCustomer(id, pageable).map(invoiceHeaderMapper::toDto);
+	}
+
+	@Override
+	public List<InvoiceHeaderDTO> saveListImportInvoiceHeader(List<InvoiceHeaderDTO> list) {
+		List<InvoiceHeader> result = invoiceHeaderMapper.toEntity(list);
+		for(InvoiceHeader i : result) {
+			i.setUpdateDate(Instant.now());
+			i.setStatus("last_import");
+		}
+		result = invoiceHeaderRepository.saveAll(result);
+		return invoiceHeaderMapper.toDto(result);
 	}
 
 }
