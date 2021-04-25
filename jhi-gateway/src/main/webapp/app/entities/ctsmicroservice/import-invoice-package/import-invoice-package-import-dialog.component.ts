@@ -6,15 +6,18 @@ import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstra
 import { JhiEventManager } from 'ng-jhipster';
 
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { InvoiceHeaderService } from '../invoice-header';
+import { ImportInvoicePackageService } from '.';
 
 @Component({
     selector: 'jhi-import-invoice-package-import-dialog',
     templateUrl: './import-invoice-package-import-dialog.component.html'
 })
 export class ImportInvoicePackageImportDialogComponent {
+    importInvoicePackage: IInvoiceHeader;
+    isSaving: boolean;
+
     constructor(
-        private invoiceHeaderService: InvoiceHeaderService,
+        private importInvoicePackageService: ImportInvoicePackageService,
         public activeModal: NgbActiveModal,
         private eventManager: JhiEventManager
     ) {}
@@ -23,19 +26,20 @@ export class ImportInvoicePackageImportDialogComponent {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmImport(invoiceHeader: IInvoiceHeader) {
-        invoiceHeader.status = 'last_import';
-        this.invoiceHeaderService.update(invoiceHeader).subscribe(
+    confirmImport(importInvoicePackage: IInvoiceHeader) {
+        this.importInvoicePackageService.updateImportOneInvoice(importInvoicePackage).subscribe(
             (response: HttpResponse<IInvoiceHeader>) => {
+                this.isSaving = false;
                 this.eventManager.broadcast({
                     name: 'importInvoicePackageListModification',
-                    content: 'Imported invoice packages'
+                    content: 'Imported an invoice packages'
                 });
                 this.activeModal.dismiss(true);
             },
             (response: HttpErrorResponse) => {
+                this.isSaving = false;
                 this.eventManager.broadcast({
-                    name: 'cancelInvoiceListModification',
+                    name: 'importInvoicePackageListModification',
                     content: response.message
                 });
                 this.activeModal.dismiss(true);
