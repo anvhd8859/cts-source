@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Export Invoice Packages</span>
-        <button id="jh-create-entity" (click)="exportAll()"
+        <button id="jh-create-entity" (click)="exportAll()" [disabled]="invoicePackageShipments.length === 0"
             class="btn btn-primary float-right jh-create-entity create-export-invoice-package">
             <fa-icon [icon]="'check'"></fa-icon>
             <span >

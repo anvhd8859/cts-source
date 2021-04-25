@@ -114,10 +114,9 @@ export class ExportInvoicePackageService {
             .pipe(map((res: any) => this.convertInvoiceArrayDateFromServer(res)));
     }
 
-    updateExportOnePackage(invoice?: IInvoiceHeader): any {
-        const copy = invoice;
+    updateExportOnePackage(id: Number): any {
         return this.http
-            .put<any>(this.resourceUrl + '/export-one-package', copy, { observe: 'response' })
+            .put<any>(`${this.resourceUrl + '/export-one-package'}/${id}`, { observe: 'response' })
             .pipe(map((res: any) => this.invoiceDateFromServer(res)));
     }
     // end

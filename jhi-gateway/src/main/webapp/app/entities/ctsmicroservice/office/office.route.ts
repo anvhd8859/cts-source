@@ -30,7 +30,7 @@ export const officeRoute: Routes = [
         path: 'office',
         component: OfficeComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Offices'
         },
         canActivate: [UserRouteAccessService]
@@ -42,7 +42,7 @@ export const officeRoute: Routes = [
             office: OfficeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Offices'
         },
         canActivate: [UserRouteAccessService]
@@ -54,7 +54,7 @@ export const officeRoute: Routes = [
             office: OfficeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Offices'
         },
         canActivate: [UserRouteAccessService]
@@ -66,7 +66,7 @@ export const officeRoute: Routes = [
             office: OfficeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Offices'
         },
         canActivate: [UserRouteAccessService]
@@ -81,7 +81,7 @@ export const officePopupRoute: Routes = [
             office: OfficeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Offices'
         },
         canActivate: [UserRouteAccessService],

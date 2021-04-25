@@ -1,4 +1,3 @@
-import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -7,13 +6,14 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ImportInvoicePackageService } from '.';
+import { IInvoiceHeader, InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 
 @Component({
     selector: 'jhi-import-invoice-package-import-dialog',
     templateUrl: './import-invoice-package-import-dialog.component.html'
 })
 export class ImportInvoicePackageImportDialogComponent {
-    importInvoicePackage: IInvoiceHeader;
+    importInvoicePackage: IInvoiceHeader = new InvoiceHeader();
     isSaving: boolean;
 
     constructor(
@@ -26,8 +26,8 @@ export class ImportInvoicePackageImportDialogComponent {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmImport(importInvoicePackage: IInvoiceHeader) {
-        this.importInvoicePackageService.updateImportOneInvoice(importInvoicePackage).subscribe(
+    confirmImport() {
+        this.importInvoicePackageService.updateImportOneInvoice(this.importInvoicePackage.id).subscribe(
             (response: HttpResponse<IInvoiceHeader>) => {
                 this.isSaving = false;
                 this.eventManager.broadcast({
@@ -54,6 +54,7 @@ export class ImportInvoicePackageImportDialogComponent {
 })
 export class ImportInvoicePackageImportPopupComponent implements OnInit, OnDestroy {
     private ngbModalRef: NgbModalRef;
+    temp: IInvoiceHeader;
 
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
 
@@ -64,7 +65,9 @@ export class ImportInvoicePackageImportPopupComponent implements OnInit, OnDestr
                     size: 'lg',
                     backdrop: 'static'
                 });
-                this.ngbModalRef.componentInstance.importInvoicePackage = importInvoicePackage;
+                this.temp = new InvoiceHeader();
+                this.temp.id = importInvoicePackage;
+                this.ngbModalRef.componentInstance.importInvoicePackage = this.temp;
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });

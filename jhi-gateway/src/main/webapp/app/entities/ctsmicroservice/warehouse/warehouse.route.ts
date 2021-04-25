@@ -30,7 +30,7 @@ export const warehouseRoute: Routes = [
         path: 'warehouse',
         component: WarehouseComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Warehouses'
         },
         canActivate: [UserRouteAccessService]
@@ -42,7 +42,7 @@ export const warehouseRoute: Routes = [
             warehouse: WarehouseResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Warehouses'
         },
         canActivate: [UserRouteAccessService]
@@ -54,7 +54,7 @@ export const warehouseRoute: Routes = [
             warehouse: WarehouseResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Warehouses'
         },
         canActivate: [UserRouteAccessService]
@@ -66,7 +66,7 @@ export const warehouseRoute: Routes = [
             warehouse: WarehouseResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Warehouses'
         },
         canActivate: [UserRouteAccessService]
@@ -81,7 +81,7 @@ export const warehousePopupRoute: Routes = [
             warehouse: WarehouseResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Warehouses'
         },
         canActivate: [UserRouteAccessService],
