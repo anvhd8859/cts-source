@@ -34,7 +34,7 @@ export const districtRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Districts'
         },
@@ -47,7 +47,7 @@ export const districtRoute: Routes = [
             district: DistrictResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Districts'
         },
         canActivate: [UserRouteAccessService]
@@ -59,7 +59,7 @@ export const districtRoute: Routes = [
             district: DistrictResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Districts'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const districtRoute: Routes = [
             district: DistrictResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Districts'
         },
         canActivate: [UserRouteAccessService]
@@ -86,7 +86,7 @@ export const districtPopupRoute: Routes = [
             district: DistrictResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Districts'
         },
         canActivate: [UserRouteAccessService],

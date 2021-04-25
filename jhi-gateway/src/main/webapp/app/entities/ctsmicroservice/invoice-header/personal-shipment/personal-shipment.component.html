@@ -73,8 +73,6 @@
                         <button *ngIf="object.personalShipmentDTO.shipmentType === 'collect'"
                                 type="submit"
                                 [routerLink]="['/receiptnote', object.invoiceHeaderDTO.id, 'view']"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
                                 class="btn btn-success btn-sm">
                             <fa-icon [icon]="'check'"></fa-icon>
                             <span class="d-none d-md-inline">Received</span>

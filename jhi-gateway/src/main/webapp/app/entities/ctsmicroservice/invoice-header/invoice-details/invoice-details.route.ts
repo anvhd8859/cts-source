@@ -34,7 +34,7 @@ export const invoiceDetailsRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'InvoiceDetails'
         },
@@ -47,7 +47,7 @@ export const invoiceDetailsRoute: Routes = [
             invoiceDetails: InvoiceDetailsResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'InvoiceDetails'
         },
         canActivate: [UserRouteAccessService]
@@ -59,7 +59,7 @@ export const invoiceDetailsRoute: Routes = [
             invoiceDetails: InvoiceDetailsResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'InvoiceDetails'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const invoiceDetailsRoute: Routes = [
             invoiceDetails: InvoiceDetailsResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'InvoiceDetails'
         },
         canActivate: [UserRouteAccessService]
@@ -86,7 +86,7 @@ export const invoiceDetailsPopupRoute: Routes = [
             invoiceDetails: InvoiceDetailsResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'InvoiceDetails'
         },
         canActivate: [UserRouteAccessService],

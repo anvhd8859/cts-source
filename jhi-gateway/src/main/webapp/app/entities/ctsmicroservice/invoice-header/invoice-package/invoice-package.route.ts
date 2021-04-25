@@ -30,7 +30,7 @@ export const invoicePackageRoute: Routes = [
         path: 'invoice-package',
         component: InvoicePackageComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'InvoicePackages'
         },
         canActivate: [UserRouteAccessService]
@@ -42,7 +42,7 @@ export const invoicePackageRoute: Routes = [
             invoicePackage: InvoicePackageResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'InvoicePackages'
         },
         canActivate: [UserRouteAccessService]
@@ -54,7 +54,7 @@ export const invoicePackageRoute: Routes = [
             invoicePackage: InvoicePackageResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'InvoicePackages'
         },
         canActivate: [UserRouteAccessService]
@@ -66,7 +66,7 @@ export const invoicePackageRoute: Routes = [
             invoicePackage: InvoicePackageResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'InvoicePackages'
         },
         canActivate: [UserRouteAccessService]
@@ -81,7 +81,7 @@ export const invoicePackagePopupRoute: Routes = [
             invoicePackage: InvoicePackageResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'InvoicePackages'
         },
         canActivate: [UserRouteAccessService],

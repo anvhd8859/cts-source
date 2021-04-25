@@ -1,4 +1,4 @@
-import { IInvoiceHeader } from './../../../shared/model/ctsmicroservice/invoice-header.model';
+import { IInvoiceHeader, InvoiceHeader } from './../../../shared/model/ctsmicroservice/invoice-header.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -14,7 +14,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
     templateUrl: './export-invoice-package-delete-dialog.component.html'
 })
 export class ExportInvoicePackageDeleteDialogComponent {
-    exportInvoicePackage: IInvoiceHeader;
+    exportInvoicePackage: IInvoiceHeader = new InvoiceHeader();
 
     constructor(
         private exportInvoicePackageService: ExportInvoicePackageService,
@@ -26,8 +26,8 @@ export class ExportInvoicePackageDeleteDialogComponent {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmExport(invoice: IInvoiceHeader) {
-        this.exportInvoicePackageService.updateExportOnePackage(invoice).subscribe(
+    confirmExport() {
+        this.exportInvoicePackageService.updateExportOnePackage(this.exportInvoicePackage.id).subscribe(
             (response: HttpResponse<IInvoiceHeader>) => {
                 this.eventManager.broadcast({
                     name: 'exportInvoicePackageListModification',
@@ -62,7 +62,7 @@ export class ExportInvoicePackageDeletePopupComponent implements OnInit, OnDestr
                     size: 'lg',
                     backdrop: 'static'
                 });
-                this.ngbModalRef.componentInstance.exportInvoicePackage = exportInvoicePackage;
+                this.ngbModalRef.componentInstance.exportInvoicePackage.id = exportInvoicePackage;
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });

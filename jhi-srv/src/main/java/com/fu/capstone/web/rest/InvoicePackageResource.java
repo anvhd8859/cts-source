@@ -158,10 +158,10 @@ public class InvoicePackageResource {
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rs))
             .body(result);
     }
-    @PutMapping("/invoice-packages/import-one-package")
+    @PutMapping("/invoice-packages/import-one-package/{id}")
     @Timed
-    public ResponseEntity<InvoiceHeaderDTO> putImportOnePackage(@RequestBody InvoiceHeaderDTO invoice) {
-    	InvoiceHeaderDTO result = invoicePackageService.putImportOnePackage(invoice);
+    public ResponseEntity<InvoiceHeaderDTO> putImportOnePackage(@PathVariable Long id) {
+    	InvoiceHeaderDTO result = invoicePackageService.putImportOnePackage(id);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("ctsmicroserviceInvoiceHeader", result.getId().toString()))
             .body(result);
@@ -189,13 +189,10 @@ public class InvoicePackageResource {
             .headers(HeaderUtil.createEntityUpdateAlert("ctsmicroserviceInvoiceHeader", rs))
             .body(result);
     }
-    @PutMapping("/invoice-packages/export-one-package")
+    @PutMapping("/invoice-packages/export-one-package/{id}")
     @Timed
-    public ResponseEntity<InvoiceHeaderDTO> putExportOnePackage(@RequestBody InvoiceHeaderDTO invoice) {
-    	if(invoice.getId() == null) {
-    		throw new BadRequestAlertException("Invalid id", "ctsmicroserviceInvoiceHeader", "idnull");
-    	}
-    	InvoiceHeaderDTO result = invoicePackageService.putExportOnePackage(invoice);
+    public ResponseEntity<InvoiceHeaderDTO> putExportOnePackage(@PathVariable Long id) {
+    	InvoiceHeaderDTO result = invoicePackageService.putExportOnePackage(id);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("ctsmicroserviceInvoiceHeader", result.getId().toString()))
             .body(result);
