@@ -187,4 +187,14 @@ public class UserResource {
         userService.deleteUser(login);
         return ResponseEntity.ok().headers(HeaderUtil.createAlert( "A user is deleted with identifier " + login, login)).build();
     }
+    
+    // add code
+    @GetMapping("/users/filter")
+    @Timed
+    public ResponseEntity<List<UserDTO>> getAllUsersByFilter(@RequestParam("user") String user, @RequestParam("role") String role,Pageable pageable) {
+        final Page<UserDTO> page = userService.getAllUsersByFilter(user, role, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/filter");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
 }

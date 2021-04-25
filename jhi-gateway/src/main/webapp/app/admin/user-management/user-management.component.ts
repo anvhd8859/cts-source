@@ -27,6 +27,9 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    loginAccount: any;
+    selectedRole: any;
+    listRoles: any = ['ROLE_ADMIN', 'ROLE_KEEPER', 'ROLE_OFFICER', 'ROLE_SHIPPER', 'ROLE_USER'];
 
     constructor(
         private userService: UserService,
@@ -80,7 +83,9 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
 
     loadAll() {
         this.userService
-            .query({
+            .queryByFilter({
+                user: this.loginAccount ? this.loginAccount : '',
+                role: this.selectedRole ? this.selectedRole : '',
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()

@@ -6,6 +6,46 @@
         </button>
     </h2>
     <jhi-alert></jhi-alert>
+    <br/>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="loginAccount">Login Name</label>
+                <input  type="text"
+                        class="form-control"
+                        placeholder="(LOGIN ACCOUNT)"
+                        [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="loginAccount"
+                        value="{{loginAccount}}"
+                        >
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="role">Role</label>
+                <ng-select  [clearable]="true"
+                            [hideSelected]="true"
+                            [items]="listRoles"
+                            id="role"
+                            name="role"
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="selectedRole"
+                            placeholder="(ALL)"
+                            >
+                    <ng-option *ngFor="let item of listRoles">{{item}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 text-center">
+            <div class="form-group">
+                <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary" (click)="this.loadAll()">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                    <span >Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br>
     <div class="table-responsive" *ngIf="users">
         <table class="table table-striped">
             <thead>
@@ -32,7 +72,7 @@
                     <button class="btn btn-success btn-sm" (click)="setActive(user, false)" *ngIf="user.activated"
                             [disabled]="currentAccount.login === user.login">Activated</button>
                 </td>
-                
+
                 <td>
                     <div *ngFor="let authority of user.authorities">
                         <span class="badge badge-info">{{ authority }}</span>
