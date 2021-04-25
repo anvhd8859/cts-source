@@ -5,6 +5,7 @@ import com.fu.capstone.service.InvoicePackageService;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
+import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.InvoicePackageDTO;
 import com.fu.capstone.service.dto.InvoicePackageShipmentDTO;
 
@@ -140,9 +141,6 @@ public class InvoicePackageResource {
     @Timed
     public ResponseEntity<List<InvoicePackageShipmentDTO>> getImportPackageByOfficeId(@RequestParam("id") Long id
     		,@RequestParam("invNo") String invNo, @RequestParam("status") String status, Pageable pageable) {
-    	if (id == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "office id is missing");
-        }
     	Page<InvoicePackageShipmentDTO> page = invoicePackageService.getImportPackageByOfficeId(id, invNo, status, pageable);
     	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-packages/import-package");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
@@ -160,17 +158,22 @@ public class InvoicePackageResource {
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rs))
             .body(result);
     }
+    @PutMapping("/invoice-packages/import-one-package")
+    @Timed
+    public ResponseEntity<InvoiceHeaderDTO> putImportOnePackage(@RequestBody InvoiceHeaderDTO invoice) {
+    	InvoiceHeaderDTO result = invoicePackageService.putImportOnePackage(invoice);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert("ctsmicroserviceInvoiceHeader", result.getId().toString()))
+            .body(result);
+    }
 
 
     @GetMapping("/invoice-packages/export-package")
     @Timed
     public ResponseEntity<List<InvoicePackageShipmentDTO>> getExportPackageByOfficeId(@RequestParam("id") Long id
     		,@RequestParam("invNo") String invNo, @RequestParam("status") String status, Pageable pageable) {
-    	if (id == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "office id is missing");
-        }
     	Page<InvoicePackageShipmentDTO> page = invoicePackageService.getExportPackageByOfficeId(id, invNo, status, pageable);
-    	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-packages/import-package");
+    	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-packages/export-package");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     @PutMapping("/invoice-packages/export-package")
@@ -183,7 +186,18 @@ public class InvoicePackageResource {
     	}
     	rs = rs.substring(0, rs.length()-1);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rs))
+            .headers(HeaderUtil.createEntityUpdateAlert("ctsmicroserviceInvoiceHeader", rs))
+            .body(result);
+    }
+    @PutMapping("/invoice-packages/export-one-package")
+    @Timed
+    public ResponseEntity<InvoiceHeaderDTO> putExportOnePackage(@RequestBody InvoiceHeaderDTO invoice) {
+    	if(invoice.getId() == null) {
+    		throw new BadRequestAlertException("Invalid id", "ctsmicroserviceInvoiceHeader", "idnull");
+    	}
+    	InvoiceHeaderDTO result = invoicePackageService.putExportOnePackage(invoice);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert("ctsmicroserviceInvoiceHeader", result.getId().toString()))
             .body(result);
     }
 
