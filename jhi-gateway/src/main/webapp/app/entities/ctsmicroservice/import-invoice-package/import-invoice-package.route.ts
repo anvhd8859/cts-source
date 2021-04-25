@@ -12,13 +12,14 @@ import { map } from 'rxjs/operators';
 import { JhiResolvePagingParams } from 'ng-jhipster';
 
 @Injectable({ providedIn: 'root' })
-export class ImportInvoicePackageResolve implements Resolve<IInvoiceHeader> {
+export class ImportInvoicePackageResolve implements Resolve<any> {
+    invoice: IInvoiceHeader;
     constructor(private service: ImportInvoicePackageService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).pipe(map((invoice: HttpResponse<InvoiceHeader>) => invoice.body));
+            return of((new InvoiceHeader().id = id));
         }
         return of(new InvoiceHeader());
     }
@@ -32,7 +33,7 @@ export const importInvoicePackageRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_KEEPER'],
             pageTitle: 'ImportInvoicePackages'
         },
         canActivate: [UserRouteAccessService]
@@ -47,7 +48,7 @@ export const importInvoicePackagePopupRoute: Routes = [
             importInvoicePackage: ImportInvoicePackageResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_KEEPER'],
             pageTitle: 'ImportInvoicePackages'
         },
         canActivate: [UserRouteAccessService],
