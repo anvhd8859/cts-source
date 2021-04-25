@@ -1,10 +1,28 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12">
         <div *ngIf="invoiceHeader">
-            <h2><span>Invoice Header</span> {{invoiceHeader.id}}</h2>
+            <div class="row">
+                <div class="col-12">
+                    <h2><b><span>Invoice: </span> {{invoiceHeader.invoiceNo}}</b></h2>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-12">
+                    <h4><span>Create Time: </span>{{invoiceHeader.createDate | date:'yyyy-MM-dd HH:mm'}}</h4>
+                </div>
+            </div>
             <hr>
             <jhi-alert-error></jhi-alert-error>
-            <dl class="row-md jh-entity-details">
+            <div class="col-12">
+                <table class="table table-responsive">
+                    <tr>
+                        <th>Customer: </th>
+                        <td>{{this.customer.firstName + ' ' + this.customer.lastName}}</td>
+                    </tr>
+                </table>
+            </div>
+            <!-- <dl class="row-md jh-entity-details">
                 <dt><span>Customer Id</span></dt>
                 <dd>
                     <span>{{invoiceHeader.customerId}}</span>
@@ -93,7 +111,7 @@
                 <dd>
                     <span>{{invoiceHeader.updateDate}}</span>
                 </dd>
-            </dl>
+            </dl> -->
 
             <button type="submit"
                     (click)="previousState()"
