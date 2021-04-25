@@ -20,7 +20,7 @@
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
             <!-- ROLE_USER START -->
             <li *jhiHasAnyAuthority="'ROLE_USER'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="user-menu">
                     <span>
                         <!-- <fa-icon [icon]="'th-list'"></fa-icon> -->
                         <span>
@@ -39,6 +39,28 @@
                 </ul>
             </li>
             <!-- ROLE_USER END -->
+
+            <!-- ROLE_SHIPPER START -->
+            <li *jhiHasAnyAuthority="'ROLE_SHIPPER'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="shipper-menu">
+                    <span>
+                        <!-- <fa-icon [icon]="'th-list'"></fa-icon> -->
+                        <span>
+                            Shipper Function
+                        </span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu>
+                    <li>
+                        <a class="dropdown-item" routerLink="personal-shipment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
+                            <span></span>
+                        </a>
+                    </li>
+                    <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
+                </ul>
+            </li>
+            <!-- ROLE_SHIPPER END -->
 
             <!-- ROLE_ADMIN START -->
             <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
