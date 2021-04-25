@@ -161,6 +161,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                     (this.selectedProvinceTo ? this.selectedProvinceTo.provinceName : '');
                 this.invoiceHeader.startStreetId = this.selectedStreetFrom.id;
                 this.invoiceHeader.destinationStreetId = this.selectedStreetTo.id;
+                this.invoiceHeader.officeId = this.currentUser.officeId;
             }
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
@@ -172,11 +173,6 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 lstDetail: this.lstInvoiceDetails,
                 lstPackage: this.lstInvoicePackage
             };
-            // if (this.invoiceHeader.id !== undefined) {
-            //     this.subscribeToSaveResponse(this.invoiceHeaderService.update(this.invoiceHeader));
-            // } else {
-            //     this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
-            // }
             if (this.invoiceHeader.id !== undefined) {
                 this.subscribeToSaveResponse(this.invoiceHeaderService.updateExistedInvoice(postObject));
             } else {
