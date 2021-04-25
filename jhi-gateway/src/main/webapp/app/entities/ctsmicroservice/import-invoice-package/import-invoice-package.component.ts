@@ -1,3 +1,5 @@
+import { IUserProfile } from './../../../shared/model/user-profile.model';
+import { AccountService } from './../../../core/auth/account.service';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
@@ -21,7 +23,6 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     eventSubscriber: Subscription;
     selectedInvoiceStatus: any;
     selectedInvoiceNo: any;
-    listShipmentType: any = [{ id: 'transporting', text: 'Đang vận chuyển' }, { id: 'delivering', text: 'Đang giao hàng' }];
     listShipmentStatus: any = [
         { id: 'new', text: 'Chưa xử lý' },
         { id: 'collecting', text: 'Nhân viên đang lấy hàng' },
@@ -46,18 +47,17 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     previousPage: any;
     reverse: any;
     isSaving: boolean;
+    officeId: any;
 
     constructor(
         private importInvoicePackageService: ImportInvoicePackageService,
+        private accountService: AccountService,
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private principal: Principal,
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) {
-        this.principal.identity().then(account => {
-            this.currentAccount = account;
-        });
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
@@ -68,33 +68,17 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
 
     loadAll() {
         const param = {
-            id: this.currentAccount.getOfficeId(),
+            id: this.officeId,
             invNo: this.selectedInvoiceNo ? this.selectedInvoiceNo : '',
             status: this.selectedInvoiceStatus ? this.selectedInvoiceStatus : '',
             page: this.page - 1,
             size: this.itemsPerPage
         };
-        this.importInvoicePackageService.getImportPackage(param).subscribe(
+        this.importInvoicePackageService.getImportPackageByOfficeId(param).subscribe(
             (res: HttpResponse<IInvoicePackageShipment[]>) => {
                 this.invoicePackageShipments = res.body;
                 this.finalData = this.invoicePackageShipments;
                 for (const i in this.invoicePackageShipments) {
-                    if (this.invoicePackageShipments[i].invoiceHeader.status === this.listShipmentType[0].id) {
-                        this.invoicePackageShipments[i].invoiceHeader.status = this.listShipmentType[0].text;
-                    } else {
-                        this.invoicePackageShipments[i].invoiceHeader.status = this.listShipmentType[1].text;
-                    }
-                    if (this.invoicePackageShipments[i].personalShipment.shipmentType === 'delivery') {
-                        const status = this.invoicePackageShipments[i].personalShipment.status;
-                        let statusText;
-                        for (const st of this.listShipmentStatus) {
-                            if (st.id === status) {
-                                statusText = st.text;
-                                break;
-                            }
-                        }
-                        this.invoicePackageShipments[i].personalShipment.status = statusText;
-                    }
                 }
             },
             (res: HttpErrorResponse) => this.onError(res.message)
@@ -104,7 +88,7 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     importAll() {
         this.isSaving = true;
         const finalParams = this.finalData;
-        this.subscribeToSaveResponse(this.importInvoicePackageService.saveListImportInvoiceHeader(finalParams));
+        this.subscribeToSaveResponse(this.importInvoicePackageService.updateImportAllInvoice(finalParams));
     }
 
     private subscribeToSaveResponse(result: any) {
@@ -154,7 +138,13 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+            this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(res => {
+                this.officeId = res.body.officeId;
+                this.loadAll();
+            });
+        });
         this.registerChangeInImportInvoicePackages();
     }
 
