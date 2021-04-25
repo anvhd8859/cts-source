@@ -56,6 +56,8 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         { id: 'Shipped', text: 'Shipped' },
         { id: 'Cancelled', text: 'Cancelled' }
     ];
+    lstCollect: any = [{ id: '1', text: 'Collect From Home' }, { id: '0', text: 'Drop By Office' }];
+    selectedCollect: any;
     // HaiNM
     lstInvoicePackage: IInvoicePackage[] = [];
     invPackageCount: number;
@@ -156,10 +158,15 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
+            // if (this.invoiceHeader.id !== undefined) {
+            //     this.subscribeToSaveResponse(this.invoiceHeaderService.update(this.invoiceHeader));
+            // } else {
+            //     this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
+            // }
             if (this.invoiceHeader.id !== undefined) {
-                this.subscribeToSaveResponse(this.invoiceHeaderService.update(this.invoiceHeader));
+                this.subscribeToSaveResponse(this.invoiceHeaderService.updateExistedInvoice(postObject));
             } else {
-                this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
+                this.subscribeToSaveResponse(this.invoiceHeaderService.createNewInvoice(postObject, this.selectedCollect));
             }
         } else {
             window.scroll(0, 0);
