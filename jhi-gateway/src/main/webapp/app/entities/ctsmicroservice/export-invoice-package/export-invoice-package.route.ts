@@ -4,24 +4,22 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@a
 import { UserRouteAccessService } from 'app/core';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ExportInvoicePackage } from 'app/shared/model/ctsmicroservice/export-invoice-package.model';
 import { ExportInvoicePackageService } from './export-invoice-package.service';
 import { ExportInvoicePackageComponent } from './export-invoice-package.component';
-import { ExportInvoicePackageDetailComponent } from './export-invoice-package-detail.component';
-import { ExportInvoicePackageUpdateComponent } from './export-invoice-package-update.component';
 import { ExportInvoicePackageDeletePopupComponent } from './export-invoice-package-delete-dialog.component';
-import { IExportInvoicePackage } from 'app/shared/model/ctsmicroservice/export-invoice-package.model';
+import { IInvoiceHeader, InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { JhiResolvePagingParams } from 'ng-jhipster';
 
 @Injectable({ providedIn: 'root' })
-export class ExportInvoicePackageResolve implements Resolve<IExportInvoicePackage> {
+export class ExportInvoicePackageResolve implements Resolve<IInvoiceHeader> {
     constructor(private service: ExportInvoicePackageService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).pipe(map((exportInvoicePackage: HttpResponse<ExportInvoicePackage>) => exportInvoicePackage.body));
+            return this.service.find(id).pipe(map((invoice: HttpResponse<InvoiceHeader>) => invoice.body));
         }
-        return of(new ExportInvoicePackage());
+        return of(new InvoiceHeader());
     }
 }
 
@@ -29,44 +27,11 @@ export const exportInvoicePackageRoute: Routes = [
     {
         path: 'export-invoice-package',
         component: ExportInvoicePackageComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'ExportInvoicePackages'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'export-invoice-package/:id/view',
-        component: ExportInvoicePackageDetailComponent,
         resolve: {
-            exportInvoicePackage: ExportInvoicePackageResolve
+            pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'ExportInvoicePackages'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'export-invoice-package/new',
-        component: ExportInvoicePackageUpdateComponent,
-        resolve: {
-            exportInvoicePackage: ExportInvoicePackageResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'ExportInvoicePackages'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'export-invoice-package/:id/edit',
-        component: ExportInvoicePackageUpdateComponent,
-        resolve: {
-            exportInvoicePackage: ExportInvoicePackageResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_KEEPER', 'ROLE_ADMIN'],
             pageTitle: 'ExportInvoicePackages'
         },
         canActivate: [UserRouteAccessService]
@@ -75,13 +40,13 @@ export const exportInvoicePackageRoute: Routes = [
 
 export const exportInvoicePackagePopupRoute: Routes = [
     {
-        path: 'export-invoice-package/:id/delete',
+        path: 'export-invoice-package/:id/export',
         component: ExportInvoicePackageDeletePopupComponent,
         resolve: {
             exportInvoicePackage: ExportInvoicePackageResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_KEEPER', 'ROLE_ADMIN'],
             pageTitle: 'ExportInvoicePackages'
         },
         canActivate: [UserRouteAccessService],
