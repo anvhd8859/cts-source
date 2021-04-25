@@ -16,11 +16,11 @@
             <jhi-alert-error></jhi-alert-error>
             <div class="col-12">
                 <table class="table" style="width: 100%;">
-                    <tr>
+                    <tr *ngIf="this.customer">
                         <th>Customer: </th>
                         <td>{{this.customer.firstName + ' ' + this.customer.lastName}}</td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="this.office">
                         <th>Office: </th>
                         <td>{{this.office.officeName}}</td>
                     </tr>
@@ -32,58 +32,105 @@
                         <th>Invoice Status: </th>
                         <td>{{this.invoiceHeader.status}}</td>
                     </tr>
+                    <tr>
+                        <th>From Address: </th>
+                        <td>{{invoiceHeader.startAddress}}</td>
+                    </tr>
+                    <tr>
+                        <th>To Address: </th>
+                        <td>{{invoiceHeader.destinationAddress}}</td>
+                    </tr>
+                    <tr>
+                        <th>Customer Note: </th>
+                        <td>{{invoiceHeader.note}}</td>
+                    </tr>
                 </table>
+                <div class="card" *ngIf="this.lstInvoicePackage && this.lstInvoicePackage.length > 0">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                        <button class="btn btn-link" (click)="collapsePackage()">
+                            Packages
+                        </button>
+                        </h5>
+                    </div>
+                    <div id="colPackage" *ngIf="showPackage">
+                        <table class="table"> 
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Weight (kg)</th>
+                                    <th>Height (cm)</th>
+                                    <th>Width (cm)</th>
+                                    <th>Length (cm)</th>
+                                    <th>Note</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of this.lstInvoicePackage; let index = index">
+                                    <td>{{index +1}}</td>
+                                    <td>{{item.weight}}</td>
+                                    <td>{{item.height}}</td>
+                                    <td>{{item.width}}</td>
+                                    <td>{{item.length}}</td>
+                                    <td>{{item.note}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <div class="card" *ngIf="this.lstInvoiceDetails && this.lstInvoiceDetails.length > 0">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                        <button class="btn btn-link" (click)="collapseItem()">
+                            Items
+                        </button>
+                        </h5>
+                    </div>
+                    <div id="colItem" *ngIf="showItem">
+                        <table class="table"> 
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of this.lstInvoiceDetails; let index = index">
+                                    <td>{{index +1}}</td>
+                                    <td>{{item.itemName}}</td>
+                                    <td>{{item.itemType}}</td>
+                                    <td>{{item.description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="divider"></div>
+            <br>
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="float-right">Sub Total: <b>{{invoiceHeader.subTotal | currency:'VND'}}</b></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="float-right">Tax Amount: <b>{{invoiceHeader.taxAmount | currency:'VND'}}</b></h4>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="divider"></div>
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="float-right">Total: <b>{{invoiceHeader.totalDue | currency:'VND'}}</b></h2>
+                </div>
             </div>
             <br>
             <!-- <dl class="row-md jh-entity-details">
-                <dt><span>Customer Id</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.customerId}}</span>
-                </dd>
-                <dt><span>Office Id</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.officeId}}</span>
-                </dd>
-                <dt><span>Invoice No</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.invoiceNo}}</span>
-                </dd>
-                <dt><span>Invoice Type</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.invoiceType}}</span>
-                </dd>
-                <dt><span>Status</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.status}}</span>
-                </dd>
-                <dt><span>Start Address</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.startAddress}}</span>
-                </dd>
-                <dt><span>Start Street Id</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.startStreetId}}</span>
-                </dd>
-                <dt><span>Destination Address</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.destinationAddress}}</span>
-                </dd>
-                <dt><span>Destination Street Id</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.destinationStreetId}}</span>
-                </dd>
-                <dt><span>Sub Total</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.subTotal}}</span>
-                </dd>
-                <dt><span>Tax Amount</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.taxAmount}}</span>
-                </dd>
-                <dt><span>Total Due</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.totalDue}}</span>
-                </dd>
                 <dt><span>Note</span></dt>
                 <dd>
                     <span>{{invoiceHeader.note}}</span>
@@ -125,7 +172,6 @@
                     <span>{{invoiceHeader.updateDate}}</span>
                 </dd>
             </dl> -->
-
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">

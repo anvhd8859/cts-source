@@ -96,7 +96,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             this.lstProvinceFrom = res[1].body;
             this.lstProvinceTo = res[1].body;
             this.currentUser = res[2];
-            this.accountService.findByUserID({ id: this.currentUser }).subscribe(profile => {
+            this.accountService.findByUserID({ id: this.currentUser.id }).subscribe(profile => {
                 this.currentProfile = profile.body;
             });
             if (this.invoiceHeader.id) {
