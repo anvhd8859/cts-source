@@ -75,6 +75,14 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
         this.exportInvoicePackageService.getExportPackageByOfficeId(param).subscribe(
             (res: HttpResponse<IInvoicePackageShipment[]>) => {
                 this.invoicePackageShipments = res.body;
+                this.finalData = JSON.parse(JSON.stringify(this.invoicePackageShipments));
+                for (const i in this.invoicePackageShipments) {
+                    if (this.invoicePackageShipments[i].invoiceHeader.status === this.listInvoiceStatus[0].id) {
+                        this.invoicePackageShipments[i].invoiceHeader.status = this.listInvoiceStatus[0].text;
+                    } else {
+                        this.invoicePackageShipments[i].invoiceHeader.status = this.listInvoiceStatus[1].text;
+                    }
+                }
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
