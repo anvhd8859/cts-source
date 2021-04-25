@@ -62,6 +62,33 @@
             </li>
             <!-- ROLE_SHIPPER END -->
 
+            <!-- ROLE_KEEPER START -->
+            <li *jhiHasAnyAuthority="'ROLE_KEEPER'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="keeper-menu">
+                    <span>
+                        <!-- <fa-icon [icon]="'user-plus'"></fa-icon> -->
+                        <span>Warehouse Function</span>
+                    </span>
+                </a>
+
+                <ul class="dropdown-menu" ngbDropdownMenu>
+                    <li>
+                        <a class="dropdown-item" routerLink="import-invoice-package" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
+                            <span>Import invoice package</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="export-invoice-package" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
+                            <span>Export invoice package</span>
+                        </a>
+                    </li>
+                    <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
+                </ul>
+            </li>
+             <!-- ROLE_KEEPER END -->
+
             <!-- ROLE_ADMIN START -->
             <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
@@ -110,7 +137,7 @@
                     <li>
                         <a class="dropdown-item" routerLink="cancel-invoice" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Approve Request Cancel</span>
+                            <span>Manage Request Cancel</span>
                         </a>
                     </li>
                     <li>
