@@ -5,12 +5,14 @@ import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.Office;
 import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.domain.Street;
+import com.fu.capstone.domain.WorkingArea;
 import com.fu.capstone.repository.InvoiceDetailsRepository;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
 import com.fu.capstone.repository.OfficeRepository;
 import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.StreetRepository;
+import com.fu.capstone.repository.WorkingAreaRepository;
 import com.fu.capstone.service.dto.InvoiceDetailsDTO;
 import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.InvoicePackageDTO;
@@ -21,6 +23,7 @@ import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import com.fu.capstone.service.mapper.PersonalShipmentMapper;
+import com.fu.capstone.service.mapper.WorkingAreaMapper;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -58,6 +61,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	private StreetRepository streetRepository;
 
 	private OfficeRepository officeRepository;
+	
+	private WorkingAreaRepository workingAreaRepository;
 
 	private InvoiceHeaderMapper invoiceHeaderMapper;
 
@@ -67,12 +72,15 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 	private PersonalShipmentMapper personalShipmentMapper;
 
+	private WorkingAreaMapper workingAreaMapper;
+
 	public InvoiceHeaderServiceImpl(InvoiceHeaderRepository invoiceHeaderRepository,
 			InvoiceHeaderMapper invoiceHeaderMapper, InvoiceDetailsRepository invoiceDetailsRepository,
 			InvoiceDetailsMapper invoiceDetailsMapper, InvoicePackageRepository invoicePackageRepository,
 			InvoicePackageMapper invoicePackageMapper, PersonalShipmentRepository personalShipmentRepository,
 			PersonalShipmentMapper personalShipmentMapper, StreetRepository streetRepository,
-			OfficeRepository officeRepository) {
+			OfficeRepository officeRepository,
+			WorkingAreaMapper workingAreaMapper, WorkingAreaRepository workingAreaRepository) {
 		this.invoiceHeaderRepository = invoiceHeaderRepository;
 		this.invoiceHeaderMapper = invoiceHeaderMapper;
 		this.invoiceDetailsRepository = invoiceDetailsRepository;
@@ -83,6 +91,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		this.personalShipmentMapper = personalShipmentMapper;
 		this.streetRepository = streetRepository;
 		this.officeRepository = officeRepository;
+		this.workingAreaMapper = workingAreaMapper;
+		this.workingAreaRepository = workingAreaRepository;
 	}
 
 	/**
@@ -255,6 +265,11 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			ps.setStatus("new");
 			ps.setCreateDate(instant);
 			ps.setUpdateDate(instant);
+			// get employee and add to shipment
+			WorkingArea wa = workingAreaRepository.getEmployeeNearBy(fromStreet.getId(), fromStreet.getSubDistrictId().getId(),
+					fromStreet.getSubDistrictId().getDistrictId().getId(),
+					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
+			ps.setEmployeeId(wa.getEmployeeId());
 			subTotal = new BigDecimal(5000).add(subTotal.multiply(new BigDecimal(1.05)));
 			lstShipment.add(ps);
 		}
@@ -268,6 +283,10 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		psDelivery.setShipmentType("delivery");
 		psDelivery.setCreateDate(instant);
 		psDelivery.setUpdateDate(instant);
+		WorkingArea wa = workingAreaRepository.getEmployeeNearBy(toStreet.getId(), toStreet.getSubDistrictId().getId(),
+				toStreet.getSubDistrictId().getDistrictId().getId(),
+				toStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
+		psDelivery.setEmployeeId(wa.getEmployeeId());
 		lstShipment.add(psDelivery);
 
 		personalShipmentRepository.saveAll(lstShipment);
