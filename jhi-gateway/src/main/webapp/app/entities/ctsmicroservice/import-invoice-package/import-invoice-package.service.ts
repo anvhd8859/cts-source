@@ -71,6 +71,23 @@ export class ImportInvoicePackageService {
         res.body.updateDate = res.body.updateDate != null ? moment(res.body.updateDate) : null;
     }
 
+    saveListImportInvoiceHeader(req?: any): any {
+        const copy = req;
+        return this.http
+            .put<IInvoiceHeader>(this.resourceUrl + '/import-invoices', copy, { observe: 'response' })
+            .pipe(map((res: any) => this.convertInvoiceArrayDateFromServer(res)));
+    }
+
+    private convertInvoiceArrayDateFromServer(res: HttpResponse<IInvoiceHeader[]>): HttpResponse<IInvoiceHeader[]> {
+        res.body.forEach((invoiceHeader: IInvoiceHeader) => {
+            invoiceHeader.dueDate = invoiceHeader.dueDate != null ? moment(invoiceHeader.dueDate) : null;
+            invoiceHeader.finishDate = invoiceHeader.finishDate != null ? moment(invoiceHeader.finishDate) : null;
+            invoiceHeader.createDate = invoiceHeader.createDate != null ? moment(invoiceHeader.createDate) : null;
+            invoiceHeader.updateDate = invoiceHeader.updateDate != null ? moment(invoiceHeader.updateDate) : null;
+        });
+        return res;
+    }
+
     private convertDateFromServer(res: EntityResponseType): EntityResponseType {
         res.body.invoiceHeader.dueDate = res.body.invoiceHeader.dueDate != null ? moment(res.body.invoiceHeader.dueDate) : null;
         res.body.invoiceHeader.finishDate = res.body.invoiceHeader.finishDate != null ? moment(res.body.invoiceHeader.finishDate) : null;
