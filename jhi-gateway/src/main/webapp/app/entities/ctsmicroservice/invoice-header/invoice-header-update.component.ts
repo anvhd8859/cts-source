@@ -61,7 +61,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     invPackageCount: number;
     lstInvoiceDetails: IInvoiceDetails[] = [];
     invDetailCount: number;
-    currentUser: any;
+    currentUser: IUser;
     // HaiNM
 
     constructor(
@@ -161,7 +161,8 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                     (this.selectedProvinceTo ? this.selectedProvinceTo.provinceName : '');
                 this.invoiceHeader.startStreetId = this.selectedStreetFrom.id;
                 this.invoiceHeader.destinationStreetId = this.selectedStreetTo.id;
-                this.invoiceHeader.officeId = this.currentUser.officeId;
+                this.invoiceHeader.officeId = this.selectedUserProfile.officeId;
+                this.invoiceHeader.employeeId = this.currentUser.id;
             }
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
