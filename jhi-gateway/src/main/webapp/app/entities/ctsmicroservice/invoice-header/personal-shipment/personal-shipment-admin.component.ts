@@ -2,9 +2,9 @@ import { IShipmentInvoice, PersonalShipmentService } from './personal-shipment.s
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
-import { AccountService, Principal } from 'app/core';
+import { AccountService, IUser, Principal } from 'app/core';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { InvoiceHeaderService } from '..';
 import { NgxUiLoaderService } from 'ngx-ui-loader/';
@@ -32,8 +32,6 @@ export class PersonalShipmentAdminComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
-    selectedTypeShipment: any;
-    listTypeShipment: any = [{ id: 'collect', text: 'Lấy hàng' }, { id: 'delivery', text: 'Giao hàng' }];
     collectAddress: any;
     shipAddress: any;
     selectedInvoiceNumber: any;
@@ -45,17 +43,20 @@ export class PersonalShipmentAdminComponent implements OnInit, OnDestroy {
     selectedDistrict: any;
     selectedSubDistrict: any;
     selectedStreet: any;
+    lstShipper: IUser[];
+    selectedShipper: IUser;
 
     constructor(
         private personalShipmentService: PersonalShipmentService,
+        private accountService: AccountService,
+        private invoiceHeaderService: InvoiceHeaderService,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private eventManager: JhiEventManager,
-        private ngxUiLoaderService: NgxUiLoaderService,
-        private accountService: AccountService
+        private ngxUiLoaderService: NgxUiLoaderService
     ) {
         this.principal.identity().then(account => {
             this.currentAccount = account;
@@ -71,18 +72,15 @@ export class PersonalShipmentAdminComponent implements OnInit, OnDestroy {
 
     loadAll() {
         this.ngxUiLoaderService.start();
-        this.accountService.getLstCity().subscribe(lstCity => {
-            this.lstProvince = lstCity.body;
-        });
         const param = {
-            id: this.currentAccount.id,
+            empId: this.selectedShipper ? this.selectedShipper.id : '',
             invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
-            type: this.selectedTypeShipment ? this.selectedTypeShipment : '',
+            strId: this.selectedStreet ? this.selectedStreet : '',
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()
         };
-        this.personalShipmentService.getPersonalShipmentByShipper(param).subscribe(
+        this.personalShipmentService.getAllShipmentByParam(param).subscribe(
             (res: HttpResponse<any>) => {
                 this.paginateInvoiceHeaders(res.body, res.headers);
                 this.ngxUiLoaderService.stop();
@@ -125,7 +123,11 @@ export class PersonalShipmentAdminComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        forkJoin(this.accountService.getLstCity(), this.invoiceHeaderService.getLstUser()).subscribe(res => {
+            this.lstProvince = res[0].body;
+            this.lstShipper = res[1].body.filter(e => e.authorities.filter(i => i === 'ROLE_SHIPPER'));
+            this.loadAll();
+        });
         this.registerChangeInPersonalShipments();
     }
 
