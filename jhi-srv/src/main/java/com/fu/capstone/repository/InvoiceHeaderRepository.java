@@ -47,7 +47,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.status != 'finish' AND i.changeNote = 'request' AND i.cancel != TRUE")
 	Page<InvoiceHeader> getInvoiceHeadersRequestCancel(Pageable pageable);
 
-	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.customerId = :id")
+	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.customerId = :id ORDER BY i.createDate DESC")
 	Page<InvoiceHeader> getInvoiceHeadersByCustomer(@Param("id") Long id, Pageable pageable);
 
 	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.destinationOfficeId = :id "
