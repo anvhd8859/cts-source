@@ -151,7 +151,7 @@ public class StreetResource {
     @GetMapping("/streets/get-full-address")
     @Timed
     public ResponseEntity<Street> getFullAddressByStreetId(@RequestParam("id") Long id) {
-    	Optional<Street> street = streetService.getFullAddressByStreetId(id);
-        return ResponseUtil.wrapOrNotFound(street);
+    	Street street = streetService.getFullAddressByStreetId(id);
+    	return new ResponseEntity<>(street, HttpStatus.OK);
     }
 }
