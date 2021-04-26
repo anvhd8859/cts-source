@@ -86,8 +86,8 @@ export class ReceiptnoteService {
     }
     private convertUserNoteArrayFromServer(res: HttpResponse<IUserReceiptNote[]>): HttpResponse<IUserReceiptNote[]> {
         res.body.forEach((userReceiptNote: IUserReceiptNote) => {
-            let invoice = userReceiptNote.invoiceHeader;
-            let receiptnote = userReceiptNote.receiptNote;
+            const invoice = userReceiptNote.invoiceHeader;
+            const receiptnote = userReceiptNote.receiptNote;
 
             invoice.dueDate = invoice.dueDate != null ? moment(invoice.dueDate) : null;
             invoice.finishDate = invoice.finishDate != null ? moment(invoice.finishDate) : null;
