@@ -27,6 +27,9 @@ public class InvoiceHeader implements Serializable {
     @Column(name = "office_id")
     private Long officeId;
 
+    @Column(name = "employee_id")
+    private Long employeeId;
+
     @Column(name = "invoice_no")
     private String invoiceNo;
 
@@ -47,6 +50,9 @@ public class InvoiceHeader implements Serializable {
 
     @Column(name = "destination_street_id")
     private Long destinationStreetId;
+
+    @Column(name = "destination_office_id")
+    private Long destinationOfficeId;
 
     @Column(name = "receiver_name")
     private String receiverName;
@@ -222,7 +228,15 @@ public class InvoiceHeader implements Serializable {
         this.destinationStreetId = destinationStreetId;
     }
 
-    public String getReceiverName() {
+    public Long getDestinationOfficeId() {
+		return destinationOfficeId;
+	}
+
+	public void setDestinationOfficeId(Long destinationOfficeId) {
+		this.destinationOfficeId = destinationOfficeId;
+	}
+
+	public String getReceiverName() {
         return receiverName;
     }
 
@@ -426,7 +440,27 @@ public class InvoiceHeader implements Serializable {
         return this;
     }
 
-    public void setUpdateDate(Instant updateDate) {
+    public Long getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(Long employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public Boolean getCancel() {
+		return cancel;
+	}
+
+	public Boolean getCustomerConfirm() {
+		return customerConfirm;
+	}
+
+	public Boolean getFinish() {
+		return finish;
+	}
+
+	public void setUpdateDate(Instant updateDate) {
         this.updateDate = updateDate;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
@@ -464,6 +498,7 @@ public class InvoiceHeader implements Serializable {
             ", startStreetId=" + getStartStreetId() +
             ", destinationAddress='" + getDestinationAddress() + "'" +
             ", destinationStreetId=" + getDestinationStreetId() +
+            ", destinationOfficeId=" + getDestinationOfficeId() +
             ", receiverName='" + getReceiverName() + "'" +
             ", receiverPhone='" + getReceiverPhone() + "'" +
             ", subTotal=" + getSubTotal() +
