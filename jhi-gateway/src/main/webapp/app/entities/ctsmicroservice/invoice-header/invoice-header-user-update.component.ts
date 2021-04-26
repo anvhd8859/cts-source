@@ -97,7 +97,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         console.log(this.lstInvoiceDetails);
     }
 
-    removeInvoiceDetailElement(parent: any, index: any) {
+    removeInvoiceDetailElement(index: any) {
         this.invDetailCount--;
         this.lstInvoiceDetails.splice(index, 1);
         console.log(this.lstInvoiceDetails);
