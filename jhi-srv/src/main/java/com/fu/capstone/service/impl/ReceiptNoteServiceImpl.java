@@ -1,9 +1,13 @@
 package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.ReceiptNoteService;
+import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.ReceiptNote;
+import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.ReceiptNoteRepository;
+import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
 import com.fu.capstone.service.dto.ReceiptNoteDTO;
+import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.ReceiptNoteMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,9 +35,16 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 
     private ReceiptNoteMapper receiptNoteMapper;
 
-    public ReceiptNoteServiceImpl(ReceiptNoteRepository receiptNoteRepository, ReceiptNoteMapper receiptNoteMapper) {
+    private InvoiceHeaderRepository invoiceHeaderRepository;
+
+    private InvoiceHeaderMapper invoiceHeaderMapper;
+
+    public ReceiptNoteServiceImpl(ReceiptNoteRepository receiptNoteRepository, ReceiptNoteMapper receiptNoteMapper,
+    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper) {
         this.receiptNoteRepository = receiptNoteRepository;
         this.receiptNoteMapper = receiptNoteMapper;
+        this.invoiceHeaderRepository = invoiceHeaderRepository;
+        this.invoiceHeaderMapper = invoiceHeaderMapper;
     }
 
     /**
@@ -44,6 +58,12 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
         log.debug("Request to save ReceiptNote : {}", receiptNoteDTO);
 
         ReceiptNote receiptNote = receiptNoteMapper.toEntity(receiptNoteDTO);
+		Instant instant = Instant.now();
+		if(receiptNote.getId() == null){
+			receiptNote.setCreateDate(instant);
+			receiptNote.setUpdateDate(instant);
+		}
+		else receiptNote.setUpdateDate(instant);
         receiptNote = receiptNoteRepository.save(receiptNote);
         return receiptNoteMapper.toDto(receiptNote);
     }
@@ -92,5 +112,19 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 	public Optional<ReceiptNoteDTO> getReceiptNoteByHeaderId(Long id) {
 		return receiptNoteRepository.getReceiptNoteByHeaderId(id)
 	            .map(receiptNoteMapper::toDto);
+	}
+
+	@Override
+	public List<ReceiptInvoiceDTO> getAllReceiptInvoiceByUser(Long id, Pageable pageable) {
+		List<ReceiptInvoiceDTO> list = new ArrayList<>();
+		List<ReceiptNote> noteList = receiptNoteRepository.getAllReceiptNotConfirm(id, pageable);
+		for(ReceiptNote r : noteList) {
+			ReceiptInvoiceDTO riDto = new ReceiptInvoiceDTO();
+			InvoiceHeader inv = invoiceHeaderRepository.getOne(r.getInvoiceHeaderId());
+			riDto.setReceiptNote(receiptNoteMapper.toDto(r));
+			riDto.setInvoiceHeader(invoiceHeaderMapper.toDto(inv));
+			list.add(riDto);
+		}
+		return list;
 	}
 }
