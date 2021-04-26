@@ -1,6 +1,7 @@
 package com.fu.capstone.service;
 
 import com.fu.capstone.service.dto.PersonalShipmentDTO;
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,4 +44,28 @@ public interface PersonalShipmentService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+    // START TuyenVNT
+    /**
+     * Get the personalShipment by headerId
+     * 
+     * @param id the headerId
+     */
+    Page<PersonalShipmentDTO> getPersonalShipmentByHeaderId(Long id, Pageable pageable);
+  
+    /**
+     * Get the personalShipment not assigned
+     * 
+     */
+    Page<PersonalShipmentDTO> getPersonalShipmentNotAssigned(Pageable pageable);
+    // END TuyenVNT
+
+
+	Page<PersonalShipmentInvoiceDTO> getPersonalShipmentByShipper(Long id, String invNo, String type, Pageable pageable);
+
+	PersonalShipmentDTO createCollectPersonalShipmentForInvoice(Long id);
+
+	Page<PersonalShipmentInvoiceDTO> getAllPersonaShipmentInvoices(Long empId, String invNo, Long strId,
+			Pageable pageable);
+
 }
