@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IReceiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
+import { IUserReceiptNote } from '.';
 
 type EntityResponseType = HttpResponse<IReceiptnote>;
 type EntityArrayResponseType = HttpResponse<IReceiptnote[]>;
@@ -71,6 +72,28 @@ export class ReceiptnoteService {
 
     private convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         res.body.forEach((receiptnote: IReceiptnote) => {
+            receiptnote.createDate = receiptnote.createDate != null ? moment(receiptnote.createDate) : null;
+            receiptnote.updateDate = receiptnote.updateDate != null ? moment(receiptnote.updateDate) : null;
+        });
+        return res;
+    }
+
+    getAllReceiptNotConfirmByUser(param: any): Observable<HttpResponse<IUserReceiptNote[]>> {
+        const options = createRequestOption(param);
+        return this.http
+            .get<IUserReceiptNote[]>(this.resourceUrl + '/by-user', { params: options, observe: 'response' })
+            .pipe(map((res: HttpResponse<IUserReceiptNote[]>) => this.convertUserNoteArrayFromServer(res)));
+    }
+    private convertUserNoteArrayFromServer(res: HttpResponse<IUserReceiptNote[]>): HttpResponse<IUserReceiptNote[]> {
+        res.body.forEach((userReceiptNote: IUserReceiptNote) => {
+            const invoice = userReceiptNote.invoiceHeader;
+            const receiptnote = userReceiptNote.receiptNote;
+
+            invoice.dueDate = invoice.dueDate != null ? moment(invoice.dueDate) : null;
+            invoice.finishDate = invoice.finishDate != null ? moment(invoice.finishDate) : null;
+            invoice.createDate = invoice.createDate != null ? moment(invoice.createDate) : null;
+            invoice.updateDate = invoice.updateDate != null ? moment(invoice.updateDate) : null;
+
             receiptnote.createDate = receiptnote.createDate != null ? moment(receiptnote.createDate) : null;
             receiptnote.updateDate = receiptnote.updateDate != null ? moment(receiptnote.updateDate) : null;
         });
