@@ -247,8 +247,18 @@ dependencies {
     testCompile "org.mockito:mockito-core"
     testCompile "com.mattbertolini:liquibase-slf4j"
     testCompile "org.hamcrest:hamcrest-library"
-    testCompile "com.h2database:h2"
+    testCompile "com.h2database:h2"   
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+    
+    // https://mvnrepository.com/artifact/org.powermock/powermock-api-easymock
+	testImplementation group: 'org.powermock', name: 'powermock-api-easymock', version: '2.0.0'
+    // https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4
+	testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.0'
+    // https://mvnrepository.com/artifact/org.jacoco/org.jacoco.agent
+	testImplementation group: 'org.jacoco', name: 'org.jacoco.agent', version: '0.8.2'
+    // https://mvnrepository.com/artifact/org.powermock/powermock-api-mockito2
+	testImplementation group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.0'
+    
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 
