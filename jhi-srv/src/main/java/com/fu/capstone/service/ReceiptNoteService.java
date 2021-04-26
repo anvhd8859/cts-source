@@ -1,10 +1,12 @@
 package com.fu.capstone.service;
 
+import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
 import com.fu.capstone.service.dto.ReceiptNoteDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -45,4 +47,6 @@ public interface ReceiptNoteService {
     void delete(Long id);
 
 	Optional<ReceiptNoteDTO> getReceiptNoteByHeaderId(Long id);
+
+	List<ReceiptInvoiceDTO> getAllReceiptInvoiceByUser(Long id, Pageable pageable);
 }

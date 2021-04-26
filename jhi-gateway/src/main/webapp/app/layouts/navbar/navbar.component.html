@@ -208,7 +208,7 @@
                   <span *ngIf="!getImageUrl()">
                     <fa-icon [icon]="'user'"></fa-icon>
                     <span>
-                        Account
+                        {{username ? username : 'Account'}}
                     </span>
                   </span>
                   <span *ngIf="getImageUrl()">
@@ -236,6 +236,12 @@
                             <a class="dropdown-item" routerLink="invoice-header-user" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                                 <fa-icon [icon]="'sticky-note'" [fixedWidth]="true"></fa-icon>
                                 <span>Invoices History</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="receiptnote-user" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                                <fa-icon [icon]="'check-circle'" [fixedWidth]="true"></fa-icon>
+                                <span>Confirm Receipt Note</span>
                             </a>
                         </li>
                         <!-- Divider -->

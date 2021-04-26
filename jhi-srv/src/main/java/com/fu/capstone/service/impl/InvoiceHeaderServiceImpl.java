@@ -23,7 +23,6 @@ import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import com.fu.capstone.service.mapper.PersonalShipmentMapper;
-import com.fu.capstone.service.mapper.WorkingAreaMapper;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -252,6 +251,9 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
 			invoiceHeaderDTO.setOfficeId(ofc.getId());
 			
+			// set status invoice
+			invoiceHeaderDTO.setStatus("collect");
+			
 			// process collect shipment and sub total fee
 			PersonalShipment ps = new PersonalShipment();
 			ps.setInvoiceHeaderId(invoiceHeaderDTO.getId());
@@ -259,6 +261,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			ps.setStatus("new");
 			ps.setCreateDate(instant);
 			ps.setUpdateDate(instant);
+			
 			// get employee and add to shipment
 			WorkingArea wa = workingAreaRepository.getEmployeeNearBy(fromStreet.getId(), fromStreet.getSubDistrictId().getId(),
 					fromStreet.getSubDistrictId().getDistrictId().getId(),
@@ -266,6 +269,9 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			ps.setEmployeeId(wa.getEmployeeId());
 			subTotal = new BigDecimal(5000).add(subTotal.multiply(new BigDecimal(1.05)));
 			lstShipment.add(ps);
+		}
+		else {
+			if(invoiceHeaderDTO.getStatus().equalsIgnoreCase("new")) invoiceHeaderDTO.setStatus("receive");
 		}
 		invoiceHeaderDTO.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
 		invoiceHeaderDTO.setTotalDue(subTotal.add(invoiceHeaderDTO.getTaxAmount()));

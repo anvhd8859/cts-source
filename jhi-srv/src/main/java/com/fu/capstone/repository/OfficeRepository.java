@@ -15,7 +15,7 @@ public interface OfficeRepository extends JpaRepository<Office, Long> {
 	@Query( value =   " SELECT DISTINCT o.* FROM office o, street s, district d, sub_district sd "
 					+ " WHERE o.street_id = s.id AND d.id = sd.district_id_id AND sd.id = s.sub_district_id_id AND d.id = "
 					+ " ( SELECT d.id FROM district d, sub_district sd ,street s "
-					+ " WHERE d.id = sd.district_id_id AND sd.id = s.sub_district_id_id AND s.id = :id )",
+					+ " WHERE d.id = sd.district_id_id AND sd.id = s.sub_district_id_id AND s.id = :id LIMIT 1)",
 					nativeQuery = true)
 	Office getOfficeByStreetId(@Param("id")Long id);
 	

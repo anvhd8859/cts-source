@@ -9,7 +9,6 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { IUser } from 'app/core';
-import { InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 
 type EntityResponseType = HttpResponse<IInvoiceHeader>;
 type EntityArrayResponseType = HttpResponse<IInvoiceHeader[]>;

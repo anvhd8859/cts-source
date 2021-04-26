@@ -1,0 +1,19 @@
+<form name="confirmForm" (ngSubmit)="confirmConfirm(receiptnote)">
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm receipt note operation</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <p id="jhi-confirm-receiptnote-heading">Are you sure to Confirm this Receipt Note?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+        <button id="jhi-confirm-receiptnote" type="submit" class="btn btn-primary">
+            <fa-icon [icon]="'check'"></fa-icon>&nbsp;<span>Confirm</span>
+        </button>
+    </div>
+</form>
