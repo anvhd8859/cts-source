@@ -3,6 +3,14 @@ Bootstrap tweaks
 ===============================================================*/
 
 /* LamDT9 Start */
+
+/* .jhi-body {
+    background-image: url('../../content/images/body-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+} */
+
 button {
     border-radius: 0px !important;
 }
