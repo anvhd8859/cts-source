@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,12 @@ public class InvoiceDetailsServiceImpl implements InvoiceDetailsService {
         log.debug("Request to save InvoiceDetails : {}", invoiceDetailsDTO);
 
         InvoiceDetails invoiceDetails = invoiceDetailsMapper.toEntity(invoiceDetailsDTO);
+		Instant instant = Instant.now();
+		if(invoiceDetails.getId() == null){
+			invoiceDetails.setCreateDate(instant);
+			invoiceDetails.setUpdateDate(instant);
+		}
+		else invoiceDetails.setUpdateDate(instant);
         invoiceDetails = invoiceDetailsRepository.save(invoiceDetails);
         return invoiceDetailsMapper.toDto(invoiceDetails);
     }
