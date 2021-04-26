@@ -267,7 +267,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 					fromStreet.getSubDistrictId().getDistrictId().getId(),
 					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
 			ps.setEmployeeId(wa.getEmployeeId());
-			subTotal = new BigDecimal(5000).add(subTotal.multiply(new BigDecimal(1.05)));
+			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.05)));
 			lstShipment.add(ps);
 		}
 		else {
