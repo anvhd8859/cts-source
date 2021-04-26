@@ -43,4 +43,13 @@ public interface PaymentService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+    // START TuyenVNT 14/04/2021
+    /**
+     * Get the payment by headerId
+     * 
+     * @param id the headerId
+     */
+    Page<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable);
+    // END TuyenVNT 16/04/2021
 }
