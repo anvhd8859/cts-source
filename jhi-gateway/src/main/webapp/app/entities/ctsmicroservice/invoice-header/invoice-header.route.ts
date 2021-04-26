@@ -12,7 +12,7 @@ import { InvoiceHeaderDetailComponent } from './invoice-header-detail.component'
 import { InvoiceHeaderUpdateComponent } from './invoice-header-update.component';
 import { InvoiceHeaderDeletePopupComponent } from './invoice-header-delete-dialog.component';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
-import { InvoiceHeaderUserUpdateComponent } from '.';
+import { InvoiceHeaderUserComponent, InvoiceHeaderUserUpdateComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class InvoiceHeaderResolve implements Resolve<IInvoiceHeader> {
@@ -35,7 +35,7 @@ export const invoiceHeaderRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'InvoiceHeaders'
         },
@@ -48,7 +48,7 @@ export const invoiceHeaderRoute: Routes = [
             invoiceHeader: InvoiceHeaderResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER', 'ROLE_OFFICER', 'ROLE_KEEPER', 'ROLE_USER'],
             pageTitle: 'InvoiceHeaders'
         },
         canActivate: [UserRouteAccessService]
@@ -60,7 +60,7 @@ export const invoiceHeaderRoute: Routes = [
             invoiceHeader: InvoiceHeaderResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'InvoiceHeaders'
         },
         canActivate: [UserRouteAccessService]
@@ -72,7 +72,7 @@ export const invoiceHeaderRoute: Routes = [
             invoiceHeader: InvoiceHeaderResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'InvoiceHeaders'
         },
         canActivate: [UserRouteAccessService]
@@ -82,6 +82,18 @@ export const invoiceHeaderRoute: Routes = [
         component: InvoiceHeaderUserUpdateComponent,
         resolve: {
             invoiceHeader: InvoiceHeaderResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Services Register'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'invoice-header-user',
+        component: InvoiceHeaderUserComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
         },
         data: {
             authorities: ['ROLE_USER'],
