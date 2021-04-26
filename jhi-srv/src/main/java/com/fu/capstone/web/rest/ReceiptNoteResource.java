@@ -5,6 +5,7 @@ import com.fu.capstone.service.ReceiptNoteService;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
+import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
 import com.fu.capstone.service.dto.ReceiptNoteDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -130,5 +131,12 @@ public class ReceiptNoteResource {
     public ResponseEntity<ReceiptNoteDTO> getReceiptNoteByHeaderId(@RequestParam("id") Long id) {
         Optional<ReceiptNoteDTO> receiptNoteDTO = receiptNoteService.getReceiptNoteByHeaderId(id);
         return ResponseEntity.ok(receiptNoteDTO.isPresent() ? receiptNoteDTO.get() : null);
+    }
+    
+    @GetMapping("/receipt-notes/by-user")
+    @Timed
+    public ResponseEntity<List<ReceiptInvoiceDTO>> getAllReceiptInvoiceByUser(@RequestParam("id") Long id, Pageable pageable) {
+    	List<ReceiptInvoiceDTO> page = receiptNoteService.getAllReceiptInvoiceByUser(id, pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 }
