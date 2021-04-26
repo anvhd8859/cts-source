@@ -51,20 +51,16 @@
                         <div class="col-lg-4 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label class="form-control-label" for="field_invoiceType">Invoice Type</label>
-                                <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstIvnType"
-                                    bindLabel="text" bindValue="id" id="field_invoiceType" name="field_invoiceType"
-                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="this.invoiceHeader.invoiceType">
-                                    <ng-option *ngFor="let item of lstIvnType">{{item.text}}</ng-option>
-                                </ng-select>
+                                <input type="text" value="Personal Shipment" disabled/>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label class="form-control-label" for="field_status">Status</label>
-                                <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstStatus"
+                                <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstInvStatus"
                                     bindLabel="text" bindValue="id" id="field_status" name="field_status"
                                     [ngModelOptions]="{standalone: true}" [(ngModel)]="this.invoiceHeader.status">
-                                    <ng-option *ngFor="let item of lstStatus">{{item.text}}</ng-option>
+                                    <ng-option *ngFor="let item of lstInvStatus">{{item.text}}</ng-option>
                                 </ng-select>
                             </div>
                         </div>
@@ -91,7 +87,7 @@
                     <!-- Invoice Package End-->
                     <label class="form-control-label" for="from-address"><b>Package Details</b></label>
                     <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
-                            <ng-container *ngFor="let item of lstInvoicePackage; let i = index">    
+                            <ng-container *ngFor="let item of lstInvoicePackage; let i = index">
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="row">
@@ -139,8 +135,8 @@
                                             <div class="col-lg-12 col-md-12 col-sm-12">
                                                 <div class="form-group">
                                                     <label class="form-control-label" for="note{{i}}">Package Note</label>
-                                                    <textarea   class="form-control" 
-                                                                style="resize: none;" 
+                                                    <textarea   class="form-control"
+                                                                style="resize: none;"
                                                                 rows="3" id="address"
                                                                 id="note{{i}}"
                                                                 name="note{{i}}"
@@ -166,7 +162,7 @@
                     <!-- Invoice Detail Start -->
                     <label class="form-control-label" for="from-address"><b>Items Details</b></label>
                     <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
-                        <ng-container *ngFor="let item of lstInvoiceDetails; let i = index">    
+                        <ng-container *ngFor="let item of lstInvoiceDetails; let i = index">
                             <div class="card">
                                 <div class="card-header">
                                     <div class="row">
@@ -200,11 +196,11 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-group">
                                                 <label class="form-control-label" for="description{{i}}">Package Note</label>
-                                                <textarea   class="form-control" 
-                                                            style="resize: none;" 
-                                                            rows="3" 
+                                                <textarea   class="form-control"
+                                                            style="resize: none;"
+                                                            rows="3"
                                                             id="description{{i}}"
-                                                            name="description{{i}}" 
+                                                            name="description{{i}}"
                                                             [(ngModel)]="item.description">
                                                 </textarea>
                                             </div>
