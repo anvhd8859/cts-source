@@ -30,7 +30,7 @@ export const shiftRoute: Routes = [
         path: 'shift',
         component: ShiftComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Shifts'
         },
         canActivate: [UserRouteAccessService]
@@ -42,7 +42,7 @@ export const shiftRoute: Routes = [
             shift: ShiftResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Shifts'
         },
         canActivate: [UserRouteAccessService]
@@ -54,7 +54,7 @@ export const shiftRoute: Routes = [
             shift: ShiftResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Shifts'
         },
         canActivate: [UserRouteAccessService]
@@ -66,7 +66,7 @@ export const shiftRoute: Routes = [
             shift: ShiftResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Shifts'
         },
         canActivate: [UserRouteAccessService]
@@ -81,7 +81,7 @@ export const shiftPopupRoute: Routes = [
             shift: ShiftResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Shifts'
         },
         canActivate: [UserRouteAccessService],
