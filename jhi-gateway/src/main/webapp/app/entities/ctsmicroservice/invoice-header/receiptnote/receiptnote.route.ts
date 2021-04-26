@@ -13,7 +13,9 @@ import { ReceiptnoteUpdateComponent } from './receiptnote-update.component';
 import { ReceiptnoteDeletePopupComponent } from './receiptnote-delete-dialog.component';
 import { IReceiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
 import { InvoiceHeaderService } from '../invoice-header.service';
-import { InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { IInvoiceHeader, InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { ReceiptnoteUserComponent } from './receipt-note-user.component';
+import { ReceiptnoteConfirmPopupComponent } from './receipt-note-user-confirm-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class ReceiptnoteResolve implements Resolve<IReceiptnote> {
@@ -33,16 +35,16 @@ export class ReceiveNoeByInvoiceResolve implements Resolve<IReceiptnote> {
     constructor(private service: ReceiptnoteService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const id = route.params['id'] ? route.params['id'] : null;
-        if (id) {
-            return this.service.getReceiveNote({ id: id }).pipe(map((receiptnote: HttpResponse<Receiptnote>) => receiptnote.body));
+        const xid = route.params['id'] ? route.params['id'] : null;
+        if (xid) {
+            return this.service.getReceiveNote({ id: xid }).pipe(map((receiptnote: HttpResponse<Receiptnote>) => receiptnote.body));
         }
         return of(new Receiptnote());
     }
 }
 
 @Injectable({ providedIn: 'root' })
-export class InvoiceHeaderResolve implements Resolve<IReceiptnote> {
+export class InvoiceHeaderResolve implements Resolve<IInvoiceHeader> {
     constructor(private service: InvoiceHeaderService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -64,7 +66,7 @@ export const receiptnoteRoute: Routes = [
         data: {
             authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'Receiptnotes'
+            pageTitle: 'Receipt Note'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -76,7 +78,7 @@ export const receiptnoteRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
-            pageTitle: 'Receiptnotes'
+            pageTitle: 'Receipt Note'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -88,7 +90,7 @@ export const receiptnoteRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
-            pageTitle: 'Receiptnotes'
+            pageTitle: 'Receipt Note'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -100,7 +102,7 @@ export const receiptnoteRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
-            pageTitle: 'Receive Note'
+            pageTitle: 'Receipt Note'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -112,7 +114,19 @@ export const receiptnoteRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
-            pageTitle: 'Receive Note'
+            pageTitle: 'Receipt Note'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'receiptnote-user',
+        component: ReceiptnoteUserComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+            pageTitle: 'Receipt Note'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -127,7 +141,20 @@ export const receiptnotePopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Receiptnotes'
+            pageTitle: 'Receipt Notes'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: 'receiptnote-user/:id/confirm',
+        component: ReceiptnoteConfirmPopupComponent,
+        resolve: {
+            receiptnote: ReceiptnoteResolve
+        },
+        data: {
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+            pageTitle: 'Receipt Notes'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
