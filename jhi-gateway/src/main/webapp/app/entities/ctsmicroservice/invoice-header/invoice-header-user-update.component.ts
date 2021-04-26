@@ -14,6 +14,8 @@ import { IStreet } from 'app/shared/model/ctsmicroservice/street.model';
 import { ISubDistrict } from 'app/shared/model/ctsmicroservice/sub-district.model';
 import { JhiAlertService } from 'ng-jhipster';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
+import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
+import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 
 @Component({
     selector: 'jhi-invoice-header-user-update',
@@ -47,13 +49,21 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
     selectedAddressTo: any;
     selectedUser: IUser;
     selectedUserProfile: IUserProfile;
-    lstIvnType: any = [{ id: 'Personal', text: 'Personal Shippemnt' }, { id: 'Transfer', text: 'House Transfer' }];
+    lstIvnType: any = [{ id: 'personal', text: 'Personal Shippemnt' }];
     lstStatus: any = [
         { id: 'Pending', text: 'Pending' },
         { id: 'New', text: 'New' },
         { id: 'Shipped', text: 'Shipped' },
         { id: 'Cancelled', text: 'Cancelled' }
     ];
+    lstCollect: any = [{ id: '1', text: 'Collect From Home' }, { id: '0', text: 'Drop By Office' }];
+    selectedCollect: any;
+    // HaiNM
+    lstInvoicePackage: IInvoicePackage[] = [];
+    invPackageCount: number;
+    lstInvoiceDetails: IInvoiceDetails[] = [];
+    invDetailCount: number;
+    // HaiNM
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -79,6 +89,34 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         });
     }
 
+    // HaiNM
+    addNewInvoiceDetailElement() {
+        this.invDetailCount++;
+        const obj = new InvoiceDetails(null, null, '', '', null, null, null, null, '', '', '', null, null);
+        this.lstInvoiceDetails.push(obj);
+        console.log(this.lstInvoiceDetails);
+    }
+
+    removeInvoiceDetailElement(index: any) {
+        this.invDetailCount--;
+        this.lstInvoiceDetails.splice(index, 1);
+        console.log(this.lstInvoiceDetails);
+    }
+
+    addNewInvoicePackageElement() {
+        this.invPackageCount++;
+        const obj = new InvoicePackage(null, null, null, null, null, null, null, false, 'New', '', null, null, null);
+        this.lstInvoicePackage.push(obj);
+        console.log(this.lstInvoicePackage);
+    }
+
+    removeInvoicePackageElement(index: any) {
+        this.invPackageCount--;
+        this.lstInvoicePackage.splice(index, 1);
+        console.log(this.lstInvoicePackage);
+    }
+    // HaiNM
+
     previousState() {
         window.history.back();
     }
@@ -90,7 +128,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
             if (!this.invoiceHeader.id) {
                 this.invoiceHeader.startAddress =
                     this.selectedAddressFrom +
-                    ' | ' +
+                    ', ' +
                     (this.selectedStreetFrom ? this.selectedStreetFrom.streetName : '') +
                     ', ' +
                     (this.selectedSubDistrictFrom ? this.selectedSubDistrictFrom.subDistrictName : '') +
@@ -100,7 +138,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
                     (this.selectedProvinceFrom ? this.selectedProvinceFrom.provinceName : '');
                 this.invoiceHeader.destinationAddress =
                     this.selectedAddressTo +
-                    ' | ' +
+                    ', ' +
                     (this.selectedStreetTo ? this.selectedStreetTo.streetName : '') +
                     ', ' +
                     (this.selectedSubDistrictTo ? this.selectedSubDistrictTo.subDistrictName : '') +
@@ -109,16 +147,26 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
                     ', ' +
                     (this.selectedProvinceTo ? this.selectedProvinceTo.provinceName : '');
             }
-            this.invoiceHeader.status = 'Pending';
+            const postObject = {
+                header: this.invoiceHeader,
+                lstDetail: this.lstInvoiceDetails,
+                lstPackage: this.lstInvoicePackage
+            };
+            this.invoiceHeader.status = 'new';
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
+            // if (this.invoiceHeader.id !== undefined) {
+            //     this.subscribeToSaveResponse(this.invoiceHeaderService.update(this.invoiceHeader));
+            // } else {
+            //     this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
+            // }
             if (this.invoiceHeader.id !== undefined) {
-                this.subscribeToSaveResponse(this.invoiceHeaderService.update(this.invoiceHeader));
+                this.subscribeToSaveResponse(this.invoiceHeaderService.updateExistedInvoice(postObject));
             } else {
-                this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
+                this.subscribeToSaveResponse(this.invoiceHeaderService.createNewInvoice(postObject, this.selectedCollect));
             }
         } else {
             window.scroll(0, 0);
@@ -130,7 +178,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         let msg = '';
         if ((!this.selectedAddressFrom || this.selectedAddressFrom.trim() === '') && !this.invoiceHeader.id) {
             msg += 'From Address must not be blank! <br>';
-        } else if (!this.invoiceHeader.startAddress || this.invoiceHeader.startAddress.trim() === '') {
+        } else if (!this.selectedAddressFrom || this.selectedAddressFrom.trim() === '') {
             msg += 'From Address must not be blank! <br>';
         }
         if (!this.selectedStreetFrom && !this.invoiceHeader.id) {
@@ -147,7 +195,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         }
         if ((!this.selectedAddressTo || this.selectedAddressTo.trim() === '') && !this.invoiceHeader.id) {
             msg += 'To Address must not be blank! <br>';
-        } else if (!this.invoiceHeader.destinationAddress || this.invoiceHeader.destinationAddress.trim() === '') {
+        } else if (!this.selectedAddressTo || this.selectedAddressTo.trim() === '') {
             msg += 'To Address must not be blank! <br>';
         }
         if (!this.selectedStreetTo && !this.invoiceHeader.id) {
@@ -162,14 +210,11 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         if (!this.selectedProvinceTo && !this.invoiceHeader.id) {
             msg += 'To Province/City must not be blank! <br>';
         }
-        if (!this.invoiceHeader.customerId) {
+        if (!this.selectedUser) {
             msg += 'Customer must not be blank! <br>';
         }
         if (!this.invoiceHeader.invoiceType) {
             msg += 'Type of Invoice must not be blank! <br>';
-        }
-        if (!this.invoiceHeader.status) {
-            msg += 'Status of Invoice must not be blank! <br>';
         }
         return msg;
     }
