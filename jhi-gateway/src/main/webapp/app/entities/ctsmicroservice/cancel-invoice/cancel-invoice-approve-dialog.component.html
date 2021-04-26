@@ -1,0 +1,19 @@
+<form name="approveForm" (ngSubmit)="confirmApprove(cancelInvoice)">
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm approve operation</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <p id="jhi-approve-cancelInvoice-heading">Are you sure you want to approve this Request?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+        <button id="jhi-confirm-approve-cancelInvoice" type="submit" class="btn btn-primary">
+            <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span>Approve</span>
+        </button>
+    </div>
+</form>
