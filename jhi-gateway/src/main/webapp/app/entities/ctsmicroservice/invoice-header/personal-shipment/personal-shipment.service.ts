@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
+import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 
 type EntityResponseType = HttpResponse<IPersonalShipment>;
 type EntityArrayResponseType = HttpResponse<IPersonalShipment[]>;
@@ -49,6 +50,13 @@ export class PersonalShipmentService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
+    // HaiNM
+    getAllShipmentByParam(req?: any): Observable<HttpResponse<any>> {
+        const options = createRequestOption(req);
+        return this.http.get(this.resourceUrl + '/get-all', { params: options, observe: 'response' });
+    }
+    // HaiNM
+
     private convertDateFromClient(personalShipment: IPersonalShipment): IPersonalShipment {
         const copy: IPersonalShipment = Object.assign({}, personalShipment, {
             shipTime: personalShipment.shipTime != null && personalShipment.shipTime.isValid() ? personalShipment.shipTime.toJSON() : null,
@@ -79,4 +87,38 @@ export class PersonalShipmentService {
         });
         return res;
     }
+
+    getPersonalShipmentByShipper(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<any>(this.resourceUrl + '/by-shipper', { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayShipInvoice(res)));
+    }
+
+    private convertDateArrayShipInvoice(res: EntityArrayResponseType): EntityArrayResponseType {
+        res.body.forEach((shipmentInvoice: any) => {
+            shipmentInvoice.invoiceHeaderDTO.dueDate =
+                shipmentInvoice.invoiceHeaderDTO.dueDate != null ? moment(shipmentInvoice.invoiceHeaderDTO.dueDate) : null;
+            shipmentInvoice.invoiceHeaderDTO.finishDate =
+                shipmentInvoice.invoiceHeaderDTO.finishDate != null ? moment(shipmentInvoice.invoiceHeaderDTO.finishDate) : null;
+            shipmentInvoice.invoiceHeaderDTO.createDate =
+                shipmentInvoice.invoiceHeaderDTO.createDate != null ? moment(shipmentInvoice.invoiceHeaderDTO.createDate) : null;
+            shipmentInvoice.invoiceHeaderDTO.updateDate =
+                shipmentInvoice.invoiceHeaderDTO.updateDate != null ? moment(shipmentInvoice.invoiceHeaderDTO.updateDate) : null;
+            shipmentInvoice.personalShipmentDTO.shipTime =
+                shipmentInvoice.personalShipmentDTO.shipTime != null ? moment(shipmentInvoice.personalShipmentDTO.shipTime) : null;
+            shipmentInvoice.personalShipmentDTO.finishTime =
+                shipmentInvoice.personalShipmentDTO.finishTime != null ? moment(shipmentInvoice.personalShipmentDTO.finishTime) : null;
+            shipmentInvoice.personalShipmentDTO.createDate =
+                shipmentInvoice.personalShipmentDTO.createDate != null ? moment(shipmentInvoice.personalShipmentDTO.createDate) : null;
+            shipmentInvoice.personalShipmentDTO.updateDate =
+                shipmentInvoice.personalShipmentDTO.updateDate != null ? moment(shipmentInvoice.personalShipmentDTO.updateDate) : null;
+        });
+        return res;
+    }
+}
+
+export interface IShipmentInvoice {
+    personalShipmentDTO?: IPersonalShipment;
+    invoiceHeaderDTO?: IInvoiceHeader;
 }
