@@ -50,11 +50,17 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     selectedUser: IUser;
     selectedUserProfile: IUserProfile;
     lstIvnType: any = [{ id: 'Personal', text: 'Personal Shippemnt' }, { id: 'Transfer', text: 'House Transfer' }];
-    lstStatus: any = [
-        { id: 'Pending', text: 'Pending' },
-        { id: 'New', text: 'New' },
-        { id: 'Shipped', text: 'Shipped' },
-        { id: 'Cancelled', text: 'Cancelled' }
+    lstInvStatus: any = [
+        { id: 'new', text: 'Chờ xử lý' },
+        { id: 'collect', text: 'Chờ nhân viên lấy hàng' },
+        { id: 'receive', text: 'Chờ khách giao hàng' },
+        { id: 'collected', text: 'Nhân viên đã lấy hàng' },
+        { id: 'first_import', text: 'Nhập kho chi nhánh đầu' },
+        { id: 'transporting', text: 'Đang vận chuyển' },
+        { id: 'last_import', text: 'Nhập kho chi nhánh cuối' },
+        { id: 'delivering', text: 'Đang giao hàng' },
+        { id: 'finish', text: 'Giao hàng thành công' },
+        { id: 'lost', text: 'Phát sinh thất lạc ' }
     ];
     lstCollect: any = [{ id: '1', text: 'Collect From Home' }, { id: '0', text: 'Drop By Office' }];
     selectedCollect: any;
@@ -170,6 +176,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 this.invoiceHeader.officeId = this.currentProfile.officeId;
                 this.invoiceHeader.employeeId = this.currentUser.id;
             }
+            this.invoiceHeader.status = 'collected';
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
@@ -232,9 +239,6 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         }
         if (!this.invoiceHeader.invoiceType) {
             msg += 'Type of Invoice must not be blank! <br>';
-        }
-        if (!this.invoiceHeader.status) {
-            msg += 'Status of Invoice must not be blank! <br>';
         }
         return msg;
     }
