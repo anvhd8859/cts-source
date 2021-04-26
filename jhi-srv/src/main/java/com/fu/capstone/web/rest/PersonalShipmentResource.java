@@ -6,6 +6,8 @@ import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.PersonalShipmentDTO;
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,5 +124,61 @@ public class PersonalShipmentResource {
         log.debug("REST request to delete PersonalShipment : {}", id);
         personalShipmentService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+
+    // START TuyenVNT 
+    /**
+     * GET  /personal-shipment/by-invoice-header?:id : get the personalShipment by header id.
+     *
+     * @param id the id of the invoice header to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the personalShipmentDTO, or with status 404 (Not Found)
+     */
+    @GetMapping("/personal-shipments/by-invoice-header")
+    @Timed
+    public ResponseEntity<List<PersonalShipmentDTO>> getPersonalShipmentByHeaderId(@RequestParam("id") Long id, Pageable pageable) {
+    	Page<PersonalShipmentDTO> page = personalShipmentService.getPersonalShipmentByHeaderId(id, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/personal-shipments/by-invoice-header");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+  
+    /**
+     * GET /personal-shipment/not-assigned : get all personalShipment not assigned
+     * 
+     */
+    @GetMapping("/personal-shipments/not-assigned")
+    @Timed
+    public ResponseEntity<List<PersonalShipmentDTO>> getPersonalShipmentNotAssigned(Pageable pageable) {
+    	Page<PersonalShipmentDTO> page = personalShipmentService.getPersonalShipmentNotAssigned(pageable);
+    	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/personal-shipments/not-assigned");
+    	return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    // END TuyenVNT 
+
+
+    // new code    
+    @GetMapping("/personal-shipments/by-shipper")
+    @Timed
+    public ResponseEntity<List<PersonalShipmentInvoiceDTO>> getPersonalShipmentByShipper(@RequestParam("id") Long id, 
+    		@RequestParam("invNo") String invNo, @RequestParam("type") String type,	Pageable pageable) {
+    	Page<PersonalShipmentInvoiceDTO> page = personalShipmentService.getPersonalShipmentByShipper(id, invNo, type, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments/by-shiper");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    @PostMapping("/personal-shipments/collect-shipment/{id}")
+    @Timed
+    public ResponseEntity<PersonalShipmentDTO> createCollectPersonalShipmentForInvoice(@PathVariable Long id){
+    	PersonalShipmentDTO dto = personalShipmentService.createCollectPersonalShipmentForInvoice(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/personal-shipments/get-all")
+    @Timed
+    public ResponseEntity<List<PersonalShipmentInvoiceDTO>> getAllPersonaShipmentInvoices(@RequestParam("empId") Long empId
+    		,@RequestParam("invNo") String invNo, @RequestParam("strId") Long strId, Pageable pageable) {
+    	Page<PersonalShipmentInvoiceDTO> page = personalShipmentService.getAllPersonaShipmentInvoices(empId, invNo, strId, pageable);
+    	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments/get-all");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 }
