@@ -2,11 +2,15 @@
     <header>
         <router-outlet name="navbar"></router-outlet>
     </header>
-    <main class="container-fluid jhi-body content-wrap">
-        <div class="card jh-card">
-            <router-outlet></router-outlet>
-            <ngx-ui-loader></ngx-ui-loader>
-            <router-outlet name="popup"></router-outlet>
+    <main class="container-fluid jhi-body content-wrap inner-body">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-10 col-sm-12">
+                <div class="card jh-card">
+                    <router-outlet></router-outlet>
+                    <ngx-ui-loader></ngx-ui-loader>
+                    <router-outlet name="popup"></router-outlet>
+                </div>
+            </div>
         </div>
     </main>
     <footer class="bottom-footer">
