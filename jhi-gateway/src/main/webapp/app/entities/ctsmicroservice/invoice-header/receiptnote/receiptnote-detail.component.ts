@@ -26,11 +26,12 @@ export class ReceiptnoteDetailComponent implements OnInit {
     }
 
     previousState() {
-        const condition = this.currentUser.authorities.find(e => e === 'ROLE_ADMIN');
-        if (condition) {
-            this.router.navigate(['/invoice-header']);
-        } else {
-            window.history.back();
-        }
+        // const condition = this.currentUser.authorities.find(e => e === 'ROLE_ADMIN');
+        // if (condition) {
+        //     this.router.navigate(['/invoice-header']);
+        // } else {
+        //     window.history.back();
+        // }
+        window.history.back();
     }
 }
