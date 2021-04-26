@@ -127,7 +127,7 @@
                 <th>Status          </th>
                 <th>Created Date    </th>
                 <th>Updated Date    </th>
-                <th>Action          </th>
+                <th class="text-center">Action          </th>
             </thead>
             <tbody>
             <tr *ngFor="let invoiceHeader of invoiceHeaders ;trackBy: trackId">
@@ -138,7 +138,7 @@
                 <td>{{invoiceHeader.status}}                                </td>
                 <td>{{invoiceHeader.createDate  | date:'yyyy-MM-dd HH:mm'}} </td>
                 <td>{{invoiceHeader.updateDate  | date:'yyyy-MM-dd HH:mm'}} </td>
-                <td class="text-right">
+                <td class="text-center">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/invoice-header', invoiceHeader.id, 'view' ]"
@@ -154,10 +154,8 @@
                         </button>
                         <button type="submit"
                                 [routerLink]="['/receiptnote', invoiceHeader.id, 'view']"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
                                 class="btn btn-success btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <fa-icon [icon]="'check'"></fa-icon>
                             <span class="d-none d-md-inline">Receive Note</span>
                         </button>
                     </div>
