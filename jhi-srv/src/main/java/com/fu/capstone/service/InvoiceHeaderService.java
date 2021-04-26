@@ -1,10 +1,13 @@
 package com.fu.capstone.service;
 
 import com.fu.capstone.service.dto.InvoiceHeaderDTO;
+import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
+import com.fu.capstone.service.dto.InvoiceShipmentDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -47,15 +50,22 @@ public interface InvoiceHeaderService {
 	 */
 	void delete(Long id);
 
-	// AnhVD new code
+	// new code
 	Page<InvoiceHeaderDTO> getInvoiceHeadersByParams(String invoiceNo, String status, String receiveDate,
 			String createDate, String updateDate, Pageable pageable);
 
-	// DongPH code
 	InvoiceHeaderDTO createNewInvoice(InvoiceHeaderDTO invoiceHeaderDTO);
 
-	Page<InvoiceHeaderDTO> getInvoiceHeadersByShipper(Long id, String invNo, String type, Pageable pageable);
+	Page<InvoiceShipmentDTO> getInvoiceHeadersByShipper(Long id, String invNo, String type, Pageable pageable);
 
 	Page<InvoiceHeaderDTO> getInvoiceHeadersRequestCancel(Pageable pageable);
+
+	InvoiceHeaderDTO createInvoiceHeaderDetailPackage(InvoicePackageDetailDTO invoicePackageDetailDTO, int check);
+
+	List<InvoiceHeaderDTO> saveInvoiceHeadersApproved(List<InvoiceHeaderDTO> invoiceHeadersDTO);
+
+	Page<InvoiceHeaderDTO> getInvoiceHeadersByCustomer(Long id, Pageable pageable);
+
+	List<InvoiceHeaderDTO> saveListImportInvoiceHeader(List<InvoiceHeaderDTO> list);
 
 }
