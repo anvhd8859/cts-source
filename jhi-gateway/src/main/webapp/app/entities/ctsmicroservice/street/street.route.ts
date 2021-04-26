@@ -34,7 +34,7 @@ export const streetRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Streets'
         },
@@ -47,7 +47,7 @@ export const streetRoute: Routes = [
             street: StreetResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Streets'
         },
         canActivate: [UserRouteAccessService]
@@ -59,7 +59,7 @@ export const streetRoute: Routes = [
             street: StreetResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Streets'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const streetRoute: Routes = [
             street: StreetResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Streets'
         },
         canActivate: [UserRouteAccessService]
@@ -86,7 +86,7 @@ export const streetPopupRoute: Routes = [
             street: StreetResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Streets'
         },
         canActivate: [UserRouteAccessService],
