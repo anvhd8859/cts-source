@@ -11,13 +11,27 @@ import {
     ImportInvoicePackageImportPopupComponent,
     ImportInvoicePackageImportDialogComponent
 } from './';
+import { ImportInvoicePackageDetailComponent } from './import-invoice-package-detail.component';
+import { ImportInvoicePackageUpdateComponent } from './import-invoice-package-update.component';
 
 const ENTITY_STATES = [...importInvoicePackageRoute, ...importInvoicePackagePopupRoute];
 
 @NgModule({
     imports: [CtsgatewaySharedModule, RouterModule.forChild(ENTITY_STATES), NgSelectModule, FormsModule],
-    declarations: [ImportInvoicePackageComponent, ImportInvoicePackageImportDialogComponent, ImportInvoicePackageImportPopupComponent],
-    entryComponents: [ImportInvoicePackageComponent, ImportInvoicePackageImportDialogComponent, ImportInvoicePackageImportPopupComponent],
+    declarations: [
+        ImportInvoicePackageComponent,
+        ImportInvoicePackageImportDialogComponent,
+        ImportInvoicePackageImportPopupComponent,
+        ImportInvoicePackageUpdateComponent,
+        ImportInvoicePackageDetailComponent
+    ],
+    entryComponents: [
+        ImportInvoicePackageComponent,
+        ImportInvoicePackageImportDialogComponent,
+        ImportInvoicePackageImportPopupComponent,
+        ImportInvoicePackageUpdateComponent,
+        ImportInvoicePackageDetailComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CtsgatewayImportInvoicePackageModule {}
