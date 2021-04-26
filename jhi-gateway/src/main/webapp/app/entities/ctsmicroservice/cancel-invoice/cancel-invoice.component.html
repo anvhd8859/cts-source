@@ -1,0 +1,68 @@
+<div>
+    <h2 id="page-heading">
+        <span>Cancel Invoices</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-cancel-invoice" (click)="approveAll()"
+            [disabled]="cancelInvoices.length === 0">
+            <fa-icon [icon]="'check'"></fa-icon>
+            <span >
+            Approve all display request
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br />
+    <div class="table-responsive" *ngIf="cancelInvoices">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><span>ID</span> </th>
+                    <th><span>Invoice No</span> </th>
+                    <th><span>Status</span> </th>
+                    <th><span>Start Address</span></th>
+                    <th><span>Destination Address</span> </th>
+                    <th><span>Total Due</span> </th>
+                    <th><span>Cancel Reason</span> </th>
+                    <th class="text-right"><span>Action</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cancelInvoice of cancelInvoices">
+                    <td><a>{{cancelInvoice.id}}</a></td>
+                    <td>{{cancelInvoice.invoiceNo}}</td>
+                    <td>{{cancelInvoice.status}}</td>
+                    <td>{{cancelInvoice.startAddress}}</td>
+                    <td>{{cancelInvoice.destinationAddress}}</td>
+                    <td>{{cancelInvoice.totalDue}}</td>
+                    <td>{{cancelInvoice.cancelReason}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'cancel-invoice/'+ cancelInvoice.id + '/approve'} }]"
+                                class="btn btn-info btn-sm">
+                                <fa-icon [icon]="'check'"></fa-icon>
+                                <span class="d-none d-md-inline">Approve</span>
+                            </button>
+
+                            <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'cancel-invoice/'+ cancelInvoice.id + '/reject'} }]"
+                                replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline">Reject</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="cancelInvoices && cancelInvoices.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
+            </jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
+                [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
