@@ -24,6 +24,9 @@ public interface StreetRepository extends JpaRepository<Street, Long> {
 	Page<Street> getAllStreetsBySubDistrictId(@Param("subDistrictId") Long id,Pageable pageable);
 
 	@Query( value = "SELECT s FROM Street s WHERE s.id = :id")
-	Optional<Street> getFullAddressByStreetId(@Param("id") Long id);
+	Street getFullAddressByStreetId(@Param("id") Long id);
+
+	@Query( value = "SELECT s FROM Street s, Office o WHERE s.id = o.streetId AND o.id = :id")
+	Street getAddressByOfficeId(@Param("id") Long id);
 
 }
