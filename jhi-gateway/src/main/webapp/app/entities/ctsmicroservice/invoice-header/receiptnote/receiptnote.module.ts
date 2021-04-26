@@ -4,12 +4,15 @@ import { RouterModule } from '@angular/router';
 import { CtsgatewaySharedModule } from 'app/shared';
 import {
     ReceiptnoteComponent,
+    ReceiptnoteUserComponent,
     ReceiptnoteDetailComponent,
     ReceiptnoteUpdateComponent,
     ReceiptnoteDeletePopupComponent,
     ReceiptnoteDeleteDialogComponent,
     receiptnoteRoute,
-    receiptnotePopupRoute
+    receiptnotePopupRoute,
+    ReceiptnoteConfirmPopupComponent,
+    ReceiptnoteConfirmDialogComponent
 } from './';
 
 const ENTITY_STATES = [...receiptnoteRoute, ...receiptnotePopupRoute];
@@ -18,12 +21,23 @@ const ENTITY_STATES = [...receiptnoteRoute, ...receiptnotePopupRoute];
     imports: [CtsgatewaySharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         ReceiptnoteComponent,
+        ReceiptnoteUserComponent,
         ReceiptnoteDetailComponent,
         ReceiptnoteUpdateComponent,
         ReceiptnoteDeleteDialogComponent,
-        ReceiptnoteDeletePopupComponent
+        ReceiptnoteDeletePopupComponent,
+        ReceiptnoteConfirmDialogComponent,
+        ReceiptnoteConfirmPopupComponent
     ],
-    entryComponents: [ReceiptnoteComponent, ReceiptnoteUpdateComponent, ReceiptnoteDeleteDialogComponent, ReceiptnoteDeletePopupComponent],
+    entryComponents: [
+        ReceiptnoteComponent,
+        ReceiptnoteUserComponent,
+        ReceiptnoteUpdateComponent,
+        ReceiptnoteDeleteDialogComponent,
+        ReceiptnoteDeletePopupComponent,
+        ReceiptnoteConfirmDialogComponent,
+        ReceiptnoteConfirmPopupComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CtsgatewayReceiptnoteModule {}
