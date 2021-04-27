@@ -6,6 +6,8 @@ import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
+import com.fu.capstone.service.dto.DetailPackageDTO;
+import com.fu.capstone.service.dto.ReceiptDetailPackageDTO;
 import com.fu.capstone.service.dto.ReceiptNoteDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -142,14 +144,24 @@ public class ReceiptNoteResource {
     
     @PostMapping("/receipt-notes/finish-collect")
     @Timed
-    public ResponseEntity<ReceiptNoteDTO> createReceiptNoteAndShipmentInvoice(@RequestBody ReceiptNoteDTO receiptNoteDTO) throws URISyntaxException {
-        log.debug("REST request to update ReceiptNote : {}", receiptNoteDTO);
-        if (receiptNoteDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+    public ResponseEntity<ReceiptNoteDTO> createReceiptNoteAndShipmentInvoice(@RequestBody ReceiptDetailPackageDTO data) throws URISyntaxException {
+        log.debug("REST request to update ReceiptNote : {}", data);
+        if (data.getReceipt().getId() != null) {
+        	throw new BadRequestAlertException("A new receiptNote cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ReceiptNoteDTO result = receiptNoteService.createReceiptNoteAndShipmentInvoice(receiptNoteDTO);
+        if (data.getInvoiceDetailList().size() == 0 || data.getInvoicePackageList().size() == 0 ){
+        	throw new BadRequestAlertException("A new item and package cannot blank", ENTITY_NAME, "notexist");
+        }
+        ReceiptNoteDTO result = receiptNoteService.createReceiptNoteAndShipmentInvoice(data);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, receiptNoteDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+    
+    @GetMapping("/receipt-notes/item-package")
+    @Timed
+    public ResponseEntity<DetailPackageDTO> getReceiptItemPackage(@RequestParam("id") Long id) {
+    	DetailPackageDTO page = receiptNoteService.getReceiptItemPackage(id);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 }
