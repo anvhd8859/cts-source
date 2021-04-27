@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-receiptnote-heading">Create or edit a Receiptnote</h2>
+            <h2 id="jhi-receiptnote-heading">Create a Receiptnote</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!receiptnote.id">
@@ -19,6 +19,144 @@
                     <input type="text" class="form-control" name="note" id="field_note"
                         [(ngModel)]="receiptnote.note" />
                 </div>
+                <!-- Invoice Package Start-->
+                <label class="form-control-label" for="from-address"><b>Package Details</b></label>
+                <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
+                        <ng-container *ngFor="let item of lstInvoicePackage; let i = index">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-10"> Package #{{i + 1}} </div>
+                                        <div class="col-2">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                            id="package{{i}}"
+                                            name="package{{i}}"
+                                            (click)="this.removeInvoicePackageElement(i)">&times;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="weight{{i}}">Weight (kg)</label>
+                                                <input placeholder="" class="form-control" step="0.1" min="0"
+                                                    type="number" name="weight{{i}}" id="weight{{i}}" [(ngModel)]="item.weight">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="height{{i}}">Height (cm)</label>
+                                                <input placeholder="" class="form-control" step="0.1" min="0"
+                                                    type="number" name="height{{i}}" id="height{{i}}" [(ngModel)]="item.height">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="width{{i}}">Width (cm)</label>
+                                                <input placeholder="" class="form-control" step="0.1" min="0"
+                                                    type="number" name="width{{i}}" id="width{{i}}" [(ngModel)]="item.width">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="length{{i}}">Length (cm)</label>
+                                                <input placeholder="" class="form-control" step="0.1"
+                                                    type="number" name="length{{i}}" id="length{{i}}" [(ngModel)]="item.length">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="note{{i}}">Package Note</label>
+                                                <textarea   class="form-control"
+                                                            style="resize: none;"
+                                                            rows="3" id="address"
+                                                            id="note{{i}}"
+                                                            name="note{{i}}"
+                                                            [(ngModel)]="item.note">
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </ng-container>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <button type="button" class="btn btn-primary float-left" (click)="this.addNewInvoicePackageElement()">
+                                <fa-icon [icon]="'plus'"></fa-icon>
+                                <span class="d-none d-md-inline">Add New Package</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Invoice Package End-->
+                <br>
+                    <!-- Invoice Detail Start -->
+                    <label class="form-control-label" for="from-address"><b>Items Details</b></label>
+                    <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
+                        <ng-container *ngFor="let item of lstInvoiceDetails; let i = index">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-10"> Item #{{i + 1}} </div>
+                                        <div class="col-2">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                            id="detail{{i}}"
+                                            name="detail{{i}}"
+                                            (click)="this.removeInvoiceDetailElement(i)">&times;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-12 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="itemName{{i}}">Item Name</label>
+                                                <input placeholder="" class="form-control"
+                                                    type="text" name="itemName{{i}}" id="itemName{{i}}" [(ngModel)]="item.itemName">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="itemType{{i}}">Item Type</label>
+                                                <input placeholder="" class="form-control"
+                                                    type="text" name="itemType{{i}}" id="itemType{{i}}" [(ngModel)]="item.itemType">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="description{{i}}">Package Note</label>
+                                                <textarea   class="form-control"
+                                                            style="resize: none;"
+                                                            rows="3"
+                                                            id="description{{i}}"
+                                                            name="description{{i}}"
+                                                            [(ngModel)]="item.description">
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </ng-container>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <button type="button" class="btn btn-primary float-left" (click)="this.addNewInvoiceDetailElement()">
+                                    <fa-icon [icon]="'plus'"></fa-icon>
+                                    <span class="d-none d-md-inline">Add New Item</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <!-- Invoice Detail End -->
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
