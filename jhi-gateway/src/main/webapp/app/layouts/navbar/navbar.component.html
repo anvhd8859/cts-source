@@ -3,9 +3,6 @@
         <a class="jh-navbar-toggler d-lg-none float-right" href="javascript:void(0);" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
             <fa-icon [icon]="'bars'"></fa-icon>
         </a>
-        <a class="navbar-brand logo float-left" routerLink="/" (click)="collapseNavbar()">
-            <span class="logo-img"></span>
-        </a>
     </div>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav mr-auto">
@@ -28,7 +25,7 @@
                         </span>
                     </span>
                 </a>
-                <ul class="dropdown-menu" ngbDropdownMenu>
+                <ul class="dropdown-menu" ngbDropdownMenu style="top: 48px;">
                     <li>
                         <a class="dropdown-item" routerLink="invoice-header-user/new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
