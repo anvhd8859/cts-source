@@ -43,6 +43,24 @@ public class UserProfile implements Serializable {
 
     @Column(name = "updated_date")
     private Instant updatedDate;
+    
+    @Column(name = "role")
+    private String role;
+    
+    @Column(name = "office_id")
+    private Long officeId;
+    
+    @Column(name = "hire_date")
+    private Instant hireDate;
+    
+    @Column(name = "end_date")
+    private Instant endDate;
+    
+    @Column(name = "social_number")
+    private String socialNumber;
+    
+    @Column(name = "PIT_code")
+    private String pitCode;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -156,8 +174,57 @@ public class UserProfile implements Serializable {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
    
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public Long getOfficeId() {
+		return officeId;
+	}
+
+	public void setOfficeId(Long officeId) {
+		this.officeId = officeId;
+	}
+
+	public Instant getHireDate() {
+		return hireDate;
+	}
+
+	public void setHireDate(Instant hireDate) {
+		this.hireDate = hireDate;
+	}
+
+	public Instant getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Instant endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getSocialNumber() {
+		return socialNumber;
+	}
+
+	public void setSocialNumber(String socialNumber) {
+		this.socialNumber = socialNumber;
+	}
+
+	public String getPitCode() {
+		return pitCode;
+	}
+
+	public void setPitCode(String pitCode) {
+		this.pitCode = pitCode;
+	}
+	
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
 	@Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -190,6 +257,12 @@ public class UserProfile implements Serializable {
             ", dateOfBirth='" + getDateOfBirth() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", updatedDate='" + getUpdatedDate() + "'" +
+            ", role='" + getRole() + "'" +
+            ", officeId=" + getOfficeId() +
+            ", hireDate='" + getHireDate() + "'" +
+            ", endDate='" + getEndDate() + "'" +
+            ", socialNumber='" + getSocialNumber() + "'" +
+            ", pitCode='" + getPitCode() + "'" +
             "}";
     }
 }

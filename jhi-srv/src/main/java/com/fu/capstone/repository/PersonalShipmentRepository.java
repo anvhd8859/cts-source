@@ -2,7 +2,6 @@ package com.fu.capstone.repository;
 
 import com.fu.capstone.domain.PersonalShipment;
 
-import java.util.Optional;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -31,7 +30,7 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 	// END TuyenVNT 
 
 
-  // new code DongPH
+    // new code DongPH
 	@Query( value = "SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :invoiceId")
 	List<PersonalShipment> getShipmentByInvoice(@Param("invoiceId") Long id);
 
@@ -48,5 +47,15 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 			nativeQuery = true)
 	Page<PersonalShipment> getPersonalShipmentByShipper(@Param("id") Long id, 
 			@Param("invNo") String invNo, @Param("type") String type, Pageable pageable);
+
+	@Query( value = "SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :id AND p.shipmentType = 'delivery'")
+	PersonalShipment getDeliveryShipmentByHeaderId(@Param("id") Long id);
+
+	@Query( value = "SELECT p FROM PersonalShipment p, InvoiceHeader i WHERE p.invoiceHeaderId = i.id "
+				  + " AND (:empId is NULL OR p.employeeId = :empId) "
+				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo , '%')) "
+				  + " AND (:strId is NULL OR (i.startStreetId = :strId AND p.shipmentType = 'collect') OR (i.destinationStreetId = :strId AND p.shipmentType = 'delivery')) ")
+	Page<PersonalShipment> getAllPersonaShipmentInvoices(@Param("empId") Long empId
+    		,@Param("invNo") String invNo, @Param("strId") Long strId, Pageable pageable);
 
 }

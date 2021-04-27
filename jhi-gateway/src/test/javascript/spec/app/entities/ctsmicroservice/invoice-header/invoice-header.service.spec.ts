@@ -24,35 +24,7 @@ describe('Service Tests', () => {
             service = injector.get(InvoiceHeaderService);
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
-
-            elemDefault = new InvoiceHeader(
-                0,
-                0,
-                0,
-                0,
-                'AAAAAAA',
-                'AAAAAAA',
-                'AAAAAAA',
-                'AAAAAAA',
-                0,
-                'AAAAAAA',
-                0,
-                'AAAAAAA',
-                'AAAAAAA',
-                0,
-                0,
-                0,
-                'AAAAAAA',
-                false,
-                'AAAAAAA',
-                false,
-                'AAAAAAA',
-                false,
-                currentDate,
-                currentDate,
-                currentDate,
-                currentDate
-            );
+            elemDefault = new InvoiceHeader();
         });
 
         describe('Service methods', async () => {

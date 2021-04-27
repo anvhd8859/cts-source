@@ -1,0 +1,64 @@
+{
+    "name": "InvoicePackage",
+    "fields": [
+        {
+            "fieldName": "invoiceHeaderId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "itemTotal",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "weight",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "height",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "length",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "width",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "delivered",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "note",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "warehouseId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20210408154021",
+    "entityTableName": "invoice_package",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

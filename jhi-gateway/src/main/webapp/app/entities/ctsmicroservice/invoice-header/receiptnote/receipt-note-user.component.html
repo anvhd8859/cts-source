@@ -1,0 +1,54 @@
+<div>
+    <h2 id="page-heading">
+        <span>Your Receipt Notes</span>
+        <!-- <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-receiptnote" [routerLink]="['/receiptnote/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Receiptnote
+            </span>
+        </button> -->
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div *ngIf="!receiptNoteInvoices">
+        <h3 id="">
+            You don't have any receipt note not confirm!
+        </h3>
+    </div>
+    <div class="table-responsive" *ngIf="receiptNoteInvoices">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span> </th>
+            <th><span>Invoice No</span></th>
+            <th><span>Invoice Note</span></th>
+            <th><span>Receipt Note</span></th>
+            <th><span>Confirmed</span></th>
+            <th><span>Create Date</span></th>
+            <th class="text-right"><span>Update Date</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let obj of receiptNoteInvoices">
+                <td><a>{{obj.receiptNote.id}}</a></td>
+                <td>{{obj.invoiceHeader.invoiceNo}}</td>
+                <td>{{obj.invoiceHeader.note}}</td>
+                <td>{{obj.receiptNote.note}}</td>
+                <td>{{obj.receiptNote.customerConfirm ? "Yes" : "No"}}</td>
+                <td>{{obj.receiptNote.createDate | date:'yyyy-MM-dd'}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'receiptnote-user/'+ obj.receiptNote.id + '/confirm'} }]"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Confirm</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

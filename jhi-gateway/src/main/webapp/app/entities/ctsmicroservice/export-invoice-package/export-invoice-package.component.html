@@ -1,0 +1,109 @@
+<div>
+    <h2 id="page-heading">
+        <span>Export Invoice Packages</span>
+        <button id="jh-create-entity" (click)="exportAll()" [disabled]="invoicePackageShipments.length === 0"
+            class="btn btn-primary float-right jh-create-entity create-export-invoice-package">
+            <fa-icon [icon]="'check'"></fa-icon>
+            <span >
+            Export all displayed invoice packages
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="invoiceNumber">Invoice No</label>
+                <input  type="text"
+                        class="form-control"
+                        placeholder="(ALL)"
+                        [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="selectedInvoiceNo"
+                        value="{{selectedInvoiceNo}}"
+                        >
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="status">Invoice Status</label>
+                <ng-select  [clearable]="true"
+                            [hideSelected]="true"
+                            [items]="listInvoiceStatus"
+                            bindLabel="text"
+                            bindValue="id"
+                            id="status"
+                            name="status"
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="selectedInvoiceStatus"
+                            placeholder="(ALL)"
+                            >
+                    <ng-option *ngFor="let item of listInvoiceStatus">{{item.text}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 text-center">
+            <div class="form-group">
+                <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary" (click)="this.loadAll()">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                    <span >Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br>
+
+   <div class="table-responsive" *ngIf="invoicePackageShipments">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Invoice No</span></th>
+            <th><span>Invoice Status</span></th>
+            <th><span>Destination</span></th>
+            <th><span>Notes</span></th>
+            <th><span>Due Date</span></th>
+            <th><span>Number of Packages</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let importInvoicePackage of invoicePackageShipments ;trackBy: trackId">
+                <td><a>{{importInvoicePackage.invoiceHeader.id}}</a></td>
+                <td>{{importInvoicePackage.invoiceHeader.invoiceNo}}</td>
+                <td>{{importInvoicePackage.invoiceHeader.status}}</td>
+                <td>{{importInvoicePackage.invoiceHeader.destinationAddress}}</td>
+                <td>{{importInvoicePackage.invoiceHeader.note}}</td>
+                <td>{{importInvoicePackage.invoiceHeader.dueDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{importInvoicePackage.invoicePackageList.length}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/invoice-header', importInvoicePackage.invoiceHeader.id, 'view']"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'export-invoice-package/'+ importInvoicePackage.invoiceHeader.id + '/export'} } ]"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'check'"></fa-icon>
+                            <span class="d-none d-md-inline">Export</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="invoicePackageShipments && invoicePackageShipments.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
+            </jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
+                [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

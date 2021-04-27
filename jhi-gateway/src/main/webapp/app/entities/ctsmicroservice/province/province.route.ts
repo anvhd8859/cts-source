@@ -34,7 +34,7 @@ export const provinceRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Provinces'
         },
@@ -47,7 +47,7 @@ export const provinceRoute: Routes = [
             province: ProvinceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Provinces'
         },
         canActivate: [UserRouteAccessService]
@@ -59,7 +59,7 @@ export const provinceRoute: Routes = [
             province: ProvinceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Provinces'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const provinceRoute: Routes = [
             province: ProvinceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Provinces'
         },
         canActivate: [UserRouteAccessService]
@@ -86,7 +86,7 @@ export const provincePopupRoute: Routes = [
             province: ProvinceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Provinces'
         },
         canActivate: [UserRouteAccessService],

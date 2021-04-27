@@ -30,7 +30,7 @@ export const workingAreaRoute: Routes = [
         path: 'working-area',
         component: WorkingAreaComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'WorkingAreas'
         },
         canActivate: [UserRouteAccessService]
@@ -42,7 +42,7 @@ export const workingAreaRoute: Routes = [
             workingArea: WorkingAreaResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'WorkingAreas'
         },
         canActivate: [UserRouteAccessService]
@@ -54,7 +54,7 @@ export const workingAreaRoute: Routes = [
             workingArea: WorkingAreaResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'WorkingAreas'
         },
         canActivate: [UserRouteAccessService]
@@ -66,7 +66,7 @@ export const workingAreaRoute: Routes = [
             workingArea: WorkingAreaResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'WorkingAreas'
         },
         canActivate: [UserRouteAccessService]
@@ -81,7 +81,7 @@ export const workingAreaPopupRoute: Routes = [
             workingArea: WorkingAreaResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'WorkingAreas'
         },
         canActivate: [UserRouteAccessService],

@@ -34,7 +34,7 @@ export const subDistrictRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'SubDistricts'
         },
@@ -47,7 +47,7 @@ export const subDistrictRoute: Routes = [
             subDistrict: SubDistrictResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'SubDistricts'
         },
         canActivate: [UserRouteAccessService]
@@ -59,7 +59,7 @@ export const subDistrictRoute: Routes = [
             subDistrict: SubDistrictResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'SubDistricts'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const subDistrictRoute: Routes = [
             subDistrict: SubDistrictResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'SubDistricts'
         },
         canActivate: [UserRouteAccessService]
@@ -86,7 +86,7 @@ export const subDistrictPopupRoute: Routes = [
             subDistrict: SubDistrictResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'SubDistricts'
         },
         canActivate: [UserRouteAccessService],

@@ -157,15 +157,56 @@ public class InvoiceHeaderResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     
-    @PostMapping("/invoice-headers/invoice-detail")
+    @PostMapping("/invoice-headers/invoice-detail/{check}")
     @Timed
-    public ResponseEntity<InvoiceHeaderDTO> createInvoiceHeaderDetailPackage(@RequestBody InvoicePackageDetailDTO invoiceHeaderDTO) throws URISyntaxException {
+    public ResponseEntity<InvoiceHeaderDTO> createInvoiceHeaderDetailPackage(@RequestBody InvoicePackageDetailDTO invoiceHeaderDTO, @PathVariable int check) throws URISyntaxException {
         if (invoiceHeaderDTO.getHeader().getId() != null) {
             throw new BadRequestAlertException("A new invoiceHeader cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        InvoiceHeaderDTO result = invoiceHeaderService.createInvoiceHeaderDetailPackage(invoiceHeaderDTO);
+        InvoiceHeaderDTO result = invoiceHeaderService.createInvoiceHeaderDetailPackage(invoiceHeaderDTO, check);
         return ResponseEntity.created(new URI("/api/invoice-headers/invoice-detail/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+    
+    @PutMapping("/invoice-headers/invoice-detail")
+    @Timed
+    public ResponseEntity<InvoiceHeaderDTO> saveInvoiceHeaderDetailPackage(@RequestBody InvoicePackageDetailDTO invoiceHeaderDTO) throws URISyntaxException {
+        InvoiceHeaderDTO result = invoiceHeaderService.createInvoiceHeaderDetailPackage(invoiceHeaderDTO, 0);
+        return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
+    }
+    
+    @PutMapping("/invoice-headers/approve-invoices")
+    @Timed
+    public ResponseEntity<List<InvoiceHeaderDTO>> saveInvoiceHeadersApproved(@RequestBody List<InvoiceHeaderDTO> invoiceHeadersDTO) throws URISyntaxException {
+    	List<InvoiceHeaderDTO> result = invoiceHeaderService.saveInvoiceHeadersApproved(invoiceHeadersDTO);
+    	String rs = "";
+		for(InvoiceHeaderDTO i : result) rs += i.getId() + ",";
+		rs = rs.substring(0, rs.length() - 1);
+        return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rs))
+                .body(result);
+    }
+    
+    @GetMapping("/invoice-headers/by-customer")
+    @Timed
+    public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersByCustomer(@RequestParam("id") Long id, Pageable pageable) {
+    	Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersByCustomer(id, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/by-customer");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    @PutMapping("/invoice-headers/import-invoices")
+    @Timed
+    public ResponseEntity<List<InvoiceHeaderDTO>> saveListImportInvoiceHeader(@RequestBody List<InvoiceHeaderDTO> list) throws URISyntaxException {
+    	List<InvoiceHeaderDTO> result = invoiceHeaderService.saveListImportInvoiceHeader(list);
+    	String rs = "";
+    	for(InvoiceHeaderDTO i : result) rs += i.getId() + ",";
+    	rs = rs.substring(0, rs.length()-1);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rs))
             .body(result);
     }
 }

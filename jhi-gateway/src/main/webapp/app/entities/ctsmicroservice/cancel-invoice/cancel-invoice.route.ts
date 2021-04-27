@@ -34,7 +34,7 @@ export const cancelInvoiceRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'CancelInvoices'
         },
@@ -47,7 +47,7 @@ export const cancelInvoiceRoute: Routes = [
             cancelInvoice: CancelInvoiceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'CancelInvoices'
         },
         canActivate: [UserRouteAccessService]
@@ -62,7 +62,7 @@ export const cancelInvoicePopupRoute: Routes = [
             cancelInvoice: CancelInvoiceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'CancelInvoices'
         },
         canActivate: [UserRouteAccessService],
@@ -75,7 +75,7 @@ export const cancelInvoicePopupRoute: Routes = [
             cancelInvoice: CancelInvoiceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'CancelInvoices'
         },
         canActivate: [UserRouteAccessService],

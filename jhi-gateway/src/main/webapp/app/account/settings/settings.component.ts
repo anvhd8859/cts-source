@@ -31,9 +31,9 @@ export class SettingsComponent implements OnInit {
     selectedStreet: any;
     selectedAddress: any;
     lstGender: any;
-    selectedGender: any;
-    userProfile: IUserProfile;
     selectedPhoneNumber: string;
+    userProfile: IUserProfile;
+    selectedGender: any;
     user: any;
 
     constructor(

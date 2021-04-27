@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AccountService, User } from 'app/core';
+import { IInvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { IInvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
+import { IOffice } from 'app/shared/model/ctsmicroservice/office.model';
+import { forkJoin } from 'rxjs';
+import { InvoiceHeaderService } from '.';
+import { OfficeService } from '../office';
 
 @Component({
     selector: 'jhi-invoice-header-detail',
@@ -9,13 +16,46 @@ import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.
 })
 export class InvoiceHeaderDetailComponent implements OnInit {
     invoiceHeader: IInvoiceHeader;
+    lstInvoicePackage: IInvoicePackage[] = [];
+    lstInvoiceDetails: IInvoiceDetails[] = [];
+    customer: User;
+    office: IOffice;
+    showPackage: boolean;
+    showItem: boolean;
 
-    constructor(private activatedRoute: ActivatedRoute) {}
+    constructor(
+        private invoiceHeaderService: InvoiceHeaderService,
+        private officeService: OfficeService,
+        private activatedRoute: ActivatedRoute,
+        private accountService: AccountService
+    ) {
+        this.showPackage = false;
+        this.showItem = false;
+    }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ invoiceHeader }) => {
             this.invoiceHeader = invoiceHeader;
+            forkJoin(
+                this.invoiceHeaderService.getPackageByInvoiceId({ id: this.invoiceHeader.id }),
+                this.invoiceHeaderService.getDetailByInvoiceId({ id: this.invoiceHeader.id }),
+                this.invoiceHeaderService.getUserByID({ id: this.invoiceHeader.customerId }),
+                this.officeService.find(this.invoiceHeader.officeId)
+            ).subscribe(res => {
+                this.lstInvoicePackage = res[0].body;
+                this.lstInvoiceDetails = res[1].body;
+                this.customer = res[2].body;
+                this.office = res[3].body;
+            });
         });
+    }
+
+    collapsePackage() {
+        this.showPackage = !this.showPackage;
+    }
+
+    collapseItem() {
+        this.showItem = !this.showItem;
     }
 
     previousState() {

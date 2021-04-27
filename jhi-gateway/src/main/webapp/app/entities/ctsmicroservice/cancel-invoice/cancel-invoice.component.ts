@@ -29,6 +29,7 @@ export class CancelInvoiceComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    isSaving: boolean;
 
     constructor(
         private cancelInvoiceService: CancelInvoiceService,
@@ -46,6 +47,30 @@ export class CancelInvoiceComponent implements OnInit, OnDestroy {
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
         });
+    }
+
+    approveAll() {
+        this.isSaving = true;
+        let param;
+        for (const i in this.cancelInvoices) {
+            this.cancelInvoices[i].cancel = true;
+            this.cancelInvoices[i].changeNote = 'approved';
+        }
+        param = this.cancelInvoices;
+        this.subscribeToSaveResponse(this.cancelInvoiceService.updateMany(param));
+    }
+
+    private subscribeToSaveResponse(result: any) {
+        result.subscribe((res: any) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    }
+
+    private onSaveSuccess() {
+        this.isSaving = false;
+        this.loadAll();
+    }
+
+    private onSaveError() {
+        this.isSaving = false;
     }
 
     loadAll() {

@@ -32,6 +32,12 @@ export class CancelInvoiceService {
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
+    updateMany(req?: any): any {
+        return this.http
+            .put<any>(this.resourceUrl + '/approve-invoices', req, { observe: 'response' })
+            .pipe(map((res: any) => this.convertDateArrayFromServer(res)));
+    }
+
     find(id: number): Observable<EntityResponseType> {
         return this.http
             .get<ICancelInvoice>(`${this.resourceUrl}/${id}`, { observe: 'response' })
