@@ -10,7 +10,9 @@ import {
     CancelInvoiceDeletePopupComponent,
     CancelInvoiceDeleteDialogComponent,
     cancelInvoiceRoute,
-    cancelInvoicePopupRoute
+    cancelInvoicePopupRoute,
+    CancelInvoiceRequestDialogComponent,
+    CancelInvoiceRequestPopupComponent
 } from './';
 
 const ENTITY_STATES = [...cancelInvoiceRoute, ...cancelInvoicePopupRoute];
@@ -23,14 +25,18 @@ const ENTITY_STATES = [...cancelInvoiceRoute, ...cancelInvoicePopupRoute];
         CancelInvoiceApprovePopupComponent,
         CancelInvoiceApproveDialogComponent,
         CancelInvoiceDeleteDialogComponent,
-        CancelInvoiceDeletePopupComponent
+        CancelInvoiceDeletePopupComponent,
+        CancelInvoiceRequestDialogComponent,
+        CancelInvoiceRequestPopupComponent
     ],
     entryComponents: [
         CancelInvoiceComponent,
         CancelInvoiceApprovePopupComponent,
         CancelInvoiceApproveDialogComponent,
         CancelInvoiceDeleteDialogComponent,
-        CancelInvoiceDeletePopupComponent
+        CancelInvoiceDeletePopupComponent,
+        CancelInvoiceRequestDialogComponent,
+        CancelInvoiceRequestPopupComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
