@@ -139,4 +139,17 @@ public class ReceiptNoteResource {
     	List<ReceiptInvoiceDTO> page = receiptNoteService.getAllReceiptInvoiceByUser(id, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
+    
+    @PostMapping("/receipt-notes/finish-collect")
+    @Timed
+    public ResponseEntity<ReceiptNoteDTO> createReceiptNoteAndShipmentInvoice(@RequestBody ReceiptNoteDTO receiptNoteDTO) throws URISyntaxException {
+        log.debug("REST request to update ReceiptNote : {}", receiptNoteDTO);
+        if (receiptNoteDTO.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        ReceiptNoteDTO result = receiptNoteService.createReceiptNoteAndShipmentInvoice(receiptNoteDTO);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, receiptNoteDTO.getId().toString()))
+            .body(result);
+    }
 }
