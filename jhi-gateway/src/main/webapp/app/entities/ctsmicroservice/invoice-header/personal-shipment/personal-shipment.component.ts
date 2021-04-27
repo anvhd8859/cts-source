@@ -1,17 +1,12 @@
+import { CommonString } from './../../../../shared/util/request-util';
 import { IShipmentInvoice, PersonalShipmentService } from './personal-shipment.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
-
-import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
 import { Principal } from 'app/core';
-
 import { DATE_TIME_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
-import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
-import * as moment from 'moment';
-import { InvoiceHeaderService } from '..';
 import { NgxUiLoaderService } from 'ngx-ui-loader/';
 
 @Component({
@@ -34,10 +29,10 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     previousPage: any;
     reverse: any;
     selectedTypeShipment: any;
-    listTypeShipment: any = [{ id: 'collect', text: 'Lấy hàng' }, { id: 'delivery', text: 'Giao hàng' }];
     collectAddress: any;
     shipAddress: any;
     selectedInvoiceNumber: any;
+    common: CommonString;
 
     constructor(
         private personalShipmentService: PersonalShipmentService,
@@ -58,6 +53,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
             this.previousPage = data.pagingParams.page;
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
+            this.common = new CommonString();
         });
     }
 
