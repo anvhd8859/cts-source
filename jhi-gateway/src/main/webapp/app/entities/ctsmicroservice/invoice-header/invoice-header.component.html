@@ -93,7 +93,7 @@
                 <label for="status">Status</label>
                 <ng-select  [clearable]="true"
                             [hideSelected]="true"
-                            [items]="this.lstStatus"
+                            [items]="common.listStatusInvoice"
                             bindLabel="text"
                             bindValue="id"
                             id="status"
@@ -102,7 +102,7 @@
                             [(ngModel)]="this.selectedStatus"
                             placeholder="(ALL)"
                             >
-                    <ng-option *ngFor="let item of lstStatus">{{item.text}}</ng-option>
+                    <ng-option *ngFor="let item of common.listStatusInvoice">{{item.text}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -135,7 +135,7 @@
                 <td>{{invoiceHeader.invoiceNo}}                             </td>
                 <td>{{invoiceHeader.dueDate     | date:'yyyy-MM-dd HH:mm'}} </td>
                 <td>{{invoiceHeader.finishDate  | date:'yyyy-MM-dd HH:mm'}} </td>
-                <td>{{invoiceHeader.status}}                                </td>
+                <td>{{common.processInvoiceStatus(invoiceHeader.status)}}                                </td>
                 <td>{{invoiceHeader.createDate  | date:'yyyy-MM-dd HH:mm'}} </td>
                 <td>{{invoiceHeader.updateDate  | date:'yyyy-MM-dd HH:mm'}} </td>
                 <td class="text-center">
