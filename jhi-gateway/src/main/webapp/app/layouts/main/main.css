@@ -5,11 +5,11 @@
 }
 
 .content-wrap {
-    padding-bottom: 15rem;
+    padding-bottom: 18rem;
 }
 
 .jhi-body {
-    margin-top: 100px;
+    margin-top: 55px;
     min-height: 100%;
     display: grid;
     grid-template-rows: 1fr auto;
@@ -19,9 +19,9 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 14rem;
-    color: whitesmoke;
-    background-color: rgb(85, 85, 85);
+    height: 18rem;
+    color: #22242c;
+    background-color: whitesmoke;
 }
 
 /* HaiNM */
