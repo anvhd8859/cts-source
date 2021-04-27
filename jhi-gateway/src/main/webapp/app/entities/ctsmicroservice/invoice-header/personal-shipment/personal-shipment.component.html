@@ -22,10 +22,10 @@
         <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="form-group">
                 <label for="type">Type</label>
-                <ng-select [clearable]="true" [hideSelected]="true" [items]="this.listTypeShipment" bindLabel="text"
+                <ng-select [clearable]="true" [hideSelected]="true" [items]="common.listTypeShipment" bindLabel="text"
                     bindValue="id" id="type" name="type" [ngModelOptions]="{standalone: true}"
                     [(ngModel)]="this.selectedTypeShipment" placeholder="(ALL)">
-                    <ng-option *ngFor="let item of listTypeShipment">{{item.text}}</ng-option>
+                    <ng-option *ngFor="let item of common.listTypeShipment">{{item.text}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -59,9 +59,9 @@
                     <td>{{object.invoiceHeaderDTO.id}} </td>
                     <td>{{object.invoiceHeaderDTO.invoiceNo}} </td>
                     <td>{{object.invoiceHeaderDTO.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
-                    <td>{{object.invoiceHeaderDTO.status}} </td>
-                    <td>{{object.personalShipmentDTO.shipmentType}} </td>
-                    <td>{{object.personalShipmentDTO.status}} </td>
+                    <td>{{common.processInvoiceStatus(object.invoiceHeaderDTO.status)}} </td>
+                    <td>{{common.processShipmentType(object.personalShipmentDTO.shipmentType)}} </td>
+                    <td>{{common.processShipmentStatus(object.personalShipmentDTO.status)}} </td>
                     <td>{{object.invoiceHeaderDTO.startAddress}} </td>
                     <td>{{object.invoiceHeaderDTO.destinationAddress}} </td>
                     <td class="text-left">
@@ -71,7 +71,7 @@
                             <span class="d-none d-md-inline">View</span>
                         </button>
                         <button *ngIf="object.personalShipmentDTO.shipmentType === 'collect'"
-                                [disabled]="object.personalShipmentDTO.status === 'finish'"
+                                [disabled]="object.personalShipmentDTO.status === 'finish' || object.invoiceHeaderDTO.status !== 'collect'"
                                 type="submit"
                                 [routerLink]="['/receiptnote', object.invoiceHeaderDTO.id, 'view']"
                                 class="btn btn-primary btn-sm">
@@ -80,7 +80,7 @@
                         </button>
                         <button *ngIf="object.personalShipmentDTO.shipmentType === 'delivery'"
                                 type="submit"
-                                [disabled]="object.personalShipmentDTO.status === 'finish'"
+                                [disabled]="object.personalShipmentDTO.status === 'finish' || object.invoiceHeaderDTO.status !== 'delivering'"
                                 [routerLink]="['/', { outlets: { popup: 'invoice-header/'+ object.invoiceHeaderDTO.id + '/finish'} }]"
                                 class="btn btn-success btn-sm">
                             <fa-icon [icon]="'check'"></fa-icon>
