@@ -41,7 +41,8 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
         { id: 'last_import', text: 'Nhập kho chi nhánh cuối' },
         { id: 'delivering', text: 'Đang giao hàng' },
         { id: 'finish', text: 'Giao hàng thành công' },
-        { id: 'lost', text: 'Phát sinh thất lạc ' }
+        { id: 'lost', text: 'Phát sinh thất lạc ' },
+        { id: 'cancel', text: 'Hủy' }
     ];
     selectedStatus: any;
     selectedInvoiceNumber: any;
