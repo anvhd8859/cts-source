@@ -213,9 +213,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         if (!this.selectedUser) {
             msg += 'Customer must not be blank! <br>';
         }
-        if (!this.invoiceHeader.invoiceType) {
-            msg += 'Type of Invoice must not be blank! <br>';
-        }
+        this.invoiceHeader.invoiceType = 'personal';
         return msg;
     }
 
