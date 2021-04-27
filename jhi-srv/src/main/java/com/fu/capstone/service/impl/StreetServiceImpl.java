@@ -96,7 +96,7 @@ public class StreetServiceImpl implements StreetService {
 	}
 
 	@Override
-	public Optional<Street> getFullAddressByStreetId(Long id) {
+	public Street getFullAddressByStreetId(Long id) {
 		return streetRepository.getFullAddressByStreetId(id);
 	}
 }

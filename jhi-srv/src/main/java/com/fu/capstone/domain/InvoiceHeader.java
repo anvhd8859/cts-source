@@ -27,6 +27,9 @@ public class InvoiceHeader implements Serializable {
     @Column(name = "office_id")
     private Long officeId;
 
+    @Column(name = "employee_id")
+    private Long employeeId;
+
     @Column(name = "invoice_no")
     private String invoiceNo;
 

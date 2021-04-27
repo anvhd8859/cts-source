@@ -1,6 +1,8 @@
 package com.fu.capstone.service;
 
 import com.fu.capstone.service.dto.InvoiceHeaderDTO;
+import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
+import com.fu.capstone.service.dto.InvoiceShipmentDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,8 +56,10 @@ public interface InvoiceHeaderService {
 	// DongPH code
 	InvoiceHeaderDTO createNewInvoice(InvoiceHeaderDTO invoiceHeaderDTO);
 
-	Page<InvoiceHeaderDTO> getInvoiceHeadersByShipper(Long id, String invNo, String type, Pageable pageable);
+	Page<InvoiceShipmentDTO> getInvoiceHeadersByShipper(Long id, String invNo, String type, Pageable pageable);
 
 	Page<InvoiceHeaderDTO> getInvoiceHeadersRequestCancel(Pageable pageable);
+
+	InvoiceHeaderDTO createInvoiceHeaderDetailPackage(InvoicePackageDetailDTO invoicePackageDetailDTO);
 
 }
