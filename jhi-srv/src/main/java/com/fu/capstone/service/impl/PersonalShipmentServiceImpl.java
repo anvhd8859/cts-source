@@ -10,7 +10,6 @@ import com.fu.capstone.service.dto.PersonalShipmentDTO;
 import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.PersonalShipmentMapper;
-import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,7 +130,8 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 	@Override
 	public Page<PersonalShipmentInvoiceDTO> getPersonalShipmentByShipper(Long id, String invNo, String type, Pageable pageable) {
 		Page<PersonalShipmentDTO> page = personalShipmentRepository.getPersonalShipmentByShipper(id, invNo, type, pageable)
-				.map(personalShipmentMapper::toDto);
+					.map(personalShipmentMapper::toDto);
+		
 		Page<PersonalShipmentInvoiceDTO> result = page.map(this::convert);
 		return result;
 	}
