@@ -3,13 +3,14 @@
         <router-outlet name="navbar"></router-outlet>
     </header>
     <div class="divider"></div>
-    <main class="container-fluid jhi-body content-wrap inner-body">
+    <main class="container-fluid jhi-body content-wrap inner-body" style="background-color: white;">
         <router-outlet></router-outlet>
         <ngx-ui-loader></ngx-ui-loader>
         <router-outlet name="popup"></router-outlet>
     </main>
+    <br>
     <footer class="bottom-footer">
-        <div class="divider" style="border-bottom: 1px solid black;;"></div>
+        <div class="divider" style="border-bottom: 1px solid black;"></div>
         <jhi-footer></jhi-footer>
     </footer>
 </div>    
