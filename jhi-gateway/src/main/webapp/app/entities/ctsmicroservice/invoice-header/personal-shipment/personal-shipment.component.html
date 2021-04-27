@@ -71,18 +71,27 @@
                             <span class="d-none d-md-inline">View</span>
                         </button>
                         <button *ngIf="object.personalShipmentDTO.shipmentType === 'collect'"
+                                [disabled]="object.personalShipmentDTO.status === 'finish'"
                                 type="submit"
                                 [routerLink]="['/receiptnote', object.invoiceHeaderDTO.id, 'view']"
-                                class="btn btn-success btn-sm">
-                            <fa-icon [icon]="'check'"></fa-icon>
-                            <span class="d-none d-md-inline">Received</span>
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'check-circle'"></fa-icon>
+                            <span class="d-none d-md-inline">Finish Collect</span>
                         </button>
                         <button *ngIf="object.personalShipmentDTO.shipmentType === 'delivery'"
                                 type="submit"
-                                [routerLink]="['/invoice-header', object.invoiceHeaderDTO.id, 'edit']"
-                                class="btn btn-primary btn-sm">
+                                [disabled]="object.personalShipmentDTO.status === 'finish'"
+                                [routerLink]="['/', { outlets: { popup: 'invoice-header/'+ object.invoiceHeaderDTO.id + '/finish'} }]"
+                                class="btn btn-success btn-sm">
                             <fa-icon [icon]="'check'"></fa-icon>
-                            <span class="d-none d-md-inline">Delivered</span>
+                            <span class="d-none d-md-inline">Finish Invoice</span>
+                        </button>
+                        <button type="submit" *ngIf="!object.invoiceHeaderDTO.changeNote"
+                                [routerLink]="['/', { outlets: { popup: 'personal-shipment-cancel-invoice/'+ object.invoiceHeaderDTO.id + '/send-request'} }]"
+                                [disabled]="object.invoiceHeaderDTO.changeNote"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Request  cancel</span>
                         </button>
                     </td>
                 </tr>

@@ -10,6 +10,8 @@ import com.fu.capstone.service.dto.PersonalShipmentDTO;
 import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.PersonalShipmentMapper;
+import com.fu.capstone.web.rest.errors.BadRequestAlertException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,7 +156,7 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 		InvoiceHeader inv = invoiceHeaderRepository.findById(id).get();
 		if(inv != null) {
 			BigDecimal subTotal = inv.getSubTotal();
-			subTotal = new BigDecimal(5000).add(subTotal.multiply(new BigDecimal(1.05)));
+			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.05)));
 			invoiceHeaderRepository.save(inv);
 		}
 		return personalShipmentMapper.toDto(personalShipmentRepository.save(ps));

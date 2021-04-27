@@ -41,10 +41,12 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
         { id: 'last_import', text: 'Nhập kho chi nhánh cuối' },
         { id: 'delivering', text: 'Đang giao hàng' },
         { id: 'finish', text: 'Giao hàng thành công' },
-        { id: 'lost', text: 'Phát sinh thất lạc ' }
+        { id: 'lost', text: 'Phát sinh thất lạc ' },
+        { id: 'cancel', text: 'Hủy ' }
     ];
     selectedStatus: any;
     selectedInvoiceNumber: any;
+    cancelStatus = 'Đã gửi yêu cầu hủy';
     createTime: moment.Moment;
     updateTime: moment.Moment;
     receiveTime: moment.Moment;
@@ -66,6 +68,17 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
             this.reverse = false;
             this.predicate = 'createDate';
         });
+    }
+
+    findText(str: string) {
+        let rs;
+        for (const obj of this.lstStatus) {
+            if (obj.id === str) {
+                rs = obj.text;
+                break;
+            }
+        }
+        return rs;
     }
 
     loadAll() {

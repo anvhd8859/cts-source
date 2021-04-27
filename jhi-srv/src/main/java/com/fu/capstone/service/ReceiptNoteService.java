@@ -49,4 +49,6 @@ public interface ReceiptNoteService {
 	Optional<ReceiptNoteDTO> getReceiptNoteByHeaderId(Long id);
 
 	List<ReceiptInvoiceDTO> getAllReceiptInvoiceByUser(Long id, Pageable pageable);
+
+	ReceiptNoteDTO createReceiptNoteAndShipmentInvoice(ReceiptNoteDTO receiptNoteDTO);
 }

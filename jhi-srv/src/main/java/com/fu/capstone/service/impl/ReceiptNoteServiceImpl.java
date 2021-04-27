@@ -127,4 +127,10 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		}
 		return list;
 	}
+
+	@Override
+	public ReceiptNoteDTO createReceiptNoteAndShipmentInvoice(ReceiptNoteDTO receiptNoteDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -1,23 +1,22 @@
+import { InvoiceHeaderService } from 'app/entities/ctsmicroservice/invoice-header/invoice-header.service';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { ICancelInvoice } from 'app/shared/model/ctsmicroservice/cancel-invoice.model';
-import { CancelInvoiceService } from './cancel-invoice.service';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 
 @Component({
-    selector: 'jhi-cancel-invoice-approve-dialog',
-    templateUrl: './cancel-invoice-approve-dialog.component.html'
+    selector: 'jhi-invoice-header-finish-dialog',
+    templateUrl: './invoice-header-finish-dialog.component.html'
 })
-export class CancelInvoiceApproveDialogComponent {
-    cancelInvoice: ICancelInvoice;
-    isSaving: boolean;
+export class InvoiceHeaderFinishDialogComponent {
+    invoiceHeader: IInvoiceHeader;
 
     constructor(
-        private cancelInvoiceService: CancelInvoiceService,
+        private invoiceHeaderService: InvoiceHeaderService,
         public activeModal: NgbActiveModal,
         private eventManager: JhiEventManager
     ) {}
@@ -26,48 +25,43 @@ export class CancelInvoiceApproveDialogComponent {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmApprove(cancelInvoice: ICancelInvoice) {
-        this.isSaving = true;
-        cancelInvoice.changeNote = 'approved';
-        cancelInvoice.cancel = true;
-        cancelInvoice.status = 'cancel';
-        this.cancelInvoiceService.update(cancelInvoice).subscribe(
-            (response: HttpResponse<ICancelInvoice>) => {
-                this.isSaving = false;
+    confirmFinish() {
+        this.invoiceHeaderService.updateFinishInvoicePersonalShipment(this.invoiceHeader).subscribe(
+            (response: HttpResponse<IInvoiceHeader>) => {
                 this.eventManager.broadcast({
-                    name: 'cancelInvoiceListModification',
-                    content: 'Approved an request'
+                    name: 'personalShipmentListModification',
+                    content: 'Send request cancel invoice successfully'
                 });
                 this.activeModal.dismiss(true);
             },
             (response: HttpErrorResponse) => {
-                this.isSaving = false;
                 this.eventManager.broadcast({
-                    name: 'cancelInvoiceListModification',
-                    content: response.message
+                    name: 'personalShipmentListModification',
+                    content: 'Error when request cancel invoice'
                 });
-                this.activeModal.dismiss(true);
+                this.activeModal.dismiss(false);
             }
         );
     }
 }
+
 @Component({
-    selector: 'jhi-cancel-invoice-approve-popup',
+    selector: 'jhi-invoice-header-finish-popup',
     template: ''
 })
-export class CancelInvoiceApprovePopupComponent implements OnInit, OnDestroy {
+export class InvoiceHeaderFinishPopupComponent implements OnInit, OnDestroy {
     private ngbModalRef: NgbModalRef;
 
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
 
     ngOnInit() {
-        this.activatedRoute.data.subscribe(({ cancelInvoice }) => {
+        this.activatedRoute.data.subscribe(({ invoiceHeader }) => {
             setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(CancelInvoiceApproveDialogComponent as Component, {
+                this.ngbModalRef = this.modalService.open(InvoiceHeaderFinishDialogComponent as Component, {
                     size: 'lg',
                     backdrop: 'static'
                 });
-                this.ngbModalRef.componentInstance.cancelInvoice = cancelInvoice;
+                this.ngbModalRef.componentInstance.invoiceHeader = invoiceHeader;
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });

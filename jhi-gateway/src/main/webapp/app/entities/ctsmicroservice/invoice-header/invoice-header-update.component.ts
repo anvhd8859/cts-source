@@ -49,7 +49,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     selectedAddressTo: any;
     selectedUser: IUser;
     selectedUserProfile: IUserProfile;
-    lstIvnType: any = [{ id: 'Personal', text: 'Personal Shippemnt' }, { id: 'Transfer', text: 'House Transfer' }];
+    lstIvnType: any = [{ id: 'personal', text: 'Personal Shippemnt' }, { id: 'Transfer', text: 'House Transfer' }];
     lstInvStatus: any = [
         { id: 'new', text: 'Chờ xử lý' },
         { id: 'collect', text: 'Chờ nhân viên lấy hàng' },

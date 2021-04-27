@@ -12,8 +12,10 @@ import { PersonalShipmentDetailComponent } from './personal-shipment-detail.comp
 import { PersonalShipmentUpdateComponent } from './personal-shipment-update.component';
 import { PersonalShipmentDeletePopupComponent } from './personal-shipment-delete-dialog.component';
 import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
-import { PersonalShipmentAdminComponent } from '.';
+import { PersonalShipmentAdminComponent, PersonalShipmentCancelInvoiceRequestPopupComponent } from '.';
 import { PersonalShipmentAssignPopupComponent } from './personal-shipment-assign-dialog.component';
+import { InvoiceHeaderService } from '..';
+import { IInvoiceHeader, InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 
 @Injectable({ providedIn: 'root' })
 export class PersonalShipmentResolve implements Resolve<IPersonalShipment> {
@@ -25,6 +27,18 @@ export class PersonalShipmentResolve implements Resolve<IPersonalShipment> {
             return this.service.find(id).pipe(map((personalShipment: HttpResponse<PersonalShipment>) => personalShipment.body));
         }
         return of(new PersonalShipment());
+    }
+}
+@Injectable({ providedIn: 'root' })
+export class PersonalRequestCancelResolve implements Resolve<IInvoiceHeader> {
+    constructor(private service: InvoiceHeaderService) {}
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const id = route.params['id'] ? route.params['id'] : null;
+        if (id) {
+            return this.service.find(id).pipe(map((invoiceHeader: HttpResponse<InvoiceHeader>) => invoiceHeader.body));
+        }
+        return of(new InvoiceHeader());
     }
 }
 
@@ -115,6 +129,19 @@ export const personalShipmentPopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
+            pageTitle: 'PersonalShipments'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: 'personal-shipment-cancel-invoice/:id/send-request',
+        component: PersonalShipmentCancelInvoiceRequestPopupComponent,
+        resolve: {
+            invoiceHeader: PersonalRequestCancelResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER'],
             pageTitle: 'PersonalShipments'
         },
         canActivate: [UserRouteAccessService],
