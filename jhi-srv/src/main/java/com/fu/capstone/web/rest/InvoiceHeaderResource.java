@@ -209,4 +209,13 @@ public class InvoiceHeaderResource {
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rs))
             .body(result);
     }
+    
+    @PutMapping("/invoice-headers/finish")
+    @Timed
+    public ResponseEntity<InvoiceHeaderDTO> updateFinishInvoicePersonalShipment(@RequestBody InvoiceHeaderDTO invoice ) throws URISyntaxException {
+    	InvoiceHeaderDTO result = invoiceHeaderService.updateFinishInvoicePersonalShipment(invoice);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
 }
