@@ -1,14 +1,28 @@
 package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.ReceiptNoteService;
+import com.fu.capstone.domain.InvoiceDetails;
 import com.fu.capstone.domain.InvoiceHeader;
+import com.fu.capstone.domain.InvoicePackage;
+import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.domain.ReceiptNote;
+import com.fu.capstone.repository.InvoiceDetailsRepository;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
+import com.fu.capstone.repository.InvoicePackageRepository;
+import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.ReceiptNoteRepository;
 import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
+import com.fu.capstone.service.dto.DetailPackageDTO;
+import com.fu.capstone.service.dto.InvoiceDetailsDTO;
+import com.fu.capstone.service.dto.InvoicePackageDTO;
+import com.fu.capstone.service.dto.ReceiptDetailPackageDTO;
 import com.fu.capstone.service.dto.ReceiptNoteDTO;
+import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
+import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import com.fu.capstone.service.mapper.ReceiptNoteMapper;
+import com.fu.capstone.web.rest.errors.BadRequestAlertException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,12 +53,30 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 
     private InvoiceHeaderMapper invoiceHeaderMapper;
 
+    private InvoicePackageRepository invoicePackageRepository;
+
+    private InvoicePackageMapper invoicePackageMapper;
+
+    private InvoiceDetailsRepository invoiceDetailsRepository;
+
+    private InvoiceDetailsMapper invoiceDetailsMapper;
+
+    private PersonalShipmentRepository personalShipmentRepository;
+
     public ReceiptNoteServiceImpl(ReceiptNoteRepository receiptNoteRepository, ReceiptNoteMapper receiptNoteMapper,
-    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper) {
+    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
+    		InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
+    		InvoiceDetailsRepository invoiceDetailsRepository, InvoiceDetailsMapper invoiceDetailsMapper,
+    		PersonalShipmentRepository personalShipmentRepository) {
         this.receiptNoteRepository = receiptNoteRepository;
         this.receiptNoteMapper = receiptNoteMapper;
         this.invoiceHeaderRepository = invoiceHeaderRepository;
         this.invoiceHeaderMapper = invoiceHeaderMapper;
+        this.invoicePackageRepository = invoicePackageRepository;
+        this.invoicePackageMapper = invoicePackageMapper;
+        this.invoiceDetailsRepository = invoiceDetailsRepository;
+        this.invoiceDetailsMapper = invoiceDetailsMapper;
+        this.personalShipmentRepository = personalShipmentRepository;
     }
 
     /**
@@ -129,8 +161,31 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 	}
 
 	@Override
-	public ReceiptNoteDTO createReceiptNoteAndShipmentInvoice(ReceiptNoteDTO receiptNoteDTO) {
-		// TODO Auto-generated method stub
-		return null;
+	public DetailPackageDTO getReceiptItemPackage(Long id) {
+		List<InvoicePackage> pgkList = invoicePackageRepository.getInvoicePackageByHeaderId(id);
+		List<InvoiceDetails> idtList = invoiceDetailsRepository.getInvoiceDetailsByHeaderId(id);
+		DetailPackageDTO rs = new DetailPackageDTO();
+		rs.setInvoicePackageList(invoicePackageMapper.toDto(pgkList));
+		rs.setInvoiceDetailList(invoiceDetailsMapper.toDto(idtList));
+		return rs;
+	}
+
+	@Override
+	public ReceiptNoteDTO createReceiptNoteAndShipmentInvoice(ReceiptDetailPackageDTO data) {
+		Instant instant = Instant.now();
+		if(data.getReceipt().getId() != null)data.getReceipt().setCreateDate(instant);
+		data.getReceipt().setUpdateDate(instant);
+		data.getReceipt().setCustomerConfirm(false);
+		for(InvoicePackageDTO ip : data.getInvoicePackageList()) {
+			ip.setUpdateDate(instant);
+		}
+		for(InvoiceDetailsDTO ip : data.getInvoiceDetailList()) {
+			ip.setUpdateDate(instant);
+		}
+		PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(data.getReceipt().getInvoiceHeaderId());
+		ps.setStatus("finish");
+		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(data.getInvoicePackageList()));
+		invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(data.getInvoiceDetailList()));
+		return receiptNoteMapper.toDto(receiptNoteRepository.save(data.getReceipt()));
 	}
 }
