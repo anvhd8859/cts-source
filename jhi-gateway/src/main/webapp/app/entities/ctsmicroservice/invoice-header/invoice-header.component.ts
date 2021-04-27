@@ -31,7 +31,18 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
-    lstStatus: any = [{ id: 'New', text: 'New' }, { id: 'Shipped', text: 'Shipped' }, { id: 'Cancelled', text: 'Cancelled' }];
+    lstStatus: any = [
+        { id: 'new', text: 'Chờ xử lý' },
+        { id: 'collect', text: 'Chờ nhân viên lấy hàng' },
+        { id: 'receive', text: 'Chờ khách giao hàng' },
+        { id: 'collected', text: 'Nhân viên đã lấy hàng' },
+        { id: 'first_import', text: 'Nhập kho chi nhánh đầu' },
+        { id: 'transporting', text: 'Đang vận chuyển' },
+        { id: 'last_import', text: 'Nhập kho chi nhánh cuối' },
+        { id: 'delivering', text: 'Đang giao hàng' },
+        { id: 'finish', text: 'Giao hàng thành công' },
+        { id: 'lost', text: 'Phát sinh thất lạc ' }
+    ];
     selectedStatus: any;
     selectedInvoiceNumber: any;
     createTime: moment.Moment;
