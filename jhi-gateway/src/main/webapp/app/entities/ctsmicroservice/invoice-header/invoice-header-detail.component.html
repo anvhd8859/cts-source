@@ -26,11 +26,11 @@
                     </tr>
                     <tr>
                         <th>Invoice Type: </th>
-                        <td>{{this.invoiceHeader.invoiceType}}</td>
+                        <td>Giao hàng cá nhân</td>
                     </tr>
                     <tr>
                         <th>Invoice Status: </th>
-                        <td>{{this.invoiceHeader.status}}</td>
+                        <td>{{common.processInvoiceStatus(invoiceHeader.status)}}</td>
                     </tr>
                     <tr>
                         <th>From Address: </th>
@@ -54,7 +54,7 @@
                         </h5>
                     </div>
                     <div id="colPackage" *ngIf="showPackage">
-                        <table class="table"> 
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -88,7 +88,7 @@
                         </h5>
                     </div>
                     <div id="colItem" *ngIf="showItem">
-                        <table class="table"> 
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>#</th>

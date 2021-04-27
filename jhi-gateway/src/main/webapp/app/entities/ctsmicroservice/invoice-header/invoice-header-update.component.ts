@@ -237,6 +237,12 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         if (!this.selectedUser) {
             msg += 'Customer must not be blank! <br>';
         }
+        if (this.lstInvoicePackage.length === 0) {
+            msg += 'Package must have at least ONE item! <br>';
+        }
+        if (this.lstInvoiceDetails.length === 0) {
+            msg += 'Item detail must have at least ONE item! <br>';
+        }
         return msg;
     }
 

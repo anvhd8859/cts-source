@@ -1,3 +1,4 @@
+import { CommonString } from './../../../shared/util/request-util';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,19 +32,7 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
-    lstStatus: any = [
-        { id: 'new', text: 'Chờ xử lý' },
-        { id: 'collect', text: 'Chờ nhân viên lấy hàng' },
-        { id: 'receive', text: 'Chờ khách giao hàng' },
-        { id: 'collected', text: 'Nhân viên đã lấy hàng' },
-        { id: 'first_import', text: 'Nhập kho chi nhánh đầu' },
-        { id: 'transporting', text: 'Đang vận chuyển' },
-        { id: 'last_import', text: 'Nhập kho chi nhánh cuối' },
-        { id: 'delivering', text: 'Đang giao hàng' },
-        { id: 'finish', text: 'Giao hàng thành công' },
-        { id: 'lost', text: 'Phát sinh thất lạc ' },
-        { id: 'cancel', text: 'Hủy ' }
-    ];
+    common: CommonString = new CommonString();
     selectedStatus: any;
     selectedInvoiceNumber: any;
     cancelStatus = 'Đã gửi yêu cầu hủy';
@@ -68,17 +57,6 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
             this.reverse = false;
             this.predicate = 'createDate';
         });
-    }
-
-    findText(str: string) {
-        let rs;
-        for (const obj of this.lstStatus) {
-            if (obj.id === str) {
-                rs = obj.text;
-                break;
-            }
-        }
-        return rs;
     }
 
     loadAll() {

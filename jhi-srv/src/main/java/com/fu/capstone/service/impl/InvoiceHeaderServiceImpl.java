@@ -2,6 +2,7 @@ package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.InvoiceHeaderService;
 import com.fu.capstone.domain.InvoiceHeader;
+import com.fu.capstone.domain.InvoicePackage;
 import com.fu.capstone.domain.Office;
 import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.domain.Street;
@@ -349,6 +350,14 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		for (InvoiceHeader i : result) {
 			i.setUpdateDate(Instant.now());
 			i.setChangeNote("approved");
+			List<PersonalShipment> shipmentList = personalShipmentRepository.getShipmentByInvoice(i.getId());
+			List<InvoicePackage> packageList = invoicePackageRepository.getInvoicePackageByHeaderId(i.getId());
+			for(InvoicePackage ii : packageList){
+				if(!ii.getStatus().equalsIgnoreCase("finish")) ii.setStatus("cancel");
+			}
+			for(PersonalShipment ii : shipmentList){
+				if(!ii.getStatus().equalsIgnoreCase("finish")) ii.setStatus("cancel");
+			}
 		}
 		result = invoiceHeaderRepository.saveAll(result);
 		return invoiceHeaderMapper.toDto(result);
@@ -372,20 +381,21 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 	@Override
 	public InvoiceHeaderDTO updateFinishInvoicePersonalShipment(InvoiceHeaderDTO inv) {
-		if(! inv.getStatus().equalsIgnoreCase("delivering")) {
+		InvoiceHeader ih = invoiceHeaderRepository.getOne(inv.getId());
+		if(! ih.getStatus().equalsIgnoreCase("delivering")) {
             throw new BadRequestAlertException("Invalid status", "InvoiceHeader", "status wrong");
         }
 		PersonalShipment ps = personalShipmentRepository.getDeliveryShipmentByInvoice(inv.getId());
 		Instant instant = Instant.now();
-		inv.setStatus("finish");
+		ih.setStatus("finish");
 		ps.setStatus("finish");
-		inv.setFinishDate(instant);
-		inv.setUpdateDate(instant);
+		ih.setFinishDate(instant);
+		ih.setUpdateDate(instant);
 		ps.setFinishTime(instant);
 		ps.setUpdateDate(instant);
 		personalShipmentRepository.save(ps);
 		
-		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(invoiceHeaderMapper.toEntity(inv)));
+		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(ih));
 	}
 
 }
