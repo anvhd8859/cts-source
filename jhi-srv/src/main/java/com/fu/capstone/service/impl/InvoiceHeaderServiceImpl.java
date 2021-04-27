@@ -23,6 +23,7 @@ import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import com.fu.capstone.service.mapper.PersonalShipmentMapper;
+import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -367,6 +368,24 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		}
 		result = invoiceHeaderRepository.saveAll(result);
 		return invoiceHeaderMapper.toDto(result);
+	}
+
+	@Override
+	public InvoiceHeaderDTO updateFinishInvoicePersonalShipment(InvoiceHeaderDTO inv) {
+		if(! inv.getStatus().equalsIgnoreCase("delivering")) {
+            throw new BadRequestAlertException("Invalid status", "InvoiceHeader", "status wrong");
+        }
+		PersonalShipment ps = personalShipmentRepository.getDeliveryShipmentByInvoice(inv.getId());
+		Instant instant = Instant.now();
+		inv.setStatus("finish");
+		ps.setStatus("finish");
+		inv.setFinishDate(instant);
+		inv.setUpdateDate(instant);
+		ps.setFinishTime(instant);
+		ps.setUpdateDate(instant);
+		personalShipmentRepository.save(ps);
+		
+		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(invoiceHeaderMapper.toEntity(inv)));
 	}
 
 }
