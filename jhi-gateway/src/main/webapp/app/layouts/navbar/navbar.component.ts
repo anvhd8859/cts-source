@@ -5,6 +5,8 @@ import { RegisterModalService } from 'app/account/register/register-modal.servic
 
 import { VERSION } from 'app/app.constants';
 import { Principal, LoginModalService, LoginService, AccountService } from 'app/core';
+import { JhiEventManager } from 'ng-jhipster';
+import { Subscription } from 'rxjs';
 import { ProfileService } from '../profiles/profile.service';
 
 @Component({
@@ -20,6 +22,8 @@ export class NavbarComponent implements OnInit {
     modalRef: NgbModalRef;
     version: string;
     username: string;
+    eventSubscriber: Subscription;
+    eventSubscriber2: Subscription;
 
     constructor(
         private loginService: LoginService,
@@ -28,7 +32,8 @@ export class NavbarComponent implements OnInit {
         private registerModalService: RegisterModalService,
         private profileService: ProfileService,
         private router: Router,
-        private accountService: AccountService
+        private accountService: AccountService,
+        private eventManager: JhiEventManager
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
@@ -42,6 +47,8 @@ export class NavbarComponent implements OnInit {
         this.accountService.get().subscribe(res => {
             this.username = res.body['firstName'];
         });
+        this.loginChangeInNavbar();
+        this.logoutChangeInNavbar();
     }
 
     collapseNavbar() {
@@ -78,5 +85,17 @@ export class NavbarComponent implements OnInit {
         this.principal.identity().then(account => {
             return account ? account.login : 'Account';
         });
+    }
+
+    loginChangeInNavbar() {
+        this.eventSubscriber = this.eventManager.subscribe('authenticationSuccess', response => this.loadAll(response));
+    }
+
+    logoutChangeInNavbar() {
+        this.eventSubscriber2 = this.eventManager.subscribe('logoutSuccess', response => this.loadAll(response));
+    }
+
+    loadAll(res?: any) {
+        this.username = res.content;
     }
 }
