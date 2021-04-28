@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-6 col-md-12 col-md-12">
             <h2 id="page-heading">
-                <span>Invoice History</span>
+                <span>Lịch sử đơn hàng</span>
             </h2>
         </div>
         <div class="col-lg-6 col-md-12 col-md-12">
@@ -14,14 +14,14 @@
     <div class="table-responsive" *ngIf="invoiceHeaders">
         <table class="table table-striped">
             <thead>
-                <th>#               </th>
-                <th>Invoice Number  </th>
-                <th>Due Date        </th>
-                <th>Receive Date    </th>
-                <th>Status          </th>
-                <th>Created Date    </th>
-                <th>Updated Date    </th>
-                <th class="text-left">Action</th>
+                <th>#                   </th>
+                <th>Số hóa đơn          </th>
+                <th>Hạn giao ước tính   </th>
+                <th>Ngày nhận hàng      </th>
+                <th>Tình trạng đơn      </th>
+                <th>Ngày tạo đơn        </th>
+                <th>Ngày cập nhật       </th>
+                <th class="text-left">Hành động</th>
             </thead>
             <tbody>
             <tr *ngFor="let invoiceHeader of invoiceHeaders ;trackBy: trackId">
@@ -42,19 +42,19 @@
                                 [routerLink]="['/invoice-header', invoiceHeader.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
+                            <span class="d-none d-md-inline">Chi tiết</span>
                         </button>
                         <button type="submit" *ngIf="!invoiceHeader.changeNote"
                                 [routerLink]="['/', { outlets: { popup: 'cancel-invoice/'+ invoiceHeader.id + '/send-request'} }]"
                                 class="btn btn-secondary btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Request cancel</span>
+                            <span class="d-none d-md-inline">Yêu cầu hủy</span>
                         </button>
                         <button *ngIf="invoiceHeader.changeNote === 'request' && !invoiceHeader.cancel"
                                 [disabled]="true"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'paper-plane'"></fa-icon>
-                            <span class="d-none d-md-inline">Request sent</span>
+                            <span class="d-none d-md-inline">Yêu cầu gửi</span>
                         </button>
                     </div>
                 </td>
