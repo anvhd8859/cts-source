@@ -43,7 +43,15 @@ import {
     faCheck,
     faStickyNote,
     faCheckCircle,
-    faPaperPlane
+    faPaperPlane,
+    faTruck,
+    faShippingFast,
+    faFileExport,
+    faFileImport,
+    faListUl,
+    faAddressCard,
+    faMapSigns,
+    faTruckLoading
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -85,5 +93,14 @@ library.add(faCheck);
 library.add(faStickyNote);
 library.add(faCheckCircle);
 library.add(faPaperPlane);
+library.add(faTruck);
+library.add(faShippingFast);
+library.add(faFileExport);
+library.add(faFileImport);
+library.add(faListUl);
+library.add(faAddressCard);
+library.add(faMapSigns);
+library.add(faTruck);
+library.add(faTruckLoading);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
