@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span>Working Areas</span>
+        <span>Quản lý khu vực làm việc</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-working-area" [routerLink]="['/working-area/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
-            Create new Working Area
+            Tạo khu vực
             </span>
         </button>
     </h2>
@@ -15,10 +15,8 @@
             <thead>
             <tr>
             <th><span>ID</span></th>
-            <th><span>Street Id</span></th>
-            <th><span>Employee Id</span></th>
-            <th><span>Create Date</span></th>
-            <th><span>Update Date</span></th>
+            <th><span>Id Đường</span></th>
+            <th><span>Id Nhân viên</span></th>
             <th></th>
             </tr>
             </thead>
@@ -27,21 +25,13 @@
                 <td><a [routerLink]="['/working-area', workingArea.id, 'view' ]">{{workingArea.id}}</a></td>
                 <td>{{workingArea.streetId}}</td>
                 <td>{{workingArea.employeeId}}</td>
-                <td>{{workingArea.createDate | date:'medium'}}</td>
-                <td>{{workingArea.updateDate | date:'medium'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/working-area', workingArea.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/working-area', workingArea.id, 'edit']"
+                                [routerLink]="['/working-area', workingArea.id , 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
+                            <span class="d-none d-md-inline">Chỉnh sửa</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'working-area/'+ workingArea.id + '/delete'} }]"
@@ -49,7 +39,7 @@
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
+                            <span class="d-none d-md-inline">Xóa</span>
                         </button>
                     </div>
                 </td>
