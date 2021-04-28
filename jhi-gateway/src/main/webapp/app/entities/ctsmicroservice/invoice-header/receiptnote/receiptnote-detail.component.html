@@ -36,12 +36,6 @@
                     class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
-
-            <button type="button"
-                    [routerLink]="['/receiptnote', receiptnote.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>
         </div>
         <div *ngIf="!receiptnote">
             <h2>Receipt note in not created</h2>
