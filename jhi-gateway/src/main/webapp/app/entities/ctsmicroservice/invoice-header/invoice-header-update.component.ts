@@ -153,7 +153,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             if (!this.invoiceHeader.id) {
                 this.invoiceHeader.startAddress =
                     this.selectedAddressFrom +
-                    ' | ' +
+                    ', ' +
                     (this.selectedStreetFrom ? this.selectedStreetFrom.streetName : '') +
                     ', ' +
                     (this.selectedSubDistrictFrom ? this.selectedSubDistrictFrom.subDistrictName : '') +
@@ -163,7 +163,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                     (this.selectedProvinceFrom ? this.selectedProvinceFrom.provinceName : '');
                 this.invoiceHeader.destinationAddress =
                     this.selectedAddressTo +
-                    ' | ' +
+                    ', ' +
                     (this.selectedStreetTo ? this.selectedStreetTo.streetName : '') +
                     ', ' +
                     (this.selectedSubDistrictTo ? this.selectedSubDistrictTo.subDistrictName : '') +
