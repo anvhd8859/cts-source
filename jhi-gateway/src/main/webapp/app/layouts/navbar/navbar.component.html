@@ -145,6 +145,13 @@
                     </li>
                     <div class="divider"></div>
                     <li>
+                        <a class="dropdown-item" routerLink="working-area" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'sticky-note'" [fixedWidth]="true"></fa-icon>
+                            <span>Quản lý khu vực làm việc</span>
+                        </a>
+                    </li>
+                    <div class="divider"></div>
+                    <li>
                         <a class="dropdown-item" routerLink="cancel-invoice" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'sticky-note'" [fixedWidth]="true"></fa-icon>
                             <span>Quản lý đơn hàng đã hủy</span>
