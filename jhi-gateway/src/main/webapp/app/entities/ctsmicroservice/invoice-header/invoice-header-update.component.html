@@ -50,13 +50,13 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label class="form-control-label" for="field_invoiceType">Invoice Type</label>
+                                <label class="form-control-label" for="field_invoiceType">Loại hóa đơn</label>
                                 <input class="form-control" type="text" value="Giao hàng cá nhân" disabled/>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label class="form-control-label" for="field_status">Status</label>
+                                <label class="form-control-label" for="field_status">Trạng thái</label>
                                 <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstInvStatus"
                                     bindLabel="text" bindValue="id" id="field_status" name="field_status"
                                     [ngModelOptions]="{standalone: true}" [(ngModel)]="this.invoiceHeader.status">
@@ -214,7 +214,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <button type="button" class="btn btn-primary float-left" (click)="this.addNewInvoiceDetailElement()">
                                     <fa-icon [icon]="'plus'"></fa-icon>
-                                    <span class="d-none d-md-inline">Add New Item</span>
+                                    <span class="d-none d-md-inline">Thêm vật phẩm</span>
                                 </button>
                             </div>
                         </div>
@@ -391,7 +391,7 @@
                 <br>
 
                 <div *ngIf="this.invoiceHeader.id" class="form-group">
-                    <label class="form-control-label" for="field_dueDate">Due Date</label>
+                    <label class="form-control-label" for="field_dueDate">Ngày giao dự kiến</label>
                     <div class="d-flex">
                         <input id="field_dueDate" type="datetime-local" class="form-control" name="dueDate"
                             [(ngModel)]="dueDate" />
@@ -399,7 +399,7 @@
                 </div>
 
                 <div *ngIf="this.invoiceHeader.id" class="form-group">
-                    <label class="form-control-label" for="field_createDate">Create Date</label>
+                    <label class="form-control-label" for="field_createDate">Ngày khởi tạo</label>
                     <div class="d-flex">
                         <input id="field_createDate" type="datetime-local" class="form-control" name="updateDate"
                             [(ngModel)]="createDate" />
@@ -416,11 +416,11 @@
             </div> -->
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Hủy</span>
                 </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
                     class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Lưu</span>
                 </button>
             </div>
         </form>

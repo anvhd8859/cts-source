@@ -14,8 +14,8 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="invoiceHeaderId"><span>Invoice Header Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="id"><span>Mã số</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="invoiceHeaderId"><span>Mã hóa đơn</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="itemName"><span>Item Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="itemType"><span>Item Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="weight"><span>Weight</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -25,8 +25,8 @@
             <th jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="originImage"><span>Origin Image</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="damagesImage"><span>Damages Image</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createDate"><span>Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updateDate"><span>Update Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createDate"><span>Ngày khởi tạo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updateDate"><span>Ngày chỉnh sửa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -51,13 +51,13 @@
                                 [routerLink]="['/invoice-details', invoiceDetails.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
+                            <span class="d-none d-md-inline">Chi tiết</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/invoice-details', invoiceDetails.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
+                            <span class="d-none d-md-inline">Sửa</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'invoice-details/'+ invoiceDetails.id + '/delete'} }]"
@@ -65,7 +65,7 @@
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
+                            <span class="d-none d-md-inline">Xóa</span>
                         </button>
                     </div>
                 </td>

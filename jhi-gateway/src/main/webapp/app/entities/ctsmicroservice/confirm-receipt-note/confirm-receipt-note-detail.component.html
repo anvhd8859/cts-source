@@ -5,27 +5,27 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Employee Id</span></dt>
+                <dt><span>Mã nhân viên</span></dt>
                 <dd>
                     <span>{{confirmReceiptNote.employeeId}}</span>
                 </dd>
-                <dt><span>Invoice Header Id</span></dt>
+                <dt><span>Mã hóa đơn</span></dt>
                 <dd>
                     <span>{{confirmReceiptNote.invoiceHeaderId}}</span>
                 </dd>
-                <dt><span>Note</span></dt>
+                <dt><span>Ghi chú</span></dt>
                 <dd>
                     <span>{{confirmReceiptNote.note}}</span>
                 </dd>
-                <dt><span>Customer Confirm</span></dt>
+                <dt><span>Khách hàng xác nhận</span></dt>
                 <dd>
                     <span>{{confirmReceiptNote.customerConfirm}}</span>
                 </dd>
-                <dt><span>Create Date</span></dt>
+                <dt><span>Ngày khởi tạo</span></dt>
                 <dd>
                     <span>{{confirmReceiptNote.createDate}}</span>
                 </dd>
-                <dt><span>Update Date</span></dt>
+                <dt><span>Ngày chỉnh sửa</span></dt>
                 <dd>
                     <span>{{confirmReceiptNote.updateDate}}</span>
                 </dd>
@@ -34,13 +34,13 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/confirm-receipt-note', confirmReceiptNote.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Chỉnh sửa</span>
             </button>
         </div>
     </div>
