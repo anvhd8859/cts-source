@@ -1,6 +1,9 @@
 package com.fu.capstone.repository;
 
 import com.fu.capstone.domain.WorkingArea;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -17,5 +20,10 @@ public interface WorkingAreaRepository extends JpaRepository<WorkingArea, Long> 
 				 + " AND (s.id = :sid OR sd.id = :sdid OR d.id = :did OR p.id = :pid) LIMIT 1",
 		   nativeQuery = true)
 	WorkingArea getEmployeeNearBy(@Param("sid") Long id, @Param("sdid") Long id2, @Param("did") Long id3, @Param("pid") Long id4);
+	
+	@Query(value = "SELECT w FROM WorkingArea w, Street s WHERE w.streetId = s.id "
+				 + " AND (:sid IS NULL OR :sid = w.streetId) "
+				 + " AND (:eid IS NULL OR :eid = w.employeeId)")
+	Page<WorkingArea> getWorkingAreaByFilter(@Param("sid") Long sid, @Param("eid") Long eid, Pageable pageable);
 
 }

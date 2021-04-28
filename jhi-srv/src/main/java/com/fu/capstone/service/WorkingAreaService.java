@@ -1,9 +1,13 @@
 package com.fu.capstone.service;
 
 import com.fu.capstone.service.dto.WorkingAreaDTO;
+import com.fu.capstone.service.dto.WorkingAreaStreetDTO;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service Interface for managing WorkingArea.
@@ -40,4 +44,6 @@ public interface WorkingAreaService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+	Page<WorkingAreaStreetDTO> getWorkingAreaByFilter(Long sid, Long eid, Pageable pageable);
 }
