@@ -44,6 +44,7 @@ export class PersonalShipmentAdminComponent implements OnInit, OnDestroy {
     selectedDistrict: any;
     selectedSubDistrict: any;
     selectedStreet: any;
+    selectedShipmentType: any;
     lstShipper: IUser[];
     selectedShipper: IUser;
     common: CommonString;
@@ -79,6 +80,7 @@ export class PersonalShipmentAdminComponent implements OnInit, OnDestroy {
             empId: this.selectedShipper ? this.selectedShipper.id : '',
             invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
             strId: this.selectedStreet ? this.selectedStreet : '',
+            type: this.selectedShipmentType ? this.selectedShipmentType : '',
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()
