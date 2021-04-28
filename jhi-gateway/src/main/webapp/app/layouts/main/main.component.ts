@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
 
 import { Title } from '@angular/platform-browser';
+import { SERVER_API_URL } from 'app/app.constants';
 
 @Component({
     selector: 'jhi-main',
@@ -9,6 +10,8 @@ import { Title } from '@angular/platform-browser';
     styleUrls: ['main.css']
 })
 export class JhiMainComponent implements OnInit {
+    public rootUrl: string = SERVER_API_URL;
+    public url: string;
     constructor(private titleService: Title, private router: Router) {}
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
@@ -23,6 +26,7 @@ export class JhiMainComponent implements OnInit {
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.titleService.setTitle(this.getPageTitle(this.router.routerState.snapshot.root));
+                this.url = this.router.url;
             }
         });
     }
