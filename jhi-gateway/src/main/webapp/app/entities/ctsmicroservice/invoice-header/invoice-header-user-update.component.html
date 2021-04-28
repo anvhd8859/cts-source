@@ -2,15 +2,15 @@
     <div class="col-10">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <div *jhiHasAnyAuthority="'ROLE_USER'">
-            <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading">Create an Invoice</h2>
+            <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading">Tạo đơn</h2>
             <br>
                 <jhi-alert></jhi-alert>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="divider"></div>
-                <label class="form-control-label" for="from-address"><b>Customer Information</b></label>
+                <label class="form-control-label" for="from-address"><b>Khách hàng</b></label>
                 <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                     <div class="form-group">
-                        <label class="form-control-label" for="field_customerId">Customer</label>
+                        <label class="form-control-label" for="field_customerId">Tài khoản khách</label>
                         <!-- <ng-select  [clearable]="true"
                                     [hideSelected]="true"
                                     [items]="this.lstUser"
@@ -33,23 +33,23 @@
                                 readonly>
                     </div>
                     <br>
-                    <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="form-control-label" for="">Information</label>
+                    <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="form-control-label" for="">Thông tin khách hàng</label>
                     <div *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="col-lg-12">
                         <table class="table">
                             <tr>
-                                <th class="text-left">Full Name</th>
+                                <th class="text-left">Tên đầy đủ: </th>
                                 <td class="text-left" >{{this.selectedUser.firstName + ' ' +this.selectedUser.lastName}}</td>
                             </tr>
                             <tr>
-                                <th class="text-left">Gender</th>
+                                <th class="text-left">Giới tính</th>
                                 <td class="text-left" >{{this.selectedUserProfile.gender}}</td>
                             </tr>
                             <tr>
-                                <th class="text-left">Phone Number</th>
+                                <th class="text-left">Số điện thoại</th>
                                 <td class="text-left" >{{this.selectedUserProfile.phoneNumber}}</td>
                             </tr>
                             <tr>
-                                <th class="text-left">Address</th>
+                                <th class="text-left">Địa chỉ</th>
                                 <td class="text-left" >{{this.selectedUserProfile.address}}</td>
                             </tr>
                         </table>
@@ -57,7 +57,7 @@
                 </div>
                 <br>
                 <div class="divider"></div>
-                <label class="form-control-label" for="from-address"><b>Invoice Information</b></label>
+                <label class="form-control-label" for="from-address"><b>Thông tin đơn hàng</b></label>
                 <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                     <!-- <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
@@ -103,13 +103,13 @@
                         </div>
                     </div> -->
                     <!-- Invoice Package Start-->
-                    <label class="form-control-label" for="from-address"><b>Package Details</b></label>
+                    <label class="form-control-label" for="from-address"><b>Chi tiết gói hàng</b></label>
                     <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                             <ng-container *ngFor="let item of lstInvoicePackage; let i = index">
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="row">
-                                            <div class="col-10"> Package #{{i + 1}} </div>
+                                            <div class="col-10"> Gói hàng #{{i + 1}} </div>
                                             <div class="col-2">
                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                                                 id="package{{i}}"
@@ -122,28 +122,28 @@
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 col-sm-3">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="weight{{i}}">Weight</label>
+                                                    <label class="form-control-label" for="weight{{i}}">Cân nặng (g)</label>
                                                     <input placeholder="" class="form-control" step="0.1" min="0"
                                                         type="number" name="weight{{i}}" id="weight{{i}}" [(ngModel)]="item.weight">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="height{{i}}">Height</label>
+                                                    <label class="form-control-label" for="height{{i}}">Cao (cm)</label>
                                                     <input placeholder="" class="form-control" step="0.1" min="0"
                                                         type="number" name="height{{i}}" id="height{{i}}" [(ngModel)]="item.height">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="width{{i}}">Width</label>
+                                                    <label class="form-control-label" for="width{{i}}">Rộng (cm)</label>
                                                     <input placeholder="" class="form-control" step="0.1" min="0"
                                                         type="number" name="width{{i}}" id="width{{i}}" [(ngModel)]="item.width">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="length{{i}}">Length</label>
+                                                    <label class="form-control-label" for="length{{i}}">Dài (cm)</label>
                                                     <input placeholder="" class="form-control" step="0.1"
                                                         type="number" name="length{{i}}" id="length{{i}}" [(ngModel)]="item.length">
                                                 </div>
@@ -152,7 +152,7 @@
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="note{{i}}">Package Note</label>
+                                                    <label class="form-control-label" for="note{{i}}">Ghi chú</label>
                                                     <textarea   class="form-control"
                                                                 style="resize: none;"
                                                                 rows="3" id="address"
@@ -171,7 +171,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <button type="button" class="btn btn-primary float-left" (click)="this.addNewInvoicePackageElement()">
                                     <fa-icon [icon]="'plus'"></fa-icon>
-                                    <span class="d-none d-md-inline">Add New Package</span>
+                                    <span class="d-none d-md-inline">Thêm gói hàng</span>
                                 </button>
                             </div>
                         </div>
@@ -179,13 +179,13 @@
                     <!-- Invoice Package End-->
                     <br>
                     <!-- Invoice Detail Start -->
-                    <label class="form-control-label" for="from-address"><b>Items Details</b></label>
+                    <label class="form-control-label" for="from-address"><b>Chi tiết vật phẩm</b></label>
                     <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                         <ng-container *ngFor="let item of lstInvoiceDetails; let i = index">
                             <div class="card">
                                 <div class="card-header">
                                     <div class="row">
-                                        <div class="col-10"> Item #{{i + 1}} </div>
+                                        <div class="col-10"> Vật phẩm #{{i + 1}} </div>
                                         <div class="col-2">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                                             id="detail{{i}}"
@@ -198,14 +198,14 @@
                                     <div class="row">
                                         <div class="col-lg-6 col-md-12 col-sm-12">
                                             <div class="form-group">
-                                                <label class="form-control-label" for="itemName{{i}}">Item Name</label>
+                                                <label class="form-control-label" for="itemName{{i}}">Tên vật phẩm</label>
                                                 <input placeholder="" class="form-control"
                                                     type="text" name="itemName{{i}}" id="itemName{{i}}" [(ngModel)]="item.itemName">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-12 col-sm-12">
                                             <div class="form-group">
-                                                <label class="form-control-label" for="itemType{{i}}">Item Type</label>
+                                                <label class="form-control-label" for="itemType{{i}}">Loại</label>
                                                 <input placeholder="" class="form-control"
                                                     type="text" name="itemType{{i}}" id="itemType{{i}}" [(ngModel)]="item.itemType">
                                             </div>
@@ -214,7 +214,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-group">
-                                                <label class="form-control-label" for="description{{i}}">Package Note</label>
+                                                <label class="form-control-label" for="description{{i}}">Ghi chú</label>
                                                 <textarea   class="form-control"
                                                             style="resize: none;"
                                                             rows="3"
@@ -233,7 +233,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <button type="button" class="btn btn-primary float-left" (click)="this.addNewInvoiceDetailElement()">
                                     <fa-icon [icon]="'plus'"></fa-icon>
-                                    <span class="d-none d-md-inline">Add New Item</span>
+                                    <span class="d-none d-md-inline">Thêm vật phẩm</span>
                                 </button>
                             </div>
                         </div>
@@ -244,7 +244,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label class="form-control-label" for="field_status">Collect Type</label>
+                                <label class="form-control-label" for="field_status">Hình thức ký gửi</label>
                                 <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstCollect"
                                     bindLabel="text" bindValue="id" id="field_status" name="field_status"
                                     [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedCollect">
@@ -256,7 +256,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label class="form-control-label" for="customerNote">Customer Note</label>
+                                <label class="form-control-label" for="customerNote">Ghi chú của khách hàng</label>
                                 <textarea class="form-control"
                                     style="resize: none;"
                                     rows="3"
@@ -273,12 +273,12 @@
                 <div class="divider"></div>
                 <div class="row" *ngIf="!this.invoiceHeader.id">
                     <div class="col-lg-6 col-md-12 col-sm-12">
-                        <label class="form-control-label" for="from-address"><b>From Address</b></label>
+                        <label class="form-control-label" for="from-address"><b>Địa chỉ gửi</b></label>
                         <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 5%;">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="province">Province/City</label>
+                                        <label for="province">Tỉnh/Thành phố</label>
                                         <ng-select  [clearable]="false"
                                                     [hideSelected]="true"
                                                     [items]="this.lstProvinceFrom"
@@ -295,7 +295,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="district">District</label>
+                                        <label for="district">Quận/Huyện</label>
                                         <ng-select  [clearable]="false"
                                                     [hideSelected]="true"
                                                     [items]="this.lstDistrictFrom"
@@ -315,7 +315,7 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="subDistrict">Ward/Commune</label>
+                                        <label for="subDistrict">Phường/Xã</label>
                                         <ng-select  [clearable]="false"
                                                     [hideSelected]="true"
                                                     [items]="this.lstSubDistrictFrom"
@@ -333,7 +333,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="street">Street</label>
+                                        <label for="street">Đường/Phố</label>
                                         <ng-select  [clearable]="false"
                                                     [hideSelected]="true"
                                                     [items]="this.lstStreetFrom"
@@ -352,7 +352,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label for="address">Address</label>
+                                        <label for="address">Địa chỉ</label>
                                         <textarea class="form-control"
                                             style="resize: none;"
                                             rows="3"
@@ -368,12 +368,12 @@
                     </div>
                     <br>
                     <div class="col-lg-6 col-md-12 col-sm-12">
-                        <label class="form-control-label" for="to-address">To Address</label>
+                        <label class="form-control-label" for="to-address">Địa chỉ nhận</label>
                         <div name="to-address" style="border: gray solid thin; border-radius: 5px; padding: 5%;">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="province">Province/City</label>
+                                        <label for="province">Tỉnh/Thành Phố</label>
                                         <ng-select  [clearable]="false"
                                                     [hideSelected]="true"
                                                     [items]="this.lstProvinceTo"
@@ -390,7 +390,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="district">District</label>
+                                        <label for="district">Quận/Huyện</label>
                                         <ng-select  [clearable]="false"
                                                     [hideSelected]="true"
                                                     [items]="this.lstDistrictTo"
@@ -410,7 +410,7 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="subDistrict">Ward/Commune</label>
+                                        <label for="subDistrict">Phường/Xã</label>
                                         <ng-select  [clearable]="false"
                                                     [hideSelected]="true"
                                                     [items]="this.lstSubDistrictTo"
@@ -428,7 +428,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="street">Street</label>
+                                        <label for="street">Đường/Phố</label>
                                         <ng-select  [clearable]="false"
                                                     [hideSelected]="true"
                                                     [items]="this.lstStreetTo"
@@ -447,7 +447,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label for="address">Address</label>
+                                        <label for="address">Địa chỉ</label>
                                         <textarea class="form-control"
                                             style="resize: none;"
                                             rows="3"
@@ -464,7 +464,7 @@
                 </div>
                 <div class="row" *ngIf="this.invoiceHeader.id">
                     <div class="col-lg-6 col-md-12 col-sm-12">
-                        <label class="form-control-label" for="addressFrom"><b>From Address</b></label>
+                        <label class="form-control-label" for="addressFrom"><b>Địa chỉ gửi</b></label>
                         <div class="form-group">
                             <textarea class="form-control"
                                 style="resize: none;"
@@ -477,7 +477,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12">
-                        <label class="form-control-label" for="addressTo"><b>To Address</b></label>
+                        <label class="form-control-label" for="addressTo"><b>Địa chỉ nhận</b></label>
                         <div class="form-group">
                             <textarea class="form-control"
                                 style="resize: none;"
@@ -493,7 +493,7 @@
                 <br>
 
                 <div *ngIf="this.invoiceHeader.id" class="form-group">
-                    <label class="form-control-label" for="field_dueDate">Due Date</label>
+                    <label class="form-control-label" for="field_dueDate">Ngày giao dự tính</label>
                     <div class="d-flex">
                         <input id="field_dueDate" type="datetime-local" class="form-control" name="dueDate" [(ngModel)]="dueDate"
                         />
@@ -501,7 +501,7 @@
                 </div>
 
                 <div *ngIf="this.invoiceHeader.id" class="form-group">
-                    <label class="form-control-label" for="field_createDate">Create Date</label>
+                    <label class="form-control-label" for="field_createDate">Ngày tạo hóa đơn</label>
                     <div class="d-flex">
                         <input id="field_createDate" type="datetime-local" class="form-control" name="updateDate" [(ngModel)]="createDate"
                         />
@@ -510,10 +510,10 @@
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Hủy</span>
                 </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Xác nhận</span>
                 </button>
             </div>
         </form>
