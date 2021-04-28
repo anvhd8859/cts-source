@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { IWorkingArea } from 'app/shared/model/ctsmicroservice/working-area.model';
-import { Principal } from 'app/core';
+import { AccountService, IUser, Principal } from 'app/core';
 import { WorkingAreaService } from './working-area.service';
+import { InvoiceHeaderService } from '../invoice-header';
+import { IStreet } from 'app/shared/model/ctsmicroservice/street.model';
 
 @Component({
     selector: 'jhi-working-area',
@@ -15,9 +17,13 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
     workingAreas: IWorkingArea[];
     currentAccount: any;
     eventSubscriber: Subscription;
+    lstUser: IUser[] = [];
+    lstStreetFrom: IStreet[] = [];
 
     constructor(
         private workingAreaService: WorkingAreaService,
+        private invoiceHeaderService: InvoiceHeaderService,
+        private accountService: AccountService,
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private principal: Principal
