@@ -21,7 +21,6 @@ import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import com.fu.capstone.service.mapper.ReceiptNoteMapper;
-import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,8 +94,19 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			receiptNote.setCreateDate(instant);
 			receiptNote.setUpdateDate(instant);
 		}
-		else receiptNote.setUpdateDate(instant);
-        receiptNote = receiptNoteRepository.save(receiptNote);
+		else {
+			receiptNote.setUpdateDate(instant);
+	        receiptNote = receiptNoteRepository.save(receiptNote);
+	        InvoiceHeader inv = invoiceHeaderRepository.getOne(receiptNote.getInvoiceHeaderId());
+	        PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(receiptNote.getInvoiceHeaderId());
+	        ps.setFinishTime(instant);
+	        inv.setUpdateDate(instant);
+	        ps.setUpdateDate(instant);
+	        inv.setStatus("collected");
+	        ps.setStatus("finish");
+	        invoiceHeaderRepository.save(inv);
+	        personalShipmentRepository.save(ps);
+		}
         return receiptNoteMapper.toDto(receiptNote);
     }
 
@@ -184,6 +194,10 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		}
 		PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(data.getReceipt().getInvoiceHeaderId());
 		ps.setStatus("finish");
+		ps.setShipTime(instant);
+		ps.setFinishTime(instant);
+		ps.setUpdateDate(instant);
+		personalShipmentRepository.save(ps);
 		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(data.getInvoicePackageList()));
 		invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(data.getInvoiceDetailList()));
 		return receiptNoteMapper.toDto(receiptNoteRepository.save(data.getReceipt()));
