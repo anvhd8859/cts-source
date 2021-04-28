@@ -1,46 +1,127 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-working-area-heading">Create or edit a Working Area</h2>
+            <h2 id="jhi-working-area-heading">Assign Working Area</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!workingArea.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="workingArea.id" readonly />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_streetId">Street Id</label>
-                    <input type="number" class="form-control" name="streetId" id="field_streetId"
-                        [(ngModel)]="workingArea.streetId" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_employeeId">Employee Id</label>
-                    <input type="number" class="form-control" name="employeeId" id="field_employeeId"
-                        [(ngModel)]="workingArea.employeeId" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_createDate">Create Date</label>
-                    <div class="d-flex">
-                        <input id="field_createDate" type="datetime-local" class="form-control" name="createDate" [(ngModel)]="createDate"
-                        />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_updateDate">Update Date</label>
-                    <div class="d-flex">
-                        <input id="field_updateDate" type="datetime-local" class="form-control" name="updateDate" [(ngModel)]="updateDate"
-                        />
-                    </div>
-                </div>
+                <div class="divider"></div>
 
+                <!-- START show employee information -->
+                <label class="form-control-label" for="from-address">
+                    <h4>Shipper Information</h4>
+                </label>
+                <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
+                    <div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_customerId">Shipper</label>
+                            <ng-select [clearable]="true" [hideSelected]="true" [items]="this.lstUser" bindLabel="email"
+                                id="field_customerId" name="field_customerId" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="this.selectedUser" (change)="this.changeUser()">
+                                <ng-option *ngFor="let item of lstUser">{{item.email}}</ng-option>
+                            </ng-select>
+                        </div>
+                        <br/>
+                        <div class="col-lg-12" *ngIf="this.selectedUserProfile && this.selectedUserProfile.id">
+                            <table class="table">
+                                <tr>
+                                    <th class="text-left">Họ Tên</th>
+                                    <td class="text-left">{{this.selectedUser.firstName + ' ' +this.selectedUser.lastName}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left">Giới tính</th>
+                                    <td class="text-left">{{this.selectedUserProfile.gender}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left">Số điện thoại</th>
+                                    <td class="text-left">{{this.selectedUserProfile.phoneNumber}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left">Địa chỉ</th>
+                                    <td class="text-left">{{this.selectedUserProfile.address}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <br>
+            <div class="divider"></div>
+            <!-- END   show employee information -->
+
+            <!-- START choose address -->
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <label class="form-control-label" for="from-address"><h4>Chọn khu vực làm việc</h4></label>
+                    <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 5%;">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="province">Tỉnh/Thành phố</label>
+                                    <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstProvinceFrom"
+                                        bindLabel="provinceName" id="province" name="province"
+                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedProvinceFrom"
+                                        (change)="this.changeCity('from')">
+                                        <ng-option *ngFor="let item of lstProvinceFrom">{{item.provinceName}}
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="district">Quận/Huyện</label>
+                                    <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstDistrictFrom"
+                                        bindLabel="districtName" id="district" name="district"
+                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedDistrictFrom"
+                                        (change)="this.changeDistrict('from')" [disabled]="this.lstDistrictFrom == null">
+                                        <ng-option *ngFor="let item of lstDistrictFrom">{{item.districtName}}
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="subDistrict">Phường/Xã</label>
+                                    <ng-select [clearable]="false" [hideSelected]="true"
+                                        [items]="this.lstSubDistrictFrom" bindLabel="subDistrictName" id="subDistrict"
+                                        name="subDistrict" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="this.selectedSubDistrictFrom"
+                                        (change)="this.changeSubDistrict('from')"
+                                        [disabled]="this.lstSubDistrictFrom == null">
+                                        <ng-option *ngFor="let item of lstSubDistrictFrom">{{item.subDistrictName}}
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="street">Đường</label>
+                                    <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstStreetFrom"
+                                        bindLabel="streetName" id="street" name="street"
+                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedStreetFrom"
+                                        (change)="onChange()" [disabled]="this.lstStreetFrom == null">
+                                        <ng-option *ngFor="let item of lstStreetFrom">{{item.streetName}}
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END   choose address -->
+
+            <br/>
+            <br/>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Hủy</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                    class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Lưu</span>
                 </button>
             </div>
         </form>
