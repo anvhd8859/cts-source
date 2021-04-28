@@ -18,7 +18,7 @@ import { ITEMS_PER_PAGE } from 'app/shared';
     templateUrl: './import-invoice-package.component.html'
 })
 export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
-    invoicePackageShipments: IInvoicePackageShipment[];
+    invoicePackageShipments: IInvoicePackageShipment[] = [];
     finalData: any;
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -81,15 +81,6 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
             (res: HttpResponse<IInvoicePackageShipment[]>) => {
                 this.invoicePackageShipments = res.body;
                 this.finalData = JSON.parse(JSON.stringify(this.invoicePackageShipments));
-                for (const i in this.invoicePackageShipments) {
-                    if (this.invoicePackageShipments[i].invoiceHeader.status === this.listInvoiceStatus[0].id) {
-                        this.invoicePackageShipments[i].invoiceHeader.status = this.listInvoiceStatus[0].text;
-                    } else if (this.invoicePackageShipments[i].invoiceHeader.status === this.listInvoiceStatus[1].id) {
-                        this.invoicePackageShipments[i].invoiceHeader.status = this.listInvoiceStatus[1].text;
-                    } else {
-                        this.invoicePackageShipments[i].invoiceHeader.status = this.listInvoiceStatus[2].text;
-                    }
-                }
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
