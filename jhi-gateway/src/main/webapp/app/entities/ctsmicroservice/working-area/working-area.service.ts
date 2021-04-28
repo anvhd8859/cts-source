@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IWorkingArea } from 'app/shared/model/ctsmicroservice/working-area.model';
+import { CustomStreet } from '.';
 
 type EntityResponseType = HttpResponse<IWorkingArea>;
 type EntityArrayResponseType = HttpResponse<IWorkingArea[]>;
@@ -47,6 +48,13 @@ export class WorkingAreaService {
 
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    getFullAddressByStreetID(req?: any): any {
+        return this.http.get<HttpResponse<CustomStreet>>(SERVER_API_URL + 'ctsmicroservice/api/streets/get-full-address', {
+            params: req,
+            observe: 'response'
+        });
     }
 
     private convertDateFromClient(workingArea: IWorkingArea): IWorkingArea {
