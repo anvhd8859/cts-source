@@ -61,7 +61,7 @@ export class ReceiptnoteService {
     }
 
     createReceiptNoteAndShipmentInvoice(req?: any): any {
-        return this.http.put<any>(this.resourceUrl + '/finish-collect', req, { observe: 'response' });
+        return this.http.post<any>(this.resourceUrl + '/finish-collect', req, { observe: 'response' });
     }
 
     private convertDateFromClient(receiptnote: IReceiptnote): IReceiptnote {
