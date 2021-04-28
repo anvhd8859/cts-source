@@ -10,7 +10,7 @@
                 <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
                     <span>
                         <!-- <fa-icon [icon]="'home'"></fa-icon> -->
-                        <span>Home</span>
+                        <span>Trang Chủ</span>
                     </span>
                 </a>
             </li>
@@ -21,15 +21,15 @@
                     <span>
                         <!-- <fa-icon [icon]="'th-list'"></fa-icon> -->
                         <span>
-                            Our Services
+                            Danh sách dịch vụ
                         </span>
                     </span>
                 </a>
-                <ul class="dropdown-menu" ngbDropdownMenu style="top: 48px;">
+                <ul class="dropdown-menu" ngbDropdownMenu>
                     <li>
                         <a class="dropdown-item" routerLink="invoice-header-user/new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Invoices</span>
+                            <fa-icon [icon]="'shipping-fast'" [fixedWidth]="true"></fa-icon>
+                            <span>Chuyển hàng cá nhân</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
@@ -43,15 +43,15 @@
                     <span>
                         <!-- <fa-icon [icon]="'th-list'"></fa-icon> -->
                         <span>
-                            Shipper Function
+                            Nhân viên giao hàng
                         </span>
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu>
                     <li>
                         <a class="dropdown-item" routerLink="personal-shipment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>View My Delivery</span>
+                            <fa-icon [icon]="'list-ul'" [fixedWidth]="true"></fa-icon>
+                            <span>Đơn của tôi</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
@@ -64,21 +64,21 @@
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="keeper-menu">
                     <span>
                         <!-- <fa-icon [icon]="'user-plus'"></fa-icon> -->
-                        <span>Warehouse Function</span>
+                        <span>Nhân viên kho hàng</span>
                     </span>
                 </a>
 
                 <ul class="dropdown-menu" ngbDropdownMenu>
                     <li>
                         <a class="dropdown-item" routerLink="import-invoice-package" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Import invoice package</span>
+                            <fa-icon [icon]="'file-import'" [fixedWidth]="true"></fa-icon>
+                            <span>Nhập đơn hàng vào kho</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="export-invoice-package" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Export invoice package</span>
+                            <fa-icon [icon]="'file-export'" [fixedWidth]="true"></fa-icon>
+                            <span>Xuất đơn hàng từ kho</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
@@ -91,74 +91,80 @@
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                     <span>
                         <!-- <fa-icon [icon]="'user-plus'"></fa-icon> -->
-                        <span>Administrator Function</span>
+                        <span>Quản lý hệ thống</span>
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu>
                     <li>
-                        <a class="dropdown-item" routerLink="user-profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Manage User Profile</span>
+                        <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'user'" [fixedWidth]="true"></fa-icon>
+                            <span>Quản lý tài khoản</span>
                         </a>
                     </li>
+                    <div class="divider"></div>
+                    <li>
+                        <a class="dropdown-item" routerLink="user-profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'address-card'"></fa-icon>
+                            <span>Quản lý hồ sơ người dùng</span>
+                        </a>
+                    </li>
+                    <div class="divider"></div>
                     <li>
                         <a class="dropdown-item" routerLink="province" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Manage Province</span>
+                            <fa-icon [icon]="'map-signs'" [fixedWidth]="true"></fa-icon>
+                            <span>Quản lý danh sách Tỉnh/Thành Phố</span>
                         </a>
                     </li>
+                    <div class="divider"></div>
                     <li>
                         <a class="dropdown-item" routerLink="district" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Manage District</span>
+                            <fa-icon [icon]="'map-signs'" [fixedWidth]="true"></fa-icon>
+                            <span>Quản lý danh sách Quận/Huyện</span>
                         </a>
                     </li>
+                    <div class="divider"></div>
                     <li>
                         <a class="dropdown-item" routerLink="sub-district" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Manage Sub District</span>
+                            <fa-icon [icon]="'map-signs'" [fixedWidth]="true"></fa-icon>
+                            <span>Quản lý danh sách Phường/Xã</span>
                         </a>
                     </li>
+                    <div class="divider"></div>
                     <li>
                         <a class="dropdown-item" routerLink="street" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Manage Street</span>
+                            <fa-icon [icon]="'map-signs'" [fixedWidth]="true"></fa-icon>
+                            <span>Quản lý danh sách Đường/Phố</span>
                         </a>
                     </li>
+                    <div class="divider"></div>
                     <li>
                         <a class="dropdown-item" routerLink="invoice-header" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Manage Invoices</span>
+                            <fa-icon [icon]="'sticky-note'" [fixedWidth]="true"></fa-icon>
+                            <span>Quản lý hóa đơn</span>
                         </a>
                     </li>
+                    <div class="divider"></div>
                     <li>
                         <a class="dropdown-item" routerLink="cancel-invoice" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Manage Request Cancel</span>
+                            <fa-icon [icon]="'sticky-note'" [fixedWidth]="true"></fa-icon>
+                            <span>Quản lý đơn hàng đã hủy</span>
                         </a>
                     </li>
+                    <div class="divider"></div>
                     <li>
                         <a class="dropdown-item" routerLink="personal-shipment-admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Manage Personal Shipment</span>
+                            <fa-icon [icon]="'truck'" [fixedWidth]="true"></fa-icon>
+                            <span>Quản lý đơn hàng cá nhân</span>
                         </a>
                     </li>
-                    <!-- Divider -->
                     <div class="divider"></div>
-                    <!-- Divider -->
-                    <li>
+                    <!-- <li>
                         <a class="dropdown-item" routerLink="admin/gateway" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon [icon]="'road'" [fixedWidth]="true"></fa-icon>
                             <span>Gateway</span>
                         </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'user'" [fixedWidth]="true"></fa-icon>
-                            <span>User management</span>
-                        </a>
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                         <a class="dropdown-item" routerLink="admin/jhi-metrics" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon [icon]="'tachometer-alt'" [fixedWidth]="true"></fa-icon>
                             <span>Metrics</span>
@@ -181,19 +187,19 @@
                             <fa-icon [icon]="'bell'" [fixedWidth]="true"></fa-icon>
                             <span>Audits</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li>
                         <a class="dropdown-item" routerLink="admin/logs" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon [icon]="'tasks'" [fixedWidth]="true"></fa-icon>
                             <span>Logs</span>
                         </a>
                     </li>
-                    <li *ngIf="swaggerEnabled">
+                    <!-- <li *ngIf="swaggerEnabled">
                         <a class="dropdown-item" routerLink="admin/docs" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon [icon]="'book'" [fixedWidth]="true"></fa-icon>
                             <span>API</span>
                         </a>
-                    </li>
+                    </li> -->
                     <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
                 </ul>
             </li>
@@ -205,7 +211,7 @@
                   <span *ngIf="!getImageUrl()">
                     <fa-icon [icon]="'user'"></fa-icon>
                     <span>
-                        Account
+                        Tài khoản
                     </span>
                   </span>
                   <span *ngIf="getImageUrl()">
@@ -216,13 +222,13 @@
                     <li *ngSwitchCase="true">
                         <a class="dropdown-item" routerLink="settings" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon [icon]="'wrench'" [fixedWidth]="true"></fa-icon>
-                            <span>My Profile</span>
+                            <span>Thông tin của tôi</span>
                         </a>
                     </li>
                     <li *ngSwitchCase="true">
                         <a class="dropdown-item" routerLink="password" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon [icon]="'clock'" [fixedWidth]="true"></fa-icon>
-                            <span>Change Password</span>
+                            <span>Đổi mật khẩu</span>
                         </a>
                     </li>
                     <!-- Divider -->
@@ -232,13 +238,13 @@
                         <li>
                             <a class="dropdown-item" routerLink="invoice-header-user" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                                 <fa-icon [icon]="'sticky-note'" [fixedWidth]="true"></fa-icon>
-                                <span>Invoices History</span>
+                                <span>Lịch sử đơn hàng của tôi</span>
                             </a>
                         </li>
                         <li>
                             <a class="dropdown-item" routerLink="receiptnote-user" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                                 <fa-icon [icon]="'check-circle'" [fixedWidth]="true"></fa-icon>
-                                <span>Confirm Receipt Note</span>
+                                <span>Xác nhận đơn hàng</span>
                             </a>
                         </li>
                         <!-- Divider -->
@@ -248,13 +254,13 @@
                     <li *ngSwitchCase="true">
                         <a class="dropdown-item" (click)="logout()" id="logout">
                             <fa-icon [icon]="'sign-out-alt'" [fixedWidth]="true"></fa-icon>
-                            <span>Sign out</span>
+                            <span>Đăng xuất</span>
                         </a>
                     </li>
                     <li *ngSwitchCase="false">
                         <a class="dropdown-item" (click)="login()" id="login">
                             <fa-icon [icon]="'sign-in-alt'" [fixedWidth]="true"></fa-icon>
-                            <span>Sign in</span>
+                            <span>Đăng nhập</span>
                         </a>
                     </li>
                     <!-- <li *ngSwitchCase="false">
@@ -266,7 +272,7 @@
                     <li *ngSwitchCase="false">
                         <a class="dropdown-item" (click)="register()" id="register">
                             <fa-icon [icon]="'user-plus'" [fixedWidth]="true"></fa-icon>
-                            <span>Register</span>
+                            <span>Đăng ký</span>
                         </a>
                     </li>
                 </ul>
