@@ -143,8 +143,10 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
         </div>
-        <div *ngIf="!receiptnote">
-            <h2>Receipt note in not created</h2>
+        </div>
+    <div class="col-16" *ngIf="!receiptnote">
+        <div >
+            <h2>Biên nhận chưa được tạo</h2>
             <button type="button" class="btn btn-primary"
                 [routerLink]="['/receiptnote', id, 'new-receive']">Create receive note</button>
         </div>
