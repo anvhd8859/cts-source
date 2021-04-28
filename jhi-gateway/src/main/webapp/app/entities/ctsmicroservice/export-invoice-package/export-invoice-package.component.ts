@@ -17,7 +17,7 @@ import { ExportInvoicePackageService } from './export-invoice-package.service';
     templateUrl: './export-invoice-package.component.html'
 })
 export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
-    invoicePackageShipments: IInvoicePackageShipment[];
+    invoicePackageShipments: IInvoicePackageShipment[] = [];
     finalData: any;
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -79,13 +79,6 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
             (res: HttpResponse<IInvoicePackageShipment[]>) => {
                 this.invoicePackageShipments = res.body;
                 this.finalData = JSON.parse(JSON.stringify(this.invoicePackageShipments));
-                for (const i in this.invoicePackageShipments) {
-                    if (this.invoicePackageShipments[i].invoiceHeader.status === this.listInvoiceStatus[0].id) {
-                        this.invoicePackageShipments[i].invoiceHeader.status = this.listInvoiceStatus[0].text;
-                    } else {
-                        this.invoicePackageShipments[i].invoiceHeader.status = this.listInvoiceStatus[1].text;
-                    }
-                }
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
