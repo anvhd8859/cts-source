@@ -64,7 +64,7 @@ export const receiptnoteRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Receipt Note'
         },
