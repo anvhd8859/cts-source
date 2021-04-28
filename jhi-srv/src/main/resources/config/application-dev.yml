@@ -24,7 +24,7 @@ eureka:
         prefer-ip-address: true
     client:
         service-url:
-            defaultZone: http://admin:admin@139.180.129.192:8761/eureka/
+            defaultZone: http://admin:admin@66.42.60.140:8761/eureka/
 
 spring:
     profiles:
