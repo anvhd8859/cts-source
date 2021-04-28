@@ -21,3 +21,14 @@ Main page styles
         background-size: contain;
     }
 }
+
+.zoom {
+    transition: transform 0.2s;
+    width: 20rem;
+    height: 25rem;
+    margin: 0 auto;
+}
+
+.zoom:hover {
+    transform: scale(1.2);
+}
