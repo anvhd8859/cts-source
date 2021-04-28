@@ -9,11 +9,11 @@
                 <dd>
                     <span>{{receiptnote.employeeId}}</span>
                 </dd>
-                <dt><span>Hóa đơn số</span></dt>
+                <dt><span>Mã hóa đơn</span></dt>
                 <dd>
                     <span>{{receiptnote.invoiceHeaderId}}</span>
                 </dd>
-                <dt><span>Note</span></dt>
+                <dt><span>Ghi chú</span></dt>
                 <dd>
                     <span>{{receiptnote.note}}</span>
                 </dd>
@@ -40,15 +40,15 @@
                         <h4>Thông tin hóa đơn</h4>
                     </th>
                     <tr >
-                        <th>Mã số hóa đơn điện tử: </th>
+                        <th>Số hóa đơn: </th>
                         <td>{{invoiceHeader.invoiceNo}}</td>
                     </tr>
                     <tr>
-                        <th>Invoice Type: </th>
+                        <th>Loại hóa đơn: </th>
                         <td>Giao hàng cá nhân</td>
                     </tr>
                     <tr>
-                        <th>Invoice Status: </th>
+                        <th>Tình trạng đơn hàng: </th>
                         <td>{{common.processInvoiceStatus(invoiceHeader.status)}}</td>
                     </tr>
                     <tr>
@@ -89,7 +89,7 @@
                                     <th>Height (cm)</th>
                                     <th>Width (cm)</th>
                                     <th>Length (cm)</th>
-                                    <th>Note</th>
+                                    <th>Ghi chú</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -140,11 +140,13 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
         </div>
-        <div *ngIf="!receiptnote">
-            <h2>Receipt note in not created</h2>
+        </div>
+    <div class="col-16" *ngIf="!receiptnote">
+        <div >
+            <h2>Biên nhận chưa được tạo</h2>
             <button type="button" class="btn btn-primary"
                 [routerLink]="['/receiptnote', id, 'new-receive']">Create receive note</button>
         </div>

@@ -9,18 +9,18 @@
                 <dd>
                     <span>{{district.districtName}}</span>
                 </dd>
-                <dt><span>Create Date</span></dt>
+                <dt><span>Ngày khởi tạo</span></dt>
                 <dd>
                     <span>{{district.createDate}}</span>
                 </dd>
-                <dt><span>Update Date</span></dt>
+                <dt><span>Ngày chỉnh sửa</span></dt>
                 <dd>
                     <span>{{district.updateDate}}</span>
                 </dd>
                 <dt><span>Province Id</span></dt>
                 <dd>
                     <div *ngIf="district.provinceIdId">
-                        <a [routerLink]="['/province', district.provinceIdId, 'view']">{{district.provinceIdId}}</a>
+                        <a [routerLink]="['/province', district.provinceIdId, 'Chi tiết']">{{district.provinceIdId}}</a>
                     </div>
                 </dd>
             </dl>
@@ -28,13 +28,13 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/district', district.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Chỉnh sửa</span>
             </button>
         </div>
     </div>

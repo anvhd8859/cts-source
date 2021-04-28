@@ -13,7 +13,7 @@
                 <label for="user-address"><b>User Credential</b></label>
                 <div name="user-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                     <div class="form-group" [hidden]="!user.id">
-                        <label>ID</label>
+                        <label>Mã số</label>
                         <input type="text" class="form-control" name="id"
                             [(ngModel)]="user.id" readonly>
                     </div>
@@ -122,7 +122,7 @@
                     <!-- JHI-USER -->
 
                     <!-- User Profile -->
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label>Gender</label>
@@ -143,9 +143,9 @@
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label for="phone">Phone Number</label>
-                                <input  class="form-control" 
-                                        type="text" 
-                                        [(ngModel)]="this.userProfile.phoneNumber" 
+                                <input  class="form-control"
+                                        type="text"
+                                        [(ngModel)]="this.userProfile.phoneNumber"
                                         value="{{this.userProfile.phoneNumber}}"
                                         id="phone"
                                         name="phone"
@@ -216,13 +216,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label>PIT Code</label>
-                                <input  class="form-control" 
-                                        type="text" 
-                                        [(ngModel)]="this.userProfile.pitCode" 
+                                <input  class="form-control"
+                                        type="text"
+                                        [(ngModel)]="this.userProfile.pitCode"
                                         value="{{this.userProfile.pitCode}}"
                                         id="pit"
                                         name="pit">
@@ -231,9 +231,9 @@
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label for="socialNum">Social Number</label>
-                                <input  class="form-control" 
-                                        type="text" 
-                                        [(ngModel)]="this.userProfile.socialNumber" 
+                                <input  class="form-control"
+                                        type="text"
+                                        [(ngModel)]="this.userProfile.socialNumber"
                                         value="{{this.userProfile.socialNumber}}"
                                         id="socialNum"
                                         name="socialNum">
@@ -328,11 +328,11 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="address">Address</label>
-                                <textarea class="form-control" 
+                                <textarea class="form-control"
                                     style="resize: none;"
                                     rows="3"
-                                    id="address" 
-                                    name="address" 
+                                    id="address"
+                                    name="address"
                                     [(ngModel)]="this.userProfile.address"
                                 >
                                 </textarea>
@@ -344,7 +344,7 @@
             <div>
                 <button type="button" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span
-                   >Cancel</span>
+                   >Hủy</span>
                 </button>
                 <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>

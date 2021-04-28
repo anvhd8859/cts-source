@@ -9,11 +9,11 @@
                 <dd>
                     <span>{{street.streetName}}</span>
                 </dd>
-                <dt><span>Create Date</span></dt>
+                <dt><span>Ngày khởi tạo</span></dt>
                 <dd>
                     <span>{{street.createDate}}</span>
                 </dd>
-                <dt><span>Update Date</span></dt>
+                <dt><span>Ngày chỉnh sửa</span></dt>
                 <dd>
                     <span>{{street.updateDate}}</span>
                 </dd>
@@ -28,13 +28,13 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/street', street.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Chỉnh sửa</span>
             </button>
         </div>
     </div>

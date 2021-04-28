@@ -14,13 +14,13 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="employeeId"><span>Employee Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="invoiceHeaderId"><span>Invoice Header Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="note"><span>Note</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="customerConfirm"><span>Customer Confirm</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createDate"><span>Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updateDate"><span>Update Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="id"><span>Mã số</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="employeeId"><span>Mã nhân viên</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="invoiceHeaderId"><span>Mã hóa đơn</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="note"><span>Ghi chú</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="customerConfirm"><span>Khách hàng xác nhận</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createDate"><span>Ngày khởi tạo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updateDate"><span>Ngày chỉnh sửa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -39,13 +39,13 @@
                                 [routerLink]="['/confirm-receipt-note', confirmReceiptNote.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
+                            <span class="d-none d-md-inline">Chi tiết</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/confirm-receipt-note', confirmReceiptNote.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
+                            <span class="d-none d-md-inline">Sửa</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'confirm-receipt-note/'+ confirmReceiptNote.id + '/delete'} }]"
@@ -53,7 +53,7 @@
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
+                            <span class="d-none d-md-inline">Xóa</span>
                         </button>
                     </div>
                 </td>

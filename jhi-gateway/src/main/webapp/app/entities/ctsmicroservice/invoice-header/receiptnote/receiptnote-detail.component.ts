@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { Receiptnote } from './../../../../shared/model/ctsmicroservice/receiptnote.model';
 import { IInvoiceHeader } from './../../../../shared/model/ctsmicroservice/invoice-header.model';
 import { IInvoiceDetails } from './../../../../shared/model/ctsmicroservice/invoice-details.model';
 import { IInvoicePackage } from './../../../../shared/model/ctsmicroservice/invoice-package.model';
@@ -22,27 +24,31 @@ export class ReceiptnoteDetailComponent implements OnInit {
     lstInvoiceDetails: IInvoiceDetails[];
     invoiceHeader: IInvoiceHeader;
     common: CommonString;
-    showPackage: boolean = false;
-    showItem: boolean = false;
+    showPackage: boolean;
+    showItem: boolean;
 
     constructor(private activatedRoute: ActivatedRoute, private invoiceHeaderService: InvoiceHeaderService, private principal: Principal) {}
 
     ngOnInit() {
+        this.showPackage = false;
+        this.showItem = false;
         this.common = new CommonString();
         this.principal.identity().then(account => {
             this.currentUser = account;
         });
         this.activatedRoute.data.subscribe(({ receiptnote }) => {
-            this.receiptnote = receiptnote;
-            forkJoin(
-                this.invoiceHeaderService.getPackageByInvoiceId({ id: this.receiptnote.invoiceHeaderId }),
-                this.invoiceHeaderService.getDetailByInvoiceId({ id: this.receiptnote.invoiceHeaderId }),
-                this.invoiceHeaderService.find(this.receiptnote.invoiceHeaderId)
-            ).subscribe(res => {
-                this.lstInvoicePackage = res[0].body;
-                this.lstInvoiceDetails = res[1].body;
-                this.invoiceHeader = res[2].body;
-            });
+            if (receiptnote != null) {
+                this.receiptnote = receiptnote;
+                forkJoin(
+                    this.invoiceHeaderService.getPackageByInvoiceId({ id: this.receiptnote.invoiceHeaderId }),
+                    this.invoiceHeaderService.getDetailByInvoiceId({ id: this.receiptnote.invoiceHeaderId }),
+                    this.invoiceHeaderService.find(this.receiptnote.invoiceHeaderId)
+                ).subscribe(res => {
+                    this.lstInvoicePackage = res[0].body;
+                    this.lstInvoiceDetails = res[1].body;
+                    this.invoiceHeader = res[2].body;
+                });
+            }
         });
         this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     }

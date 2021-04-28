@@ -5,11 +5,11 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Invoice Header Id</span></dt>
+                <dt><span>Mã hóa đơn</span></dt>
                 <dd>
                     <span>{{personalShipment.invoiceHeaderId}}</span>
                 </dd>
-                <dt><span>Employee Id</span></dt>
+                <dt><span>Mã nhân viên</span></dt>
                 <dd>
                     <span>{{personalShipment.employeeId}}</span>
                 </dd>
@@ -25,15 +25,15 @@
                 <dd>
                     <span>{{personalShipment.finishTime}}</span>
                 </dd>
-                <dt><span>Status</span></dt>
+                <dt><span>Trạng thái</span></dt>
                 <dd>
                     <span>{{personalShipment.status}}</span>
                 </dd>
-                <dt><span>Create Date</span></dt>
+                <dt><span>Ngày khởi tạo</span></dt>
                 <dd>
                     <span>{{personalShipment.createDate}}</span>
                 </dd>
-                <dt><span>Update Date</span></dt>
+                <dt><span>Ngày chỉnh sửa</span></dt>
                 <dd>
                     <span>{{personalShipment.updateDate}}</span>
                 </dd>
@@ -42,13 +42,13 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/personal-shipment', personalShipment.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Chỉnh sửa</span>
             </button>
         </div>
     </div>

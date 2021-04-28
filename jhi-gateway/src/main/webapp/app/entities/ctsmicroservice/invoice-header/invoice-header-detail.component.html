@@ -25,11 +25,11 @@
                         <td>{{this.office.officeName}}</td>
                     </tr>
                     <tr>
-                        <th>Invoice Type: </th>
+                        <th>Loại hóa đơn: </th>
                         <td>Giao hàng cá nhân</td>
                     </tr>
                     <tr>
-                        <th>Invoice Status: </th>
+                        <th>Tình trạng đơn hàng: </th>
                         <td>{{common.processInvoiceStatus(invoiceHeader.status)}}</td>
                     </tr>
                     <tr>
@@ -62,7 +62,7 @@
                                     <th>Height (cm)</th>
                                     <th>Width (cm)</th>
                                     <th>Length (cm)</th>
-                                    <th>Note</th>
+                                    <th>Ghi chú</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -131,11 +131,11 @@
             </div>
             <br>
             <!-- <dl class="row-md jh-entity-details">
-                <dt><span>Note</span></dt>
+                <dt><span>Ghi chú</span></dt>
                 <dd>
                     <span>{{invoiceHeader.note}}</span>
                 </dd>
-                <dt><span>Cancel</span></dt>
+                <dt><span>Hủy</span></dt>
                 <dd>
                     <span>{{invoiceHeader.cancel}}</span>
                 </dd>
@@ -143,7 +143,7 @@
                 <dd>
                     <span>{{invoiceHeader.cancelReason}}</span>
                 </dd>
-                <dt><span>Customer Confirm</span></dt>
+                <dt><span>Khách hàng xác nhận</span></dt>
                 <dd>
                     <span>{{invoiceHeader.customerConfirm}}</span>
                 </dd>
@@ -155,7 +155,7 @@
                 <dd>
                     <span>{{invoiceHeader.finish}}</span>
                 </dd>
-                <dt><span>Due Date</span></dt>
+                <dt><span>Ngày giao dự kiến</span></dt>
                 <dd>
                     <span>{{invoiceHeader.dueDate}}</span>
                 </dd>
@@ -163,11 +163,11 @@
                 <dd>
                     <span>{{invoiceHeader.finishDate}}</span>
                 </dd>
-                <dt><span>Create Date</span></dt>
+                <dt><span>Ngày khởi tạo</span></dt>
                 <dd>
                     <span>{{invoiceHeader.createDate}}</span>
                 </dd>
-                <dt><span>Update Date</span></dt>
+                <dt><span>Ngày chỉnh sửa</span></dt>
                 <dd>
                     <span>{{invoiceHeader.updateDate}}</span>
                 </dd>
@@ -175,7 +175,7 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
         </div>
     </div>

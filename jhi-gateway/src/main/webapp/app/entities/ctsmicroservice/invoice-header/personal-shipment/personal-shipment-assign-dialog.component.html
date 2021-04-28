@@ -1,6 +1,6 @@
 <form name="deleteForm" (ngSubmit)="confirmDelete(personalShipment.id)">
     <div class="modal-header">
-        <h4 class="modal-title">Re-Assign</h4>
+        <h4 class="modal-title">Thay đổi nhân viên giao đơn hàng</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 (click)="clear()">&times;</button>
     </div>
@@ -9,19 +9,19 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="form-group">
-                    <label for="assignee">Current Assignee: <b *ngIf="this.currentAssignee">{{this.currentAssignee.login}}</b></label>
+                    <label for="assignee">Nhân viên giao: <b *ngIf="this.currentAssignee">{{this.currentAssignee.login}}</b></label>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="form-group">
-                    <label for="type">Re-Assign To:</label>
-                    <ng-select  [clearable]="true" 
-                                [hideSelected]="true" 
-                                [items]="this.lstShipper" 
+                    <label for="type">Chuyển đơn cho nhân viên:</label>
+                    <ng-select  [clearable]="true"
+                                [hideSelected]="true"
+                                [items]="this.lstShipper"
                                 bindLabel="email"
-                                id="field_customerId" name="field_customerId" 
+                                id="field_customerId" name="field_customerId"
                                 [ngModelOptions]="{standalone: true}"
                                 [(ngModel)]="this.selectedShipper">
                             <ng-option *ngFor="let item of lstShipper">{{item.email}}</ng-option>
@@ -32,10 +32,10 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
-            <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+            <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Hủy</span>
         </button>
         <button id="jhi-confirm-delete-personalShipment" type="submit" class="btn btn-success">
-            <fa-icon [icon]="'check'"></fa-icon>&nbsp;<span>Confirm</span>
+            <fa-icon [icon]="'check'"></fa-icon>&nbsp;<span>Xác nhận</span>
         </button>
     </div>
 </form>
