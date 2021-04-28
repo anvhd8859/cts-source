@@ -96,17 +96,17 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		}
 		else {
 			receiptNote.setUpdateDate(instant);
-	        receiptNote = receiptNoteRepository.save(receiptNote);
-	        InvoiceHeader inv = invoiceHeaderRepository.getOne(receiptNote.getInvoiceHeaderId());
-	        PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(receiptNote.getInvoiceHeaderId());
-	        ps.setFinishTime(instant);
-	        inv.setUpdateDate(instant);
-	        ps.setUpdateDate(instant);
-	        inv.setStatus("collected");
-	        ps.setStatus("finish");
-	        invoiceHeaderRepository.save(inv);
-	        personalShipmentRepository.save(ps);
 		}
+        receiptNote = receiptNoteRepository.save(receiptNote);
+        InvoiceHeader inv = invoiceHeaderRepository.getOne(receiptNote.getInvoiceHeaderId());
+        PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(receiptNote.getInvoiceHeaderId());
+        ps.setFinishTime(instant);
+        inv.setUpdateDate(instant);
+        ps.setUpdateDate(instant);
+        inv.setStatus("collected");
+        ps.setStatus("finish");
+        invoiceHeaderRepository.save(inv);
+        personalShipmentRepository.save(ps);
         return receiptNoteMapper.toDto(receiptNote);
     }
 
