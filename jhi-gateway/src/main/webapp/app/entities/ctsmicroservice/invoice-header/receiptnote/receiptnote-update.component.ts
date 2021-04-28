@@ -59,33 +59,29 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     }
 
     save() {
-        this.isSaving = true;
-        if (this.lstInvoicePackage.length === 0 && this.lstInvoiceDetails.length === 0) {
-            return;
-        }
-        this.receiptnote.createDate =
-            this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : moment(new Date(), DATE_TIME_FORMAT);
-        this.receiptnote.updateDate = moment(new Date(), DATE_TIME_FORMAT);
-        if (this.receiptnote.id !== undefined) {
-            this.subscribeToSaveResponse(this.receiptnoteService.update(this.receiptnote));
-        } else {
-            this.data.receipt = this.receiptnote;
-            this.data.invoicePackageList = this.lstInvoicePackage;
-            this.data.invoiceDetailList = this.lstInvoiceDetails;
-            this.receiptnoteService.createReceiptNoteAndShipmentInvoice(this.data).subscribe(
-                (res: HttpResponse<any>) => {
-                    this.onSaveSuccess();
-                },
-                (res: HttpErrorResponse) => {
-                    this.onSaveError();
-                }
-            );
+        if (this.lstInvoicePackage.length > 0 && this.lstInvoiceDetails.length > 0) {
+            if (this.receiptnote.id === undefined) {
+                this.isSaving = true;
+                this.data = new CustomReceipt();
+                this.data.receipt = this.receiptnote;
+                this.data.invoicePackageList = this.lstInvoicePackage;
+                this.data.invoiceDetailList = this.lstInvoiceDetails;
+                this.receiptnoteService.createReceiptNoteAndShipmentInvoice(this.data).subscribe(
+                    (res: HttpResponse<any>) => {
+                        this.onSaveSuccess();
+                    },
+                    (res: HttpErrorResponse) => {
+                        this.onSaveError();
+                    }
+                );
+                this.isSaving = false;
+            }
         }
     }
 
     addNewInvoiceDetailElement() {
         this.invDetailCount++;
-        const obj = new InvoiceDetails(null, null, '', '', null, null, null, null, '', '', '', null, null);
+        const obj = new InvoiceDetails(null, this.receiptnote.invoiceHeaderId, '', '', null, null, null, null, '', '', '', null, null);
         this.lstInvoiceDetails.push(obj);
         console.log(this.lstInvoiceDetails);
     }
@@ -98,7 +94,21 @@ export class ReceiptnoteUpdateComponent implements OnInit {
 
     addNewInvoicePackageElement() {
         this.invPackageCount++;
-        const obj = new InvoicePackage(null, null, null, null, null, null, null, false, 'New', '', null, null, null);
+        const obj = new InvoicePackage(
+            null,
+            this.receiptnote.invoiceHeaderId,
+            null,
+            null,
+            null,
+            null,
+            null,
+            false,
+            'New',
+            '',
+            null,
+            null,
+            null
+        );
         this.lstInvoicePackage.push(obj);
         console.log(this.lstInvoicePackage);
     }
@@ -127,4 +137,12 @@ export interface ICustomReceipt {
     receipt?: IReceiptnote;
     invoicePackageList?: IInvoicePackage[];
     invoiceDetailList?: IInvoiceDetails[];
+}
+
+export class CustomReceipt {
+    constructor(
+        public receipt?: IReceiptnote,
+        public invoicePackageList?: IInvoicePackage[],
+        public invoiceDetailList?: IInvoiceDetails[]
+    ) {}
 }
