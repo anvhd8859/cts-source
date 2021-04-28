@@ -269,14 +269,14 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 					fromStreet.getSubDistrictId().getDistrictId().getId(),
 					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
 			ps.setEmployeeId(wa.getEmployeeId());
-			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.05)));
+			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.07)));
 			lstShipment.add(ps);
 		}
 		else {
 			if(invoiceHeaderDTO.getStatus().equalsIgnoreCase("new")) invoiceHeaderDTO.setStatus("receive");
 		}
 		invoiceHeaderDTO.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
-		invoiceHeaderDTO.setTotalDue(subTotal.add(invoiceHeaderDTO.getTaxAmount()));
+		invoiceHeaderDTO.setTotalDue(subTotal.add(new BigDecimal(1.1)));
 
 		// save data
 		PersonalShipment psDelivery = new PersonalShipment();
@@ -309,6 +309,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		for (InvoicePackageDTO ip : lstPackage) {
 			totalWeight += ip.getWeight();
 		}
+		totalWeight /= 1000;
 		if (fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId() == toStreet.getSubDistrictId()
 				.getDistrictId().getProvinceId().getId()) {
 			if (totalWeight <= 0.25)
