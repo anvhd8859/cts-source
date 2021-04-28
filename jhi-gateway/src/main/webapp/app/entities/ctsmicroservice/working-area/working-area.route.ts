@@ -11,6 +11,7 @@ import { WorkingAreaDetailComponent } from './working-area-detail.component';
 import { WorkingAreaUpdateComponent } from './working-area-update.component';
 import { WorkingAreaDeletePopupComponent } from './working-area-delete-dialog.component';
 import { IWorkingArea } from 'app/shared/model/ctsmicroservice/working-area.model';
+import { JhiResolvePagingParams } from 'ng-jhipster';
 
 @Injectable({ providedIn: 'root' })
 export class WorkingAreaResolve implements Resolve<IWorkingArea> {
@@ -29,6 +30,9 @@ export const workingAreaRoute: Routes = [
     {
         path: 'working-area',
         component: WorkingAreaComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
         data: {
             authorities: ['ROLE_ADMIN'],
             pageTitle: 'WorkingAreas'
