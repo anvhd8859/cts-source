@@ -1,3 +1,4 @@
+import { CommonString } from './../../../shared/util/request-util';
 import { AccountService } from './../../../core/auth/account.service';
 import { IInvoicePackageShipment } from './../import-invoice-package/import-invoice-package.model';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -46,6 +47,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
     reverse: any;
     isSaving: boolean;
     officeId: any;
+    common: CommonString;
 
     constructor(
         private exportInvoicePackageService: ExportInvoicePackageService,
@@ -56,6 +58,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) {
+        this.common = new CommonString();
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;

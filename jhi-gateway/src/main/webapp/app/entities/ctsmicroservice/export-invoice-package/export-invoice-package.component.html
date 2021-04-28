@@ -71,7 +71,7 @@
             <tr *ngFor="let importInvoicePackage of invoicePackageShipments ;trackBy: trackId">
                 <td><a>{{importInvoicePackage.invoiceHeader.id}}</a></td>
                 <td>{{importInvoicePackage.invoiceHeader.invoiceNo}}</td>
-                <td>{{importInvoicePackage.invoiceHeader.status}}</td>
+                <td>{{common.processInvoiceStatus(importInvoicePackage.invoiceHeader.status)}}</td>
                 <td>{{importInvoicePackage.invoiceHeader.destinationAddress}}</td>
                 <td>{{importInvoicePackage.invoiceHeader.note}}</td>
                 <td>{{importInvoicePackage.invoiceHeader.dueDate | date:'yyyy-MM-dd HH:mm'}}</td>
