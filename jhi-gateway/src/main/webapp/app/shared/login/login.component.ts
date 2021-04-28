@@ -62,7 +62,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
 
                 this.eventManager.broadcast({
                     name: 'authenticationSuccess',
-                    content: 'Sending Authentication Success'
+                    content: this.username
                 });
 
                 // previousState was set in the authExpiredInterceptor before being redirected to login modal.
