@@ -34,7 +34,7 @@ export const importInvoicePackageRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_KEEPER'],
-            pageTitle: 'ImportInvoicePackages'
+            pageTitle: 'CTS: Quản lý nhập kho'
         },
         canActivate: [UserRouteAccessService]
     }
