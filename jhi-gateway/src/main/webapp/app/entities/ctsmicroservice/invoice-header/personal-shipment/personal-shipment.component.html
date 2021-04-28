@@ -56,7 +56,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let object of shipmentInvoices">
-                    <td>{{object.invoiceHeaderDTO.id}} </td>
+                    <td>{{object.personalShipmentDTO.id}} </td>
                     <td>{{object.invoiceHeaderDTO.invoiceNo}} </td>
                     <td>{{object.invoiceHeaderDTO.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
                     <td>{{common.processInvoiceStatus(object.invoiceHeaderDTO.status)}} </td>
