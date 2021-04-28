@@ -6,11 +6,13 @@ import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.InvoicePackage;
 import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.domain.ReceiptNote;
+import com.fu.capstone.domain.Street;
 import com.fu.capstone.repository.InvoiceDetailsRepository;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
 import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.ReceiptNoteRepository;
+import com.fu.capstone.repository.StreetRepository;
 import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
 import com.fu.capstone.service.dto.DetailPackageDTO;
 import com.fu.capstone.service.dto.InvoiceDetailsDTO;
@@ -30,6 +32,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,11 +65,13 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 
     private PersonalShipmentRepository personalShipmentRepository;
 
+    private StreetRepository streetRepository;
+
     public ReceiptNoteServiceImpl(ReceiptNoteRepository receiptNoteRepository, ReceiptNoteMapper receiptNoteMapper,
     		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
     		InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
     		InvoiceDetailsRepository invoiceDetailsRepository, InvoiceDetailsMapper invoiceDetailsMapper,
-    		PersonalShipmentRepository personalShipmentRepository) {
+    		PersonalShipmentRepository personalShipmentRepository, StreetRepository streetRepository) {
         this.receiptNoteRepository = receiptNoteRepository;
         this.receiptNoteMapper = receiptNoteMapper;
         this.invoiceHeaderRepository = invoiceHeaderRepository;
@@ -76,6 +81,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
         this.invoiceDetailsRepository = invoiceDetailsRepository;
         this.invoiceDetailsMapper = invoiceDetailsMapper;
         this.personalShipmentRepository = personalShipmentRepository;
+        this.streetRepository = streetRepository;
     }
 
     /**
@@ -183,15 +189,26 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 	@Override
 	public ReceiptNoteDTO createReceiptNoteAndShipmentInvoice(ReceiptDetailPackageDTO data) {
 		Instant instant = Instant.now();
-		if(data.getReceipt().getId() != null)data.getReceipt().setCreateDate(instant);
+		if(data.getReceipt().getId() == null) data.getReceipt().setCreateDate(instant);
 		data.getReceipt().setUpdateDate(instant);
 		data.getReceipt().setCustomerConfirm(false);
 		for(InvoicePackageDTO ip : data.getInvoicePackageList()) {
 			ip.setUpdateDate(instant);
+			ip.setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
 		}
 		for(InvoiceDetailsDTO ip : data.getInvoiceDetailList()) {
 			ip.setUpdateDate(instant);
+			ip.setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
 		}
+		InvoiceHeader inv = invoiceHeaderRepository.getOne(data.getReceipt().getInvoiceHeaderId());
+		Street fromStreet = streetRepository.getFullAddressByStreetId(inv.getStartStreetId());
+		Street toStreet = streetRepository.getFullAddressByStreetId(inv.getDestinationStreetId());
+		inv.setUpdateDate(instant);
+		BigDecimal subTotal = calculateSubTotal(data.getInvoicePackageList(), fromStreet, toStreet);
+		subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.07)));
+		inv.setSubTotal(subTotal);
+		inv.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
+		inv.setTotalDue(subTotal.multiply(new BigDecimal(1.1)));
 		PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(data.getReceipt().getInvoiceHeaderId());
 		ps.setStatus("finish");
 		ps.setShipTime(instant);
@@ -201,5 +218,47 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(data.getInvoicePackageList()));
 		invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(data.getInvoiceDetailList()));
 		return receiptNoteMapper.toDto(receiptNoteRepository.save(data.getReceipt()));
+	}
+	
+	private BigDecimal calculateSubTotal(List<InvoicePackageDTO> lstPackage, Street fromStreet, Street toStreet) {
+		BigDecimal result = new BigDecimal(0);
+		float totalWeight = 0;
+		for (InvoicePackageDTO ip : lstPackage) {
+			totalWeight += ip.getWeight();
+		}
+		totalWeight /= 1000;
+		if (fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId() == toStreet.getSubDistrictId()
+				.getDistrictId().getProvinceId().getId()) {
+			if (totalWeight <= 0.25)
+				result = new BigDecimal(9000);
+			else if (totalWeight <= 0.50)
+				result = new BigDecimal(13000);
+			else if (totalWeight <= 1.00)
+				result = new BigDecimal(16000);
+			else if (totalWeight <= 1.50)
+				result = new BigDecimal(25000);
+			else if (totalWeight <= 2.00)
+				result = new BigDecimal(29000);
+			else if (totalWeight <= 100.00)
+				result = new BigDecimal(2600.0 * totalWeight);
+			else
+				result = new BigDecimal(1400.0 * totalWeight);
+		} else {
+			if (totalWeight <= 0.25)
+				result = new BigDecimal(10000);
+			else if (totalWeight <= 0.50)
+				result = new BigDecimal(14000);
+			else if (totalWeight <= 1.00)
+				result = new BigDecimal(17000);
+			else if (totalWeight <= 1.50)
+				result = new BigDecimal(26000);
+			else if (totalWeight <= 2.00)
+				result = new BigDecimal(30000);
+			else if (totalWeight <= 100.00)
+				result = new BigDecimal(5000.0 * totalWeight);
+			else
+				result = new BigDecimal(3200.0 * totalWeight);
+		}
+		return result;
 	}
 }

@@ -87,20 +87,20 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="form-group">
                 <label for="invoiceNumber">Invoice Number</label>
                 <input type="text" class="form-control" placeholder="(ALL)" [ngModelOptions]="{standalone: true}"
                     [(ngModel)]="selectedInvoiceNumber" value="{{selectedInvoiceNumber}}">
             </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="form-group">
                 <label for="type">Shipper</label>
                 <ng-select  [clearable]="true"
                             [hideSelected]="true"
                             [items]="this.lstShipper"
-                            bindLabel="email"
+                            bindLabel="email" placeholder="(ALL)"
                             id="field_customerId" name="field_customerId"
                             [ngModelOptions]="{standalone: true}"
                             [(ngModel)]="this.selectedShipper">
@@ -108,7 +108,17 @@
                 </ng-select>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-6 text-center">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="type">Type</label>
+                <ng-select [clearable]="true" [hideSelected]="true" [items]="common.listTypeShipment" bindLabel="text"
+                    bindValue="id" id="type" name="type" [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="this.selectedShipmentType" placeholder="(ALL)">
+                    <ng-option *ngFor="let item of common.listTypeShipment">{{item.text}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 text-center">
             <div class="form-group">
                 <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary"
                     (click)="this.loadAll()">

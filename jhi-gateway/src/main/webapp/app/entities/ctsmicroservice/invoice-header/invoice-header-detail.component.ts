@@ -28,8 +28,7 @@ export class InvoiceHeaderDetailComponent implements OnInit {
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
         private officeService: OfficeService,
-        private activatedRoute: ActivatedRoute,
-        private accountService: AccountService
+        private activatedRoute: ActivatedRoute
     ) {
         this.showPackage = false;
         this.showItem = false;

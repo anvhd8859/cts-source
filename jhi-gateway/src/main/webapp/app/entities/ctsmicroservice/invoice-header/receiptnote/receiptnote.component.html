@@ -4,7 +4,7 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-receiptnote" [routerLink]="['/receiptnote/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
-            Create new Receiptnote
+            Tạo mới Biên nhận
             </span>
         </button>
     </h2>
@@ -15,12 +15,12 @@
             <thead>
             <tr>
             <th><span>ID</span></th>
-            <th><span>Employee Id</span></th>
-            <th><span>Invoice Header Id</span></th>
-            <th><span>Note</span></th>
-            <th><span>Customer Confirm</span></th>
-            <th><span>Create Date</span></th>
-            <th><span>Update Date</span></th>
+            <th><span>Mã nhân viên</span></th>
+            <th><span>Mã hóa đơn</span></th>
+            <th><span>Ghi chú</span></th>
+            <th><span>Khách hàng xác nhận</span></th>
+            <th><span>Ngày tạo</span></th>
+            <th><span>Ngày cập nhật</span></th>
             <th></th>
             </tr>
             </thead>
@@ -30,7 +30,7 @@
                 <td>{{receiptnote.employeeId}}</td>
                 <td>{{receiptnote.invoiceHeaderId}}</td>
                 <td>{{receiptnote.note}}</td>
-                <td>{{receiptnote.customerConfirm}}</td>
+                <td>{{receiptnote.customerConfirm ? "Đã xác nhận" : "Chưa xác nhận"}}</td>
                 <td>{{receiptnote.createDate | date:'medium'}}</td>
                 <td>{{receiptnote.updateDate | date:'medium'}}</td>
                 <td class="text-right">
@@ -39,13 +39,13 @@
                                 [routerLink]="['/receiptnote', receiptnote.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
+                            <span class="d-none d-md-inline">Xem chi tiết</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/receiptnote', receiptnote.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
+                            <span class="d-none d-md-inline">Sửa</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'receiptnote/'+ receiptnote.id + '/delete'} }]"
@@ -53,7 +53,7 @@
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
+                            <span class="d-none d-md-inline">Xóa</span>
                         </button>
                     </div>
                 </td>
