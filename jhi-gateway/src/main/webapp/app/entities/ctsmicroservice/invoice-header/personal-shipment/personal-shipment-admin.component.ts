@@ -1,3 +1,4 @@
+import { CommonString } from './../../../../shared/util/request-util';
 import { IShipmentInvoice, PersonalShipmentService } from './personal-shipment.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
@@ -45,6 +46,7 @@ export class PersonalShipmentAdminComponent implements OnInit, OnDestroy {
     selectedStreet: any;
     lstShipper: IUser[];
     selectedShipper: IUser;
+    common: CommonString;
 
     constructor(
         private personalShipmentService: PersonalShipmentService,
@@ -58,6 +60,7 @@ export class PersonalShipmentAdminComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private ngxUiLoaderService: NgxUiLoaderService
     ) {
+        this.common = new CommonString();
         this.principal.identity().then(account => {
             this.currentAccount = account;
         });
@@ -100,7 +103,7 @@ export class PersonalShipmentAdminComponent implements OnInit, OnDestroy {
     }
 
     transition() {
-        this.router.navigate(['/personal-shipment'], {
+        this.router.navigate(['/personal-shipment-admin'], {
             queryParams: {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -113,7 +116,7 @@ export class PersonalShipmentAdminComponent implements OnInit, OnDestroy {
     clear() {
         this.page = 0;
         this.router.navigate([
-            '/personal-shipment',
+            '/personal-shipment-admin',
             {
                 page: this.page,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')

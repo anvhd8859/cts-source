@@ -97,11 +97,11 @@
         <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="form-group">
                 <label for="type">Shipper</label>
-                <ng-select  [clearable]="true" 
-                            [hideSelected]="true" 
-                            [items]="this.lstShipper" 
+                <ng-select  [clearable]="true"
+                            [hideSelected]="true"
+                            [items]="this.lstShipper"
                             bindLabel="email"
-                            id="field_customerId" name="field_customerId" 
+                            id="field_customerId" name="field_customerId"
                             [ngModelOptions]="{standalone: true}"
                             [(ngModel)]="this.selectedShipper">
                         <ng-option *ngFor="let item of lstShipper">{{item.email}}</ng-option>
@@ -131,21 +131,23 @@
                 <th> Shipment Status</th>
                 <th> Collect Address </th>
                 <th> Destination Address </th>
+                <th> Employee Id </th>
                 <th> Action </th>
             </thead>
             <tbody>
                 <tr *ngFor="let object of shipmentInvoices">
-                    <td>{{object.invoiceHeaderDTO.id}} </td>
+                    <td>{{object.personalShipmentDTO.id}} </td>
                     <td>{{object.invoiceHeaderDTO.invoiceNo}} </td>
                     <td>{{object.invoiceHeaderDTO.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
-                    <td>{{object.invoiceHeaderDTO.status}} </td>
-                    <td>{{object.personalShipmentDTO.shipmentType}} </td>
-                    <td>{{object.personalShipmentDTO.status}} </td>
+                    <td>{{common.processInvoiceStatus(object.invoiceHeaderDTO.status)}} </td>
+                    <td>{{common.processShipmentType(object.personalShipmentDTO.shipmentType)}} </td>
+                    <td>{{common.processShipmentStatus(object.personalShipmentDTO.status)}} </td>
                     <td>{{object.invoiceHeaderDTO.startAddress}} </td>
                     <td>{{object.invoiceHeaderDTO.destinationAddress}} </td>
+                    <td>{{object.personalShipmentDTO.employeeId}} </td>
                     <td class="text-left">
-                        <button type="submit" 
-                            [routerLink]="['/', { outlets: { popup: 'personal-shipment/'+ object.invoiceHeaderDTO.id + '/assign'} }]"
+                        <button type="submit"
+                            [routerLink]="['/', { outlets: { popup: 'personal-shipment/'+ object.personalShipmentDTO.id + '/assign'} }]"
                             replaceUrl="true"
                             queryParamsHandling="merge"
                             class="btn btn-warning btn-sm">
@@ -155,23 +157,12 @@
                         <button type="submit" [routerLink]="['/invoice-header', object.invoiceHeaderDTO.id, 'view' ]"
                             class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
+                            <span class="d-none d-md-inline">View invoice</span>
                         </button>
-                        <button *ngIf="object.personalShipmentDTO.shipmentType === 'collect'"
-                                type="submit"
-                                [routerLink]="['/receiptnote', object.invoiceHeaderDTO.id, 'view']"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-success btn-sm">
-                            <fa-icon [icon]="'check'"></fa-icon>
-                            <span class="d-none d-md-inline">Received</span>
-                        </button>
-                        <button *ngIf="object.personalShipmentDTO.shipmentType === 'delivery'"
-                                type="submit"
-                                [routerLink]="['/invoice-header', object.invoiceHeaderDTO.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'check'"></fa-icon>
-                            <span class="d-none d-md-inline">Delivered</span>
+                        <button type="submit" [routerLink]="['/personal-shipment', object.personalShipmentDTO.id, 'view' ]"
+                            class="btn btn-secondary btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View shipment</span>
                         </button>
                     </td>
                 </tr>
