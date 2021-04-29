@@ -104,9 +104,9 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label for="gender">Phone Number</label>
-                            <input  class="form-control" 
-                                    type="text" 
-                                    [(ngModel)]="this.userProfile.phoneNumber" 
+                            <input  class="form-control"
+                                    type="text"
+                                    [(ngModel)]="this.userProfile.phoneNumber"
                                     value="{{this.userProfile.phoneNumber}}"
                                     id="gender"
                                     name="gender"
@@ -216,11 +216,11 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <textarea class="form-control" 
+                            <textarea class="form-control"
                                 style="resize: none;"
                                 rows="3"
-                                id="address" 
-                                name="address" 
+                                id="address"
+                                name="address"
                                 [(ngModel)]="this.userProfile.address"
                             >
                             </textarea>
@@ -229,7 +229,7 @@
                 </div>
             </div>
             <br>
-            <button type="submit" [disabled]="settingsForm.form.invalid" class="btn btn-primary">Save</button>
+            <button type="submit" [disabled]="settingsForm.form.invalid" class="btn btn-primary">Lưu</button>
         </form>
     </div>
 </div>

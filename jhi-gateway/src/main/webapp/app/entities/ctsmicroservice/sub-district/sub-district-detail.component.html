@@ -5,7 +5,7 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Sub District Name</span></dt>
+                <dt><span>Tên Phường/Xã</span></dt>
                 <dd>
                     <span>{{subDistrict.subDistrictName}}</span>
                 </dd>
@@ -17,7 +17,7 @@
                 <dd>
                     <span>{{subDistrict.updateDate}}</span>
                 </dd>
-                <dt><span>District Id</span></dt>
+                <dt><span>Mã Quận/Huyện</span></dt>
                 <dd>
                     <div *ngIf="subDistrict.districtIdId">
                         <a [routerLink]="['/district', subDistrict.districtIdId, 'view']">{{subDistrict.districtIdId}}</a>
