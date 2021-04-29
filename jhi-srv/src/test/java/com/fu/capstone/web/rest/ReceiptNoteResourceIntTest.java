@@ -109,7 +109,7 @@ public class ReceiptNoteResourceIntTest {
             .employeeId(DEFAULT_EMPLOYEE_ID)
             .invoiceHeaderId(DEFAULT_INVOICE_HEADER_ID)
             .note(DEFAULT_NOTE)
-            .customerConfirm(DEFAULT_CUSTOMER_CONFIRM)
+            .receiptType(DEFAULT_CUSTOMER_CONFIRM)
             .createDate(DEFAULT_CREATE_DATE)
             .updateDate(DEFAULT_UPDATE_DATE);
         return receiptNote;
@@ -139,7 +139,7 @@ public class ReceiptNoteResourceIntTest {
         assertThat(testReceiptNote.getEmployeeId()).isEqualTo(DEFAULT_EMPLOYEE_ID);
         assertThat(testReceiptNote.getInvoiceHeaderId()).isEqualTo(DEFAULT_INVOICE_HEADER_ID);
         assertThat(testReceiptNote.getNote()).isEqualTo(DEFAULT_NOTE);
-        assertThat(testReceiptNote.isCustomerConfirm()).isEqualTo(DEFAULT_CUSTOMER_CONFIRM);
+        assertThat(testReceiptNote.isReceiptType()).isEqualTo(DEFAULT_CUSTOMER_CONFIRM);
         assertThat(testReceiptNote.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
         assertThat(testReceiptNote.getUpdateDate()).isEqualTo(DEFAULT_UPDATE_DATE);
     }
@@ -226,7 +226,7 @@ public class ReceiptNoteResourceIntTest {
             .employeeId(UPDATED_EMPLOYEE_ID)
             .invoiceHeaderId(UPDATED_INVOICE_HEADER_ID)
             .note(UPDATED_NOTE)
-            .customerConfirm(UPDATED_CUSTOMER_CONFIRM)
+            .receiptType(UPDATED_CUSTOMER_CONFIRM)
             .createDate(UPDATED_CREATE_DATE)
             .updateDate(UPDATED_UPDATE_DATE);
         ReceiptNoteDTO receiptNoteDTO = receiptNoteMapper.toDto(updatedReceiptNote);
@@ -243,7 +243,7 @@ public class ReceiptNoteResourceIntTest {
         assertThat(testReceiptNote.getEmployeeId()).isEqualTo(UPDATED_EMPLOYEE_ID);
         assertThat(testReceiptNote.getInvoiceHeaderId()).isEqualTo(UPDATED_INVOICE_HEADER_ID);
         assertThat(testReceiptNote.getNote()).isEqualTo(UPDATED_NOTE);
-        assertThat(testReceiptNote.isCustomerConfirm()).isEqualTo(UPDATED_CUSTOMER_CONFIRM);
+        assertThat(testReceiptNote.isReceiptType()).isEqualTo(UPDATED_CUSTOMER_CONFIRM);
         assertThat(testReceiptNote.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
         assertThat(testReceiptNote.getUpdateDate()).isEqualTo(UPDATED_UPDATE_DATE);
     }
