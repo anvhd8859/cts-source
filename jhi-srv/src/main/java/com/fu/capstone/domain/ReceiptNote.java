@@ -29,8 +29,11 @@ public class ReceiptNote implements Serializable {
     @Column(name = "note")
     private String note;
 
-    @Column(name = "customer_confirm")
-    private Boolean customerConfirm;
+    @Column(name = "image_link")
+    private String imageLink;
+
+    @Column(name = "receipt_type")
+    private Boolean receiptType;
 
     @Column(name = "create_date")
     private Instant createDate;
@@ -86,17 +89,29 @@ public class ReceiptNote implements Serializable {
         this.note = note;
     }
 
-    public Boolean isCustomerConfirm() {
-        return customerConfirm;
+    public String getImageLink() {
+		return imageLink;
+	}
+
+	public void setImageLink(String imageLink) {
+		this.imageLink = imageLink;
+	}
+
+	public Boolean getReceiptType() {
+		return receiptType;
+	}
+
+	public Boolean isReceiptType() {
+        return receiptType;
     }
 
-    public ReceiptNote customerConfirm(Boolean customerConfirm) {
-        this.customerConfirm = customerConfirm;
+    public ReceiptNote receiptType(Boolean receiptType) {
+        this.receiptType = receiptType;
         return this;
     }
 
-    public void setCustomerConfirm(Boolean customerConfirm) {
-        this.customerConfirm = customerConfirm;
+    public void setReceiptType(Boolean receiptType) {
+        this.receiptType = receiptType;
     }
 
     public Instant getCreateDate() {
@@ -153,7 +168,7 @@ public class ReceiptNote implements Serializable {
             ", employeeId=" + getEmployeeId() +
             ", invoiceHeaderId=" + getInvoiceHeaderId() +
             ", note='" + getNote() + "'" +
-            ", customerConfirm='" + isCustomerConfirm() + "'" +
+            ", receiptType='" + isReceiptType() + "'" +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";
