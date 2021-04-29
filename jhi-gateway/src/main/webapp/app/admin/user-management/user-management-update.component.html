@@ -13,7 +13,7 @@
                 <label for="user-address"><b>User Credential</b></label>
                 <div name="user-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                     <div class="form-group" [hidden]="!user.id">
-                        <label>ID</label>
+                        <label>Mã số</label>
                         <input type="text" class="form-control" name="id"
                             [(ngModel)]="user.id" readonly>
                     </div>
@@ -122,10 +122,10 @@
                     <!-- JHI-USER -->
 
                     <!-- User Profile -->
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label>Gender</label>
+                                <label>Giới tính</label>
                                 <ng-select  [clearable]="false"
                                             [hideSelected]="true"
                                             [items]="this.lstGender"
@@ -143,9 +143,9 @@
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label for="phone">Phone Number</label>
-                                <input  class="form-control" 
-                                        type="text" 
-                                        [(ngModel)]="this.userProfile.phoneNumber" 
+                                <input  class="form-control"
+                                        type="text"
+                                        [(ngModel)]="this.userProfile.phoneNumber"
                                         value="{{this.userProfile.phoneNumber}}"
                                         id="phone"
                                         name="phone"
@@ -156,7 +156,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label for="dob">Date of Birth</label>
+                                <label for="dob">Ngày sinh</label>
                                 <div class="input-group">
                                     <input class="form-control" placeholder="yyyy-mm-dd"
                                         name="dp" [(ngModel)]="this.userProfile.dateOfBirth" ngbDatepicker #d="ngbDatepicker" readonly>
@@ -216,13 +216,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label>PIT Code</label>
-                                <input  class="form-control" 
-                                        type="text" 
-                                        [(ngModel)]="this.userProfile.pitCode" 
+                                <input  class="form-control"
+                                        type="text"
+                                        [(ngModel)]="this.userProfile.pitCode"
                                         value="{{this.userProfile.pitCode}}"
                                         id="pit"
                                         name="pit">
@@ -231,9 +231,9 @@
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label for="socialNum">Social Number</label>
-                                <input  class="form-control" 
-                                        type="text" 
-                                        [(ngModel)]="this.userProfile.socialNumber" 
+                                <input  class="form-control"
+                                        type="text"
+                                        [(ngModel)]="this.userProfile.socialNumber"
                                         value="{{this.userProfile.socialNumber}}"
                                         id="socialNum"
                                         name="socialNum">
@@ -249,7 +249,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="province">Province/City</label>
+                                <label for="province">Tỉnh/Thành phố</label>
                                 <ng-select  [clearable]="false"
                                             [hideSelected]="true"
                                             [items]="this.lstProvince"
@@ -267,7 +267,7 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="district">District</label>
+                                <label for="district">Quận/Huyện</label>
                                 <ng-select  [clearable]="false"
                                             [hideSelected]="true"
                                             [items]="this.lstDistrict"
@@ -288,7 +288,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="subDistrict">Ward/Commune</label>
+                                <label for="subDistrict">Phường/Xã</label>
                                 <ng-select  [clearable]="false"
                                             [hideSelected]="true"
                                             [items]="this.lstSubDistrict"
@@ -328,11 +328,11 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="address">Address</label>
-                                <textarea class="form-control" 
+                                <textarea class="form-control"
                                     style="resize: none;"
                                     rows="3"
-                                    id="address" 
-                                    name="address" 
+                                    id="address"
+                                    name="address"
                                     [(ngModel)]="this.userProfile.address"
                                 >
                                 </textarea>
@@ -344,10 +344,10 @@
             <div>
                 <button type="button" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span
-                   >Cancel</span>
+                   >Hủy</span>
                 </button>
                 <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Lưu</span>
                 </button>
             </div>
         </form>

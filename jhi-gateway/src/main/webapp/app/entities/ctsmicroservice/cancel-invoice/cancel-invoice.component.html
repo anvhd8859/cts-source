@@ -15,14 +15,14 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th><span>ID</span> </th>
-                    <th><span>Invoice No</span> </th>
-                    <th><span>Status</span> </th>
-                    <th><span>Start Address</span></th>
-                    <th><span>Destination Address</span> </th>
-                    <th><span>Total Due</span> </th>
-                    <th><span>Cancel Reason</span> </th>
-                    <th class="text-right"><span>Action</span></th>
+                    <th><span>Mã số</span> </th>
+                    <th><span>Số hóa đơn</span> </th>
+                    <th><span>Trạng thái</span> </th>
+                    <th><span>Địa chỉ nhận hàng</span></th>
+                    <th><span>Địa chỉ giao hàng</span> </th>
+                    <th><span>Tổng tiền</span> </th>
+                    <th><span>Lý do hủy</span> </th>
+                    <th class="text-right"><span></span></th>
                 </tr>
             </thead>
             <tbody>
@@ -40,14 +40,14 @@
                                 [routerLink]="['/', { outlets: { popup: 'cancel-invoice/'+ cancelInvoice.id + '/approve'} }]"
                                 class="btn btn-info btn-sm">
                                 <fa-icon [icon]="'check'"></fa-icon>
-                                <span class="d-none d-md-inline">Approve</span>
+                                <span class="d-none d-md-inline">Chấp thuận</span>
                             </button>
 
                             <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'cancel-invoice/'+ cancelInvoice.id + '/reject'} }]"
                                 replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'times'"></fa-icon>
-                                <span class="d-none d-md-inline">Reject</span>
+                                <span class="d-none d-md-inline">Từ chối</span>
                             </button>
                         </div>
                     </td>

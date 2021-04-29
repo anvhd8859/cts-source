@@ -1,6 +1,6 @@
 <div>
     <h2 id="page-heading">
-        <span>Import Invoice Packages</span>
+        <span>Nhập kho Invoice Packages</span>
         <button id="jh-create-entity" (click)="importAll()" [disabled]="invoicePackageShipments.length === 0"
             class="btn btn-primary float-right jh-create-entity create-import-invoice-package" >
             <fa-icon [icon]="'check'"></fa-icon>
@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="form-group">
-                <label for="invoiceNumber">Invoice No</label>
+                <label for="invoiceNumber">Số hóa đơn</label>
                 <input  type="text"
                         class="form-control"
                         placeholder="(ALL)"
@@ -26,7 +26,7 @@
         </div>
         <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="form-group">
-                <label for="status">Invoice Status</label>
+                <label for="status">Tình trạng đơn hàng</label>
                 <ng-select  [clearable]="true"
                             [hideSelected]="true"
                             [items]="listInvoiceStatus"
@@ -57,13 +57,13 @@
         <table class="table table-striped">
             <thead>
             <tr>
-            <th><span>ID</span></th>
-            <th><span>Invoice No</span></th>
-            <th><span>Invoice Status</span></th>
-            <th><span>Destination</span></th>
-            <th><span>Notes</span></th>
-            <th><span>Due Date</span></th>
-            <th><span>Number of Packages</span></th>
+            <th><span>Mã số</span></th>
+            <th><span>Số hóa đơn</span></th>
+            <th><span>Tình trạng đơn hàng</span></th>
+            <th><span>Địa chỉ giao hàng</span></th>
+            <th><span>Ghi chú</span></th>
+            <th><span>Ngày giao dự kiến</span></th>
+            <th><span>Số gói hàng</span></th>
             <th></th>
             </tr>
             </thead>
@@ -71,7 +71,7 @@
             <tr *ngFor="let importInvoicePackage of invoicePackageShipments ;trackBy: trackId">
                 <td><a>{{importInvoicePackage.invoiceHeader.id}}</a></td>
                 <td>{{importInvoicePackage.invoiceHeader.invoiceNo}}</td>
-                <td>{{importInvoicePackage.invoiceHeader.status}}</td>
+                <td>{{common.processInvoiceStatus(importInvoicePackage.invoiceHeader.status)}}</td>
                 <td>{{importInvoicePackage.invoiceHeader.destinationAddress}}</td>
                 <td>{{importInvoicePackage.invoiceHeader.note}}</td>
                 <td>{{importInvoicePackage.invoiceHeader.dueDate | date:'yyyy-MM-dd HH:mm'}}</td>
@@ -82,13 +82,13 @@
                                 [routerLink]="['/invoice-header', importInvoicePackage.invoiceHeader.id, 'view']"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
+                            <span class="d-none d-md-inline">Chi tiết</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'import-invoice-package/'+ importInvoicePackage.invoiceHeader.id + '/import'} } ]"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'check'"></fa-icon>
-                            <span class="d-none d-md-inline">Import</span>
+                            <span class="d-none d-md-inline">Nhập kho</span>
                         </button>
                     </div>
                 </td>

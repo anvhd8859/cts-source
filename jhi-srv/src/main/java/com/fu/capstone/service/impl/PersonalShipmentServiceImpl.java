@@ -10,6 +10,7 @@ import com.fu.capstone.service.dto.PersonalShipmentDTO;
 import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.PersonalShipmentMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -129,7 +130,8 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 	@Override
 	public Page<PersonalShipmentInvoiceDTO> getPersonalShipmentByShipper(Long id, String invNo, String type, Pageable pageable) {
 		Page<PersonalShipmentDTO> page = personalShipmentRepository.getPersonalShipmentByShipper(id, invNo, type, pageable)
-				.map(personalShipmentMapper::toDto);
+					.map(personalShipmentMapper::toDto);
+		
 		Page<PersonalShipmentInvoiceDTO> result = page.map(this::convert);
 		return result;
 	}
@@ -154,16 +156,15 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 		InvoiceHeader inv = invoiceHeaderRepository.findById(id).get();
 		if(inv != null) {
 			BigDecimal subTotal = inv.getSubTotal();
-			subTotal = new BigDecimal(5000).add(subTotal.multiply(new BigDecimal(1.05)));
+			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.05)));
 			invoiceHeaderRepository.save(inv);
 		}
 		return personalShipmentMapper.toDto(personalShipmentRepository.save(ps));
 	}
 
 	@Override
-	public Page<PersonalShipmentInvoiceDTO> getAllPersonaShipmentInvoices(Long empId, String invNo, Long strId,
-			Pageable pageable) {
-		Page<PersonalShipment> pgShipment = personalShipmentRepository.getAllPersonaShipmentInvoices(empId, invNo, strId, pageable);
+	public Page<PersonalShipmentInvoiceDTO> getAllPersonaShipmentInvoices(Long empId, String invNo, Long strId, String type, Pageable pageable) {
+		Page<PersonalShipment> pgShipment = personalShipmentRepository.getAllPersonaShipmentInvoices(empId, invNo, strId, type, pageable);
 		return pgShipment.map(this::convertPersonalShipmentToPersonalShipmentInvoiceDTO);
 	}
 	private PersonalShipmentInvoiceDTO convertPersonalShipmentToPersonalShipmentInvoiceDTO(PersonalShipment entity){

@@ -2,6 +2,7 @@ package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.InvoiceHeaderService;
 import com.fu.capstone.domain.InvoiceHeader;
+import com.fu.capstone.domain.InvoicePackage;
 import com.fu.capstone.domain.Office;
 import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.domain.Street;
@@ -23,6 +24,7 @@ import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import com.fu.capstone.service.mapper.PersonalShipmentMapper;
+import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -267,14 +269,14 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 					fromStreet.getSubDistrictId().getDistrictId().getId(),
 					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
 			ps.setEmployeeId(wa.getEmployeeId());
-			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.05)));
+			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.07)));
 			lstShipment.add(ps);
 		}
 		else {
 			if(invoiceHeaderDTO.getStatus().equalsIgnoreCase("new")) invoiceHeaderDTO.setStatus("receive");
 		}
 		invoiceHeaderDTO.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
-		invoiceHeaderDTO.setTotalDue(subTotal.add(invoiceHeaderDTO.getTaxAmount()));
+		invoiceHeaderDTO.setTotalDue(subTotal.add(new BigDecimal(1.1)));
 
 		// save data
 		PersonalShipment psDelivery = new PersonalShipment();
@@ -307,6 +309,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		for (InvoicePackageDTO ip : lstPackage) {
 			totalWeight += ip.getWeight();
 		}
+		totalWeight /= 1000;
 		if (fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId() == toStreet.getSubDistrictId()
 				.getDistrictId().getProvinceId().getId()) {
 			if (totalWeight <= 0.25)
@@ -348,6 +351,14 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		for (InvoiceHeader i : result) {
 			i.setUpdateDate(Instant.now());
 			i.setChangeNote("approved");
+			List<PersonalShipment> shipmentList = personalShipmentRepository.getShipmentByInvoice(i.getId());
+			List<InvoicePackage> packageList = invoicePackageRepository.getInvoicePackageByHeaderId(i.getId());
+			for(InvoicePackage ii : packageList){
+				if(!ii.getStatus().equalsIgnoreCase("finish")) ii.setStatus("cancel");
+			}
+			for(PersonalShipment ii : shipmentList){
+				if(!ii.getStatus().equalsIgnoreCase("finish")) ii.setStatus("cancel");
+			}
 		}
 		result = invoiceHeaderRepository.saveAll(result);
 		return invoiceHeaderMapper.toDto(result);
@@ -367,6 +378,25 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		}
 		result = invoiceHeaderRepository.saveAll(result);
 		return invoiceHeaderMapper.toDto(result);
+	}
+
+	@Override
+	public InvoiceHeaderDTO updateFinishInvoicePersonalShipment(InvoiceHeaderDTO inv) {
+		InvoiceHeader ih = invoiceHeaderRepository.getOne(inv.getId());
+		if(! ih.getStatus().equalsIgnoreCase("delivering")) {
+            throw new BadRequestAlertException("Invalid status", "InvoiceHeader", "status wrong");
+        }
+		PersonalShipment ps = personalShipmentRepository.getDeliveryShipmentByInvoice(inv.getId());
+		Instant instant = Instant.now();
+		ih.setStatus("finish");
+		ps.setStatus("finish");
+		ih.setFinishDate(instant);
+		ih.setUpdateDate(instant);
+		ps.setFinishTime(instant);
+		ps.setUpdateDate(instant);
+		personalShipmentRepository.save(ps);
+		
+		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(ih));
 	}
 
 }

@@ -1,11 +1,11 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="exportInvoicePackage">
-            <h2><span>Export Invoice Package</span> {{exportInvoicePackage.id}}</h2>
+            <h2><span>Xuất gói hàng</span> {{exportInvoicePackage.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Invoice Header Id</span></dt>
+                <dt><span>Mã hóa đơn</span></dt>
                 <dd>
                     <span>{{exportInvoicePackage.invoiceHeaderId}}</span>
                 </dd>
@@ -33,11 +33,11 @@
                 <dd>
                     <span>{{exportInvoicePackage.delivered}}</span>
                 </dd>
-                <dt><span>Status</span></dt>
+                <dt><span>Trạng thái</span></dt>
                 <dd>
                     <span>{{exportInvoicePackage.status}}</span>
                 </dd>
-                <dt><span>Note</span></dt>
+                <dt><span>Ghi chú</span></dt>
                 <dd>
                     <span>{{exportInvoicePackage.note}}</span>
                 </dd>
@@ -45,11 +45,11 @@
                 <dd>
                     <span>{{exportInvoicePackage.warehouseId}}</span>
                 </dd>
-                <dt><span>Create Date</span></dt>
+                <dt><span>Ngày khởi tạo</span></dt>
                 <dd>
                     <span>{{exportInvoicePackage.createDate}}</span>
                 </dd>
-                <dt><span>Update Date</span></dt>
+                <dt><span>Ngày cập nhật</span></dt>
                 <dd>
                     <span>{{exportInvoicePackage.updateDate}}</span>
                 </dd>
@@ -58,13 +58,13 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/export-invoice-package', exportInvoicePackage.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Chỉnh sửa</span>
             </button>
         </div>
     </div>

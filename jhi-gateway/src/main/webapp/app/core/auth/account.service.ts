@@ -26,7 +26,7 @@ export class AccountService {
 
     // HaiNM
     getLstCity(): Observable<HttpResponse<IProvince[]>> {
-        return this.http.get<IProvince[]>(this.locationResourceUrl + '/provinces', { observe: 'response' }).pipe();
+        return this.http.get<IProvince[]>(this.locationResourceUrl + '/provinces?size=9999', { observe: 'response' }).pipe();
     }
 
     getLstDistrictByCity(req?: any): Observable<HttpResponse<any[]>> {

@@ -5,11 +5,11 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Invoice Header Id</span></dt>
+                <dt><span>Mã hóa đơn</span></dt>
                 <dd>
                     <span>{{payment.invoiceHeaderId}}</span>
                 </dd>
-                <dt><span>Employee Id</span></dt>
+                <dt><span>Mã nhân viên</span></dt>
                 <dd>
                     <span>{{payment.employeeId}}</span>
                 </dd>
@@ -29,11 +29,11 @@
                 <dd>
                     <span>{{payment.amountDue}}</span>
                 </dd>
-                <dt><span>Create Date</span></dt>
+                <dt><span>Ngày khởi tạo</span></dt>
                 <dd>
                     <span>{{payment.createDate}}</span>
                 </dd>
-                <dt><span>Update Date</span></dt>
+                <dt><span>Ngày cập nhật</span></dt>
                 <dd>
                     <span>{{payment.updateDate}}</span>
                 </dd>
@@ -42,13 +42,13 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/payment', payment.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Chỉnh sửa</span>
             </button>
         </div>
     </div>

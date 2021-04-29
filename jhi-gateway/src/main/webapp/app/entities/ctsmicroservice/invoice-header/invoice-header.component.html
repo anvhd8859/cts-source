@@ -1,175 +1,192 @@
-<div>
-    <div class="row">
-        <div class="col-lg-6 col-md-12 col-md-12">
-            <h2 id="page-heading">
-                <span>Invoice Headers</span>
-            </h2>
-        </div>
-        <div class="col-lg-6 col-md-12 col-md-12">
-            <button type="submit"
-                    routerLink="new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-                    class="btn btn-primary float-right">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                <span class="d-none d-md-inline">Create New Invoice</span>
-            </button>
-        </div>
-    </div>
-    <jhi-alert></jhi-alert>
-    <br/>
-    <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="form-group">
-                <label for="receiveTime">Receive Time</label>
-                <div class="input-group">
-                    <input class="form-control" placeholder="yyyy-mm-dd"
-                           name="receiveTime" [(ngModel)]="this.receiveTime" ngbDatepicker #a="ngbDatepicker" readonly>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(1)" type="button">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                        </button>
-                    </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" (click)="a.toggle()" type="button">
-                            <fa-icon [icon]="'calendar-alt'"></fa-icon>
-                        </button>
-                    </div>
+<div class="row justify-content-center">
+    <div class="col-11">
+        <br>
+        <div class="container-fluid">
+            <div class="row" style="border-bottom: 2px solid;">
+                <div class="col-lg-6 col-md-12 col-md-12">
+                    <h2 style="font-weight: bold;" id="page-heading">
+                        <span>Quản lý hóa đơn</span>
+                    </h2>
+                </div>
+                <div class="col-lg-6 col-md-12 col-md-12">
+                    <button type="submit"
+                            routerLink="new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                            class="btn btn-primary float-right">
+                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                        <span class="d-none d-md-inline">Tạo hóa đơn mới</span>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="form-group">
-                <label for="createOn">Create On</label>
-                <div class="input-group">
-                    <input class="form-control" placeholder="yyyy-mm-dd"
-                           name="createOn" [(ngModel)]="this.createTime" ngbDatepicker #b="ngbDatepicker" readonly>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(2)" type="button">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                        </button>
+        <br>
+        <jhi-alert></jhi-alert>
+        <br/>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="receiveTime">Ngày nhận</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd"
+                                    name="receiveTime" [(ngModel)]="this.receiveTime" ngbDatepicker #a="ngbDatepicker" readonly>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(1)" type="button">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                    </button>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="a.toggle()" type="button">
+                                        <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" (click)="b.toggle()" type="button">
-                            <fa-icon [icon]="'calendar-alt'"></fa-icon>
-                        </button>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="createOn">Ngày tạo</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd"
+                                    name="createOn" [(ngModel)]="this.createTime" ngbDatepicker #b="ngbDatepicker" readonly>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(2)" type="button">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                    </button>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="b.toggle()" type="button">
+                                        <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="updateOn">Ngày cập nhật</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd"
+                                    name="updateOn" [(ngModel)]="this.updateTime" ngbDatepicker #c="ngbDatepicker" readonly>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(3)" type="button">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                    </button>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
+                                        <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="invoiceNumber">Số hóa đơn</label>
+                            <input  type="text"
+                                    class="form-control"
+                                    placeholder="(Tất cả)"
+                                    [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="selectedInvoiceNumber"
+                                    value="{{selectedInvoiceNumber}}"
+                                    >
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="status">Tình trạng đơn</label>
+                            <ng-select  [clearable]="true"
+                                        [hideSelected]="true"
+                                        [items]="common.listStatusInvoice"
+                                        bindLabel="text"
+                                        bindValue="id"
+                                        id="status"
+                                        name="status"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="this.selectedStatus"
+                                        placeholder="(Tất cả)"
+                                        >
+                                <ng-option *ngFor="let item of common.listStatusInvoice">{{item.text}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 text-center">
+                        <div class="form-group">
+                            <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary" (click)="this.loadAll()">
+                                <fa-icon [icon]="'search'"></fa-icon>
+                                <span >Tìm kiếm</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="form-group">
-                <label for="updateOn">Update On</label>
-                <div class="input-group">
-                    <input class="form-control" placeholder="yyyy-mm-dd"
-                           name="updateOn" [(ngModel)]="this.updateTime" ngbDatepicker #c="ngbDatepicker" readonly>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(3)" type="button">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                        </button>
+            <br>
+            <br>
+            <br>
+            <div class="card-body">
+                <div *ngIf="!invoiceHeaders || invoiceHeaders.length === 0">
+                    <h2>Không tìm thấy dữ liệu</h2>
+                </div>
+                <div class="table-responsive" *ngIf="invoiceHeaders && invoiceHeaders.length > 0">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>STT               </th>
+                            <th>Số hóa đơn        </th>
+                            <th>Ngày giao dự kiến </th>
+                            <th>Ngày nhận hàng    </th>
+                            <th>Tình trạng đơn    </th>
+                            <th>Ngày tạo đơn      </th>
+                            <th>Thời gian cập nhật</th>
+                            <th class="text-center">Hành động</th>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let invoiceHeader of invoiceHeaders ;trackBy: trackId; let i = index">
+                            <td>{{i + 1}}                                               </td>
+                            <td>{{invoiceHeader.invoiceNo}}                             </td>
+                            <td>{{invoiceHeader.dueDate     | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
+                            <td>{{invoiceHeader.finishDate  | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
+                            <td>{{common.processInvoiceStatus(invoiceHeader.status)}}   </td>
+                            <td>{{invoiceHeader.createDate  | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
+                            <td>{{invoiceHeader.updateDate  | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
+                            <td class="text-center">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button type="submit"
+                                            [routerLink]="['/invoice-header', invoiceHeader.id, 'view' ]"
+                                            class="btn btn-info btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">Chi tiết</span>
+                                    </button>
+                                    <button type="submit"
+                                            [routerLink]="['/invoice-header', invoiceHeader.id, 'edit']"
+                                            class="btn btn-primary btn-sm">
+                                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                        <span class="d-none d-md-inline">Chỉnh sửa</span>
+                                    </button>
+                                    <button type="submit"
+                                            [routerLink]="['/receiptnote', invoiceHeader.id, 'view']"
+                                            class="btn btn-success btn-sm">
+                                        <fa-icon [icon]="'check'"></fa-icon>
+                                        <span class="d-none d-md-inline">Biên lai</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="invoiceHeaders && invoiceHeaders.length">
+                    <div class="row justify-content-center">
+                        <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
                     </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
-                            <fa-icon [icon]="'calendar-alt'"></fa-icon>
-                        </button>
+                    <div class="row justify-content-center">
+                        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="form-group">
-                <label for="invoiceNumber">Invoice Number</label>
-                <input  type="text"
-                        class="form-control"
-                        placeholder="(ALL)"
-                        [ngModelOptions]="{standalone: true}"
-                        [(ngModel)]="selectedInvoiceNumber"
-                        value="{{selectedInvoiceNumber}}"
-                        >
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="form-group">
-                <label for="status">Status</label>
-                <ng-select  [clearable]="true"
-                            [hideSelected]="true"
-                            [items]="this.lstStatus"
-                            bindLabel="text"
-                            bindValue="id"
-                            id="status"
-                            name="status"
-                            [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="this.selectedStatus"
-                            placeholder="(ALL)"
-                            >
-                    <ng-option *ngFor="let item of lstStatus">{{item.text}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-6 text-center">
-            <div class="form-group">
-                <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary" (click)="this.loadAll()">
-                    <fa-icon [icon]="'search'"></fa-icon>
-                    <span >Search</span>
-                </button>
-            </div>
-        </div>
-    </div>
-    <br>
-    <h4>My Shipment</h4>
-    <div class="table-responsive" *ngIf="invoiceHeaders">
-        <table class="table table-striped">
-            <thead>
-                <th>#               </th>
-                <th>Invoice Number  </th>
-                <th>Due Date        </th>
-                <th>Receive Date    </th>
-                <th>Status          </th>
-                <th>Created Date    </th>
-                <th>Updated Date    </th>
-                <th class="text-center">Action          </th>
-            </thead>
-            <tbody>
-            <tr *ngFor="let invoiceHeader of invoiceHeaders ;trackBy: trackId">
-                <td>{{invoiceHeader.id}}                                    </td>
-                <td>{{invoiceHeader.invoiceNo}}                             </td>
-                <td>{{invoiceHeader.dueDate     | date:'yyyy-MM-dd HH:mm'}} </td>
-                <td>{{invoiceHeader.finishDate  | date:'yyyy-MM-dd HH:mm'}} </td>
-                <td>{{invoiceHeader.status}}                                </td>
-                <td>{{invoiceHeader.createDate  | date:'yyyy-MM-dd HH:mm'}} </td>
-                <td>{{invoiceHeader.updateDate  | date:'yyyy-MM-dd HH:mm'}} </td>
-                <td class="text-center">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/invoice-header', invoiceHeader.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/invoice-header', invoiceHeader.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/receiptnote', invoiceHeader.id, 'view']"
-                                class="btn btn-success btn-sm">
-                            <fa-icon [icon]="'check'"></fa-icon>
-                            <span class="d-none d-md-inline">Receive Note</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div *ngIf="invoiceHeaders && invoiceHeaders.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
     </div>
 </div>
+<br>

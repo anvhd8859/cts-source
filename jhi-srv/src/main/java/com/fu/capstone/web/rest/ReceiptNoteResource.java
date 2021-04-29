@@ -6,6 +6,8 @@ import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
+import com.fu.capstone.service.dto.DetailPackageDTO;
+import com.fu.capstone.service.dto.ReceiptDetailPackageDTO;
 import com.fu.capstone.service.dto.ReceiptNoteDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -137,6 +139,29 @@ public class ReceiptNoteResource {
     @Timed
     public ResponseEntity<List<ReceiptInvoiceDTO>> getAllReceiptInvoiceByUser(@RequestParam("id") Long id, Pageable pageable) {
     	List<ReceiptInvoiceDTO> page = receiptNoteService.getAllReceiptInvoiceByUser(id, pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+    
+    @PostMapping("/receipt-notes/finish-collect")
+    @Timed
+    public ResponseEntity<ReceiptNoteDTO> createReceiptNoteAndShipmentInvoice(@RequestBody ReceiptDetailPackageDTO data) throws URISyntaxException {
+        log.debug("REST request to update ReceiptNote : {}", data);
+        if (data.getReceipt().getId() != null) {
+        	throw new BadRequestAlertException("A new receiptNote cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if (data.getInvoiceDetailList().size() == 0 || data.getInvoicePackageList().size() == 0 ){
+        	throw new BadRequestAlertException("A new item and package cannot blank", ENTITY_NAME, "notexist");
+        }
+        ReceiptNoteDTO result = receiptNoteService.createReceiptNoteAndShipmentInvoice(data);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+    
+    @GetMapping("/receipt-notes/item-package")
+    @Timed
+    public ResponseEntity<DetailPackageDTO> getReceiptItemPackage(@RequestParam("id") Long id) {
+    	DetailPackageDTO page = receiptNoteService.getReceiptItemPackage(id);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 }

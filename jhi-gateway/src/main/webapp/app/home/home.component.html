@@ -1,41 +1,97 @@
-<!-- <div class="row">
-    <div class="col-md-3">
-        <span class="hipster img-fluid rounded"></span>
+<div style="
+    background-image: url('../../../content/images/delivery-man.jpg'); 
+    background-repeat: no-repeat; 
+    background-size: cover;
+    padding-left: 0; padding-right: 0;
+    max-height: 2560px;
+    min-height: 1024px;
+    width: 100%;
+    opacity: 0.8;
+    margin: 0;">
+    <div class="row" style="padding: 0; margin: 0;">
+        <div class="container mt-5" style="background-color: rgba(255, 255, 255, 0.6); border: solid 1px black;">
+            <h1 style="font-weight: bolder; color: #000000; text-align: center; line-height: 4;"><b>CTS - Convinient Transport System</b></h1>
+        </div>
     </div>
-    <div class="col-md-9">
-        <h1 class="display-4">Welcome, Java Hipster!</h1>
-        <p class="lead">This is your homepage</p>
-
-        <div [ngSwitch]="isAuthenticated()">
-            <div class="alert alert-success" *ngSwitchCase="true">
-                <span id="home-logged-message" *ngIf="account"
-                   > You are logged in as user "{{account.login}}". </span>
+    <br>
+    <br>
+    <br>
+    <div class="col-12" style="background-color: rgba(255, 255, 255, 0.6); border: solid 1px black;">
+        <div class="row justify-content-center">
+            <h1 style="font-weight: bolder; color: #000000; text-align: center; line-height: 4;"><b>DỊCH VỤ</b></h1>
+        </div>
+        <div class="row justify-content-center" style="margin: 0;">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="row justify-content-center" style="margin: 0;">
+                    <div class="card bg-light mb-3 view overlay zoom" style="max-width: 20rem;">
+                        <div class="card-header" style="text-align: center;">
+                            <fa-icon [icon]="'truck'" [size]="'10x'"></fa-icon>
+                        </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Chuyển Phát Cá Nhân</h5>
+                                <div class="divider"></div>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span>If you want to </span>
-                <a class="alert-link" (click)="login()">sign in</a><span>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").</span>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="row justify-content-center" style="margin: 0;">
+                    <div class="card bg-light mb-3 view overlay zoom" style="max-width: 20rem;">
+                        <div class="card-header" style="text-align: center;">
+                            <fa-icon [icon]="'shipping-fast'" [size]="'10x'"></fa-icon>
+                        </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Chuyển Phát Nhanh</h5>
+                                <div class="divider"></div>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                    </div>
+                </div>
             </div>
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span>You don't have an account yet?</span>&nbsp;
-                <a class="alert-link" routerLink="register">Register a new account</a>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="row justify-content-center" style="margin: 0;">
+                    <div class="card bg-light mb-3 view overlay zoom" style="max-width: 20rem;">
+                        <div class="card-header" style="text-align: center;">
+                            <fa-icon [icon]="'shipping-fast'" [size]="'10x'"></fa-icon>
+                        </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Chuyển Phát Hỏa Tốc</h5>
+                                <div class="divider"></div>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="row justify-content-center" style="margin: 0;">
+                    <div class="card bg-light mb-3 view overlay zoom" style="max-width: 20rem;">
+                        <div class="card-header" style="text-align: center;">
+                            <fa-icon [icon]="'truck-loading'" [size]="'10x'"></fa-icon>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Dịch Vụ Chuyển Nhà</h5>
+                            <div class="divider"></div>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <p>
-            If you have any question on JHipster:
-        </p>
-
-        <ul>
-            <li><a href="https://www.jhipster.tech/" target="_blank" rel="noopener">JHipster homepage</a></li>
-            <li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener">JHipster on Stack Overflow</a></li>
-            <li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener">JHipster bug tracker</a></li>
-            <li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener">JHipster public chat room</a></li>
-            <li><a href="https://twitter.com/java_hipster" target="_blank" rel="noopener">follow @java_hipster on Twitter</a></li>
-        </ul>
-
-        <p>
-            <span>If you like JHipster, don't forget to give us a star on</span> <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener">GitHub</a>!
-        </p>
+        <br>
+        <br>
+    </div>
+</div>
+<div class="divider"></div>
+<!-- <div class="container-fluid" style="
+        background-image: url('../../../content/images/storage.jpg'); 
+        background-repeat: no-repeat; 
+        background-size: cover;
+        padding-left: 0;
+        padding-right: 0;
+        max-height: 2560px;
+        min-height: 1024px;
+        width: 100%;">
+    <div class="row">
     </div>
 </div> -->

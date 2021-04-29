@@ -5,11 +5,11 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>User Id</span></dt>
+                <dt><span>Mã người dùng</span></dt>
                 <dd>
                     <span>{{userProfile.userId}}</span>
                 </dd>
-                <dt><span>Gender</span></dt>
+                <dt><span>Giới tính</span></dt>
                 <dd>
                     <span>{{userProfile.gender}}</span>
                 </dd>
@@ -17,7 +17,7 @@
                 <dd>
                     <span>{{userProfile.address}}</span>
                 </dd>
-                <dt><span>Street Id</span></dt>
+                <dt><span>Mã Đường/Phố</span></dt>
                 <dd>
                     <span>{{userProfile.streetId}}</span>
                 </dd>
@@ -25,15 +25,15 @@
                 <dd>
                     <span>{{userProfile.phoneNumber}}</span>
                 </dd>
-                <dt><span>Date Of Birth</span></dt>
+                <dt><span>Ngày sinh</span></dt>
                 <dd>
                     <span>{{userProfile.dateOfBirth}}</span>
                 </dd>
-                <dt><span>Created Date</span></dt>
+                <dt><span>Ngày tạo</span></dt>
                 <dd>
                     <span>{{userProfile.createdDate}}</span>
                 </dd>
-                <dt><span>Updated Date</span></dt>
+                <dt><span>Ngày cập nhật</span></dt>
                 <dd>
                     <span>{{userProfile.updatedDate}}</span>
                 </dd>
@@ -42,13 +42,13 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/user-profile', userProfile.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Chỉnh sửa</span>
             </button>
         </div>
     </div>

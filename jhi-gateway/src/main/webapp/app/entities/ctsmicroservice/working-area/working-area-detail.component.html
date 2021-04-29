@@ -5,19 +5,19 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Street Id</span></dt>
+                <dt><span>Mã Đường/Phố</span></dt>
                 <dd>
                     <span>{{workingArea.streetId}}</span>
                 </dd>
-                <dt><span>Employee Id</span></dt>
+                <dt><span>Mã nhân viên</span></dt>
                 <dd>
                     <span>{{workingArea.employeeId}}</span>
                 </dd>
-                <dt><span>Create Date</span></dt>
+                <dt><span>Ngày khởi tạo</span></dt>
                 <dd>
                     <span>{{workingArea.createDate}}</span>
                 </dd>
-                <dt><span>Update Date</span></dt>
+                <dt><span>Ngày cập nhật</span></dt>
                 <dd>
                     <span>{{workingArea.updateDate}}</span>
                 </dd>
@@ -26,13 +26,13 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/working-area', workingArea.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Chỉnh sửa</span>
             </button>
         </div>
     </div>

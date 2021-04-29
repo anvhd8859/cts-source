@@ -12,7 +12,7 @@ import { InvoiceHeaderDetailComponent } from './invoice-header-detail.component'
 import { InvoiceHeaderUpdateComponent } from './invoice-header-update.component';
 import { InvoiceHeaderDeletePopupComponent } from './invoice-header-delete-dialog.component';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
-import { InvoiceHeaderUserComponent, InvoiceHeaderUserUpdateComponent } from '.';
+import { InvoiceHeaderFinishPopupComponent, InvoiceHeaderUserComponent, InvoiceHeaderUserUpdateComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class InvoiceHeaderResolve implements Resolve<IInvoiceHeader> {
@@ -37,7 +37,7 @@ export const invoiceHeaderRoute: Routes = [
         data: {
             authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'InvoiceHeaders'
+            pageTitle: 'CTS: Quản lý hóa đơn'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -48,8 +48,8 @@ export const invoiceHeaderRoute: Routes = [
             invoiceHeader: InvoiceHeaderResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER', 'ROLE_OFFICER', 'ROLE_KEEPER', 'ROLE_USER'],
-            pageTitle: 'InvoiceHeaders'
+            authorities: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SHIPPER', 'ROLE_OFFICER', 'ROLE_KEEPER'],
+            pageTitle: 'CTS: Chi tiết hóa đơn'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -61,7 +61,7 @@ export const invoiceHeaderRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'InvoiceHeaders'
+            pageTitle: 'CTS: Tạo hóa đơn'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -72,8 +72,8 @@ export const invoiceHeaderRoute: Routes = [
             invoiceHeader: InvoiceHeaderResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'InvoiceHeaders'
+            authorities: ['ROLE_ADMIN', 'ROLE_OFFICER', 'ROLE_SHIPPER'],
+            pageTitle: 'CTS: Chỉnh sửa hóa đơn'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -85,7 +85,7 @@ export const invoiceHeaderRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Services Register'
+            pageTitle: 'CTS: Dịch vụ'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -97,7 +97,7 @@ export const invoiceHeaderRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Services Register'
+            pageTitle: 'CTS: Lịch sử đơn hàng'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -112,7 +112,20 @@ export const invoiceHeaderPopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'InvoiceHeaders'
+            pageTitle: 'Invoice Service'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: 'invoice-header/:id/finish',
+        component: InvoiceHeaderFinishPopupComponent,
+        resolve: {
+            invoiceHeader: InvoiceHeaderResolve
+        },
+        data: {
+            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
+            pageTitle: 'Invoice Service'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

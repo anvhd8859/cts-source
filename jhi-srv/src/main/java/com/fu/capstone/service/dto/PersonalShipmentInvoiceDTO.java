@@ -2,10 +2,12 @@ package com.fu.capstone.service.dto;
 
 import java.io.Serializable;
 
-public class PersonalShipmentInvoiceDTO implements Serializable  {
-	
+public class PersonalShipmentInvoiceDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private PersonalShipmentDTO personalShipmentDTO;
-	
+
 	private InvoiceHeaderDTO invoiceHeaderDTO;
 
 	public PersonalShipmentDTO getPersonalShipmentDTO() {
@@ -23,6 +25,5 @@ public class PersonalShipmentInvoiceDTO implements Serializable  {
 	public void setInvoiceHeaderDTO(InvoiceHeaderDTO invoiceHeaderDTO) {
 		this.invoiceHeaderDTO = invoiceHeaderDTO;
 	}
-	
-	
+
 }

@@ -10,10 +10,12 @@ import {
     InvoiceHeaderUpdateComponent,
     InvoiceHeaderDeletePopupComponent,
     InvoiceHeaderDeleteDialogComponent,
+    InvoiceHeaderFinishDialogComponent,
     invoiceHeaderRoute,
     invoiceHeaderPopupRoute,
     InvoiceHeaderUserUpdateComponent,
-    InvoiceHeaderUserComponent
+    InvoiceHeaderUserComponent,
+    InvoiceHeaderFinishPopupComponent
 } from './';
 
 const ENTITY_STATES = [...invoiceHeaderRoute, ...invoiceHeaderPopupRoute];
@@ -27,7 +29,9 @@ const ENTITY_STATES = [...invoiceHeaderRoute, ...invoiceHeaderPopupRoute];
         InvoiceHeaderUserUpdateComponent,
         InvoiceHeaderUserComponent,
         InvoiceHeaderDeleteDialogComponent,
-        InvoiceHeaderDeletePopupComponent
+        InvoiceHeaderDeletePopupComponent,
+        InvoiceHeaderFinishDialogComponent,
+        InvoiceHeaderFinishPopupComponent
     ],
     entryComponents: [
         InvoiceHeaderComponent,
@@ -35,7 +39,9 @@ const ENTITY_STATES = [...invoiceHeaderRoute, ...invoiceHeaderPopupRoute];
         InvoiceHeaderUserUpdateComponent,
         InvoiceHeaderUserComponent,
         InvoiceHeaderDeleteDialogComponent,
-        InvoiceHeaderDeletePopupComponent
+        InvoiceHeaderDeletePopupComponent,
+        InvoiceHeaderFinishDialogComponent,
+        InvoiceHeaderFinishPopupComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

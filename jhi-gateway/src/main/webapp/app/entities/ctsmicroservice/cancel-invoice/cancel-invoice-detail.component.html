@@ -1,31 +1,31 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="cancelInvoice">
-            <h2><span>Cancel Invoice</span> {{cancelInvoice.id}}</h2>
+            <h2><span>Mã hóa đơn</span> {{cancelInvoice.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Customer Id</span></dt>
+                <dt><span>Mã khách hàng</span></dt>
                 <dd>
                     <span>{{cancelInvoice.customerId}}</span>
                 </dd>
-                <dt><span>Office Id</span></dt>
+                <dt><span>Mã văn phòng tiếp nhận</span></dt>
                 <dd>
                     <span>{{cancelInvoice.officeId}}</span>
                 </dd>
-                <dt><span>Invoice No</span></dt>
+                <dt><span>Số hóa đơn</span></dt>
                 <dd>
                     <span>{{cancelInvoice.invoiceNo}}</span>
                 </dd>
-                <dt><span>Invoice Type</span></dt>
+                <dt><span>Loại hóa đơn</span></dt>
                 <dd>
                     <span>{{cancelInvoice.invoiceType}}</span>
                 </dd>
-                <dt><span>Status</span></dt>
+                <dt><span>Trạng thái</span></dt>
                 <dd>
                     <span>{{cancelInvoice.status}}</span>
                 </dd>
-                <dt><span>Start Address</span></dt>
+                <dt><span>Địa chỉ nhận hàng</span></dt>
                 <dd>
                     <span>{{cancelInvoice.startAddress}}</span>
                 </dd>
@@ -33,11 +33,11 @@
                 <dd>
                     <span>{{cancelInvoice.startStreetId}}</span>
                 </dd>
-                <dt><span>Destination Address</span></dt>
+                <dt><span>Địa chỉ giao hàng </span></dt>
                 <dd>
                     <span>{{cancelInvoice.destinationAddress}}</span>
                 </dd>
-                <dt><span>Destination Street Id</span></dt>
+                <dt><span>Địa chỉ giao hàng </span></dt>
                 <dd>
                     <span>{{cancelInvoice.destinationStreetId}}</span>
                 </dd>
@@ -57,23 +57,23 @@
                 <dd>
                     <span>{{cancelInvoice.taxAmount}}</span>
                 </dd>
-                <dt><span>Total Due</span></dt>
+                <dt><span>Tổng tiền</span></dt>
                 <dd>
                     <span>{{cancelInvoice.totalDue}}</span>
                 </dd>
-                <dt><span>Note</span></dt>
+                <dt><span>Ghi chú</span></dt>
                 <dd>
                     <span>{{cancelInvoice.note}}</span>
                 </dd>
-                <dt><span>Cancel</span></dt>
+                <dt><span>Hủy</span></dt>
                 <dd>
                     <span>{{cancelInvoice.cancel}}</span>
                 </dd>
-                <dt><span>Cancel Reason</span></dt>
+                <dt><span>Lý do hủy</span></dt>
                 <dd>
                     <span>{{cancelInvoice.cancelReason}}</span>
                 </dd>
-                <dt><span>Customer Confirm</span></dt>
+                <dt><span>Khách hàng xác nhận</span></dt>
                 <dd>
                     <span>{{cancelInvoice.customerConfirm}}</span>
                 </dd>
@@ -85,7 +85,7 @@
                 <dd>
                     <span>{{cancelInvoice.finish}}</span>
                 </dd>
-                <dt><span>Due Date</span></dt>
+                <dt><span>Ngày giao dự kiến</span></dt>
                 <dd>
                     <span>{{cancelInvoice.dueDate}}</span>
                 </dd>
@@ -93,11 +93,11 @@
                 <dd>
                     <span>{{cancelInvoice.finishDate}}</span>
                 </dd>
-                <dt><span>Create Date</span></dt>
+                <dt><span>Ngày khởi tạo</span></dt>
                 <dd>
                     <span>{{cancelInvoice.createDate}}</span>
                 </dd>
-                <dt><span>Update Date</span></dt>
+                <dt><span>Ngày Cập nhật</span></dt>
                 <dd>
                     <span>{{cancelInvoice.updateDate}}</span>
                 </dd>
@@ -106,13 +106,13 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/cancel-invoice', cancelInvoice.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Sửa</span>
             </button>
         </div>
     </div>

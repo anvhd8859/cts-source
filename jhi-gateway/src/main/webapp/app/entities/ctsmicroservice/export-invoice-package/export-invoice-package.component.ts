@@ -1,3 +1,4 @@
+import { CommonString } from './../../../shared/util/request-util';
 import { AccountService } from './../../../core/auth/account.service';
 import { IInvoicePackageShipment } from './../import-invoice-package/import-invoice-package.model';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -16,7 +17,7 @@ import { ExportInvoicePackageService } from './export-invoice-package.service';
     templateUrl: './export-invoice-package.component.html'
 })
 export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
-    invoicePackageShipments: IInvoicePackageShipment[];
+    invoicePackageShipments: IInvoicePackageShipment[] = [];
     finalData: any;
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -46,6 +47,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
     reverse: any;
     isSaving: boolean;
     officeId: any;
+    common: CommonString;
 
     constructor(
         private exportInvoicePackageService: ExportInvoicePackageService,
@@ -56,6 +58,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) {
+        this.common = new CommonString();
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
@@ -76,13 +79,6 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
             (res: HttpResponse<IInvoicePackageShipment[]>) => {
                 this.invoicePackageShipments = res.body;
                 this.finalData = JSON.parse(JSON.stringify(this.invoicePackageShipments));
-                for (const i in this.invoicePackageShipments) {
-                    if (this.invoicePackageShipments[i].invoiceHeader.status === this.listInvoiceStatus[0].id) {
-                        this.invoicePackageShipments[i].invoiceHeader.status = this.listInvoiceStatus[0].text;
-                    } else {
-                        this.invoicePackageShipments[i].invoiceHeader.status = this.listInvoiceStatus[1].text;
-                    }
-                }
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );

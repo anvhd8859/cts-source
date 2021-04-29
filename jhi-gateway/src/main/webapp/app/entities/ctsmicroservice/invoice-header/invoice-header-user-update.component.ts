@@ -154,6 +154,8 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
             };
             this.invoiceHeader.status = 'new';
             this.invoiceHeader.customerId = this.selectedUser.id;
+            this.invoiceHeader.startStreetId = this.selectedStreetFrom.id;
+            this.invoiceHeader.destinationStreetId = this.selectedStreetTo.id;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
@@ -213,9 +215,13 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         if (!this.selectedUser) {
             msg += 'Customer must not be blank! <br>';
         }
-        if (!this.invoiceHeader.invoiceType) {
-            msg += 'Type of Invoice must not be blank! <br>';
+        if (this.lstInvoicePackage.length === 0) {
+            msg += 'Package must have at least ONE item! <br>';
         }
+        if (this.lstInvoiceDetails.length === 0) {
+            msg += 'Item detail must have at least ONE item! <br>';
+        }
+        this.invoiceHeader.invoiceType = 'personal';
         return msg;
     }
 

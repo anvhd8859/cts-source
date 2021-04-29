@@ -1,3 +1,4 @@
+import { CommonString } from './../../../shared/util/request-util';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,9 +32,10 @@ export class InvoiceHeaderUserComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
-    lstStatus: any = [{ id: 'New', text: 'New' }, { id: 'Shipped', text: 'Shipped' }, { id: 'Cancelled', text: 'Cancelled' }];
+    common: CommonString = new CommonString();
     selectedStatus: any;
     selectedInvoiceNumber: any;
+    cancelStatus = 'Đã gửi yêu cầu hủy';
     createTime: moment.Moment;
     updateTime: moment.Moment;
     receiveTime: moment.Moment;

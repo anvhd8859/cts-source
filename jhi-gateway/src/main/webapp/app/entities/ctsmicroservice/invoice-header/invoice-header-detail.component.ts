@@ -1,3 +1,4 @@
+import { CommonString } from './../../../shared/util/request-util';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AccountService, User } from 'app/core';
@@ -22,12 +23,12 @@ export class InvoiceHeaderDetailComponent implements OnInit {
     office: IOffice;
     showPackage: boolean;
     showItem: boolean;
+    common: CommonString = new CommonString();
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
         private officeService: OfficeService,
-        private activatedRoute: ActivatedRoute,
-        private accountService: AccountService
+        private activatedRoute: ActivatedRoute
     ) {
         this.showPackage = false;
         this.showItem = false;

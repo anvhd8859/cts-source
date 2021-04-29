@@ -1,52 +1,155 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-16">
         <div *ngIf="receiptnote">
-            <h2><span>Receiptnote</span> {{receiptnote.id}}</h2>
+            <h2><span>Biên nhận hóa đơn hàng</span> {{receiptnote.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Employee Id</span></dt>
+                <dt><span>Mã số nhân viên</span></dt>
                 <dd>
                     <span>{{receiptnote.employeeId}}</span>
                 </dd>
-                <dt><span>Invoice Header Id</span></dt>
+                <dt><span>Mã hóa đơn</span></dt>
                 <dd>
                     <span>{{receiptnote.invoiceHeaderId}}</span>
                 </dd>
-                <dt><span>Note</span></dt>
+                <dt><span>Ghi chú</span></dt>
                 <dd>
                     <span>{{receiptnote.note}}</span>
                 </dd>
-                <dt><span>Customer Confirm</span></dt>
+                <dt><span>Khách hàng xác nhận</span></dt>
                 <dd>
-                    <span>{{receiptnote.customerConfirm ? "Yes" : "No"}}</span>
+                    <span>{{receiptnote.customerConfirm ? "Đã xác nhận" : "Chưa xác nhận"}}</span>
                 </dd>
-                <dt><span>Create Date</span></dt>
+                <dt><span>Ngày khởi tạo</span></dt>
                 <dd>
-                    <span>{{receiptnote.createDate}}</span>
+                    <span>{{receiptnote.createDate | date:'medium'}}</span>
                 </dd>
-                <dt><span>Update Date</span></dt>
+                <dt><span>Ngày sửa đổi</span></dt>
                 <dd>
-                    <span>{{receiptnote.updateDate}}</span>
+                    <span>{{receiptnote.updateDate | date:'medium'}}</span>
                 </dd>
             </dl>
+            <br>
 
+
+           <div>
+            <div class="col-12">
+                <table class="table" style="width: 100%;">
+                    <th colspan="2" align="center">
+                        <h4>Thông tin hóa đơn</h4>
+                    </th>
+                    <tr >
+                        <th>Số hóa đơn: </th>
+                        <td>{{invoiceHeader.invoiceNo}}</td>
+                    </tr>
+                    <tr>
+                        <th>Loại hóa đơn: </th>
+                        <td>Giao hàng cá nhân</td>
+                    </tr>
+                    <tr>
+                        <th>Tình trạng đơn hàng: </th>
+                        <td>{{common.processInvoiceStatus(invoiceHeader.status)}}</td>
+                    </tr>
+                    <tr>
+                        <th>From Address: </th>
+                        <td>{{invoiceHeader.startAddress}}</td>
+                    </tr>
+                    <tr>
+                        <th>Ghi chú: </th>
+                        <td>{{invoiceHeader.note}}</td>
+                    </tr>
+                    <tr>
+                        <th>Thành tiền: </th>
+                        <td>{{invoiceHeader.subTotal}}</td>
+                    </tr>
+                    <tr>
+                        <th>Thuế: </th>
+                        <td>{{invoiceHeader.taxAmount}}</td>
+                    </tr>
+                    <tr>
+                        <th>Tổng tiền: </th>
+                        <td>{{invoiceHeader.totalDue}}</td>
+                    </tr>
+                </table>
+                <div class="card" *ngIf="this.lstInvoicePackage && this.lstInvoicePackage.length > 0">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                        <button class="btn btn-link" (click)="collapsePackage()">
+                            Packages
+                        </button>
+                        </h5>
+                    </div>
+                    <div id="colPackage" *ngIf="showPackage">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Weight (g)</th>
+                                    <th>Height (cm)</th>
+                                    <th>Width (cm)</th>
+                                    <th>Length (cm)</th>
+                                    <th>Ghi chú</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of this.lstInvoicePackage; let index = index">
+                                    <td>{{index +1}}</td>
+                                    <td>{{item.weight}}</td>
+                                    <td>{{item.height}}</td>
+                                    <td>{{item.width}}</td>
+                                    <td>{{item.length}}</td>
+                                    <td>{{item.note}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <div class="card" *ngIf="this.lstInvoiceDetails && this.lstInvoiceDetails.length > 0">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                        <button class="btn btn-link" (click)="collapseItem()">
+                            Items
+                        </button>
+                        </h5>
+                    </div>
+                    <div id="colItem" *ngIf="showItem">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of this.lstInvoiceDetails; let index = index">
+                                    <td>{{index +1}}</td>
+                                    <td>{{item.itemName}}</td>
+                                    <td>{{item.itemType}}</td>
+                                    <td>{{item.description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br/><br/>
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
-            </button>
-
-            <button type="button"
-                    [routerLink]="['/receiptnote', receiptnote.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
         </div>
-        <div *ngIf="!receiptnote">
-            <h2>Receipt note in not created</h2>
+        </div>
+    <div class="col-16" *ngIf="!receiptnote">
+        <div >
+            <h2>Biên nhận chưa được tạo</h2>
             <button type="button" class="btn btn-primary"
                 [routerLink]="['/receiptnote', id, 'new-receive']">Create receive note</button>
         </div>
     </div>
+    <br/><br/><br/>
 </div>

@@ -4,6 +4,7 @@ import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Long> {
 
 	@Query(	  value = "SELECT i FROM InvoiceHeader i "
-					+ " WHERE ( :invoiceNo = '' OR i.invoiceNo = :invoiceNo ) "
+					+ " WHERE ( :invoiceNo = '' OR i.invoiceNo like CONCAT('%', :invoiceNo, '%') ) "
 					+ " AND ( :status = '' OR i.status = :status ) "
 					+ " AND ( :receiveDate = '' OR i.receiveDate BETWEEN CONCAT(:receiveDate, ' 00:00:00') AND CONCAT(:receiveDate,' 23:59:59')  ) "
 					+ " AND ( :createDate = ''  OR i.createDate  BETWEEN CONCAT(:createDate, ' 00:00:00')  AND CONCAT(:createDate, ' 23:59:59')  ) "

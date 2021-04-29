@@ -1,130 +1,132 @@
 <div class="row justify-content-center">
-    <!-- <div class="col-md-4">
-        <div class="row justify-content-center">
-            <fa-icon [size]="'8x'" [icon]="'user'"></fa-icon>
+    <div class="col-lg-11">
+        <br>
+        <div class="row" style="border-bottom: 2px solid;">
+            <h2 *ngIf="settingsAccount" style="font-weight: bold;">Chỉnh sửa thông tin: {{settingsAccount.login}}</h2>
         </div>
-    </div> -->
-    <div class="col-lg-12">
-        <h2 *ngIf="settingsAccount">Profile: <b>{{settingsAccount.login}}</b></h2>
-
+        <br>
         <div class="alert alert-success" *ngIf="success">
-            <strong>Settings saved!</strong>
+            <strong>Đã lưu thông tin!</strong>
         </div>
         <jhi-alert></jhi-alert>
         <jhi-alert-error></jhi-alert-error>
 
         <form name="form" role="form" (ngSubmit)="save()" #settingsForm="ngForm" *ngIf="settingsAccount" novalidate>
-            <label for="user-profile"><b>User Profile</b></label>
-            <div name="user-profile" style="border: gray solid thin; border-radius: 5px; padding: 5%;">
-                <div class="form-group">
-                    <label class="form-control-label" for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Your email"
-                        [(ngModel)]="settingsAccount.email" minlength="5" maxlength="254" #emailInput="ngModel" email required readonly>
-                    <div *ngIf="emailInput.dirty && emailInput.invalid">
-                        <small class="form-text text-danger"
-                        *ngIf="emailInput.errors.required">
-                            Your email is required.
-                        </small>
-                        <small class="form-text text-danger"
-                        *ngIf="emailInput.errors.email">
-                            Your email is invalid.
-                        </small>
-                        <small class="form-text text-danger"
-                        *ngIf="emailInput.errors.minlength">
-                            Your email is required to be at least 5 characters.
-                        </small>
-                        <small class="form-text text-danger"
-                        *ngIf="emailInput.errors.maxlength">
-                            Your email cannot be longer than 100 characters.
-                        </small>
-                    </div>
+            <div class="card">
+                <div class="card-header">
+                    <label for="user-profile"><b>Thông tin tài khoản</b></label>
                 </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label class="form-control-label" for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Your first name"
-                                [(ngModel)]="settingsAccount.firstName" minlength=1 maxlength=50 #firstNameInput="ngModel" required>
-                            <div *ngIf="firstNameInput.dirty && firstNameInput.invalid">
-                                <small class="form-text text-danger"
-                                *ngIf="firstNameInput.errors.required">
-                                    Your first name is required.
-                                </small>
-                                <small class="form-text text-danger"
-                                *ngIf="firstNameInput.errors.minlength">
-                                    Your first name is required to be at least 1 character.
-                                </small>
-                                <small class="form-text text-danger"
-                                *ngIf="firstNameInput.errors.maxlength">
-                                    Your first name cannot be longer than 50 characters.
-                                </small>
+                <div class="card-body" name="user-profile">
+                    <div class="form-group">
+                        <label class="form-control-label" for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Your email"
+                            [(ngModel)]="settingsAccount.email" minlength="5" maxlength="254" #emailInput="ngModel" email required readonly>
+                        <div *ngIf="emailInput.dirty && emailInput.invalid">
+                            <small class="form-text text-danger"
+                            *ngIf="emailInput.errors.required">
+                                Your email is required.
+                            </small>
+                            <small class="form-text text-danger"
+                            *ngIf="emailInput.errors.email">
+                                Your email is invalid.
+                            </small>
+                            <small class="form-text text-danger"
+                            *ngIf="emailInput.errors.minlength">
+                                Your email is required to be at least 5 characters.
+                            </small>
+                            <small class="form-text text-danger"
+                            *ngIf="emailInput.errors.maxlength">
+                                Your email cannot be longer than 100 characters.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="lastName">Họ</label>
+                                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Your last name"
+                                    [(ngModel)]="settingsAccount.lastName" minlength=1 maxlength=50 #lastNameInput="ngModel" required>
+                                <div *ngIf="lastNameInput.dirty && lastNameInput.invalid">
+                                    <small class="form-text text-danger"
+                                    *ngIf="lastNameInput.errors.required">
+                                        Your last name is required.
+                                    </small>
+                                    <small class="form-text text-danger"
+                                    *ngIf="lastNameInput.errors.minlength">
+                                        Your last name is required to be at least 1 character.
+                                    </small>
+                                    <small class="form-text text-danger"
+                                    *ngIf="lastNameInput.errors.maxlength">
+                                        Your last name cannot be longer than 50 characters.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="firstName">Tên</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Your first name"
+                                    [(ngModel)]="settingsAccount.firstName" minlength=1 maxlength=50 #firstNameInput="ngModel" required>
+                                <div *ngIf="firstNameInput.dirty && firstNameInput.invalid">
+                                    <small class="form-text text-danger"
+                                    *ngIf="firstNameInput.errors.required">
+                                        Your first name is required.
+                                    </small>
+                                    <small class="form-text text-danger"
+                                    *ngIf="firstNameInput.errors.minlength">
+                                        Your first name is required to be at least 1 character.
+                                    </small>
+                                    <small class="form-text text-danger"
+                                    *ngIf="firstNameInput.errors.maxlength">
+                                        Your first name cannot be longer than 50 characters.
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label class="form-control-label" for="lastName">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Your last name"
-                                [(ngModel)]="settingsAccount.lastName" minlength=1 maxlength=50 #lastNameInput="ngModel" required>
-                            <div *ngIf="lastNameInput.dirty && lastNameInput.invalid">
-                                <small class="form-text text-danger"
-                                *ngIf="lastNameInput.errors.required">
-                                    Your last name is required.
-                                </small>
-                                <small class="form-text text-danger"
-                                *ngIf="lastNameInput.errors.minlength">
-                                    Your last name is required to be at least 1 character.
-                                </small>
-                                <small class="form-text text-danger"
-                                *ngIf="lastNameInput.errors.maxlength">
-                                    Your last name cannot be longer than 50 characters.
-                                </small>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="gender">Giới tính</label>
+                                <ng-select  [clearable]="false"
+                                            [hideSelected]="true"
+                                            [items]="this.lstGender"
+                                            bindLabel="text"
+                                            bindValue="id"
+                                            id="gender"
+                                            name="gender"
+                                            [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.userProfile.gender"
+                                            >
+                                    <ng-option *ngFor="let item of lstGender">{{item.text}}</ng-option>
+                                </ng-select>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="gender">Gender</label>
-                            <ng-select  [clearable]="false"
-                                        [hideSelected]="true"
-                                        [items]="this.lstGender"
-                                        bindLabel="text"
-                                        bindValue="id"
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="gender">Số điện thoại</label>
+                                <input  class="form-control"
+                                        type="text"
+                                        [(ngModel)]="this.userProfile.phoneNumber"
+                                        value="{{this.userProfile.phoneNumber}}"
                                         id="gender"
                                         name="gender"
-                                        [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="this.userProfile.gender"
                                         >
-                                <ng-option *ngFor="let item of lstGender">{{item.text}}</ng-option>
-                            </ng-select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="gender">Phone Number</label>
-                            <input  class="form-control" 
-                                    type="text" 
-                                    [(ngModel)]="this.userProfile.phoneNumber" 
-                                    value="{{this.userProfile.phoneNumber}}"
-                                    id="gender"
-                                    name="gender"
-                                    >
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="dob">Date of Birth</label>
-                            <div class="input-group">
-                                <input class="form-control" placeholder="yyyy-mm-dd"
-                                    name="dp" [(ngModel)]="this.userProfile.dateOfBirth" ngbDatepicker #d="ngbDatepicker" readonly>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                                        <fa-icon [icon]="'calendar-alt'"></fa-icon>
-                                    </button>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="dob">Ngày sinh</label>
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="yyyy-mm-dd"
+                                        name="dp" [(ngModel)]="this.userProfile.dateOfBirth" ngbDatepicker #d="ngbDatepicker" readonly>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                                            <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -132,104 +134,109 @@
                 </div>
             </div>
             <br>
-            <label for="user-address"><b>User Address</b></label>
-            <div name="user-address" style="border: gray solid thin; border-radius: 5px; padding: 5%;">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="province">Province/City</label>
-                            <ng-select  [clearable]="false"
-                                        [hideSelected]="true"
-                                        [items]="this.lstProvince"
-                                        bindLabel="provinceName"
-                                        bindValue="id"
-                                        id="province"
-                                        name="province"
-                                        [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="this.selectedProvince"
-                                        (change)="this.changeCity()"
-                                        >
-                                <ng-option *ngFor="let item of lstProvince">{{item.provinceName}}</ng-option>
-                            </ng-select>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="district">District</label>
-                            <ng-select  [clearable]="false"
-                                        [hideSelected]="true"
-                                        [items]="this.lstDistrict"
-                                        bindValue="id"
-                                        bindLabel="districtName"
-                                        id="district"
-                                        name="district"
-                                        [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="this.selectedDistrict"
-                                        (change)="this.changeDistrict()"
-                                        [disabled]="!this.selectedProvince"
-                                        >
-                                <ng-option *ngFor="let item of lstDistrict">{{item.districtName}}</ng-option>
-                            </ng-select>
-                        </div>
-                    </div>
+            <div class="card">
+                <div class="card-header">
+                    <label for="user-address"><b>Địa chỉ</b></label>
                 </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="subDistrict">Ward/Commune</label>
-                            <ng-select  [clearable]="false"
-                                        [hideSelected]="true"
-                                        [items]="this.lstSubDistrict"
-                                        bindLabel="subDistrictName"
-                                        bindValue="id"
-                                        id="subDistrict"
-                                        name="subDistrict"
-                                        [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="this.selectedSubDistrict"
-                                        (change)="this.changeSubDistrict()"
-                                        [disabled]="!this.selectedDistrict"
-                                        >
-                                <ng-option *ngFor="let item of lstSubDistrict">{{item.subDistrictName}}</ng-option>
-                            </ng-select>
+                <div class="card-body" name="user-address">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="province">Tỉnh/Thành phố</label>
+                                <ng-select  [clearable]="false"
+                                            [hideSelected]="true"
+                                            [items]="this.lstProvince"
+                                            bindLabel="provinceName"
+                                            bindValue="id"
+                                            id="province"
+                                            name="province"
+                                            [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.selectedProvince"
+                                            (change)="this.changeCity()"
+                                            >
+                                    <ng-option *ngFor="let item of lstProvince">{{item.provinceName}}</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="district">Quận/Huyện</label>
+                                <ng-select  [clearable]="false"
+                                            [hideSelected]="true"
+                                            [items]="this.lstDistrict"
+                                            bindValue="id"
+                                            bindLabel="districtName"
+                                            id="district"
+                                            name="district"
+                                            [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.selectedDistrict"
+                                            (change)="this.changeDistrict()"
+                                            [disabled]="!this.selectedProvince"
+                                            >
+                                    <ng-option *ngFor="let item of lstDistrict">{{item.districtName}}</ng-option>
+                                </ng-select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="street">Street</label>
-                            <ng-select  [clearable]="false"
-                                        [hideSelected]="true"
-                                        [items]="this.lstStreet"
-                                        bindLabel="streetName"
-                                        bindValue="id"
-                                        id="street"
-                                        name="street"
-                                        [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="this.userProfile.streetId"
-                                        [disabled]="!this.selectedSubDistrict"
-                                        >
-                                <ng-option *ngFor="let item of lstStreet">{{item.streetName}}</ng-option>
-                            </ng-select>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="subDistrict">Phường/Xã</label>
+                                <ng-select  [clearable]="false"
+                                            [hideSelected]="true"
+                                            [items]="this.lstSubDistrict"
+                                            bindLabel="subDistrictName"
+                                            bindValue="id"
+                                            id="subDistrict"
+                                            name="subDistrict"
+                                            [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.selectedSubDistrict"
+                                            (change)="this.changeSubDistrict()"
+                                            [disabled]="!this.selectedDistrict"
+                                            >
+                                    <ng-option *ngFor="let item of lstSubDistrict">{{item.subDistrictName}}</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="street">Đường/Phố</label>
+                                <ng-select  [clearable]="false"
+                                            [hideSelected]="true"
+                                            [items]="this.lstStreet"
+                                            bindLabel="streetName"
+                                            bindValue="id"
+                                            id="street"
+                                            name="street"
+                                            [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="this.userProfile.streetId"
+                                            [disabled]="!this.selectedSubDistrict"
+                                            >
+                                    <ng-option *ngFor="let item of lstStreet">{{item.streetName}}</ng-option>
+                                </ng-select>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="address">Address</label>
-                            <textarea class="form-control" 
-                                style="resize: none;"
-                                rows="3"
-                                id="address" 
-                                name="address" 
-                                [(ngModel)]="this.userProfile.address"
-                            >
-                            </textarea>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="address">Địa chỉ</label>
+                                <textarea class="form-control"
+                                    style="resize: none;"
+                                    rows="3"
+                                    id="address"
+                                    name="address"
+                                    [(ngModel)]="this.userProfile.address"
+                                >
+                                </textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <br>
-            <button type="submit" [disabled]="settingsForm.form.invalid" class="btn btn-primary">Save</button>
+            <button type="submit" [disabled]="settingsForm.form.invalid" class="btn btn-primary">Lưu thông tin</button>
         </form>
     </div>
 </div>
+<br>

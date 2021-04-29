@@ -5,17 +5,17 @@
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!userProfile.id">
-                    <label for="id">ID</label>
+                    <label for="id">Mã số</label>
                     <input type="text" class="form-control" id="id" name="id"
                         [(ngModel)]="userProfile.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_userId">User Id</label>
+                    <label class="form-control-label" for="field_userId">Mã người dùng</label>
                     <input type="number" class="form-control" name="userId" id="field_userId"
                         [(ngModel)]="userProfile.userId" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_gender">Gender</label>
+                    <label class="form-control-label" for="field_gender">Giới tính</label>
                     <input type="checkbox" class="form-control" name="gender" id="field_gender"
                         [(ngModel)]="userProfile.gender" />
                 </div>
@@ -25,7 +25,7 @@
                         [(ngModel)]="userProfile.address" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_streetId">Street Id</label>
+                    <label class="form-control-label" for="field_streetId">Mã Đường/Phố</label>
                     <input type="text" class="form-control" name="streetId" id="field_streetId"
                         [(ngModel)]="userProfile.streetId" />
                 </div>
@@ -35,21 +35,21 @@
                         [(ngModel)]="userProfile.phoneNumber" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_dateOfBirth">Date Of Birth</label>
+                    <label class="form-control-label" for="field_dateOfBirth">Ngày sinh</label>
                     <div class="d-flex">
                         <input id="field_dateOfBirth" type="datetime-local" class="form-control" name="dateOfBirth" [(ngModel)]="dateOfBirth"
                         />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_createdDate">Created Date</label>
+                    <label class="form-control-label" for="field_createdDate">Ngày tạo</label>
                     <div class="d-flex">
                         <input id="field_createdDate" type="datetime-local" class="form-control" name="createdDate" [(ngModel)]="createdDate"
                         />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_updatedDate">Updated Date</label>
+                    <label class="form-control-label" for="field_updatedDate">Ngày cập nhật</label>
                     <div class="d-flex">
                         <input id="field_updatedDate" type="datetime-local" class="form-control" name="updatedDate" [(ngModel)]="updatedDate"
                         />
@@ -59,10 +59,10 @@
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Hủy</span>
                 </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Lưu</span>
                 </button>
             </div>
         </form>

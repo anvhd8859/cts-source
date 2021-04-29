@@ -49,7 +49,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     selectedAddressTo: any;
     selectedUser: IUser;
     selectedUserProfile: IUserProfile;
-    lstIvnType: any = [{ id: 'Personal', text: 'Personal Shippemnt' }, { id: 'Transfer', text: 'House Transfer' }];
+    lstIvnType: any = [{ id: 'personal', text: 'Personal Shippemnt' }, { id: 'Transfer', text: 'House Transfer' }];
     lstInvStatus: any = [
         { id: 'new', text: 'Chờ xử lý' },
         { id: 'collect', text: 'Chờ nhân viên lấy hàng' },
@@ -153,7 +153,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             if (!this.invoiceHeader.id) {
                 this.invoiceHeader.startAddress =
                     this.selectedAddressFrom +
-                    ' | ' +
+                    ', ' +
                     (this.selectedStreetFrom ? this.selectedStreetFrom.streetName : '') +
                     ', ' +
                     (this.selectedSubDistrictFrom ? this.selectedSubDistrictFrom.subDistrictName : '') +
@@ -163,7 +163,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                     (this.selectedProvinceFrom ? this.selectedProvinceFrom.provinceName : '');
                 this.invoiceHeader.destinationAddress =
                     this.selectedAddressTo +
-                    ' | ' +
+                    ', ' +
                     (this.selectedStreetTo ? this.selectedStreetTo.streetName : '') +
                     ', ' +
                     (this.selectedSubDistrictTo ? this.selectedSubDistrictTo.subDistrictName : '') +
@@ -237,8 +237,11 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         if (!this.selectedUser) {
             msg += 'Customer must not be blank! <br>';
         }
-        if (!this.invoiceHeader.invoiceType) {
-            msg += 'Type of Invoice must not be blank! <br>';
+        if (this.lstInvoicePackage.length === 0) {
+            msg += 'Package must have at least ONE item! <br>';
+        }
+        if (this.lstInvoiceDetails.length === 0) {
+            msg += 'Item detail must have at least ONE item! <br>';
         }
         return msg;
     }

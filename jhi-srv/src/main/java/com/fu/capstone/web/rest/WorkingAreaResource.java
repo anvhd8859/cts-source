@@ -4,10 +4,17 @@ import com.codahale.metrics.annotation.Timed;
 import com.fu.capstone.service.WorkingAreaService;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
+import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.WorkingAreaDTO;
+import com.fu.capstone.service.dto.WorkingAreaStreetDTO;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -114,5 +121,13 @@ public class WorkingAreaResource {
         log.debug("REST request to delete WorkingArea : {}", id);
         workingAreaService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    @GetMapping("/working-areas/filter")
+    @Timed
+    public ResponseEntity<List<WorkingAreaStreetDTO>> getWorkingAreaByFilter(@RequestParam("sid") Long sid, @RequestParam("eid") Long eid, Pageable pageable) {
+        Page<WorkingAreaStreetDTO> page = workingAreaService.getWorkingAreaByFilter(sid, eid, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/working-areas/filter");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 }

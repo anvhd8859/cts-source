@@ -68,4 +68,6 @@ public interface InvoiceHeaderService {
 
 	List<InvoiceHeaderDTO> saveListImportInvoiceHeader(List<InvoiceHeaderDTO> list);
 
+	InvoiceHeaderDTO updateFinishInvoicePersonalShipment(InvoiceHeaderDTO invoice);
+
 }

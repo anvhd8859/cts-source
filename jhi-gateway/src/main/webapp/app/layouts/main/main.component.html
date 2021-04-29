@@ -2,18 +2,19 @@
     <header>
         <router-outlet name="navbar"></router-outlet>
     </header>
-    <main class="container-fluid jhi-body content-wrap inner-body">
-        <div class="row justify-content-center">
-            <div class="col-lg-10 col-md-10 col-sm-12">
-                <div class="card jh-card">
-                    <router-outlet></router-outlet>
-                    <ngx-ui-loader></ngx-ui-loader>
-                    <router-outlet name="popup"></router-outlet>
-                </div>
-            </div>
-        </div>
+    <div class="divider"></div>
+    <main class="container-fluid jhi-body content-wrap" 
+        [ngStyle]="{'padding': '' + this.url === '/' ? '0 0 0 0' : '0 15px 0 15px'}"
+        style="background-color: white; width: 100%;">
+        <router-outlet></router-outlet>
+        <ngx-ui-loader></ngx-ui-loader>
+        <router-outlet name="popup"></router-outlet>
     </main>
+    <!-- -->
+    
+    <br>
     <footer class="bottom-footer">
+        
         <jhi-footer></jhi-footer>
     </footer>
 </div>    

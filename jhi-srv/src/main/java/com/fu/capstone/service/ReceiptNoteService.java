@@ -1,6 +1,8 @@
 package com.fu.capstone.service;
 
 import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
+import com.fu.capstone.service.dto.DetailPackageDTO;
+import com.fu.capstone.service.dto.ReceiptDetailPackageDTO;
 import com.fu.capstone.service.dto.ReceiptNoteDTO;
 
 import org.springframework.data.domain.Page;
@@ -49,4 +51,8 @@ public interface ReceiptNoteService {
 	Optional<ReceiptNoteDTO> getReceiptNoteByHeaderId(Long id);
 
 	List<ReceiptInvoiceDTO> getAllReceiptInvoiceByUser(Long id, Pageable pageable);
+
+	DetailPackageDTO getReceiptItemPackage(Long id);
+
+	ReceiptNoteDTO createReceiptNoteAndShipmentInvoice(ReceiptDetailPackageDTO data);
 }

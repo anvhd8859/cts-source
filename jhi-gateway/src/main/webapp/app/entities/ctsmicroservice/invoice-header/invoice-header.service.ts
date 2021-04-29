@@ -141,4 +141,11 @@ export class InvoiceHeaderService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
     // end new code
+
+    updateFinishInvoicePersonalShipment(invoiceHeader: IInvoiceHeader): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(invoiceHeader);
+        return this.http
+            .put<IInvoiceHeader>(this.resourceUrl + '/finish', copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
 }

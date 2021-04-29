@@ -1,47 +1,47 @@
 <div class="row justify-content-center">
-    <div class="col-12">
+    <div class="col-11">
         <div *ngIf="invoiceHeader">
-            <div class="row">
-                <div class="col-12">
-                    <h2><b><span>Invoice: </span> {{invoiceHeader.invoiceNo}}</b></h2>
-                </div>
-            </div>
             <br>
-            <div class="row">
-                <div class="col-12">
-                    <h4><span>Create Time: </span>{{invoiceHeader.createDate | date:'yyyy-MM-dd HH:mm'}}</h4>
+            <div class="container-fluid" style="border-bottom: 2px solid;">
+                <div class="row" >
+                    <h2 style="font-weight: bold;"><span>Hóa đơn: </span> {{invoiceHeader.invoiceNo}}</h2>
                 </div>
+                <br>
+                <div class="row">
+                    <h4><span>Ngày tạo hóa đơn: </span>{{invoiceHeader.createDate | date:'yyyy-MM-dd HH:mm'}}</h4>
+                </div>
+                <br>
             </div>
             <br>
             <jhi-alert-error></jhi-alert-error>
             <div class="col-12">
                 <table class="table" style="width: 100%;">
                     <tr *ngIf="this.customer">
-                        <th>Customer: </th>
+                        <th>Tên khách hàng: </th>
                         <td>{{this.customer.firstName + ' ' + this.customer.lastName}}</td>
                     </tr>
                     <tr *ngIf="this.office">
-                        <th>Office: </th>
+                        <th>Chi nhánh: </th>
                         <td>{{this.office.officeName}}</td>
                     </tr>
                     <tr>
-                        <th>Invoice Type: </th>
-                        <td>{{this.invoiceHeader.invoiceType}}</td>
+                        <th>Loại hóa đơn: </th>
+                        <td>Giao hàng cá nhân</td>
                     </tr>
                     <tr>
-                        <th>Invoice Status: </th>
-                        <td>{{this.invoiceHeader.status}}</td>
+                        <th>Tình trạng hóa đơn: </th>
+                        <td>{{common.processInvoiceStatus(invoiceHeader.status)}}</td>
                     </tr>
                     <tr>
-                        <th>From Address: </th>
+                        <th>Địa chỉ gửi: </th>
                         <td>{{invoiceHeader.startAddress}}</td>
                     </tr>
                     <tr>
-                        <th>To Address: </th>
+                        <th>Địa chỉ nhận: </th>
                         <td>{{invoiceHeader.destinationAddress}}</td>
                     </tr>
                     <tr>
-                        <th>Customer Note: </th>
+                        <th>Ghi chú khách hàng: </th>
                         <td>{{invoiceHeader.note}}</td>
                     </tr>
                 </table>
@@ -49,20 +49,20 @@
                     <div class="card-header" id="headingOne">
                         <h5 class="mb-0">
                         <button class="btn btn-link" (click)="collapsePackage()">
-                            Packages
+                            Gói hàng:
                         </button>
                         </h5>
                     </div>
                     <div id="colPackage" *ngIf="showPackage">
-                        <table class="table"> 
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Weight (kg)</th>
-                                    <th>Height (cm)</th>
-                                    <th>Width (cm)</th>
-                                    <th>Length (cm)</th>
-                                    <th>Note</th>
+                                    <th>Cân nặng (g)</th>
+                                    <th>Cao (cm)</th>
+                                    <th>Rộng (cm)</th>
+                                    <th>Dài (cm)</th>
+                                    <th>Ghi chú</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -83,18 +83,18 @@
                     <div class="card-header" id="headingOne">
                         <h5 class="mb-0">
                         <button class="btn btn-link" (click)="collapseItem()">
-                            Items
+                            Vật phẩm
                         </button>
                         </h5>
                     </div>
                     <div id="colItem" *ngIf="showItem">
-                        <table class="table"> 
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                    <th>Description</th>
+                                    <th>Tên vật phẩm</th>
+                                    <th>Loại vật phẩm</th>
+                                    <th>Ghi chú</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,68 +114,26 @@
             <br>
             <div class="row">
                 <div class="col-12">
-                    <h4 class="float-right">Sub Total: <b>{{invoiceHeader.subTotal | currency:'VND'}}</b></h4>
+                    <h4 class="float-right">Tổng phụ: <b>{{invoiceHeader.subTotal | currency:'VND'}}</b></h4>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <h4 class="float-right">Tax Amount: <b>{{invoiceHeader.taxAmount | currency:'VND'}}</b></h4>
+                    <h4 class="float-right">Thuế: <b>{{invoiceHeader.taxAmount | currency:'VND'}}</b></h4>
                 </div>
             </div>
             <div class="divider"></div>
             <div class="divider"></div>
             <div class="row">
                 <div class="col-12">
-                    <h2 class="float-right">Total: <b>{{invoiceHeader.totalDue | currency:'VND'}}</b></h2>
+                    <h2 class="float-right">Tổng: <b>{{invoiceHeader.totalDue | currency:'VND'}}</b></h2>
                 </div>
             </div>
             <br>
-            <!-- <dl class="row-md jh-entity-details">
-                <dt><span>Note</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.note}}</span>
-                </dd>
-                <dt><span>Cancel</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.cancel}}</span>
-                </dd>
-                <dt><span>Cancel Reason</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.cancelReason}}</span>
-                </dd>
-                <dt><span>Customer Confirm</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.customerConfirm}}</span>
-                </dd>
-                <dt><span>Change Note</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.changeNote}}</span>
-                </dd>
-                <dt><span>Finish</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.finish}}</span>
-                </dd>
-                <dt><span>Due Date</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.dueDate}}</span>
-                </dd>
-                <dt><span>Finish Date</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.finishDate}}</span>
-                </dd>
-                <dt><span>Create Date</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.createDate}}</span>
-                </dd>
-                <dt><span>Update Date</span></dt>
-                <dd>
-                    <span>{{invoiceHeader.updateDate}}</span>
-                </dd>
-            </dl> -->
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
             </button>
         </div>
     </div>
