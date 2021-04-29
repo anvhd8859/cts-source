@@ -48,7 +48,7 @@ export const invoiceHeaderRoute: Routes = [
             invoiceHeader: InvoiceHeaderResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER', 'ROLE_OFFICER', 'ROLE_KEEPER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SHIPPER', 'ROLE_OFFICER', 'ROLE_KEEPER'],
             pageTitle: 'CTS: Chi tiết hóa đơn'
         },
         canActivate: [UserRouteAccessService]
