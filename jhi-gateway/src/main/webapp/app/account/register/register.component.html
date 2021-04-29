@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title">Registration</h4>
+    <h4 class="modal-title">Đăng ký</h4>
     <br>
     <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')"><span aria-hidden="true">x</span>
     </button>
@@ -8,23 +8,23 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="alert alert-success" *ngIf="success">
-                <strong>Registration saved!</strong> Please check your email for confirmation.
+                <strong>Đã tạo tài khoản!</strong> Vui lòng kiểm tra email để kích hoạt sử dụng tài khoản.
             </div>
 
             <div class="alert alert-danger" *ngIf="error">
-                <strong>Registration failed!</strong> Please try again later.
+                <strong>Đăng ký thất bại!</strong> Vui lòng thử lại sau ít phút.
             </div>
 
             <div class="alert alert-danger" *ngIf="errorUserExists">
-                <strong>Login name already registered!</strong> Please choose another one.
+                <strong>Tài khoản đã tồn tại!</strong> Vui lòng chọn tên đăng nhập khác.
             </div>
 
             <div class="alert alert-danger" *ngIf="errorEmailExists">
-                <strong>Email is already in use!</strong> Please choose another one.
+                <strong>Email đã tồn tại!</strong> Vui lòng nhập Email khác.
             </div>
 
             <div class="alert alert-danger" *ngIf="doNotMatch">
-                The password and its confirmation do not match!
+                Mật khẩu và xác nhận mật khẩu phải khớp nhau!
             </div>
         </div>
     </div>
@@ -35,12 +35,12 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" [(ngModel)]="registerAccount.firstName" id="firstName" name="firstName" #login="ngModel" placeholder="First Name"  required minlength="1" maxlength="50">
+                            <input type="text" class="form-control" [(ngModel)]="registerAccount.firstName" id="firstName" name="firstName" #login="ngModel" placeholder="Tên"  required minlength="1" maxlength="50">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" [(ngModel)]="registerAccount.lastName" id="lastName" name="lastName" #login="ngModel" placeholder="Last Name"  required minlength="1" maxlength="50">
+                            <input type="text" class="form-control" [(ngModel)]="registerAccount.lastName" id="lastName" name="lastName" #login="ngModel" placeholder="Họ"  required minlength="1" maxlength="50">
                         </div>
                     </div>
                 </div>
@@ -50,19 +50,19 @@
                             required minlength="1" maxlength="50" pattern="^[_.@A-Za-z0-9-]*$"> -->
                     <div *ngIf="login.dirty && login.invalid">
                         <small class="form-text text-danger" *ngIf="login.errors.required">
-                            Your username is required.
+                            Vui lòng điền email.
                         </small>
                         <small class="form-text text-danger" *ngIf="login.errors.minlength"
                                >
-                            Your username is required to be at least 1 character.
+                            Vui lòng điền email.
                         </small>
                         <small class="form-text text-danger" *ngIf="login.errors.maxlength"
                                >
-                            Your username cannot be longer than 50 characters.
+                            Vui lòng điền email.
                         </small>
                         <small class="form-text text-danger" *ngIf="login.errors.pattern"
                               >
-                            Your username can only contain letters and digits.
+                            Vui lòng điền email.
                         </small>
                     </div>
                 </div>
@@ -72,70 +72,70 @@
                     <div *ngIf="email.dirty && email.invalid">
                         <small class="form-text text-danger" *ngIf="email.errors.required"
                                >
-                            Your email is required.
+                            Vui lòng điền email.
                         </small>
                         <small class="form-text text-danger" *ngIf="email.errors.invalid"
                               >
-                            Your email is invalid.
+                            Email không hợp lệ.
                         </small>
                         <small class="form-text text-danger" *ngIf="email.errors.minlength"
                               >
-                            Your email is required to be at least 5 characters.
+                            Email không hợp lệ.
                         </small>
                         <small class="form-text text-danger" *ngIf="email.errors.maxlength"
                               >
-                            Your email cannot be longer than 100 characters.
+                            Vui lòng điền email.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" id="password" name="password" #password="ngModel" placeholder="Password"
+                    <input type="password" class="form-control" id="password" name="password" #password="ngModel" placeholder="Mật khẩu"
                             [(ngModel)]="registerAccount.password" minlength=4 maxlength=50 required>
                     <div *ngIf="password.dirty && password.invalid">
                         <small class="form-text text-danger" *ngIf="password.errors.required"
                                >
-                            Your password is required.
+                            Vui lòng điền mật khẩu.
                         </small>
                         <small class="form-text text-danger" *ngIf="password.errors.minlength"
                                >
-                            Your password is required to be at least 4 characters.
+                            Mật khẩu phải có ít nhất 4 ký tự.
                         </small>
                         <small class="form-text text-danger" *ngIf="password.errors.maxlength"
                                >
-                            Your password cannot be longer than 50 characters.
+                            Mật khẩu không dài quá 50 ký tự.
                         </small>
                     </div>
                     <jhi-password-strength-bar [passwordToCheck]="registerAccount.password"></jhi-password-strength-bar>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" #confirmPasswordInput="ngModel" placeholder="Confirm password"
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" #confirmPasswordInput="ngModel" placeholder="Nhập lại ật khẩu"
                             [(ngModel)]="confirmPassword" minlength=4 maxlength=50 required>
                     <div *ngIf="confirmPasswordInput.dirty && confirmPasswordInput.invalid">
                         <small class="form-text text-danger" *ngIf="confirmPasswordInput.errors.required"
                               >
-                            Your confirmation password is required.
+                            Vui lòng nhập lại mật khẩu.
                         </small>
                         <small class="form-text text-danger" *ngIf="confirmPasswordInput.errors.minlength"
                              >
-                            Your confirmation password is required to be at least 4 characters.
+                            Mật khẩu phải có ít nhất 4 ký tự.
                         </small>
                         <small class="form-text text-danger" *ngIf="confirmPasswordInput.errors.maxlength"
                               >
-                            Your confirmation password cannot be longer than 50 characters.
+                            Mật khẩu không dài quá 50 ký tự.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" [disabled]="registerForm.form.invalid" class="btn btn-primary form-control">Create new Account</button>
+                    <button type="submit" [disabled]="registerForm.form.invalid" class="btn btn-primary form-control">Đăng ký</button>
                 </div>
             </form>
         </div>
     </div>
     <div class="divider"></div>
     <div class="form-group" style="text-align: center;">
-        <span>Already have an account?</span>
+        <span>Đã có tài khoản?</span>
     </div>
     <div class="form-group" style="text-align: center;">
-        <button type="submit" class="btn btn-primary form-control" (click)="openLogin()">Sign in</button>
+        <button type="submit" class="btn btn-primary form-control" (click)="openLogin()">Đăng nhập</button>
     </div>
 </div>

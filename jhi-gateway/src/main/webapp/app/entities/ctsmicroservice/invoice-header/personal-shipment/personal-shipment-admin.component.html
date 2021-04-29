@@ -1,192 +1,198 @@
-<div>
-    <h2 id="page-heading">
-        <span>Personal Shipment</span>
-        <!-- <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-invoice-header" [routerLink]="['/invoice-header/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-            Create new Invoice Header
-            </span>
-        </button> -->
-    </h2>
-    <jhi-alert></jhi-alert>
-    <br />
-    <div class="row">
-        <div class="col-lg-3 col-md-6">
-            <div class="form-group">
-                <label for="province">Province/City</label>
-                <ng-select  [clearable]="false"
-                            [hideSelected]="true"
-                            [items]="this.lstProvince"
-                            bindLabel="provinceName"
-                            bindValue="id"
-                            id="province"
-                            name="province"
-                            [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="this.selectedProvince"
-                            (change)="this.changeCity()"
-                            >
-                    <ng-option *ngFor="let item of lstProvince">{{item.provinceName}}</ng-option>
-                </ng-select>
+<div class="row justify-content-center">
+    <div class="col-11">
+        <br>
+        <div class="row" style="border-bottom: 2px solid;">
+            <h2 style="font-weight: bold;" id="page-heading">
+                <span>Quản lý đơn giao hàng cá nhân</span>
+            </h2>
+        </div>
+        <br>
+        <jhi-alert></jhi-alert>
+        <br />
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                            <label for="province">Tỉnh/Thành phố</label>
+                            <ng-select  [clearable]="false"
+                                        [hideSelected]="true"
+                                        [items]="this.lstProvince"
+                                        bindLabel="provinceName"
+                                        bindValue="id"
+                                        id="province"
+                                        name="province"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="this.selectedProvince"
+                                        (change)="this.changeCity()"
+                                        >
+                                <ng-option *ngFor="let item of lstProvince">{{item.provinceName}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                            <label for="district">Quận/Huyện</label>
+                            <ng-select  [clearable]="false"
+                                        [hideSelected]="true"
+                                        [items]="this.lstDistrict"
+                                        bindValue="id"
+                                        bindLabel="districtName"
+                                        id="district"
+                                        name="district"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="this.selectedDistrict"
+                                        (change)="this.changeDistrict()"
+                                        [disabled]="!this.selectedProvince"
+                                        >
+                                <ng-option *ngFor="let item of lstDistrict">{{item.districtName}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                            <label for="subDistrict">Phường/Xã</label>
+                            <ng-select  [clearable]="false"
+                                        [hideSelected]="true"
+                                        [items]="this.lstSubDistrict"
+                                        bindLabel="subDistrictName"
+                                        bindValue="id"
+                                        id="subDistrict"
+                                        name="subDistrict"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="this.selectedSubDistrict"
+                                        (change)="this.changeSubDistrict()"
+                                        [disabled]="!this.selectedDistrict"
+                                        >
+                                <ng-option *ngFor="let item of lstSubDistrict">{{item.subDistrictName}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                            <label for="street">Đường/Phố</label>
+                            <ng-select  [clearable]="false"
+                                        [hideSelected]="true"
+                                        [items]="this.lstStreet"
+                                        bindLabel="streetName"
+                                        bindValue="id"
+                                        id="street"
+                                        name="street"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="this.selectedStreet"
+                                        [disabled]="!this.selectedSubDistrict"
+                                        >
+                                <ng-option *ngFor="let item of lstStreet">{{item.streetName}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="invoiceNumber">Số hóa đơn</label>
+                            <input type="text" class="form-control" placeholder="(Tất cả)" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="selectedInvoiceNumber" value="{{selectedInvoiceNumber}}">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="type">Shipper</label>
+                            <ng-select  [clearable]="true"
+                                        [hideSelected]="true"
+                                        [items]="this.lstShipper"
+                                        bindLabel="email" placeholder="(Tất cả)"
+                                        id="field_customerId" name="field_customerId"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="this.selectedShipper">
+                                    <ng-option *ngFor="let item of lstShipper">{{item.email}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="type">Loại giao hàng</label>
+                            <ng-select [clearable]="true" [hideSelected]="true" [items]="common.listTypeShipment" bindLabel="text"
+                                bindValue="id" id="type" name="type" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="this.selectedShipmentType" placeholder="(Tất cả)">
+                                <ng-option *ngFor="let item of common.listTypeShipment">{{item.text}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 text-center">
+                        <div class="form-group">
+                            <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary"
+                                (click)="this.loadAll()">
+                                <fa-icon [icon]="'search'"></fa-icon>
+                                <span>Tìm kiếm</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="form-group">
-                <label for="district">District</label>
-                <ng-select  [clearable]="false"
-                            [hideSelected]="true"
-                            [items]="this.lstDistrict"
-                            bindValue="id"
-                            bindLabel="districtName"
-                            id="district"
-                            name="district"
-                            [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="this.selectedDistrict"
-                            (change)="this.changeDistrict()"
-                            [disabled]="!this.selectedProvince"
-                            >
-                    <ng-option *ngFor="let item of lstDistrict">{{item.districtName}}</ng-option>
-                </ng-select>
+            <div class="card-body">
+                <br>
+                <h4>Danh sách</h4>
+                <div class="table-responsive" *ngIf="shipmentInvoices">
+                    <table class="table table-striped">
+                        <thead>
+                            <th> STT </th>
+                            <th> Số hóa đơn </th>
+                            <th> Ngày giao dự kiến </th>
+                            <th> Tình trạng hóa đơn </th>
+                            <th> Loại dịch vụ</th>
+                            <th> Tình trạng giao hàng</th>
+                            <th> Điểm nhận hàng </th>
+                            <th> Giao tới </th>
+                            <th> Mã nhân viên </th>
+                            <th> Hành Động </th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let object of shipmentInvoices">
+                                <td>{{object.personalShipmentDTO.id}} </td>
+                                <td>{{object.invoiceHeaderDTO.invoiceNo}} </td>
+                                <td>{{object.invoiceHeaderDTO.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
+                                <td>{{common.processInvoiceStatus(object.invoiceHeaderDTO.status)}} </td>
+                                <td>{{common.processShipmentType(object.personalShipmentDTO.shipmentType)}} </td>
+                                <td>{{common.processShipmentStatus(object.personalShipmentDTO.status)}} </td>
+                                <td>{{object.invoiceHeaderDTO.startAddress}} </td>
+                                <td>{{object.invoiceHeaderDTO.destinationAddress}} </td>
+                                <td>{{object.personalShipmentDTO.employeeId}} </td>
+                                <td class="text-left">
+                                    <button type="submit"
+                                        [routerLink]="['/', { outlets: { popup: 'personal-shipment/'+ object.personalShipmentDTO.id + '/assign'} }]"
+                                        replaceUrl="true"
+                                        queryParamsHandling="merge"
+                                        class="btn btn-warning btn-sm">
+                                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                        <span class="d-none d-md-inline">Re-assign</span>
+                                    </button>
+                                    <button type="submit" [routerLink]="['/invoice-header', object.invoiceHeaderDTO.id, 'view' ]"
+                                        class="btn btn-info btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">Xem hóa đơn</span>
+                                    </button>
+                                    <button type="submit" [routerLink]="['/personal-shipment', object.personalShipmentDTO.id, 'view' ]"
+                                        class="btn btn-secondary btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">Xem thông tin giao hàng</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="shipmentInvoices && shipmentInvoices.length">
+                    <div class="row justify-content-center">
+                        <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
+                        </jhi-item-count>
+                    </div>
+                    <div class="row justify-content-center">
+                        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
+                            [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="form-group">
-                <label for="subDistrict">Ward/Commune</label>
-                <ng-select  [clearable]="false"
-                            [hideSelected]="true"
-                            [items]="this.lstSubDistrict"
-                            bindLabel="subDistrictName"
-                            bindValue="id"
-                            id="subDistrict"
-                            name="subDistrict"
-                            [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="this.selectedSubDistrict"
-                            (change)="this.changeSubDistrict()"
-                            [disabled]="!this.selectedDistrict"
-                            >
-                    <ng-option *ngFor="let item of lstSubDistrict">{{item.subDistrictName}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="form-group">
-                <label for="street">Street</label>
-                <ng-select  [clearable]="false"
-                            [hideSelected]="true"
-                            [items]="this.lstStreet"
-                            bindLabel="streetName"
-                            bindValue="id"
-                            id="street"
-                            name="street"
-                            [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="this.selectedStreet"
-                            [disabled]="!this.selectedSubDistrict"
-                            >
-                    <ng-option *ngFor="let item of lstStreet">{{item.streetName}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="form-group">
-                <label for="invoiceNumber">Invoice Number</label>
-                <input type="text" class="form-control" placeholder="(ALL)" [ngModelOptions]="{standalone: true}"
-                    [(ngModel)]="selectedInvoiceNumber" value="{{selectedInvoiceNumber}}">
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="form-group">
-                <label for="type">Shipper</label>
-                <ng-select  [clearable]="true"
-                            [hideSelected]="true"
-                            [items]="this.lstShipper"
-                            bindLabel="email" placeholder="(ALL)"
-                            id="field_customerId" name="field_customerId"
-                            [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="this.selectedShipper">
-                        <ng-option *ngFor="let item of lstShipper">{{item.email}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="form-group">
-                <label for="type">Type</label>
-                <ng-select [clearable]="true" [hideSelected]="true" [items]="common.listTypeShipment" bindLabel="text"
-                    bindValue="id" id="type" name="type" [ngModelOptions]="{standalone: true}"
-                    [(ngModel)]="this.selectedShipmentType" placeholder="(ALL)">
-                    <ng-option *ngFor="let item of common.listTypeShipment">{{item.text}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 text-center">
-            <div class="form-group">
-                <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary"
-                    (click)="this.loadAll()">
-                    <fa-icon [icon]="'search'"></fa-icon>
-                    <span>Search</span>
-                </button>
-            </div>
-        </div>
-    </div>
-    <br>
-    <h4>List Shipment</h4>
-    <div class="table-responsive" *ngIf="shipmentInvoices">
-        <table class="table table-striped">
-            <thead>
-                <th> # </th>
-                <th> Invoice Number </th>
-                <th> Due Date </th>
-                <th> Invoice Status </th>
-                <th> Shipment Type</th>
-                <th> Shipment Status</th>
-                <th> Collect Address </th>
-                <th> Destination Address </th>
-                <th> Employee Id </th>
-                <th> Action </th>
-            </thead>
-            <tbody>
-                <tr *ngFor="let object of shipmentInvoices">
-                    <td>{{object.personalShipmentDTO.id}} </td>
-                    <td>{{object.invoiceHeaderDTO.invoiceNo}} </td>
-                    <td>{{object.invoiceHeaderDTO.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
-                    <td>{{common.processInvoiceStatus(object.invoiceHeaderDTO.status)}} </td>
-                    <td>{{common.processShipmentType(object.personalShipmentDTO.shipmentType)}} </td>
-                    <td>{{common.processShipmentStatus(object.personalShipmentDTO.status)}} </td>
-                    <td>{{object.invoiceHeaderDTO.startAddress}} </td>
-                    <td>{{object.invoiceHeaderDTO.destinationAddress}} </td>
-                    <td>{{object.personalShipmentDTO.employeeId}} </td>
-                    <td class="text-left">
-                        <button type="submit"
-                            [routerLink]="['/', { outlets: { popup: 'personal-shipment/'+ object.personalShipmentDTO.id + '/assign'} }]"
-                            replaceUrl="true"
-                            queryParamsHandling="merge"
-                            class="btn btn-warning btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Re-assign</span>
-                        </button>
-                        <button type="submit" [routerLink]="['/invoice-header', object.invoiceHeaderDTO.id, 'view' ]"
-                            class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View invoice</span>
-                        </button>
-                        <button type="submit" [routerLink]="['/personal-shipment', object.personalShipmentDTO.id, 'view' ]"
-                            class="btn btn-secondary btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View shipment</span>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div *ngIf="shipmentInvoices && shipmentInvoices.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
-            </jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
-                [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
     </div>
 </div>

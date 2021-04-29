@@ -37,7 +37,7 @@ export const invoiceHeaderRoute: Routes = [
         data: {
             authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'Invoice Service'
+            pageTitle: 'CTS: Quản lý hóa đơn'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -49,7 +49,7 @@ export const invoiceHeaderRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER', 'ROLE_OFFICER', 'ROLE_KEEPER'],
-            pageTitle: 'Invoice Service'
+            pageTitle: 'CTS: Chi tiết hóa đơn'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -61,7 +61,7 @@ export const invoiceHeaderRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Invoice Service'
+            pageTitle: 'CTS: Tạo hóa đơn'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -73,7 +73,7 @@ export const invoiceHeaderRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_OFFICER', 'ROLE_SHIPPER'],
-            pageTitle: 'Invoice Service'
+            pageTitle: 'CTS: Chỉnh sửa hóa đơn'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -85,7 +85,7 @@ export const invoiceHeaderRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Invoice Service'
+            pageTitle: 'CTS: Dịch vụ'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -97,7 +97,7 @@ export const invoiceHeaderRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Invoice Service'
+            pageTitle: 'CTS: Lịch sử đơn hàng'
         },
         canActivate: [UserRouteAccessService]
     }
