@@ -1,76 +1,80 @@
-<div>
-    <div class="row">
-        <div class="col-lg-6 col-md-12 col-md-12">
-            <h2 id="page-heading">
+<div class="row justify-content-center">
+    <div class="col-11">
+        <br>
+        <div class="row" style="border-bottom: 2px solid;">
+            <h2 style="font-weight: bold;" id="page-heading">
                 <span>Lịch sử đơn hàng</span>
             </h2>
         </div>
-        <div class="col-lg-6 col-md-12 col-md-12">
-
-        </div>
-    </div>
-    <jhi-alert></jhi-alert>
-    <br/>
-    <div *ngIf="!invoiceHeaders || invoiceHeaders.length === 0">
-        <h2>Không tìm thấy dữ liệu</h2>
-    </div>
-    <div class="table-responsive" *ngIf="invoiceHeaders && invoiceHeaders.length > 0">
-        <table class="table table-striped">
-            <thead>
-                <th>#                   </th>
-                <th>Số hóa đơn          </th>
-                <th>Hạn giao ước tính   </th>
-                <th>Ngày nhận hàng      </th>
-                <th>Tình trạng đơn      </th>
-                <th>Ngày tạo đơn        </th>
-                <th>Ngày cập nhật       </th>
-                <th class="text-left">Hành động</th>
-            </thead>
-            <tbody>
-            <tr *ngFor="let invoiceHeader of invoiceHeaders ;trackBy: trackId">
-                <td>{{invoiceHeader.id}}                                    </td>
-                <td>{{invoiceHeader.invoiceNo}}                             </td>
-                <td>{{invoiceHeader.dueDate     | date:'yyyy-MM-dd HH:mm'}} </td>
-                <td>{{invoiceHeader.finishDate  | date:'yyyy-MM-dd HH:mm'}} </td>
-                <td>{{common.processInvoiceStatus(invoiceHeader.status)}}
-                    <div *ngIf="invoiceHeader.changeNote === 'request' && !invoiceHeader.cancel">
-                        <span>"{{cancelStatus}}"</span>
+        <br>
+        <jhi-alert></jhi-alert>
+        <br/>
+        <div class="card">
+            <div class="card-body">
+                <div *ngIf="!invoiceHeaders || invoiceHeaders.length === 0">
+                    <h2>Không tìm thấy dữ liệu</h2>
+                </div>
+                <div *ngIf="invoiceHeaders && invoiceHeaders.length > 0">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>#                   </th>
+                            <th>Số hóa đơn          </th>
+                            <th>Hạn giao ước tính   </th>
+                            <th>Ngày nhận hàng      </th>
+                            <th>Tình trạng đơn      </th>
+                            <th>Ngày tạo đơn        </th>
+                            <th>Ngày cập nhật       </th>
+                            <th class="text-left">Hành động</th>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let invoiceHeader of invoiceHeaders ;trackBy: trackId">
+                            <td>{{invoiceHeader.id}}                                    </td>
+                            <td>{{invoiceHeader.invoiceNo}}                             </td>
+                            <td>{{invoiceHeader.dueDate     | date:'yyyy-MM-dd HH:mm'}} </td>
+                            <td>{{invoiceHeader.finishDate  | date:'yyyy-MM-dd HH:mm'}} </td>
+                            <td>{{common.processInvoiceStatus(invoiceHeader.status)}}
+                                <div *ngIf="invoiceHeader.changeNote === 'request' && !invoiceHeader.cancel">
+                                    <span>"{{cancelStatus}}"</span>
+                                </div>
+                            </td>
+                            <td>{{invoiceHeader.createDate  | date:'yyyy-MM-dd HH:mm'}} </td>
+                            <td>{{invoiceHeader.updateDate  | date:'yyyy-MM-dd HH:mm'}} </td>
+                            <td>
+                                <div class="btn-group flex-btn-group-container justify-content-start">
+                                    <button type="submit"
+                                            [routerLink]="['/invoice-header', invoiceHeader.id, 'view' ]"
+                                            class="btn btn-info btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">Chi tiết</span>
+                                    </button>
+                                    <button type="submit" *ngIf="!invoiceHeader.changeNote"
+                                            [routerLink]="['/', { outlets: { popup: 'cancel-invoice/'+ invoiceHeader.id + '/send-request'} }]"
+                                            class="btn btn-secondary btn-sm">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                        <span class="d-none d-md-inline">Yêu cầu hủy</span>
+                                    </button>
+                                    <button *ngIf="invoiceHeader.changeNote === 'request' && !invoiceHeader.cancel"
+                                            [disabled]="true"
+                                            class="btn btn-danger btn-sm">
+                                        <fa-icon [icon]="'paper-plane'"></fa-icon>
+                                        <span class="d-none d-md-inline">Yêu cầu gửi</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="invoiceHeaders && invoiceHeaders.length">
+                    <div class="row justify-content-center">
+                        <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
                     </div>
-                </td>
-                <td>{{invoiceHeader.createDate  | date:'yyyy-MM-dd HH:mm'}} </td>
-                <td>{{invoiceHeader.updateDate  | date:'yyyy-MM-dd HH:mm'}} </td>
-                <td>
-                    <div class="btn-group flex-btn-group-container justify-content-start">
-                        <button type="submit"
-                                [routerLink]="['/invoice-header', invoiceHeader.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">Chi tiết</span>
-                        </button>
-                        <button type="submit" *ngIf="!invoiceHeader.changeNote"
-                                [routerLink]="['/', { outlets: { popup: 'cancel-invoice/'+ invoiceHeader.id + '/send-request'} }]"
-                                class="btn btn-secondary btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Yêu cầu hủy</span>
-                        </button>
-                        <button *ngIf="invoiceHeader.changeNote === 'request' && !invoiceHeader.cancel"
-                                [disabled]="true"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'paper-plane'"></fa-icon>
-                            <span class="d-none d-md-inline">Yêu cầu gửi</span>
-                        </button>
+                    <div class="row justify-content-center">
+                        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
                     </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div *ngIf="invoiceHeaders && invoiceHeaders.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<br>

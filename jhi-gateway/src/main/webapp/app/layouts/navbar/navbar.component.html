@@ -218,7 +218,7 @@
                   <span *ngIf="!getImageUrl()">
                     <fa-icon [icon]="'user'"></fa-icon>
                     <span>
-                        Tài khoản
+                        {{username ? username : 'Tài khoản'}}
                     </span>
                   </span>
                   <span *ngIf="getImageUrl()">

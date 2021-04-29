@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title">Sign in</h4>
+    <h4 class="modal-title">Đăng nhập</h4>
     <br>
     <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')"><span aria-hidden="true">x</span>
     </button>
@@ -8,12 +8,12 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="alert alert-danger" *ngIf="authenticationError">
-                <strong>Failed to sign in!</strong> Please check your credentials and try again.
+                <strong>Đăng nhập thất bại!</strong> Sai tài khoản hoặc mật khẩu.
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group" style="text-align: center;">
-                <span>Sign in to CTS</span>
+                <span>Đăng nhập vào hệ thống CTS</span>
             </div>
             <form class="form" role="form" (ngSubmit)="login()">
                 <div class="form-group">
@@ -21,31 +21,31 @@
                     [(ngModel)]="username">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password"
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Mật khẩu"
                            [(ngModel)]="password">
                 </div>
                 <div class="form-check">
                     <label class="form-check-label" for="rememberMe">
                         <input class="form-check-input" type="checkbox" name="rememberMe" id="rememberMe" [(ngModel)]="rememberMe" checked>
-                        <span>keep me signed in.</span>
+                        <span>Lưu phiên đăng nhập.</span>
                     </label>
                 </div>
                 <br>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary form-control">Sign in</button>
+                    <button type="submit" class="btn btn-primary form-control">Đăng nhập</button>
                 </div>
             </form>
             <p></p>
             <div class="form-group" style="text-align: center;">
-                <a class="alert-link" (click)="requestResetPassword()">Forgot password?</a>
+                <a class="alert-link" (click)="requestResetPassword()">Quên mật khẩu?</a>
             </div>
             <br>
             <div class="divider"></div>
             <div class="form-group" style="text-align: center;">
-                <span>You don't have an account yet?</span>
+                <span>Bạn chưa có tài khoản?</span>
             </div>
             <div class="form-group" style="text-align: center;">
-                <button type="submit" class="btn btn-primary form-control" (click)="register()">Register a new account</button>
+                <button type="submit" class="btn btn-primary form-control" (click)="register()">Đăng ký tài khoản mới</button>
             </div>
         </div>
     </div>
