@@ -219,6 +219,10 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 					toStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
 			invoiceHeaderDTO.setDestinationOfficeId(ofc.getId());
 		}
+		
+		// check online of offline create invoice
+		if(invoiceHeaderDTO.getEmployeeId() == null) invoiceHeaderDTO.setStatus("waiting");
+		else invoiceHeaderDTO.setStatus("collected");
 
 		// create invoice and get invoice with ID
 		invoiceHeaderDTO = this.save(invoiceHeaderDTO);
@@ -253,9 +257,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
 			invoiceHeaderDTO.setOfficeId(ofc.getId());
 			
-			// set status invoice
-			invoiceHeaderDTO.setStatus("collect");
-			
 			// process collect shipment and sub total fee
 			PersonalShipment ps = new PersonalShipment();
 			ps.setInvoiceHeaderId(invoiceHeaderDTO.getId());
@@ -271,9 +272,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			ps.setEmployeeId(wa.getEmployeeId());
 			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.07)));
 			lstShipment.add(ps);
-		}
-		else {
-			if(invoiceHeaderDTO.getStatus().equalsIgnoreCase("new")) invoiceHeaderDTO.setStatus("receive");
 		}
 		invoiceHeaderDTO.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
 		invoiceHeaderDTO.setTotalDue(subTotal.add(new BigDecimal(1.1)));

@@ -60,6 +60,9 @@ public class InvoiceHeader implements Serializable {
     @Column(name = "receiver_phone")
     private String receiverPhone;
 
+    @Column(name = "receiver_pay")
+    private Boolean receiverPay;
+
     @Column(name = "sub_total", precision = 10, scale = 2)
     private BigDecimal subTotal;
 
@@ -128,7 +131,15 @@ public class InvoiceHeader implements Serializable {
         return officeId;
     }
 
-    public InvoiceHeader officeId(Long officeId) {
+    public Boolean getReceiverPay() {
+		return receiverPay;
+	}
+
+	public void setReceiverPay(Boolean receiverPay) {
+		this.receiverPay = receiverPay;
+	}
+
+	public InvoiceHeader officeId(Long officeId) {
         this.officeId = officeId;
         return this;
     }

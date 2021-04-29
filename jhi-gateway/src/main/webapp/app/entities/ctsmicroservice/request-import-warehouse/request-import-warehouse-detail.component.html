@@ -1,0 +1,59 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="requestImportWarehouse">
+            <h2><span>Request Import Warehouse</span> {{requestImportWarehouse.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Office Id</span></dt>
+                <dd>
+                    <span>{{requestImportWarehouse.officeId}}</span>
+                </dd>
+                <dt><span>Keeper Id</span></dt>
+                <dd>
+                    <span>{{requestImportWarehouse.keeperId}}</span>
+                </dd>
+                <dt><span>Employee Id</span></dt>
+                <dd>
+                    <span>{{requestImportWarehouse.employeeId}}</span>
+                </dd>
+                <dt><span>Type</span></dt>
+                <dd>
+                    <span>{{requestImportWarehouse.type}}</span>
+                </dd>
+                <dt><span>Note</span></dt>
+                <dd>
+                    <span>{{requestImportWarehouse.note}}</span>
+                </dd>
+                <dt><span>Keeper Confirm</span></dt>
+                <dd>
+                    <span>{{requestImportWarehouse.keeperConfirm}}</span>
+                </dd>
+                <dt><span>Ship Date</span></dt>
+                <dd>
+                    <span>{{requestImportWarehouse.shipDate}}</span>
+                </dd>
+                <dt><span>Create Date</span></dt>
+                <dd>
+                    <span>{{requestImportWarehouse.createDate}}</span>
+                </dd>
+                <dt><span>Update Date</span></dt>
+                <dd>
+                    <span>{{requestImportWarehouse.updateDate}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/request-import-warehouse', requestImportWarehouse.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

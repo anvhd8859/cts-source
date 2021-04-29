@@ -8,14 +8,18 @@ import java.util.Objects;
  * A DTO for the ReceiptNote entity.
  */
 public class ReceiptNoteDTO implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
-    private Long id;
+	private Long id;
 
     private Long employeeId;
 
     private Long invoiceHeaderId;
 
     private String note;
+
+    private String imageLink;
 
     private Boolean customerConfirm;
 
@@ -112,4 +116,12 @@ public class ReceiptNoteDTO implements Serializable {
             ", updateDate='" + getUpdateDate() + "'" +
             "}";
     }
+
+	public String getImageLink() {
+		return imageLink;
+	}
+
+	public void setImageLink(String imageLink) {
+		this.imageLink = imageLink;
+	}
 }

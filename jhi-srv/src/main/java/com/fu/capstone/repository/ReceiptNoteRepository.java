@@ -20,10 +20,7 @@ public interface ReceiptNoteRepository extends JpaRepository<ReceiptNote, Long> 
 	@Query(value = " SELECT r FROM ReceiptNote r WHERE r.invoiceHeaderId = :id ")
 	Optional<ReceiptNote> getReceiptNoteByHeaderId(@Param("id") Long id);
 
-	@Query(value = " SELECT r FROM ReceiptNote r, InvoiceHeader i WHERE "
-				 + " r.invoiceHeaderId = i.id AND i.customerId = :id "
-				 + " AND (r.customerConfirm = FALSE OR r.customerConfirm is NULL) "
-				 + " ORDER BY r.createDate DESC")
+	@Query(value = " SELECT r FROM ReceiptNote r WHERE r.invoiceHeaderId = :id ")
 	List<ReceiptNote> getAllReceiptNotConfirm(@Param("id") Long id, Pageable pageable);
 
 }

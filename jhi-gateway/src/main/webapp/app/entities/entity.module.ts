@@ -20,6 +20,9 @@ import { CtsgatewayConfirmReceiptNoteModule as CtsmicroserviceConfirmReceiptNote
 import { CtsgatewayExportInvoicePackageModule as CtsmicroserviceExportInvoicePackageModule } from './ctsmicroservice/export-invoice-package/export-invoice-package.module';
 import { CtsgatewayImportInvoicePackageModule as CtsmicroserviceImportInvoicePackageModule } from './ctsmicroservice/import-invoice-package/import-invoice-package.module';
 import { CtsgatewayOfficeModule as CtsmicroserviceOfficeModule } from './ctsmicroservice/office/office.module';
+import { CtsgatewayImportExportWarehouseModule as CtsmicroserviceImportExportWarehouseModule } from './ctsmicroservice/import-export-warehouse/import-export-warehouse.module';
+import { CtsgatewayRequestImportWarehouseModule as CtsmicroserviceRequestImportWarehouseModule } from './ctsmicroservice/request-import-warehouse/request-import-warehouse.module';
+import { CtsgatewayRequestExportWarehouseModule as CtsmicroserviceRequestExportWarehouseModule } from './ctsmicroservice/request-export-warehouse/request-export-warehouse.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -45,6 +48,9 @@ import { CtsgatewayOfficeModule as CtsmicroserviceOfficeModule } from './ctsmicr
         CtsmicroserviceExportInvoicePackageModule,
         CtsmicroserviceImportInvoicePackageModule,
         CtsmicroserviceOfficeModule,
+        CtsmicroserviceImportExportWarehouseModule,
+        CtsmicroserviceRequestImportWarehouseModule,
+        CtsmicroserviceRequestExportWarehouseModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],
