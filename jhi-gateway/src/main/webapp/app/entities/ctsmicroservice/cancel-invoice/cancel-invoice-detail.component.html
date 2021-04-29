@@ -1,15 +1,15 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="cancelInvoice">
-            <h2><span>Cancel Invoice</span> {{cancelInvoice.id}}</h2>
+            <h2><span>Mã hóa đơn</span> {{cancelInvoice.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Customer Id</span></dt>
+                <dt><span>Mã khách hàng</span></dt>
                 <dd>
                     <span>{{cancelInvoice.customerId}}</span>
                 </dd>
-                <dt><span>Office Id</span></dt>
+                <dt><span>Mã văn phòng tiếp nhận</span></dt>
                 <dd>
                     <span>{{cancelInvoice.officeId}}</span>
                 </dd>
@@ -57,7 +57,7 @@
                 <dd>
                     <span>{{cancelInvoice.taxAmount}}</span>
                 </dd>
-                <dt><span>Total Due</span></dt>
+                <dt><span>Tổng tiền</span></dt>
                 <dd>
                     <span>{{cancelInvoice.totalDue}}</span>
                 </dd>
@@ -69,7 +69,7 @@
                 <dd>
                     <span>{{cancelInvoice.cancel}}</span>
                 </dd>
-                <dt><span>Cancel Reason</span></dt>
+                <dt><span>Lý do hủy</span></dt>
                 <dd>
                     <span>{{cancelInvoice.cancelReason}}</span>
                 </dd>
