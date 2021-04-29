@@ -1,13 +1,13 @@
 <form name="requestForm" (ngSubmit)="confirmRequest(invoiceHeader)">
     <div class="modal-header">
-        <h4 class="modal-title">Send request cancel Invoice</h4>
+        <h4 class="modal-title">Gửi yêu cầu hủy hóa đơn</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 (click)="clear()">&times;</button>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
         <div class="form-group">
-            <label class="form-control-label" for="reason">Cancel Reason</label>
+            <label class="form-control-label" for="reason">Lý do hủy</label>
             <textarea   class="form-control"
                         style="resize: none;"
                         rows="2"
@@ -24,7 +24,7 @@
         <button [disabled]="invoiceHeader.status === 'finish'"
             id="jhi-confirm-request-invoiceHeader"
             type="submit" class="btn btn-primary">
-            <fa-icon [icon]="'check'"></fa-icon>&nbsp;<span>Send Request</span>
+            <fa-icon [icon]="'check'"></fa-icon>&nbsp;<span>Gửi yêu cầu</span>
         </button>
     </div>
 </form>

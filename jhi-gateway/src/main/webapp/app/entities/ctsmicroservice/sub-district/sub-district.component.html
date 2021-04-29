@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span>Sub Districts</span>
+        <span>Quảng lý danh sách Quận/Huyện</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-sub-district" [routerLink]="['/sub-district/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
-            Create new Sub District
+            Thêm Phường/Xã
             </span>
         </button>
     </h2>
@@ -15,10 +15,10 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>Mã số</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="subDistrictName"><span>Sub District Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="subDistrictName"><span>Tên Phường/Xã</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createDate"><span>Ngày khởi tạo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updateDate"><span>Ngày chỉnh sửa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="districtIdId"><span>District Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="districtIdId"><span>Mã Quận/Huyện</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>

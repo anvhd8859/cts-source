@@ -1,6 +1,6 @@
 <div>
     <h2 id="page-heading">
-        <span>Districts</span>
+        <span>Quản lý danh sách Quận/Huyện</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-district" [routerLink]="['/district/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
@@ -15,10 +15,10 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>Mã số</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="districtName"><span>District Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="districtName"><span>Tên Quận/Huyện</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createDate"><span>Ngày khởi tạo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updateDate"><span>Ngày chỉnh sửa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="provinceIdId"><span>Province Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="provinceIdId"><span>Mã Tỉnh/Thành phố</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>

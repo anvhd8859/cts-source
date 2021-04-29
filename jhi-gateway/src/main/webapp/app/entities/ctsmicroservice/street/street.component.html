@@ -1,6 +1,6 @@
 <div>
     <h2 id="page-heading">
-        <span>Streets</span>
+        <span>Quản lý danh sách Đường/Phố</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-street" [routerLink]="['/street/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
@@ -15,10 +15,10 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>Mã số</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="streetName"><span>Street Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="streetName"><span>Tên Đường/Phố</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createDate"><span>Ngày khởi tạo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updateDate"><span>Ngày chỉnh sửa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="subDistrictIdId"><span>Sub District Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="subDistrictIdId"><span>Mã Phường/Xã</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
