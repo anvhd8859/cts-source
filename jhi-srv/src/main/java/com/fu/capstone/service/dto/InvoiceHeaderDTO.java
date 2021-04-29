@@ -10,7 +10,9 @@ import java.util.Objects;
  */
 public class InvoiceHeaderDTO implements Serializable {
 
-    private Long id;
+	private static final long serialVersionUID = 4105551904279670765L;
+
+	private Long id;
 
     private Long customerId;
 
@@ -37,6 +39,8 @@ public class InvoiceHeaderDTO implements Serializable {
     private String receiverName;
 
     private String receiverPhone;
+    
+    private Boolean receiverPay;
 
     private BigDecimal subTotal;
 
@@ -341,5 +345,13 @@ public class InvoiceHeaderDTO implements Serializable {
 
 	public void setDestinationOfficeId(Long destinationOfficeId) {
 		this.destinationOfficeId = destinationOfficeId;
+	}
+
+	public Boolean getReceiverPay() {
+		return receiverPay;
+	}
+
+	public void setReceiverPay(Boolean receiverPay) {
+		this.receiverPay = receiverPay;
 	}
 }
