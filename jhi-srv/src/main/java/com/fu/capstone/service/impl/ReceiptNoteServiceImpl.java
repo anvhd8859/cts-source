@@ -191,7 +191,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		Instant instant = Instant.now();
 		if(data.getReceipt().getId() == null) data.getReceipt().setCreateDate(instant);
 		data.getReceipt().setUpdateDate(instant);
-		data.getReceipt().setCustomerConfirm(false);
+		data.getReceipt().setReceiptType(false);
 		for(InvoicePackageDTO ip : data.getInvoicePackageList()) {
 			ip.setUpdateDate(instant);
 			ip.setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
@@ -259,6 +259,6 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			else
 				result = new BigDecimal(3200.0 * totalWeight);
 		}
-		return result;
+		return result.add(new BigDecimal(3000));
 	}
 }
