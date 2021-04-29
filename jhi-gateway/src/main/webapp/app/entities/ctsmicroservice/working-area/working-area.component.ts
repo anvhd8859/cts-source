@@ -1,3 +1,4 @@
+import { CommonString } from './../../../shared/util/request-util';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { forkJoin, Subscription } from 'rxjs';
@@ -44,6 +45,7 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
     selectedStreet: any;
     lstUser: IUser[] = [];
     selectedUser: IUser;
+    common: CommonString;
 
     constructor(
         private workingAreaService: WorkingAreaService,
