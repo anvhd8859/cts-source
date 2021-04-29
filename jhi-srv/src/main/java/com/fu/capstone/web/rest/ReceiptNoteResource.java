@@ -144,12 +144,12 @@ public class ReceiptNoteResource {
     
     @PostMapping("/receipt-notes/finish-collect")
     @Timed
-    public ResponseEntity<ReceiptNoteDTO> createReceiptNoteAndShipmentInvoice(@RequestBody ReceiptDetailPackageDTO data) throws URISyntaxException {
+    public ResponseEntity<ReceiptNoteDTO> createReceiptNoteColectShipment(@RequestBody ReceiptDetailPackageDTO data) throws URISyntaxException {
         log.debug("REST request to update ReceiptNote : {}", data);
         if (data.getReceipt().getId() != null) {
         	throw new BadRequestAlertException("A new receiptNote cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        if (data.getInvoiceDetailList().size() == 0 || data.getInvoicePackageList().size() == 0 ){
+        if (data.getInvoicePackageList().size() == 0 ){
         	throw new BadRequestAlertException("A new item and package cannot blank", ENTITY_NAME, "notexist");
         }
         ReceiptNoteDTO result = receiptNoteService.createReceiptNoteAndShipmentInvoice(data);
