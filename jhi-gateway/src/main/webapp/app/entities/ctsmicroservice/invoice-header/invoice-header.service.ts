@@ -98,6 +98,7 @@ export class InvoiceHeaderService {
 
     private convertDateFromClient(invoiceHeader: IInvoiceHeader): IInvoiceHeader {
         const copy: IInvoiceHeader = Object.assign({}, invoiceHeader, {
+            reviewDate: invoiceHeader.reviewDate != null && invoiceHeader.reviewDate.isValid() ? invoiceHeader.reviewDate.toJSON() : null,
             dueDate: invoiceHeader.dueDate != null && invoiceHeader.dueDate.isValid() ? invoiceHeader.dueDate.toJSON() : null,
             finishDate: invoiceHeader.finishDate != null && invoiceHeader.finishDate.isValid() ? invoiceHeader.finishDate.toJSON() : null,
             createDate: invoiceHeader.createDate != null && invoiceHeader.createDate.isValid() ? invoiceHeader.createDate.toJSON() : null,
@@ -107,6 +108,7 @@ export class InvoiceHeaderService {
     }
 
     private convertDateFromServer(res: EntityResponseType): EntityResponseType {
+        res.body.reviewDate = res.body.reviewDate != null ? moment(res.body.reviewDate) : null;
         res.body.dueDate = res.body.dueDate != null ? moment(res.body.dueDate) : null;
         res.body.finishDate = res.body.finishDate != null ? moment(res.body.finishDate) : null;
         res.body.createDate = res.body.createDate != null ? moment(res.body.createDate) : null;
@@ -116,6 +118,7 @@ export class InvoiceHeaderService {
 
     private convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         res.body.forEach((invoiceHeader: IInvoiceHeader) => {
+            invoiceHeader.reviewDate = invoiceHeader.reviewDate != null ? moment(invoiceHeader.reviewDate) : null;
             invoiceHeader.dueDate = invoiceHeader.dueDate != null ? moment(invoiceHeader.dueDate) : null;
             invoiceHeader.finishDate = invoiceHeader.finishDate != null ? moment(invoiceHeader.finishDate) : null;
             invoiceHeader.createDate = invoiceHeader.createDate != null ? moment(invoiceHeader.createDate) : null;

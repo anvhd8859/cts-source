@@ -22,7 +22,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="form-group">
                             <label for="type">Loại đơn chuyển phát</label>
-                            <ng-select [clearable]="true" [hideSelected]="true" [items]="common.listTypeShipment" bindLabel="text"
+                            <ng-select [clearable]="false" [hideSelected]="true" [items]="common.listTypeShipment" bindLabel="text"
                                 bindValue="id" id="type" name="type" [ngModelOptions]="{standalone: true}"
                                 [(ngModel)]="this.selectedTypeShipment" placeholder="(ALL)">
                                 <ng-option *ngFor="let item of common.listTypeShipment">{{item.text}}</ng-option>

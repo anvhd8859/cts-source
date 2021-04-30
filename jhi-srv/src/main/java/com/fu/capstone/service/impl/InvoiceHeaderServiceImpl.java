@@ -439,13 +439,15 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 	@Override
 	public InvoiceHeaderDTO updateInvoiceHeadersReview(InvoicePackageDetailDTO invoice) {
-		if (invoicePackageRepository.getInvoicePackageByHeaderId(invoice.getInvoice().getId()).size() == 2) {
-			invoice.getInvoice().setStatus("collect");
+		InvoiceHeader entity = invoiceHeaderMapper.toEntity(invoice.getInvoice());
+		if (invoicePackageRepository.getInvoicePackageByHeaderId(entity.getId()).size() == 2) {
+			entity.setStatus("collect");
 		}
 		else {
-			invoice.getInvoice().setStatus("receive");
+			entity.setStatus("receive");
 		}
-		InvoiceHeader entity = invoiceHeaderMapper.toEntity(invoice.getInvoice());
+		entity.setUpdateDate(Instant.now());
+		entity.setReviewDate(Instant.now());
 		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(entity));
 	}
 
