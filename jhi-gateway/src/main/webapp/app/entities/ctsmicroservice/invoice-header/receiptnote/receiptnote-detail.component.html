@@ -13,13 +13,13 @@
                 <dd>
                     <span>{{receiptnote.invoiceHeaderId}}</span>
                 </dd>
+                <dt><span>Loại biên nhận</span></dt>
+                <dd>
+                    <span>{{receiptnote.receiptType ? "Biên nhận lấy hàng" : "Biên nhận giao hàng"}}</span>
+                </dd>
                 <dt><span>Ghi chú</span></dt>
                 <dd>
                     <span>{{receiptnote.note}}</span>
-                </dd>
-                <dt><span>Khách hàng xác nhận</span></dt>
-                <dd>
-                    <span>{{receiptnote.customerConfirm ? "Đã xác nhận" : "Chưa xác nhận"}}</span>
                 </dd>
                 <dt><span>Ngày khởi tạo</span></dt>
                 <dd>

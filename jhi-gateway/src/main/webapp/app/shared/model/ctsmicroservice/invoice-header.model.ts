@@ -15,6 +15,7 @@ export interface IInvoiceHeader {
     destinationOfficeId?: number;
     receiverName?: string;
     receiverPhone?: string;
+    receiverPay?: boolean;
     subTotal?: number;
     taxAmount?: number;
     totalDue?: number;
@@ -46,6 +47,7 @@ export class InvoiceHeader implements IInvoiceHeader {
         public destinationOfficeId?: number,
         public receiverName?: string,
         public receiverPhone?: string,
+        public receiverPay?: boolean,
         public subTotal?: number,
         public taxAmount?: number,
         public totalDue?: number,

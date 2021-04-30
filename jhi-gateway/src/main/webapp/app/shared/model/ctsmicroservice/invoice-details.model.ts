@@ -3,6 +3,7 @@ import { Moment } from 'moment';
 export interface IInvoiceDetails {
     id?: number;
     invoiceHeaderId?: number;
+    invoicePackageId?: number;
     itemName?: string;
     itemType?: string;
     weight?: number;
@@ -20,6 +21,7 @@ export class InvoiceDetails implements IInvoiceDetails {
     constructor(
         public id?: number,
         public invoiceHeaderId?: number,
+        public invoicePackageId?: number,
         public itemName?: string,
         public itemType?: string,
         public weight?: number,

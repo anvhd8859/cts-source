@@ -38,6 +38,9 @@ public class ImportExportWarehouse implements Serializable {
     @Column(name = "keeper_confirm")
     private Boolean keeperConfirm;
 
+    @Column(name = "shipper_confirm")
+    private Boolean shipperConfirm;
+
     @Column(name = "ship_date")
     private Instant shipDate;
 
@@ -147,7 +150,22 @@ public class ImportExportWarehouse implements Serializable {
         this.shipDate = shipDate;
     }
 
-    public Instant getCreateDate() {
+    public Boolean getShipperConfirm() {
+		return shipperConfirm;
+	}
+    public Boolean isShipperConfirm() {
+		return shipperConfirm;
+	}
+
+	public void setShipperConfirm(Boolean shipperConfirm) {
+		this.shipperConfirm = shipperConfirm;
+	}
+
+	public Boolean getKeeperConfirm() {
+		return keeperConfirm;
+	}
+
+	public Instant getCreateDate() {
         return createDate;
     }
 

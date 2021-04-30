@@ -9,7 +9,12 @@ import java.util.Objects;
  */
 public class ImportExportWarehouseDTO implements Serializable {
 
-    private Long id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private Long officeId;
 
@@ -22,6 +27,8 @@ public class ImportExportWarehouseDTO implements Serializable {
     private String note;
 
     private Boolean keeperConfirm;
+
+    private Boolean shipperConfirm;
 
     private Instant shipDate;
 
@@ -79,6 +86,9 @@ public class ImportExportWarehouseDTO implements Serializable {
 
     public Boolean isKeeperConfirm() {
         return keeperConfirm;
+    }
+    public Boolean isShipperConfirm() {
+        return shipperConfirm;
     }
 
     public void setKeeperConfirm(Boolean keeperConfirm) {
@@ -145,4 +155,12 @@ public class ImportExportWarehouseDTO implements Serializable {
             ", updateDate='" + getUpdateDate() + "'" +
             "}";
     }
+
+	public Boolean getShipperConfirm() {
+		return shipperConfirm;
+	}
+
+	public void setShipperConfirm(Boolean shipperConfirm) {
+		this.shipperConfirm = shipperConfirm;
+	}
 }

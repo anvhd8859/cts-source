@@ -86,6 +86,33 @@
             </li>
              <!-- ROLE_KEEPER END -->
 
+              <!-- ROLE_OFFICER START -->
+            <li *jhiHasAnyAuthority="'ROLE_OFFICER'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="officer-menu">
+                    <span>
+                        <!-- <fa-icon [icon]="'user-plus'"></fa-icon> -->
+                        <span>Nhân viên văn phòng</span>
+                    </span>
+                </a>
+
+                <ul class="dropdown-menu" ngbDropdownMenu>
+                    <li>
+                        <a class="dropdown-item" routerLink="invoice-header/new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'plus-circle'" [fixedWidth]="true"></fa-icon>
+                            <span>Tạo đơn hàng mới</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="invoice-header" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'eye'" [fixedWidth]="true"></fa-icon>
+                            <span>Xem đơn hàng đã tạo</span>
+                        </a>
+                    </li>
+                    <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
+                </ul>
+            </li>
+             <!-- ROLE_OFFICER END -->
+
             <!-- ROLE_ADMIN START -->
             <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">

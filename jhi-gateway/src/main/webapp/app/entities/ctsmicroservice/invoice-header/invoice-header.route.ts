@@ -35,7 +35,7 @@ export const invoiceHeaderRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OFFICER'],
             defaultSort: 'id,asc',
             pageTitle: 'CTS: Quản lý hóa đơn'
         },
@@ -60,7 +60,7 @@ export const invoiceHeaderRoute: Routes = [
             invoiceHeader: InvoiceHeaderResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OFFICER'],
             pageTitle: 'CTS: Tạo hóa đơn'
         },
         canActivate: [UserRouteAccessService]

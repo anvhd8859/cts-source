@@ -5,34 +5,29 @@ import java.util.List;
 
 public class InvoicePackageDetailDTO implements Serializable {
 	
-	private InvoiceHeaderDTO header;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private InvoiceHeaderDTO invoice;
 	
-	private List<InvoiceDetailsDTO> lstDetail;
-	
-	private List<InvoicePackageDTO> lstPackage;
+	private List<PackageDetailsDTO> packageList;
 
-	public InvoiceHeaderDTO getHeader() {
-		return header;
+	public InvoiceHeaderDTO getInvoice() {
+		return invoice;
 	}
 
-	public void setHeader(InvoiceHeaderDTO header) {
-		this.header = header;
+	public void setInvoice(InvoiceHeaderDTO header) {
+		this.invoice = header;
 	}
 
-	public List<InvoiceDetailsDTO> getLstDetail() {
-		return lstDetail;
+	public List<PackageDetailsDTO> getPackageList() {
+		return packageList;
 	}
 
-	public void setLstDetail(List<InvoiceDetailsDTO> lstDetail) {
-		this.lstDetail = lstDetail;
-	}
-
-	public List<InvoicePackageDTO> getLstPackage() {
-		return lstPackage;
-	}
-
-	public void setLstPackage(List<InvoicePackageDTO> lstPackage) {
-		this.lstPackage = lstPackage;
+	public void setPackageList(List<PackageDetailsDTO> packageList) {
+		this.packageList = packageList;
 	}
 	
 }

@@ -6,8 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 import { Principal } from 'app/core';
-import { DATE_TIME_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
+import { ITEMS_PER_PAGE } from 'app/shared';
 import { NgxUiLoaderService } from 'ngx-ui-loader/';
+import moment = require('moment');
 
 @Component({
     selector: 'jhi-personal-shipment',
@@ -32,7 +33,13 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     collectAddress: any;
     shipAddress: any;
     selectedInvoiceNumber: any;
+    selectedCheckBox: number[] = [];
     common: CommonString;
+    fromTime: moment.Moment;
+    toTime: moment.Moment;
+    selectedTypeFromServer: any;
+    selectedInvoiceStatus: any;
+    lstInvoiceStatus: any = [{ id: 'collect', text: 'Chờ nhân viên lấy hàng' }, { id: 'last_import', text: 'Nhập kho chi nhánh cuối' }];
 
     constructor(
         private personalShipmentService: PersonalShipmentService,
@@ -44,6 +51,8 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private ngxUiLoaderService: NgxUiLoaderService
     ) {
+        this.common = new CommonString();
+        this.selectedTypeShipment = this.common.listTypeShipment[0].id;
         this.principal.identity().then(account => {
             this.currentAccount = account;
         });
@@ -53,7 +62,6 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
             this.previousPage = data.pagingParams.page;
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
-            this.common = new CommonString();
         });
     }
 
@@ -62,7 +70,10 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
         const param = {
             id: this.currentAccount.id,
             invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
-            type: this.selectedTypeShipment ? this.selectedTypeShipment : '',
+            status: this.selectedInvoiceStatus ? this.selectedInvoiceStatus : '',
+            type: this.selectedTypeShipment,
+            from: this.fromTime ? this.fromTime.year() + '-' + (this.fromTime.month() + 1) + '-' + this.fromTime.date() : '',
+            to: this.toTime ? this.toTime.year() + '-' + (this.toTime.month() + 1) + '-' + this.toTime.date() : '',
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()
@@ -70,6 +81,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
         this.personalShipmentService.getPersonalShipmentByShipper(param).subscribe(
             (res: HttpResponse<any>) => {
                 this.paginateInvoiceHeaders(res.body, res.headers);
+                this.selectedTypeFromServer = this.selectedTypeShipment;
                 this.ngxUiLoaderService.stop();
             },
             (res: HttpErrorResponse) => {
@@ -77,6 +89,24 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
                 this.ngxUiLoaderService.stop();
             }
         );
+    }
+
+    addChecked(i: number, e) {
+        let array: number[] = [];
+        if (e.target.checked) {
+            if (!this.selectedCheckBox.find(ex => ex == i)) {
+                this.selectedCheckBox.push(i);
+            }
+        } else {
+            for (const obj of this.selectedCheckBox) {
+                if (obj != i) {
+                    array.push(obj);
+                }
+            }
+            this.selectedCheckBox = null;
+            this.selectedCheckBox = array;
+        }
+        console.log(this.selectedCheckBox);
     }
 
     loadPage(page: number) {
@@ -116,6 +146,17 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
+    }
+
+    clearDatepicker(id: number) {
+        switch (id) {
+            case 2:
+                this.fromTime = null;
+                break;
+            case 3:
+                this.toTime = null;
+                break;
+        }
     }
 
     trackId(index: number, item: IShipmentInvoice) {

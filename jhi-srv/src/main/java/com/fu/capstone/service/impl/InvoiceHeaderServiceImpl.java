@@ -19,6 +19,7 @@ import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.InvoicePackageDTO;
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
 import com.fu.capstone.service.dto.InvoiceShipmentDTO;
+import com.fu.capstone.service.dto.PackageDetailsDTO;
 import com.fu.capstone.service.dto.PersonalShipmentDTO;
 import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
@@ -206,9 +207,9 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	public InvoiceHeaderDTO createInvoiceHeaderDetailPackage(InvoicePackageDetailDTO invoicePackageDetailDTO,
 			int check) {
 		// get data from web
-		InvoiceHeaderDTO invoiceHeaderDTO = invoicePackageDetailDTO.getHeader();
-		List<InvoiceDetailsDTO> lstDetailDTO = invoicePackageDetailDTO.getLstDetail();
-		List<InvoicePackageDTO> lstPackageDTO = invoicePackageDetailDTO.getLstPackage();
+		InvoiceHeaderDTO invoiceHeaderDTO = invoicePackageDetailDTO.getInvoice();
+		List<PackageDetailsDTO> lstPackageDetails = invoicePackageDetailDTO.getPackageList();
+		List<InvoiceDetailsDTO> lstDetailDTO = new ArrayList<>();
 		Street fromStreet = streetRepository.getFullAddressByStreetId(invoiceHeaderDTO.getStartStreetId());
 		Street toStreet = streetRepository.getFullAddressByStreetId(invoiceHeaderDTO.getDestinationStreetId());
 		
@@ -230,25 +231,28 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 		// set invoice id for package and detail
 		Instant instant = Instant.now();
-		for (InvoiceDetailsDTO i : lstDetailDTO) {
-			i.setInvoiceHeaderId(invoiceHeaderDTO.getId());
-			if (i.getId() == null) {
-				i.setCreateDate(instant);
-				i.setUpdateDate(instant);
-			} else
-				i.setUpdateDate(instant);
-		}
-		for (InvoicePackageDTO i : lstPackageDTO) {
-			i.setInvoiceHeaderId(invoiceHeaderDTO.getId());
-			if (i.getId() == null) {
-				i.setCreateDate(instant);
-				i.setUpdateDate(instant);
-			} else
-				i.setUpdateDate(instant);
+		for (PackageDetailsDTO i : lstPackageDetails) {
+			InvoicePackageDTO ip = i.getInvPackage();
+			ip.setInvoiceHeaderId(invoiceHeaderDTO.getId());
+			if (ip.getId() == null) {
+				ip.setCreateDate(instant);
+				ip.setUpdateDate(instant);
+			} else ip.setUpdateDate(instant);
+			ip = invoicePackageMapper.toDto(invoicePackageRepository.save(invoicePackageMapper.toEntity(ip)));
+			for (InvoiceDetailsDTO id : i.getItemList()) {
+				id.setInvoiceHeaderId(invoiceHeaderDTO.getId());
+				id.setInvoicePackageId(ip.getId());
+				if (id.getId() == null) {
+					id.setCreateDate(instant);
+					id.setUpdateDate(instant);
+				} else
+					id.setUpdateDate(instant);
+				lstDetailDTO.add(id);
+			}
 		}
 
 		// process data
-		BigDecimal subTotal = calculateSubTotal(lstPackageDTO, fromStreet, toStreet);
+		BigDecimal subTotal = calculateSubTotal(lstPackageDetails, fromStreet, toStreet);
 		invoiceHeaderDTO.setSubTotal(subTotal);
 		if (check > 0) {
 			// find near office
@@ -273,8 +277,13 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.07)));
 			lstShipment.add(ps);
 		}
+		float totalWeight = 0;
+		for (PackageDetailsDTO ip : lstPackageDetails) {
+			totalWeight += ip.getInvPackage().getWeight();
+		}
 		invoiceHeaderDTO.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
 		invoiceHeaderDTO.setTotalDue(subTotal.add(new BigDecimal(1.1)));
+		invoiceHeaderDTO.setNote(invoiceHeaderDTO.getNote() + "|total = " + totalWeight);
 
 		// save data
 		PersonalShipment psDelivery = new PersonalShipment();
@@ -291,7 +300,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 		personalShipmentRepository.saveAll(lstShipment);
 		invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(lstDetailDTO));
-		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(lstPackageDTO));
 
 		// process invoice header no and save
 		String invNo = "INV" + LocalDate.now().getYear() + "-" + String.format("%010d", invoiceHeaderDTO.getId());
@@ -301,11 +309,11 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		return invoiceHeaderDTO;
 	}
 
-	private BigDecimal calculateSubTotal(List<InvoicePackageDTO> lstPackage, Street fromStreet, Street toStreet) {
+	private BigDecimal calculateSubTotal(List<PackageDetailsDTO> lstPackage, Street fromStreet, Street toStreet) {
 		BigDecimal result = new BigDecimal(0);
 		float totalWeight = 0;
-		for (InvoicePackageDTO ip : lstPackage) {
-			totalWeight += ip.getWeight();
+		for (PackageDetailsDTO ip : lstPackage) {
+			totalWeight += ip.getInvPackage().getWeight();
 		}
 		totalWeight /= 1000;
 		if (fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId() == toStreet.getSubDistrictId()

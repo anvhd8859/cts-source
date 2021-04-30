@@ -9,9 +9,16 @@ import java.util.Objects;
  */
 public class InvoiceDetailsDTO implements Serializable {
 
-    private Long id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private Long invoiceHeaderId;
+
+    private Long invoicePackageId;
 
     private String itemName;
 
@@ -178,4 +185,12 @@ public class InvoiceDetailsDTO implements Serializable {
             ", updateDate='" + getUpdateDate() + "'" +
             "}";
     }
+
+	public Long getInvoicePackageId() {
+		return invoicePackageId;
+	}
+
+	public void setInvoicePackageId(Long invoicePackageId) {
+		this.invoicePackageId = invoicePackageId;
+	}
 }
