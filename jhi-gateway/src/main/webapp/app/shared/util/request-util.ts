@@ -20,7 +20,8 @@ export const createRequestOption = (req?: any): HttpParams => {
 export class CommonString {
     listTypeShipment: any = [{ id: 'collect', text: 'Lấy hàng' }, { id: 'delivery', text: 'Giao hàng' }];
     listStatusShipment: any = [
-        { id: 'new', text: 'Chưa xử lý' },
+        { id: 'waiting', text: 'Chưa xử lý' },
+        { id: 'new', text: 'Chấp nhận' },
         { id: 'collecting', text: 'Nhân viên bắt đầu lấy hàng' },
         { id: 'delivering', text: 'Nhân viên bắt đầu giao hàng' },
         { id: 'fail_num1', text: 'Giao hàng không thành công lần: 1' },

@@ -4,6 +4,7 @@ package com.fu.capstone.domain;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -30,7 +31,7 @@ public class ReceiptNote implements Serializable {
     private String note;
 
     @Column(name = "image_link")
-    private String imageLink;
+    private Blob imageLink;
 
     @Column(name = "receipt_type")
     private Boolean receiptType;
@@ -89,11 +90,11 @@ public class ReceiptNote implements Serializable {
         this.note = note;
     }
 
-    public String getImageLink() {
+    public Blob getImageLink() {
 		return imageLink;
 	}
 
-	public void setImageLink(String imageLink) {
+	public void setImageLink(Blob imageLink) {
 		this.imageLink = imageLink;
 	}
 

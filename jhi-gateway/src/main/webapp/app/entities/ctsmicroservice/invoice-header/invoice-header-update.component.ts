@@ -16,6 +16,7 @@ import { JhiAlertService } from 'ng-jhipster';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
+import { PackageDetailsDTO } from '.';
 
 @Component({
     selector: 'jhi-invoice-header-update',
@@ -65,10 +66,12 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     lstCollect: any = [{ id: '1', text: 'Collect From Home' }, { id: '0', text: 'Drop By Office' }];
     selectedCollect: any;
     // HaiNM
-    lstInvoicePackage: IInvoicePackage[] = [];
-    invPackageCount: number;
+    createPackage: PackageDetailsDTO[] = [];
+    invoicePackage: IInvoicePackage;
+    invPackageCount: number = 0;
+    lstInvoicePackage: IInvoiceDetails[] = [];
     lstInvoiceDetails: IInvoiceDetails[] = [];
-    invDetailCount: number;
+    invDetailCount: number = 0;
     currentUser: IUser;
     currentProfile: IUserProfile;
     // HaiNM
@@ -96,6 +99,18 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 ).subscribe(res => {
                     this.lstInvoicePackage = res[0].body;
                     this.lstInvoiceDetails = res[1].body;
+                    for (const i in this.lstInvoicePackage) {
+                        if (this.lstInvoicePackage.hasOwnProperty(i)) {
+                            let obj = new PackageDetailsDTO();
+                            obj.invPackage = this.lstInvoicePackage[i];
+                            for (const itemObj of this.lstInvoiceDetails) {
+                                if (obj.invPackage.id === itemObj.invoicePackageId) {
+                                    obj.itemList.push(itemObj);
+                                }
+                            }
+                            this.createPackage.push(obj);
+                        }
+                    }
                 });
             }
         });
@@ -119,30 +134,19 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     }
 
     // HaiNM
-    addNewInvoiceDetailElement() {
-        this.invDetailCount++;
-        const obj = new InvoiceDetails(null, null, '', '', null, null, null, null, '', '', '', null, null);
-        this.lstInvoiceDetails.push(obj);
-        console.log(this.lstInvoiceDetails);
+    addNewPackageDetailsDTO() {
+        const obj = new PackageDetailsDTO();
+        this.createPackage.push(obj);
     }
-
-    removeInvoiceDetailElement(index: any) {
-        this.invDetailCount--;
-        this.lstInvoiceDetails.splice(index, 1);
-        console.log(this.lstInvoiceDetails);
+    removeNewPackageDetailsDTO(index: any) {
+        this.createPackage.splice(index, 1);
     }
-
-    addNewInvoicePackageElement() {
-        this.invPackageCount++;
-        const obj = new InvoicePackage(null, null, null, null, null, null, null, false, 'New', '', null, null, null);
-        this.lstInvoicePackage.push(obj);
-        console.log(this.lstInvoicePackage);
+    addNewInvoiceDetailElement(packageIndex: any) {
+        const obj = new InvoiceDetails();
+        this.createPackage[packageIndex].itemList.push(obj);
     }
-
-    removeInvoicePackageElement(index: any) {
-        this.invPackageCount--;
-        this.lstInvoicePackage.splice(index, 1);
-        console.log(this.lstInvoicePackage);
+    removeInvoiceDetailElement(packageIndex: any, index) {
+        this.createPackage[packageIndex].itemList.splice(index, 1);
     }
     // HaiNM
 
@@ -184,8 +188,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             this.invoiceHeader.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
             const postObject = {
                 header: this.invoiceHeader,
-                lstDetail: this.lstInvoiceDetails,
-                lstPackage: this.lstInvoicePackage
+                lstDetail: this.createPackage
             };
             if (this.invoiceHeader.id !== undefined) {
                 this.subscribeToSaveResponse(this.invoiceHeaderService.updateExistedInvoice(postObject));
@@ -237,11 +240,8 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         if (!this.selectedUser) {
             msg += 'Customer must not be blank! <br>';
         }
-        if (this.lstInvoicePackage.length === 0) {
+        if (this.createPackage.length === 0) {
             msg += 'Package must have at least ONE item! <br>';
-        }
-        if (this.lstInvoiceDetails.length === 0) {
-            msg += 'Item detail must have at least ONE item! <br>';
         }
         return msg;
     }

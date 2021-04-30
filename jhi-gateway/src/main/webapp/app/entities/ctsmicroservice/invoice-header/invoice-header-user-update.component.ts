@@ -5,7 +5,7 @@ import { forkJoin, from, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
-import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { IInvoiceHeader, InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { InvoiceHeaderService } from './invoice-header.service';
 import { AccountService, IUser, Principal } from 'app/core';
 import { IDistrict } from 'app/shared/model/ctsmicroservice/district.model';
@@ -16,6 +16,7 @@ import { JhiAlertService } from 'ng-jhipster';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
+import { CommonString } from 'app/shared';
 
 @Component({
     selector: 'jhi-invoice-header-user-update',
@@ -56,14 +57,16 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         { id: 'Shipped', text: 'Shipped' },
         { id: 'Cancelled', text: 'Cancelled' }
     ];
-    lstCollect: any = [{ id: '1', text: 'Collect From Home' }, { id: '0', text: 'Drop By Office' }];
+    lstCollect: any = [{ id: '1', text: 'Lấy hàng tại nhà' }, { id: '0', text: 'Khách hàng mang đến bưu cục' }];
     selectedCollect: any;
     // HaiNM
-    lstInvoicePackage: IInvoicePackage[] = [];
-    invPackageCount: number;
+    createPackage: PackageDetailsDTO[] = [];
+    invoicePackage: IInvoicePackage;
+    invPackageCount: number = 0;
     lstInvoiceDetails: IInvoiceDetails[] = [];
-    invDetailCount: number;
+    invDetailCount: number = 0;
     // HaiNM
+    common: CommonString;
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -90,30 +93,19 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
     }
 
     // HaiNM
-    addNewInvoiceDetailElement() {
-        this.invDetailCount++;
-        const obj = new InvoiceDetails(null, null, '', '', null, null, null, null, '', '', '', null, null);
-        this.lstInvoiceDetails.push(obj);
-        console.log(this.lstInvoiceDetails);
+    addNewPackageDetailsDTO() {
+        const obj = new PackageDetailsDTO();
+        this.createPackage.push(obj);
     }
-
-    removeInvoiceDetailElement(index: any) {
-        this.invDetailCount--;
-        this.lstInvoiceDetails.splice(index, 1);
-        console.log(this.lstInvoiceDetails);
+    removeNewPackageDetailsDTO(index: any) {
+        this.createPackage.splice(index, 1);
     }
-
-    addNewInvoicePackageElement() {
-        this.invPackageCount++;
-        const obj = new InvoicePackage(null, null, null, null, null, null, null, false, 'New', '', null, null, null);
-        this.lstInvoicePackage.push(obj);
-        console.log(this.lstInvoicePackage);
+    addNewInvoiceDetailElement(packageIndex: any) {
+        const obj = new InvoiceDetails();
+        this.createPackage[packageIndex].itemList.push(obj);
     }
-
-    removeInvoicePackageElement(index: any) {
-        this.invPackageCount--;
-        this.lstInvoicePackage.splice(index, 1);
-        console.log(this.lstInvoicePackage);
+    removeInvoiceDetailElement(packageIndex: any, index) {
+        this.createPackage[packageIndex].itemList.splice(index, 1);
     }
     // HaiNM
 
@@ -149,10 +141,9 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
             }
             const postObject = {
                 header: this.invoiceHeader,
-                lstDetail: this.lstInvoiceDetails,
-                lstPackage: this.lstInvoicePackage
+                lstDetail: this.createPackage
             };
-            this.invoiceHeader.status = 'new';
+            this.invoiceHeader.status = 'waiting';
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.startStreetId = this.selectedStreetFrom.id;
             this.invoiceHeader.destinationStreetId = this.selectedStreetTo.id;
@@ -215,11 +206,8 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         if (!this.selectedUser) {
             msg += 'Customer must not be blank! <br>';
         }
-        if (this.lstInvoicePackage.length === 0) {
+        if (this.createPackage.length === 0) {
             msg += 'Package must have at least ONE item! <br>';
-        }
-        if (this.lstInvoiceDetails.length === 0) {
-            msg += 'Item detail must have at least ONE item! <br>';
         }
         this.invoiceHeader.invoiceType = 'personal';
         return msg;
@@ -310,5 +298,14 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
 
     private onSaveError() {
         this.isSaving = false;
+    }
+}
+
+export class PackageDetailsDTO {
+    invPackage?: IInvoicePackage;
+    itemList?: IInvoiceDetails[];
+    constructor() {
+        this.invPackage = new InvoicePackage();
+        this.itemList = new Array();
     }
 }

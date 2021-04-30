@@ -27,6 +27,9 @@ public class Payment implements Serializable {
     @Column(name = "employee_id")
     private Long employeeId;
 
+    @Column(name = "receipt_note_id")
+    private Long receiptNoteId;
+
     @Column(name = "payment_type")
     private String paymentType;
 
@@ -66,6 +69,20 @@ public class Payment implements Serializable {
     public void setInvoiceHeaderId(Long invoiceHeaderId) {
         this.invoiceHeaderId = invoiceHeaderId;
     }
+
+    public Long getReceiptNoteId() {
+        return receiptNoteId;
+    }
+
+    public Payment receiptNoteId(Long receiptNoteId) {
+        this.receiptNoteId = receiptNoteId;
+        return this;
+    }
+
+    public void setReceiptNoteId(Long receiptNoteId) {
+        this.receiptNoteId = receiptNoteId;
+    }
+
 
     public Long getEmployeeId() {
         return employeeId;

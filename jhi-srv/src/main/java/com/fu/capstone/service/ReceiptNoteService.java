@@ -1,7 +1,7 @@
 package com.fu.capstone.service;
 
 import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
-import com.fu.capstone.service.dto.DetailPackageDTO;
+import com.fu.capstone.service.dto.PackageDetailsDTO;
 import com.fu.capstone.service.dto.ReceiptDetailPackageDTO;
 import com.fu.capstone.service.dto.ReceiptNoteDTO;
 
@@ -52,7 +52,7 @@ public interface ReceiptNoteService {
 
 	List<ReceiptInvoiceDTO> getAllReceiptInvoiceByUser(Long id, Pageable pageable);
 
-	DetailPackageDTO getReceiptItemPackage(Long id);
+	List<PackageDetailsDTO> getReceiptItemPackage(Long id);
 
 	ReceiptNoteDTO createReceiptNoteAndShipmentInvoice(ReceiptDetailPackageDTO data);
 }

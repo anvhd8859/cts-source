@@ -6,7 +6,7 @@ import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
-import com.fu.capstone.service.dto.DetailPackageDTO;
+import com.fu.capstone.service.dto.PackageDetailsDTO;
 import com.fu.capstone.service.dto.ReceiptDetailPackageDTO;
 import com.fu.capstone.service.dto.ReceiptNoteDTO;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -160,8 +160,8 @@ public class ReceiptNoteResource {
     
     @GetMapping("/receipt-notes/item-package")
     @Timed
-    public ResponseEntity<DetailPackageDTO> getReceiptItemPackage(@RequestParam("id") Long id) {
-    	DetailPackageDTO page = receiptNoteService.getReceiptItemPackage(id);
+    public ResponseEntity<List<PackageDetailsDTO>> getReceiptItemPackage(@RequestParam("id") Long id) {
+    	List<PackageDetailsDTO> page = receiptNoteService.getReceiptItemPackage(id);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 }

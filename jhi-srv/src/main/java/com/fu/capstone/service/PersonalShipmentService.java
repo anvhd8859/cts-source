@@ -61,7 +61,7 @@ public interface PersonalShipmentService {
     // END TuyenVNT
 
 
-	Page<PersonalShipmentInvoiceDTO> getPersonalShipmentByShipper(Long id, String invNo, String type, Pageable pageable);
+	Page<PersonalShipmentInvoiceDTO> getPersonalShipmentByShipper(Long id, String invNo, String type, String status, String from, String to, Pageable pageable);
 
 	PersonalShipmentDTO createCollectPersonalShipmentForInvoice(Long id);
 

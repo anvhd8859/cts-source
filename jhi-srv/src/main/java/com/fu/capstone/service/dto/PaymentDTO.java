@@ -10,129 +10,134 @@ import java.util.Objects;
  */
 public class PaymentDTO implements Serializable {
 
-    private Long id;
+	private static final long serialVersionUID = 1L;
 
-    private Long invoiceHeaderId;
+	private Long id;
 
-    private Long employeeId;
+	private Long invoiceHeaderId;
 
-    private String paymentType;
+	private Long employeeId;
 
-    private Boolean senderPay;
+	private Long receiptNoteId;
 
-    private BigDecimal amountPaid;
+	private String paymentType;
 
-    private BigDecimal amountDue;
+	private Boolean senderPay;
 
-    private Instant createDate;
+	private BigDecimal amountPaid;
 
-    private Instant updateDate;
+	private BigDecimal amountDue;
 
-    public Long getId() {
-        return id;
-    }
+	private Instant createDate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	private Instant updateDate;
 
-    public Long getInvoiceHeaderId() {
-        return invoiceHeaderId;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setInvoiceHeaderId(Long invoiceHeaderId) {
-        this.invoiceHeaderId = invoiceHeaderId;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getEmployeeId() {
-        return employeeId;
-    }
+	public Long getInvoiceHeaderId() {
+		return invoiceHeaderId;
+	}
 
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
-    }
+	public void setInvoiceHeaderId(Long invoiceHeaderId) {
+		this.invoiceHeaderId = invoiceHeaderId;
+	}
 
-    public String getPaymentType() {
-        return paymentType;
-    }
+	public Long getEmployeeId() {
+		return employeeId;
+	}
 
-    public void setPaymentType(String paymentType) {
-        this.paymentType = paymentType;
-    }
+	public void setEmployeeId(Long employeeId) {
+		this.employeeId = employeeId;
+	}
 
-    public Boolean isSenderPay() {
-        return senderPay;
-    }
+	public String getPaymentType() {
+		return paymentType;
+	}
 
-    public void setSenderPay(Boolean senderPay) {
-        this.senderPay = senderPay;
-    }
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
+	}
 
-    public BigDecimal getAmountPaid() {
-        return amountPaid;
-    }
+	public Boolean isSenderPay() {
+		return senderPay;
+	}
 
-    public void setAmountPaid(BigDecimal amountPaid) {
-        this.amountPaid = amountPaid;
-    }
+	public void setSenderPay(Boolean senderPay) {
+		this.senderPay = senderPay;
+	}
 
-    public BigDecimal getAmountDue() {
-        return amountDue;
-    }
+	public BigDecimal getAmountPaid() {
+		return amountPaid;
+	}
 
-    public void setAmountDue(BigDecimal amountDue) {
-        this.amountDue = amountDue;
-    }
+	public void setAmountPaid(BigDecimal amountPaid) {
+		this.amountPaid = amountPaid;
+	}
 
-    public Instant getCreateDate() {
-        return createDate;
-    }
+	public BigDecimal getAmountDue() {
+		return amountDue;
+	}
 
-    public void setCreateDate(Instant createDate) {
-        this.createDate = createDate;
-    }
+	public void setAmountDue(BigDecimal amountDue) {
+		this.amountDue = amountDue;
+	}
 
-    public Instant getUpdateDate() {
-        return updateDate;
-    }
+	public Instant getCreateDate() {
+		return createDate;
+	}
 
-    public void setUpdateDate(Instant updateDate) {
-        this.updateDate = updateDate;
-    }
+	public void setCreateDate(Instant createDate) {
+		this.createDate = createDate;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+	public Instant getUpdateDate() {
+		return updateDate;
+	}
 
-        PaymentDTO paymentDTO = (PaymentDTO) o;
-        if (paymentDTO.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), paymentDTO.getId());
-    }
+	public void setUpdateDate(Instant updateDate) {
+		this.updateDate = updateDate;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
-    @Override
-    public String toString() {
-        return "PaymentDTO{" +
-            "id=" + getId() +
-            ", invoiceHeaderId=" + getInvoiceHeaderId() +
-            ", employeeId=" + getEmployeeId() +
-            ", paymentType='" + getPaymentType() + "'" +
-            ", senderPay='" + isSenderPay() + "'" +
-            ", amountPaid=" + getAmountPaid() +
-            ", amountDue=" + getAmountDue() +
-            ", createDate='" + getCreateDate() + "'" +
-            ", updateDate='" + getUpdateDate() + "'" +
-            "}";
-    }
+		PaymentDTO paymentDTO = (PaymentDTO) o;
+		if (paymentDTO.getId() == null || getId() == null) {
+			return false;
+		}
+		return Objects.equals(getId(), paymentDTO.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getId());
+	}
+
+	@Override
+	public String toString() {
+		return "PaymentDTO{" + "id=" + getId() + ", invoiceHeaderId=" + getInvoiceHeaderId() + ", employeeId="
+				+ getEmployeeId() + ", paymentType='" + getPaymentType() + "'" + ", senderPay='" + isSenderPay() + "'"
+				+ ", amountPaid=" + getAmountPaid() + ", amountDue=" + getAmountDue() + ", createDate='"
+				+ getCreateDate() + "'" + ", updateDate='" + getUpdateDate() + "'" + "}";
+	}
+
+	public Long getReceiptNoteId() {
+		return receiptNoteId;
+	}
+
+	public void setReceiptNoteId(Long receiptNoteId) {
+		this.receiptNoteId = receiptNoteId;
+	}
 }

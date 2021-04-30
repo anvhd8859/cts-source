@@ -28,6 +28,7 @@ describe('Service Tests', () => {
             elemDefault = new InvoiceDetails(
                 0,
                 0,
+                0,
                 'AAAAAAA',
                 'AAAAAAA',
                 0,

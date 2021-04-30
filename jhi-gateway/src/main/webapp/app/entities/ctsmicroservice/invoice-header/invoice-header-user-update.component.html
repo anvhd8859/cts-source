@@ -4,7 +4,8 @@
             <div *jhiHasAnyAuthority="'ROLE_USER'">
                 <br>
                 <div class="row" style="border-bottom: 2px solid;">
-                    <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading" style="font-weight: bold;">Tạo đơn cá nhân</h2>
+                    <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading" style="font-weight: bold;">Tạo
+                        đơn cá nhân</h2>
                 </div>
                 <br>
                 <jhi-alert></jhi-alert>
@@ -12,7 +13,8 @@
                 <div class="divider"></div>
                 <div class="card">
                     <div class="card-header">
-                        <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Khách hàng</b></label>
+                        <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Khách
+                                hàng</b></label>
                     </div>
                     <div class="card-body" name="from-address">
                         <div class="form-group">
@@ -30,33 +32,31 @@
                                     >
                                 <ng-option *ngFor="let item of lstUser">{{item.email}}</ng-option>
                             </ng-select> -->
-                            <input  *ngIf="this.selectedUser"
-                                    type="text"
-                                    class="form-control"
-                                    [ngModelOptions]="{standalone: true}"
-                                    [(ngModel)]="this.selectedUser.email"
-                                    value="{{this.selectedUser.email}}"
-                                    readonly>
+                            <input *ngIf="this.selectedUser" type="text" class="form-control"
+                                [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedUser.email"
+                                value="{{this.selectedUser.email}}" readonly>
                         </div>
                         <br>
-                        <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="form-control-label" for="">Thông tin khách hàng</label>
+                        <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id"
+                            class="form-control-label" for="">Thông tin khách hàng</label>
                         <div *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="col-lg-12">
                             <table class="table">
                                 <tr>
                                     <th class="text-left">Tên đầy đủ: </th>
-                                    <td class="text-left" >{{this.selectedUser.firstName + ' ' +this.selectedUser.lastName}}</td>
+                                    <td class="text-left">{{this.selectedUser.firstName + ' '
+                                        +this.selectedUser.lastName}}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left">Giới tính</th>
-                                    <td class="text-left" >{{this.selectedUserProfile.gender}}</td>
+                                    <td class="text-left">{{this.selectedUserProfile.gender}}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left">Số điện thoại</th>
-                                    <td class="text-left" >{{this.selectedUserProfile.phoneNumber}}</td>
+                                    <td class="text-left">{{this.selectedUserProfile.phoneNumber}}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left">Địa chỉ</th>
-                                    <td class="text-left" >{{this.selectedUserProfile.address}}</td>
+                                    <td class="text-left">{{this.selectedUserProfile.address}}</td>
                                 </tr>
                             </table>
                         </div>
@@ -67,129 +67,138 @@
                 <br>
                 <div class="card">
                     <div class="card-header">
-                        <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Thông tin đơn hàng</b></label>
+                        <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Thông tin
+                                đơn hàng</b></label>
                     </div>
                     <div class="card-body" name="from-address">
                         <!-- Invoice Package Start-->
-                        <label class="form-control-label" for="from-address"><b>Chi tiết gói hàng</b></label>
+                        <label class="form-control-label" for="from-address" style="font-weight: 500;"><b>Chi tiết gói hàng</b></label>
                         <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
-                                <ng-container *ngFor="let item of lstInvoicePackage; let i = index">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <div class="row">
-                                                <div class="col-10"> Gói hàng #{{i + 1}} </div>
-                                                <div class="col-2">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                                                    id="package{{i}}"
-                                                    name="package{{i}}"
-                                                    (click)="this.removeInvoicePackageElement(i)">&times;</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label" for="weight{{i}}">Cân nặng (g)</label>
-                                                        <input placeholder="" class="form-control" step="0.1" min="0"
-                                                            type="number" name="weight{{i}}" id="weight{{i}}" [(ngModel)]="item.weight">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label" for="height{{i}}">Cao (cm)</label>
-                                                        <input placeholder="" class="form-control" step="0.1" min="0"
-                                                            type="number" name="height{{i}}" id="height{{i}}" [(ngModel)]="item.height">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label" for="width{{i}}">Rộng (cm)</label>
-                                                        <input placeholder="" class="form-control" step="0.1" min="0"
-                                                            type="number" name="width{{i}}" id="width{{i}}" [(ngModel)]="item.width">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label" for="length{{i}}">Dài (cm)</label>
-                                                        <input placeholder="" class="form-control" step="0.1"
-                                                            type="number" name="length{{i}}" id="length{{i}}" [(ngModel)]="item.length">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label" for="note{{i}}">Ghi chú</label>
-                                                        <textarea   class="form-control"
-                                                                    style="resize: none;"
-                                                                    rows="3" id="address"
-                                                                    id="note{{i}}"
-                                                                    name="note{{i}}"
-                                                                    [(ngModel)]="item.note">
-                                                        </textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                </ng-container>
-                            <div class="row">
-                                <div class="col-lg-3 col-md-6 col-sm-6">
-                                    <button type="button" class="btn btn-outline-success" (click)="this.addNewInvoicePackageElement()">
-                                        <fa-icon [icon]="'plus'"></fa-icon>
-                                        <span class="d-none d-md-inline">Thêm gói hàng</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Invoice Package End-->
-                        <br>
-                        <!-- Invoice Detail Start -->
-                        <label class="form-control-label" for="from-address"><b>Chi tiết vật phẩm</b></label>
-                        <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
-                            <ng-container *ngFor="let item of lstInvoiceDetails; let i = index">
+                            <ng-container *ngFor="let item of createPackage; let i = index">
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="row">
-                                            <div class="col-10"> Vật phẩm #{{i + 1}} </div>
+                                            <div class="col-10"> Gói hàng #{{i + 1}} </div>
                                             <div class="col-2">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                                                id="detail{{i}}"
-                                                name="detail{{i}}"
-                                                (click)="this.removeInvoiceDetailElement(i)">&times;</button>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true" id="package{{i}}" name="package{{i}}"
+                                                    (click)="this.removeNewPackageDetailsDTO(i)">&times;</button>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="itemName{{i}}">Tên vật phẩm</label>
-                                                    <input placeholder="" class="form-control"
-                                                        type="text" name="itemName{{i}}" id="itemName{{i}}" [(ngModel)]="item.itemName">
+                                                    <label class="form-control-label" for="weight{{i}}">Cân nặng
+                                                        (g)</label>
+                                                    <input placeholder="" class="form-control" step="0.1" min="0"
+                                                        type="number" name="weight{{i}}" id="weight{{i}}"
+                                                        [(ngModel)]="item.invPackage.weight">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="itemType{{i}}">Loại</label>
-                                                    <input placeholder="" class="form-control"
-                                                        type="text" name="itemType{{i}}" id="itemType{{i}}" [(ngModel)]="item.itemType">
+                                                    <label class="form-control-label" for="height{{i}}">Cao (cm)</label>
+                                                    <input placeholder="" class="form-control" step="0.1" min="0"
+                                                        type="number" name="height{{i}}" id="height{{i}}"
+                                                        [(ngModel)]="item.invPackage.height">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="width{{i}}">Rộng (cm)</label>
+                                                    <input placeholder="" class="form-control" step="0.1" min="0"
+                                                        type="number" name="width{{i}}" id="width{{i}}"
+                                                        [(ngModel)]="item.invPackage.width">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="length{{i}}">Dài (cm)</label>
+                                                    <input placeholder="" class="form-control" step="0.1" type="number"
+                                                        name="length{{i}}" id="length{{i}}"
+                                                        [(ngModel)]="item.invPackage.length">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="description{{i}}">Ghi chú</label>
-                                                    <textarea   class="form-control"
-                                                                style="resize: none;"
-                                                                rows="3"
-                                                                id="description{{i}}"
-                                                                name="description{{i}}"
-                                                                [(ngModel)]="item.description">
-                                                    </textarea>
+                                                    <label class="form-control-label" for="note{{i}}">Ghi chú</label>
+                                                    <textarea class="form-control" style="resize: none;" rows="3"
+                                                        id="address" id="note{{i}}" name="note{{i}}"
+                                                        [(ngModel)]="item.invPackage.note">
+                                                        </textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin: 40px;">
+                                        <!-- Invoice Detail Start -->
+                                        <label class="form-control-label" for="from-address" style="margin-left: 20px;"><b>Chi tiết vật
+                                                phẩm</b></label>
+                                        <div name="from-address"
+                                            style="border: rgb(161, 161, 161) solid thin; border-radius: 5px; padding: 2%;">
+                                            <ng-container *ngFor="let itemDetail of item.itemList; let id = index">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <div class="row">
+                                                            <div class="col-10"> Vật phẩm #{{i + 1}} </div>
+                                                            <div class="col-2">
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-hidden="true" id="detail{{id}}" name="detail{{id}}"
+                                                                    (click)="this.removeInvoiceDetailElement(i,id)">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label"
+                                                                        for="itemName{{i}}">Tên
+                                                                        vật
+                                                                        phẩm</label>
+                                                                    <input placeholder="" class="form-control" type="text"
+                                                                        name="itemName{{id}}" id="itemName{{id}}"
+                                                                        [(ngModel)]="itemDetail.itemName">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label"
+                                                                        for="itemType{{i}}">Loại</label>
+                                                                    <input placeholder="" class="form-control" type="text"
+                                                                        name="itemType{{id}}" id="itemType{{id}}"
+                                                                        [(ngModel)]="itemDetail.itemType">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label"
+                                                                        for="description{{id}}">Ghi chú</label>
+                                                                    <textarea class="form-control" style="resize: none;"
+                                                                        rows="3" id="description{{id}}"
+                                                                        name="description{{id}}"
+                                                                        [(ngModel)]="itemDetail.description">
+                                                            </textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                            </ng-container>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                                    <button type="button" class="btn btn-outline-success"
+                                                        (click)="this.addNewInvoiceDetailElement(i)">
+                                                        <fa-icon [icon]="'plus'"></fa-icon>
+                                                        <span class="d-none d-md-inline">Thêm vật phẩm</span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -197,46 +206,44 @@
                                 </div>
                                 <br>
                             </ng-container>
+                            <br>
+                            <div class="divider" style="margin: 20px;"></div>
                             <div class="row">
                                 <div class="col-lg-3 col-md-6 col-sm-6">
-                                    <button type="button" class="btn btn-outline-success" (click)="this.addNewInvoiceDetailElement()">
+                                    <button type="button" class="btn btn-outline-success"
+                                        (click)="this.addNewPackageDetailsDTO()">
                                         <fa-icon [icon]="'plus'"></fa-icon>
-                                        <span class="d-none d-md-inline">Thêm vật phẩm</span>
+                                        <span class="d-none d-md-inline">Thêm gói hàng</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <br>
-                        <!-- Invoice Detail End -->
-                        <!-- Service and note Start -->
-                        <div class="row">
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    <label class="form-control-label" for="field_status">Hình thức ký gửi</label>
-                                    <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstCollect"
-                                        bindLabel="text" bindValue="id" id="field_status" name="field_status"
-                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedCollect">
-                                        <ng-option *ngFor="let item of lstCollect">{{item.text}}</ng-option>
-                                    </ng-select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    <label class="form-control-label" for="customerNote">Ghi chú của khách hàng</label>
-                                    <textarea class="form-control"
-                                        style="resize: none;"
-                                        rows="3"
-                                        id="customerNote"
-                                        name="customerNote"
-                                        [(ngModel)]="this.invoiceHeader.note"
-                                    ></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Service and Note End -->
                     </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_status"><b>Hình thức ký gửi</b></label>
+                            <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstCollect"
+                                bindLabel="text" bindValue="id" id="field_status" name="field_status"
+                                [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedCollect">
+                                <ng-option *ngFor="let item of lstCollect">{{item.text}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <label class="form-control-label" for="customerNote"><b>Ghi chú của khách hàng</b>
+                            </label>
+                            <textarea class="form-control" style="resize: none;" rows="3" id="customerNote"
+                                name="customerNote" [(ngModel)]="this.invoiceHeader.note"></textarea>
+                        </div>
+                    </div>
+                    <!-- Invoice Package End-->
+                    <br>
                 </div>
                 <br>
                 <div class="divider"></div>
@@ -245,42 +252,35 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Địa chỉ gửi</b></label>
+                                <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Địa
+                                        chỉ gửi</b></label>
                             </div>
                             <div class="card-body" name="from-address">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="province">Tỉnh/Thành phố</label>
-                                            <ng-select  [clearable]="false"
-                                                        [hideSelected]="true"
-                                                        [items]="this.lstProvinceFrom"
-                                                        bindLabel="provinceName"
-                                                        id="province"
-                                                        name="province"
-                                                        [ngModelOptions]="{standalone: true}"
-                                                        [(ngModel)]="this.selectedProvinceFrom"
-                                                        (change)="this.changeCity('from')"
-                                                        >
-                                                <ng-option *ngFor="let item of lstProvinceFrom">{{item.provinceName}}</ng-option>
+                                            <ng-select [clearable]="false" [hideSelected]="true"
+                                                [items]="this.lstProvinceFrom" bindLabel="provinceName" id="province"
+                                                name="province" [ngModelOptions]="{standalone: true}"
+                                                [(ngModel)]="this.selectedProvinceFrom"
+                                                (change)="this.changeCity('from')">
+                                                <ng-option *ngFor="let item of lstProvinceFrom">{{item.provinceName}}
+                                                </ng-option>
                                             </ng-select>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="district">Quận/Huyện</label>
-                                            <ng-select  [clearable]="false"
-                                                        [hideSelected]="true"
-                                                        [items]="this.lstDistrictFrom"
-                                                        bindLabel="districtName"
-                                                        id="district"
-                                                        name="district"
-                                                        [ngModelOptions]="{standalone: true}"
-                                                        [(ngModel)]="this.selectedDistrictFrom"
-                                                        (change)="this.changeDistrict('from')"
-                                                        [disabled]="!this.selectedProvinceFrom"
-                                                        >
-                                                <ng-option *ngFor="let item of lstDistrictFrom">{{item.districtName}}</ng-option>
+                                            <ng-select [clearable]="false" [hideSelected]="true"
+                                                [items]="this.lstDistrictFrom" bindLabel="districtName" id="district"
+                                                name="district" [ngModelOptions]="{standalone: true}"
+                                                [(ngModel)]="this.selectedDistrictFrom"
+                                                (change)="this.changeDistrict('from')"
+                                                [disabled]="!this.selectedProvinceFrom">
+                                                <ng-option *ngFor="let item of lstDistrictFrom">{{item.districtName}}
+                                                </ng-option>
                                             </ng-select>
                                         </div>
                                     </div>
@@ -289,35 +289,28 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="subDistrict">Phường/Xã</label>
-                                            <ng-select  [clearable]="false"
-                                                        [hideSelected]="true"
-                                                        [items]="this.lstSubDistrictFrom"
-                                                        bindLabel="subDistrictName"
-                                                        id="subDistrict"
-                                                        name="subDistrict"
-                                                        [ngModelOptions]="{standalone: true}"
-                                                        [(ngModel)]="this.selectedSubDistrictFrom"
-                                                        (change)="this.changeSubDistrict('from')"
-                                                        [disabled]="!this.selectedDistrictFrom"
-                                                        >
-                                                <ng-option *ngFor="let item of lstSubDistrictFrom">{{item.subDistrictName}}</ng-option>
+                                            <ng-select [clearable]="false" [hideSelected]="true"
+                                                [items]="this.lstSubDistrictFrom" bindLabel="subDistrictName"
+                                                id="subDistrict" name="subDistrict"
+                                                [ngModelOptions]="{standalone: true}"
+                                                [(ngModel)]="this.selectedSubDistrictFrom"
+                                                (change)="this.changeSubDistrict('from')"
+                                                [disabled]="!this.selectedDistrictFrom">
+                                                <ng-option *ngFor="let item of lstSubDistrictFrom">
+                                                    {{item.subDistrictName}}</ng-option>
                                             </ng-select>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="street">Đường/Phố</label>
-                                            <ng-select  [clearable]="false"
-                                                        [hideSelected]="true"
-                                                        [items]="this.lstStreetFrom"
-                                                        bindLabel="streetName"
-                                                        id="street"
-                                                        name="street"
-                                                        [ngModelOptions]="{standalone: true}"
-                                                        [(ngModel)]="this.selectedStreetFrom"
-                                                        [disabled]="!this.selectedSubDistrictFrom"
-                                                        >
-                                                <ng-option *ngFor="let item of lstStreetFrom">{{item.streetName}}</ng-option>
+                                            <ng-select [clearable]="false" [hideSelected]="true"
+                                                [items]="this.lstStreetFrom" bindLabel="streetName" id="street"
+                                                name="street" [ngModelOptions]="{standalone: true}"
+                                                [(ngModel)]="this.selectedStreetFrom"
+                                                [disabled]="!this.selectedSubDistrictFrom">
+                                                <ng-option *ngFor="let item of lstStreetFrom">{{item.streetName}}
+                                                </ng-option>
                                             </ng-select>
                                         </div>
                                     </div>
@@ -326,13 +319,8 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="address">Địa chỉ</label>
-                                            <textarea class="form-control"
-                                                style="resize: none;"
-                                                rows="3"
-                                                id="address"
-                                                name="address"
-                                                [(ngModel)]="this.selectedAddressFrom"
-                                            >
+                                            <textarea class="form-control" style="resize: none;" rows="3" id="address"
+                                                name="address" [(ngModel)]="this.selectedAddressFrom">
                                             </textarea>
                                         </div>
                                     </div>
@@ -344,42 +332,34 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <label class="form-control-label" for="to-address" style="font-weight: bolder;"><b>Địa chỉ nhận</b></label>
+                                <label class="form-control-label" for="to-address" style="font-weight: bolder;"><b>Địa
+                                        chỉ nhận</b></label>
                             </div>
                             <div class="card-body" name="to-address">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="province">Tỉnh/Thành Phố</label>
-                                            <ng-select  [clearable]="false"
-                                                        [hideSelected]="true"
-                                                        [items]="this.lstProvinceTo"
-                                                        bindLabel="provinceName"
-                                                        id="province"
-                                                        name="province"
-                                                        [ngModelOptions]="{standalone: true}"
-                                                        [(ngModel)]="this.selectedProvinceTo"
-                                                        (change)="this.changeCity('to')"
-                                                        >
-                                                <ng-option *ngFor="let item of lstProvinceTo">{{item.provinceName}}</ng-option>
+                                            <ng-select [clearable]="false" [hideSelected]="true"
+                                                [items]="this.lstProvinceTo" bindLabel="provinceName" id="province"
+                                                name="province" [ngModelOptions]="{standalone: true}"
+                                                [(ngModel)]="this.selectedProvinceTo" (change)="this.changeCity('to')">
+                                                <ng-option *ngFor="let item of lstProvinceTo">{{item.provinceName}}
+                                                </ng-option>
                                             </ng-select>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="district">Quận/Huyện</label>
-                                            <ng-select  [clearable]="false"
-                                                        [hideSelected]="true"
-                                                        [items]="this.lstDistrictTo"
-                                                        bindLabel="districtName"
-                                                        id="district"
-                                                        name="district"
-                                                        [ngModelOptions]="{standalone: true}"
-                                                        [(ngModel)]="this.selectedDistrictTo"
-                                                        (change)="this.changeDistrict('to')"
-                                                        [disabled]="!this.selectedProvinceTo"
-                                                        >
-                                                <ng-option *ngFor="let item of lstDistrictTo">{{item.districtName}}</ng-option>
+                                            <ng-select [clearable]="false" [hideSelected]="true"
+                                                [items]="this.lstDistrictTo" bindLabel="districtName" id="district"
+                                                name="district" [ngModelOptions]="{standalone: true}"
+                                                [(ngModel)]="this.selectedDistrictTo"
+                                                (change)="this.changeDistrict('to')"
+                                                [disabled]="!this.selectedProvinceTo">
+                                                <ng-option *ngFor="let item of lstDistrictTo">{{item.districtName}}
+                                                </ng-option>
                                             </ng-select>
                                         </div>
                                     </div>
@@ -388,35 +368,28 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="subDistrict">Phường/Xã</label>
-                                            <ng-select  [clearable]="false"
-                                                        [hideSelected]="true"
-                                                        [items]="this.lstSubDistrictTo"
-                                                        bindLabel="subDistrictName"
-                                                        id="subDistrict"
-                                                        name="subDistrict"
-                                                        [ngModelOptions]="{standalone: true}"
-                                                        [(ngModel)]="this.selectedSubDistrictTo"
-                                                        (change)="this.changeSubDistrict('to')"
-                                                        [disabled]="!this.selectedDistrictTo"
-                                                        >
-                                                <ng-option *ngFor="let item of lstSubDistrictTo">{{item.subDistrictName}}</ng-option>
+                                            <ng-select [clearable]="false" [hideSelected]="true"
+                                                [items]="this.lstSubDistrictTo" bindLabel="subDistrictName"
+                                                id="subDistrict" name="subDistrict"
+                                                [ngModelOptions]="{standalone: true}"
+                                                [(ngModel)]="this.selectedSubDistrictTo"
+                                                (change)="this.changeSubDistrict('to')"
+                                                [disabled]="!this.selectedDistrictTo">
+                                                <ng-option *ngFor="let item of lstSubDistrictTo">
+                                                    {{item.subDistrictName}}</ng-option>
                                             </ng-select>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="street">Đường/Phố</label>
-                                            <ng-select  [clearable]="false"
-                                                        [hideSelected]="true"
-                                                        [items]="this.lstStreetTo"
-                                                        bindLabel="streetName"
-                                                        id="street"
-                                                        name="street"
-                                                        [ngModelOptions]="{standalone: true}"
-                                                        [(ngModel)]="this.selectedStreetTo"
-                                                        [disabled]="!this.selectedSubDistrictTo"
-                                                        >
-                                                <ng-option *ngFor="let item of lstStreetTo">{{item.streetName}}</ng-option>
+                                            <ng-select [clearable]="false" [hideSelected]="true"
+                                                [items]="this.lstStreetTo" bindLabel="streetName" id="street"
+                                                name="street" [ngModelOptions]="{standalone: true}"
+                                                [(ngModel)]="this.selectedStreetTo"
+                                                [disabled]="!this.selectedSubDistrictTo">
+                                                <ng-option *ngFor="let item of lstStreetTo">{{item.streetName}}
+                                                </ng-option>
                                             </ng-select>
                                         </div>
                                     </div>
@@ -425,13 +398,8 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="address">Địa chỉ</label>
-                                            <textarea class="form-control"
-                                                style="resize: none;"
-                                                rows="3"
-                                                id="address"
-                                                name="address"
-                                                [(ngModel)]="this.selectedAddressTo"
-                                            >
+                                            <textarea class="form-control" style="resize: none;" rows="3" id="address"
+                                                name="address" [(ngModel)]="this.selectedAddressTo">
                                             </textarea>
                                         </div>
                                     </div>
@@ -444,26 +412,16 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <label class="form-control-label" for="addressFrom"><b>Địa chỉ gửi</b></label>
                         <div class="form-group">
-                            <textarea class="form-control"
-                                style="resize: none;"
-                                rows="3"
-                                id="addressFrom"
-                                name="addressFrom"
-                                [(ngModel)]="this.invoiceHeader.startAddress"
-                            >
+                            <textarea class="form-control" style="resize: none;" rows="3" id="addressFrom"
+                                name="addressFrom" [(ngModel)]="this.invoiceHeader.startAddress">
                             </textarea>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <label class="form-control-label" for="addressTo"><b>Địa chỉ nhận</b></label>
                         <div class="form-group">
-                            <textarea class="form-control"
-                                style="resize: none;"
-                                rows="3"
-                                id="addressTo"
-                                name="addressTo"
-                                [(ngModel)]="this.invoiceHeader.destinationAddress"
-                            >
+                            <textarea class="form-control" style="resize: none;" rows="3" id="addressTo"
+                                name="addressTo" [(ngModel)]="this.invoiceHeader.destinationAddress">
                             </textarea>
                         </div>
                     </div>
@@ -473,23 +431,24 @@
                 <div *ngIf="this.invoiceHeader.id" class="form-group">
                     <label class="form-control-label" for="field_dueDate">Ngày giao dự kiến</label>
                     <div class="d-flex">
-                        <input id="field_dueDate" type="datetime-local" class="form-control" name="dueDate" [(ngModel)]="dueDate"
-                        />
+                        <input id="field_dueDate" type="datetime-local" class="form-control" name="dueDate"
+                            [(ngModel)]="dueDate" />
                     </div>
                 </div>
 
                 <div *ngIf="this.invoiceHeader.id" class="form-group">
                     <label class="form-control-label" for="field_createDate">Ngày tạo hóa đơn</label>
                     <div class="d-flex">
-                        <input id="field_createDate" type="datetime-local" class="form-control" name="updateDate" [(ngModel)]="createDate"
-                        />
+                        <input id="field_createDate" type="datetime-local" class="form-control" name="updateDate"
+                            [(ngModel)]="createDate" />
                     </div>
                 </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-2">
                     <div class="row justify-content-center">
-                        <button type="button" id="cancel-save" class="btn btn-secondary form-control"  (click)="previousState()">
+                        <button type="button" id="cancel-save" class="btn btn-secondary form-control"
+                            (click)="previousState()">
                             <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Hủy</span>
                         </button>
                     </div>
@@ -500,7 +459,8 @@
                 </div>
                 <div class="col-2">
                     <div class="row justify-content-center">
-                        <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary form-control">
+                        <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                            class="btn btn-primary form-control">
                             <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Xác nhận</span>
                         </button>
                     </div>

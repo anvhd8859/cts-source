@@ -23,6 +23,9 @@ public class InvoiceDetails implements Serializable {
     @Column(name = "invoice_header_id")
     private Long invoiceHeaderId;
 
+    @Column(name = "invoice_package_id")
+    private Long invoicePackageId;
+
     @Column(name = "item_name")
     private String itemName;
 
@@ -191,7 +194,15 @@ public class InvoiceDetails implements Serializable {
         return this;
     }
 
-    public void setDamagesImage(String damagesImage) {
+    public Long getInvoicePackageId() {
+		return invoicePackageId;
+	}
+
+	public void setInvoicePackageId(Long invoicePackageId) {
+		this.invoicePackageId = invoicePackageId;
+	}
+
+	public void setDamagesImage(String damagesImage) {
         this.damagesImage = damagesImage;
     }
 

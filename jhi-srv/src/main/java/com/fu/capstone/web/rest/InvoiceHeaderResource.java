@@ -160,7 +160,7 @@ public class InvoiceHeaderResource {
     @PostMapping("/invoice-headers/invoice-detail/{check}")
     @Timed
     public ResponseEntity<InvoiceHeaderDTO> createInvoiceHeaderDetailPackage(@RequestBody InvoicePackageDetailDTO invoiceHeaderDTO, @PathVariable int check) throws URISyntaxException {
-        if (invoiceHeaderDTO.getHeader().getId() != null) {
+        if (invoiceHeaderDTO.getInvoice().getId() != null) {
             throw new BadRequestAlertException("A new invoiceHeader cannot already have an ID", ENTITY_NAME, "idexists");
         }
         InvoiceHeaderDTO result = invoiceHeaderService.createInvoiceHeaderDetailPackage(invoiceHeaderDTO, check);

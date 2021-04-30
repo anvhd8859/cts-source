@@ -5,7 +5,8 @@ export interface IReceiptnote {
     employeeId?: number;
     invoiceHeaderId?: number;
     note?: string;
-    customerConfirm?: boolean;
+    imageLink?: Blob;
+    receiptType?: boolean;
     createDate?: Moment;
     updateDate?: Moment;
 }
@@ -17,10 +18,11 @@ export class Receiptnote implements IReceiptnote {
         public employeeId?: number,
         public invoiceHeaderId?: number,
         public note?: string,
-        public customerConfirm?: boolean,
+        public imageLink?: Blob,
+        public receiptType?: boolean,
         public createDate?: Moment,
         public updateDate?: Moment
     ) {
-        this.customerConfirm = this.customerConfirm || false;
+        this.receiptType = this.receiptType || false;
     }
 }

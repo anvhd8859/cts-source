@@ -37,16 +37,23 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 	@Query(value = "SELECT ps.* FROM personal_shipment ps, invoice_header i "
 				 + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
 				 + " AND ps.status <> 'finish' "
-				 + " AND (:type = '' OR ps.shipment_type = :type) "
-				 + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) ",
+				 + " AND ps.shipment_type = :type AND (:status = '' OR i.status = :status) "
+				 + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
+				 + " AND (:from = '' OR i.due_date >= CONCAT(:from , ' 00:00:00')) "
+				 + " AND (:to = '' OR i.due_date <= CONCAT(:to , ' 00:00:00')) "
+				 + " ORDER BY i.due_date",
 			countQuery = "SELECT COUNT(*) FROM personal_shipment ps, invoice_header i"
 					   + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
 					   + " AND ps.status <> 'finish' "
-					   + " AND (:type = '' OR ps.shipment_type = :type) "
-					   + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) ",
+					   + " AND ps.shipment_type = :type AND (:status = '' OR i.status = :status) "
+					   + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
+					   + " AND (:from = '' OR i.due_date >= CONCAT(:from , ' 00:00:00')) "
+					   + " AND (:to = '' OR i.due_date <= CONCAT(:to , ' 23:59:59')) "
+					   + " ORDER BY i.due_date",
 			nativeQuery = true)
 	Page<PersonalShipment> getPersonalShipmentByShipper(@Param("id") Long id, 
-			@Param("invNo") String invNo, @Param("type") String type, Pageable pageable);
+			@Param("invNo") String invNo, @Param("status") String status, @Param("type") String type,
+			@Param("from") String from, @Param("to") String to, Pageable pageable);
 
 	@Query( value = "SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :id AND p.shipmentType = 'delivery'")
 	PersonalShipment getDeliveryShipmentByHeaderId(@Param("id") Long id);

@@ -14,9 +14,9 @@ import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.ReceiptNoteRepository;
 import com.fu.capstone.repository.StreetRepository;
 import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
-import com.fu.capstone.service.dto.DetailPackageDTO;
 import com.fu.capstone.service.dto.InvoiceDetailsDTO;
 import com.fu.capstone.service.dto.InvoicePackageDTO;
+import com.fu.capstone.service.dto.PackageDetailsDTO;
 import com.fu.capstone.service.dto.ReceiptDetailPackageDTO;
 import com.fu.capstone.service.dto.ReceiptNoteDTO;
 import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
@@ -177,12 +177,21 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 	}
 
 	@Override
-	public DetailPackageDTO getReceiptItemPackage(Long id) {
+	public List<PackageDetailsDTO> getReceiptItemPackage(Long id) {
 		List<InvoicePackage> pgkList = invoicePackageRepository.getInvoicePackageByHeaderId(id);
 		List<InvoiceDetails> idtList = invoiceDetailsRepository.getInvoiceDetailsByHeaderId(id);
-		DetailPackageDTO rs = new DetailPackageDTO();
-		rs.setInvoicePackageList(invoicePackageMapper.toDto(pgkList));
-		rs.setInvoiceDetailList(invoiceDetailsMapper.toDto(idtList));
+		List<PackageDetailsDTO> rs = new ArrayList<>();
+		for(InvoicePackage ip : pgkList) {
+			PackageDetailsDTO dto = new PackageDetailsDTO();
+			dto.setInvPackage(invoicePackageMapper.toDto(ip));
+			dto.setItemList(new ArrayList<>());
+			for(InvoiceDetails ids : idtList) {
+				if(ids.getInvoicePackageId() == ip.getId()) {
+					dto.getItemList().add(invoiceDetailsMapper.toDto(ids));
+				}
+			}
+			rs.add(dto);
+		}
 		return rs;
 	}
 
@@ -191,7 +200,8 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		Instant instant = Instant.now();
 		if(data.getReceipt().getId() == null) data.getReceipt().setCreateDate(instant);
 		data.getReceipt().setUpdateDate(instant);
-		data.getReceipt().setReceiptType(false);
+		// collect receipt
+		data.getReceipt().setReceiptType(true);
 		for(InvoicePackageDTO ip : data.getInvoicePackageList()) {
 			ip.setUpdateDate(instant);
 			ip.setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
