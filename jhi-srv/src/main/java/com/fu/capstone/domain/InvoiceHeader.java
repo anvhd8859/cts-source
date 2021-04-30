@@ -90,8 +90,8 @@ public class InvoiceHeader implements Serializable {
     @Column(name = "finish")
     private Boolean finish;
 
-    @Column(name = "receive_date")
-    private Instant receiveDate;
+    @Column(name = "review_date")
+    private Instant reviewDate;
 
     @Column(name = "due_date")
     private Instant dueDate;
@@ -390,17 +390,17 @@ public class InvoiceHeader implements Serializable {
         this.finish = finish;
     }
 
-    public Instant getReceiveDate() {
-        return receiveDate;
+    public Instant getReviewDate() {
+        return reviewDate;
     }
 
-    public InvoiceHeader receiveDate(Instant receiveDate) {
-        this.receiveDate = receiveDate;
+    public InvoiceHeader reviewDate(Instant reviewDate) {
+        this.reviewDate = reviewDate;
         return this;
     }
 
-    public void setReceiveDate(Instant receiveDate) {
-        this.receiveDate = receiveDate;
+    public void setReviewDate(Instant reviewDate) {
+        this.reviewDate = reviewDate;
     }
 
     public Instant getDueDate() {
@@ -521,7 +521,7 @@ public class InvoiceHeader implements Serializable {
             ", customerConfirm='" + isCustomerConfirm() + "'" +
             ", changeNote='" + getChangeNote() + "'" +
             ", finish='" + isFinish() + "'" +
-            ", receiveDate='" + getReceiveDate() + "'" +
+            ", receiveDate='" + getReviewDate() + "'" +
             ", dueDate='" + getDueDate() + "'" +
             ", finishDate='" + getFinishDate() + "'" +
             ", createDate='" + getCreateDate() + "'" +
