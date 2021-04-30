@@ -24,6 +24,7 @@ export interface IInvoiceHeader {
     cancelReason?: string;
     customerConfirm?: boolean;
     changeNote?: string;
+    reviewDate?: string;
     finish?: boolean;
     dueDate?: Moment;
     finishDate?: Moment;
@@ -57,6 +58,7 @@ export class InvoiceHeader implements IInvoiceHeader {
         public customerConfirm?: boolean,
         public changeNote?: string,
         public finish?: boolean,
+        public reviewDate?: string,
         public dueDate?: Moment,
         public finishDate?: Moment,
         public createDate?: Moment,
