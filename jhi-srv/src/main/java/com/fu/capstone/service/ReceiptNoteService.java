@@ -54,5 +54,7 @@ public interface ReceiptNoteService {
 
 	List<PackageDetailsDTO> getReceiptItemPackage(Long id);
 
-	ReceiptNoteDTO createReceiptNoteAndShipmentInvoice(ReceiptDetailPackageDTO data);
+	ReceiptNoteDTO createReceiptNoteColectShipment(ReceiptDetailPackageDTO data);
+
+	ReceiptNoteDTO createReceiptNoteDeliveryShipment(ReceiptDetailPackageDTO data);
 }
