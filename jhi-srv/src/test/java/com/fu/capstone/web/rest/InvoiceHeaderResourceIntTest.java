@@ -184,7 +184,7 @@ public class InvoiceHeaderResourceIntTest {
             .customerConfirm(DEFAULT_CUSTOMER_CONFIRM)
             .changeNote(DEFAULT_CHANGE_NOTE)
             .finish(DEFAULT_FINISH)
-            .receiveDate(DEFAULT_RECEIVE_DATE)
+            .reviewDate(DEFAULT_RECEIVE_DATE)
             .dueDate(DEFAULT_DUE_DATE)
             .finishDate(DEFAULT_FINISH_DATE)
             .createDate(DEFAULT_CREATE_DATE)
@@ -233,7 +233,7 @@ public class InvoiceHeaderResourceIntTest {
         assertThat(testInvoiceHeader.isCustomerConfirm()).isEqualTo(DEFAULT_CUSTOMER_CONFIRM);
         assertThat(testInvoiceHeader.getChangeNote()).isEqualTo(DEFAULT_CHANGE_NOTE);
         assertThat(testInvoiceHeader.isFinish()).isEqualTo(DEFAULT_FINISH);
-        assertThat(testInvoiceHeader.getReceiveDate()).isEqualTo(DEFAULT_RECEIVE_DATE);
+        assertThat(testInvoiceHeader.getReviewDate()).isEqualTo(DEFAULT_RECEIVE_DATE);
         assertThat(testInvoiceHeader.getDueDate()).isEqualTo(DEFAULT_DUE_DATE);
         assertThat(testInvoiceHeader.getFinishDate()).isEqualTo(DEFAULT_FINISH_DATE);
         assertThat(testInvoiceHeader.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
@@ -377,7 +377,7 @@ public class InvoiceHeaderResourceIntTest {
             .customerConfirm(UPDATED_CUSTOMER_CONFIRM)
             .changeNote(UPDATED_CHANGE_NOTE)
             .finish(UPDATED_FINISH)
-            .receiveDate(UPDATED_RECEIVE_DATE)
+            .reviewDate(UPDATED_RECEIVE_DATE)
             .dueDate(UPDATED_DUE_DATE)
             .finishDate(UPDATED_FINISH_DATE)
             .createDate(UPDATED_CREATE_DATE)
@@ -413,7 +413,7 @@ public class InvoiceHeaderResourceIntTest {
         assertThat(testInvoiceHeader.isCustomerConfirm()).isEqualTo(UPDATED_CUSTOMER_CONFIRM);
         assertThat(testInvoiceHeader.getChangeNote()).isEqualTo(UPDATED_CHANGE_NOTE);
         assertThat(testInvoiceHeader.isFinish()).isEqualTo(UPDATED_FINISH);
-        assertThat(testInvoiceHeader.getReceiveDate()).isEqualTo(UPDATED_RECEIVE_DATE);
+        assertThat(testInvoiceHeader.getReviewDate()).isEqualTo(UPDATED_RECEIVE_DATE);
         assertThat(testInvoiceHeader.getDueDate()).isEqualTo(UPDATED_DUE_DATE);
         assertThat(testInvoiceHeader.getFinishDate()).isEqualTo(UPDATED_FINISH_DATE);
         assertThat(testInvoiceHeader.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
