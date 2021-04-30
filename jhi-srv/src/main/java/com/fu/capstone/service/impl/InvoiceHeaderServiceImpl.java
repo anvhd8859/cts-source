@@ -63,7 +63,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	private StreetRepository streetRepository;
 
 	private OfficeRepository officeRepository;
-	
+
 	private WorkingAreaRepository workingAreaRepository;
 
 	private InvoiceHeaderMapper invoiceHeaderMapper;
@@ -212,18 +212,19 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		List<InvoiceDetailsDTO> lstDetailDTO = new ArrayList<>();
 		Street fromStreet = streetRepository.getFullAddressByStreetId(invoiceHeaderDTO.getStartStreetId());
 		Street toStreet = streetRepository.getFullAddressByStreetId(invoiceHeaderDTO.getDestinationStreetId());
-		
+
 		// get destination office id
 		if (invoiceHeaderDTO.getId() == null) {
 			Office ofc = officeRepository.searchOfficeNearby(toStreet.getId(), toStreet.getSubDistrictId().getId(),
 					toStreet.getSubDistrictId().getDistrictId().getId(),
 					toStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
 			invoiceHeaderDTO.setDestinationOfficeId(ofc.getId());
+			invoiceHeaderDTO.setStatus("waiting");
 		}
-		
+
 		// check online of offline create invoice
-		if(invoiceHeaderDTO.getEmployeeId() == null) invoiceHeaderDTO.setStatus("waiting");
-		else invoiceHeaderDTO.setStatus("collected");
+		if (invoiceHeaderDTO.getEmployeeId() != null)
+			invoiceHeaderDTO.setStatus("collected");
 
 		// create invoice and get invoice with ID
 		invoiceHeaderDTO = this.save(invoiceHeaderDTO);
@@ -237,7 +238,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			if (ip.getId() == null) {
 				ip.setCreateDate(instant);
 				ip.setUpdateDate(instant);
-			} else ip.setUpdateDate(instant);
+			} else
+				ip.setUpdateDate(instant);
 			ip = invoicePackageMapper.toDto(invoicePackageRepository.save(invoicePackageMapper.toEntity(ip)));
 			for (InvoiceDetailsDTO id : i.getItemList()) {
 				id.setInvoiceHeaderId(invoiceHeaderDTO.getId());
@@ -260,7 +262,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 					fromStreet.getSubDistrictId().getDistrictId().getId(),
 					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
 			invoiceHeaderDTO.setOfficeId(ofc.getId());
-			
+
 			// process collect shipment and sub total fee
 			PersonalShipment ps = new PersonalShipment();
 			ps.setInvoiceHeaderId(invoiceHeaderDTO.getId());
@@ -268,10 +270,10 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			ps.setStatus("new");
 			ps.setCreateDate(instant);
 			ps.setUpdateDate(instant);
-			
+
 			// get employee and add to shipment
-			WorkingArea wa = workingAreaRepository.getEmployeeNearBy(fromStreet.getId(), fromStreet.getSubDistrictId().getId(),
-					fromStreet.getSubDistrictId().getDistrictId().getId(),
+			WorkingArea wa = workingAreaRepository.getEmployeeNearBy(fromStreet.getId(),
+					fromStreet.getSubDistrictId().getId(), fromStreet.getSubDistrictId().getDistrictId().getId(),
 					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
 			ps.setEmployeeId(wa.getEmployeeId());
 			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.07)));
@@ -359,11 +361,13 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			i.setChangeNote("approved");
 			List<PersonalShipment> shipmentList = personalShipmentRepository.getShipmentByInvoice(i.getId());
 			List<InvoicePackage> packageList = invoicePackageRepository.getInvoicePackageByHeaderId(i.getId());
-			for(InvoicePackage ii : packageList){
-				if(!ii.getStatus().equalsIgnoreCase("finish")) ii.setStatus("cancel");
+			for (InvoicePackage ii : packageList) {
+				if (!ii.getStatus().equalsIgnoreCase("finish"))
+					ii.setStatus("cancel");
 			}
-			for(PersonalShipment ii : shipmentList){
-				if(!ii.getStatus().equalsIgnoreCase("finish")) ii.setStatus("cancel");
+			for (PersonalShipment ii : shipmentList) {
+				if (!ii.getStatus().equalsIgnoreCase("finish"))
+					ii.setStatus("cancel");
 			}
 		}
 		result = invoiceHeaderRepository.saveAll(result);
@@ -389,9 +393,9 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	@Override
 	public InvoiceHeaderDTO updateFinishInvoicePersonalShipment(InvoiceHeaderDTO inv) {
 		InvoiceHeader ih = invoiceHeaderRepository.getOne(inv.getId());
-		if(! ih.getStatus().equalsIgnoreCase("delivering")) {
-            throw new BadRequestAlertException("Invalid status", "InvoiceHeader", "status wrong");
-        }
+		if (!ih.getStatus().equalsIgnoreCase("delivering")) {
+			throw new BadRequestAlertException("Invalid status", "InvoiceHeader", "status wrong");
+		}
 		PersonalShipment ps = personalShipmentRepository.getDeliveryShipmentByInvoice(inv.getId());
 		Instant instant = Instant.now();
 		ih.setStatus("finish");
@@ -401,8 +405,48 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		ps.setFinishTime(instant);
 		ps.setUpdateDate(instant);
 		personalShipmentRepository.save(ps);
-		
+
 		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(ih));
+	}
+
+	@Override
+	public Page<InvoicePackageDetailDTO> getInvoiceHeadersWaitingReview(Long id, Pageable pageable) {
+		Page<InvoiceHeader> page = invoiceHeaderRepository.getInvoiceHeadersWaitingReview(id, pageable);
+		return page.map(this::converterInvoicePackageDetailDTO);
+	}
+
+	private InvoicePackageDetailDTO converterInvoicePackageDetailDTO(InvoiceHeader inv) {
+		InvoicePackageDetailDTO dto = new InvoicePackageDetailDTO();
+		dto.setInvoice(invoiceHeaderMapper.toDto(inv));
+		List<PackageDetailsDTO> packageList = new ArrayList<>();
+		List<InvoicePackageDTO> pkDtoList = invoicePackageMapper
+				.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(inv.getId()));
+		List<InvoiceDetailsDTO> idDtoList = invoiceDetailsMapper
+				.toDto(invoiceDetailsRepository.getInvoiceDetailsByHeaderId(inv.getId()));
+		for (InvoicePackageDTO ip : pkDtoList) {
+			PackageDetailsDTO p = new PackageDetailsDTO();
+			p.setInvPackage(ip);
+			p.setItemList(new ArrayList<>());
+			for (InvoiceDetailsDTO id : idDtoList) {
+				if (id.getInvoicePackageId() == ip.getId())
+					p.getItemList().add(id);
+			}
+			packageList.add(p);
+		}
+		dto.setPackageList(packageList);
+		return dto;
+	}
+
+	@Override
+	public InvoiceHeaderDTO updateInvoiceHeadersReview(InvoicePackageDetailDTO invoice) {
+		if (invoicePackageRepository.getInvoicePackageByHeaderId(invoice.getInvoice().getId()).size() == 2) {
+			invoice.getInvoice().setStatus("collect");
+		}
+		else {
+			invoice.getInvoice().setStatus("receive");
+		}
+		InvoiceHeader entity = invoiceHeaderMapper.toEntity(invoice.getInvoice());
+		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(entity));
 	}
 
 }

@@ -172,6 +172,9 @@ public class InvoiceHeaderResource {
     @PutMapping("/invoice-headers/invoice-detail")
     @Timed
     public ResponseEntity<InvoiceHeaderDTO> saveInvoiceHeaderDetailPackage(@RequestBody InvoicePackageDetailDTO invoiceHeaderDTO) throws URISyntaxException {
+    	if (invoiceHeaderDTO.getInvoice().getId() == null) {
+            throw new BadRequestAlertException("A new invoiceHeader cannot already have an ID", ENTITY_NAME, "idnull");
+        }
         InvoiceHeaderDTO result = invoiceHeaderService.createInvoiceHeaderDetailPackage(invoiceHeaderDTO, 0);
         return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
@@ -216,6 +219,27 @@ public class InvoiceHeaderResource {
     	InvoiceHeaderDTO result = invoiceHeaderService.updateFinishInvoicePersonalShipment(invoice);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    @GetMapping("/invoice-headers/get-waiting")
+    @Timed
+    public ResponseEntity<List<InvoicePackageDetailDTO>> getInvoiceHeadersWaitingReview(@RequestParam("id") Long id, Pageable pageable) {
+    	Page<InvoicePackageDetailDTO> page = invoiceHeaderService.getInvoiceHeadersWaitingReview(id, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/by-customer");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    
+    @PutMapping("/invoice-headers/review")
+    @Timed
+    public ResponseEntity<InvoiceHeaderDTO> updateInvoiceHeadersReview(@RequestBody InvoicePackageDetailDTO invoice) throws URISyntaxException {
+    	if (invoice.getInvoice().getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+    	InvoiceHeaderDTO result = invoiceHeaderService.updateInvoiceHeadersReview(invoice);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 }

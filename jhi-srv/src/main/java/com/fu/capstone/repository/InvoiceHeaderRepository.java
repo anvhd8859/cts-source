@@ -70,4 +70,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 				  + " ORDER BY i.dueDate ASC")
 	Page<InvoiceHeader> getExportPackageByOfficeId(@Param("id") Long id,@Param("invNo") String invNo, @Param("status") String status, Pageable pageable);
 
+	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.officeId = :id AND i.status = 'waiting' ")
+	Page<InvoiceHeader> getInvoiceHeadersWaitingReview(@Param("id")Long id, Pageable pageable);
+
 }

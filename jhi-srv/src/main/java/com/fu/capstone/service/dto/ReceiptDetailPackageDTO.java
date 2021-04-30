@@ -15,6 +15,8 @@ public class ReceiptDetailPackageDTO implements Serializable {
 
 	private List<InvoiceDetailsDTO> invoiceDetailList;
 	
+	private PaymentDTO payment;
+	
 	public List<InvoicePackageDTO> getInvoicePackageList() {
 		return invoicePackageList;
 	}
@@ -37,5 +39,13 @@ public class ReceiptDetailPackageDTO implements Serializable {
 
 	public void setReceipt(ReceiptNote receipt) {
 		this.receipt = receipt;
+	}
+
+	public PaymentDTO getPayment() {
+		return payment;
+	}
+
+	public void setPayment(PaymentDTO payment) {
+		this.payment = payment;
 	}
 }

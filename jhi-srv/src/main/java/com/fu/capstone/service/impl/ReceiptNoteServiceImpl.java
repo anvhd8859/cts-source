@@ -4,12 +4,14 @@ import com.fu.capstone.service.ReceiptNoteService;
 import com.fu.capstone.domain.InvoiceDetails;
 import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.InvoicePackage;
+import com.fu.capstone.domain.Payment;
 import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.domain.ReceiptNote;
 import com.fu.capstone.domain.Street;
 import com.fu.capstone.repository.InvoiceDetailsRepository;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
+import com.fu.capstone.repository.PaymentRepository;
 import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.ReceiptNoteRepository;
 import com.fu.capstone.repository.StreetRepository;
@@ -22,7 +24,11 @@ import com.fu.capstone.service.dto.ReceiptNoteDTO;
 import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
+import com.fu.capstone.service.mapper.PaymentMapper;
 import com.fu.capstone.service.mapper.ReceiptNoteMapper;
+import com.fu.capstone.web.rest.errors.BadRequestAlertException;
+
+import io.micrometer.shaded.org.pcollections.PMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,128 +51,134 @@ import java.util.Optional;
 @Transactional
 public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 
-    private final Logger log = LoggerFactory.getLogger(ReceiptNoteServiceImpl.class);
+	private final Logger log = LoggerFactory.getLogger(ReceiptNoteServiceImpl.class);
 
-    private ReceiptNoteRepository receiptNoteRepository;
+	private ReceiptNoteRepository receiptNoteRepository;
 
-    private ReceiptNoteMapper receiptNoteMapper;
+	private ReceiptNoteMapper receiptNoteMapper;
 
-    private InvoiceHeaderRepository invoiceHeaderRepository;
+	private InvoiceHeaderRepository invoiceHeaderRepository;
 
-    private InvoiceHeaderMapper invoiceHeaderMapper;
+	private InvoiceHeaderMapper invoiceHeaderMapper;
 
-    private InvoicePackageRepository invoicePackageRepository;
+	private InvoicePackageRepository invoicePackageRepository;
 
-    private InvoicePackageMapper invoicePackageMapper;
+	private InvoicePackageMapper invoicePackageMapper;
 
-    private InvoiceDetailsRepository invoiceDetailsRepository;
+	private InvoiceDetailsRepository invoiceDetailsRepository;
 
-    private InvoiceDetailsMapper invoiceDetailsMapper;
+	private InvoiceDetailsMapper invoiceDetailsMapper;
 
-    private PersonalShipmentRepository personalShipmentRepository;
+	private PersonalShipmentRepository personalShipmentRepository;
 
-    private StreetRepository streetRepository;
+	private StreetRepository streetRepository;
 
-    public ReceiptNoteServiceImpl(ReceiptNoteRepository receiptNoteRepository, ReceiptNoteMapper receiptNoteMapper,
-    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
-    		InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
-    		InvoiceDetailsRepository invoiceDetailsRepository, InvoiceDetailsMapper invoiceDetailsMapper,
-    		PersonalShipmentRepository personalShipmentRepository, StreetRepository streetRepository) {
-        this.receiptNoteRepository = receiptNoteRepository;
-        this.receiptNoteMapper = receiptNoteMapper;
-        this.invoiceHeaderRepository = invoiceHeaderRepository;
-        this.invoiceHeaderMapper = invoiceHeaderMapper;
-        this.invoicePackageRepository = invoicePackageRepository;
-        this.invoicePackageMapper = invoicePackageMapper;
-        this.invoiceDetailsRepository = invoiceDetailsRepository;
-        this.invoiceDetailsMapper = invoiceDetailsMapper;
-        this.personalShipmentRepository = personalShipmentRepository;
-        this.streetRepository = streetRepository;
-    }
+	private PaymentRepository paymentRepository;
 
-    /**
-     * Save a receiptNote.
-     *
-     * @param receiptNoteDTO the entity to save
-     * @return the persisted entity
-     */
-    @Override
-    public ReceiptNoteDTO save(ReceiptNoteDTO receiptNoteDTO) {
-        log.debug("Request to save ReceiptNote : {}", receiptNoteDTO);
+	private PaymentMapper paymentMapper;
 
-        ReceiptNote receiptNote = receiptNoteMapper.toEntity(receiptNoteDTO);
+	public ReceiptNoteServiceImpl(ReceiptNoteRepository receiptNoteRepository, ReceiptNoteMapper receiptNoteMapper,
+			InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
+			InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
+			InvoiceDetailsRepository invoiceDetailsRepository, InvoiceDetailsMapper invoiceDetailsMapper,
+			PersonalShipmentRepository personalShipmentRepository, StreetRepository streetRepository,
+			PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
+		this.receiptNoteRepository = receiptNoteRepository;
+		this.receiptNoteMapper = receiptNoteMapper;
+		this.invoiceHeaderRepository = invoiceHeaderRepository;
+		this.invoiceHeaderMapper = invoiceHeaderMapper;
+		this.invoicePackageRepository = invoicePackageRepository;
+		this.invoicePackageMapper = invoicePackageMapper;
+		this.invoiceDetailsRepository = invoiceDetailsRepository;
+		this.invoiceDetailsMapper = invoiceDetailsMapper;
+		this.personalShipmentRepository = personalShipmentRepository;
+		this.streetRepository = streetRepository;
+		this.paymentRepository = paymentRepository;
+		this.paymentMapper = paymentMapper;
+	}
+
+	/**
+	 * Save a receiptNote.
+	 *
+	 * @param receiptNoteDTO
+	 *            the entity to save
+	 * @return the persisted entity
+	 */
+	@Override
+	public ReceiptNoteDTO save(ReceiptNoteDTO receiptNoteDTO) {
+		log.debug("Request to save ReceiptNote : {}", receiptNoteDTO);
+
+		ReceiptNote receiptNote = receiptNoteMapper.toEntity(receiptNoteDTO);
 		Instant instant = Instant.now();
-		if(receiptNote.getId() == null){
+		if (receiptNote.getId() == null) {
 			receiptNote.setCreateDate(instant);
 			receiptNote.setUpdateDate(instant);
-		}
-		else {
+		} else {
 			receiptNote.setUpdateDate(instant);
 		}
-        receiptNote = receiptNoteRepository.save(receiptNote);
-        InvoiceHeader inv = invoiceHeaderRepository.getOne(receiptNote.getInvoiceHeaderId());
-        PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(receiptNote.getInvoiceHeaderId());
-        ps.setFinishTime(instant);
-        inv.setUpdateDate(instant);
-        ps.setUpdateDate(instant);
-        inv.setStatus("collected");
-        ps.setStatus("finish");
-        invoiceHeaderRepository.save(inv);
-        personalShipmentRepository.save(ps);
-        return receiptNoteMapper.toDto(receiptNote);
-    }
+		receiptNote = receiptNoteRepository.save(receiptNote);
+		InvoiceHeader inv = invoiceHeaderRepository.getOne(receiptNote.getInvoiceHeaderId());
+		PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(receiptNote.getInvoiceHeaderId());
+		ps.setFinishTime(instant);
+		inv.setUpdateDate(instant);
+		ps.setUpdateDate(instant);
+		inv.setStatus("collected");
+		ps.setStatus("finish");
+		invoiceHeaderRepository.save(inv);
+		personalShipmentRepository.save(ps);
+		return receiptNoteMapper.toDto(receiptNote);
+	}
 
-    /**
-     * Get all the receiptNotes.
-     *
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public Page<ReceiptNoteDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all ReceiptNotes");
-        return receiptNoteRepository.findAll(pageable)
-            .map(receiptNoteMapper::toDto);
-    }
+	/**
+	 * Get all the receiptNotes.
+	 *
+	 * @param pageable
+	 *            the pagination information
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Page<ReceiptNoteDTO> findAll(Pageable pageable) {
+		log.debug("Request to get all ReceiptNotes");
+		return receiptNoteRepository.findAll(pageable).map(receiptNoteMapper::toDto);
+	}
 
+	/**
+	 * Get one receiptNote by id.
+	 *
+	 * @param id
+	 *            the id of the entity
+	 * @return the entity
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<ReceiptNoteDTO> findOne(Long id) {
+		log.debug("Request to get ReceiptNote : {}", id);
+		return receiptNoteRepository.findById(id).map(receiptNoteMapper::toDto);
+	}
 
-    /**
-     * Get one receiptNote by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<ReceiptNoteDTO> findOne(Long id) {
-        log.debug("Request to get ReceiptNote : {}", id);
-        return receiptNoteRepository.findById(id)
-            .map(receiptNoteMapper::toDto);
-    }
-
-    /**
-     * Delete the receiptNote by id.
-     *
-     * @param id the id of the entity
-     */
-    @Override
-    public void delete(Long id) {
-        log.debug("Request to delete ReceiptNote : {}", id);
-        receiptNoteRepository.deleteById(id);
-    }
+	/**
+	 * Delete the receiptNote by id.
+	 *
+	 * @param id
+	 *            the id of the entity
+	 */
+	@Override
+	public void delete(Long id) {
+		log.debug("Request to delete ReceiptNote : {}", id);
+		receiptNoteRepository.deleteById(id);
+	}
 
 	@Override
 	public Optional<ReceiptNoteDTO> getReceiptNoteByHeaderId(Long id) {
-		return receiptNoteRepository.getReceiptNoteByHeaderId(id)
-	            .map(receiptNoteMapper::toDto);
+		return receiptNoteRepository.getReceiptNoteByHeaderId(id).map(receiptNoteMapper::toDto);
 	}
 
 	@Override
 	public List<ReceiptInvoiceDTO> getAllReceiptInvoiceByUser(Long id, Pageable pageable) {
 		List<ReceiptInvoiceDTO> list = new ArrayList<>();
 		List<ReceiptNote> noteList = receiptNoteRepository.getAllReceiptNotConfirm(id, pageable);
-		for(ReceiptNote r : noteList) {
+		for (ReceiptNote r : noteList) {
 			ReceiptInvoiceDTO riDto = new ReceiptInvoiceDTO();
 			InvoiceHeader inv = invoiceHeaderRepository.getOne(r.getInvoiceHeaderId());
 			riDto.setReceiptNote(receiptNoteMapper.toDto(r));
@@ -181,12 +193,12 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		List<InvoicePackage> pgkList = invoicePackageRepository.getInvoicePackageByHeaderId(id);
 		List<InvoiceDetails> idtList = invoiceDetailsRepository.getInvoiceDetailsByHeaderId(id);
 		List<PackageDetailsDTO> rs = new ArrayList<>();
-		for(InvoicePackage ip : pgkList) {
+		for (InvoicePackage ip : pgkList) {
 			PackageDetailsDTO dto = new PackageDetailsDTO();
 			dto.setInvPackage(invoicePackageMapper.toDto(ip));
 			dto.setItemList(new ArrayList<>());
-			for(InvoiceDetails ids : idtList) {
-				if(ids.getInvoicePackageId() == ip.getId()) {
+			for (InvoiceDetails ids : idtList) {
+				if (ids.getInvoicePackageId() == ip.getId()) {
 					dto.getItemList().add(invoiceDetailsMapper.toDto(ids));
 				}
 			}
@@ -196,17 +208,19 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 	}
 
 	@Override
-	public ReceiptNoteDTO createReceiptNoteAndShipmentInvoice(ReceiptDetailPackageDTO data) {
+	public ReceiptNoteDTO createReceiptNoteColectShipment(ReceiptDetailPackageDTO data) {
 		Instant instant = Instant.now();
-		if(data.getReceipt().getId() == null) data.getReceipt().setCreateDate(instant);
+		if (data.getReceipt().getId() == null)
+			data.getReceipt().setCreateDate(instant);
 		data.getReceipt().setUpdateDate(instant);
-		// collect receipt
+
+		// collect receipt and process
 		data.getReceipt().setReceiptType(true);
-		for(InvoicePackageDTO ip : data.getInvoicePackageList()) {
+		for (InvoicePackageDTO ip : data.getInvoicePackageList()) {
 			ip.setUpdateDate(instant);
 			ip.setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
 		}
-		for(InvoiceDetailsDTO ip : data.getInvoiceDetailList()) {
+		for (InvoiceDetailsDTO ip : data.getInvoiceDetailList()) {
 			ip.setUpdateDate(instant);
 			ip.setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
 		}
@@ -219,17 +233,30 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		inv.setSubTotal(subTotal);
 		inv.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
 		inv.setTotalDue(subTotal.multiply(new BigDecimal(1.1)));
-		PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(data.getReceipt().getInvoiceHeaderId());
+		inv.setStatus("collected");
+		PersonalShipment ps = personalShipmentRepository
+				.getCollectShipmentByInvoice(data.getReceipt().getInvoiceHeaderId());
 		ps.setStatus("finish");
 		ps.setShipTime(instant);
 		ps.setFinishTime(instant);
 		ps.setUpdateDate(instant);
+		if (!inv.getReceiverPay()) {
+			Payment pm = paymentMapper.toEntity(data.getPayment());
+			pm.setInvoiceHeaderId(inv.getId());
+			pm.setEmployeeId(data.getReceipt().getEmployeeId());
+			pm.setCreateDate(instant);
+			pm.setUpdateDate(instant);
+			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
+		}
+
+		// save data
+		invoiceHeaderRepository.save(inv);
 		personalShipmentRepository.save(ps);
 		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(data.getInvoicePackageList()));
 		invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(data.getInvoiceDetailList()));
 		return receiptNoteMapper.toDto(receiptNoteRepository.save(data.getReceipt()));
 	}
-	
+
 	private BigDecimal calculateSubTotal(List<InvoicePackageDTO> lstPackage, Street fromStreet, Street toStreet) {
 		BigDecimal result = new BigDecimal(0);
 		float totalWeight = 0;
@@ -270,5 +297,42 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 				result = new BigDecimal(3200.0 * totalWeight);
 		}
 		return result.add(new BigDecimal(3000));
+	}
+
+	@Override
+	public ReceiptNoteDTO createReceiptNoteDeliveryShipment(ReceiptDetailPackageDTO data) {
+		Instant instant = Instant.now();
+		InvoiceHeader inv = invoiceHeaderRepository.getOne(data.getReceipt().getInvoiceHeaderId());
+		Payment pm = paymentMapper.toEntity(data.getPayment());
+		PersonalShipment ps = personalShipmentRepository
+				.getCollectShipmentByInvoice(data.getReceipt().getInvoiceHeaderId());
+
+		// delivery receipt and process
+		if (data.getReceipt().getId() == null)
+			data.getReceipt().setCreateDate(instant);
+		data.getReceipt().setUpdateDate(instant);
+		data.getReceipt().setReceiptType(false);
+		if (inv.getReceiverPay()) {
+			pm.setInvoiceHeaderId(inv.getId());
+			pm.setEmployeeId(data.getReceipt().getEmployeeId());
+			pm.setCreateDate(instant);
+			pm.setUpdateDate(instant);
+			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
+		}
+		if (pm.getAmountDue().intValue() != 0)
+			throw new BadRequestAlertException("A new receiptNote data wrong", "receipt note",
+					"amount due not equal 0");
+		inv.setStatus("finish");
+		ps.setStatus("finish");
+		ps.setShipTime(instant);
+		ps.setFinishTime(instant);
+		ps.setUpdateDate(instant);
+
+		// save data
+		invoiceHeaderRepository.save(inv);
+		personalShipmentRepository.save(ps);
+		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(data.getInvoicePackageList()));
+		invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(data.getInvoiceDetailList()));
+		return receiptNoteMapper.toDto(receiptNoteRepository.save(data.getReceipt()));
 	}
 }

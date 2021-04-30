@@ -70,4 +70,8 @@ public interface InvoiceHeaderService {
 
 	InvoiceHeaderDTO updateFinishInvoicePersonalShipment(InvoiceHeaderDTO invoice);
 
+	Page<InvoicePackageDetailDTO> getInvoiceHeadersWaitingReview(Long id, Pageable pageable);
+
+	InvoiceHeaderDTO updateInvoiceHeadersReview(InvoicePackageDetailDTO invoice);
+
 }
