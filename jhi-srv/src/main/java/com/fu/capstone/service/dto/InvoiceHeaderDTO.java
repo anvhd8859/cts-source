@@ -60,7 +60,7 @@ public class InvoiceHeaderDTO implements Serializable {
 
     private Boolean finish;
 
-    private Instant receiveDate;
+    private Instant reviewDate;
 
     private Instant dueDate;
 
@@ -238,12 +238,12 @@ public class InvoiceHeaderDTO implements Serializable {
         this.finish = finish;
     }
 
-    public Instant getReceiveDate() {
-        return receiveDate;
+    public Instant getReviewDate() {
+        return reviewDate;
     }
 
-    public void setReceiveDate(Instant receiveDate) {
-        this.receiveDate = receiveDate;
+    public void setReviewDate(Instant reviewDate) {
+        this.reviewDate = reviewDate;
     }
 
     public Instant getDueDate() {
@@ -323,7 +323,7 @@ public class InvoiceHeaderDTO implements Serializable {
             ", customerConfirm='" + isCustomerConfirm() + "'" +
             ", changeNote='" + getChangeNote() + "'" +
             ", finish='" + isFinish() + "'" +
-            ", receiveDate='" + getReceiveDate() + "'" +
+            ", receiveDate='" + getReviewDate() + "'" +
             ", dueDate='" + getDueDate() + "'" +
             ", finishDate='" + getFinishDate() + "'" +
             ", createDate='" + getCreateDate() + "'" +
