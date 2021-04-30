@@ -1,5 +1,6 @@
 package com.fu.capstone.service;
 
+import com.fu.capstone.service.dto.DetailsImportExportDTO;
 import com.fu.capstone.service.dto.ImportExportWarehouseDTO;
 
 import org.springframework.data.domain.Page;
@@ -43,4 +44,6 @@ public interface ImportExportWarehouseService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+	ImportExportWarehouseDTO createImportWarehouse(DetailsImportExportDTO importExportWarehouseDTO);
 }
