@@ -1,109 +1,130 @@
-<div>
-    <h2 id="page-heading">
-        <span>Xuất đơn hàng </span>
-        <button id="jh-create-entity" (click)="exportAll()" [disabled]="invoicePackageShipments.length === 0"
-            class="btn btn-primary float-right jh-create-entity create-export-invoice-package">
-            <fa-icon [icon]="'check'"></fa-icon>
-            <span >
-            Xuất các đơn hàng
-            </span>
-        </button>
-    </h2>
-    <jhi-alert></jhi-alert>
-    <br/>
-    <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="form-group">
-                <label for="invoiceNumber">Số hóa đơn</label>
-                <input  type="text"
-                        class="form-control"
-                        placeholder="(ALL)"
-                        [ngModelOptions]="{standalone: true}"
-                        [(ngModel)]="selectedInvoiceNo"
-                        value="{{selectedInvoiceNo}}"
-                        >
+<div class="row justify-content-center">
+    <div class="col-lg-11">
+        <br>
+        <div class="container-fluid">
+            <div class="row" style="border-bottom: 2px solid;">
+                <div class="col-lg-6 col-md-12 col-md-12">
+                    <h2 style="font-weight: bold;" id="page-heading">
+                        <span>Quản lý xuất kho</span>
+                    </h2>
+                </div>
+                <div class="col-lg-6 col-md-12 col-md-12">
+                    <button id="jh-create-entity" (click)="exportAll()" [disabled]="invoicePackageShipments.length === 0"
+                        class="btn btn-primary float-right jh-create-entity create-import-invoice-package" >
+                        <fa-icon [icon]="'check'"></fa-icon>
+                        <span >
+                        Đánh dấu xuất kho tất cả đơn đang hiển thị
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="form-group">
-                <label for="status">Tình trạng đơn hàng</label>
-                <ng-select  [clearable]="true"
-                            [hideSelected]="true"
-                            [items]="listInvoiceStatus"
-                            bindLabel="text"
-                            bindValue="id"
-                            id="status"
-                            name="status"
-                            [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="selectedInvoiceStatus"
-                            placeholder="(ALL)"
-                            >
-                    <ng-option *ngFor="let item of listInvoiceStatus">{{item.text}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-6 text-center">
-            <div class="form-group">
-                <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary" (click)="this.loadAll()">
-                    <fa-icon [icon]="'search'"></fa-icon>
-                    <span >Search</span>
-                </button>
-            </div>
-        </div>
-    </div>
-    <br>
-
-   <div class="table-responsive" *ngIf="invoicePackageShipments">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-            <th><span>Mã số</span></th>
-            <th><span>Số hóa đơn</span></th>
-            <th><span>Tình trạng đơn hàng</span></th>
-            <th><span>Giao tới địa chỉ</span></th>
-            <th><span>Ghi chú</span></th>
-            <th><span>Ngày giao dự kiến</span></th>
-            <th><span>Số gói hàng</span></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let importInvoicePackage of invoicePackageShipments ;trackBy: trackId">
-                <td><a>{{importInvoicePackage.invoiceHeader.id}}</a></td>
-                <td>{{importInvoicePackage.invoiceHeader.invoiceNo}}</td>
-                <td>{{common.processInvoiceStatus(importInvoicePackage.invoiceHeader.status)}}</td>
-                <td>{{importInvoicePackage.invoiceHeader.destinationAddress}}</td>
-                <td>{{importInvoicePackage.invoiceHeader.note}}</td>
-                <td>{{importInvoicePackage.invoiceHeader.dueDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                <td>{{importInvoicePackage.invoicePackageList.length}}</td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/invoice-header', importInvoicePackage.invoiceHeader.id, 'view']"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">Chi tiết</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'export-invoice-package/'+ importInvoicePackage.invoiceHeader.id + '/export'} } ]"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'check'"></fa-icon>
-                            <span class="d-none d-md-inline">Xuất kho</span>
-                        </button>
+        <br>
+        <jhi-alert></jhi-alert>
+        <br/>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="invoiceNumber">Số hóa đơn</label>
+                            <input  type="text"
+                                    class="form-control"
+                                    placeholder="(ALL)"
+                                    [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="selectedInvoiceNo"
+                                    value="{{selectedInvoiceNo}}"
+                                    >
+                        </div>
                     </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div *ngIf="invoicePackageShipments && invoicePackageShipments.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
-            </jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
-                [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="status">Tình trạng đơn hàng</label>
+                            <ng-select  [clearable]="true"
+                                        [hideSelected]="true"
+                                        [items]="listInvoiceStatus"
+                                        bindLabel="text"
+                                        bindValue="id"
+                                        id="status"
+                                        name="status"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="selectedInvoiceStatus"
+                                        placeholder="(ALL)"
+                                        >
+                                <ng-option *ngFor="let item of listInvoiceStatus">{{item.text}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 text-center">
+                        <div class="form-group">
+                            <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary" (click)="this.loadAll()">
+                                <fa-icon [icon]="'search'"></fa-icon>
+                                <span >Tìm kiếm</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="card-body">
+                <div class="table-responsive" *ngIf="!invoicePackageShipments || invoicePackageShipments.length === 0">
+                    <h2>Không tìm thấy dữ liệu</h2>
+                </div>
+                <div class="table-responsive" *ngIf="invoicePackageShipments && invoicePackageShipments.length > 0">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                        <th><span>Mã số</span></th>
+                        <th><span>Số hóa đơn</span></th>
+                        <th><span>Tình trạng đơn hàng</span></th>
+                        <th><span>Giao tới địa chỉ</span></th>
+                        <th><span>Ghi chú</span></th>
+                        <th><span>Ngày giao dự kiến</span></th>
+                        <th><span>Số gói hàng</span></th>
+                        <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let importInvoicePackage of invoicePackageShipments ;trackBy: trackId">
+                            <td><a>{{importInvoicePackage.invoiceHeader.id}}</a></td>
+                            <td>{{importInvoicePackage.invoiceHeader.invoiceNo}}</td>
+                            <td>{{common.processInvoiceStatus(importInvoicePackage.invoiceHeader.status)}}</td>
+                            <td>{{importInvoicePackage.invoiceHeader.destinationAddress}}</td>
+                            <td>{{importInvoicePackage.invoiceHeader.note}}</td>
+                            <td>{{importInvoicePackage.invoiceHeader.dueDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                            <td>{{importInvoicePackage.invoicePackageList.length}}</td>
+                            <td class="text-right">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button type="submit"
+                                            [routerLink]="['/invoice-header', importInvoicePackage.invoiceHeader.id, 'view']"
+                                            class="btn btn-info btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">Chi tiết</span>
+                                    </button>
+                                    <button type="submit"
+                                            [routerLink]="['/', { outlets: { popup: 'export-invoice-package/'+ importInvoicePackage.invoiceHeader.id + '/export'} } ]"
+                                            class="btn btn-primary btn-sm">
+                                        <fa-icon [icon]="'check'"></fa-icon>
+                                        <span class="d-none d-md-inline">Xuất kho</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="invoicePackageShipments && invoicePackageShipments.length">
+                    <div class="row justify-content-center">
+                        <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
+                        </jhi-item-count>
+                    </div>
+                    <div class="row justify-content-center">
+                        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
+                            [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<br>
