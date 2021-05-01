@@ -8,6 +8,7 @@ export interface IImportExportWarehouse {
     type?: string;
     note?: string;
     keeperConfirm?: boolean;
+    shipperConfirm?: boolean;
     shipDate?: Moment;
     createDate?: Moment;
     updateDate?: Moment;
@@ -22,10 +23,12 @@ export class ImportExportWarehouse implements IImportExportWarehouse {
         public type?: string,
         public note?: string,
         public keeperConfirm?: boolean,
+        public shipperConfirm?: boolean,
         public shipDate?: Moment,
         public createDate?: Moment,
         public updateDate?: Moment
     ) {
         this.keeperConfirm = this.keeperConfirm || false;
+        this.shipperConfirm = this.shipperConfirm || false;
     }
 }

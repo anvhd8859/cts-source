@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Xác nhận tạo yêu cầu xuất kho</h4>
+    <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar" *ngIf="selectedExportInvoices.length !== 0">
+        <div>
+            <h3>Bạn có muốn tạo yêu cầu Xuất kho với những đơn hàng sau?</h3>
+            <br/>
+            <span>Đã chọn: {{selectedExportInvoices.length }} đơn hàng</span>
+        </div>
+        <table class="table table-bordered table-striped mb-0">
+            <thead>
+                    <th><strong> STT </strong></th>
+                    <th><strong> Hóa đơn </strong></th>
+                    <th><strong> Giao tới </strong></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of selectedExportInvoices; let i = index">
+                    <td>{{i + 1}} </td>
+                    <td>{{item.invoiceHeaderDTO.invoiceNo}} </td>
+                    <td>{{item.invoiceHeaderDTO.destinationAddress}} </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="selectedExportInvoices.length === 0">
+        <h3>Chưa chọn đơn hàng nào để tạo yêu cầu Xuất kho</h3>
+    </div>
+</div>
+<div class="modal-footer">
+    <button style="width: 20%;" type="button" class="btn btn-outline-secondary"
+        (click)="modal.dismiss('cancel click')">Cancel</button>
+    <button style="margin-left: 51%; width: 20%; margin-right:5%" *ngIf="selectedExportInvoices.length !== 0"
+        type="button" class="btn btn-primary" (click)="passBack()">Ok</button>
+</div>

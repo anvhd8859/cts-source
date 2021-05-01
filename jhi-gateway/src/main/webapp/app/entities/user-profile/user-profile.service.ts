@@ -49,6 +49,13 @@ export class UserProfileService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
+    getUserProfileByRole(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IUserProfile[]>(this.resourceUrl + '/by-role', { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
     private convertDateFromClient(userProfile: IUserProfile): IUserProfile {
         const copy: IUserProfile = Object.assign({}, userProfile, {
             dateOfBirth: userProfile.dateOfBirth != null && userProfile.dateOfBirth.isValid() ? userProfile.dateOfBirth.toJSON() : null,

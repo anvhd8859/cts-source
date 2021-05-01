@@ -22,4 +22,7 @@ public interface InvoicePackageRepository extends JpaRepository<InvoicePackage, 
 	@Query(value = "SELECT p FROM InvoicePackage p WHERE p.invoiceHeaderId = :invoiceHeaderId")
 	List<InvoicePackage> getInvoicePackageByHeaderId(@Param("invoiceHeaderId") Long id);
 
+	@Query(value = "SELECT p FROM InvoicePackage p WHERE p.invoiceHeaderId in (:list)")
+	List<InvoicePackage> getInvoicePackageByHeaderList(@Param("list") List<Long> invIdList);
+
 }

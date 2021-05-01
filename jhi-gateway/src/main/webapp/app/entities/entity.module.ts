@@ -23,6 +23,7 @@ import { CtsgatewayOfficeModule as CtsmicroserviceOfficeModule } from './ctsmicr
 import { CtsgatewayImportExportWarehouseModule as CtsmicroserviceImportExportWarehouseModule } from './ctsmicroservice/import-export-warehouse/import-export-warehouse.module';
 import { CtsgatewayRequestImportWarehouseModule as CtsmicroserviceRequestImportWarehouseModule } from './ctsmicroservice/request-import-warehouse/request-import-warehouse.module';
 import { CtsgatewayRequestExportWarehouseModule as CtsmicroserviceRequestExportWarehouseModule } from './ctsmicroservice/request-export-warehouse/request-export-warehouse.module';
+import { CtsgatewayRequestDetailsModule as CtsmicroserviceRequestDetailsModule } from './ctsmicroservice/request-details/request-details.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -51,6 +52,7 @@ import { CtsgatewayRequestExportWarehouseModule as CtsmicroserviceRequestExportW
         CtsmicroserviceImportExportWarehouseModule,
         CtsmicroserviceRequestImportWarehouseModule,
         CtsmicroserviceRequestExportWarehouseModule,
+        CtsmicroserviceRequestDetailsModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

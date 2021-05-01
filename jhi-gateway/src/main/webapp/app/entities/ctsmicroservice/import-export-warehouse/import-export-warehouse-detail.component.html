@@ -1,59 +1,59 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="importExportWarehouse">
-            <h2><span>Import Export Warehouse</span> {{importExportWarehouse.id}}</h2>
+            <h2>
+                <span>
+                    Chi tiết {{importExportWarehouse.type === 'import' ? 'yêu cầu nhập kho' : 'yêu cầu xuất kho'}}
+                </span> mã số {{importExportWarehouse.id}}
+            </h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
-            <dl class="row-md jh-entity-details">
-                <dt><span>Office Id</span></dt>
-                <dd>
-                    <span>{{importExportWarehouse.officeId}}</span>
-                </dd>
-                <dt><span>Keeper Id</span></dt>
-                <dd>
-                    <span>{{importExportWarehouse.keeperId}}</span>
-                </dd>
-                <dt><span>Employee Id</span></dt>
-                <dd>
-                    <span>{{importExportWarehouse.employeeId}}</span>
-                </dd>
-                <dt><span>Type</span></dt>
-                <dd>
-                    <span>{{importExportWarehouse.type}}</span>
-                </dd>
-                <dt><span>Note</span></dt>
-                <dd>
-                    <span>{{importExportWarehouse.note}}</span>
-                </dd>
-                <dt><span>Keeper Confirm</span></dt>
-                <dd>
-                    <span>{{importExportWarehouse.keeperConfirm}}</span>
-                </dd>
-                <dt><span>Ship Date</span></dt>
-                <dd>
-                    <span>{{importExportWarehouse.shipDate}}</span>
-                </dd>
-                <dt><span>Create Date</span></dt>
-                <dd>
-                    <span>{{importExportWarehouse.createDate}}</span>
-                </dd>
-                <dt><span>Update Date</span></dt>
-                <dd>
-                    <span>{{importExportWarehouse.updateDate}}</span>
-                </dd>
-            </dl>
 
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
-            </button>
+            <div class="table table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <th> STT                    </th>
+                        <th> Số hóa đơn             </th>
+                        <th> Ngày giao dự kiến      </th>
+                        <th> Tình trạng hóa đơn     </th>
+                        <th> Số kiện hàng           </th>
+                        <th> Ngày chấp nhận     </th>
+                        <th> Ngày tạo     </th>
+                        <th> Ngày sửa đổi     </th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let object of requestDetailsList; let i = index">
+                            <td>{{i + 1}} </td>
+                            <td>{{object.invoice.invoiceNo}} </td>
+                            <td>{{object.invoice.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
+                            <td>{{common.processInvoiceStatus(object.invoice.status)}} </td>
+                            <td>{{object.packageList.length}} </td>
+                            <td>{{object.invoice.reviewDate | date:'yyyy-MM-dd HH:mm'}} </td>
+                            <td>{{object.invoice.createDate | date:'yyyy-MM-dd HH:mm'}} </td>
+                            <td>{{object.invoice.updateDate | date:'yyyy-MM-dd HH:mm'}} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <button type="button"
-                    [routerLink]="['/import-export-warehouse', importExportWarehouse.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>
+            <div class="row">
+                <div class="col-lg-4 ">
+                    <button type="submit" (click)="previousState()" class="btn btn-info">
+                        <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
+                    </button>
+                </div>
+                <div class="col-lg-4 ">
+                    <button type="button" (click)="processAction(0)"
+                        class="btn btn-danger">
+                    </button>
+                </div>
+                <div class="col-lg-4 ">
+                    <button type="button" (click)="processAction(1)"
+                        class="btn btn-success">
+                        <fa-icon [icon]="'check'"></fa-icon>&nbsp;<span> Chấp thuận</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

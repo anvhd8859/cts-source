@@ -1,13 +1,14 @@
 {
-    "name": "RequestDetail",
+    "name": "ReceiptImage",
     "fields": [
         {
-            "fieldName": "ieWarehouseId",
+            "fieldName": "receiptNoteId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "invoiceHeaderId",
-            "fieldType": "Long"
+            "fieldName": "image",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
         },
         {
             "fieldName": "createDate",
@@ -19,8 +20,8 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20210429152850",
-    "entityTableName": "request_detail",
+    "changelogDate": "20210501032209",
+    "entityTableName": "receipt_image",
     "dto": "mapstruct",
     "pagination": "no",
     "service": "serviceImpl",

@@ -31,14 +31,13 @@ export class CommonString {
     ];
     listStatusInvoice: any = [
         { id: 'waiting', text: 'Chờ nhân viên duyệt đơn' },
-        { id: 'new', text: 'Đang sắp xếp giao hàng' },
         { id: 'collect', text: 'Chờ nhân viên lấy hàng' },
         { id: 'receive', text: 'Chờ khách giao hàng' },
-        { id: 'collected', text: 'Nhân viên đã lấy hàng' },
+        { id: 'collected', text: 'Đã nhận được đơn hàng' },
         { id: 'first_import', text: 'Nhập kho chi nhánh đầu' },
         { id: 'transporting', text: 'Đang vận chuyển' },
         { id: 'last_import', text: 'Nhập kho chi nhánh cuối' },
-        { id: 'delivering', text: 'Đang giao hàng' },
+        { id: 'delivering', text: 'Nhân viên đang giao hàng' },
         { id: 'finish', text: 'Giao hàng thành công' },
         { id: 'lost', text: 'Phát sinh thất lạc ' },
         { id: 'cancel', text: 'Hủy' }

@@ -156,7 +156,7 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 		InvoiceHeader inv = invoiceHeaderRepository.findById(id).get();
 		if(inv != null) {
 			BigDecimal subTotal = inv.getSubTotal();
-			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.05)));
+			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.07)));
 			invoiceHeaderRepository.save(inv);
 		}
 		return personalShipmentMapper.toDto(personalShipmentRepository.save(ps));

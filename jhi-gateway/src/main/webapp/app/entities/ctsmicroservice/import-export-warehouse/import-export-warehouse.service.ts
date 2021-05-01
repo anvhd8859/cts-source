@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IImportExportWarehouse } from 'app/shared/model/ctsmicroservice/import-export-warehouse.model';
+import { DetailsImportExportDTO } from '../invoice-header/personal-shipment';
 
 type EntityResponseType = HttpResponse<IImportExportWarehouse>;
 type EntityArrayResponseType = HttpResponse<IImportExportWarehouse[]>;
@@ -47,6 +48,17 @@ export class ImportExportWarehouseService {
 
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    createImportWarehouse(importExportWarehouse: DetailsImportExportDTO): Observable<HttpResponse<DetailsImportExportDTO>> {
+        return this.http.post<DetailsImportExportDTO>(this.resourceUrl + '/request-import', importExportWarehouse, { observe: 'response' });
+    }
+
+    getImportExportWarehouseByFilter(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IImportExportWarehouse[]>(this.resourceUrl + '/filter', { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
     private convertDateFromClient(importExportWarehouse: IImportExportWarehouse): IImportExportWarehouse {

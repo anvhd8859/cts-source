@@ -46,4 +46,10 @@ public interface ImportExportWarehouseService {
     void delete(Long id);
 
 	ImportExportWarehouseDTO createImportWarehouse(DetailsImportExportDTO importExportWarehouseDTO);
+
+	ImportExportWarehouseDTO createExportWarehouse(DetailsImportExportDTO importExportWarehouseDTO);
+
+	Page<ImportExportWarehouseDTO> getImportExportWarehouseByFilter(Long eid, Long oid, String type, String cf, Pageable pageable);
+
+	ImportExportWarehouseDTO updateImportExportByKeeper(ImportExportWarehouseDTO importExportWarehouseDTO);
 }

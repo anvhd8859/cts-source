@@ -9,7 +9,12 @@ import java.util.Objects;
  */
 public class RequestDetailsDTO implements Serializable {
 
-    private Long id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private Long ieWarehouseId;
 

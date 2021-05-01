@@ -36,7 +36,7 @@ export const importExportWarehouseRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_KEEPER', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'ImportExportWarehouses'
         },
@@ -49,7 +49,7 @@ export const importExportWarehouseRoute: Routes = [
             importExportWarehouse: ImportExportWarehouseResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_KEEPER', 'ROLE_ADMIN'],
             pageTitle: 'ImportExportWarehouses'
         },
         canActivate: [UserRouteAccessService]
@@ -61,7 +61,7 @@ export const importExportWarehouseRoute: Routes = [
             importExportWarehouse: ImportExportWarehouseResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_KEEPER', 'ROLE_ADMIN'],
             pageTitle: 'ImportExportWarehouses'
         },
         canActivate: [UserRouteAccessService]
@@ -73,7 +73,7 @@ export const importExportWarehouseRoute: Routes = [
             importExportWarehouse: ImportExportWarehouseResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_KEEPER', 'ROLE_ADMIN'],
             pageTitle: 'ImportExportWarehouses'
         },
         canActivate: [UserRouteAccessService]
@@ -88,7 +88,7 @@ export const importExportWarehousePopupRoute: Routes = [
             importExportWarehouse: ImportExportWarehouseResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_KEEPER', 'ROLE_ADMIN'],
             pageTitle: 'ImportExportWarehouses'
         },
         canActivate: [UserRouteAccessService],

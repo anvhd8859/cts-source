@@ -90,13 +90,17 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
 
     findEmployee(id: number): string {
         const i = this.lstUser.find(element => element.id === id);
-        if (i.lastName == null) return '';
+        if (i.lastName == null) {
+            return '';
+        }
         return i.lastName + ' ' + i.firstName;
     }
 
     findEmail(id: number): string {
         const i = this.lstUser.find(element => element.id === id);
-        if (i.email == null) return '';
+        if (i.email == null) {
+            return '';
+        }
         return i.email;
     }
 
