@@ -152,8 +152,47 @@ public class ImportExportWarehouseResource {
 					"idexists");
 		}
 		ImportExportWarehouseDTO result = importExportWarehouseService.createImportWarehouse(importExportWarehouseDTO);
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+				.body(result);
+	}
+
+	@PostMapping("/import-export-warehouses/request-export")
+	@Timed
+	public ResponseEntity<ImportExportWarehouseDTO> createExportWarehouse(
+			@RequestBody DetailsImportExportDTO importExportWarehouseDTO) throws URISyntaxException {
+		log.debug("REST request to save ImportExportWarehouse : {}", importExportWarehouseDTO);
+		if (importExportWarehouseDTO.getRequestHeader().getId() != null) {
+			throw new BadRequestAlertException("A new importExportWarehouse cannot already have an ID", ENTITY_NAME,
+					"idexists");
+		}
+		ImportExportWarehouseDTO result = importExportWarehouseService.createExportWarehouse(importExportWarehouseDTO);
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+				.body(result);
+	}
+
+	@GetMapping("/import-export-warehouses/filter")
+	@Timed
+	public ResponseEntity<List<ImportExportWarehouseDTO>> getImportExportWarehouseByFilter(
+			@RequestParam("eid") Long eid, @RequestParam("oid") Long oid, @RequestParam("type") String type,
+			@RequestParam("cf") String cf, Pageable pageable) {
+		log.debug("REST request to get ImportExportWarehouse filter: ");
+		Page<ImportExportWarehouseDTO> page = importExportWarehouseService.getImportExportWarehouseByFilter(eid, oid,
+				type, cf, pageable);
+		HttpHeaders header = PaginationUtil.generatePaginationHttpHeaders(page, "/api/import-export-warehouses/filter");
+		return new ResponseEntity<>(page.getContent(), header, HttpStatus.OK);
+	}
+
+	@PutMapping("/import-export-warehouses/by-keeper")
+	@Timed
+	public ResponseEntity<ImportExportWarehouseDTO> updateImportExportByKeeper(
+			@RequestBody ImportExportWarehouseDTO importExportWarehouseDTO) throws URISyntaxException {
+		log.debug("REST request to update ImportExportWarehouse : {}", importExportWarehouseDTO);
+		if (importExportWarehouseDTO.getId() == null) {
+			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+		}
+		ImportExportWarehouseDTO result = importExportWarehouseService.updateImportExportByKeeper(importExportWarehouseDTO);
 		return ResponseEntity.ok()
-				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+				.headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, importExportWarehouseDTO.getId().toString()))
 				.body(result);
 	}
 }
