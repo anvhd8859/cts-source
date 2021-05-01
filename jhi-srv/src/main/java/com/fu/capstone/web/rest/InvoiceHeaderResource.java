@@ -226,7 +226,7 @@ public class InvoiceHeaderResource {
     @Timed
     public ResponseEntity<List<InvoicePackageDetailDTO>> getInvoiceHeadersWaitingReview(@RequestParam("id") Long id, Pageable pageable) {
     	Page<InvoicePackageDetailDTO> page = invoiceHeaderService.getInvoiceHeadersWaitingReview(id, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/by-customer");
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/get-waiting");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     
