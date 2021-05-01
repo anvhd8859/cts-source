@@ -73,4 +73,8 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.officeId = :id AND i.status = 'waiting' ")
 	Page<InvoiceHeader> getInvoiceHeadersWaitingReview(@Param("id")Long id, Pageable pageable);
 
+	@Query( value = "SELECT i FROM InvoiceHeader i, RequestDetails r WHERE i.id = r.invoiceHeaderId "
+				 + " AND r.ieWarehouseId = :id ")
+	List<InvoiceHeader> getInvoiceHeaderByIEID(@Param("id") Long id);
+
 }
