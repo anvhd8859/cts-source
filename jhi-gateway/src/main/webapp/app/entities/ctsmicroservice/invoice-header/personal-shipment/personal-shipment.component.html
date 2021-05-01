@@ -93,12 +93,13 @@
                         </div>
                     </div>
                 </div>
+                <br/>
                 <div class="row">
                     <div class="col-lg-9"></div>
                     <div class="col-lg-3 col-md-6 col-sm-6 text-center">
                         <div class="form-group" *ngIf=" selectedTypeFromServer === 'delivery' ">
                             <button style="margin-top: 20px" id="export" name="export" class="btn btn-success"
-
+                                (click)="createExportRequest()"
                                 >
                                 <fa-icon [icon]="'file-export'"></fa-icon>
                                 <span>Tạo yêu cầu Xuất Kho</span>
@@ -121,7 +122,7 @@
                 <div class="table-responsive" *ngIf="shipmentInvoices">
                     <table class="table table-striped">
                         <thead>
-                            <th></th>
+                            <th> <input type="checkbox"[(ngModel)]="this.all"(change)="checkAll()" placeholder="All">  </th>
                             <th> STT                    </th>
                             <th> Số hóa đơn             </th>
                             <th> Ngày giao dự kiến      </th>
@@ -134,7 +135,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let object of shipmentInvoices; let i = index">
-                                <td><input type="checkbox" [value]="i" (change)="addChecked(i, $event)"></td>
+                                <td><input type="checkbox" id="chkBox{{i}}"[(ngModel)]="selectedCheckBox[i]"(change)="checked(i, $event)"></td>
                                 <td>{{i + 1}} </td>
                                 <td>{{object.invoiceHeaderDTO.invoiceNo}} </td>
                                 <td>{{object.invoiceHeaderDTO.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
