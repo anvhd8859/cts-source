@@ -52,7 +52,7 @@ export const cancelInvoiceRoute: Routes = [
         data: {
             authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'CancelInvoices'
+            pageTitle: 'CTS: Quản lý đơn bị hủy'
         },
         canActivate: [UserRouteAccessService]
     },
