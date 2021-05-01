@@ -16,7 +16,9 @@ import {
     PersonalShipmentAssignDialogComponent,
     PersonalShipmentAssignPopupComponent,
     PersonalShipmentCancelInvoiceRequestPopupComponent,
-    PersonalShipmentCancelInvoiceRequestDialogComponent
+    PersonalShipmentCancelInvoiceRequestDialogComponent,
+    ExportModalConfirmComponent,
+    ImportModalConfirmComponent
 } from './';
 
 const ENTITY_STATES = [...personalShipmentRoute, ...personalShipmentPopupRoute];
@@ -33,7 +35,9 @@ const ENTITY_STATES = [...personalShipmentRoute, ...personalShipmentPopupRoute];
         PersonalShipmentAssignPopupComponent,
         PersonalShipmentAdminComponent,
         PersonalShipmentCancelInvoiceRequestDialogComponent,
-        PersonalShipmentCancelInvoiceRequestPopupComponent
+        PersonalShipmentCancelInvoiceRequestPopupComponent,
+        ExportModalConfirmComponent,
+        ImportModalConfirmComponent
     ],
     entryComponents: [
         PersonalShipmentComponent,
@@ -44,7 +48,9 @@ const ENTITY_STATES = [...personalShipmentRoute, ...personalShipmentPopupRoute];
         PersonalShipmentAssignPopupComponent,
         PersonalShipmentAdminComponent,
         PersonalShipmentCancelInvoiceRequestDialogComponent,
-        PersonalShipmentCancelInvoiceRequestPopupComponent
+        PersonalShipmentCancelInvoiceRequestPopupComponent,
+        ExportModalConfirmComponent,
+        ImportModalConfirmComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
