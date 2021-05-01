@@ -30,8 +30,8 @@ export const userProfileRoute: Routes = [
         path: 'user-profile',
         component: UserProfileComponent,
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'UserProfiles'
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'CTS: Hồ sơ người dùng'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -42,8 +42,8 @@ export const userProfileRoute: Routes = [
             userProfile: UserProfileResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'UserProfiles'
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'CTS: Chi tiết hồ sơ người dùng'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -54,8 +54,8 @@ export const userProfileRoute: Routes = [
             userProfile: UserProfileResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'UserProfiles'
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'CTS: Tạo một hồ sơ người dùng mới'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -66,8 +66,8 @@ export const userProfileRoute: Routes = [
             userProfile: UserProfileResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'UserProfiles'
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'CTS: Sửa hồ sơ người dùng'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -81,7 +81,7 @@ export const userProfilePopupRoute: Routes = [
             userProfile: UserProfileResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'UserProfiles'
         },
         canActivate: [UserRouteAccessService],
