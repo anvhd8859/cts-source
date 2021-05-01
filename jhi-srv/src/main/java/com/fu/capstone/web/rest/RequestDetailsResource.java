@@ -4,10 +4,12 @@ import com.codahale.metrics.annotation.Timed;
 import com.fu.capstone.service.RequestDetailsService;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
+import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
 import com.fu.capstone.service.dto.RequestDetailsDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -114,5 +116,13 @@ public class RequestDetailsResource {
         log.debug("REST request to delete RequestDetails : {}", id);
         requestDetailsService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    @GetMapping("/request-details/header")
+    @Timed
+    public ResponseEntity<List<InvoicePackageDetailDTO>> getRequestDetailsByHeaderId(@RequestParam("id") Long id) {
+        log.debug("REST request to get RequestDetails : {}", id);
+        List<InvoicePackageDetailDTO> list = requestDetailsService.getRequestDetailsByHeaderId(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }
