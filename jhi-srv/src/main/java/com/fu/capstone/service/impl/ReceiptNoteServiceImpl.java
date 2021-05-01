@@ -28,8 +28,6 @@ import com.fu.capstone.service.mapper.PaymentMapper;
 import com.fu.capstone.service.mapper.ReceiptNoteMapper;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 
-import io.micrometer.shaded.org.pcollections.PMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
