@@ -50,21 +50,15 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
     selectedAddressTo: any;
     selectedUser: IUser;
     selectedUserProfile: IUserProfile;
-    lstIvnType: any = [{ id: 'personal', text: 'Personal Shippemnt' }];
-    lstStatus: any = [
-        { id: 'Pending', text: 'Pending' },
-        { id: 'New', text: 'New' },
-        { id: 'Shipped', text: 'Shipped' },
-        { id: 'Cancelled', text: 'Cancelled' }
-    ];
-    lstCollect: any = [{ id: '1', text: 'Lấy hàng tại nhà' }, { id: '0', text: 'Khách hàng mang đến bưu cục' }];
+    lstIvnType: any = [{ id: 'personal', text: 'Giao hàng cá nhân' }];
+    lstCollect: any = [{ id: '1', text: 'Lấy hàng tại nhà' }, { id: '0', text: 'Mang đến bưu cục' }];
     selectedCollect: any;
     // HaiNM
     createPackage: PackageDetailsDTO[] = [];
     invoicePackage: IInvoicePackage;
-    invPackageCount: number = 0;
+    invPackageCount = 0;
     lstInvoiceDetails: IInvoiceDetails[] = [];
-    invDetailCount: number = 0;
+    invDetailCount = 0;
     // HaiNM
     common: CommonString;
 
