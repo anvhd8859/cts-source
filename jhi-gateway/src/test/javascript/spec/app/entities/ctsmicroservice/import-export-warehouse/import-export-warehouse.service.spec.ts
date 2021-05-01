@@ -24,8 +24,6 @@ describe('Service Tests', () => {
             service = injector.get(ImportExportWarehouseService);
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
-
-            elemDefault = new ImportExportWarehouse(0, 0, 0, 0, 'AAAAAAA', 'AAAAAAA', false, currentDate, currentDate, currentDate);
         });
 
         describe('Service methods', async () => {
