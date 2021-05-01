@@ -55,6 +55,10 @@ export class AccountService {
             .pipe(map((res: HttpResponse<IUserProfile>) => this.convertDateFromServerUserProfile(res)));
     }
 
+    findKeeperByOfficeID(req: any): Observable<HttpResponse<IUserProfile[]>> {
+        return this.http.get<IUserProfile[]>(this.profileResourceUrl + '/find-by-office-id', { params: req, observe: 'response' });
+    }
+
     getAllDistrict(req?: any): Observable<HttpResponse<any[]>> {
         return this.http.get<any[]>(this.locationResourceUrl + '/districts?size=9999', { observe: 'response' }).pipe();
     }
