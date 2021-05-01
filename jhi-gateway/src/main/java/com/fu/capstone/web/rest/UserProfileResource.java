@@ -8,6 +8,7 @@ import com.fu.capstone.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -126,4 +127,20 @@ public class UserProfileResource {
         return ResponseEntity.ok(userProfile.isPresent() ? userProfile.get() : new UserProfile());
     }
     // HaiNM
+
+    @GetMapping("/user-profiles/find-by-office-id")
+    @Timed
+    public ResponseEntity<List<UserProfile>> getKeeperByOfficeID(@RequestParam("id") Long id) {
+        log.debug("REST request to get UserProfile : {}", id);
+        List<UserProfile> userProfile = userProfileRepository.getKeeperByOfficeID(id);
+        return new ResponseEntity<>(userProfile, HttpStatus.OK);
+    }
+
+    @GetMapping("/user-profiles/by-role")
+    @Timed
+    public ResponseEntity<List<UserProfile>> getemployeeByRole(@RequestParam("role") String role) {
+        log.debug("REST request to get UserProfile : {}", role);
+        List<UserProfile> userProfile = userProfileRepository.getemployeeByRole(role);
+        return new ResponseEntity<>(userProfile, HttpStatus.OK);
+    }
 }
