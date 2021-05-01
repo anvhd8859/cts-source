@@ -1,5 +1,6 @@
 package com.fu.capstone.service;
 
+import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
 import com.fu.capstone.service.dto.RequestDetailsDTO;
 
 import java.util.List;
@@ -40,4 +41,6 @@ public interface RequestDetailsService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+	List<InvoicePackageDetailDTO> getRequestDetailsByHeaderId(Long id);
 }
