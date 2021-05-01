@@ -37,7 +37,7 @@ export const userMgmtRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            pageTitle: 'Users',
+            pageTitle: 'CTS: Quản lý người dùng',
             defaultSort: 'id,asc'
         }
     },
