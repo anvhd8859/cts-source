@@ -215,4 +215,11 @@ public class UserResource {
             userService.getUserByID(id).map(UserDTO::new));
     }
     // HaiNM
+    
+    @GetMapping("/users/keeper")
+    @Timed
+    public ResponseEntity<List<UserDTO>> getAllKeeperUserByOfficeID(@RequestParam("id") Long id) {
+        final List<UserDTO> page = userService.getAllKeeperUserByOfficeID(id);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
 }
