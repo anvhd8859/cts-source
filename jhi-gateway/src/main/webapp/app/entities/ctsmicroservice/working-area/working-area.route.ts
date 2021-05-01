@@ -35,7 +35,7 @@ export const workingAreaRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'WorkingAreas'
+            pageTitle: 'CTS: Quản lý khi vực làm việc'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -47,7 +47,7 @@ export const workingAreaRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'WorkingAreas'
+            pageTitle: 'CTS: Chi tiết khu vực làm việc'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -59,7 +59,7 @@ export const workingAreaRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'WorkingAreas'
+            pageTitle: 'CTS: Tạo một khu vực làm việc mới'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -71,7 +71,7 @@ export const workingAreaRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'WorkingAreas'
+            pageTitle: 'CTS: Chỉnh sửa khu vực làm việc'
         },
         canActivate: [UserRouteAccessService]
     }
