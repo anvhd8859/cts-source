@@ -1,21 +1,25 @@
+import { UserProfileService } from 'app/entities/user-profile/user-profile.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { IImportExportWarehouse } from 'app/shared/model/ctsmicroservice/import-export-warehouse.model';
-import { Principal } from 'app/core';
+import { AccountService, IUser, Principal } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { ITEMS_PER_PAGE, CommonString } from 'app/shared';
 import { ImportExportWarehouseService } from './import-export-warehouse.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { InvoiceHeaderService } from '../invoice-header';
+import { IUserProfile } from 'app/shared/model/user-profile.model';
 
 @Component({
     selector: 'jhi-import-export-warehouse',
     templateUrl: './import-export-warehouse.component.html'
 })
 export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
-    currentAccount: any;
+    currentAccount: IUser;
     importExportWarehouses: IImportExportWarehouse[];
     error: any;
     success: any;
@@ -29,15 +33,29 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    selectedShipper: any;
+    officeId: any;
+    typeList: any = [{ id: 'export', text: 'Yêu cầu xuất kho' }, { id: 'import', text: 'Yêu cầu nhập kho' }];
+    selectedType: any;
+    confirmList: any = [{ id: '0', text: 'Chưa xác nhận' }, { id: '1', text: 'Đã xác nhận' }];
+    selectedConfirm: any;
+    selectedUserProfile: any;
+    lstUser: IUser[] = [];
+    currentProfile: IUserProfile;
+    profileList: IUserProfile[];
+    common: CommonString;
 
     constructor(
+        private invoiceHeaderService: InvoiceHeaderService,
+        private accountService: AccountService,
         private importExportWarehouseService: ImportExportWarehouseService,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private ngxUiLoaderService: NgxUiLoaderService
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -49,16 +67,44 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+        this.ngxUiLoaderService.start();
         this.importExportWarehouseService
-            .query({
+            .getImportExportWarehouseByFilter({
+                eid: this.selectedShipper ? this.selectedShipper.Id : '',
+                oid: this.officeId,
+                type: this.selectedType ? this.selectedType : '',
+                cf: this.selectedConfirm ? this.selectedConfirm : '',
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
             })
             .subscribe(
-                (res: HttpResponse<IImportExportWarehouse[]>) => this.paginateImportExportWarehouses(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
+                (res: HttpResponse<IImportExportWarehouse[]>) => {
+                    this.paginateImportExportWarehouses(res.body, res.headers);
+                    forkJoin(this.invoiceHeaderService.getLstUser(), this.principal.identity()).subscribe(resp => {
+                        this.lstUser = resp[0].body.filter(e => e.authorities.filter(i => i === 'ROLE_SHIPPER'));
+                        this.currentAccount = resp[1].body;
+                        this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(profile => {
+                            this.currentProfile = profile.body;
+                            this.officeId = this.currentProfile.officeId;
+                        });
+                    });
+                    this.ngxUiLoaderService.stop();
+                },
+                (res: HttpErrorResponse) => {
+                    this.onError(res.message);
+                    this.ngxUiLoaderService.stop();
+                }
             );
+    }
+
+    getName(id: number): string {
+        for (const obj of this.lstUser) {
+            if (obj.id === id) {
+                return obj.lastName + ' ' + obj.firstName;
+            }
+        }
+        return '';
     }
 
     loadPage(page: number) {
