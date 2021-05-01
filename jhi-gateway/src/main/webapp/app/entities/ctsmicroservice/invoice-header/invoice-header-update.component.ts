@@ -17,6 +17,7 @@ import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 import { PackageDetailsDTO } from '.';
+import { CommonString } from 'app/shared';
 
 @Component({
     selector: 'jhi-invoice-header-update',
@@ -50,28 +51,16 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     selectedAddressTo: any;
     selectedUser: IUser;
     selectedUserProfile: IUserProfile;
-    lstIvnType: any = [{ id: 'personal', text: 'Personal Shippemnt' }, { id: 'Transfer', text: 'House Transfer' }];
-    lstInvStatus: any = [
-        { id: 'new', text: 'Chờ xử lý' },
-        { id: 'collect', text: 'Chờ nhân viên lấy hàng' },
-        { id: 'receive', text: 'Chờ khách giao hàng' },
-        { id: 'collected', text: 'Nhân viên đã lấy hàng' },
-        { id: 'first_import', text: 'Nhập kho chi nhánh đầu' },
-        { id: 'transporting', text: 'Đang vận chuyển' },
-        { id: 'last_import', text: 'Nhập kho chi nhánh cuối' },
-        { id: 'delivering', text: 'Đang giao hàng' },
-        { id: 'finish', text: 'Giao hàng thành công' },
-        { id: 'lost', text: 'Phát sinh thất lạc ' }
-    ];
-    lstCollect: any = [{ id: '1', text: 'Collect From Home' }, { id: '0', text: 'Drop By Office' }];
+    lstInvStatus: any = new CommonString().listStatusInvoice;
+    lstCollect: any = [{ id: '1', text: 'Lấy hàng tại nhà' }, { id: '0', text: 'Mang hàng đến bưu cục' }];
     selectedCollect: any;
     // HaiNM
     createPackage: PackageDetailsDTO[] = [];
     invoicePackage: IInvoicePackage;
-    invPackageCount: number = 0;
+    invPackageCount = 0;
     lstInvoicePackage: IInvoiceDetails[] = [];
     lstInvoiceDetails: IInvoiceDetails[] = [];
-    invDetailCount: number = 0;
+    invDetailCount = 0;
     currentUser: IUser;
     currentProfile: IUserProfile;
     // HaiNM
@@ -101,7 +90,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                     this.lstInvoiceDetails = res[1].body;
                     for (const i in this.lstInvoicePackage) {
                         if (this.lstInvoicePackage.hasOwnProperty(i)) {
-                            let obj = new PackageDetailsDTO();
+                            const obj = new PackageDetailsDTO();
                             obj.invPackage = this.lstInvoicePackage[i];
                             for (const itemObj of this.lstInvoiceDetails) {
                                 if (obj.invPackage.id === itemObj.invoicePackageId) {
