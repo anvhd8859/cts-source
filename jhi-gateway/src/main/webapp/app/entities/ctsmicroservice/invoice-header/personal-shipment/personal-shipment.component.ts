@@ -127,6 +127,8 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
+    createRequest() {}
+
     clear() {
         this.page = 0;
         this.router.navigate([
