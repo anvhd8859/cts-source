@@ -1,118 +1,140 @@
-<div>
-    <h2>
-        <span id="user-management-page-heading">Users</span>
-        <button class="btn btn-primary float-right jh-create-entity" [routerLink]="['./new']">
-            <fa-icon [icon]="'plus'"></fa-icon> <span>Create a new User</span>
-        </button>
-    </h2>
-    <jhi-alert></jhi-alert>
-    <br/>
-    <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="form-group">
-                <label for="loginAccount">Login Name</label>
-                <input  type="text"
-                        class="form-control"
-                        placeholder="(LOGIN ACCOUNT)"
-                        [ngModelOptions]="{standalone: true}"
-                        [(ngModel)]="loginAccount"
-                        value="{{loginAccount}}"
-                        >
+<div class="row justify-content-center">
+    <div class="col-lg-11">
+        <br>
+        <div class="container-fluid">
+            <div class="row" style="border-bottom: 2px solid;">
+                <div class="col-lg-6 col-md-12 col-md-12">
+                    <h2 style="font-weight: bold;" id="page-heading">
+                        <span>Quản lý người dùng</span>
+                    </h2>
+                </div>
+                <div class="col-lg-6 col-md-12 col-md-12">
+                    <button class="btn btn-primary float-right jh-create-entity" [routerLink]="['./new']">
+                        <fa-icon [icon]="'plus'"></fa-icon> <span>Tạo một tài khoản mới</span>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="form-group">
-                <label for="role">Role</label>
-                <ng-select  [clearable]="true"
-                            [hideSelected]="true"
-                            [items]="listRoles"
-                            id="role"
-                            name="role"
-                            [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="selectedRole"
-                            placeholder="(ALL)"
-                            >
-                    <ng-option *ngFor="let item of listRoles">{{item}}</ng-option>
-                </ng-select>
+        <br>
+        <jhi-alert></jhi-alert>
+        <br/>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="loginAccount">Login Name</label>
+                            <input  type="text"
+                                    class="form-control"
+                                    placeholder="(LOGIN ACCOUNT)"
+                                    [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="loginAccount"
+                                    value="{{loginAccount}}"
+                                    >
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <ng-select  [clearable]="true"
+                                        [hideSelected]="true"
+                                        [items]="listRoles"
+                                        id="role"
+                                        name="role"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="selectedRole"
+                                        placeholder="(ALL)"
+                                        >
+                                <ng-option *ngFor="let item of listRoles">{{item}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 text-center">
+                        <div class="form-group">
+                            <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary" (click)="this.loadAll()">
+                                <fa-icon [icon]="'search'"></fa-icon>
+                                <span >Search</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-6 text-center">
-            <div class="form-group">
-                <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary" (click)="this.loadAll()">
-                    <fa-icon [icon]="'search'"></fa-icon>
-                    <span >Search</span>
-                </button>
-            </div>
-        </div>
-    </div>
-    <br>
-    <div class="table-responsive" *ngIf="users">
-        <table class="table table-striped">
-            <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                <th jhiSortBy="id"><span>Mã số</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="login"><span>Login</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="email"><span>Email</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th></th>
-                <th><span>Profiles</span></th>
-                <th jhiSortBy="createdDate"><span>Ngày tạo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="lastModifiedBy"><span>Người Cập nhật</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="lastModifiedDate"><span>Ngày cập nhật</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody *ngIf ="users">
-            <tr *ngFor="let user of users; trackBy: trackIdentity">
-                <td><a [routerLink]="['./', user.login, 'view']">{{user.id}}</a></td>
-                <td>{{user.login}}</td>
-                <td>{{user.email}}</td>
-                <td>
-                    <button class="btn btn-danger btn-sm" (click)="setActive(user, true)" *ngIf="!user.activated"
-                           >Deactivated</button>
-                    <button class="btn btn-success btn-sm" (click)="setActive(user, false)" *ngIf="user.activated"
-                            [disabled]="currentAccount.login === user.login">Activated</button>
-                </td>
+            <br>
+            <div class="card-body">
+                <div class="table-responsive" *ngIf="!users || users.length === 0">
+                    <h2>Không tìm thấy dữ liệu</h2>
+                </div>
+                <div class="table-responsive" *ngIf="users && users.length > 0">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                            <th jhiSortBy="id"><span>Mã số</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                            <th jhiSortBy="login"><span>Login</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                            <th jhiSortBy="email"><span>Email</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                            <th></th>
+                            <th><span>Profiles</span></th>
+                            <th jhiSortBy="createdDate"><span>Ngày tạo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                            <th jhiSortBy="lastModifiedBy"><span>Người Cập nhật</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                            <th jhiSortBy="lastModifiedDate"><span>Ngày cập nhật</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf ="users">
+                        <tr *ngFor="let user of users; trackBy: trackIdentity">
+                            <td><a [routerLink]="['./', user.login, 'view']">{{user.id}}</a></td>
+                            <td>{{user.login}}</td>
+                            <td>{{user.email}}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm" (click)="setActive(user, true)" *ngIf="!user.activated"
+                                    >Ngưng hoạt động</button>
+                                <button class="btn btn-success btn-sm" (click)="setActive(user, false)" *ngIf="user.activated"
+                                        [disabled]="currentAccount.login === user.login">Đã kích hoạt</button>
+                            </td>
 
-                <td>
-                    <div *ngFor="let authority of user.authorities">
-                        <span class="badge badge-info">{{ authority }}</span>
+                            <td>
+                                <div *ngFor="let authority of user.authorities">
+                                    <span class="badge badge-info">{{ authority }}</span>
+                                </div>
+                            </td>
+                            <td>{{user.createdDate | date:'dd/MM/yy HH:mm'}}</td>
+                            <td>{{user.lastModifiedBy}}</td>
+                            <td>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</td>
+                            <td class="text-right">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button type="submit"
+                                            [routerLink]="['./', user.login, 'view']"
+                                            class="btn btn-info btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">Chi tiết</span>
+                                    </button>
+                                    <button type="submit"
+                                            [routerLink]="['./', user.login, 'edit']"
+                                            queryParamsHandling="merge"
+                                            class="btn btn-primary btn-sm">
+                                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                        <span class="d-none d-md-inline">Sửa</span>
+                                    </button>
+                                    <button type="button" (click)="deleteUser(user)"
+                                            class="btn btn-danger btn-sm" [disabled]="currentAccount.login === user.login">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                        <span class="d-none d-md-inline">Xóa</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="users">
+                    <div class="row justify-content-center">
+                        <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
                     </div>
-                </td>
-                <td>{{user.createdDate | date:'dd/MM/yy HH:mm'}}</td>
-                <td>{{user.lastModifiedBy}}</td>
-                <td>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['./', user.login, 'view']"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">Chi tiết</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['./', user.login, 'edit']"
-                                queryParamsHandling="merge"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Sửa</span>
-                        </button>
-                        <button type="button" (click)="deleteUser(user)"
-                                class="btn btn-danger btn-sm" [disabled]="currentAccount.login === user.login">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Xóa</span>
-                        </button>
+                    <div class="row justify-content-center">
+                        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
                     </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div *ngIf="users">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<br>
