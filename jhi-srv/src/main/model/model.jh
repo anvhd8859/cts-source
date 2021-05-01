@@ -1,17 +1,10 @@
-entity ImportExportWarehouse {
-	officeId Long
-	keeperId Long
-	employeeId Long
-	type String
-	note String
-	keeperConfirm Boolean
-	shipDate Instant
-    createDate Instant
-    updateDate Instant
+entity ReceiptImage {
+	receiptNoteId Long
+	image ImageBlob
+	createDate Instant
+	updateDate Instant
 }
 
 dto * with mapstruct
-
-paginate ImportExportWarehouse with pagination
 
 service all with serviceImpl
