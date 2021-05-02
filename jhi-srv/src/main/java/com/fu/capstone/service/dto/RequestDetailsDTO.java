@@ -20,11 +20,11 @@ public class RequestDetailsDTO implements Serializable {
 
     private Long shipmentId;
     
-    private Long keeperConfirm;
+    private Boolean keeperConfirm;
     
-    private Long shipperConfirm;
+    private Boolean shipperConfirm;
     
-    private Long impExpConfirm;
+    private Boolean impExpConfirm;
 
     private Instant createDate;
 
@@ -50,27 +50,27 @@ public class RequestDetailsDTO implements Serializable {
         return shipmentId;
     }
 
-    public Long getKeeperConfirm() {
+    public Boolean getKeeperConfirm() {
 		return keeperConfirm;
 	}
 
-	public void setKeeperConfirm(Long keeperConfirm) {
+	public void setKeeperConfirm(Boolean keeperConfirm) {
 		this.keeperConfirm = keeperConfirm;
 	}
 
-	public Long getShipperConfirm() {
+	public Boolean getShipperConfirm() {
 		return shipperConfirm;
 	}
 
-	public void setShipperConfirm(Long shipperConfirm) {
+	public void setShipperConfirm(Boolean shipperConfirm) {
 		this.shipperConfirm = shipperConfirm;
 	}
 
-	public Long getImpExpConfirm() {
+	public boolean getImpExpConfirm() {
 		return impExpConfirm;
 	}
 
-	public void setImpExpConfirm(Long impExpConfirm) {
+	public void setImpExpConfirm(Boolean impExpConfirm) {
 		this.impExpConfirm = impExpConfirm;
 	}
 
