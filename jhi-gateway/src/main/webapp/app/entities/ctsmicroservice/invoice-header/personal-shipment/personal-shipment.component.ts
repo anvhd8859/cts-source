@@ -16,6 +16,8 @@ import { ExportModalConfirmComponent } from '.';
 import { IImportExportWarehouse, ImportExportWarehouse } from 'app/shared/model/ctsmicroservice/import-export-warehouse.model';
 import { Moment } from 'moment';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
+import { ImportModalConfirmComponent } from './import-modal.component';
+import { ModalWarningComponent } from './modal-warning.component';
 
 @Component({
     selector: 'jhi-personal-shipment',
@@ -104,9 +106,6 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
             (res: HttpResponse<any>) => {
                 this.paginateInvoiceHeaders(res.body, res.headers);
                 this.selectedTypeFromServer = this.selectedTypeShipment;
-                for (const obj of this.shipmentInvoices) {
-                    this.selectedCheckBox.push(false);
-                }
                 this.ngxUiLoaderService.stop();
             },
             (res: HttpErrorResponse) => {
@@ -115,7 +114,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
             }
         );
         this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(res => {
-            this.currentProfile = res[0].body;
+            this.currentProfile = res.body;
             this.invoiceHeaderService.getListKeeperByOfficeID({ id: this.currentProfile.officeId }).subscribe(resp => {
                 this.keeperList = resp.body;
             });
@@ -160,7 +159,9 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     }
 
     checked(i: number, e) {
-        if (!e.target.checked) {
+        if (e.target.checked) {
+            this.selectedCheckBox[i] = true;
+        } else {
             this.all = false;
         }
     }
@@ -217,31 +218,31 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
                 result => {
                     if (result) {
                         closeResult = result;
+                        if (closeResult.startsWith('OK')) {
+                            const data = new DetailsImportExportDTO();
+                            data.requestHeader = this.createNewRequestHeader();
+                            data.requestDetailsList = new Array();
+                            for (const i in this.selectedCheckBox) {
+                                if (this.selectedCheckBox[i]) {
+                                    const rd = new RequestDetailsDTO();
+                                    rd.shipmentId = this.shipmentInvoices[i].personalShipmentDTO.id;
+                                }
+                            }
+                            this.requestService.createExportWarehouse(data).subscribe(
+                                (res: HttpResponse<any>) => {
+                                    this.isSaving = false;
+                                    const responseData: DetailsImportExportDTO = res.body;
+                                    // redirect to view
+                                },
+                                (res: HttpErrorResponse) => {
+                                    this.isSaving = false;
+                                }
+                            );
+                        }
                     }
                 },
                 reason => {}
             );
-            if (closeResult.startsWith('OK')) {
-                const data = new DetailsImportExportDTO();
-                data.requestHeader = this.createNewRequestHeader();
-                data.requestDetailsList = new Array();
-                for (const i in this.selectedCheckBox) {
-                    if (this.selectedCheckBox[i]) {
-                        const rd = new RequestDetailsDTO();
-                        rd.shipmentId = this.shipmentInvoices[i].personalShipmentDTO.id;
-                    }
-                }
-                this.requestService.createImportWarehouse(data).subscribe(
-                    (res: HttpResponse<any>) => {
-                        this.isSaving = false;
-                        const responseData: DetailsImportExportDTO = res.body;
-                        // redirect to view
-                    },
-                    (res: HttpErrorResponse) => {
-                        this.isSaving = false;
-                    }
-                );
-            }
         } else {
             this.openWarning();
         }
@@ -264,7 +265,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
             }
         }
         if (!todo) {
-            const modalRef = this.modalService.open(ExportModalConfirmComponent as Component, {
+            const modalRef = this.modalService.open(ImportModalConfirmComponent as Component, {
                 size: 'lg',
                 backdrop: 'static'
             });
@@ -273,31 +274,31 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
                 result => {
                     if (result) {
                         closeResult = result;
+                        if (closeResult.startsWith('OK')) {
+                            const data = new DetailsImportExportDTO();
+                            data.requestHeader = this.createNewRequestHeader();
+                            data.requestDetailsList = new Array();
+                            for (const i in this.selectedCheckBox) {
+                                if (this.selectedCheckBox[i]) {
+                                    const rd = new RequestDetailsDTO();
+                                    rd.shipmentId = this.shipmentInvoices[i].personalShipmentDTO.id;
+                                }
+                            }
+                            this.requestService.createImportWarehouse(data).subscribe(
+                                (res: HttpResponse<any>) => {
+                                    this.isSaving = false;
+                                    const responseData: DetailsImportExportDTO = res.body;
+                                    // redirect to view
+                                },
+                                (res: HttpErrorResponse) => {
+                                    this.isSaving = false;
+                                }
+                            );
+                        }
                     }
                 },
                 reason => {}
             );
-            if (closeResult.startsWith('OK')) {
-                const data = new DetailsImportExportDTO();
-                data.requestHeader = this.createNewRequestHeader();
-                data.requestDetailsList = new Array();
-                for (const i in this.selectedCheckBox) {
-                    if (this.selectedCheckBox[i]) {
-                        const rd = new RequestDetailsDTO();
-                        rd.shipmentId = this.shipmentInvoices[i].personalShipmentDTO.id;
-                    }
-                }
-                this.requestService.createExportWarehouse(data).subscribe(
-                    (res: HttpResponse<any>) => {
-                        this.isSaving = false;
-                        const responseData: DetailsImportExportDTO = res.body;
-                        // redirect to view
-                    },
-                    (res: HttpErrorResponse) => {
-                        this.isSaving = false;
-                    }
-                );
-            }
         } else {
             this.openWarning();
         }
@@ -363,50 +364,16 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.queryCount = this.totalItems;
         this.shipmentInvoices = data;
+        for (const obj of data) {
+            if (obj) {
+                this.selectedCheckBox.push(false);
+            }
+        }
     }
 
     private onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
-}
-
-@Component({
-    selector: 'jhi-modal-warning-component',
-    template: `
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">Warning</h4>
-      <button
-        type="button"
-        class="close"
-        aria-describedby="modal-title"
-        (click)="modal.dismiss('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <p>
-        <strong>Bạn lựa chọn một số hóa đơn đã yêu cầu xuất nhập kho hoặc không đủ điều kiện</strong>
-      </p>
-    </div>
-    <div class="modal-footer">
-      <div
-        style="width: 20%; width: 30px;"
-      >
-      </div>
-      <button
-        style="margin-left: 51%; width: 20%; margin-right:5%"
-        type="button"
-        class="btn btn-warning"
-        (click)="modal.close('Ok click')"
-      >
-        Ok
-      </button>
-    </div>
-  `
-})
-export class ModalWarningComponent {
-    constructor(public modal: NgbActiveModal) {}
 }
 
 export class DetailsImportExportDTO {
@@ -419,6 +386,9 @@ export class RequestDetailsDTO {
     id: number;
     ieWarehouseId: number;
     shipmentId: number;
+    keeperConfirm: boolean;
+    shipperConfirm: boolean;
+    impExpConfirm: boolean;
     createDate: Moment;
     updateDate: Moment;
     constructor() {}

@@ -110,7 +110,8 @@
                             </button>
                         </div>
                         <div class="form-group" *ngIf=" selectedTypeFromServer === 'collect' ">
-                            <button style="margin-top: 10px" id="import" name="import" class="btn btn-success">
+                            <button style="margin-top: 10px" id="import" name="import" class="btn btn-success"
+                                (click)="createImportRequest()" >
                                 <fa-icon [icon]="'file-import'"></fa-icon>
                                 <span>Tạo yêu cầu Nhập Kho</span>
                             </button>

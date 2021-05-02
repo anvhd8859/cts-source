@@ -58,7 +58,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT u FROM User u WHERE u.id = :id")
 	Optional<User> findUserById(@Param("id")Long id);
 
-    @Query(value = "SELECT DISTINCT u FROM User u JOIN u.authorities a JOIN UserProfile p "
+    @Query(value = "SELECT DISTINCT u FROM User u JOIN u.authorities a, UserProfile p "
     			 + " WHERE u.id = p.userId AND p.officeId = :id AND a.name = 'ROLE_KEEPER' ")
 	List<User> getAllKeeperUserByOfficeID(@Param("id") Long id);
 }
