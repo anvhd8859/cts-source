@@ -17,6 +17,8 @@ public class ReceiptNoteDTO implements Serializable {
 
     private Long invoiceHeaderId;
 
+    private Long shipmentId;
+
     private String note;
 
     private String imageLink;
@@ -127,5 +129,13 @@ public class ReceiptNoteDTO implements Serializable {
 
 	public void setImageLink(String imageLink) {
 		this.imageLink = imageLink;
+	}
+
+	public Long getShipmentId() {
+		return shipmentId;
+	}
+
+	public void setShipmentId(Long shipmentId) {
+		this.shipmentId = shipmentId;
 	}
 }

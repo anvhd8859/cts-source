@@ -23,8 +23,17 @@ public class RequestDetails implements Serializable {
     @Column(name = "ie_warehouse_id")
     private Long ieWarehouseId;
 
-    @Column(name = "invoice_header_id")
-    private Long invoiceHeaderId;
+    @Column(name = "shipment_id")
+    private Long shipmentId;
+
+    @Column(name = "keeper_confirm")
+    private Long keeperConfirm;
+
+    @Column(name = "shipper_confirm")
+    private Long shipperConfirm;
+
+    @Column(name = "imp_exp_confirm")
+    private Long impExpConfirm;
 
     @Column(name = "create_date")
     private Instant createDate;
@@ -54,17 +63,17 @@ public class RequestDetails implements Serializable {
         this.ieWarehouseId = ieWarehouseId;
     }
 
-    public Long getInvoiceHeaderId() {
-        return invoiceHeaderId;
+    public Long getShipmentId() {
+        return shipmentId;
     }
 
-    public RequestDetails invoiceHeaderId(Long invoiceHeaderId) {
-        this.invoiceHeaderId = invoiceHeaderId;
+    public RequestDetails shipmentId(Long shipmentId) {
+        this.shipmentId = shipmentId;
         return this;
     }
 
-    public void setInvoiceHeaderId(Long invoiceHeaderId) {
-        this.invoiceHeaderId = invoiceHeaderId;
+    public void setShipmentId(Long shipmentId) {
+        this.shipmentId = shipmentId;
     }
 
     public Instant getCreateDate() {
@@ -76,7 +85,31 @@ public class RequestDetails implements Serializable {
         return this;
     }
 
-    public void setCreateDate(Instant createDate) {
+    public Long getKeeperConfirm() {
+		return keeperConfirm;
+	}
+
+	public void setKeeperConfirm(Long keeperConfirm) {
+		this.keeperConfirm = keeperConfirm;
+	}
+
+	public Long getShipperConfirm() {
+		return shipperConfirm;
+	}
+
+	public void setShipperConfirm(Long shipperConfirm) {
+		this.shipperConfirm = shipperConfirm;
+	}
+
+	public Long getImpExpConfirm() {
+		return impExpConfirm;
+	}
+
+	public void setImpExpConfirm(Long impExpConfirm) {
+		this.impExpConfirm = impExpConfirm;
+	}
+
+	public void setCreateDate(Instant createDate) {
         this.createDate = createDate;
     }
 
@@ -119,7 +152,7 @@ public class RequestDetails implements Serializable {
         return "RequestDetails{" +
             "id=" + getId() +
             ", ieWarehouseId=" + getIeWarehouseId() +
-            ", invoiceHeaderId=" + getInvoiceHeaderId() +
+            ", invoiceHeaderId=" + getShipmentId() +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";

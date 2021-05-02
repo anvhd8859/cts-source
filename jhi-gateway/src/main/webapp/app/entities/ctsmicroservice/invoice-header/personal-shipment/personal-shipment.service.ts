@@ -55,7 +55,11 @@ export class PersonalShipmentService {
         const options = createRequestOption(req);
         return this.http.get(this.resourceUrl + '/get-all', { params: options, observe: 'response' });
     }
-    // HaiNM
+
+    getAllShipmentByRequestId(req?: any): Observable<HttpResponse<IShipmentInvoice[]>> {
+        const options = createRequestOption(req);
+        return this.http.get<IShipmentInvoice[]>(this.resourceUrl + '/request-id', { params: options, observe: 'response' });
+    }
 
     private convertDateFromClient(personalShipment: IPersonalShipment): IPersonalShipment {
         const copy: IPersonalShipment = Object.assign({}, personalShipment, {

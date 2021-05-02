@@ -54,6 +54,10 @@ export class ImportExportWarehouseService {
         return this.http.post<DetailsImportExportDTO>(this.resourceUrl + '/request-import', importExportWarehouse, { observe: 'response' });
     }
 
+    createExportWarehouse(importExportWarehouse: DetailsImportExportDTO): Observable<HttpResponse<DetailsImportExportDTO>> {
+        return this.http.post<DetailsImportExportDTO>(this.resourceUrl + '/request-export', importExportWarehouse, { observe: 'response' });
+    }
+
     getImportExportWarehouseByFilter(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http
@@ -61,6 +65,12 @@ export class ImportExportWarehouseService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
+    getImportExportWarehouseByShipper(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IImportExportWarehouse[]>(this.resourceUrl + '/by-shipper', { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
     private convertDateFromClient(importExportWarehouse: IImportExportWarehouse): IImportExportWarehouse {
         const copy: IImportExportWarehouse = Object.assign({}, importExportWarehouse, {
             shipDate:

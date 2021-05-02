@@ -18,7 +18,6 @@
             <th><span>Mã nhân viên</span></th>
             <th><span>Mã hóa đơn</span></th>
             <th><span>Ghi chú</span></th>
-            <th><span>Khách hàng xác nhận</span></th>
             <th><span>Ngày tạo</span></th>
             <th><span>Ngày cập nhật</span></th>
             <th></th>
@@ -30,7 +29,6 @@
                 <td>{{receiptnote.employeeId}}</td>
                 <td>{{receiptnote.invoiceHeaderId}}</td>
                 <td>{{receiptnote.note}}</td>
-                <td>{{receiptnote.customerConfirm ? "Đã xác nhận" : "Chưa xác nhận"}}</td>
                 <td>{{receiptnote.createDate | date:'medium'}}</td>
                 <td>{{receiptnote.updateDate | date:'medium'}}</td>
                 <td class="text-right">

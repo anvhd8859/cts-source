@@ -132,10 +132,9 @@ public class PaymentResource {
      */
     @GetMapping("/payments/by-invoice-header")
     @Timed
-    public ResponseEntity<List<PaymentDTO>> getPaymentByHeaderId(@RequestParam("id") Long id, Pageable pageable) {
-    	Page<PaymentDTO> page = paymentService.getPaymentByHeaderId(id, pageable);
-    	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/payments/by-invoice-header");
-    	return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public ResponseEntity<List<PaymentDTO>> findPaymentByHeaderId(@RequestParam("id") Long id, Pageable pageable) {
+    	List<PaymentDTO> page = paymentService.getPaymentByHeaderId(id, pageable);
+    	return new ResponseEntity<>(page, HttpStatus.OK);
     }
     // END TuyenVNT 16/04/2021
 }

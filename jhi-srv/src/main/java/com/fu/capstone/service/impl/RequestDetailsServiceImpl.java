@@ -1,6 +1,7 @@
 package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.RequestDetailsService;
+import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.RequestDetails;
 import com.fu.capstone.repository.InvoiceDetailsRepository;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
@@ -125,14 +126,19 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 	public List<InvoicePackageDetailDTO> getRequestDetailsByHeaderId(Long id) {
 		List<RequestDetails> list = requestDetailsRepository.getRequestDetailsByHeaderId(id);
 		List<InvoicePackageDetailDTO> rs = new ArrayList<>();
+		List<Long> psidList = new ArrayList<>();
 		for (RequestDetails rd : list) {
+			psidList.add(rd.getIeWarehouseId());
+		}
+		List<InvoiceHeader> ihList = invoiceHeaderRepository.getInvoiceHeaderByListShipmentId(psidList);
+		for (InvoiceHeader ih : ihList) {
 			InvoicePackageDetailDTO dto = new InvoicePackageDetailDTO();
-			dto.setInvoice(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(rd.getInvoiceHeaderId())));
+			dto.setInvoice(invoiceHeaderMapper.toDto(ih));
 			dto.setPackageList(new ArrayList<>());
-			List<InvoicePackageDTO> ipList = invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(rd.getInvoiceHeaderId()));
+			List<InvoicePackageDTO> ipList = invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(ih.getId()));
 			for(InvoicePackageDTO ip : ipList) {
 				PackageDetailsDTO pdDto = new PackageDetailsDTO();
-				List<InvoiceDetailsDTO> idList = invoiceDetailsMapper.toDto(invoiceDetailsRepository.getInvoiceDetailsByHeaderId(rd.getInvoiceHeaderId()));
+				List<InvoiceDetailsDTO> idList = invoiceDetailsMapper.toDto(invoiceDetailsRepository.getInvoiceDetailsByHeaderId(ip.getInvoiceHeaderId()));
 				pdDto.setInvPackage(ip);
 				pdDto.setItemList(idList);
 				dto.getPackageList().add(pdDto);

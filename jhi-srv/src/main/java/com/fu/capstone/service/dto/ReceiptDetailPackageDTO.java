@@ -8,29 +8,19 @@ import com.fu.capstone.domain.ReceiptNote;
 public class ReceiptDetailPackageDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private ReceiptNote receipt;
 
-	private List<InvoicePackageDTO> invoicePackageList;
+	private List<PackageDetailsDTO> packageList;
 
-	private List<InvoiceDetailsDTO> invoiceDetailList;
-	
 	private PaymentDTO payment;
-	
-	public List<InvoicePackageDTO> getInvoicePackageList() {
-		return invoicePackageList;
+
+	public List<PackageDetailsDTO> getPackageList() {
+		return packageList;
 	}
 
-	public void setInvoicePackageList(List<InvoicePackageDTO> invoicePackageList) {
-		this.invoicePackageList = invoicePackageList;
-	}
-
-	public List<InvoiceDetailsDTO> getInvoiceDetailList() {
-		return invoiceDetailList;
-	}
-
-	public void setInvoiceDetailList(List<InvoiceDetailsDTO> invoiceDetailList) {
-		this.invoiceDetailList = invoiceDetailList;
+	public void setPackageList(List<PackageDetailsDTO> packageList) {
+		this.packageList = packageList;
 	}
 
 	public ReceiptNote getReceipt() {

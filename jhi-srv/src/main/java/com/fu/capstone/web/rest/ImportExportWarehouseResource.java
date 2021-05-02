@@ -7,6 +7,8 @@ import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.DetailsImportExportDTO;
 import com.fu.capstone.service.dto.ImportExportWarehouseDTO;
+import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -182,17 +184,27 @@ public class ImportExportWarehouseResource {
 		return new ResponseEntity<>(page.getContent(), header, HttpStatus.OK);
 	}
 
-	@PutMapping("/import-export-warehouses/by-keeper")
+	@PutMapping("/import-export-warehouses/by-keeper/{id}")
 	@Timed
-	public ResponseEntity<ImportExportWarehouseDTO> updateImportExportByKeeper(
-			@RequestBody ImportExportWarehouseDTO importExportWarehouseDTO) throws URISyntaxException {
-		log.debug("REST request to update ImportExportWarehouse : {}", importExportWarehouseDTO);
-		if (importExportWarehouseDTO.getId() == null) {
-			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-		}
-		ImportExportWarehouseDTO result = importExportWarehouseService.updateImportExportByKeeper(importExportWarehouseDTO);
+	public ResponseEntity<ImportExportWarehouseDTO> updateImportExportByKeeper(@PathVariable Long id,
+			@RequestBody List<InvoicePackageDetailDTO> InvoicePackageDetailDTO) throws URISyntaxException {
+		log.debug("REST request to update ImportExportWarehouse : {}", "");
+		ImportExportWarehouseDTO result = importExportWarehouseService
+				.updateImportExportByKeeper(id, InvoicePackageDetailDTO);
 		return ResponseEntity.ok()
-				.headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, importExportWarehouseDTO.getId().toString()))
+				.headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, id.toString()))
 				.body(result);
+	}
+
+	@GetMapping("/import-export-warehouses/by-shipper")
+	@Timed
+	public ResponseEntity<List<ImportExportWarehouseDTO>> getImportExportWarehouseForShipper(
+			@RequestParam("eid") Long eid, @RequestParam("type") String type, @RequestParam("cf") String cf,
+			Pageable pageable) {
+		log.debug("REST request to get ImportExportWarehouse filter: ");
+		Page<ImportExportWarehouseDTO> page = importExportWarehouseService.getImportExportWarehouseForShipper(eid, type,
+				cf, pageable);
+		HttpHeaders header = PaginationUtil.generatePaginationHttpHeaders(page, "/api/import-export-warehouses/filter");
+		return new ResponseEntity<>(page.getContent(), header, HttpStatus.OK);
 	}
 }

@@ -54,7 +54,8 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     lstInvStatus: any = new CommonString().listStatusInvoice;
     lstCollect: any = [{ id: '1', text: 'Lấy hàng tại nhà' }, { id: '0', text: 'Mang hàng đến bưu cục' }];
     selectedCollect: any;
-    // HaiNM
+    lstPayer: any = [{ id: '0', text: 'Người gửi thanh toán' }, { id: '1', text: 'Người nhận thanh toán' }];
+    selectedPayer: any;
     createPackage: PackageDetailsDTO[] = [];
     invoicePackage: IInvoicePackage;
     invPackageCount = 0;
@@ -63,7 +64,6 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     invDetailCount = 0;
     currentUser: IUser;
     currentProfile: IUserProfile;
-    // HaiNM
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -171,13 +171,14 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             }
             this.invoiceHeader.status = 'collected';
             this.invoiceHeader.customerId = this.selectedUser.id;
+            this.invoiceHeader.receiverPay = this.selectedPayer === '1' ? true : false;
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
             const postObject = {
-                header: this.invoiceHeader,
-                lstDetail: this.createPackage
+                invoice: this.invoiceHeader,
+                packageList: this.createPackage
             };
             if (this.invoiceHeader.id !== undefined) {
                 this.subscribeToSaveResponse(this.invoiceHeaderService.updateExistedInvoice(postObject));
@@ -193,45 +194,49 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     validateInput(): string {
         let msg = '';
         if ((!this.selectedAddressFrom || this.selectedAddressFrom.trim() === '') && !this.invoiceHeader.id) {
-            msg += 'From Address must not be blank! <br>';
+            msg += 'Mục Địa chỉ lấy hàng không được để Trống! <br>';
         } else if (!this.selectedAddressFrom || this.selectedAddressFrom.trim() === '') {
-            msg += 'From Address must not be blank! <br>';
+            msg += 'Mục Địa chỉ lấy hàng không được để Trống! <br>';
         }
         if (!this.selectedStreetFrom && !this.invoiceHeader.id) {
-            msg += 'From Street must not be blank! <br>';
+            msg += 'Mục Đường/Phố lấy hàng không được để Trống! <br>';
         }
         if (!this.selectedSubDistrictFrom && !this.invoiceHeader.id) {
-            msg += 'From Ward/Commune must not be blank! <br>';
+            msg += 'Mục Phường/Xã lấy hàng không được để Trống! <br>';
         }
         if (!this.selectedDistrictFrom && !this.invoiceHeader.id) {
-            msg += 'From District must not be blank! <br>';
+            msg += 'Mục Quận/Huyện lấy hàng không được để Trống! <br>';
         }
         if (!this.selectedProvinceFrom && !this.invoiceHeader.id) {
-            msg += 'From Province/City must not be blank! <br>';
+            msg += 'Mục Tỉnh/Thành phố lấy hàng không được để Trống! <br>';
         }
         if ((!this.selectedAddressTo || this.selectedAddressTo.trim() === '') && !this.invoiceHeader.id) {
-            msg += 'To Address must not be blank! <br>';
+            msg += 'Mục Địa chỉ giao hàng không được để Trống! <br>';
         } else if (!this.selectedAddressTo || this.selectedAddressTo.trim() === '') {
-            msg += 'To Address must not be blank! <br>';
+            msg += 'Mục Địa chỉ giao hàng không được để Trống! <br>';
         }
         if (!this.selectedStreetTo && !this.invoiceHeader.id) {
-            msg += 'To Street must not be blank! <br>';
+            msg += 'Mục Đường/Phố giao hàng không được để Trống! <br>';
         }
         if (!this.selectedSubDistrictTo && !this.invoiceHeader.id) {
-            msg += 'To Ward/Commune must not be blank! <br>';
+            msg += 'Mục Phường/Xã giao hàng không được để Trống! <br>';
         }
         if (!this.selectedDistrictTo && !this.invoiceHeader.id) {
-            msg += 'To District must not be blank! <br>';
+            msg += 'Mục Quận/Huyện giao hàng không được để Trống! <br>';
         }
         if (!this.selectedProvinceTo && !this.invoiceHeader.id) {
-            msg += 'To Province/City must not be blank! <br>';
+            msg += 'Mục Tỉnh/Thành phố giao hành không được để Trống! <br>';
         }
         if (!this.selectedUser) {
-            msg += 'Customer must not be blank! <br>';
+            msg += 'Mục Khách hàng không được để Trống! <br>';
         }
         if (this.createPackage.length === 0) {
-            msg += 'Package must have at least ONE item! <br>';
+            msg += 'Mục Gói hàng không được để Trống! <br>';
         }
+        if (!this.selectedPayer) {
+            msg += 'Mục Lựa chọn thanh toán không được để Trống! <br>';
+        }
+        this.invoiceHeader.invoiceType = 'personal';
         return msg;
     }
 

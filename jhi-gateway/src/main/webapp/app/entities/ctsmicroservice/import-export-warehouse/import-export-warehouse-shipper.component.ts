@@ -1,3 +1,4 @@
+import { UserProfileService } from 'app/entities/user-profile/user-profile.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,10 +15,10 @@ import { InvoiceHeaderService } from '../invoice-header';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 
 @Component({
-    selector: 'jhi-import-export-warehouse',
-    templateUrl: './import-export-warehouse.component.html'
+    selector: 'jhi-import-export-shipper-warehouse',
+    templateUrl: './import-export-warehouse-shipper.component.html'
 })
-export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
+export class ImportExportWarehouseShipperComponent implements OnInit, OnDestroy {
     currentAccount: any;
     importExportWarehouses: IImportExportWarehouse[];
     error: any;
@@ -45,8 +46,6 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
     common: CommonString;
 
     constructor(
-        private invoiceHeaderService: InvoiceHeaderService,
-        private accountService: AccountService,
         private importExportWarehouseService: ImportExportWarehouseService,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
@@ -63,38 +62,31 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
         });
-        this.selectedConfirm = '0';
     }
 
     loadAll() {
         this.ngxUiLoaderService.start();
-        forkJoin(this.invoiceHeaderService.getLstUser(), this.principal.identity()).subscribe(resp => {
-            this.lstUser = resp[0].body.filter(e => e.authorities.filter(i => i === 'ROLE_SHIPPER'));
-            this.currentAccount = resp[1];
-            this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(profile => {
-                this.currentProfile = profile.body;
-                this.officeId = this.currentProfile.officeId;
-                this.importExportWarehouseService
-                    .getImportExportWarehouseByFilter({
-                        eid: this.selectedShipper ? this.selectedShipper.Id : '',
-                        oid: this.officeId,
-                        type: this.selectedType ? this.selectedType : '',
-                        cf: this.selectedConfirm ? this.selectedConfirm : '',
-                        page: this.page - 1,
-                        size: this.itemsPerPage,
-                        sort: this.sort()
-                    })
-                    .subscribe(
-                        (res: HttpResponse<IImportExportWarehouse[]>) => {
-                            this.paginateImportExportWarehouses(res.body, res.headers);
-                            this.ngxUiLoaderService.stop();
-                        },
-                        (res: HttpErrorResponse) => {
-                            this.onError(res.message);
-                            this.ngxUiLoaderService.stop();
-                        }
-                    );
-            });
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+            this.importExportWarehouseService
+                .getImportExportWarehouseByShipper({
+                    eid: this.selectedShipper ? this.selectedShipper.Id : '',
+                    type: this.selectedType ? this.selectedType : '',
+                    cf: this.selectedConfirm ? this.selectedConfirm : '',
+                    page: this.page - 1,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<IImportExportWarehouse[]>) => {
+                        this.paginateImportExportWarehouses(res.body, res.headers);
+                        this.ngxUiLoaderService.stop();
+                    },
+                    (res: HttpErrorResponse) => {
+                        this.onError(res.message);
+                        this.ngxUiLoaderService.stop();
+                    }
+                );
         });
     }
 
@@ -115,7 +107,7 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
     }
 
     transition() {
-        this.router.navigate(['/import-export-warehouse'], {
+        this.router.navigate(['/import-export-warehouse-shipper'], {
             queryParams: {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -128,7 +120,7 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
     clear() {
         this.page = 0;
         this.router.navigate([
-            '/import-export-warehouse',
+            '/import-export-warehouse-shipper',
             {
                 page: this.page,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
