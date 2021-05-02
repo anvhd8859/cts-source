@@ -108,7 +108,7 @@
                     <jhi-password-strength-bar [passwordToCheck]="registerAccount.password"></jhi-password-strength-bar>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" #confirmPasswordInput="ngModel" placeholder="Nhập lại mật khẩu"
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" #confirmPasswordInput="ngModel" placeholder="Nhập lại ật khẩu"
                             [(ngModel)]="confirmPassword" minlength=4 maxlength=50 required>
                     <div *ngIf="confirmPasswordInput.dirty && confirmPasswordInput.invalid">
                         <small class="form-text text-danger" *ngIf="confirmPasswordInput.errors.required"
