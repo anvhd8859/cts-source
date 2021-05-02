@@ -27,13 +27,13 @@ public class RequestDetails implements Serializable {
     private Long shipmentId;
 
     @Column(name = "keeper_confirm")
-    private Long keeperConfirm;
+    private Boolean keeperConfirm;
 
     @Column(name = "shipper_confirm")
-    private Long shipperConfirm;
+    private Boolean shipperConfirm;
 
     @Column(name = "imp_exp_confirm")
-    private Long impExpConfirm;
+    private Boolean impExpConfirm;
 
     @Column(name = "create_date")
     private Instant createDate;
@@ -85,27 +85,27 @@ public class RequestDetails implements Serializable {
         return this;
     }
 
-    public Long getKeeperConfirm() {
+    public Boolean getKeeperConfirm() {
 		return keeperConfirm;
 	}
 
-	public void setKeeperConfirm(Long keeperConfirm) {
+	public void setKeeperConfirm(Boolean keeperConfirm) {
 		this.keeperConfirm = keeperConfirm;
 	}
 
-	public Long getShipperConfirm() {
+	public Boolean getShipperConfirm() {
 		return shipperConfirm;
 	}
 
-	public void setShipperConfirm(Long shipperConfirm) {
+	public void setShipperConfirm(Boolean shipperConfirm) {
 		this.shipperConfirm = shipperConfirm;
 	}
 
-	public Long getImpExpConfirm() {
+	public Boolean getImpExpConfirm() {
 		return impExpConfirm;
 	}
 
-	public void setImpExpConfirm(Long impExpConfirm) {
+	public void setImpExpConfirm(Boolean impExpConfirm) {
 		this.impExpConfirm = impExpConfirm;
 	}
 
