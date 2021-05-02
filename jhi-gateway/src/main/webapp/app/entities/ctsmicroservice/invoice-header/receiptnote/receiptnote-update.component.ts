@@ -1,3 +1,4 @@
+import { IPayment } from './../../../../shared/model/ctsmicroservice/payment.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
@@ -9,9 +10,9 @@ import { IReceiptnote, Receiptnote } from 'app/shared/model/ctsmicroservice/rece
 import { ReceiptnoteService } from './receiptnote.service';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { IUser, Principal } from 'app/core';
-import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
-import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
+import { InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 import { PackageDetailsDTO } from '..';
+import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
 
 @Component({
     selector: 'jhi-receiptnote-update',
@@ -19,16 +20,13 @@ import { PackageDetailsDTO } from '..';
 })
 export class ReceiptnoteUpdateComponent implements OnInit {
     receiptnote: IReceiptnote;
+    personalShipment: IPersonalShipment;
     invoiceHeader: IInvoiceHeader;
     isSaving: boolean;
-    createDate: string;
-    updateDate: string;
     currentUser: IUser;
-
-    // HaiNM
     createPackage: PackageDetailsDTO[] = [];
-    // HaiNM
     data: any;
+    payment: IPayment;
 
     constructor(private receiptnoteService: ReceiptnoteService, private activatedRoute: ActivatedRoute, private principal: Principal) {
         this.principal.identity().then(account => {
@@ -40,17 +38,17 @@ export class ReceiptnoteUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ invoiceHeader }) => {
-            if (invoiceHeader !== undefined) {
-                this.invoiceHeader = invoiceHeader;
-                this.receiptnote.invoiceHeaderId = this.invoiceHeader.id;
+        this.activatedRoute.data.subscribe(({ personalShipment }) => {
+            if (personalShipment !== undefined) {
+                this.personalShipment = personalShipment;
+                this.receiptnote.invoiceHeaderId = this.personalShipment.invoiceHeaderId;
+                this.receiptnote.shipmentId = this.personalShipment.id;
                 this.receiptnoteService.getReceiptItemPackage({ id: this.invoiceHeader.id }).subscribe(res => {
-                    if (res.body != null) {
-                        this.createPackage = res.body;
-                    }
+                    this.createPackage = res.body;
                 });
             }
         });
+        this.payment.amountPaid = this.invoiceHeader.totalDue;
     }
 
     previousState() {
@@ -58,25 +56,48 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     }
 
     save() {
-        if (this.createPackage.length > 0) {
+        let wei = 0;
+        for (const obj of this.createPackage) {
+            wei += obj.invPackage.weight;
+        }
+        if (this.createPackage.length > 0 && wei > 0) {
             if (this.receiptnote.id === undefined) {
                 this.isSaving = true;
-                this.data = new CustomReceipt();
-                this.data.receipt = this.receiptnote;
-                for (let obj of this.createPackage) {
-                    this.data.invoicePackageList.push(obj.invPackage);
-                    for (let obj2 of obj.itemList) {
-                        this.data.invoiceDetailList.push(obj2);
+                if (this.personalShipment.shipmentType === 'collect') {
+                    this.data = new CustomReceipt();
+                    this.data.receipt = this.receiptnote;
+                    for (const obj of this.createPackage) {
+                        this.data.invoicePackageList.push(obj.invPackage);
+                        for (const obj2 of obj.itemList) {
+                            this.data.invoiceDetailList.push(obj2);
+                        }
                     }
+                    this.receiptnoteService.createReceiptNoteAndShipmentInvoice(this.data).subscribe(
+                        (res: HttpResponse<any>) => {
+                            this.onSaveSuccess();
+                        },
+                        (res: HttpErrorResponse) => {
+                            this.onSaveError();
+                        }
+                    );
+                } else {
+                    this.data = new CustomReceipt();
+                    this.data.receipt = this.receiptnote;
+                    for (const obj of this.createPackage) {
+                        this.data.invoicePackageList.push(obj.invPackage);
+                        for (const obj2 of obj.itemList) {
+                            this.data.invoiceDetailList.push(obj2);
+                        }
+                    }
+                    this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
+                        (res: HttpResponse<any>) => {
+                            this.onSaveSuccess();
+                        },
+                        (res: HttpErrorResponse) => {
+                            this.onSaveError();
+                        }
+                    );
                 }
-                this.receiptnoteService.createReceiptNoteAndShipmentInvoice(this.data).subscribe(
-                    (res: HttpResponse<any>) => {
-                        this.onSaveSuccess();
-                    },
-                    (res: HttpErrorResponse) => {
-                        this.onSaveError();
-                    }
-                );
                 this.isSaving = false;
             }
         }
@@ -115,11 +136,9 @@ export class ReceiptnoteUpdateComponent implements OnInit {
 
 export class CustomReceipt {
     receipt: IReceiptnote;
-    invoicePackageList: IInvoicePackage[];
-    invoiceDetailList: IInvoiceDetails[];
+    packageList: PackageDetailsDTO[];
     constructor() {
         this.receipt = new Receiptnote();
-        this.invoicePackageList = [];
-        this.invoiceDetailList = [];
+        this.packageList = [];
     }
 }

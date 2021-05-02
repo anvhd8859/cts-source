@@ -38,7 +38,7 @@ export const importExportWarehouseRoute: Routes = [
         data: {
             authorities: ['ROLE_SHIPPER', 'ROLE_KEEPER', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'ImportExportWarehouses'
+            pageTitle: 'CTS: Quản lý yêu cầu xuất nhập kho'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -50,7 +50,7 @@ export const importExportWarehouseRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_SHIPPER', 'ROLE_KEEPER', 'ROLE_ADMIN'],
-            pageTitle: 'ImportExportWarehouses'
+            pageTitle: 'CTS: Chi tiết yêu cầu xuất nhập kho'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -61,8 +61,8 @@ export const importExportWarehouseRoute: Routes = [
             importExportWarehouse: ImportExportWarehouseResolve
         },
         data: {
-            authorities: ['ROLE_SHIPPER', 'ROLE_KEEPER', 'ROLE_ADMIN'],
-            pageTitle: 'ImportExportWarehouses'
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'CTS: Tạo yêu cầu xuất nhập kho'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -73,8 +73,8 @@ export const importExportWarehouseRoute: Routes = [
             importExportWarehouse: ImportExportWarehouseResolve
         },
         data: {
-            authorities: ['ROLE_SHIPPER', 'ROLE_KEEPER', 'ROLE_ADMIN'],
-            pageTitle: 'ImportExportWarehouses'
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'CTS: Sửa yêu cầu xuất nhập kho'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -88,8 +88,8 @@ export const importExportWarehousePopupRoute: Routes = [
             importExportWarehouse: ImportExportWarehouseResolve
         },
         data: {
-            authorities: ['ROLE_SHIPPER', 'ROLE_KEEPER', 'ROLE_ADMIN'],
-            pageTitle: 'ImportExportWarehouses'
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'CTS: Xóa yêu cầu xuất nhập kho'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

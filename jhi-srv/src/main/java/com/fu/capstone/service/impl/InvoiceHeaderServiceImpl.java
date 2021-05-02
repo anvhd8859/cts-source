@@ -286,6 +286,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		invoiceHeaderDTO.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
 		invoiceHeaderDTO.setTotalDue(subTotal.add(new BigDecimal(1.1)));
 		invoiceHeaderDTO.setNote(invoiceHeaderDTO.getNote() + "|total = " + totalWeight);
+		// finish = true, can import
+		invoiceHeaderDTO.setFinish(true);
 
 		// save data
 		PersonalShipment psDelivery = new PersonalShipment();

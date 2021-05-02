@@ -66,7 +66,7 @@
                                         <div class="row">
                                             <div class="col-10"> Gói hàng #{{i + 1}} </div>
                                             <div class="col-2">
-                                                <button type="button" class="close" data-dismiss="modal"
+                                                <button *ngIf="item.invPackage.id == null" type="button" class="close" data-dismiss="modal"
                                                     aria-hidden="true" id="package{{i}}" name="package{{i}}"
                                                     (click)="this.removeNewPackageDetailsDTO(i)">&times;</button>
                                             </div>
@@ -132,7 +132,7 @@
                                                         <div class="row">
                                                             <div class="col-10"> Vật phẩm #{{i + 1}} </div>
                                                             <div class="col-2">
-                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                <button *ngIf="itemDetail.id == null" type="button" class="close" data-dismiss="modal"
                                                                     aria-hidden="true" id="detail{{id}}" name="detail{{id}}"
                                                                     (click)="this.removeInvoiceDetailElement(i,id)">&times;</button>
                                                             </div>
@@ -207,6 +207,18 @@
                     </div>
                 </div>
                 <br>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_payer"><b>Lựa chọn thanh toán</b></label>
+                            <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstPayer"
+                                bindLabel="text" bindValue="id" id="field_payer" name="field_payer"
+                                [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedPayer">
+                                <ng-option *ngFor="let item of lstPayer">{{item.text}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
                 <div class="divider"></div>
                 <br>
                 <div class="row" *ngIf="!this.invoiceHeader.id">
@@ -399,18 +411,18 @@
             </div>
             <!-- <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Hủy</span>
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;&nbsp;<span>Hủy</span>
                 </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
                     class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Lưu</span>
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;&nbsp;<span>Lưu</span>
                 </button>
             </div> -->
             <div class="row justify-content-center">
                 <div class="col-2">
                     <div class="row justify-content-center">
                         <button type="button" id="cancel-save" class="btn btn-secondary form-control"  (click)="previousState()">
-                            <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Hủy</span>
+                            <fa-icon [icon]="'ban'"></fa-icon>&nbsp;&nbsp;<span>Hủy</span>
                         </button>
                     </div>
                 </div>
@@ -421,7 +433,7 @@
                 <div class="col-2">
                     <div class="row justify-content-center">
                         <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary form-control">
-                            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Xác nhận</span>
+                            <fa-icon [icon]="'save'"></fa-icon>&nbsp;&nbsp;<span>Xác nhận</span>
                         </button>
                     </div>
                 </div>

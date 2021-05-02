@@ -72,4 +72,8 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 	@Query( value = "SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :id AND p.shipmentType = 'collect'")
 	PersonalShipment getCollectShipmentByInvoice(@Param("id") Long invoiceHeaderId);
 
+	@Query( value = "SELECT DISTINCT p FROM PersonalShipment p, RequestDetails r "
+				  + " WHERE p.id = r.shipmentId AND r.ieWarehouseId = :id ")
+	List<PersonalShipment> getPersonalShipmentByRequestId(@Param("id") Long id);
+
 }

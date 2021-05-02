@@ -52,16 +52,20 @@ export class ReceiptnoteService {
 
     // ThangND
     getReceiveNote(req?: any): Observable<EntityResponseType> {
-        return this.http.get<IReceiptnote>(this.resourceUrl + '/by-header', { params: req, observe: 'response' });
+        return this.http.get<IReceiptnote>(this.resourceUrl + '/by-shipment', { params: req, observe: 'response' });
     }
     // ThangND  /item-package
 
-    getReceiptItemPackage(req?: any): Observable<any> {
-        return this.http.get<any>(this.resourceUrl + '/item-package', { params: req, observe: 'response' });
+    getReceiptItemPackage(req?: any): Observable<HttpResponse<any>> {
+        return this.http.get<HttpResponse<any>>(this.resourceUrl + '/item-package', { params: req, observe: 'response' });
     }
 
     createReceiptNoteAndShipmentInvoice(req?: any): any {
         return this.http.post<any>(this.resourceUrl + '/finish-collect', req, { observe: 'response' });
+    }
+
+    createReceiptNoteAndFinishInvoice(req?: any): any {
+        return this.http.post<any>(this.resourceUrl + '/finish-delivery', req, { observe: 'response' });
     }
 
     private convertDateFromClient(receiptnote: IReceiptnote): IReceiptnote {

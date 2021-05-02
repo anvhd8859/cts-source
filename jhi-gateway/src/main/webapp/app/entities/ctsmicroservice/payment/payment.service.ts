@@ -49,6 +49,12 @@ export class PaymentService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
+    findPaymentByHeaderId(req?: any): Observable<EntityArrayResponseType> {
+        return this.http
+            .get<IPayment[]>(this.resourceUrl + '/by-invoice-header', { params: req, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
     private convertDateFromClient(payment: IPayment): IPayment {
         const copy: IPayment = Object.assign({}, payment, {
             createDate: payment.createDate != null && payment.createDate.isValid() ? payment.createDate.toJSON() : null,

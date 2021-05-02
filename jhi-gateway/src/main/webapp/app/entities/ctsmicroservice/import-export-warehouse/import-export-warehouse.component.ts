@@ -1,4 +1,3 @@
-import { UserProfileService } from 'app/entities/user-profile/user-profile.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +18,7 @@ import { IUserProfile } from 'app/shared/model/user-profile.model';
     templateUrl: './import-export-warehouse.component.html'
 })
 export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
-    currentAccount: IUser;
+    currentAccount: any;
     importExportWarehouses: IImportExportWarehouse[];
     error: any;
     success: any;
@@ -64,38 +63,39 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
         });
+        this.selectedConfirm = '0';
     }
 
     loadAll() {
         this.ngxUiLoaderService.start();
-        this.importExportWarehouseService
-            .getImportExportWarehouseByFilter({
-                eid: this.selectedShipper ? this.selectedShipper.Id : '',
-                oid: this.officeId,
-                type: this.selectedType ? this.selectedType : '',
-                cf: this.selectedConfirm ? this.selectedConfirm : '',
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<IImportExportWarehouse[]>) => {
-                    this.paginateImportExportWarehouses(res.body, res.headers);
-                    forkJoin(this.invoiceHeaderService.getLstUser(), this.principal.identity()).subscribe(resp => {
-                        this.lstUser = resp[0].body.filter(e => e.authorities.filter(i => i === 'ROLE_SHIPPER'));
-                        this.currentAccount = resp[1].body;
-                        this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(profile => {
-                            this.currentProfile = profile.body;
-                            this.officeId = this.currentProfile.officeId;
-                        });
-                    });
-                    this.ngxUiLoaderService.stop();
-                },
-                (res: HttpErrorResponse) => {
-                    this.onError(res.message);
-                    this.ngxUiLoaderService.stop();
-                }
-            );
+        forkJoin(this.invoiceHeaderService.getLstUser(), this.principal.identity()).subscribe(resp => {
+            this.lstUser = resp[0].body.filter(e => e.authorities.filter(i => i === 'ROLE_SHIPPER'));
+            this.currentAccount = resp[1];
+            this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(profile => {
+                this.currentProfile = profile.body;
+                this.officeId = this.currentProfile.officeId;
+                this.importExportWarehouseService
+                    .getImportExportWarehouseByFilter({
+                        eid: this.selectedShipper ? this.selectedShipper.Id : '',
+                        oid: this.officeId,
+                        type: this.selectedType ? this.selectedType : '',
+                        cf: this.selectedConfirm ? this.selectedConfirm : '',
+                        page: this.page - 1,
+                        size: this.itemsPerPage,
+                        sort: this.sort()
+                    })
+                    .subscribe(
+                        (res: HttpResponse<IImportExportWarehouse[]>) => {
+                            this.paginateImportExportWarehouses(res.body, res.headers);
+                            this.ngxUiLoaderService.stop();
+                        },
+                        (res: HttpErrorResponse) => {
+                            this.onError(res.message);
+                            this.ngxUiLoaderService.stop();
+                        }
+                    );
+            });
+        });
     }
 
     getName(id: number): string {
@@ -139,9 +139,6 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        this.principal.identity().then(account => {
-            this.currentAccount = account;
-        });
         this.registerChangeInImportExportWarehouses();
     }
 

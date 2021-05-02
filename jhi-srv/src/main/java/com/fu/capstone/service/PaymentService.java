@@ -5,6 +5,7 @@ import com.fu.capstone.service.dto.PaymentDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -50,6 +51,6 @@ public interface PaymentService {
      * 
      * @param id the headerId
      */
-    Page<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable);
+    List<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable);
     // END TuyenVNT 16/04/2021
 }

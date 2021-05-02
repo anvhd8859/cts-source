@@ -3,6 +3,7 @@ package com.fu.capstone.repository;
 import com.fu.capstone.domain.Payment;
 import com.fu.capstone.service.dto.PaymentDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -21,8 +22,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
 	// START TuyenVNT 14/04/2021
 	@Query( value="SELECT * FROM payment WHERE invoice_header_id = :invoiceHeaderId",
-			countQuery = "SELECT count(*) FROM payment WHERE invoice_header_id = :invoiceHeaderId", 
 			nativeQuery = true)
-	Page<Payment> getPaymentByHeaderId(@Param("invoiceHeaderId") Long id,Pageable pageable);
+	List<Payment> getPaymentByHeaderId(@Param("invoiceHeaderId") Long id,Pageable pageable);
 	// END TuyenVNT 16/04/2021
 }

@@ -4,17 +4,23 @@ import com.fu.capstone.service.ImportExportWarehouseService;
 import com.fu.capstone.domain.ImportExportWarehouse;
 import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.InvoicePackage;
+import com.fu.capstone.domain.RequestDetails;
 import com.fu.capstone.repository.ImportExportWarehouseRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.RequestDetailsRepository;
 import com.fu.capstone.service.dto.DetailsImportExportDTO;
 import com.fu.capstone.service.dto.ImportExportWarehouseDTO;
+import com.fu.capstone.service.dto.InvoiceHeaderDTO;
+import com.fu.capstone.service.dto.InvoicePackageDTO;
+import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
+import com.fu.capstone.service.dto.PackageDetailsDTO;
 import com.fu.capstone.service.dto.RequestDetailsDTO;
 import com.fu.capstone.service.mapper.ImportExportWarehouseMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import com.fu.capstone.service.mapper.RequestDetailsMapper;
+import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,6 +133,17 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 
 	@Override
 	public ImportExportWarehouseDTO createImportWarehouse(DetailsImportExportDTO importExportWarehouseDTO) {
+		List<Long> list = new ArrayList<>();
+		for (RequestDetailsDTO rd : importExportWarehouseDTO.getRequestDetailsList()) {
+			list.add(rd.getShipmentId());
+		}
+		List<InvoiceHeader> lst = invoiceHeaderRepository.getInvoiceHeaderByListShipmentId(list);
+		for(InvoiceHeader i : lst){
+			if(!i.getFinish()) {
+				throw new BadRequestAlertException("Invalid ", "invoice", " is import ");
+			}
+			i.setFinish(false);
+		}
 		ImportExportWarehouse header = importExportWarehouseRepository
 				.save(importExportWarehouseMapper.toEntity(importExportWarehouseDTO.getRequestHeader()));
 		Instant instant = Instant.now();
@@ -140,7 +157,10 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 			rd.setCreateDate(instant);
 			rd.setUpdateDate(instant);
 		}
-
+		for(InvoiceHeader i : lst){
+			i.setFinish(false);
+		}
+		invoiceHeaderRepository.saveAll(lst);
 		requestDetailsRepository
 				.saveAll(requestDetailsMapper.toEntity(importExportWarehouseDTO.getRequestDetailsList()));
 		return importExportWarehouseMapper.toDto(importExportWarehouseRepository.save(header));
@@ -148,6 +168,17 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 
 	@Override
 	public ImportExportWarehouseDTO createExportWarehouse(DetailsImportExportDTO importExportWarehouseDTO) {
+		List<Long> list = new ArrayList<>();
+		for (RequestDetailsDTO rd : importExportWarehouseDTO.getRequestDetailsList()) {
+			list.add(rd.getShipmentId());
+		}
+		List<InvoiceHeader> lst = invoiceHeaderRepository.getInvoiceHeaderByListShipmentId(list);
+		for(InvoiceHeader i : lst){
+			if(i.getFinish()) {
+				throw new BadRequestAlertException("Invalid ", "invoice", " is exported ");
+			}
+			i.setFinish(true);
+		}
 		ImportExportWarehouse header = importExportWarehouseRepository
 				.save(importExportWarehouseMapper.toEntity(importExportWarehouseDTO.getRequestHeader()));
 		Instant instant = Instant.now();
@@ -160,6 +191,10 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 			rd.setIeWarehouseId(header.getId());
 			rd.setCreateDate(instant);
 			rd.setUpdateDate(instant);
+		}
+
+		for(InvoiceHeader i : lst){
+			i.setFinish(false);
 		}
 
 		requestDetailsRepository
@@ -181,56 +216,79 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 	}
 
 	@Override
-	public ImportExportWarehouseDTO updateImportExportByKeeper(ImportExportWarehouseDTO dto) {
-		List<InvoiceHeader> invList = invoiceHeaderRepository.getInvoiceHeaderByIEID(dto.getId());
-		List<Long> invIdList = new ArrayList<Long>();
-		for (InvoiceHeader i : invList) {
-			invIdList.add(i.getId());
-		}
-		List<InvoicePackage> ipkList = invoicePackageRepository.getInvoicePackageByHeaderList(invIdList);
+	public ImportExportWarehouseDTO updateImportExportByKeeper(Long id, List<InvoicePackageDetailDTO> list) {
+		ImportExportWarehouse dto = importExportWarehouseRepository.getOne(id);
+		dto.setKeeperConfirm(true);
+		List<InvoiceHeaderDTO> invList = new ArrayList<>();
+		List<InvoicePackageDTO> ipkList = new ArrayList<>();
 		if (dto.getType().equals("import")) {
-			for (InvoiceHeader i : invList) {
+			for (InvoicePackageDetailDTO ipd : list) {
+				InvoiceHeaderDTO i = ipd.getInvoice();
 				if (i.getStatus().equals("collected")) {
 					i.setStatus("first_import");
-					for (InvoicePackage ip : ipkList) {
+					for (PackageDetailsDTO pd : ipd.getPackageList()) {
+						InvoicePackageDTO ip = pd.getInvPackage();
 						if (ip.getInvoiceHeaderId() == i.getId()) {
 							ip.setStatus("first_import");
 						}
+						ipkList.add(ip);
 					}
 				}
 				if (i.getStatus().equals("delivering")) {
 					i.setStatus("last_import");
-					for (InvoicePackage ip : ipkList) {
+					for (PackageDetailsDTO pd : ipd.getPackageList()) {
+						InvoicePackageDTO ip = pd.getInvPackage();
 						if (ip.getInvoiceHeaderId() == i.getId()) {
 							ip.setStatus("last_import");
 						}
+						ipkList.add(ip);
 					}
 				}
+				invList.add(i);
 			}
 		} else {
-			for (InvoiceHeader i : invList) {
+			for (InvoicePackageDetailDTO ipd : list) {
+				InvoiceHeaderDTO i = ipd.getInvoice();
 				if (i.getStatus().equals("last_import")) {
 					i.setStatus("delivering");
-					for (InvoicePackage ip : ipkList) {
+					for (PackageDetailsDTO pd : ipd.getPackageList()) {
+						InvoicePackageDTO ip = pd.getInvPackage();
 						if (ip.getInvoiceHeaderId() == i.getId()) {
 							ip.setStatus("delivering");
 						}
+						ipkList.add(ip);
 					}
 				}
 				if (i.getStatus().equals("first_import")) {
 					i.setStatus("transporting");
-					for (InvoicePackage ip : ipkList) {
+					for (PackageDetailsDTO pd : ipd.getPackageList()) {
+						InvoicePackageDTO ip = pd.getInvPackage();
 						if (ip.getInvoiceHeaderId() == i.getId()) {
 							ip.setStatus("transporting");
 						}
+						ipkList.add(ip);
 					}
 				}
+				invList.add(i);
 			}
 		}
-		invoiceHeaderRepository.saveAll(invList);
-		invoicePackageRepository.saveAll(ipkList);
-		dto = importExportWarehouseMapper
-				.toDto(importExportWarehouseRepository.save(importExportWarehouseMapper.toEntity(dto)));
-		return dto;
+		invoiceHeaderRepository.saveAll(invoiceHeaderMapper.toEntity(invList));
+		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(ipkList));
+		dto = importExportWarehouseRepository.save(dto);
+		List<RequestDetails> listRD = requestDetailsRepository.getRequestDetailsByHeaderId(id);
+		// to-do
+		return importExportWarehouseMapper.toDto(dto);
+	}
+
+	@Override
+	public Page<ImportExportWarehouseDTO> getImportExportWarehouseForShipper(Long eid, String type, String cf,
+			Pageable pageable) {
+		Boolean confirm = null;
+		if (cf.equals("1"))
+			confirm = true;
+		else
+			confirm = false;
+		Page<ImportExportWarehouse> page = importExportWarehouseRepository.getImportExportWarehouseForShipper(eid, type, confirm, pageable);
+		return page.map(importExportWarehouseMapper::toDto);
 	}
 }

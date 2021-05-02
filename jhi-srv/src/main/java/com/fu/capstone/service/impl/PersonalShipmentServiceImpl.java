@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -171,6 +173,19 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 		PersonalShipmentInvoiceDTO result = new PersonalShipmentInvoiceDTO();
 		result.setPersonalShipmentDTO(personalShipmentMapper.toDto(entity));
 		result.setInvoiceHeaderDTO(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId())));
+		return result;
+	}
+
+	@Override
+	public List<PersonalShipmentInvoiceDTO> getPersonalShipmentByRequestId(Long id) {
+		List<PersonalShipmentDTO> page = personalShipmentMapper
+				.toDto(personalShipmentRepository.getPersonalShipmentByRequestId(id));
+	
+		List<PersonalShipmentInvoiceDTO> result = new ArrayList<>();
+		for(PersonalShipmentDTO ps : page) {
+			PersonalShipmentInvoiceDTO dto = this.convert(ps);
+			result.add(dto);
+		}
 		return result;
 	}
 

@@ -50,6 +50,12 @@ export class RequestDetailsService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
+    updateImportExportByKeeper(id: number, requestDetail: any): Observable<EntityResponseType> {
+        return this.http
+            .put<IRequestDetails>(this.resourceUrl + '/by-keeper/' + id.toString(), requestDetail, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
     private convertDateFromClient(requestDetails: IRequestDetails): IRequestDetails {
         const copy: IRequestDetails = Object.assign({}, requestDetails, {
             createDate:

@@ -4,6 +4,7 @@ export interface IReceiptnote {
     id?: number;
     employeeId?: number;
     invoiceHeaderId?: number;
+    shipmentId?: number;
     note?: string;
     imageLink?: string;
     receiptType?: boolean;
@@ -17,6 +18,7 @@ export class Receiptnote implements IReceiptnote {
         public id?: number,
         public employeeId?: number,
         public invoiceHeaderId?: number,
+        public shipmentId?: number,
         public note?: string,
         public imageLink?: string,
         public receiptType?: boolean,

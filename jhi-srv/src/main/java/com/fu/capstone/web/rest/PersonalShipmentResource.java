@@ -173,7 +173,7 @@ public class PersonalShipmentResource {
     	PersonalShipmentDTO dto = personalShipmentService.createCollectPersonalShipmentForInvoice(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
-
+    
     @GetMapping("/personal-shipments/get-all")
     @Timed
     public ResponseEntity<List<PersonalShipmentInvoiceDTO>> getAllPersonaShipmentInvoices(@RequestParam("empId") Long empId
@@ -181,5 +181,12 @@ public class PersonalShipmentResource {
     	Page<PersonalShipmentInvoiceDTO> page = personalShipmentService.getAllPersonaShipmentInvoices(empId, invNo, strId, type,pageable);
     	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments/get-all");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/personal-shipments/request-id")
+    @Timed
+    public ResponseEntity<List<PersonalShipmentInvoiceDTO>> getPersonalShipmentByRequestId(@RequestParam("id") Long id) {
+    	List<PersonalShipmentInvoiceDTO> page = personalShipmentService.getPersonalShipmentByRequestId(id);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 }

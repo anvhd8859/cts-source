@@ -18,7 +18,13 @@ public class RequestDetailsDTO implements Serializable {
 
     private Long ieWarehouseId;
 
-    private Long invoiceHeaderId;
+    private Long shipmentId;
+    
+    private Long keeperConfirm;
+    
+    private Long shipperConfirm;
+    
+    private Long impExpConfirm;
 
     private Instant createDate;
 
@@ -40,12 +46,36 @@ public class RequestDetailsDTO implements Serializable {
         this.ieWarehouseId = ieWarehouseId;
     }
 
-    public Long getInvoiceHeaderId() {
-        return invoiceHeaderId;
+    public Long getShipmentId() {
+        return shipmentId;
     }
 
-    public void setInvoiceHeaderId(Long invoiceHeaderId) {
-        this.invoiceHeaderId = invoiceHeaderId;
+    public Long getKeeperConfirm() {
+		return keeperConfirm;
+	}
+
+	public void setKeeperConfirm(Long keeperConfirm) {
+		this.keeperConfirm = keeperConfirm;
+	}
+
+	public Long getShipperConfirm() {
+		return shipperConfirm;
+	}
+
+	public void setShipperConfirm(Long shipperConfirm) {
+		this.shipperConfirm = shipperConfirm;
+	}
+
+	public Long getImpExpConfirm() {
+		return impExpConfirm;
+	}
+
+	public void setImpExpConfirm(Long impExpConfirm) {
+		this.impExpConfirm = impExpConfirm;
+	}
+
+	public void setShipmentId(Long shipmentId) {
+        this.shipmentId = shipmentId;
     }
 
     public Instant getCreateDate() {
@@ -90,7 +120,7 @@ public class RequestDetailsDTO implements Serializable {
         return "RequestDetailsDTO{" +
             "id=" + getId() +
             ", ieWarehouseId=" + getIeWarehouseId() +
-            ", invoiceHeaderId=" + getInvoiceHeaderId() +
+            ", invoiceHeaderId=" + getShipmentId() +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";

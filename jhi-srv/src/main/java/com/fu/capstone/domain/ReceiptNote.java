@@ -26,6 +26,9 @@ public class ReceiptNote implements Serializable {
     @Column(name = "invoice_header_id")
     private Long invoiceHeaderId;
 
+    @Column(name = "shipment_id")
+    private Long shipmentId;
+
     @Column(name = "note")
     private String note;
 
@@ -127,7 +130,15 @@ public class ReceiptNote implements Serializable {
         this.createDate = createDate;
     }
 
-    public Instant getUpdateDate() {
+    public Long getShipmentId() {
+		return shipmentId;
+	}
+
+	public void setShipmentId(Long shipmentId) {
+		this.shipmentId = shipmentId;
+	}
+
+	public Instant getUpdateDate() {
         return updateDate;
     }
 

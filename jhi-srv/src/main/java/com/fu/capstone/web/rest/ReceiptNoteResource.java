@@ -128,11 +128,11 @@ public class ReceiptNoteResource {
     }
     
     // dongPh new code
-    @GetMapping("/receipt-notes/by-header")
+    @GetMapping("/receipt-notes/by-shipment")
     @Timed
-    public ResponseEntity<ReceiptNoteDTO> getReceiptNoteByHeaderId(@RequestParam("id") Long id) {
-        Optional<ReceiptNoteDTO> receiptNoteDTO = receiptNoteService.getReceiptNoteByHeaderId(id);
-        return ResponseEntity.ok(receiptNoteDTO.isPresent() ? receiptNoteDTO.get() : null);
+    public ResponseEntity<ReceiptNoteDTO> getReceiptNoteByShipmentId(@RequestParam("id") Long id) {
+        ReceiptNoteDTO receiptNoteDTO = receiptNoteService.getReceiptNoteByShipmentId(id);
+        return ResponseEntity.ok(receiptNoteDTO);
     }
     
     @GetMapping("/receipt-notes/by-user")
@@ -149,7 +149,7 @@ public class ReceiptNoteResource {
         if (data.getReceipt().getId() != null) {
         	throw new BadRequestAlertException("A new receiptNote cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        if (data.getInvoicePackageList().size() == 0 ){
+        if (data.getPackageList().size() == 0 ){
         	throw new BadRequestAlertException("A new item and package cannot blank", ENTITY_NAME, "notexist");
         }
         ReceiptNoteDTO result = receiptNoteService.createReceiptNoteColectShipment(data);
@@ -165,7 +165,7 @@ public class ReceiptNoteResource {
         if (data.getReceipt().getId() != null) {
         	throw new BadRequestAlertException("A new receiptNote cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        if (data.getInvoicePackageList().size() == 0 ){
+        if (data.getPackageList().size() == 0 ){
         	throw new BadRequestAlertException("A new item and package cannot blank", ENTITY_NAME, "notexist");
         }
         ReceiptNoteDTO result = receiptNoteService.createReceiptNoteDeliveryShipment(data);

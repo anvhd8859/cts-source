@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -90,9 +91,8 @@ public class PaymentServiceImpl implements PaymentService {
     
     // START TuyenVNT 14/04/2021
     @Override
- 	public Page<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable) {
- 		return paymentRepository.getPaymentByHeaderId(id, pageable)
-				.map(paymentMapper::toDto);
+ 	public List<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable) {
+ 		return paymentMapper.toDto(paymentRepository.getPaymentByHeaderId(id, pageable));
  	}
     // END TuyenVNT 16/04/2021
 }

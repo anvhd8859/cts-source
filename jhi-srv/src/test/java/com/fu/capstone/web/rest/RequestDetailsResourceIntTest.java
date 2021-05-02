@@ -101,7 +101,7 @@ public class RequestDetailsResourceIntTest {
     public static RequestDetails createEntity(EntityManager em) {
         RequestDetails requestDetails = new RequestDetails()
             .ieWarehouseId(DEFAULT_IE_WAREHOUSE_ID)
-            .invoiceHeaderId(DEFAULT_INVOICE_HEADER_ID)
+            .shipmentId(DEFAULT_INVOICE_HEADER_ID)
             .createDate(DEFAULT_CREATE_DATE)
             .updateDate(DEFAULT_UPDATE_DATE);
         return requestDetails;
@@ -129,7 +129,7 @@ public class RequestDetailsResourceIntTest {
         assertThat(requestDetailsList).hasSize(databaseSizeBeforeCreate + 1);
         RequestDetails testRequestDetails = requestDetailsList.get(requestDetailsList.size() - 1);
         assertThat(testRequestDetails.getIeWarehouseId()).isEqualTo(DEFAULT_IE_WAREHOUSE_ID);
-        assertThat(testRequestDetails.getInvoiceHeaderId()).isEqualTo(DEFAULT_INVOICE_HEADER_ID);
+        assertThat(testRequestDetails.getShipmentId()).isEqualTo(DEFAULT_INVOICE_HEADER_ID);
         assertThat(testRequestDetails.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
         assertThat(testRequestDetails.getUpdateDate()).isEqualTo(DEFAULT_UPDATE_DATE);
     }
@@ -210,7 +210,7 @@ public class RequestDetailsResourceIntTest {
         em.detach(updatedRequestDetails);
         updatedRequestDetails
             .ieWarehouseId(UPDATED_IE_WAREHOUSE_ID)
-            .invoiceHeaderId(UPDATED_INVOICE_HEADER_ID)
+            .shipmentId(UPDATED_INVOICE_HEADER_ID)
             .createDate(UPDATED_CREATE_DATE)
             .updateDate(UPDATED_UPDATE_DATE);
         RequestDetailsDTO requestDetailsDTO = requestDetailsMapper.toDto(updatedRequestDetails);
@@ -225,7 +225,7 @@ public class RequestDetailsResourceIntTest {
         assertThat(requestDetailsList).hasSize(databaseSizeBeforeUpdate);
         RequestDetails testRequestDetails = requestDetailsList.get(requestDetailsList.size() - 1);
         assertThat(testRequestDetails.getIeWarehouseId()).isEqualTo(UPDATED_IE_WAREHOUSE_ID);
-        assertThat(testRequestDetails.getInvoiceHeaderId()).isEqualTo(UPDATED_INVOICE_HEADER_ID);
+        assertThat(testRequestDetails.getShipmentId()).isEqualTo(UPDATED_INVOICE_HEADER_ID);
         assertThat(testRequestDetails.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
         assertThat(testRequestDetails.getUpdateDate()).isEqualTo(UPDATED_UPDATE_DATE);
     }

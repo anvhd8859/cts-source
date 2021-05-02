@@ -48,7 +48,7 @@ public interface ReceiptNoteService {
      */
     void delete(Long id);
 
-	Optional<ReceiptNoteDTO> getReceiptNoteByHeaderId(Long id);
+	ReceiptNoteDTO getReceiptNoteByShipmentId(Long id);
 
 	List<ReceiptInvoiceDTO> getAllReceiptInvoiceByUser(Long id, Pageable pageable);
 

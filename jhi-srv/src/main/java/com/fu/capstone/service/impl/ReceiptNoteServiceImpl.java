@@ -168,8 +168,8 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 	}
 
 	@Override
-	public Optional<ReceiptNoteDTO> getReceiptNoteByHeaderId(Long id) {
-		return receiptNoteRepository.getReceiptNoteByHeaderId(id).map(receiptNoteMapper::toDto);
+	public ReceiptNoteDTO getReceiptNoteByShipmentId(Long id) {
+		return receiptNoteRepository.getReceiptNoteByShipmentId(id).map(receiptNoteMapper::toDto).get();
 	}
 
 	@Override
@@ -214,19 +214,24 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 
 		// collect receipt and process
 		data.getReceipt().setReceiptType(true);
-		for (InvoicePackageDTO ip : data.getInvoicePackageList()) {
-			ip.setUpdateDate(instant);
-			ip.setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
+		for (PackageDetailsDTO pd : data.getPackageList()) {
+			pd.getInvPackage().setUpdateDate(instant);
+			pd.getInvPackage().setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
+			InvoicePackage ip = invoicePackageRepository.save(invoicePackageMapper.toEntity(pd.getInvPackage()));
+			for (InvoiceDetailsDTO id : pd.getItemList()) {
+				if(id.getId() == null) id.setCreateDate(instant);
+				id.setUpdateDate(instant);
+				id.setInvoiceHeaderId(ip.getId());
+				id.setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
+			}
+			invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(pd.getItemList()));
 		}
-		for (InvoiceDetailsDTO ip : data.getInvoiceDetailList()) {
-			ip.setUpdateDate(instant);
-			ip.setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
-		}
+		
 		InvoiceHeader inv = invoiceHeaderRepository.getOne(data.getReceipt().getInvoiceHeaderId());
 		Street fromStreet = streetRepository.getFullAddressByStreetId(inv.getStartStreetId());
 		Street toStreet = streetRepository.getFullAddressByStreetId(inv.getDestinationStreetId());
 		inv.setUpdateDate(instant);
-		BigDecimal subTotal = calculateSubTotal(data.getInvoicePackageList(), fromStreet, toStreet);
+		BigDecimal subTotal = calculateSubTotal(data.getPackageList(), fromStreet, toStreet);
 		subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.07)));
 		inv.setSubTotal(subTotal);
 		inv.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
@@ -238,7 +243,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		ps.setShipTime(instant);
 		ps.setFinishTime(instant);
 		ps.setUpdateDate(instant);
-		if (!inv.getReceiverPay()) {
+		if (!inv.getReceiverPay() && data.getPayment() != null) {
 			Payment pm = paymentMapper.toEntity(data.getPayment());
 			pm.setInvoiceHeaderId(inv.getId());
 			pm.setEmployeeId(data.getReceipt().getEmployeeId());
@@ -250,16 +255,14 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		// save data
 		invoiceHeaderRepository.save(inv);
 		personalShipmentRepository.save(ps);
-		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(data.getInvoicePackageList()));
-		invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(data.getInvoiceDetailList()));
 		return receiptNoteMapper.toDto(receiptNoteRepository.save(data.getReceipt()));
 	}
 
-	private BigDecimal calculateSubTotal(List<InvoicePackageDTO> lstPackage, Street fromStreet, Street toStreet) {
+	private BigDecimal calculateSubTotal(List<PackageDetailsDTO> lstPackage, Street fromStreet, Street toStreet) {
 		BigDecimal result = new BigDecimal(0);
 		float totalWeight = 0;
-		for (InvoicePackageDTO ip : lstPackage) {
-			totalWeight += ip.getWeight();
+		for (PackageDetailsDTO ip : lstPackage) {
+			totalWeight += ip.getInvPackage().getWeight();
 		}
 		totalWeight /= 1000;
 		if (fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId() == toStreet.getSubDistrictId()
@@ -301,36 +304,34 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 	public ReceiptNoteDTO createReceiptNoteDeliveryShipment(ReceiptDetailPackageDTO data) {
 		Instant instant = Instant.now();
 		InvoiceHeader inv = invoiceHeaderRepository.getOne(data.getReceipt().getInvoiceHeaderId());
-		Payment pm = paymentMapper.toEntity(data.getPayment());
 		PersonalShipment ps = personalShipmentRepository
 				.getCollectShipmentByInvoice(data.getReceipt().getInvoiceHeaderId());
 
 		// delivery receipt and process
-		if (data.getReceipt().getId() == null)
-			data.getReceipt().setCreateDate(instant);
-		data.getReceipt().setUpdateDate(instant);
-		data.getReceipt().setReceiptType(false);
-		if (inv.getReceiverPay()) {
-			pm.setInvoiceHeaderId(inv.getId());
-			pm.setEmployeeId(data.getReceipt().getEmployeeId());
-			pm.setCreateDate(instant);
-			pm.setUpdateDate(instant);
-			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
+		for (PackageDetailsDTO pd : data.getPackageList()) {
+			pd.getInvPackage().setUpdateDate(instant);
+			pd.getInvPackage().setStatus("finish");
+			pd.getInvPackage().setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
 		}
-		if (pm.getAmountDue().intValue() != 0)
-			throw new BadRequestAlertException("A new receiptNote data wrong", "receipt note",
-					"amount due not equal 0");
+		
 		inv.setStatus("finish");
 		ps.setStatus("finish");
 		ps.setShipTime(instant);
 		ps.setFinishTime(instant);
 		ps.setUpdateDate(instant);
 
+		if (inv.getReceiverPay() && data.getPayment() != null) {
+			Payment pm = paymentMapper.toEntity(data.getPayment());
+			pm.setInvoiceHeaderId(inv.getId());
+			pm.setEmployeeId(data.getReceipt().getEmployeeId());
+			pm.setCreateDate(instant);
+			pm.setUpdateDate(instant);
+			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
+		}
+
 		// save data
 		invoiceHeaderRepository.save(inv);
 		personalShipmentRepository.save(ps);
-		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(data.getInvoicePackageList()));
-		invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(data.getInvoiceDetailList()));
 		return receiptNoteMapper.toDto(receiptNoteRepository.save(data.getReceipt()));
 	}
 }

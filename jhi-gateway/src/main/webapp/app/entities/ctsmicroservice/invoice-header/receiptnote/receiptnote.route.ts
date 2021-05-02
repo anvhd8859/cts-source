@@ -1,7 +1,8 @@
+import { IPersonalShipment } from './../../../../shared/model/ctsmicroservice/personal-shipment.model';
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
-import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
+import { JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -16,6 +17,7 @@ import { InvoiceHeaderService } from '../invoice-header.service';
 import { IInvoiceHeader, InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { ReceiptnoteUserComponent } from './receipt-note-user.component';
 import { ReceiptnoteConfirmPopupComponent } from './receipt-note-user-confirm-dialog.component';
+import { PersonalShipmentService } from '../personal-shipment';
 
 @Injectable({ providedIn: 'root' })
 export class ReceiptnoteResolve implements Resolve<IReceiptnote> {
@@ -25,19 +27,6 @@ export class ReceiptnoteResolve implements Resolve<IReceiptnote> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(map((receiptnote: HttpResponse<Receiptnote>) => receiptnote.body));
-        }
-        return of(new Receiptnote());
-    }
-}
-
-@Injectable({ providedIn: 'root' })
-export class ReceiveNoeByInvoiceResolve implements Resolve<IReceiptnote> {
-    constructor(private service: ReceiptnoteService) {}
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const xid = route.params['id'] ? route.params['id'] : null;
-        if (xid) {
-            return this.service.getReceiveNote({ id: xid }).pipe(map((receiptnote: HttpResponse<Receiptnote>) => receiptnote.body));
         }
         return of(new Receiptnote());
     }
@@ -56,6 +45,19 @@ export class InvoiceHeaderResolve implements Resolve<IInvoiceHeader> {
     }
 }
 
+@Injectable({ providedIn: 'root' })
+export class PersonalShipmentResolve implements Resolve<IPersonalShipment> {
+    constructor(private service: PersonalShipmentService) {}
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const id = route.params['id'] ? route.params['id'] : null;
+        if (id) {
+            return this.service.find(id).pipe(map((personalShipment: HttpResponse<IPersonalShipment>) => personalShipment.body));
+        }
+        return of(new InvoiceHeader());
+    }
+}
+
 export const receiptnoteRoute: Routes = [
     {
         path: 'receiptnote',
@@ -66,7 +68,7 @@ export const receiptnoteRoute: Routes = [
         data: {
             authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'CTS: Biên lai'
+            pageTitle: 'CTS: Quản lý biên lai'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -98,7 +100,7 @@ export const receiptnoteRoute: Routes = [
         path: 'receiptnote/:id/view',
         component: ReceiptnoteDetailComponent,
         resolve: {
-            receiptnote: ReceiveNoeByInvoiceResolve
+            personalShipment: PersonalShipmentResolve
         },
         data: {
             authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
@@ -107,10 +109,10 @@ export const receiptnoteRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'receiptnote/:id/new-receive',
+        path: 'receiptnote/:id/new-receipt',
         component: ReceiptnoteUpdateComponent,
         resolve: {
-            invoiceHeader: InvoiceHeaderResolve
+            personalShipment: PersonalShipmentResolve
         },
         data: {
             authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],

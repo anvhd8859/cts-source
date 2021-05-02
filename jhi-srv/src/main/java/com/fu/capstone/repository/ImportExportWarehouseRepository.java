@@ -22,4 +22,11 @@ public interface ImportExportWarehouseRepository extends JpaRepository<ImportExp
 	Page<ImportExportWarehouse> getImportExportWarehouseByFilter(@RequestParam("eid") Long eid,
 			@RequestParam("oid") Long oid, @RequestParam("type") String type, @RequestParam("cf") Boolean cf, Pageable pageable);
 
+	@Query(value = "SELECT i FROM ImportExportWarehouse i "
+			 + " WHERE (:eid = i.employeeId) "
+			 + " AND (:cf IS NULL OR :cf = i.keeperConfirm) "
+			 + " AND (:type = '' OR :type = i.type) ")
+	Page<ImportExportWarehouse> getImportExportWarehouseForShipper(@RequestParam("eid") Long eid,
+			@RequestParam("type") String type, @RequestParam("cf") Boolean cf, Pageable pageable);
+
 }
