@@ -172,15 +172,19 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 		for (RequestDetailsDTO rd : importExportWarehouseDTO.getRequestDetailsList()) {
 			list.add(rd.getShipmentId());
 		}
+		System.out.println("\n\n 11111 \n\n");
 		List<InvoiceHeader> lst = invoiceHeaderRepository.getInvoiceHeaderByListShipmentId(list);
+		System.out.println("\n\n 22222 \n\n");
 		for(InvoiceHeader i : lst){
 			if(i.getFinish()) {
-				throw new BadRequestAlertException("Invalid ", "invoice", " is exported ");
+//				throw new BadRequestAlertException("Invalid ", "invoice", " is exported ");
 			}
 			i.setFinish(true);
 		}
+		System.out.println("\n\n 333333 \n\n");
 		ImportExportWarehouse header = importExportWarehouseRepository
 				.save(importExportWarehouseMapper.toEntity(importExportWarehouseDTO.getRequestHeader()));
+		System.out.println("\n\n 444444 \n\n");
 		Instant instant = Instant.now();
 		header.setCreateDate(instant);
 		header.setUpdateDate(instant);
@@ -197,8 +201,10 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 			i.setFinish(false);
 		}
 
+		System.out.println("\n\n 555555 \n\n");
 		requestDetailsRepository
 				.saveAll(requestDetailsMapper.toEntity(importExportWarehouseDTO.getRequestDetailsList()));
+		System.out.println("\n\n 666666 \n\n");
 		return importExportWarehouseMapper.toDto(importExportWarehouseRepository.save(header));
 	}
 
@@ -275,7 +281,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 		invoiceHeaderRepository.saveAll(invoiceHeaderMapper.toEntity(invList));
 		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(ipkList));
 		dto = importExportWarehouseRepository.save(dto);
-		List<RequestDetails> listRD = requestDetailsRepository.getRequestDetailsByHeaderId(id);
+//		List<RequestDetails> listRD = requestDetailsRepository.getRequestDetailsByHeaderId(id);
 		// to-do
 		return importExportWarehouseMapper.toDto(dto);
 	}
