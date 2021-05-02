@@ -1,4 +1,4 @@
-import { ModalWarningComponent } from './personal-shipment.component';
+import { ModalWarningComponent } from './modal-warning.component';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
