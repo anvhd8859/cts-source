@@ -1,14 +1,14 @@
 import { IInvoiceHeader } from './../../../shared/model/ctsmicroservice/invoice-header.model';
-import { HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { RequestDetailsService } from 'app/entities/ctsmicroservice/request-details/request-details.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { IImportExportWarehouse } from 'app/shared/model/ctsmicroservice/import-export-warehouse.model';
-import { IRequestDetails } from 'app/shared/model/ctsmicroservice/request-details.model';
 import { PackageDetailsDTO } from '../invoice-header';
 import { CommonString } from 'app/shared';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'jhi-import-export-warehouse-detail',
@@ -18,6 +18,10 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
     importExportWarehouse: IImportExportWarehouse;
     requestDetailsList: InvoicePackageDetailDTO[];
     common: CommonString;
+    isSaving: boolean;
+    all: boolean;
+    selectedCheckBox: boolean[] = [];
+    selectedRequestInvoices: any;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -37,34 +41,81 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
         });
     }
 
-    processAction(i: number) {
-        let closeResult = '';
-        const modalRef = this.modalService.open(NgbdModalConfirmComponent as Component, {
-            size: 'lg',
-            backdrop: 'static'
-        });
-        if (i === 1) {
-            modalRef.componentInstance.action = 'chấp thuận';
-        } else {
-            modalRef.componentInstance.action = 'từ chối';
+    checked(i: number, e) {
+        if (!e.target.checked) {
+            this.all = false;
         }
-        modalRef.result.then(
-            result => {
-                if (result) {
-                    closeResult = result;
-                }
-            },
-            reason => {}
-        );
-        if (closeResult === 'OK') {
-            if (i === 1) {
-                this.importExportWarehouse.note = 'approve';
-            } else {
-                this.importExportWarehouse.note = 'reject';
+    }
+
+    checkAll() {
+        if (this.all) {
+            // tslint:disable-next-line: forin
+            for (const i in this.selectedCheckBox) {
+                this.selectedCheckBox[i] = true;
             }
-            this.importExportWarehouse.keeperConfirm = true;
-            this.requestDetailsService;
+        } else {
+            // tslint:disable-next-line: forin
+            for (const i in this.selectedCheckBox) {
+                this.selectedCheckBox[i] = false;
+            }
         }
+    }
+
+    processAction(id: number) {
+        if (this.selectedCheckBox.length === 0) {
+            this.selectedRequestInvoices = new Array();
+            for (const i in this.selectedCheckBox) {
+                if (this.selectedCheckBox[i]) {
+                    this.selectedRequestInvoices.push(this.requestDetailsList[i]);
+                }
+            }
+            let closeResult = '';
+            const modalRef = this.modalService.open(NgbdModalConfirmComponent as Component, {
+                size: 'lg',
+                backdrop: 'static'
+            });
+            if (id === 1) {
+                modalRef.componentInstance.action = 'chấp thuận';
+            } else {
+                modalRef.componentInstance.action = 'từ chối';
+            }
+            modalRef.result.then(
+                result => {
+                    if (result) {
+                        closeResult = result;
+                    }
+                },
+                reason => {}
+            );
+            if (closeResult === 'OK') {
+                if (id === 1) {
+                    this.importExportWarehouse.note = 'approve';
+                } else {
+                    this.importExportWarehouse.note = 'reject';
+                }
+                console.log(this.importExportWarehouse.note);
+                this.importExportWarehouse.keeperConfirm = true;
+                this.subscribeToSaveResponse(
+                    this.requestDetailsService.updateImportExportByKeeper(this.importExportWarehouse.id, this.selectedRequestInvoices)
+                );
+            }
+        }
+    }
+
+    private subscribeToSaveResponse(result: Observable<HttpResponse<IImportExportWarehouse>>) {
+        result.subscribe(
+            (res: HttpResponse<IImportExportWarehouse>) => this.onSaveSuccess(),
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
+    }
+
+    private onSaveSuccess() {
+        this.isSaving = false;
+        this.previousState();
+    }
+
+    private onSaveError() {
+        this.isSaving = false;
     }
 
     previousState() {
