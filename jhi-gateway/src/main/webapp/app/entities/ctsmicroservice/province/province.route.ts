@@ -36,7 +36,7 @@ export const provinceRoute: Routes = [
         data: {
             authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'Provinces'
+            pageTitle: 'CTS: Quản lý danh sách Tỉnh/Thành phố'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -48,7 +48,7 @@ export const provinceRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Provinces'
+            pageTitle: 'CTS: Quản lý danh sách Tỉnh/Thành phố'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -60,7 +60,7 @@ export const provinceRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Provinces'
+            pageTitle: 'CTS: Quản lý danh sách Tỉnh/Thành phố'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -72,7 +72,7 @@ export const provinceRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Provinces'
+            pageTitle: 'CTS: Quản lý danh sách Tỉnh/Thành phố'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -87,7 +87,7 @@ export const provincePopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Provinces'
+            pageTitle: 'CTS: Quản lý danh sách Tỉnh/Thành phố'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
