@@ -12,6 +12,8 @@
             <div class="table table-responsive">
                 <table class="table table-striped">
                     <thead>
+                        <th> <input type="checkbox" [(ngModel)]="this.all" (change)="checkAll()" placeholder="All">
+                        </th>
                         <th> STT                    </th>
                         <th> Số hóa đơn             </th>
                         <th> Ngày giao dự kiến      </th>
@@ -23,6 +25,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let object of requestDetailsList; let i = index">
+                            <td><input type="checkbox" id="chkBox{{i}}" [(ngModel)]="selectedCheckBox[i]"
+                                (change)="checked(i, $event)"></td>
                             <td>{{i + 1}} </td>
                             <td>{{object.invoice.invoiceNo}} </td>
                             <td>{{object.invoice.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
@@ -39,18 +43,19 @@
             <div class="row">
                 <div class="col-lg-4 ">
                     <button type="submit" (click)="previousState()" class="btn btn-info">
-                        <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
+                        <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;&nbsp;<span> Quay lại</span>
                     </button>
                 </div>
                 <div class="col-lg-4 ">
                     <button type="button" (click)="processAction(0)"
                         class="btn btn-danger">
+                        <fa-icon [icon]="'times'"></fa-icon>&nbsp;&nbsp;<span> Hủy</span>
                     </button>
                 </div>
                 <div class="col-lg-4 ">
                     <button type="button" (click)="processAction(1)"
                         class="btn btn-success">
-                        <fa-icon [icon]="'check'"></fa-icon>&nbsp;<span> Chấp thuận</span>
+                        <fa-icon [icon]="'check'"></fa-icon>&nbsp;&nbsp;<span> Chấp thuận</span>
                     </button>
                 </div>
             </div>
