@@ -1,0 +1,76 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="importExportWarehouse">
+            <h2>
+                <span>
+                    Chi tiết {{importExportWarehouse.type === 'import' ? 'yêu cầu nhập kho' : 'yêu cầu xuất kho'}}
+                </span> mã số {{importExportWarehouse.id}}
+            </h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+
+            <!-- END header START body -->
+            <div class="card-body">
+                <br>
+                <h4>Danh sách đơn</h4>
+                <div class="table-responsive" *ngIf="shipmentInvoices">
+                    <table class="table table-striped">
+                        <thead>
+                            <th> STT                    </th>
+                            <th> Số hóa đơn             </th>
+                            <th> Ngày giao dự kiến      </th>
+                            <th> Tình trạng hóa đơn     </th>
+                            <th> Loại đơn               </th>
+                            <th> Tình trạng giao hàng   </th>
+                            <th> Điểm nhận đơn          </th>
+                            <th> Giao tới               </th>
+                            <th> Hành động              </th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let object of shipmentInvoices; let i = index">
+                                <td>{{i + 1}} </td>
+                                <td>{{object.invoiceHeaderDTO.invoiceNo}} </td>
+                                <td>{{object.invoiceHeaderDTO.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
+                                <td>{{common.processInvoiceStatus(object.invoiceHeaderDTO.status)}} </td>
+                                <td>{{common.processShipmentType(object.personalShipmentDTO.shipmentType)}} </td>
+                                <td>{{common.processShipmentStatus(object.personalShipmentDTO.status)}} </td>
+                                <td>{{object.invoiceHeaderDTO.startAddress}} </td>
+                                <td>{{object.invoiceHeaderDTO.destinationAddress}} </td>
+                                <td class="text-left">
+                                    <button type="submit" [routerLink]="['/invoice-header', object.invoiceHeaderDTO.id, 'view' ]"
+                                        class="btn btn-info btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">Chi tiết</span>
+                                    </button>
+                                    <button *ngIf="object.personalShipmentDTO.shipmentType === 'collect'"
+                                            [disabled]="object.personalShipmentDTO.status === 'finish' || object.invoiceHeaderDTO.status !== 'collect'"
+                                            type="submit"
+                                            [routerLink]="['/receiptnote', object.personalShipmentDTO.id, 'view']"
+                                            class="btn btn-primary btn-sm">
+                                        <fa-icon [icon]="'check-circle'"></fa-icon>
+                                        <span class="d-none d-md-inline">Hoàn thành lấy hàng</span>
+                                    </button>
+                                    <button *ngIf="object.personalShipmentDTO.shipmentType === 'delivery'"
+                                            type="submit"
+                                            [disabled]="object.personalShipmentDTO.status === 'finish' || object.invoiceHeaderDTO.status !== 'delivering'"
+                                            [routerLink]="['/receiptnote', object.personalShipmentDTO.id, 'view']"
+                                            class="btn btn-success btn-sm">
+                                        <fa-icon [icon]="'check'"></fa-icon>
+                                        <span class="d-none d-md-inline">Hoàn thành giao hàng</span>
+                                    </button>
+                                    <button type="submit" *ngIf="!object.invoiceHeaderDTO.changeNote"
+                                            [routerLink]="['/', { outlets: { popup: 'personal-shipment-cancel-invoice/'+ object.invoiceHeaderDTO.id + '/send-request'} }]"
+                                            [disabled]="object.invoiceHeaderDTO.changeNote"
+                                            class="btn btn-danger btn-sm">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                        <span class="d-none d-md-inline">Yêu cầu hủy</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
