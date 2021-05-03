@@ -42,7 +42,6 @@ public interface DistrictService {
      * Delete the "id" district.
      *
      * @param id the id of the entity
-     */
 
 
 
