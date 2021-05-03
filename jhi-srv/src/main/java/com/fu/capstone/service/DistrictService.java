@@ -39,7 +39,7 @@ public interface DistrictService {
     Optional<DistrictDTO> findOne(Long id);
 
     /**
-     * Delete the "id" district.
+     * Delete the district by id.
      *
      * @param id the id of the entity
      */
