@@ -26,7 +26,7 @@ public interface VehicleService {
 	List<VehicleDTO> findAll();
 	
 	/**
-	 * 
+	 * Get vehicle by "id".
 	 */
 	Optional<VehicleDTO> findOne(Long id);
 	
