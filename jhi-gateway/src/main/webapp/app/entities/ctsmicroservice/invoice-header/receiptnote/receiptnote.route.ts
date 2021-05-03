@@ -79,7 +79,7 @@ export const receiptnoteRoute: Routes = [
             receiptnote: ReceiptnoteResolve
         },
         data: {
-            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_OFFICER', 'ROLE_ADMIN'],
             pageTitle: 'CTS: Tạo biên lai'
         },
         canActivate: [UserRouteAccessService]
@@ -91,7 +91,7 @@ export const receiptnoteRoute: Routes = [
             receiptnote: ReceiptnoteResolve
         },
         data: {
-            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'CTS: Biên lai'
         },
         canActivate: [UserRouteAccessService]
@@ -103,7 +103,7 @@ export const receiptnoteRoute: Routes = [
             personalShipment: PersonalShipmentResolve
         },
         data: {
-            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_OFFICER', 'ROLE_ADMIN'],
             pageTitle: 'CTS: Biên lai'
         },
         canActivate: [UserRouteAccessService]
@@ -115,7 +115,7 @@ export const receiptnoteRoute: Routes = [
             personalShipment: PersonalShipmentResolve
         },
         data: {
-            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_OFFICER', 'ROLE_ADMIN'],
             pageTitle: 'CTS: Biên lai'
         },
         canActivate: [UserRouteAccessService]
