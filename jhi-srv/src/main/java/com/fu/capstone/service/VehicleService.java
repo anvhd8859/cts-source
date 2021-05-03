@@ -27,6 +27,7 @@ public interface VehicleService {
 	
 	/**
 	 * Get vehicle by "id".
+	 * 
 	 */
 	Optional<VehicleDTO> findOne(Long id);
 	
