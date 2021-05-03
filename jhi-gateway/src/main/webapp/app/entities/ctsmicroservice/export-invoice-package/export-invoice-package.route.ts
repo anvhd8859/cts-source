@@ -45,7 +45,7 @@ export const exportInvoicePackagePopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_KEEPER'],
-            pageTitle: 'ExportInvoicePackages'
+            pageTitle: 'CTS: Quản lý xuất kho'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
