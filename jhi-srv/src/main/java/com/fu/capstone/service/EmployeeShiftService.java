@@ -20,5 +20,4 @@ public interface EmployeeShiftService {
 
     /**
      * Get all the employeeShifts.
-     *
 }
