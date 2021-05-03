@@ -40,7 +40,6 @@ public interface DistrictService {
 
     /**
      * Delete the "id" district.
-     *
 
 
 
