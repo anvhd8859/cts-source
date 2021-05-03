@@ -38,7 +38,6 @@ public interface DistrictService {
      */
     Optional<DistrictDTO> findOne(Long id);
 
-    /**
 
 
 
