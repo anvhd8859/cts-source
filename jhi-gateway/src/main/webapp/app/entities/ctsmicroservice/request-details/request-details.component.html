@@ -27,8 +27,8 @@
                 <td><a [routerLink]="['/request-details', requestDetails.id, 'view' ]">{{requestDetails.id}}</a></td>
                 <td>{{requestDetails.ieWarehouseId}}</td>
                 <td>{{requestDetails.invoiceHeaderId}}</td>
-                <td>{{requestDetails.createDate | date:'medium'}}</td>
-                <td>{{requestDetails.updateDate | date:'medium'}}</td>
+                <td>{{requestDetails.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{requestDetails.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
