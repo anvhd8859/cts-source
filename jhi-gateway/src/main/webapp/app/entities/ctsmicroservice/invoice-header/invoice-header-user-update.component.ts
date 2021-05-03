@@ -17,12 +17,16 @@ import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 import { CommonString } from 'app/shared';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { InvoiceHeaderPricingDialogComponent, InvoiceHeaderPricingPopupComponent } from './invoice-header-pricing-dialog.component';
 
 @Component({
     selector: 'jhi-invoice-header-user-update',
     templateUrl: './invoice-header-user-update.component.html'
 })
 export class InvoiceHeaderUserUpdateComponent implements OnInit {
+    modalRef: NgbModalRef;
+    pricingIsOpen = false;
     invoiceHeader: IInvoiceHeader;
     isSaving: boolean;
     dueDate: string;
@@ -67,7 +71,8 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         private accountService: AccountService,
         private activatedRoute: ActivatedRoute,
         private alertService: JhiAlertService,
-        private principal: Principal
+        private principal: Principal,
+        private modalService: NgbModal
     ) {}
 
     ngOnInit() {
@@ -290,6 +295,27 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         }
     }
     // ThangND End
+
+    openPricing() {
+        this.modalRef = this.openPricingModal();
+    }
+
+    openPricingModal(): NgbModalRef {
+        if (this.pricingIsOpen) {
+            return;
+        }
+        this.pricingIsOpen = true;
+        const modalRef = this.modalService.open(InvoiceHeaderPricingDialogComponent, { size: 'lg', backdrop: 'static', keyboard: false });
+        modalRef.result.then(
+            result => {
+                this.pricingIsOpen = false;
+            },
+            reason => {
+                this.pricingIsOpen = false;
+            }
+        );
+        return modalRef;
+    }
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<IInvoiceHeader>>) {
         result.subscribe((res: HttpResponse<IInvoiceHeader>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
