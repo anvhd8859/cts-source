@@ -17,14 +17,12 @@ import com.fu.capstone.repository.ReceiptNoteRepository;
 import com.fu.capstone.repository.StreetRepository;
 import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
 import com.fu.capstone.service.dto.InvoiceDetailsDTO;
-import com.fu.capstone.service.dto.InvoicePackageDTO;
 import com.fu.capstone.service.dto.PackageDetailsDTO;
 import com.fu.capstone.service.dto.ReceiptDetailPackageDTO;
 import com.fu.capstone.service.dto.ReceiptNoteDTO;
 import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
-import com.fu.capstone.service.mapper.PaymentMapper;
 import com.fu.capstone.service.mapper.ReceiptNoteMapper;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 
@@ -73,14 +71,12 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 
 	private PaymentRepository paymentRepository;
 
-	private PaymentMapper paymentMapper;
-
 	public ReceiptNoteServiceImpl(ReceiptNoteRepository receiptNoteRepository, ReceiptNoteMapper receiptNoteMapper,
 			InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
 			InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
 			InvoiceDetailsRepository invoiceDetailsRepository, InvoiceDetailsMapper invoiceDetailsMapper,
 			PersonalShipmentRepository personalShipmentRepository, StreetRepository streetRepository,
-			PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
+			PaymentRepository paymentRepository) {
 		this.receiptNoteRepository = receiptNoteRepository;
 		this.receiptNoteMapper = receiptNoteMapper;
 		this.invoiceHeaderRepository = invoiceHeaderRepository;
@@ -92,7 +88,6 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		this.personalShipmentRepository = personalShipmentRepository;
 		this.streetRepository = streetRepository;
 		this.paymentRepository = paymentRepository;
-		this.paymentMapper = paymentMapper;
 	}
 
 	/**
@@ -219,21 +214,22 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			pd.getInvPackage().setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
 			InvoicePackage ip = invoicePackageRepository.save(invoicePackageMapper.toEntity(pd.getInvPackage()));
 			for (InvoiceDetailsDTO id : pd.getItemList()) {
-				if(id.getId() == null) id.setCreateDate(instant);
+				if (id.getId() == null)
+					id.setCreateDate(instant);
 				id.setUpdateDate(instant);
 				id.setInvoiceHeaderId(ip.getId());
 				id.setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
 			}
 			invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(pd.getItemList()));
 		}
-		
+
 		InvoiceHeader inv = invoiceHeaderRepository.getOne(data.getReceipt().getInvoiceHeaderId());
 		Street fromStreet = streetRepository.getFullAddressByStreetId(inv.getStartStreetId());
 		Street toStreet = streetRepository.getFullAddressByStreetId(inv.getDestinationStreetId());
 		inv.setUpdateDate(instant);
 		BigDecimal subTotal = calculateSubTotal(data.getPackageList(), fromStreet, toStreet);
-		subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.07)));
 		inv.setSubTotal(subTotal);
+		subTotal = new BigDecimal(2500).add(subTotal.multiply(new BigDecimal(1.05)));
 		inv.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
 		inv.setTotalDue(subTotal.multiply(new BigDecimal(1.1)));
 		inv.setStatus("collected");
@@ -243,19 +239,31 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		ps.setShipTime(instant);
 		ps.setFinishTime(instant);
 		ps.setUpdateDate(instant);
-		if (!inv.getReceiverPay() && data.getPayment() != null) {
-			Payment pm = paymentMapper.toEntity(data.getPayment());
+
+		Payment pm = null;
+		if (data.getPay()) {
+			pm = new Payment();
 			pm.setInvoiceHeaderId(inv.getId());
 			pm.setEmployeeId(data.getReceipt().getEmployeeId());
 			pm.setCreateDate(instant);
 			pm.setUpdateDate(instant);
+			pm.setAmountPaid(new BigDecimal(data.getPayAmount()));
 			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
 		}
 
+		if (pm.getAmountDue() != null) {
+			if (pm.getAmountDue().intValue() != 0)
+				throw new BadRequestAlertException("Amount due", "receipt note", "not equal 0");
+			else
+				paymentRepository.save(pm);
+		}
+		
 		// save data
+		ReceiptNote rn = receiptNoteRepository.save(data.getReceipt());
+		pm.setReceiptNoteId(rn.getId());
 		invoiceHeaderRepository.save(inv);
 		personalShipmentRepository.save(ps);
-		return receiptNoteMapper.toDto(receiptNoteRepository.save(data.getReceipt()));
+		return receiptNoteMapper.toDto(rn);
 	}
 
 	private BigDecimal calculateSubTotal(List<PackageDetailsDTO> lstPackage, Street fromStreet, Street toStreet) {
@@ -313,23 +321,33 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			pd.getInvPackage().setStatus("finish");
 			pd.getInvPackage().setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
 		}
-		
+
 		inv.setStatus("finish");
 		ps.setStatus("finish");
 		ps.setShipTime(instant);
 		ps.setFinishTime(instant);
 		ps.setUpdateDate(instant);
 
-		if (inv.getReceiverPay() && data.getPayment() != null) {
-			Payment pm = paymentMapper.toEntity(data.getPayment());
+		Payment pm = null;
+		if (data.getPay()) {
+			pm = new Payment();
 			pm.setInvoiceHeaderId(inv.getId());
 			pm.setEmployeeId(data.getReceipt().getEmployeeId());
 			pm.setCreateDate(instant);
 			pm.setUpdateDate(instant);
+			pm.setAmountPaid(new BigDecimal(data.getPayAmount()));
 			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
 		}
 
+		if (pm.getAmountDue() != null) {
+			if (pm.getAmountDue().intValue() != 0)
+				throw new BadRequestAlertException("Amount due", "receipt note", "not equal 0");
+			else
+				paymentRepository.save(pm);
+		}
 		// save data
+		ReceiptNote rn = receiptNoteRepository.save(data.getReceipt());
+		pm.setReceiptNoteId(rn.getId());
 		invoiceHeaderRepository.save(inv);
 		personalShipmentRepository.save(ps);
 		return receiptNoteMapper.toDto(receiptNoteRepository.save(data.getReceipt()));
