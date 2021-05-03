@@ -22,5 +22,4 @@ public interface DistrictService {
     DistrictDTO save(DistrictDTO districtDTO);
 
     /**
-     * Get all the districts.
 
