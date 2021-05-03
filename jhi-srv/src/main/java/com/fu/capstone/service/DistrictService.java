@@ -23,5 +23,4 @@ public interface DistrictService {
 
     /**
      * Get all the districts.
-     *
 
