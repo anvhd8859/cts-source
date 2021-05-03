@@ -63,7 +63,7 @@ public interface InvoicePackageService {
 	List<InvoicePackageShipmentDTO> putImportPackageByOfficeId(List<InvoicePackageShipmentDTO> invoicePackageDTO);
 	
 	/**
-	 * put ImportOnePackage
+	 * Put ImportOnePackage
 	 * 
 	 */
 	InvoiceHeaderDTO putImportOnePackage(Long id);
