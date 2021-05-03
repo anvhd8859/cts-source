@@ -36,6 +36,7 @@ public interface VehicleService {
 	/**
 	 * Delete ehicle by "id".
 	 * 
+	 * @param id the id of the entity
 	 */
 	void delete(Long id);
 }
