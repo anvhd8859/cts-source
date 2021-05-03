@@ -70,7 +70,7 @@ export class ImportExportWarehouseShipperComponent implements OnInit, OnDestroy 
             this.currentAccount = account;
             this.importExportWarehouseService
                 .getImportExportWarehouseByShipper({
-                    eid: this.selectedShipper ? this.selectedShipper.Id : '',
+                    eid: this.currentAccount.id,
                     type: this.selectedType ? this.selectedType : '',
                     cf: this.selectedConfirm ? this.selectedConfirm : '',
                     page: this.page - 1,
