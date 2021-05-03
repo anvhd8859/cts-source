@@ -52,7 +52,9 @@ export class RequestDetailsService {
 
     updateImportExportByKeeper(id: number, requestDetail: any): Observable<EntityResponseType> {
         return this.http
-            .put<IRequestDetails>(this.resourceUrl + '/by-keeper/' + id.toString(), requestDetail, { observe: 'response' })
+            .put<any>(SERVER_API_URL + 'ctsmicroservice/api/import-export-warehouses/by-keeper/' + id.toString(), requestDetail, {
+                observe: 'response'
+            })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
