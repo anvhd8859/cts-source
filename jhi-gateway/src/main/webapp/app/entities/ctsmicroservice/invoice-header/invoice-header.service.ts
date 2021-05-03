@@ -69,7 +69,6 @@ export class InvoiceHeaderService {
     getListKeeperByOfficeID(req: any): Observable<HttpResponse<IUser[]>> {
         return this.http.get<IUser[]>(this.userResourceUrl + '/keeper', { params: req, observe: 'response' });
     }
-
     // ThangND End
 
     // HaiNM
@@ -100,6 +99,20 @@ export class InvoiceHeaderService {
         return this.http.get<IUser>(this.userResourceUrl + '/by-id', { params: req, observe: 'response' });
     }
     // HaiNM
+
+    updateReviewApproveInvoice(invoiceHeader: IInvoiceHeader): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(invoiceHeader);
+        return this.http
+            .put<IInvoiceHeader>(this.resourceUrl + '/approve-review', copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    updateReviewRejectInvoice(invoiceHeader: IInvoiceHeader): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(invoiceHeader);
+        return this.http
+            .put<IInvoiceHeader>(this.resourceUrl + '/reject-review', copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
 
     private convertDateFromClient(invoiceHeader: IInvoiceHeader): IInvoiceHeader {
         const copy: IInvoiceHeader = Object.assign({}, invoiceHeader, {
