@@ -49,6 +49,9 @@ public interface InvoicePackageService {
     // AnhVD new code
 
     /**
+     * Get InvoicePackage by HeaderId
+     * 
+     */
 	List<InvoicePackageDTO> getInvoicePackageByHeaderId(Long id);
 
 	List<InvoicePackageShipmentDTO> putImportPackageByOfficeId(List<InvoicePackageShipmentDTO> invoicePackageDTO);
