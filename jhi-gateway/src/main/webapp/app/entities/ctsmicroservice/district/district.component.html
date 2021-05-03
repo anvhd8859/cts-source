@@ -1,5 +1,9 @@
 <div>
     <h2 id="page-heading">
+        <br>
+<br>
+        <br>
+<br>
         <span>Quản lý danh sách Quận/Huyện</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-district" [routerLink]="['/district/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
@@ -26,8 +30,8 @@
             <tr *ngFor="let district of districts ;trackBy: trackId">
                 <td><a [routerLink]="['/district', district.id, 'view' ]">{{district.id}}</a></td>
                 <td>{{district.districtName}}</td>
-                <td>{{district.createDate | date:'medium'}}</td>
-                <td>{{district.updateDate | date:'medium'}}</td>
+                <td>{{district.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{district.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td>
                     <div *ngIf="district.provinceIdId">
                         <a [routerLink]="['../province', district.provinceIdId , 'view' ]" >{{district.provinceIdId}}</a>
