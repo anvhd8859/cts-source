@@ -1,3 +1,4 @@
+import { ImportInvoiceModalWarningComponent } from './import-invoice-modal-warning.component';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -23,14 +24,16 @@ const ENTITY_STATES = [...importInvoicePackageRoute, ...importInvoicePackagePopu
         ImportInvoicePackageImportDialogComponent,
         ImportInvoicePackageImportPopupComponent,
         ImportInvoicePackageUpdateComponent,
-        ImportInvoicePackageDetailComponent
+        ImportInvoicePackageDetailComponent,
+        ImportInvoiceModalWarningComponent
     ],
     entryComponents: [
         ImportInvoicePackageComponent,
         ImportInvoicePackageImportDialogComponent,
         ImportInvoicePackageImportPopupComponent,
         ImportInvoicePackageUpdateComponent,
-        ImportInvoicePackageDetailComponent
+        ImportInvoicePackageDetailComponent,
+        ImportInvoiceModalWarningComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
