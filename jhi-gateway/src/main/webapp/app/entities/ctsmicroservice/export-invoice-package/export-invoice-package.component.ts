@@ -11,6 +11,9 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { IExportInvoicePackage } from 'app/shared/model/ctsmicroservice/export-invoice-package.model';
 import { Principal } from 'app/core';
 import { ExportInvoicePackageService } from './export-invoice-package.service';
+import { Moment } from 'moment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ExportInvoiceModalWarningComponent } from './export-invoice-modal-warning.component';
 
 @Component({
     selector: 'jhi-export-invoice-package',
@@ -48,6 +51,10 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
     isSaving: boolean;
     officeId: any;
     common: CommonString;
+    fromTime: Moment;
+    toTime: Moment;
+    all: boolean;
+    selectedCheckBox: boolean[] = [];
 
     constructor(
         private exportInvoicePackageService: ExportInvoicePackageService,
@@ -56,7 +63,8 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private principal: Principal,
         private router: Router,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private modal: NgbModal
     ) {
         this.common = new CommonString();
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -71,7 +79,9 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
         const param = {
             id: this.officeId,
             invNo: this.selectedInvoiceNo ? this.selectedInvoiceNo : '',
-            status: this.selectedInvoiceStatus ? this.selectedInvoiceStatus : '',
+            status: this.listInvoiceStatus[0].id,
+            fromDate: this.fromTime ? this.fromTime.year() + '-' + (this.fromTime.month() + 1) + '-' + this.fromTime.date() : '',
+            toDate: this.toTime ? this.toTime.year() + '-' + (this.toTime.month() + 1) + '-' + this.toTime.date() : '',
             page: this.page - 1,
             size: this.itemsPerPage
         };
@@ -79,15 +89,62 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
             (res: HttpResponse<IInvoicePackageShipment[]>) => {
                 this.invoicePackageShipments = res.body;
                 this.finalData = JSON.parse(JSON.stringify(this.invoicePackageShipments));
+                for (const obj of this.invoicePackageShipments) {
+                    this.selectedCheckBox.push(false);
+                }
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
     }
 
+    checked(i: number, e) {
+        if (e.target.checked) {
+            this.selectedCheckBox[i] = true;
+        } else {
+            this.selectedCheckBox[i] = false;
+            this.all = false;
+        }
+    }
+
+    checkAll(e) {
+        if (e.target.checked) {
+            for (const i in this.selectedCheckBox) {
+                if (this.selectedCheckBox.hasOwnProperty(i)) {
+                    this.selectedCheckBox[i] = true;
+                }
+            }
+        } else {
+            for (const i in this.selectedCheckBox) {
+                if (this.selectedCheckBox.hasOwnProperty(i)) {
+                    this.selectedCheckBox[i] = false;
+                }
+            }
+        }
+    }
+
     exportAll() {
-        this.isSaving = true;
-        const finalParams = this.finalData;
-        this.subscribeToSaveResponse(this.exportInvoicePackageService.updateExportAllPackage(finalParams));
+        let todo = false;
+        const finalParams = new Array();
+        for (const i in this.selectedCheckBox) {
+            if (this.selectedCheckBox[i]) {
+                finalParams.push(this.finalData[i]);
+            }
+        }
+        if (finalParams.length === 0) {
+            todo = true;
+        }
+        const modalRef = this.modal.open(ExportInvoiceModalWarningComponent as Component, {
+            size: 'lg',
+            backdrop: 'static'
+        });
+        modalRef.componentInstance.action = todo;
+        modalRef.result.then(
+            result => {
+                this.isSaving = true;
+                this.subscribeToSaveResponse(this.exportInvoicePackageService.updateExportAllPackage(finalParams));
+            },
+            reason => {}
+        );
     }
 
     private subscribeToSaveResponse(result: any) {
