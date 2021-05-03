@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -15,7 +17,7 @@ import {
 const ENTITY_STATES = [...paymentRoute, ...paymentPopupRoute];
 
 @NgModule({
-    imports: [CtsgatewaySharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [CtsgatewaySharedModule, RouterModule.forChild(ENTITY_STATES), NgSelectModule, FormsModule],
     declarations: [
         PaymentComponent,
         PaymentDetailComponent,

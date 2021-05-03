@@ -23,7 +23,7 @@ public class ReceiptNoteDTO implements Serializable {
 
     private String imageLink;
 
-    private Boolean receiptType;
+    private String receiptType;
 
     private Instant createDate;
 
@@ -61,15 +61,11 @@ public class ReceiptNoteDTO implements Serializable {
         this.note = note;
     }
 
-    public Boolean getReceiptType() {
+    public String getReceiptType() {
 		return receiptType;
 	}
-    
-    public Boolean isReceiptType() {
-    	return receiptType;
-    }
 
-	public void setReceiptType(Boolean receiptType) {
+	public void setReceiptType(String receiptType) {
 		this.receiptType = receiptType;
 	}
 
@@ -117,7 +113,7 @@ public class ReceiptNoteDTO implements Serializable {
             ", employeeId=" + getEmployeeId() +
             ", invoiceHeaderId=" + getInvoiceHeaderId() +
             ", note='" + getNote() + "'" +
-            ", receiptType='" + isReceiptType() + "'" +
+            ", receiptType='" + getReceiptType() + "'" +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";

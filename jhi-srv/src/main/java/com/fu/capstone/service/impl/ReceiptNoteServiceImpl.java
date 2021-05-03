@@ -208,7 +208,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		data.getReceipt().setUpdateDate(instant);
 
 		// collect receipt and process
-		data.getReceipt().setReceiptType(true);
+		data.getReceipt().setReceiptType("1");
 		for (PackageDetailsDTO pd : data.getPackageList()) {
 			pd.getInvPackage().setUpdateDate(instant);
 			pd.getInvPackage().setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());

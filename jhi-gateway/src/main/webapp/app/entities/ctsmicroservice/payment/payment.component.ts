@@ -42,7 +42,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     fromInvoiceCreate: Moment;
     toInvoiceCreate: Moment;
     lstShipmentType: any = [{ id: '1', text: 'Lấy hàng' }, { id: '0', text: 'Giao hàng' }];
-    selectedTypeShipment = this.lstShipmentType[1].id;
+    selectedTypeShipment: any;
     selectedInvoiceNumber: any;
 
     constructor(
@@ -85,7 +85,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         this.paymentService
             .findPaymentByParams({
                 invoiceNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
-                type: this.selectedTypeShipment,
+                type: this.selectedTypeShipment ? this.selectedTypeShipment : '',
                 receiveFrom: this.fromPaymentCreate
                     ? this.fromPaymentCreate.year() + '-' + (this.fromPaymentCreate.month() + 1) + '-' + this.fromPaymentCreate.date()
                     : '',
