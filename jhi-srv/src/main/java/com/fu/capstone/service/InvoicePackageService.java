@@ -66,6 +66,4 @@ public interface InvoicePackageService {
 
 	Page<InvoicePackageShipmentDTO> getImportPackageByOfficeId(Long id, String invNo, String type, Pageable pageable);
 	
-	List<InvoicePackageShipmentDTO> putExportPackageByOfficeId(List<InvoicePackageShipmentDTO> invoicePackageDTO);
-
 }
