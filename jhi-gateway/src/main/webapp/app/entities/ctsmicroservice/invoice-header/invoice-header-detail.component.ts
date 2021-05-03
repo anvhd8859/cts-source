@@ -8,7 +8,7 @@ import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.
 import { IInvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 import { IOffice } from 'app/shared/model/ctsmicroservice/office.model';
 import { forkJoin } from 'rxjs';
-import { InvoiceHeaderService } from '.';
+import { InvoiceHeaderService, PackageDetailsDTO } from '.';
 import { OfficeService } from '../office';
 
 @Component({
@@ -19,6 +19,7 @@ export class InvoiceHeaderDetailComponent implements OnInit {
     invoiceHeader: IInvoiceHeader;
     lstInvoicePackage: IInvoicePackage[] = [];
     lstInvoiceDetails: IInvoiceDetails[] = [];
+    createPackage: PackageDetailsDTO[] = [];
     customer: User;
     office: IOffice;
     showPackage: boolean;
@@ -47,6 +48,16 @@ export class InvoiceHeaderDetailComponent implements OnInit {
                 this.lstInvoiceDetails = res[1].body;
                 this.customer = res[2].body;
                 this.office = res[3].body;
+                for (const ip of this.lstInvoicePackage) {
+                    const pdDto = new PackageDetailsDTO();
+                    pdDto.invPackage = ip;
+                    for (const id of this.lstInvoiceDetails) {
+                        if (id.invoicePackageId === ip.id) {
+                            pdDto.itemList.push(id);
+                        }
+                    }
+                    this.createPackage.push(pdDto);
+                }
             });
         });
     }
