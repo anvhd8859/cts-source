@@ -28,5 +28,4 @@ public interface EmployeeShiftService {
 
     /**
      * Get the "id" employeeShift.
-     *
 }
