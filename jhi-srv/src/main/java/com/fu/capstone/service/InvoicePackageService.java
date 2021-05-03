@@ -69,7 +69,7 @@ public interface InvoicePackageService {
 	InvoiceHeaderDTO putImportOnePackage(Long id);
 	
 	/**
-	 * get ImportPackage by OfficeId
+	 * Get ImportPackage by OfficeId
 	 * 
 	 */
 	Page<InvoicePackageShipmentDTO> getImportPackageByOfficeId(Long id, String invNo, String type, Pageable pageable);
