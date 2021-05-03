@@ -27,7 +27,7 @@ public interface EmployeeShiftService {
 
 
     /**
-     * .
+     * Get employeeShift by "id".
      *
      * @param id the id of the entity
      * @return the entity
