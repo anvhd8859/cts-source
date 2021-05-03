@@ -1,69 +1,169 @@
 <div>
     <h2 id="page-heading">
+        <br>
+<br>
         <span>Payments</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-payment" [routerLink]="['/payment/new']">
+        <!-- <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-payment" [routerLink]="['/payment/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
             Create new Payment
             </span>
-        </button>
+        </button> -->
     </h2>
     <jhi-alert></jhi-alert>
     <br/>
-    <div class="table-responsive" *ngIf="payments">
-        <table class="table table-striped">
-            <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>Mã số</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="invoiceHeaderId"><span>Mã hóa đơn</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="employeeId"><span>Mã nhân viên</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="paymentType"><span>Payment Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="senderPay"><span>Sender Pay</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="amountPaid"><span>Amount Paid</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="amountDue"><span>Amount Due</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createDate"><span>Ngày khởi tạo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updateDate"><span>Ngày cập nhật</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let payment of payments ;trackBy: trackId">
-                <td><a [routerLink]="['/payment', payment.id, 'view' ]">{{payment.id}}</a></td>
-                <td>{{payment.invoiceHeaderId}}</td>
-                <td>{{payment.employeeId}}</td>
-                <td>{{payment.paymentType}}</td>
-                <td>{{payment.senderPay}}</td>
-                <td>{{payment.amountPaid}}</td>
-                <td>{{payment.amountDue}}</td>
-                <td>{{payment.createDate | date:'medium'}}</td>
-                <td>{{payment.updateDate | date:'medium'}}</td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/payment', payment.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">Chi tiết</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/payment', payment.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Sửa</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'payment/'+ payment.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Xóa</span>
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-6">
+                    <label>Ngày tạo đơn:</label>
+                </div>
+                <div class="col-lg-6">
+                    <label>Ngày tạo thanh toán:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label for="createOn">Từ ngày</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="fromInvoiceDate"
+                                [(ngModel)]="this.fromInvoiceCreate" ngbDatepicker #b="ngbDatepicker" readonly>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(1)"
+                                    type="button">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                </button>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" (click)="b.toggle()" type="button">
+                                    <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label for="updateOn">Đến ngày</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="toInvoiceDate"
+                                [(ngModel)]="this.toInvoiceCreate" ngbDatepicker #c="ngbDatepicker" readonly>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(2)"
+                                    type="button">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                </button>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
+                                    <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label for="createOn">Từ ngày</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="fromPaymentDate"
+                                [(ngModel)]="this.fromPaymentCreate" ngbDatepicker #b="ngbDatepicker" readonly>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(3)"
+                                    type="button">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                </button>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" (click)="b.toggle()" type="button">
+                                    <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label for="updateOn">Đến ngày</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="toPaymentDate"
+                                [(ngModel)]="this.toPaymentCreate" ngbDatepicker #c="ngbDatepicker" readonly>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(4)"
+                                    type="button">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                </button>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
+                                    <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label for="invoiceNumber">Số hóa đơn</label>
+                        <input type="text" class="form-control" placeholder="(ALL)"
+                            [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedInvoiceNumber"
+                            value="{{selectedInvoiceNumber}}">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label for="type">Loại đơn chuyển phát</label>
+                        <ng-select [clearable]="false" [hideSelected]="true" [items]="common.listTypeShipment"
+                            bindLabel="text" bindValue="id" id="type" name="type"
+                            [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedTypeShipment"
+                            placeholder="(ALL)">
+                            <ng-option *ngFor="let item of common.listTypeShipment">{{item.text}}</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-6 col-sm-6 text-center">
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 text-center">
+                    <div class="form-group">
+                        <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary"
+                            (click)="this.loadAll()">
+                            <fa-icon [icon]="'search'"></fa-icon>
+                            <span>Tìm kiếm</span>
                         </button>
                     </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive" *ngIf="payments">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                <th><span>Mã đơn thanh toán</span></th>
+                <th><span>Mã hóa đơn</span></th>
+                <th><span>Mã số hóa đơn</span></th>
+                <th><span>Người thanh toán</span></th>
+                <th><span>Số tiền</span></th>
+                <th><span>Ngày thanh toán</span></th>
+                <th><span>Ngày tạo đơn</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let p of payments">
+                    <td>{{p.payment.id}}</td>
+                    <td>{{p.payment.invoiceHeaderId}}</td>
+                    <td>{{p.invoice.invoiceNo}}</td>
+                    <td>{{p.invoice.receiverPay ? "Người nhận trả" : "Người gửi trả"}}</td>
+                    <td>{{p.payment.amountPaid}}</td>
+                    <td>{{p.payment.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                    <td>{{p.invoice.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div *ngIf="payments && payments.length">
         <div class="row justify-content-center">
