@@ -21,5 +21,3 @@ public interface DistrictService {
      */
     DistrictDTO save(DistrictDTO districtDTO);
 
-    /**
-
