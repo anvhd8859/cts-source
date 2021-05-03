@@ -14,5 +14,4 @@ public interface EmployeeShiftService {
      * Save a employeeShift.
      *
      * @param employeeShiftDTO the entity to save
-     * @return the persisted entity
 }
