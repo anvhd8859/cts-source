@@ -34,7 +34,7 @@ public interface VehicleService {
 	Optional<VehicleDTO> findOne(Long id);
 	
 	/**
-	 * 
+	 * Delete ehicle by "id".
 	 */
 	void delete(Long id);
 }
