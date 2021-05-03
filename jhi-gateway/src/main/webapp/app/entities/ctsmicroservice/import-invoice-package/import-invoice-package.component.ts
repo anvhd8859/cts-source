@@ -1,3 +1,5 @@
+import { ImportInvoiceModalWarningComponent } from './import-invoice-modal-warning.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonString } from './../../../shared/util/request-util';
 import { IUserProfile } from './../../../shared/model/user-profile.model';
 import { AccountService } from './../../../core/auth/account.service';
@@ -12,6 +14,7 @@ import { ImportInvoicePackageService } from './import-invoice-package.service';
 import { IInvoicePackageShipment } from '.';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITEMS_PER_PAGE } from 'app/shared';
+import { Moment } from 'moment';
 
 @Component({
     selector: 'jhi-import-invoice-package',
@@ -22,7 +25,6 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     finalData: any;
     currentAccount: any;
     eventSubscriber: Subscription;
-    selectedInvoiceStatus: any;
     selectedInvoiceNo: any;
     listShipmentStatus: any = [
         { id: 'new', text: 'Chưa xử lý' },
@@ -33,11 +35,8 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
         { id: 'fail_num3', text: 'Giao hàng không thành công lần: 3' },
         { id: 'finish', text: 'Hoàn thành' }
     ];
-    listInvoiceStatus: any = [
-        { id: 'collected', text: 'Nhân viên đã lấy hàng' },
-        { id: 'transporting', text: 'Đang vận chuyển' },
-        { id: 'delivering', text: 'Đang giao hàng' }
-    ];
+    listInvoiceStatus: any = [{ id: 'transporting', text: 'Đang vận chuyển' }];
+    selectedInvoiceStatus = this.listInvoiceStatus[0].id;
     routeData: any;
     links: any;
     totalItems: any;
@@ -50,6 +49,10 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     isSaving: boolean;
     officeId: any;
     common: CommonString;
+    fromTime: Moment;
+    toTime: Moment;
+    all: boolean;
+    selectedCheckBox: boolean[] = [];
 
     constructor(
         private importInvoicePackageService: ImportInvoicePackageService,
@@ -58,7 +61,8 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private principal: Principal,
         private router: Router,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private modal: NgbModal
     ) {
         this.common = new CommonString();
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -73,7 +77,9 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
         const param = {
             id: this.officeId,
             invNo: this.selectedInvoiceNo ? this.selectedInvoiceNo : '',
-            status: this.selectedInvoiceStatus ? this.selectedInvoiceStatus : '',
+            status: this.selectedInvoiceStatus,
+            fromDate: this.fromTime ? this.fromTime.year() + '-' + (this.fromTime.month() + 1) + '-' + this.fromTime.date() : '',
+            toDate: this.toTime ? this.toTime.year() + '-' + (this.toTime.month() + 1) + '-' + this.toTime.date() : '',
             page: this.page - 1,
             size: this.itemsPerPage
         };
@@ -81,15 +87,62 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
             (res: HttpResponse<IInvoicePackageShipment[]>) => {
                 this.invoicePackageShipments = res.body;
                 this.finalData = JSON.parse(JSON.stringify(this.invoicePackageShipments));
+                for (const obj of this.invoicePackageShipments) {
+                    this.selectedCheckBox.push(false);
+                }
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
     }
 
+    checked(i: number, e) {
+        if (e.target.checked) {
+            this.selectedCheckBox[i] = true;
+        } else {
+            this.selectedCheckBox[i] = false;
+            this.all = false;
+        }
+    }
+
+    checkAll(e) {
+        if (e.target.checked) {
+            for (const i in this.selectedCheckBox) {
+                if (this.selectedCheckBox.hasOwnProperty(i)) {
+                    this.selectedCheckBox[i] = true;
+                }
+            }
+        } else {
+            for (const i in this.selectedCheckBox) {
+                if (this.selectedCheckBox.hasOwnProperty(i)) {
+                    this.selectedCheckBox[i] = false;
+                }
+            }
+        }
+    }
+
     importAll() {
-        this.isSaving = true;
-        const finalParams = this.finalData;
-        this.subscribeToSaveResponse(this.importInvoicePackageService.updateImportAllInvoice(finalParams));
+        let todo = false;
+        const finalParams = new Array();
+        for (const i in this.selectedCheckBox) {
+            if (this.selectedCheckBox[i]) {
+                finalParams.push(this.finalData[i]);
+            }
+        }
+        if (finalParams.length === 0) {
+            todo = true;
+        }
+        const modalRef = this.modal.open(ImportInvoiceModalWarningComponent as Component, {
+            size: 'lg',
+            backdrop: 'static'
+        });
+        modalRef.componentInstance.action = todo;
+        modalRef.result.then(
+            result => {
+                this.isSaving = true;
+                this.subscribeToSaveResponse(this.importInvoicePackageService.updateImportAllInvoice(finalParams));
+            },
+            reason => {}
+        );
     }
 
     private subscribeToSaveResponse(result: any) {
@@ -133,6 +186,17 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
+    clearDatepicker(id: number) {
+        switch (id) {
+            case 2:
+                this.fromTime = null;
+                break;
+            case 3:
+                this.toTime = null;
+                break;
+        }
+    }
+
     sort() {
         const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
         return result;
@@ -144,6 +208,11 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
             this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(res => {
                 this.officeId = res.body.officeId;
                 this.loadAll();
+                for (const obj of this.invoicePackageShipments) {
+                    if (obj) {
+                        this.selectedCheckBox.push(false);
+                    }
+                }
             });
         });
         this.registerChangeInImportInvoicePackages();

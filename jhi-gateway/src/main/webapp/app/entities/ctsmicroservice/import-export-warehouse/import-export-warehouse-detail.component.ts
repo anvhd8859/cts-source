@@ -37,69 +37,76 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
                 .getRequestDetailsByHeaderId({ id: this.importExportWarehouse.id })
                 .subscribe((res: HttpResponse<InvoicePackageDetailDTO[]>) => {
                     this.requestDetailsList = res.body;
+                    for (const i of this.requestDetailsList) {
+                        this.selectedCheckBox.push(false);
+                    }
                 });
         });
     }
 
     checked(i: number, e) {
-        if (!e.target.checked) {
+        if (e.target.checked) {
+            this.selectedCheckBox[i] = true;
+        } else {
+            this.selectedCheckBox[i] = false;
             this.all = false;
         }
     }
 
-    checkAll() {
-        if (this.all) {
-            // tslint:disable-next-line: forin
+    checkAll(e) {
+        if (e.target.checked) {
             for (const i in this.selectedCheckBox) {
-                this.selectedCheckBox[i] = true;
+                if (this.selectedCheckBox.hasOwnProperty(i)) {
+                    this.selectedCheckBox[i] = true;
+                }
             }
         } else {
-            // tslint:disable-next-line: forin
             for (const i in this.selectedCheckBox) {
-                this.selectedCheckBox[i] = false;
+                if (this.selectedCheckBox.hasOwnProperty(i)) {
+                    this.selectedCheckBox[i] = false;
+                }
             }
         }
     }
 
     processAction(id: number) {
-        if (this.selectedCheckBox.length === 0) {
-            this.selectedRequestInvoices = new Array();
-            for (const i in this.selectedCheckBox) {
-                if (this.selectedCheckBox[i]) {
-                    this.selectedRequestInvoices.push(this.requestDetailsList[i]);
-                }
-            }
-            let closeResult = '';
-            const modalRef = this.modalService.open(NgbdModalConfirmComponent as Component, {
-                size: 'lg',
-                backdrop: 'static'
-            });
-            if (id === 1) {
-                modalRef.componentInstance.action = 'chấp thuận';
-            } else {
-                modalRef.componentInstance.action = 'từ chối';
-            }
-            modalRef.result.then(
-                result => {
-                    if (result) {
-                        closeResult = result;
-                    }
-                },
-                reason => {}
-            );
-            if (closeResult === 'OK') {
-                if (id === 1) {
-                    this.importExportWarehouse.note = 'approve';
-                } else {
-                    this.importExportWarehouse.note = 'reject';
-                }
-                console.log(this.importExportWarehouse.note);
-                this.importExportWarehouse.keeperConfirm = true;
-                this.subscribeToSaveResponse(
-                    this.requestDetailsService.updateImportExportByKeeper(this.importExportWarehouse.id, this.selectedRequestInvoices)
-                );
+        let empty = false;
+        this.selectedRequestInvoices = new Array();
+        for (const i in this.selectedCheckBox) {
+            if (this.selectedCheckBox[i]) {
+                this.selectedRequestInvoices.push(this.requestDetailsList[i]);
             }
         }
+        if (this.selectedRequestInvoices.length === 0) {
+            empty = true;
+        }
+        const modalRef = this.modalService.open(NgbdModalConfirmComponent as Component, {
+            size: 'lg',
+            backdrop: 'static'
+        });
+        if (id === 1) {
+            modalRef.componentInstance.action = 'chấp thuận';
+        } else {
+            modalRef.componentInstance.action = 'từ chối';
+        }
+        modalRef.componentInstance.empty = empty;
+        modalRef.result.then(
+            result => {
+                if (result) {
+                    if (id === 1) {
+                        this.importExportWarehouse.note = 'approve';
+                    } else {
+                        this.importExportWarehouse.note = 'reject';
+                    }
+                    console.log(this.importExportWarehouse.note);
+                    this.importExportWarehouse.keeperConfirm = true;
+                    this.subscribeToSaveResponse(
+                        this.requestDetailsService.updateImportExportByKeeper(this.importExportWarehouse.id, this.selectedRequestInvoices)
+                    );
+                }
+            },
+            reason => {}
+        );
     }
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<IImportExportWarehouse>>) {
@@ -134,18 +141,13 @@ export class InvoicePackageDetailDTO {
     template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-title">Xác nhận {{action}}</h4>
-      <button
-        type="button"
-        class="close"
-        aria-describedby="modal-title"
-        (click)="modal.dismiss('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
     </div>
     <div class="modal-body">
-      <p>
-        <strong>Bạn chắc chắn muốn {{action}} yêu cầu này?</strong>
+      <p *ngIf='!empty'>
+        <strong>Bạn chắc chắn muốn {{action}} những yêu cầu này?</strong>
+      </p>
+      <p *ngIf="empty">
+      <strong>Bạn chưa lựa chọn hóa đơn nào!</strong>
       </p>
     </div>
     <div class="modal-footer">
@@ -157,7 +159,7 @@ export class InvoicePackageDetailDTO {
       >
         Cancel
       </button>
-      <button
+      <button *ngIf="!empty"
         style="margin-left: 51%; width: 20%; margin-right:5%"
         type="button"
         class="btn btn-primary"
@@ -170,10 +172,7 @@ export class InvoicePackageDetailDTO {
 })
 export class NgbdModalConfirmComponent {
     action: string;
+    empty = false;
 
     constructor(public modal: NgbActiveModal) {}
-
-    passBack() {
-        this.modal.close('OK');
-    }
 }

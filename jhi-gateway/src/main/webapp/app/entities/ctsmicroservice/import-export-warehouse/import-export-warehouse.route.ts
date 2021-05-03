@@ -12,6 +12,8 @@ import { ImportExportWarehouseDetailComponent } from './import-export-warehouse-
 import { ImportExportWarehouseUpdateComponent } from './import-export-warehouse-update.component';
 import { ImportExportWarehouseDeletePopupComponent } from './import-export-warehouse-delete-dialog.component';
 import { IImportExportWarehouse } from 'app/shared/model/ctsmicroservice/import-export-warehouse.model';
+import { ImportExportWarehouseShipperComponent } from './import-export-warehouse-shipper.component';
+import { ImportExportWarehouseShipperDetailComponent } from './import-export-warehouse-shipper-detail.component';
 
 @Injectable({ providedIn: 'root' })
 export class ImportExportWarehouseResolve implements Resolve<IImportExportWarehouse> {
@@ -75,6 +77,30 @@ export const importExportWarehouseRoute: Routes = [
         data: {
             authorities: ['ROLE_ADMIN'],
             pageTitle: 'CTS: Sửa yêu cầu xuất nhập kho'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'import-export-warehouse-shipper',
+        component: ImportExportWarehouseShipperComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER'],
+            pageTitle: 'CTS: Xem yêu cầu xuất nhập kho'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'import-export-warehouse-shipper/:id/view',
+        component: ImportExportWarehouseShipperDetailComponent,
+        resolve: {
+            importExportWarehouse: ImportExportWarehouseResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER'],
+            pageTitle: 'CTS: Xem yêu cầu xuất nhập kho'
         },
         canActivate: [UserRouteAccessService]
     }

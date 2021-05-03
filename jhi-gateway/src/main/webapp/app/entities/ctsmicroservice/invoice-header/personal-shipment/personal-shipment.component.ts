@@ -162,20 +162,25 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
         if (e.target.checked) {
             this.selectedCheckBox[i] = true;
         } else {
+            this.selectedCheckBox[i] = false;
             this.all = false;
         }
     }
 
-    checkAll() {
-        if (this.all) {
-            // tslint:disable-next-line: forin
+    checkAll(e) {
+        if (e.target.checked) {
+            this.all = true;
             for (const i in this.selectedCheckBox) {
-                this.selectedCheckBox[i] = true;
+                if (this.selectedCheckBox.hasOwnProperty(i)) {
+                    this.selectedCheckBox[i] = true;
+                }
             }
         } else {
-            // tslint:disable-next-line: forin
+            this.all = false;
             for (const i in this.selectedCheckBox) {
-                this.selectedCheckBox[i] = false;
+                if (this.selectedCheckBox.hasOwnProperty(i)) {
+                    this.selectedCheckBox[i] = false;
+                }
             }
         }
     }
@@ -195,113 +200,97 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     createExportRequest() {
         let closeResult = '';
         // only invoice.finish = false can export
-        let todo = true;
         this.selectedRequestInvoices = new Array();
         if (this.selectedCheckBox) {
             for (const i in this.selectedCheckBox) {
                 if (this.selectedCheckBox[i]) {
-                    if (this.shipmentInvoices[i].invoiceHeaderDTO.finish === todo) {
-                        todo = !todo;
-                        break;
-                    }
                     this.selectedRequestInvoices.push(this.shipmentInvoices[i]);
                 }
             }
         }
-        if (todo) {
-            const modalRef = this.modalService.open(ExportModalConfirmComponent as Component, {
-                size: 'lg',
-                backdrop: 'static'
-            });
-            modalRef.componentInstance.selectedExportInvoices = this.selectedRequestInvoices;
-            modalRef.result.then(
-                result => {
-                    if (result) {
-                        closeResult = result;
-                        if (closeResult.startsWith('OK')) {
-                            const data = new DetailsImportExportDTO();
-                            data.requestHeader = this.createNewRequestHeader();
-                            data.requestDetailsList = new Array();
-                            for (const i in this.selectedCheckBox) {
-                                if (this.selectedCheckBox[i]) {
-                                    const rd = new RequestDetailsDTO();
-                                    rd.shipmentId = this.shipmentInvoices[i].personalShipmentDTO.id;
-                                }
+        const modalRef = this.modalService.open(ExportModalConfirmComponent as Component, {
+            size: 'lg',
+            backdrop: 'static'
+        });
+        modalRef.componentInstance.selectedExportInvoices = this.selectedRequestInvoices;
+        modalRef.result.then(
+            result => {
+                if (result) {
+                    closeResult = result;
+                    if (closeResult.startsWith('OK')) {
+                        const data = new DetailsImportExportDTO();
+                        data.requestHeader = this.createNewRequestHeader();
+                        data.requestDetailsList = new Array();
+                        for (const i in this.selectedCheckBox) {
+                            if (this.selectedCheckBox[i]) {
+                                const rd = new RequestDetailsDTO();
+                                rd.shipmentId = this.shipmentInvoices[i].personalShipmentDTO.id;
+                                data.requestDetailsList.push(rd);
                             }
-                            this.requestService.createExportWarehouse(data).subscribe(
-                                (res: HttpResponse<any>) => {
-                                    this.isSaving = false;
-                                    const responseData: DetailsImportExportDTO = res.body;
-                                    // redirect to view
-                                },
-                                (res: HttpErrorResponse) => {
-                                    this.isSaving = false;
-                                }
-                            );
                         }
+                        this.requestService.createExportWarehouse(data).subscribe(
+                            (res: HttpResponse<any>) => {
+                                this.isSaving = false;
+                                const responseData: IImportExportWarehouse = res.body;
+                                this.router.navigate(['/import-export-warehouse-shipper/' + responseData.id + '/view']);
+                            },
+                            (res: HttpErrorResponse) => {
+                                this.isSaving = false;
+                            }
+                        );
                     }
-                },
-                reason => {}
-            );
-        } else {
-            this.openWarning();
-        }
+                }
+            },
+            reason => {}
+        );
     }
 
     createImportRequest() {
         let closeResult = '';
         // only invoice.finish = true can import
-        let todo = false;
         this.selectedRequestInvoices = new Array();
         if (this.selectedCheckBox) {
             for (const i in this.selectedCheckBox) {
                 if (this.selectedCheckBox[i]) {
-                    if (this.shipmentInvoices[i].invoiceHeaderDTO.finish === todo) {
-                        todo = !todo;
-                        break;
-                    }
                     this.selectedRequestInvoices.push(this.shipmentInvoices[i]);
                 }
             }
         }
-        if (!todo) {
-            const modalRef = this.modalService.open(ImportModalConfirmComponent as Component, {
-                size: 'lg',
-                backdrop: 'static'
-            });
-            modalRef.componentInstance.selectedImportInvoices = this.selectedRequestInvoices;
-            modalRef.result.then(
-                result => {
-                    if (result) {
-                        closeResult = result;
-                        if (closeResult.startsWith('OK')) {
-                            const data = new DetailsImportExportDTO();
-                            data.requestHeader = this.createNewRequestHeader();
-                            data.requestDetailsList = new Array();
-                            for (const i in this.selectedCheckBox) {
-                                if (this.selectedCheckBox[i]) {
-                                    const rd = new RequestDetailsDTO();
-                                    rd.shipmentId = this.shipmentInvoices[i].personalShipmentDTO.id;
-                                }
+        const modalRef = this.modalService.open(ImportModalConfirmComponent as Component, {
+            size: 'lg',
+            backdrop: 'static'
+        });
+        modalRef.componentInstance.selectedImportInvoices = this.selectedRequestInvoices;
+        modalRef.result.then(
+            result => {
+                if (result) {
+                    closeResult = result;
+                    if (closeResult.startsWith('OK')) {
+                        const data = new DetailsImportExportDTO();
+                        data.requestHeader = this.createNewRequestHeader();
+                        data.requestDetailsList = new Array();
+                        for (const i in this.selectedCheckBox) {
+                            if (this.selectedCheckBox[i]) {
+                                const rd = new RequestDetailsDTO();
+                                rd.shipmentId = this.shipmentInvoices[i].personalShipmentDTO.id;
+                                data.requestDetailsList.push(rd);
                             }
-                            this.requestService.createImportWarehouse(data).subscribe(
-                                (res: HttpResponse<any>) => {
-                                    this.isSaving = false;
-                                    const responseData: DetailsImportExportDTO = res.body;
-                                    // redirect to view
-                                },
-                                (res: HttpErrorResponse) => {
-                                    this.isSaving = false;
-                                }
-                            );
                         }
+                        this.requestService.createImportWarehouse(data).subscribe(
+                            (res: HttpResponse<any>) => {
+                                this.isSaving = false;
+                                const responseData: IImportExportWarehouse = res.body;
+                                this.router.navigate(['/import-export-warehouse-shipper/' + responseData.id + '/view']);
+                            },
+                            (res: HttpErrorResponse) => {
+                                this.isSaving = false;
+                            }
+                        );
                     }
-                },
-                reason => {}
-            );
-        } else {
-            this.openWarning();
-        }
+                }
+            },
+            reason => {}
+        );
     }
 
     openWarning() {
@@ -379,7 +368,10 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
 export class DetailsImportExportDTO {
     requestHeader: IImportExportWarehouse;
     requestDetailsList: RequestDetailsDTO[];
-    constructor() {}
+    constructor() {
+        this.requestHeader = new ImportExportWarehouse();
+        this.requestDetailsList = [];
+    }
 }
 
 export class RequestDetailsDTO {
@@ -391,5 +383,12 @@ export class RequestDetailsDTO {
     impExpConfirm: boolean;
     createDate: Moment;
     updateDate: Moment;
-    constructor() {}
+    constructor() {
+        this.id = null;
+        this.ieWarehouseId = null;
+        this.shipmentId = null;
+        this.keeperConfirm = false;
+        this.shipperConfirm = false;
+        this.impExpConfirm = false;
+    }
 }

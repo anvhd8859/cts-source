@@ -1,5 +1,9 @@
 <div>
     <h2 id="page-heading">
+        <br>
+<br>
+        <br>
+<br>
         <span>Quản lý danh sách Đường/Phố</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-street" [routerLink]="['/street/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
@@ -26,8 +30,8 @@
             <tr *ngFor="let street of streets ;trackBy: trackId">
                 <td><a [routerLink]="['/street', street.id, 'view' ]">{{street.id}}</a></td>
                 <td>{{street.streetName}}</td>
-                <td>{{street.createDate | date:'medium'}}</td>
-                <td>{{street.updateDate | date:'medium'}}</td>
+                <td>{{street.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{street.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td>
                     <div *ngIf="street.subDistrictIdId">
                         <a [routerLink]="['../sub-district', street.subDistrictIdId , 'view' ]" >{{street.subDistrictIdId}}</a>

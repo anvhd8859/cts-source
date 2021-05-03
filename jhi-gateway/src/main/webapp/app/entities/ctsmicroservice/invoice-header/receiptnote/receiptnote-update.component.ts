@@ -1,3 +1,4 @@
+import { InvoiceHeaderService } from 'app/entities/ctsmicroservice/invoice-header/invoice-header.service';
 import { IPayment } from './../../../../shared/model/ctsmicroservice/payment.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -25,10 +26,17 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     isSaving: boolean;
     currentUser: IUser;
     createPackage: PackageDetailsDTO[] = [];
-    data: any;
-    payment: IPayment;
+    data: CustomReceipt;
+    collect = false;
+    collectFee: any;
+    payment: string;
 
-    constructor(private receiptnoteService: ReceiptnoteService, private activatedRoute: ActivatedRoute, private principal: Principal) {
+    constructor(
+        private receiptnoteService: ReceiptnoteService,
+        private invoiceService: InvoiceHeaderService,
+        private activatedRoute: ActivatedRoute,
+        private principal: Principal
+    ) {
         this.principal.identity().then(account => {
             this.currentUser = account;
             this.receiptnote = new Receiptnote();
@@ -43,12 +51,17 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                 this.personalShipment = personalShipment;
                 this.receiptnote.invoiceHeaderId = this.personalShipment.invoiceHeaderId;
                 this.receiptnote.shipmentId = this.personalShipment.id;
-                this.receiptnoteService.getReceiptItemPackage({ id: this.invoiceHeader.id }).subscribe(res => {
+                this.receiptnoteService.getReceiptItemPackage({ id: this.receiptnote.invoiceHeaderId }).subscribe(res => {
                     this.createPackage = res.body;
                 });
+                this.invoiceService.find(this.receiptnote.invoiceHeaderId).subscribe(res => (this.invoiceHeader = res.body));
+                this.payment = this.invoiceHeader.totalDue.toString();
+                this.collectFee = this.invoiceHeader.totalDue - this.invoiceHeader.subTotal - this.invoiceHeader.taxAmount;
+                if (this.collectFee > 0) {
+                    this.collect = true;
+                }
             }
         });
-        this.payment.amountPaid = this.invoiceHeader.totalDue;
     }
 
     previousState() {
@@ -67,10 +80,11 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                     this.data = new CustomReceipt();
                     this.data.receipt = this.receiptnote;
                     for (const obj of this.createPackage) {
-                        this.data.invoicePackageList.push(obj.invPackage);
-                        for (const obj2 of obj.itemList) {
-                            this.data.invoiceDetailList.push(obj2);
-                        }
+                        this.data.packageList.push(obj);
+                    }
+                    if (!this.invoiceHeader.receiverPay) {
+                        this.data.pay = true;
+                        this.data.payAmount = this.payment;
                     }
                     this.receiptnoteService.createReceiptNoteAndShipmentInvoice(this.data).subscribe(
                         (res: HttpResponse<any>) => {
@@ -84,10 +98,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                     this.data = new CustomReceipt();
                     this.data.receipt = this.receiptnote;
                     for (const obj of this.createPackage) {
-                        this.data.invoicePackageList.push(obj.invPackage);
-                        for (const obj2 of obj.itemList) {
-                            this.data.invoiceDetailList.push(obj2);
-                        }
+                        this.data.packageList.push(obj);
                     }
                     this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
                         (res: HttpResponse<any>) => {
@@ -137,8 +148,12 @@ export class ReceiptnoteUpdateComponent implements OnInit {
 export class CustomReceipt {
     receipt: IReceiptnote;
     packageList: PackageDetailsDTO[];
+    pay: boolean;
+    payAmount: string;
     constructor() {
         this.receipt = new Receiptnote();
         this.packageList = [];
+        this.pay = false;
+        this.payAmount = '';
     }
 }

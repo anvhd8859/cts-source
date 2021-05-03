@@ -70,11 +70,13 @@ export class ExportInvoicePackageService {
         res.body.invoiceHeader.createDate = res.body.invoiceHeader.createDate != null ? moment(res.body.invoiceHeader.createDate) : null;
         res.body.invoiceHeader.updateDate = res.body.invoiceHeader.updateDate != null ? moment(res.body.invoiceHeader.updateDate) : null;
 
-        for (let i in res.body.invoicePackageList) {
-            let crDate = res.body.invoicePackageList[i].createDate;
-            let udDate = res.body.invoicePackageList[i].updateDate;
-            res.body.invoicePackageList[i].createDate = crDate != null ? moment(crDate) : null;
-            res.body.invoicePackageList[i].updateDate = udDate != null ? moment(udDate) : null;
+        for (const i in res.body.invoicePackageList) {
+            if (res.body.invoicePackageList.hasOwnProperty(i)) {
+                const crDate = res.body.invoicePackageList[i].createDate;
+                const udDate = res.body.invoicePackageList[i].updateDate;
+                res.body.invoicePackageList[i].createDate = crDate != null ? moment(crDate) : null;
+                res.body.invoicePackageList[i].updateDate = udDate != null ? moment(udDate) : null;
+            }
         }
         return res;
     }
@@ -90,11 +92,13 @@ export class ExportInvoicePackageService {
             invoicePackageShipment.invoiceHeader.updateDate =
                 invoicePackageShipment.invoiceHeader.updateDate != null ? moment(invoicePackageShipment.invoiceHeader.updateDate) : null;
 
-            for (let i in invoicePackageShipment.invoicePackageList) {
-                const crDate = invoicePackageShipment.invoicePackageList[i].createDate;
-                const udDate = invoicePackageShipment.invoicePackageList[i].updateDate;
-                invoicePackageShipment.invoicePackageList[i].createDate = crDate != null ? moment(crDate) : null;
-                invoicePackageShipment.invoicePackageList[i].updateDate = udDate != null ? moment(udDate) : null;
+            for (const i in invoicePackageShipment.invoicePackageList) {
+                if (invoicePackageShipment.invoicePackageList.hasOwnProperty(i)) {
+                    const crDate = invoicePackageShipment.invoicePackageList[i].createDate;
+                    const udDate = invoicePackageShipment.invoicePackageList[i].updateDate;
+                    invoicePackageShipment.invoicePackageList[i].createDate = crDate != null ? moment(crDate) : null;
+                    invoicePackageShipment.invoicePackageList[i].updateDate = udDate != null ? moment(udDate) : null;
+                }
             }
         });
         return res;

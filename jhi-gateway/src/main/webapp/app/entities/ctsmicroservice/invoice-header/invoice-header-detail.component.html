@@ -2,17 +2,23 @@
     <div class="col-11">
         <div *ngIf="invoiceHeader">
             <br>
+<br>
+            <br>
+<br>
             <div class="container-fluid" style="border-bottom: 2px solid;">
                 <div class="row" >
                     <h2 style="font-weight: bold;"><span>Hóa đơn: </span> {{invoiceHeader.invoiceNo}}</h2>
                 </div>
                 <br>
+<br>
                 <div class="row">
                     <h4><span>Ngày tạo hóa đơn: </span>{{invoiceHeader.createDate | date:'yyyy-MM-dd HH:mm'}}</h4>
                 </div>
                 <br>
+<br>
             </div>
             <br>
+<br>
             <jhi-alert-error></jhi-alert-error>
             <div class="col-12">
                 <table class="table" style="width: 100%;">
@@ -45,73 +51,156 @@
                         <td>{{invoiceHeader.note}}</td>
                     </tr>
                 </table>
-                <div class="card" *ngIf="this.lstInvoicePackage && this.lstInvoicePackage.length > 0">
-                    <div class="card-header" id="headingOne">
-                        <h5 class="mb-0">
-                        <button class="btn btn-link" (click)="collapsePackage()">
-                            Gói hàng:
-                        </button>
-                        </h5>
+                <div class="card">
+                    <div class="card-header">
+                        <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Thông tin
+                                đơn hàng</b></label>
                     </div>
-                    <div id="colPackage" *ngIf="showPackage">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Cân nặng (g)</th>
-                                    <th>Cao (cm)</th>
-                                    <th>Rộng (cm)</th>
-                                    <th>Dài (cm)</th>
-                                    <th>Ghi chú</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of this.lstInvoicePackage; let index = index">
-                                    <td>{{index +1}}</td>
-                                    <td>{{item.weight}}</td>
-                                    <td>{{item.height}}</td>
-                                    <td>{{item.width}}</td>
-                                    <td>{{item.length}}</td>
-                                    <td>{{item.note}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card-body" name="from-address">
+                        <!-- Invoice Package Start-->
+                        <label class="form-control-label" for="from-address" style="font-weight: 500;">
+                            <fa-icon icon="sticky-note"></fa-icon><b>Chi tiết gói hàng</b>
+                        </label>
+                        <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
+                            <ng-container *ngFor="let item of createPackage; let i = index">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-10"> Gói hàng #{{i + 1}} </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="weight{{i}}">Cân nặng
+                                                        (g)</label>
+                                                    <input placeholder="" class="form-control" step="0.1" min="0"
+                                                        type="number" name="weight{{i}}" id="weight{{i}}" disabled
+                                                        [(ngModel)]="item.invPackage.weight">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="height{{i}}">Cao (cm)</label>
+                                                    <input placeholder="" class="form-control" step="0.1" min="0"
+                                                        type="number" name="height{{i}}" id="height{{i}}" disabled
+                                                        [(ngModel)]="item.invPackage.height">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="width{{i}}">Rộng (cm)</label>
+                                                    <input placeholder="" class="form-control" step="0.1" min="0"
+                                                        type="number" name="width{{i}}" id="width{{i}}" disabled
+                                                        [(ngModel)]="item.invPackage.width">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="length{{i}}">Dài (cm)</label>
+                                                    <input placeholder="" class="form-control" step="0.1" type="number"
+                                                        name="length{{i}}" id="length{{i}}" disabled
+                                                        [(ngModel)]="item.invPackage.length">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="note{{i}}">Ghi chú</label>
+                                                    <textarea class="form-control" style="resize: none;" rows="3"
+                                                        id="address" id="note{{i}}" name="note{{i}}" disabled
+                                                        [(ngModel)]="item.invPackage.note">
+                                                        </textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin: 50px;">
+                                        <!-- Invoice Detail Start -->
+                                        <label class="form-control-label" for="from-address" style="margin-left: 20px;">
+                                            <fa-icon icon="arrow-right"></fa-icon><b> Chi tiết vật phẩm</b>
+                                        </label>
+                                        <div name="from-address"
+                                            style="border: rgba(161, 161, 161, 0.3) solid thin; border-radius: 5px; padding: 2%;">
+                                            <ng-container *ngFor="let itemDetail of item.itemList; let id = index">
+                                                <div class="">
+                                                    <div >
+                                                        <div class="card-header">
+                                                            <div class="row">
+                                                                <div class="col-10"> Vật phẩm #{{i + 1}} </div>
+                                                                <div class="col-2">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="form-control-label"
+                                                                            for="itemName{{i}}">Tên
+                                                                            vật
+                                                                            phẩm</label>
+                                                                        <input placeholder="" class="form-control" type="text"
+                                                                            name="itemName{{id}}" id="itemName{{id}}" disabled
+                                                                            [(ngModel)]="itemDetail.itemName">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="form-control-label"
+                                                                            for="itemType{{i}}">Loại</label>
+                                                                        <input placeholder="" class="form-control" type="text"
+                                                                            name="itemType{{id}}" id="itemType{{id}}" disabled
+                                                                            [(ngModel)]="itemDetail.itemType">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="form-control-label"
+                                                                            for="description{{id}}">Ghi chú</label>
+                                                                        <textarea class="form-control" style="resize: none;"
+                                                                            rows="3" id="description{{id}}"
+                                                                            name="description{{id}}" disabled
+                                                                            [(ngModel)]="itemDetail.description">
+                                                                </textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+<br>
+                                            </ng-container>
+                                            <div class="row">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+<br>
+                            </ng-container>
+                            <br>
+<br>
+                            <div class="divider" style="margin: 20px;"></div>
+                            <div class="row">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <br>
-                <div class="card" *ngIf="this.lstInvoiceDetails && this.lstInvoiceDetails.length > 0">
-                    <div class="card-header" id="headingOne">
-                        <h5 class="mb-0">
-                        <button class="btn btn-link" (click)="collapseItem()">
-                            Vật phẩm
-                        </button>
-                        </h5>
-                    </div>
-                    <div id="colItem" *ngIf="showItem">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tên vật phẩm</th>
-                                    <th>Loại vật phẩm</th>
-                                    <th>Ghi chú</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of this.lstInvoiceDetails; let index = index">
-                                    <td>{{index +1}}</td>
-                                    <td>{{item.itemName}}</td>
-                                    <td>{{item.itemType}}</td>
-                                    <td>{{item.description}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<br>
             </div>
             <div class="divider"></div>
             <div class="divider"></div>
             <br>
+<br>
             <div class="row">
                 <div class="col-12">
                     <h4 class="float-right">Tổng phụ: <b>{{invoiceHeader.subTotal | currency:'VND'}}</b></h4>
@@ -130,11 +219,17 @@
                 </div>
             </div>
             <br>
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;&nbsp;<span> Quay lại</span>
-            </button>
+<br>
+            <div class="row">
+                <div style="margin-left: 100px;">
+                    <button type="submit"
+                            (click)="previousState()"
+                            class="btn btn-info">
+                        <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;&nbsp;<span> Quay lại</span>
+                    </button>
+                </div>
+            </div>
         </div>
+        <br/><br/><br/>
     </div>
 </div>

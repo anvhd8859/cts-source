@@ -1,4 +1,10 @@
 <div>
+    <br>
+<br>
+    <br>
+<br>
+    <br>
+<br>
     <h2 id="page-heading">
         <span>Confirm Receipt Notes</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-confirm-receipt-note" [routerLink]="['/confirm-receipt-note/new']">
@@ -31,8 +37,8 @@
                 <td>{{confirmReceiptNote.invoiceHeaderId}}</td>
                 <td>{{confirmReceiptNote.note}}</td>
                 <td>{{confirmReceiptNote.customerConfirm}}</td>
-                <td>{{confirmReceiptNote.createDate | date:'medium'}}</td>
-                <td>{{confirmReceiptNote.updateDate | date:'medium'}}</td>
+                <td>{{confirmReceiptNote.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{confirmReceiptNote.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

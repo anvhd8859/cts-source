@@ -72,6 +72,9 @@ public interface InvoiceHeaderService {
 
 	Page<InvoicePackageDetailDTO> getInvoiceHeadersWaitingReview(Long id, Pageable pageable);
 
-	InvoiceHeaderDTO updateInvoiceHeadersReview(InvoicePackageDetailDTO invoice);
+	InvoiceHeaderDTO updateInvoiceHeadersReview(InvoiceHeaderDTO invoice);
+
+	Page<InvoicePackageDetailDTO> getFullInvoiceByPayment(Long id, String invoiceNo, String status, String receiveFrom,
+			String receiveTo, String createFrom, String createTo, Pageable pageable);
 
 }

@@ -1,10 +1,10 @@
 <div class="row justify-content-center">
     <div class="col-11">
-        <br>
-<br>
-        <br>
-<br>
         <div class="container-fluid">
+            <br>
+<br>
+            <br>
+<br>
             <div class="row" style="border-bottom: 2px solid;">
                 <div class="col-lg-6 col-md-12 col-md-12">
                     <h2 style="font-weight: bold;" id="page-heading">
@@ -12,12 +12,6 @@
                     </h2>
                 </div>
                 <div class="col-lg-6 col-md-12 col-md-12">
-                    <button type="submit"
-                            routerLink="new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-                            class="btn btn-primary float-right">
-                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                        <span class="d-none d-md-inline">Tạo hóa đơn mới</span>
-                    </button>
                 </div>
             </div>
         </div>
@@ -163,22 +157,16 @@
                             <td class="text-center">
                                 <div class="btn-group flex-btn-group-container">
                                     <button type="submit"
-                                            [routerLink]="['/invoice-header', invoiceHeader.id, 'view' ]"
-                                            class="btn btn-info btn-sm">
-                                        <fa-icon [icon]="'eye'"></fa-icon>
-                                        <span class="d-none d-md-inline">Chi tiết</span>
-                                    </button>
-                                    <button type="submit"
-                                            [routerLink]="['/invoice-header', invoiceHeader.id, 'edit']"
+                                            (click)="approve(i)"
                                             class="btn btn-primary btn-sm">
-                                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                        <span class="d-none d-md-inline">Chỉnh sửa</span>
+                                        <fa-icon [icon]="'check'"></fa-icon>
+                                        <span class="d-none d-md-inline">Chấp nhận</span>
                                     </button>
                                     <button type="submit"
-                                            [routerLink]="['/receiptnote', invoiceHeader.id, 'view']"
-                                            class="btn btn-success btn-sm">
-                                        <fa-icon [icon]="'check'"></fa-icon>
-                                        <span class="d-none d-md-inline">Biên lai</span>
+                                            (click)="reject(i)"
+                                            class="btn btn-danger btn-sm">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                        <span class="d-none d-md-inline">Từ chối</span>
                                     </button>
                                 </div>
                             </td>

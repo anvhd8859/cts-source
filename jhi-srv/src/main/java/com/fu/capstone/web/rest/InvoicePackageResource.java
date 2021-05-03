@@ -140,8 +140,9 @@ public class InvoicePackageResource {
     @GetMapping("/invoice-packages/import-package")
     @Timed
     public ResponseEntity<List<InvoicePackageShipmentDTO>> getImportPackageByOfficeId(@RequestParam("id") Long id
-    		,@RequestParam("invNo") String invNo, @RequestParam("status") String status, Pageable pageable) {
-    	Page<InvoicePackageShipmentDTO> page = invoicePackageService.getImportPackageByOfficeId(id, invNo, status, pageable);
+    		,@RequestParam("invNo") String invNo, @RequestParam("status") String status, @RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, Pageable pageable) {
+    	Page<InvoicePackageShipmentDTO> page = invoicePackageService.getImportPackageByOfficeId(id, invNo, status, fromDate, toDate, pageable);
     	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-packages/import-package");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -171,8 +172,9 @@ public class InvoicePackageResource {
     @GetMapping("/invoice-packages/export-package")
     @Timed
     public ResponseEntity<List<InvoicePackageShipmentDTO>> getExportPackageByOfficeId(@RequestParam("id") Long id
-    		,@RequestParam("invNo") String invNo, @RequestParam("status") String status, Pageable pageable) {
-    	Page<InvoicePackageShipmentDTO> page = invoicePackageService.getExportPackageByOfficeId(id, invNo, status, pageable);
+    		,@RequestParam("invNo") String invNo, @RequestParam("type") String type, @RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, Pageable pageable) {
+    	Page<InvoicePackageShipmentDTO> page = invoicePackageService.getExportPackageByOfficeId(id, invNo, type, fromDate, toDate,  pageable);
     	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-packages/export-package");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

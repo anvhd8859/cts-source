@@ -1,4 +1,10 @@
 <div>
+    <br>
+<br>
+    <br>
+<br>
+    <br>
+<br>
     <h2 id="page-heading">
         <span>Quảng lý danh sách Quận/Huyện</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-sub-district" [routerLink]="['/sub-district/new']">
@@ -26,8 +32,8 @@
             <tr *ngFor="let subDistrict of subDistricts ;trackBy: trackId">
                 <td><a [routerLink]="['/sub-district', subDistrict.id, 'view' ]">{{subDistrict.id}}</a></td>
                 <td>{{subDistrict.subDistrictName}}</td>
-                <td>{{subDistrict.createDate | date:'medium'}}</td>
-                <td>{{subDistrict.updateDate | date:'medium'}}</td>
+                <td>{{subDistrict.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{subDistrict.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td>
                     <div *ngIf="subDistrict.districtIdId">
                         <a [routerLink]="['../district', subDistrict.districtIdId , 'view' ]" >{{subDistrict.districtIdId}}</a>

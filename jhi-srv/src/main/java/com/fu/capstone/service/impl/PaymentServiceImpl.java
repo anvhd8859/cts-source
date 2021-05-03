@@ -1,10 +1,14 @@
 package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.PaymentService;
+import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.Payment;
+import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.PaymentRepository;
 import com.fu.capstone.service.dto.PaymentDTO;
+import com.fu.capstone.service.dto.PaymentInvoiceDTO;
 import com.fu.capstone.service.mapper.PaymentMapper;
+import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +33,16 @@ public class PaymentServiceImpl implements PaymentService {
 
     private PaymentMapper paymentMapper;
 
-    public PaymentServiceImpl(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
+    private InvoiceHeaderRepository invoiceHeaderRepository;
+
+    private InvoiceHeaderMapper invoiceHeaderMapper;
+
+    public PaymentServiceImpl(PaymentRepository paymentRepository, PaymentMapper paymentMapper,
+    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
+        this.invoiceHeaderRepository = invoiceHeaderRepository;
+        this.invoiceHeaderMapper = invoiceHeaderMapper;
     }
 
     /**
@@ -95,4 +106,21 @@ public class PaymentServiceImpl implements PaymentService {
  		return paymentMapper.toDto(paymentRepository.getPaymentByHeaderId(id, pageable));
  	}
     // END TuyenVNT 16/04/2021
+
+	@Override
+	public Page<PaymentInvoiceDTO> getPaymentInvoceByParams(String invoiceNo, String type, String receiveFrom,
+			String receiveTo, String createFrom, String createTo, Pageable pageable) {
+		Boolean tp = type.equals("1") ? true : false;
+		Page<Payment> page = paymentRepository.getPaymentInvoceByParams(invoiceNo, tp, receiveFrom, receiveTo,
+				createFrom, createTo, pageable);
+		return page.map(this::convert);
+	}
+	
+	private PaymentInvoiceDTO convert(Payment entity) {
+		PaymentInvoiceDTO pmDto = new PaymentInvoiceDTO();
+		pmDto.setPayment(paymentMapper.toDto(entity));
+		InvoiceHeader inv = invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId());
+		pmDto.setInvoice(invoiceHeaderMapper.toDto(inv));
+		return pmDto;
+	}
 }

@@ -12,8 +12,10 @@ public class ReceiptDetailPackageDTO implements Serializable {
 	private ReceiptNote receipt;
 
 	private List<PackageDetailsDTO> packageList;
-
-	private PaymentDTO payment;
+	
+	private Boolean pay;
+	
+	private String payAmount;
 
 	public List<PackageDetailsDTO> getPackageList() {
 		return packageList;
@@ -31,11 +33,19 @@ public class ReceiptDetailPackageDTO implements Serializable {
 		this.receipt = receipt;
 	}
 
-	public PaymentDTO getPayment() {
-		return payment;
+	public Boolean getPay() {
+		return pay;
 	}
 
-	public void setPayment(PaymentDTO payment) {
-		this.payment = payment;
+	public void setPay(Boolean pay) {
+		this.pay = pay;
+	}
+
+	public String getPayAmount() {
+		return payAmount;
+	}
+
+	public void setPayAmount(String payAmount) {
+		this.payAmount = payAmount;
 	}
 }

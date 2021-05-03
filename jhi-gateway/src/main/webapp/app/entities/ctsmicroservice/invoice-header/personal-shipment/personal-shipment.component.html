@@ -1,12 +1,16 @@
 <div class="row justify-content-center">
     <div class="col-11">
         <br>
+<br>
+        <br>
+<br>
         <div class="row" style="border-bottom: 2px solid;">
             <h2 style="font-weight: bold;" id="page-heading">
                 <span>Đơn giao hàng cá nhân</span>
             </h2>
         </div>
         <br>
+<br>
         <jhi-alert></jhi-alert>
         <br />
         <div class="card">
@@ -122,11 +126,12 @@
             <!-- END header START body -->
             <div class="card-body">
                 <br>
+<br>
                 <h4>Danh sách đơn</h4>
                 <div class="table-responsive" *ngIf="shipmentInvoices">
                     <table class="table table-striped">
                         <thead>
-                            <th> <input type="checkbox" [(ngModel)]="this.all" (change)="checkAll()" placeholder="All">
+                            <th> <input type="checkbox" [(ngModel)]="this.all" (change)="checkAll($event)" placeholder="All">
                             </th>
                             <th> STT </th>
                             <th> Số hóa đơn </th>
@@ -173,7 +178,7 @@
                                     <button *ngIf="object.personalShipmentDTO.shipmentType === 'collect'"
                                             [disabled]="object.personalShipmentDTO.status === 'finish' || object.invoiceHeaderDTO.status !== 'collect'"
                                             type="submit"
-                                            [routerLink]="['/receiptnote', object.personalShipmentDTO.id, 'shipper']"
+                                            [routerLink]="['/receiptnote', object.personalShipmentDTO.id, 'new-receipt']"
                                             class="btn btn-primary btn-sm">
                                         <fa-icon [icon]="'check-circle'"></fa-icon>
                                         <span class="d-none d-md-inline">Hoàn thành lấy hàng</span>
@@ -181,7 +186,7 @@
                                     <button *ngIf="object.personalShipmentDTO.shipmentType === 'delivery'"
                                             type="submit"
                                             [disabled]="object.personalShipmentDTO.status === 'finish' || object.invoiceHeaderDTO.status !== 'delivering'"
-                                            [routerLink]="['/receiptnote', object.personalShipmentDTO.id, 'shipper']"
+                                            [routerLink]="['/receiptnote', object.personalShipmentDTO.id, 'new-receipt']"
                                             class="btn btn-success btn-sm">
                                         <fa-icon [icon]="'check'"></fa-icon>
                                         <span class="d-none d-md-inline">Hoàn thành giao hàng</span>
@@ -213,4 +218,5 @@
         </div>
     </div>
 </div>
+<br>
 <br>

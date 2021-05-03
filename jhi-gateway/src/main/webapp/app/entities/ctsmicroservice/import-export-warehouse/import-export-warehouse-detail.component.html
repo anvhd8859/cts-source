@@ -1,5 +1,9 @@
 <div class="row justify-content-center">
     <div class="col-8">
+    <br>
+<br>
+    <br>
+<br>
         <div *ngIf="importExportWarehouse">
             <h2>
                 <span>
@@ -12,7 +16,7 @@
             <div class="table table-responsive">
                 <table class="table table-striped">
                     <thead>
-                        <th> <input type="checkbox" [(ngModel)]="this.all" (change)="checkAll()" placeholder="All">
+                        <th> <input type="checkbox" [(ngModel)]="this.all" (change)="checkAll($event)" placeholder="All">
                         </th>
                         <th> STT                    </th>
                         <th> Số hóa đơn             </th>
@@ -47,13 +51,13 @@
                     </button>
                 </div>
                 <div class="col-lg-4 ">
-                    <button type="button" (click)="processAction(0)"
+                    <button type="submit" (click)="processAction(0)"
                         class="btn btn-danger">
                         <fa-icon [icon]="'times'"></fa-icon>&nbsp;&nbsp;<span> Hủy</span>
                     </button>
                 </div>
                 <div class="col-lg-4 ">
-                    <button type="button" (click)="processAction(1)"
+                    <button type="submit" (click)="processAction(1)"
                         class="btn btn-success">
                         <fa-icon [icon]="'check'"></fa-icon>&nbsp;&nbsp;<span> Chấp thuận</span>
                     </button>

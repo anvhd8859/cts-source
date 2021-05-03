@@ -4,9 +4,11 @@ import com.fu.capstone.service.ImportExportWarehouseService;
 import com.fu.capstone.domain.ImportExportWarehouse;
 import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.InvoicePackage;
+import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.domain.RequestDetails;
 import com.fu.capstone.repository.ImportExportWarehouseRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
+import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.RequestDetailsRepository;
 import com.fu.capstone.service.dto.DetailsImportExportDTO;
@@ -60,11 +62,13 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 
 	private InvoiceHeaderMapper invoiceHeaderMapper;
 
+	private PersonalShipmentRepository personalShipmentRepository;
+
 	public ImportExportWarehouseServiceImpl(ImportExportWarehouseRepository importExportWarehouseRepository,
 			ImportExportWarehouseMapper importExportWarehouseMapper, RequestDetailsRepository requestDetailsRepository,
 			RequestDetailsMapper requestDetailsMapper, InvoicePackageRepository invoicePackageRepository,
 			InvoicePackageMapper invoicePackageMapper, InvoiceHeaderRepository invoiceHeaderRepository,
-			InvoiceHeaderMapper invoiceHeaderMapper) {
+			InvoiceHeaderMapper invoiceHeaderMapper, PersonalShipmentRepository personalShipmentRepository) {
 		this.importExportWarehouseRepository = importExportWarehouseRepository;
 		this.importExportWarehouseMapper = importExportWarehouseMapper;
 		this.requestDetailsRepository = requestDetailsRepository;
@@ -73,6 +77,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 		this.invoicePackageMapper = invoicePackageMapper;
 		this.invoiceHeaderRepository = invoiceHeaderRepository;
 		this.invoiceHeaderMapper = invoiceHeaderMapper;
+		this.personalShipmentRepository = personalShipmentRepository;
 	}
 
 	/**
@@ -172,19 +177,15 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 		for (RequestDetailsDTO rd : importExportWarehouseDTO.getRequestDetailsList()) {
 			list.add(rd.getShipmentId());
 		}
-		System.out.println("\n\n 11111 \n\n");
 		List<InvoiceHeader> lst = invoiceHeaderRepository.getInvoiceHeaderByListShipmentId(list);
-		System.out.println("\n\n 22222 \n\n");
 		for(InvoiceHeader i : lst){
 			if(i.getFinish()) {
 //				throw new BadRequestAlertException("Invalid ", "invoice", " is exported ");
 			}
 			i.setFinish(true);
 		}
-		System.out.println("\n\n 333333 \n\n");
 		ImportExportWarehouse header = importExportWarehouseRepository
 				.save(importExportWarehouseMapper.toEntity(importExportWarehouseDTO.getRequestHeader()));
-		System.out.println("\n\n 444444 \n\n");
 		Instant instant = Instant.now();
 		header.setCreateDate(instant);
 		header.setUpdateDate(instant);
@@ -201,10 +202,8 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 			i.setFinish(false);
 		}
 
-		System.out.println("\n\n 555555 \n\n");
 		requestDetailsRepository
 				.saveAll(requestDetailsMapper.toEntity(importExportWarehouseDTO.getRequestDetailsList()));
-		System.out.println("\n\n 666666 \n\n");
 		return importExportWarehouseMapper.toDto(importExportWarehouseRepository.save(header));
 	}
 
@@ -224,7 +223,17 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 	@Override
 	public ImportExportWarehouseDTO updateImportExportByKeeper(Long id, List<InvoicePackageDetailDTO> list) {
 		ImportExportWarehouse dto = importExportWarehouseRepository.getOne(id);
+		List<RequestDetails> listRD = requestDetailsRepository.getRequestDetailsByHeaderId(id);
+		List<Long> idList = new ArrayList<>();
+		for (RequestDetails rd : listRD) {
+			idList.add(rd.getShipmentId());
+			rd.setKeeperConfirm(true);
+			rd.setShipperConfirm(true);
+		}
+		List<PersonalShipment> psList = personalShipmentRepository.getPersonalShipmentByListId(idList);
 		dto.setKeeperConfirm(true);
+		dto.setUpdateDate(Instant.now());
+		dto.setShipDate(Instant.now());
 		List<InvoiceHeaderDTO> invList = new ArrayList<>();
 		List<InvoicePackageDTO> ipkList = new ArrayList<>();
 		if (dto.getType().equals("import")) {
@@ -236,6 +245,11 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 						InvoicePackageDTO ip = pd.getInvPackage();
 						if (ip.getInvoiceHeaderId() == i.getId()) {
 							ip.setStatus("first_import");
+							for(RequestDetails rd : listRD) {
+								if(rd.getShipmentId() == ip.getId()){
+									rd.setImpExpConfirm(true);
+								}
+							}
 						}
 						ipkList.add(ip);
 					}
@@ -248,8 +262,31 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 							ip.setStatus("last_import");
 						}
 						ipkList.add(ip);
+						for(PersonalShipment ps : psList) {
+							if(ps.getInvoiceHeaderId() == ip.getId()){
+								for(RequestDetails rd : listRD) {
+									if(rd.getShipmentId() == ip.getId()){
+										rd.setImpExpConfirm(true);
+									}
+								}
+								if(ps.getStatus().equals("delivering")){
+									ps.setStatus("fail_num1");
+								}
+								if(ps.getStatus().equals("fail_num1")){
+									ps.setStatus("fail_num2");
+								}
+								if(ps.getStatus().equals("fail_num2")){
+									ps.setStatus("fail_num3");
+								}
+								if(ps.getStatus().equals("fail_num3")){
+									ps.setStatus("cancel");
+								}
+								
+							}
+						}
 					}
 				}
+				i.setFinish(false);
 				invList.add(i);
 			}
 		} else {
@@ -263,6 +300,16 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 							ip.setStatus("delivering");
 						}
 						ipkList.add(ip);
+						for(PersonalShipment ps : psList) {
+							if(ps.getInvoiceHeaderId() == ip.getId()){
+								for(RequestDetails rd : listRD) {
+									if(rd.getShipmentId() == ip.getId()){
+										rd.setImpExpConfirm(true);
+									}
+								}
+								ps.setStatus("delivering");
+							}
+						}
 					}
 				}
 				if (i.getStatus().equals("first_import")) {
@@ -270,19 +317,24 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 					for (PackageDetailsDTO pd : ipd.getPackageList()) {
 						InvoicePackageDTO ip = pd.getInvPackage();
 						if (ip.getInvoiceHeaderId() == i.getId()) {
+							for(RequestDetails rd : listRD) {
+								if(rd.getShipmentId() == ip.getId()){
+									rd.setImpExpConfirm(true);
+								}
+							}
 							ip.setStatus("transporting");
 						}
 						ipkList.add(ip);
 					}
 				}
+				i.setFinish(false);
 				invList.add(i);
 			}
 		}
+		requestDetailsRepository.saveAll(listRD);
 		invoiceHeaderRepository.saveAll(invoiceHeaderMapper.toEntity(invList));
 		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(ipkList));
 		dto = importExportWarehouseRepository.save(dto);
-//		List<RequestDetails> listRD = requestDetailsRepository.getRequestDetailsByHeaderId(id);
-		// to-do
 		return importExportWarehouseMapper.toDto(dto);
 	}
 
@@ -292,7 +344,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 		Boolean confirm = null;
 		if (cf.equals("1"))
 			confirm = true;
-		else
+		if (cf.equals("0"))
 			confirm = false;
 		Page<ImportExportWarehouse> page = importExportWarehouseRepository.getImportExportWarehouseForShipper(eid, type, confirm, pageable);
 		return page.map(importExportWarehouseMapper::toDto);

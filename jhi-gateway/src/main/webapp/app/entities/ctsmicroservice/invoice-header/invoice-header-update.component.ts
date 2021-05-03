@@ -53,7 +53,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     selectedUserProfile: IUserProfile;
     lstInvStatus: any = new CommonString().listStatusInvoice;
     lstCollect: any = [{ id: '1', text: 'Lấy hàng tại nhà' }, { id: '0', text: 'Mang hàng đến bưu cục' }];
-    selectedCollect: any;
+    selectedCollect = 0;
     lstPayer: any = [{ id: '0', text: 'Người gửi thanh toán' }, { id: '1', text: 'Người nhận thanh toán' }];
     selectedPayer: any;
     createPackage: PackageDetailsDTO[] = [];
@@ -172,6 +172,11 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             this.invoiceHeader.status = 'collected';
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.receiverPay = this.selectedPayer === '1' ? true : false;
+            let wei = 0;
+            for (const i of this.createPackage) {
+                wei += i.invPackage.weight;
+            }
+            this.invoiceHeader.note += ' - tổng trọng lượng = ' + wei + ' (g); ';
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;

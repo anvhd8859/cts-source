@@ -5,3 +5,4 @@ export * from './import-invoice-package-detail.component';
 export * from './import-invoice-package.component';
 export * from './import-invoice-package.route';
 export * from './import-invoice-package.model';
+export * from './import-invoice-modal-warning.component';

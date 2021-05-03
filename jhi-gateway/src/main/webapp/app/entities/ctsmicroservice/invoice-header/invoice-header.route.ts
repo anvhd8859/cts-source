@@ -13,6 +13,7 @@ import { InvoiceHeaderUpdateComponent } from './invoice-header-update.component'
 import { InvoiceHeaderDeletePopupComponent } from './invoice-header-delete-dialog.component';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { InvoiceHeaderFinishPopupComponent, InvoiceHeaderUserComponent, InvoiceHeaderUserUpdateComponent } from '.';
+import { InvoiceHeaderReviewComponent } from './invoice-header-review.component';
 
 @Injectable({ providedIn: 'root' })
 export class InvoiceHeaderResolve implements Resolve<IInvoiceHeader> {
@@ -98,6 +99,18 @@ export const invoiceHeaderRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'CTS: Lịch sử đơn hàng'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'invoice-header-review',
+        component: InvoiceHeaderReviewComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'CTS: Duyệt đơn hàng'
         },
         canActivate: [UserRouteAccessService]
     }

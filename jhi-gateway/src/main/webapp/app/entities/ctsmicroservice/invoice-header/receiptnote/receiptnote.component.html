@@ -1,5 +1,9 @@
 <div>
     <h2 id="page-heading">
+        <br>
+<br>
+        <br>
+<br>
         <span>Receiptnotes</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-receiptnote" [routerLink]="['/receiptnote/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
@@ -29,8 +33,8 @@
                 <td>{{receiptnote.employeeId}}</td>
                 <td>{{receiptnote.invoiceHeaderId}}</td>
                 <td>{{receiptnote.note}}</td>
-                <td>{{receiptnote.createDate | date:'medium'}}</td>
-                <td>{{receiptnote.updateDate | date:'medium'}}</td>
+                <td>{{receiptnote.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{receiptnote.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

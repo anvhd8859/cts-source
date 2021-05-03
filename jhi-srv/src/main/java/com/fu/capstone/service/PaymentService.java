@@ -1,6 +1,7 @@
 package com.fu.capstone.service;
 
 import com.fu.capstone.service.dto.PaymentDTO;
+import com.fu.capstone.service.dto.PaymentInvoiceDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,4 +54,7 @@ public interface PaymentService {
      */
     List<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable);
     // END TuyenVNT 16/04/2021
+
+	Page<PaymentInvoiceDTO> getPaymentInvoceByParams(String invoiceNo, String type, String receiveFrom, String receiveTo,
+			String createFrom, String createTo, Pageable pageable);
 }

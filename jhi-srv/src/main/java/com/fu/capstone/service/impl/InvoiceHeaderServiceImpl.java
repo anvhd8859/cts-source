@@ -255,7 +255,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 		// process data
 		BigDecimal subTotal = calculateSubTotal(lstPackageDetails, fromStreet, toStreet);
-		invoiceHeaderDTO.setSubTotal(subTotal);
 		if (check > 0) {
 			// find near office
 			Office ofc = officeRepository.searchOfficeNearby(fromStreet.getId(), fromStreet.getSubDistrictId().getId(),
@@ -276,16 +275,12 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 					fromStreet.getSubDistrictId().getId(), fromStreet.getSubDistrictId().getDistrictId().getId(),
 					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
 			ps.setEmployeeId(wa.getEmployeeId());
-			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.07)));
+			subTotal = new BigDecimal(2500).add(subTotal.multiply(new BigDecimal(1.05)));
 			lstShipment.add(ps);
 		}
-		float totalWeight = 0;
-		for (PackageDetailsDTO ip : lstPackageDetails) {
-			totalWeight += ip.getInvPackage().getWeight();
-		}
+		invoiceHeaderDTO.setSubTotal(subTotal);
 		invoiceHeaderDTO.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
-		invoiceHeaderDTO.setTotalDue(subTotal.add(new BigDecimal(1.1)));
-		invoiceHeaderDTO.setNote(invoiceHeaderDTO.getNote() + "|total = " + totalWeight);
+		invoiceHeaderDTO.setTotalDue(subTotal.multiply(new BigDecimal(1.1)));
 		// finish = true, can import
 		invoiceHeaderDTO.setFinish(true);
 
@@ -440,17 +435,33 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	}
 
 	@Override
-	public InvoiceHeaderDTO updateInvoiceHeadersReview(InvoicePackageDetailDTO invoice) {
-		InvoiceHeader entity = invoiceHeaderMapper.toEntity(invoice.getInvoice());
-		if (invoicePackageRepository.getInvoicePackageByHeaderId(entity.getId()).size() == 2) {
-			entity.setStatus("collect");
+	public InvoiceHeaderDTO updateInvoiceHeadersReview(InvoiceHeaderDTO invoice) {
+		List<InvoicePackage> ipList = invoicePackageRepository.getInvoicePackageByHeaderId(invoice.getId());
+		if(invoice.getStatus().equalsIgnoreCase("OK")){
+			invoice.setFinish(true);
+			if (ipList.size() == 2) {
+				invoice.setStatus("collect");
+				PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(invoice.getId());
+				ps.setStatus("collecting");
+			}
+			else {
+				invoice.setStatus("receive");
+			}
 		}
 		else {
-			entity.setStatus("receive");
+			invoice.setStatus("cancel");
 		}
-		entity.setUpdateDate(Instant.now());
-		entity.setReviewDate(Instant.now());
-		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(entity));
+		invoice.setUpdateDate(Instant.now());
+		invoice.setReviewDate(Instant.now());
+		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(invoiceHeaderMapper.toEntity(invoice)));
+	}
+
+	@Override
+	public Page<InvoicePackageDetailDTO> getFullInvoiceByPayment(Long id, String invoiceNo, String status,
+			String receiveFrom, String receiveTo, String createFrom, String createTo, Pageable pageable) {
+		Page<InvoiceHeader> page = invoiceHeaderRepository.getFullInvoiceByPayment(id, invoiceNo, status, 
+				receiveFrom, receiveTo, createFrom, createTo, pageable);
+		return page.map(this::converterInvoicePackageDetailDTO);
 	}
 
 }

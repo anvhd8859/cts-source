@@ -125,4 +125,14 @@ public class RequestDetailsResource {
         List<InvoicePackageDetailDTO> list = requestDetailsService.getRequestDetailsByHeaderId(id);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+    
+    @PutMapping("/request-details/by-keeper/{eid}-{wid}")
+    @Timed
+    public ResponseEntity<RequestDetailsDTO> updateImportExportByKeeper(@PathVariable Long eid,@PathVariable Long wid, @RequestBody List<InvoicePackageDetailDTO> body) throws URISyntaxException {
+        log.debug("REST request to update RequestDetails : {}");
+        RequestDetailsDTO result = requestDetailsService.updateImportExportByKeeper(eid, wid, body);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, wid.toString()))
+            .body(result);
+    }
 }

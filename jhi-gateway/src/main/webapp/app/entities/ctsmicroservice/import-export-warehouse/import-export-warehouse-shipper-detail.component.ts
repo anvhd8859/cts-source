@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { IImportExportWarehouse } from 'app/shared/model/ctsmicroservice/import-export-warehouse.model';
 import { CommonString } from 'app/shared';
 import { IShipmentInvoice, PersonalShipmentService } from '../invoice-header/personal-shipment';
+import { HttpResponse } from '@angular/common/http';
+import { InvoicePackageDetailDTO } from '.';
+import { RequestDetailsService } from '../request-details';
 
 @Component({
     selector: 'jhi-import-export-warehouse-shipper-detail',
@@ -13,13 +16,13 @@ import { IShipmentInvoice, PersonalShipmentService } from '../invoice-header/per
 export class ImportExportWarehouseShipperDetailComponent implements OnInit {
     currentAccount: any;
     importExportWarehouse: IImportExportWarehouse;
-    shipmentInvoices: IShipmentInvoice[];
+    requestDetailsList: InvoicePackageDetailDTO[];
     common: CommonString;
     isSaving: boolean;
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private personalShipmentService: PersonalShipmentService,
+        private requestDetailsService: RequestDetailsService,
         private principal: Principal
     ) {
         this.common = new CommonString();
@@ -29,16 +32,14 @@ export class ImportExportWarehouseShipperDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadAll();
-    }
-
-    loadAll() {
         this.common = new CommonString();
         this.activatedRoute.data.subscribe(({ importExportWarehouse }) => {
             this.importExportWarehouse = importExportWarehouse;
-            this.personalShipmentService.getAllShipmentByRequestId({ id: this.importExportWarehouse.id }).subscribe(res => {
-                this.shipmentInvoices = res.body;
-            });
+            this.requestDetailsService
+                .getRequestDetailsByHeaderId({ id: this.importExportWarehouse.id })
+                .subscribe((res: HttpResponse<InvoicePackageDetailDTO[]>) => {
+                    this.requestDetailsList = res.body;
+                });
         });
     }
 }

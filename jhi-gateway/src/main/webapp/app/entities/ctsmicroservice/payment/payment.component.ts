@@ -1,14 +1,20 @@
+import { InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { IInvoiceHeader } from './../../../shared/model/ctsmicroservice/invoice-header.model';
+import { CommonString } from './../../../shared/util/request-util';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { IPayment } from 'app/shared/model/ctsmicroservice/payment.model';
+import { IPayment, Payment } from 'app/shared/model/ctsmicroservice/payment.model';
 import { Principal } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { PaymentService } from './payment.service';
+import { InvoiceHeaderService } from '../invoice-header';
+import { InvoicePackageDetailDTO } from '../import-export-warehouse';
+import { Moment } from 'moment';
 
 @Component({
     selector: 'jhi-payment',
@@ -16,7 +22,7 @@ import { PaymentService } from './payment.service';
 })
 export class PaymentComponent implements OnInit, OnDestroy {
     currentAccount: any;
-    payments: IPayment[];
+    payments: PaymentInvoiceDTO[];
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -29,6 +35,15 @@ export class PaymentComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    invoiceList: InvoicePackageDetailDTO[];
+    common: CommonString;
+    fromPaymentCreate: Moment;
+    toPaymentCreate: Moment;
+    fromInvoiceCreate: Moment;
+    toInvoiceCreate: Moment;
+    lstShipmentType: any = [{ id: '1', text: 'Lấy hàng' }, { id: '0', text: 'Giao hàng' }];
+    selectedTypeShipment = this.lstShipmentType[1].id;
+    selectedInvoiceNumber: any;
 
     constructor(
         private paymentService: PaymentService,
@@ -39,24 +54,56 @@ export class PaymentComponent implements OnInit, OnDestroy {
         private router: Router,
         private eventManager: JhiEventManager
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
+        this.itemsPerPage = 50;
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
             this.previousPage = data.pagingParams.page;
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
         });
+        this.common = new CommonString();
+    }
+
+    clearDatepicker(id: number) {
+        switch (id) {
+            case 1:
+                this.fromInvoiceCreate = null;
+                break;
+            case 2:
+                this.toInvoiceCreate = null;
+                break;
+            case 3:
+                this.fromPaymentCreate = null;
+                break;
+            case 4:
+                this.toPaymentCreate = null;
+                break;
+        }
     }
 
     loadAll() {
         this.paymentService
-            .query({
+            .findPaymentByParams({
+                invoiceNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
+                type: this.selectedTypeShipment,
+                receiveFrom: this.fromPaymentCreate
+                    ? this.fromPaymentCreate.year() + '-' + (this.fromPaymentCreate.month() + 1) + '-' + this.fromPaymentCreate.date()
+                    : '',
+                receiveTo: this.toPaymentCreate
+                    ? this.toPaymentCreate.year() + '-' + (this.toPaymentCreate.month() + 1) + '-' + this.toPaymentCreate.date()
+                    : '',
+                createFrom: this.fromInvoiceCreate
+                    ? this.fromInvoiceCreate.year() + '-' + (this.fromInvoiceCreate.month() + 1) + '-' + this.fromInvoiceCreate.date()
+                    : '',
+                createTo: this.toInvoiceCreate
+                    ? this.toInvoiceCreate.year() + '-' + (this.toInvoiceCreate.month() + 1) + '-' + this.toInvoiceCreate.date()
+                    : '',
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
             })
             .subscribe(
-                (res: HttpResponse<IPayment[]>) => this.paginatePayments(res.body, res.headers),
+                (res: HttpResponse<PaymentInvoiceDTO[]>) => this.paginatePayments(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -119,7 +166,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         return result;
     }
 
-    private paginatePayments(data: IPayment[], headers: HttpHeaders) {
+    private paginatePayments(data: PaymentInvoiceDTO[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.queryCount = this.totalItems;
@@ -128,5 +175,14 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
     private onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+}
+
+export class PaymentInvoiceDTO {
+    payment: IPayment;
+    invoice: IInvoiceHeader;
+    constructor() {
+        this.payment = new Payment();
+        this.invoice = new InvoiceHeader();
     }
 }

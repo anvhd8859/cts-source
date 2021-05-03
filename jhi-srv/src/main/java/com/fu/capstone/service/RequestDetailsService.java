@@ -43,4 +43,7 @@ public interface RequestDetailsService {
     void delete(Long id);
 
 	List<InvoicePackageDetailDTO> getRequestDetailsByHeaderId(Long id);
+
+	RequestDetailsDTO updateImportExportByKeeper(Long eid, Long wid, List<InvoicePackageDetailDTO> body);
+	
 }

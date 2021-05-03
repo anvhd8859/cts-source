@@ -49,10 +49,8 @@ export class PaymentService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
-    findPaymentByHeaderId(req?: any): Observable<EntityArrayResponseType> {
-        return this.http
-            .get<IPayment[]>(this.resourceUrl + '/by-invoice-header', { params: req, observe: 'response' })
-            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    findPaymentByParams(req?: any): Observable<HttpResponse<any[]>> {
+        return this.http.get<any[]>(this.resourceUrl + '/by-params', { params: req, observe: 'response' });
     }
 
     private convertDateFromClient(payment: IPayment): IPayment {
