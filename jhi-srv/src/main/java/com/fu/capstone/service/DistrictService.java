@@ -25,5 +25,4 @@ public interface DistrictService {
      * Get all the districts.
      *
      * @param pageable the pagination information
-     * @return the list of entities
 
