@@ -31,6 +31,7 @@ import {
     POSITION,
     SPINNER
 } from 'ngx-ui-loader';
+import { CtsgatewayAboutUsModule } from './about-us/about-us.module';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     bgsColor: '#3ce6ff',
@@ -69,6 +70,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
         CtsgatewayCoreModule,
         CtsgatewayHomeModule,
         CtsgatewayAccountModule,
+        CtsgatewayAboutUsModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         CtsgatewayEntityModule
     ],
