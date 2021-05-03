@@ -12,5 +12,4 @@ public interface EmployeeShiftService {
 
     /**
      * Save a employeeShift.
-     *
 }
