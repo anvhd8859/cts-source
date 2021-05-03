@@ -165,7 +165,6 @@ public class PaymentServiceImpl implements PaymentService {
 		}
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		workbook.write(os);
-		workbook.close();
 		os.close();
 		return new ByteArrayInputStream(os.toByteArray());
 	}
