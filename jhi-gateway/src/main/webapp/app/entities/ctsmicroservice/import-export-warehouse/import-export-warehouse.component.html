@@ -1,5 +1,9 @@
 <div>
     <h2 id="page-heading">
+        <br>
+<br>
+        <br>
+<br>
         <span>Quản lý yêu cầu Xuất, Nhập kho</span>
         <!-- <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-import-export-warehouse" [routerLink]="['/import-export-warehouse/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
@@ -77,8 +81,8 @@
                     <td>{{getName(importExportWarehouse.employeeId)}}</td>
                     <td>{{importExportWarehouse.type === 'import' ? 'Nhập kho' : 'Xuất kho'}}</td>
                     <td>{{importExportWarehouse.keeperConfirm ? 'Đã xác nhận' : 'Chưa xác nhận'}}</td>
-                    <td>{{importExportWarehouse.createDate | date:'medium'}}</td>
-                    <td>{{importExportWarehouse.updateDate | date:'medium'}}</td>
+                    <td>{{importExportWarehouse.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                    <td>{{importExportWarehouse.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
