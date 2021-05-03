@@ -31,7 +31,7 @@ public interface DistrictService {
 
 
     /**
-     * Get the "id" district.
+     * Get district by id.
      *
      * @param id the id of the entity
      * @return the entity
