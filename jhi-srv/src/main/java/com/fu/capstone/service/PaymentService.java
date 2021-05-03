@@ -51,5 +51,4 @@ public interface PaymentService {
      * @param id the headerId
      */
     List<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable);
-    // END TuyenVNT 16/04/2021
 }
