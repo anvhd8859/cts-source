@@ -12,6 +12,7 @@ public interface VehicleService {
 
 	/**
 	 * Save a vehicle.
+	 * 
 	 */
 	VehicleDTO save(VehicleDTO vehicleDTO);
 	
