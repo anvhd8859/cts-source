@@ -1,0 +1,55 @@
+<form name="deleteForm">
+    <div class="modal-header">
+        <h4 class="modal-title">Bảng giá dịch vụ vận chuyển cá nhân</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <table class="table">
+            <thead>
+                <th> Cân nặng (kg)</th>
+                <th> Thành tiền </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> &lt;= 0.25 kg</td>
+                    <td> {{9000 | currency:'VND'}} </td>
+                </tr>
+                <tr>
+                    <td> &lt;= 0.50 kg</td>
+                    <td> {{13000 | currency:'VND'}} </td>
+                </tr>
+                <tr>
+                    <td> &lt;= 1.00 kg</td>
+                    <td> {{16000 | currency:'VND'}} </td>
+                </tr>
+                <tr>
+                    <td> &lt;= 1.50 kg</td>
+                    <td> {{25000 | currency:'VND'}} </td>
+                </tr>
+                <tr>
+                    <td> &lt;= 2.00 kg</td>
+                    <td> {{29000 | currency:'VND'}} </td>
+                </tr>
+                <tr>
+                    <td> &lt;= 100.00 kg</td>
+                    <th>({{2600 | currency:'VND'}}) x (Số cân nặng) </th>
+                </tr>
+                <tr>
+                    <td> &lt;= 2.00 kg</td>
+                    <th> ({{1400 | currency:'VND'}}) x (Số cân nặng) </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <div class="row justify-content-center">
+            <div class="col-12" style="text-align: center;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;&nbsp;<span>Đóng</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
