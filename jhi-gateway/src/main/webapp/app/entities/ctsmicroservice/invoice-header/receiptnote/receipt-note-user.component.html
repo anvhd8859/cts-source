@@ -1,10 +1,14 @@
 <div class="row justify-content-center">
     <div class="col-11">
         <br>
+<br>
+        <br>
+<br>
         <div class="row" style="border-bottom: 2px solid;">
             <h2 style="font-weight: bold;">Xác nhận biên lai</h2>
         </div>
         <br>
+<br>
         <jhi-alert></jhi-alert>
         <br/>
         <div *ngIf="!receiptNoteInvoices">
@@ -32,7 +36,7 @@
                     <td>{{obj.invoiceHeader.invoiceNo}}</td>
                     <td>{{obj.invoiceHeader.note}}</td>
                     <td>{{obj.receiptNote.note}}</td>
-                    <td>{{obj.receiptNote.customerConfirm ? "Yes" : "No"}}</td>
+                    <td>{{obj.receiptNote.imageLink != null ? "No" : "Yes"}}</td>
                     <td>{{obj.receiptNote.createDate | date:'yyyy-MM-dd'}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
