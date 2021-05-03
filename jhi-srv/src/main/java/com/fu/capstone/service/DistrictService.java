@@ -49,4 +49,3 @@ public interface DistrictService {
 
 	DistrictDTO getDistrictByStreetId(Long id);
 }
-
