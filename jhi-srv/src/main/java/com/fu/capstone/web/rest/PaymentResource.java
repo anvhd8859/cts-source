@@ -7,6 +7,7 @@ import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.PaymentDTO;
 import com.fu.capstone.service.dto.PaymentInvoiceDTO;
+import com.fu.capstone.service.dto.UserInfoDTO;
 
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -163,4 +164,11 @@ public class PaymentResource {
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
 
+	@PostMapping("/payments/excel")
+	@Timed
+	public ResponseEntity<PaymentDTO> createPayment(@RequestBody UserInfoDTO body) throws URISyntaxException {
+//		PaymentDTO result = paymentService.save(paymentDTO);
+		return ResponseEntity.created(new URI("/api/payments/" + result.getId()))
+				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
+	}
 }
