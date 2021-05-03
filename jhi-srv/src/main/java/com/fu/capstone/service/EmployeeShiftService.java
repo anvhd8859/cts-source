@@ -33,10 +33,4 @@ public interface EmployeeShiftService {
      * @return the entity
      */
     Optional<EmployeeShiftDTO> findOne(Long id);
-
-    /**
-     * Delete the "id" employeeShift.
-     *
-     * @param id the id of the entity
-     */
 }
