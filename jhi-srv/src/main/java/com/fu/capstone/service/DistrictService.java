@@ -16,5 +16,4 @@ public interface DistrictService {
     /**
      * Save a district.
      *
-     * @param districtDTO the entity to save
 
