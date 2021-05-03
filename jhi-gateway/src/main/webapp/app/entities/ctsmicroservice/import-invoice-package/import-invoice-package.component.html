@@ -1,9 +1,9 @@
 <div class="row justify-content-center">
     <div class="col-lg-11">
         <br>
-<br>
         <br>
-<br>
+        <br>
+        <br>
         <div class="container-fluid">
             <div class="row" style="border-bottom: 2px solid;">
                 <div class="col-lg-8 col-md-12 col-md-12">
@@ -24,7 +24,7 @@
             </div>
         </div>
         <br>
-<br>
+        <br>
         <jhi-alert></jhi-alert>
         <br />
         <div class="card">
@@ -109,7 +109,7 @@
             </div>
             <div class="card-body">
                 <br>
-<br>
+                <br>
                 <div class="table-responsive" *ngIf="!invoicePackageShipments || invoicePackageShipments.length === 0">
                     <h2>Không tìm thấy dữ liệu</h2>
                 </div>
@@ -133,7 +133,7 @@
                         <tbody>
                             <tr *ngFor="let importInvoicePackage of invoicePackageShipments ;let i = index">
                                 <td><input type="checkbox" id="chkBox{{i}}" [(ngModel)]="selectedCheckBox[i]"
-                                    (change)="checked(i, $event)"></td>
+                                        (change)="checked(i, $event)"></td>
                                 <td><a>{{importInvoicePackage.invoiceHeader.id}}</a></td>
                                 <td>{{importInvoicePackage.invoiceHeader.invoiceNo}}</td>
                                 <td>{{common.processInvoiceStatus(importInvoicePackage.invoiceHeader.status)}}</td>
