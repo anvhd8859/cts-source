@@ -58,7 +58,6 @@ public interface PersonalShipmentService {
      * 
      */
     Page<PersonalShipmentDTO> getPersonalShipmentNotAssigned(Pageable pageable);
-    // END TuyenVNT
 
 
 	Page<PersonalShipmentInvoiceDTO> getPersonalShipmentByShipper(Long id, String invNo, String type, String status, String from, String to, Pageable pageable);
