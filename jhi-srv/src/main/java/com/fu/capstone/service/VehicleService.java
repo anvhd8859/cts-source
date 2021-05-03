@@ -28,6 +28,7 @@ public interface VehicleService {
 	/**
 	 * Get vehicle by "id".
 	 * 
+	 * @param id the id of the entity
 	 */
 	Optional<VehicleDTO> findOne(Long id);
 	
