@@ -30,7 +30,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let audit of audits">
-                <td><span>{{audit.timestamp| date:'medium'}}</span></td>
+                <td><span>{{audit.timestamp| date:'yyyy-MM-dd HH:mm'}}</span></td>
                 <td><small>{{audit.principal}}</small></td>
                 <td>{{audit.type}}</td>
                 <td>
