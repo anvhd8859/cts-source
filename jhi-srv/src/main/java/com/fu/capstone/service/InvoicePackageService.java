@@ -63,7 +63,6 @@ public interface InvoicePackageService {
 	List<InvoicePackageShipmentDTO> putImportPackageByOfficeId(List<InvoicePackageShipmentDTO> invoicePackageDTO);
 	
 	/**
-	 * Put ImportOnePackage
 	InvoiceHeaderDTO putImportOnePackage(Long id);
 	
 	Page<InvoicePackageShipmentDTO> getImportPackageByOfficeId(Long id, String invNo, String type, Pageable pageable);
