@@ -146,11 +146,11 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
-            // if (this.invoiceHeader.id !== undefined) {
-            //     this.subscribeToSaveResponse(this.invoiceHeaderService.update(this.invoiceHeader));
-            // } else {
-            //     this.subscribeToSaveResponse(this.invoiceHeaderService.create(this.invoiceHeader));
-            // }
+            let wei = 0;
+            for (const i of this.createPackage) {
+                wei += i.invPackage.weight;
+            }
+            this.invoiceHeader.note += ' - tổng trọng lượng = ' + wei + ' (g); ';
             if (this.invoiceHeader.id !== undefined) {
                 this.subscribeToSaveResponse(this.invoiceHeaderService.updateExistedInvoice(postObject));
             } else {
@@ -203,6 +203,12 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         }
         if (this.createPackage.length === 0) {
             msg += 'Mục Gói hàng không được để Trống! <br>';
+        }
+        if (this.invoiceHeader.receiverName == null || this.invoiceHeader.receiverName.trim() === '') {
+            msg += 'Mục Tên điện thoại người nhận không được để Trống! <br>';
+        }
+        if (this.invoiceHeader.receiverPhone == null) {
+            msg += 'Mục Số điện thoại người nhận không được để Trống! <br>';
         }
         if (!this.selectedPayer) {
             msg += 'Mục Lựa chọn thanh toán không được để Trống! <br>';
