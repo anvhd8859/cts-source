@@ -38,7 +38,7 @@ public interface EmployeeService {
     Optional<EmployeeDTO> findOne(Long id);
 
     /**
-     * .
+     * Delete employee by "id".
      *
      * @param id the id of the entity
      */
