@@ -3,10 +3,11 @@ package com.fu.capstone.service;
 import com.fu.capstone.service.dto.PaymentDTO;
 import com.fu.capstone.service.dto.PaymentInvoiceDTO;
 
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,5 +60,5 @@ public interface PaymentService {
 	Page<PaymentInvoiceDTO> getPaymentInvoceByParams(String invoiceNo, String type, String receiveFrom, String receiveTo,
 			String createFrom, String createTo, Pageable pageable);
 
-	XSSFWorkbook createPaymentReport(List<PaymentInvoiceDTO> body);
+	ByteArrayInputStream createPaymentReport(List<PaymentInvoiceDTO> body) throws IOException;
 }

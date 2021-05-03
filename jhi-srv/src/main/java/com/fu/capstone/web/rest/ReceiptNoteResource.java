@@ -142,6 +142,22 @@ public class ReceiptNoteResource {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
     
+    @PostMapping("/receipt-notes/officer")
+    @Timed
+    public ResponseEntity<ReceiptNoteDTO> createReceiptByOfficer(@RequestBody ReceiptDetailPackageDTO data) throws URISyntaxException {
+        log.debug("REST request to update ReceiptNote : {}", data);
+        if (data.getReceipt().getId() != null) {
+        	throw new BadRequestAlertException("A new receiptNote cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if (data.getPackageList().size() == 0 ){
+        	throw new BadRequestAlertException("A new item and package cannot blank", ENTITY_NAME, "notexist");
+        }
+        ReceiptNoteDTO result = receiptNoteService.createReceiptByOfficer(data);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+    
     @PostMapping("/receipt-notes/finish-collect")
     @Timed
     public ResponseEntity<ReceiptNoteDTO> createReceiptNoteColectShipment(@RequestBody ReceiptDetailPackageDTO data) throws URISyntaxException {

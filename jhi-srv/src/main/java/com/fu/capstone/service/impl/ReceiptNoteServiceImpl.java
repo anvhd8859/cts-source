@@ -240,6 +240,8 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		ps.setFinishTime(instant);
 		ps.setUpdateDate(instant);
 
+		// save data
+		ReceiptNote rn = receiptNoteRepository.save(data.getReceipt());
 		Payment pm = null;
 		if (data.getPay()) {
 			pm = new Payment();
@@ -249,6 +251,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			pm.setUpdateDate(instant);
 			pm.setAmountPaid(new BigDecimal(data.getPayAmount()));
 			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
+			pm.setReceiptNoteId(rn.getId());
 		}
 
 		if (pm.getAmountDue() != null) {
@@ -257,10 +260,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			else
 				paymentRepository.save(pm);
 		}
-		
-		// save data
-		ReceiptNote rn = receiptNoteRepository.save(data.getReceipt());
-		pm.setReceiptNoteId(rn.getId());
+
 		invoiceHeaderRepository.save(inv);
 		personalShipmentRepository.save(ps);
 		return receiptNoteMapper.toDto(rn);
@@ -351,5 +351,52 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		invoiceHeaderRepository.save(inv);
 		personalShipmentRepository.save(ps);
 		return receiptNoteMapper.toDto(receiptNoteRepository.save(data.getReceipt()));
+	}
+
+	@Override
+	public ReceiptNoteDTO createReceiptByOfficer(ReceiptDetailPackageDTO data) {
+		Instant instant = Instant.now();
+		InvoiceHeader inv = invoiceHeaderRepository.getOne(data.getReceipt().getInvoiceHeaderId());
+		inv.setStatus("first_import");
+
+		// delivery receipt and process
+		for (PackageDetailsDTO pd : data.getPackageList()) {
+			pd.getInvPackage().setUpdateDate(instant);
+			pd.getInvPackage().setStatus("first_import");
+			pd.getInvPackage().setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
+			InvoicePackage ip = invoicePackageRepository.save(invoicePackageMapper.toEntity(pd.getInvPackage()));
+			for (InvoiceDetailsDTO id : pd.getItemList()) {
+				if (id.getId() == null)
+					id.setCreateDate(instant);
+				id.setUpdateDate(instant);
+				id.setInvoiceHeaderId(ip.getId());
+				id.setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
+			}
+			invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(pd.getItemList()));
+		}
+
+		// save data
+		ReceiptNote rn = receiptNoteRepository.save(data.getReceipt());
+		Payment pm = null;
+		if (data.getPay()) {
+			pm = new Payment();
+			pm.setInvoiceHeaderId(inv.getId());
+			pm.setEmployeeId(data.getReceipt().getEmployeeId());
+			pm.setCreateDate(instant);
+			pm.setUpdateDate(instant);
+			pm.setAmountPaid(new BigDecimal(data.getPayAmount()));
+			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
+			pm.setReceiptNoteId(rn.getId());
+		}
+
+		if (pm.getAmountDue() != null) {
+			if (pm.getAmountDue().intValue() != 0)
+				throw new BadRequestAlertException("Amount due", "receipt note", "not equal 0");
+			else
+				paymentRepository.save(pm);
+		}
+
+		invoiceHeaderRepository.save(inv);
+		return receiptNoteMapper.toDto(rn);
 	}
 }

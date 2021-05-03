@@ -53,6 +53,10 @@ export class PaymentService {
         return this.http.get<any[]>(this.resourceUrl + '/by-params', { params: req, observe: 'response' });
     }
 
+    exportToFileExcel(payment: any): Observable<HttpResponse<any>> {
+        return this.http.post<any>(this.resourceUrl, payment, { observe: 'response' });
+    }
+
     private convertDateFromClient(payment: IPayment): IPayment {
         const copy: IPayment = Object.assign({}, payment, {
             createDate: payment.createDate != null && payment.createDate.isValid() ? payment.createDate.toJSON() : null,

@@ -54,6 +54,18 @@
                             <span>Đơn của tôi</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="import-export-warehouse-shipper" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'list-ul'" [fixedWidth]="true"></fa-icon>
+                            <span>Xem yêu cầu xuất nhập kho</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="payment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'list-ul'" [fixedWidth]="true"></fa-icon>
+                            <span>Xem chi tiết thanh toán</span>
+                        </a>
+                    </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>
@@ -69,6 +81,12 @@
                 </a>
 
                 <ul class="dropdown-menu" ngbDropdownMenu>
+                    <li>
+                        <a class="dropdown-item" routerLink="import-export-warehouse" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'file-import'" [fixedWidth]="true"></fa-icon>
+                            <span>Quản lý yêu cầu xuất nhập kho</span>
+                        </a>
+                    </li>
                     <li>
                         <a class="dropdown-item" routerLink="import-invoice-package" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'file-import'" [fixedWidth]="true"></fa-icon>

@@ -26,7 +26,7 @@ export class ReceiptnoteConfirmDialogComponent {
     }
 
     confirmConfirm(receiptnote: IReceiptnote) {
-        receiptnote.receiptType = true;
+        receiptnote.receiptType = '1';
         this.receiptnoteService.update(receiptnote).subscribe(
             (res: HttpResponse<IReceiptnote>) => {
                 this.eventManager.broadcast({
