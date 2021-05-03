@@ -30,7 +30,7 @@ public interface EmployeeService {
 
 
     /**
-     * Get the "id" employee.
+     * Get .
      *
      * @param id the id of the entity
      * @return the entity
