@@ -27,95 +27,95 @@ import java.util.Optional;
 @Transactional
 public class PaymentServiceImpl implements PaymentService {
 
-    private final Logger log = LoggerFactory.getLogger(PaymentServiceImpl.class);
+	private final Logger log = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
-    private PaymentRepository paymentRepository;
+	private PaymentRepository paymentRepository;
 
-    private PaymentMapper paymentMapper;
+	private PaymentMapper paymentMapper;
 
-    private InvoiceHeaderRepository invoiceHeaderRepository;
+	private InvoiceHeaderRepository invoiceHeaderRepository;
 
-    private InvoiceHeaderMapper invoiceHeaderMapper;
+	private InvoiceHeaderMapper invoiceHeaderMapper;
 
-    public PaymentServiceImpl(PaymentRepository paymentRepository, PaymentMapper paymentMapper,
-    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper) {
-        this.paymentRepository = paymentRepository;
-        this.paymentMapper = paymentMapper;
-        this.invoiceHeaderRepository = invoiceHeaderRepository;
-        this.invoiceHeaderMapper = invoiceHeaderMapper;
-    }
+	public PaymentServiceImpl(PaymentRepository paymentRepository, PaymentMapper paymentMapper,
+			InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper) {
+		this.paymentRepository = paymentRepository;
+		this.paymentMapper = paymentMapper;
+		this.invoiceHeaderRepository = invoiceHeaderRepository;
+		this.invoiceHeaderMapper = invoiceHeaderMapper;
+	}
 
-    /**
-     * Save a payment.
-     *
-     * @param paymentDTO the entity to save
-     * @return the persisted entity
-     */
-    @Override
-    public PaymentDTO save(PaymentDTO paymentDTO) {
-        log.debug("Request to save Payment : {}", paymentDTO);
+	/**
+	 * Save a payment.
+	 *
+	 * @param paymentDTO
+	 *            the entity to save
+	 * @return the persisted entity
+	 */
+	@Override
+	public PaymentDTO save(PaymentDTO paymentDTO) {
+		log.debug("Request to save Payment : {}", paymentDTO);
 
-        Payment payment = paymentMapper.toEntity(paymentDTO);
-        payment = paymentRepository.save(payment);
-        return paymentMapper.toDto(payment);
-    }
+		Payment payment = paymentMapper.toEntity(paymentDTO);
+		payment = paymentRepository.save(payment);
+		return paymentMapper.toDto(payment);
+	}
 
-    /**
-     * Get all the payments.
-     *
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public Page<PaymentDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all Payments");
-        return paymentRepository.findAll(pageable)
-            .map(paymentMapper::toDto);
-    }
+	/**
+	 * Get all the payments.
+	 *
+	 * @param pageable
+	 *            the pagination information
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Page<PaymentDTO> findAll(Pageable pageable) {
+		log.debug("Request to get all Payments");
+		return paymentRepository.findAll(pageable).map(paymentMapper::toDto);
+	}
 
+	/**
+	 * Get one payment by id.
+	 *
+	 * @param id
+	 *            the id of the entity
+	 * @return the entity
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<PaymentDTO> findOne(Long id) {
+		log.debug("Request to get Payment : {}", id);
+		return paymentRepository.findById(id).map(paymentMapper::toDto);
+	}
 
-    /**
-     * Get one payment by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<PaymentDTO> findOne(Long id) {
-        log.debug("Request to get Payment : {}", id);
-        return paymentRepository.findById(id)
-            .map(paymentMapper::toDto);
-    }
+	/**
+	 * Delete the payment by id.
+	 *
+	 * @param id
+	 *            the id of the entity
+	 */
+	@Override
+	public void delete(Long id) {
+		log.debug("Request to delete Payment : {}", id);
+		paymentRepository.deleteById(id);
+	}
 
-    /**
-     * Delete the payment by id.
-     *
-     * @param id the id of the entity
-     */
-    @Override
-    public void delete(Long id) {
-        log.debug("Request to delete Payment : {}", id);
-        paymentRepository.deleteById(id);
-    }
-    
-    // START TuyenVNT 14/04/2021
-    @Override
- 	public List<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable) {
- 		return paymentMapper.toDto(paymentRepository.getPaymentByHeaderId(id, pageable));
- 	}
-    // END TuyenVNT 16/04/2021
+	// START TuyenVNT 14/04/2021
+	@Override
+	public List<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable) {
+		return paymentMapper.toDto(paymentRepository.getPaymentByHeaderId(id, pageable));
+	}
+	// END TuyenVNT 16/04/2021
 
 	@Override
 	public Page<PaymentInvoiceDTO> getPaymentInvoceByParams(String invoiceNo, String type, String receiveFrom,
 			String receiveTo, String createFrom, String createTo, Pageable pageable) {
-		Boolean tp = type.equals("1") ? true : false;
-		Page<Payment> page = paymentRepository.getPaymentInvoceByParams(invoiceNo, tp, receiveFrom, receiveTo,
+		Page<Payment> page = paymentRepository.getPaymentInvoceByParams(invoiceNo, type, receiveFrom, receiveTo,
 				createFrom, createTo, pageable);
 		return page.map(this::convert);
 	}
-	
+
 	private PaymentInvoiceDTO convert(Payment entity) {
 		PaymentInvoiceDTO pmDto = new PaymentInvoiceDTO();
 		pmDto.setPayment(paymentMapper.toDto(entity));

@@ -29,13 +29,13 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 	@Query(value = "SELECT p FROM Payment p, InvoiceHeader i, ReceiptNote r "
 				 + " WHERE i.id = p.invoiceHeaderId AND i.id = r.invoiceHeaderId"
 				 + " AND (:invoiceNo = '' OR i.invoiceNo LIKE CONCAT('%',:invoiceNo,'%')) "
-				 + " AND (r.receiptType = :type) "
+				 + " AND (r.receiptType = :type OR :type = '') "
 				 + " AND (:receiveFrom = '' OR p.createDate >= CONCAT(:receiveFrom, ' 00:00:00')) "
 				 + " AND (:receiveTo = '' OR p.createDate <= CONCAT(:receiveTo, ' 23:59:59'))  "
 				 + " AND (:createFrom = '' OR i.createDate >= CONCAT(:createFrom, ' 00:00:00')) "
 				 + " AND (:createTo = '' OR i.createDate <= CONCAT(:createTo, ' 23:59:59'))  ")
 	Page<Payment> getPaymentInvoceByParams(@Param("invoiceNo") String invoiceNo,
-			@Param("type") Boolean type, @Param("receiveFrom") String receiveFrom,
+			@Param("type") String type, @Param("receiveFrom") String receiveFrom,
 			@Param("receiveTo") String receiveTo, @Param("createFrom") String createFrom,
 			@Param("createTo") String createTo, Pageable pageable);
 }
