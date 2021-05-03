@@ -65,4 +65,5 @@ public interface InvoicePackageService {
 	/**
 	 * 
 	 */
+	InvoiceHeaderDTO putImportOnePackage(Long id);
 }
