@@ -32,5 +32,4 @@ public interface DistrictService {
 
     /**
      * Get the "id" district.
-     *
 
