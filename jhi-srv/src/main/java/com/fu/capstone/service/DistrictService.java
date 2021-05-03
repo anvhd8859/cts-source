@@ -30,5 +30,3 @@ public interface DistrictService {
     Page<DistrictDTO> findAll(Pageable pageable);
 
 
-    /**
-
