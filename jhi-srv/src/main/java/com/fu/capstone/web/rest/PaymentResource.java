@@ -7,15 +7,18 @@ import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.PaymentDTO;
 import com.fu.capstone.service.dto.PaymentInvoiceDTO;
-import com.fu.capstone.service.dto.UserInfoDTO;
 
 import io.github.jhipster.web.util.ResponseUtil;
+import io.jsonwebtoken.io.IOException;
+
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -166,9 +169,11 @@ public class PaymentResource {
 
 	@PostMapping("/payments/excel")
 	@Timed
-	public ResponseEntity<PaymentDTO> createPayment(@RequestBody UserInfoDTO body) throws URISyntaxException {
-//		PaymentDTO result = paymentService.save(paymentDTO);
-		return ResponseEntity.created(new URI("/api/payments/" + result.getId()))
-				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
+	public ResponseEntity<XSSFWorkbook> createPaymentReport(@RequestBody List<PaymentInvoiceDTO> body) {
+		XSSFWorkbook wb = paymentService.createPaymentReport(body);
+		return ResponseEntity.ok()
+		        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + "report.xlsx")
+		        .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+		        .body(wb);
 	}
 }

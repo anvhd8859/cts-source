@@ -109,7 +109,6 @@ public class ReceiptNoteResourceIntTest {
             .employeeId(DEFAULT_EMPLOYEE_ID)
             .invoiceHeaderId(DEFAULT_INVOICE_HEADER_ID)
             .note(DEFAULT_NOTE)
-            .receiptType(DEFAULT_CUSTOMER_CONFIRM)
             .createDate(DEFAULT_CREATE_DATE)
             .updateDate(DEFAULT_UPDATE_DATE);
         return receiptNote;
@@ -226,7 +225,6 @@ public class ReceiptNoteResourceIntTest {
             .employeeId(UPDATED_EMPLOYEE_ID)
             .invoiceHeaderId(UPDATED_INVOICE_HEADER_ID)
             .note(UPDATED_NOTE)
-            .receiptType(UPDATED_CUSTOMER_CONFIRM)
             .createDate(UPDATED_CREATE_DATE)
             .updateDate(UPDATED_UPDATE_DATE);
         ReceiptNoteDTO receiptNoteDTO = receiptNoteMapper.toDto(updatedReceiptNote);

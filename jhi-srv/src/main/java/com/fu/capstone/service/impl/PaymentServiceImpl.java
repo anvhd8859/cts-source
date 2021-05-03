@@ -5,10 +5,16 @@ import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.Payment;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.PaymentRepository;
+import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.PaymentDTO;
 import com.fu.capstone.service.dto.PaymentInvoiceDTO;
 import com.fu.capstone.service.mapper.PaymentMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +23,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -122,5 +130,44 @@ public class PaymentServiceImpl implements PaymentService {
 		InvoiceHeader inv = invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId());
 		pmDto.setInvoice(invoiceHeaderMapper.toDto(inv));
 		return pmDto;
+	}
+
+	@Override
+	public XSSFWorkbook createPaymentReport(List<PaymentInvoiceDTO> body) {
+		String[] HEADERs = { "Payment Id", "Invoice Id", "Invocie No", "Payer", "Total Due", "Total Paid", "Amount Due",
+				"Paid Date", "Invoice Create Date" };
+		XSSFWorkbook workbook = new XSSFWorkbook();
+		XSSFSheet sheet = workbook.createSheet("Payment report");
+
+		XSSFRow headerRow = sheet.createRow(0);
+		for (int col = 0; col < HEADERs.length; col++) {
+			XSSFCell cell = headerRow.createCell(col);
+			cell.setCellValue(HEADERs[col]);
+		}
+		int rowIdx = 1;
+		for (PaymentInvoiceDTO dto : body) {
+			XSSFRow row = sheet.createRow(rowIdx++);
+			InvoiceHeaderDTO i = dto.getInvoice();
+			PaymentDTO p = dto.getPayment();
+			
+			row.createCell(0).setCellValue(p.getId());
+	        row.createCell(1).setCellValue(i.getId());
+	        row.createCell(2).setCellValue(i.getInvoiceNo());
+	        row.createCell(3).setCellValue(i.getReceiverPay() ? "Receiver paid" : "Sender paid");
+	        row.createCell(4).setCellValue(i.getTotalDue().intValue());
+	        row.createCell(5).setCellValue(p.getAmountPaid().intValue());
+	        row.createCell(6).setCellValue(p.getAmountDue().intValue());
+	        row.createCell(7).setCellValue(p.getCreateDate().toString());
+	        row.createCell(8).setCellValue(i.getCreateDate().toString());
+		}
+		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try {
+			workbook.write(out);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return workbook;
 	}
 }
