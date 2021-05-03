@@ -2,10 +2,12 @@ package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.RequestDetailsService;
 import com.fu.capstone.domain.InvoiceHeader;
+import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.domain.RequestDetails;
 import com.fu.capstone.repository.InvoiceDetailsRepository;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
+import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.RequestDetailsRepository;
 import com.fu.capstone.service.dto.InvoiceDetailsDTO;
 import com.fu.capstone.service.dto.InvoicePackageDTO;
@@ -44,6 +46,8 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 	private InvoiceDetailsRepository invoiceDetailsRepository;
 
 	private InvoicePackageRepository invoicePackageRepository;
+	
+	private PersonalShipmentRepository personalShipmentRepository; 
 
 	private RequestDetailsMapper requestDetailsMapper;
 
@@ -56,7 +60,8 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 	public RequestDetailsServiceImpl(RequestDetailsRepository requestDetailsRepository, RequestDetailsMapper requestDetailsMapper,
 			InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
 			InvoiceDetailsRepository invoiceDetailsRepository, InvoiceDetailsMapper invoiceDetailsMapper,
-			InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper) {
+			InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
+			PersonalShipmentRepository personalShipmentRepository) {
 		this.requestDetailsRepository = requestDetailsRepository;
 		this.requestDetailsMapper = requestDetailsMapper;
 		this.invoiceHeaderRepository = invoiceHeaderRepository;
@@ -65,6 +70,7 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 		this.invoiceDetailsMapper = invoiceDetailsMapper;
 		this.invoicePackageRepository = invoicePackageRepository;
 		this.invoicePackageMapper = invoicePackageMapper;
+		this.personalShipmentRepository = personalShipmentRepository;
 	}
 
 	/**
@@ -146,5 +152,34 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 			rs.add(dto);
 		}
 		return rs;
+	}
+
+	@Override
+	public RequestDetailsDTO updateImportExportByKeeper(Long id, Long wid, List<InvoicePackageDetailDTO> body) {
+		List<RequestDetails> rdList = requestDetailsRepository.getRequestDetailsByHeaderId(wid);
+		List<PersonalShipment> psList = personalShipmentRepository.getPersonalShipmentByRequestId(wid);
+		for(InvoicePackageDetailDTO o : body) {
+			for(PersonalShipment ps : psList) {
+				if(o.getInvoice().getId() == ps.getInvoiceHeaderId()) {
+					for(RequestDetails rd : rdList) {
+						if(ps.getId() == rd.getShipmentId()){
+							rd.setKeeperConfirm(true);
+							rd.setShipperConfirm(true);
+							rd.setImpExpConfirm(true);
+						}
+					}
+				}
+			}
+		}
+		for(RequestDetails rd : rdList){
+			if(rd.getImpExpConfirm() == null || !rd.getImpExpConfirm()) {
+				rd.setKeeperConfirm(true);
+				rd.setShipperConfirm(true);
+				rd.setImpExpConfirm(false);
+			}
+		}
+		requestDetailsRepository.saveAll(rdList);
+		RequestDetails rd = rdList.get(0) != null ? rdList.get(0) : null;
+		return requestDetailsMapper.toDto(rd);
 	}
 }
