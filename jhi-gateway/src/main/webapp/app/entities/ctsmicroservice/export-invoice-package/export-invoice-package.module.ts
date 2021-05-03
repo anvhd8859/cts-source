@@ -11,7 +11,8 @@ import {
     ExportInvoicePackageDeletePopupComponent,
     ExportInvoicePackageDeleteDialogComponent,
     exportInvoicePackageRoute,
-    exportInvoicePackagePopupRoute
+    exportInvoicePackagePopupRoute,
+    ExportInvoiceModalWarningComponent
 } from './';
 
 const ENTITY_STATES = [...exportInvoicePackageRoute, ...exportInvoicePackagePopupRoute];
@@ -23,13 +24,15 @@ const ENTITY_STATES = [...exportInvoicePackageRoute, ...exportInvoicePackagePopu
         ExportInvoicePackageDetailComponent,
         ExportInvoicePackageUpdateComponent,
         ExportInvoicePackageDeleteDialogComponent,
-        ExportInvoicePackageDeletePopupComponent
+        ExportInvoicePackageDeletePopupComponent,
+        ExportInvoiceModalWarningComponent
     ],
     entryComponents: [
         ExportInvoicePackageComponent,
         ExportInvoicePackageUpdateComponent,
         ExportInvoicePackageDeleteDialogComponent,
-        ExportInvoicePackageDeletePopupComponent
+        ExportInvoicePackageDeletePopupComponent,
+        ExportInvoiceModalWarningComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
