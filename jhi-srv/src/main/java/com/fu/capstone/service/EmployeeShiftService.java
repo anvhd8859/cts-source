@@ -22,4 +22,5 @@ public interface EmployeeShiftService {
      * Get all the employeeShifts.
      *
      * @return the list of entities
+     */
 }
