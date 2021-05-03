@@ -11,5 +11,4 @@ import java.util.Optional;
 public interface EmployeeShiftService {
 
     /**
-     * Save a employeeShift.
 }
