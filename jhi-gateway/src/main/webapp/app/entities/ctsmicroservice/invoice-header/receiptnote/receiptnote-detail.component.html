@@ -1,5 +1,9 @@
 <div class="row justify-content-center">
     <div class="col-16">
+        <br>
+<br>
+        <br>
+<br>
         <div *ngIf="receiptNote">
             <h2><span>Biên nhận hóa đơn hàng</span> {{receiptNote.id}}</h2>
             <hr>
@@ -23,14 +27,15 @@
                 </dd>
                 <dt><span>Ngày tạo</span></dt>
                 <dd>
-                    <span>{{receiptNote.createDate | date:'medium'}}</span>
+                    <span>{{receiptNote.createDate | date:'yyyy-MM-dd HH:mm'}}</span>
                 </dd>
                 <dt><span>Ngày sửa đổi</span></dt>
                 <dd>
-                    <span>{{receiptNote.updateDate | date:'medium'}}</span>
+                    <span>{{receiptNote.updateDate | date:'yyyy-MM-dd HH:mm'}}</span>
                 </dd>
             </dl>
             <br>
+<br>
             <!-- START Information Invoice -->
             <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                 <ng-container *ngFor="let item of createPackage; let i = index">
@@ -143,6 +148,7 @@
                                         </div>
                                     </div>
                                     <br>
+<br>
                                 </ng-container>
                                 <div class="row">
                                     <div class="col-lg-3 col-md-6 col-sm-6">
@@ -157,8 +163,10 @@
                         </div>
                     </div>
                     <br>
+<br>
                 </ng-container>
                 <br>
+<br>
                 <div class="divider" style="margin: 20px;"></div>
                 <div class="row">
                     <div class="col-lg-3 col-md-6 col-sm-6">
