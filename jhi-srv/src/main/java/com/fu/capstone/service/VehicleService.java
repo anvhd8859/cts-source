@@ -15,4 +15,6 @@ public interface VehicleService {
 	List<VehicleDTO> findAll();
 	
 	Optional<VehicleDTO> findOne(Long id);
+	
+	void delete(Long id);
 }
