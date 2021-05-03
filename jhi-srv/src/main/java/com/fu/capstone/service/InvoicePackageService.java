@@ -59,7 +59,6 @@ public interface InvoicePackageService {
 	 * Put ImportPackage by OfficeId
 	 * 
 	 * @param invoicePackageDTO the list of InvoicePackageShipmentDTO
-	 */
 	List<InvoicePackageShipmentDTO> putImportPackageByOfficeId(List<InvoicePackageShipmentDTO> invoicePackageDTO);
 	
 	InvoiceHeaderDTO putImportOnePackage(Long id);
