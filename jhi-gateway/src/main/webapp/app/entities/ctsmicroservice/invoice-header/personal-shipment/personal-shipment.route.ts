@@ -50,7 +50,7 @@ export const personalShipmentRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_SHIPPER'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'PersonalShipments'
         },
@@ -63,7 +63,7 @@ export const personalShipmentRoute: Routes = [
             personalShipment: PersonalShipmentResolve
         },
         data: {
-            authorities: ['ROLE_SHIPPER'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_ADMIN'],
             pageTitle: 'PersonalShipments'
         },
         canActivate: [UserRouteAccessService]
