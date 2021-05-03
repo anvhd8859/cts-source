@@ -86,6 +86,5 @@ public interface InvoicePackageService {
 	 */
 	InvoiceHeaderDTO putExportOnePackage(Long id);
 	
-	/**
 	Page<InvoicePackageShipmentDTO> getExportPackageByOfficeId(Long id, String invNo, String status, Pageable pageable);
 }
