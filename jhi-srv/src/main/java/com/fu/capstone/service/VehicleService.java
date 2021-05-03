@@ -21,6 +21,7 @@ public interface VehicleService {
 	/**
 	 * Get all the vehicles.
 	 * 
+	 * @return the list of entities
 	 */
 	List<VehicleDTO> findAll();
 	
