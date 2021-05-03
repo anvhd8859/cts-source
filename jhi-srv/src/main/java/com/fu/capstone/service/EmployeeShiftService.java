@@ -19,5 +19,4 @@ public interface EmployeeShiftService {
     EmployeeShiftDTO save(EmployeeShiftDTO employeeShiftDTO);
 
     /**
-     * Get all the employeeShifts.
 }
