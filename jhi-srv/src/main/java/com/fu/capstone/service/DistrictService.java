@@ -15,5 +15,4 @@ public interface DistrictService {
 
     /**
      * Save a district.
-     *
 
