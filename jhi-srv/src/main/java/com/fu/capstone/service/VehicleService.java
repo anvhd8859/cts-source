@@ -13,6 +13,7 @@ public interface VehicleService {
 	/**
 	 * Save a vehicle.
 	 * 
+	 * @param vehicleDTO the entity to save
 	 */
 	VehicleDTO save(VehicleDTO vehicleDTO);
 	
