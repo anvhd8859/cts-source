@@ -54,12 +54,12 @@ public interface InvoicePackageService {
 
 	InvoiceHeaderDTO putImportOnePackage(Long id);
 
-	Page<InvoicePackageShipmentDTO> getImportPackageByOfficeId(Long id, String invNo, String type, Pageable pageable);
+	Page<InvoicePackageShipmentDTO> getImportPackageByOfficeId(Long id, String invNo, String status, String fromDate, String toDate, Pageable pageable);
 	
 	List<InvoicePackageShipmentDTO> putExportPackageByOfficeId(List<InvoicePackageShipmentDTO> invoicePackageDTO);
 
 	InvoiceHeaderDTO putExportOnePackage(Long id);
 
-	Page<InvoicePackageShipmentDTO> getExportPackageByOfficeId(Long id, String invNo, String status, Pageable pageable);
+	Page<InvoicePackageShipmentDTO> getExportPackageByOfficeId(Long id, String invNo, String type, String fromDate, String toDate, Pageable pageable);
 
 }
