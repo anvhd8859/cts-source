@@ -11,7 +11,5 @@ import java.util.Optional;
 /**
  * Service Interface for managing District.
  */
-public interface DistrictService {
-
 
 
