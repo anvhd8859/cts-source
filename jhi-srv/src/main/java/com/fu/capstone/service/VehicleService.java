@@ -13,4 +13,6 @@ public interface VehicleService {
 	VehicleDTO save(VehicleDTO vehicleDTO);
 	
 	List<VehicleDTO> findAll();
+	
+	Optional<VehicleDTO> findOne(Long id);
 }
