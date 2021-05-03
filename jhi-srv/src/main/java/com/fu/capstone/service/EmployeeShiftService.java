@@ -31,5 +31,4 @@ public interface EmployeeShiftService {
      *
      * @param id the id of the entity
      * @return the entity
-     */
 }
