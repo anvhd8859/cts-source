@@ -15,6 +15,7 @@ import { PaymentService } from './payment.service';
 import { InvoiceHeaderService } from '../invoice-header';
 import { InvoicePackageDetailDTO } from '../import-export-warehouse';
 import { Moment } from 'moment';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
     selector: 'jhi-payment',
@@ -52,7 +53,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private ngxUiLoaderService: NgxUiLoaderService
     ) {
         this.itemsPerPage = 50;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -175,6 +177,26 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
     private onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    exportExel() {
+        this.ngxUiLoaderService.start();
+        this.paymentService.exportToFileExcel(this.payments).subscribe(res => {
+            this.downloadFile(res.body);
+            this.ngxUiLoaderService.stop();
+        });
+    }
+
+    downloadFile(data: any) {
+        const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const filename = 'Payment_Report.xlsx';
+        const a = document.createElement('a');
+        const url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
     }
 }
 
