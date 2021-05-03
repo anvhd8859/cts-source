@@ -46,7 +46,6 @@ public interface PersonalShipmentService {
      */
     void delete(Long id);
     
-    // START TuyenVNT
     /**
      * Get the personalShipment by headerId
      * 
