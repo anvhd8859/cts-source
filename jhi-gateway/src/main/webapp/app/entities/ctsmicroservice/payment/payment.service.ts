@@ -54,7 +54,7 @@ export class PaymentService {
     }
 
     exportToFileExcel(payment: any): Observable<HttpResponse<any>> {
-        return this.http.post<any>(this.resourceUrl, payment, { observe: 'response' });
+        return this.http.post(this.resourceUrl + '/excel', payment, { observe: 'response', responseType: 'blob' }).pipe();
     }
 
     private convertDateFromClient(payment: IPayment): IPayment {
