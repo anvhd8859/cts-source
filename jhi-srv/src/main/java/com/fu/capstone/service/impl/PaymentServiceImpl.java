@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -133,7 +134,7 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public XSSFWorkbook createPaymentReport(List<PaymentInvoiceDTO> body) {
+	public ByteArrayInputStream createPaymentReport(List<PaymentInvoiceDTO> body) throws IOException {
 		String[] HEADERs = { "Payment Id", "Invoice Id", "Invocie No", "Payer", "Total Due", "Total Paid", "Amount Due",
 				"Paid Date", "Invoice Create Date" };
 		XSSFWorkbook workbook = new XSSFWorkbook();
@@ -149,25 +150,23 @@ public class PaymentServiceImpl implements PaymentService {
 			XSSFRow row = sheet.createRow(rowIdx++);
 			InvoiceHeaderDTO i = dto.getInvoice();
 			PaymentDTO p = dto.getPayment();
+			if(i.getReceiverPay() == null) i.setReceiverPay(false);
 			
 			row.createCell(0).setCellValue(p.getId());
 	        row.createCell(1).setCellValue(i.getId());
 	        row.createCell(2).setCellValue(i.getInvoiceNo());
 	        row.createCell(3).setCellValue(i.getReceiverPay() ? "Receiver paid" : "Sender paid");
+//	        row.createCell(3).setCellValue("TRUE");
 	        row.createCell(4).setCellValue(i.getTotalDue().intValue());
 	        row.createCell(5).setCellValue(p.getAmountPaid().intValue());
 	        row.createCell(6).setCellValue(p.getAmountDue().intValue());
 	        row.createCell(7).setCellValue(p.getCreateDate().toString());
 	        row.createCell(8).setCellValue(i.getCreateDate().toString());
 		}
-		
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try {
-			workbook.write(out);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return workbook;
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		workbook.write(os);
+		workbook.close();
+		os.close();
+		return new ByteArrayInputStream(os.toByteArray());
 	}
 }
