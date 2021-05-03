@@ -19,6 +19,7 @@ public interface VehicleService {
 	VehicleDTO save(VehicleDTO vehicleDTO);
 	
 	/**
+	 * Get all the vehicles.
 	 * 
 	 */
 	List<VehicleDTO> findAll();
