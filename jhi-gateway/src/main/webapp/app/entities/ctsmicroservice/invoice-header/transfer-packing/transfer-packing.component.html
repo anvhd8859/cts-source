@@ -33,14 +33,14 @@
                 <td><a [routerLink]="['/transfer-packing', transferPacking.id, 'view' ]">{{transferPacking.id}}</a></td>
                 <td>{{transferPacking.employeeId}}</td>
                 <td>{{transferPacking.invoiceHeaderId}}</td>
-                <td>{{transferPacking.packDate | date:'medium'}}</td>
+                <td>{{transferPacking.packDate | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td>{{transferPacking.startHour}}</td>
                 <td>{{transferPacking.startMinute}}</td>
                 <td>{{transferPacking.endHour}}</td>
                 <td>{{transferPacking.endMinute}}</td>
                 <td>{{transferPacking.status}}</td>
-                <td>{{transferPacking.createDate | date:'medium'}}</td>
-                <td>{{transferPacking.updateDate | date:'medium'}}</td>
+                <td>{{transferPacking.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{transferPacking.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
