@@ -14,6 +14,7 @@ public interface VehicleService {
 	 * Save a vehicle.
 	 * 
 	 * @param vehicleDTO the entity to save
+	 * @return the persisted entity
 	 */
 	VehicleDTO save(VehicleDTO vehicleDTO);
 	
