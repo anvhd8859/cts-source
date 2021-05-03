@@ -24,4 +24,7 @@ public interface EmployeeShiftService {
      * @return the list of entities
      */
     List<EmployeeShiftDTO> findAll();
+
+
+    /**
 }
