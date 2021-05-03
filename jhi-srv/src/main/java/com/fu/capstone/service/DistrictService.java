@@ -39,7 +39,6 @@ public interface DistrictService {
     Optional<DistrictDTO> findOne(Long id);
 
     /**
-     * Delete the "id" district.
 
 
 
