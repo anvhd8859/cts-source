@@ -52,7 +52,8 @@ import {
     faAddressCard,
     faMapSigns,
     faTruckLoading,
-    faPlusCircle
+    faPlusCircle,
+    faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -104,5 +105,6 @@ library.add(faMapSigns);
 library.add(faTruck);
 library.add(faTruckLoading);
 library.add(faPlusCircle);
+library.add(faArrowRight);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
