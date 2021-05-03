@@ -10,5 +10,5 @@ import java.util.Optional;
  */
 public interface VehicleService {
 
-
+	VehicleDTO save(VehicleDTO vehicleDTO);
 }
