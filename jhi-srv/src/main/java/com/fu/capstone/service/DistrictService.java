@@ -19,5 +19,4 @@ public interface DistrictService {
      * @param districtDTO the entity to save
      * @return the persisted entity
      */
-    DistrictDTO save(DistrictDTO districtDTO);
 
