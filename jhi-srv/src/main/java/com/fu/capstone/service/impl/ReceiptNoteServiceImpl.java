@@ -343,15 +343,15 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
 		}
 
-		if (pm.getAmountDue() != null) {
-			if (pm.getAmountDue().intValue() != 0)
-				throw new BadRequestAlertException("Amount due", "receipt note", "not equal 0");
-			else
-				paymentRepository.save(pm);
-		}
 		// save data
 		ReceiptNote rn = receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt()));
-		pm.setReceiptNoteId(rn.getId());
+		if (pm != null)
+			if (pm.getAmountDue() != null) {
+				if (pm.getAmountDue().intValue() == 0) {
+					pm.setReceiptNoteId(rn.getId());
+					paymentRepository.save(pm);
+				}
+			}
 		invoiceHeaderRepository.save(inv);
 		personalShipmentRepository.save(ps);
 		return receiptNoteMapper.toDto(receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt())));
