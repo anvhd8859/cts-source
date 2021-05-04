@@ -16,7 +16,7 @@ import { RequestDetailsService } from '../request-details';
 export class ImportExportWarehouseShipperDetailComponent implements OnInit {
     currentAccount: any;
     importExportWarehouse: IImportExportWarehouse;
-    requestDetailsList: InvoicePackageDetailDTO[];
+    requestDetailsList: IShipmentInvoice[];
     common: CommonString;
     isSaving: boolean;
 
@@ -37,7 +37,7 @@ export class ImportExportWarehouseShipperDetailComponent implements OnInit {
             this.importExportWarehouse = importExportWarehouse;
             this.requestDetailsService
                 .getRequestDetailsByHeaderId({ id: this.importExportWarehouse.id })
-                .subscribe((res: HttpResponse<InvoicePackageDetailDTO[]>) => {
+                .subscribe((res: HttpResponse<IShipmentInvoice[]>) => {
                     this.requestDetailsList = res.body;
                 });
         });

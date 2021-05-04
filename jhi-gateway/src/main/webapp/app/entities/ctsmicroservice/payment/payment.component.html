@@ -168,7 +168,7 @@
                             <td>{{p.payment.id}}</td>
                             <td>{{p.payment.invoiceHeaderId}}</td>
                             <td>{{p.invoice.invoiceNo}}</td>
-                            <td>{{p.invoice.receiverPay ? "Người nhận trả" : "Người gửi trả"}}</td>
+                            <td>{{boolToString(p.invoice.receiverPay)}}</td>
                             <td>{{p.payment.amountPaid}}</td>
                             <td>{{p.payment.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
                             <td>{{p.invoice.createDate | date:'yyyy-MM-dd HH:mm'}}</td>

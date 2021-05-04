@@ -193,10 +193,10 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
 	}
 
 	@Override
-	public Page<InvoicePackageShipmentDTO> getExportPackageByOfficeId(Long id, String invNo, String type,
+	public Page<InvoicePackageShipmentDTO> getExportPackageByOfficeId(Long id, String invNo, String status,
 			String fromDate, String toDate, Pageable pageable) {
 		Page<InvoiceHeaderDTO> pageInvoice = invoiceHeaderRepository
-				.getExportPackageByOfficeId(id, invNo, type, fromDate, toDate, pageable)
+				.getExportPackageByOfficeId(id, invNo, status, fromDate, toDate, pageable)
 				.map(invoiceHeaderMapper::toDto);
 		Page<InvoicePackageShipmentDTO> page = pageInvoice.map(this::convert);
 		return page;

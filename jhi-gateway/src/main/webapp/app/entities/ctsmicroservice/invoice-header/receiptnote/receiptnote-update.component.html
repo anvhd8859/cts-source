@@ -1,9 +1,9 @@
 <div class="row justify-content-center">
     <div class="col-8">
-    <br>
-<br>
-    <br>
-<br>
+        <br>
+        <br>
+        <br>
+        <br>
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-receiptnote-heading">Tạo biên nhận cho khách hàng</h2>
             <div>
@@ -107,7 +107,8 @@
                                                 <div class="row">
                                                     <div class="col-lg-4 col-md-12 col-sm-12">
                                                         <div class="form-group">
-                                                            <label class="form-control-label" for="itemName{{i}}">Tên vật phẩm</label>
+                                                            <label class="form-control-label" for="itemName{{i}}">Tên
+                                                                vật phẩm</label>
                                                             <input placeholder="" class="form-control" type="text"
                                                                 name="itemName{{id}}" id="itemName{{id}}"
                                                                 [(ngModel)]="itemDetail.itemName">
@@ -138,7 +139,7 @@
                                             </div>
                                         </div>
                                         <br>
-<br>
+                                        <br>
                                     </ng-container>
                                     <div class="row">
                                         <div class="col-lg-3 col-md-6 col-sm-6">
@@ -153,10 +154,10 @@
                             </div>
                         </div>
                         <br>
-<br>
+                        <br>
                     </ng-container>
                     <br>
-<br>
+                    <br>
                     <div class="divider" style="margin: 20px;"></div>
                     <div class="row">
                         <div class="col-lg-3 col-md-6 col-sm-6">
@@ -169,45 +170,50 @@
                     </div>
                 </div>
                 <br>
-<br>
+                <br>
                 <!-- Invoice Detail End -->
 
                 <!-- START payment -->
                 <div class="row">
-                    <div class="col-lg-6">
-                        <!-- START upload image -->
-                        <div class="form-group">
-                            <label class="form-control-label" for="from-payment" style="font-weight: 500;">
-                                <b>Up ảnh ở đây-sau</b>
-                            </label>
-                        </div>
-                        <!-- END upload image -->
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group" *ngIf="(invoiceHeader.receiverPay && this.personalShipment.shipmentType === 'delivery') || (!invoiceHeader.receiverPay && this.personalShipment.shipmentType === 'collect')">
-                            <label class="form-control-label" for="from-payment" style="font-weight: 500;"><b>Thanh toán</b></label>
+                    <div class="col-lg-7">
+                        <div class="form-group"
+                            *ngIf="(pay && this.personalShipment.shipmentType === 'delivery') || (!pay && this.personalShipment.shipmentType === 'collect')">
+                            <label class="form-control-label" for="from-payment" style="font-weight: 500;"><b>Thanh
+                                    toán</b></label>
                             <div>
                                 <div class="form-group">
                                     <label class="form-control-label" for="field_note">Thành tiền</label>
                                     <input type="text" class="form-control" name="note" id="field_sub_toltal"
-                                        value="{{invoiceHeader.subTotal}}" disabled/>
+                                        [(ngModel)]="invoiceHeader.subTotal" disabled />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label" for="field_note">Thuế</label>
                                     <input type="text" class="form-control" name="note" id="field_tax"
-                                        value="{{invoiceHeader.taxAmount}}" disabled/>
+                                        [(ngModel)]="invoiceHeader.taxAmount" disabled />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label" for="field_note">Tổng tiền</label>
                                     <input type="text" class="form-control" name="note" id="field_toltal"
-                                        value="{{invoiceHeader.totalDue}}" disabled/>
+                                        [(ngModel)]="invoiceHeader.totalDue" value="{{invoiceHeader.totalDue}}"
+                                        disabled />
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label" for="field_note">Số tiền thanh toán</label>
+                                    <label class="form-control-label" for="field_note">Số tiền phải thanh toán</label>
                                     <input type="number" class="form-control" name="note" id="field_sub_toltal"
-                                        value="{{invoiceHeader.totalDue}}" disabled/>
+                                        value="{{invoiceHeader.totalDue}}" disabled />
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="text-center">
+                            <!-- START upload image -->
+                            <div class="form-group">
+                                <label class="form-control-label" for="from-payment" style="font-weight: 500;">
+                                    <b>Up ảnh cho biên lại</b>
+                                </label>
+                            </div>
+                            <!-- END upload image -->
                         </div>
                     </div>
                 </div>
@@ -215,22 +221,22 @@
 
             </div>
             <br>
-<br>
             <br>
-<br>
+            <br>
+            <br>
             <div style="margin-left: 20%;">
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;&nbsp;<span>Hủy</span>
                 </button>
-                <button style="margin-left: 50%;" type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
-                    class="btn btn-primary">
+                <button style="margin-left: 50%;" type="submit" id="save-entity"
+                    [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;&nbsp;<span>Lưu</span>
                 </button>
             </div>
             <br>
-<br>
             <br>
-<br>
+            <br>
+            <br>
         </form>
     </div>
 </div>

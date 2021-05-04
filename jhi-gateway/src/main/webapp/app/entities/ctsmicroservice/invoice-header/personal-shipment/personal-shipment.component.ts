@@ -275,6 +275,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
                                 data.requestDetailsList.push(rd);
                             }
                         }
+                        console.log(data);
                         this.requestService.createImportWarehouse(data).subscribe(
                             (res: HttpResponse<any>) => {
                                 this.isSaving = false;

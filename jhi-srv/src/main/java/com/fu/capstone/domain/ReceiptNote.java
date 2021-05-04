@@ -36,7 +36,7 @@ public class ReceiptNote implements Serializable {
     private String imageLink;
 
     @Column(name = "receipt_type")
-    private String receiptType;
+    private Boolean receiptType;
 
     @Column(name = "create_date")
     private Instant createDate;
@@ -100,20 +100,20 @@ public class ReceiptNote implements Serializable {
 		this.imageLink = imageLink;
 	}
 
-	public String getReceiptType() {
+	public Boolean getReceiptType() {
 		return receiptType;
 	}
 
-	public String isReceiptType() {
+	public Boolean isReceiptType() {
         return receiptType;
     }
 
-    public ReceiptNote receiptType(String receiptType) {
+    public ReceiptNote receiptType(Boolean receiptType) {
         this.receiptType = receiptType;
         return this;
     }
 
-    public void setReceiptType(String receiptType) {
+    public void setReceiptType(Boolean receiptType) {
         this.receiptType = receiptType;
     }
 

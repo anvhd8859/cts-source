@@ -3,13 +3,11 @@ package com.fu.capstone.service.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import com.fu.capstone.domain.ReceiptNote;
-
 public class ReceiptDetailPackageDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private ReceiptNote receipt;
+	private ReceiptNoteDTO receipt;
 
 	private List<PackageDetailsDTO> packageList;
 	
@@ -25,11 +23,11 @@ public class ReceiptDetailPackageDTO implements Serializable {
 		this.packageList = packageList;
 	}
 
-	public ReceiptNote getReceipt() {
+	public ReceiptNoteDTO getReceipt() {
 		return receipt;
 	}
 
-	public void setReceipt(ReceiptNote receipt) {
+	public void setReceipt(ReceiptNoteDTO receipt) {
 		this.receipt = receipt;
 	}
 

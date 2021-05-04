@@ -207,8 +207,14 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			data.getReceipt().setCreateDate(instant);
 		data.getReceipt().setUpdateDate(instant);
 
+		boolean reCalculate = false;
+		if (data.getPackageList().size() != invoicePackageRepository
+				.getInvoicePackageByHeaderId(data.getReceipt().getInvoiceHeaderId()).size()) {
+			reCalculate = true;
+		}
+
 		// collect receipt and process
-		data.getReceipt().setReceiptType("1");
+		data.getReceipt().setReceiptType(true);
 		for (PackageDetailsDTO pd : data.getPackageList()) {
 			pd.getInvPackage().setUpdateDate(instant);
 			pd.getInvPackage().setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
@@ -224,24 +230,26 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		}
 
 		InvoiceHeader inv = invoiceHeaderRepository.getOne(data.getReceipt().getInvoiceHeaderId());
-		Street fromStreet = streetRepository.getFullAddressByStreetId(inv.getStartStreetId());
-		Street toStreet = streetRepository.getFullAddressByStreetId(inv.getDestinationStreetId());
-		inv.setUpdateDate(instant);
-		BigDecimal subTotal = calculateSubTotal(data.getPackageList(), fromStreet, toStreet);
-		inv.setSubTotal(subTotal);
-		subTotal = new BigDecimal(2500).add(subTotal.multiply(new BigDecimal(1.05)));
-		inv.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
-		inv.setTotalDue(subTotal.multiply(new BigDecimal(1.1)));
+		if (reCalculate) {
+			Street fromStreet = streetRepository.getFullAddressByStreetId(inv.getStartStreetId());
+			Street toStreet = streetRepository.getFullAddressByStreetId(inv.getDestinationStreetId());
+			inv.setUpdateDate(instant);
+			BigDecimal subTotal = calculateSubTotal(data.getPackageList(), fromStreet, toStreet);
+			inv.setSubTotal(subTotal);
+			subTotal = new BigDecimal(2500).add(subTotal.multiply(new BigDecimal(1.05)));
+			inv.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
+			inv.setTotalDue(subTotal.multiply(new BigDecimal(1.1)));
+		}
 		inv.setStatus("collected");
 		PersonalShipment ps = personalShipmentRepository
 				.getCollectShipmentByInvoice(data.getReceipt().getInvoiceHeaderId());
-		ps.setStatus("finish");
+		ps.setStatus("done");
 		ps.setShipTime(instant);
 		ps.setFinishTime(instant);
 		ps.setUpdateDate(instant);
 
 		// save data
-		ReceiptNote rn = receiptNoteRepository.save(data.getReceipt());
+		ReceiptNote rn = receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt()));
 		Payment pm = null;
 		if (data.getPay()) {
 			pm = new Payment();
@@ -249,18 +257,14 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			pm.setEmployeeId(data.getReceipt().getEmployeeId());
 			pm.setCreateDate(instant);
 			pm.setUpdateDate(instant);
-			pm.setAmountPaid(new BigDecimal(data.getPayAmount()));
+			pm.setAmountPaid(inv.getTotalDue());
 			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
 			pm.setReceiptNoteId(rn.getId());
 		}
 
-		if (pm.getAmountDue() != null) {
-			if (pm.getAmountDue().intValue() != 0)
-				throw new BadRequestAlertException("Amount due", "receipt note", "not equal 0");
-			else
-				paymentRepository.save(pm);
+		if (data.getPay()) {
+			paymentRepository.save(pm);
 		}
-
 		invoiceHeaderRepository.save(inv);
 		personalShipmentRepository.save(ps);
 		return receiptNoteMapper.toDto(rn);
@@ -339,18 +343,18 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
 		}
 
-		if (pm.getAmountDue() != null) {
-			if (pm.getAmountDue().intValue() != 0)
-				throw new BadRequestAlertException("Amount due", "receipt note", "not equal 0");
-			else
-				paymentRepository.save(pm);
-		}
 		// save data
-		ReceiptNote rn = receiptNoteRepository.save(data.getReceipt());
-		pm.setReceiptNoteId(rn.getId());
+		ReceiptNote rn = receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt()));
+		if (pm != null)
+			if (pm.getAmountDue() != null) {
+				if (pm.getAmountDue().intValue() == 0) {
+					pm.setReceiptNoteId(rn.getId());
+					paymentRepository.save(pm);
+				}
+			}
 		invoiceHeaderRepository.save(inv);
 		personalShipmentRepository.save(ps);
-		return receiptNoteMapper.toDto(receiptNoteRepository.save(data.getReceipt()));
+		return receiptNoteMapper.toDto(receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt())));
 	}
 
 	@Override
@@ -376,7 +380,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		}
 
 		// save data
-		ReceiptNote rn = receiptNoteRepository.save(data.getReceipt());
+		ReceiptNote rn = receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt()));
 		Payment pm = null;
 		if (data.getPay()) {
 			pm = new Payment();

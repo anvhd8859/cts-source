@@ -120,7 +120,10 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public Page<PaymentInvoiceDTO> getPaymentInvoceByParams(String invoiceNo, String type, String receiveFrom,
 			String receiveTo, String createFrom, String createTo, Pageable pageable) {
-		Page<Payment> page = paymentRepository.getPaymentInvoceByParams(invoiceNo, type, receiveFrom, receiveTo,
+		Boolean tp = null;
+		if(type.equals("1")) tp = true;
+		if(type.equals("0")) tp = false;
+		Page<Payment> page = paymentRepository.getPaymentInvoceByParams(invoiceNo, tp, receiveFrom, receiveTo,
 				createFrom, createTo, pageable);
 		return page.map(this::convert);
 	}
@@ -150,13 +153,12 @@ public class PaymentServiceImpl implements PaymentService {
 			XSSFRow row = sheet.createRow(rowIdx++);
 			InvoiceHeaderDTO i = dto.getInvoice();
 			PaymentDTO p = dto.getPayment();
-			if(i.getReceiverPay() == null) i.setReceiverPay(false);
 			
 			row.createCell(0).setCellValue(p.getId());
 	        row.createCell(1).setCellValue(i.getId());
 	        row.createCell(2).setCellValue(i.getInvoiceNo());
-	        row.createCell(3).setCellValue(i.getReceiverPay() ? "Receiver paid" : "Sender paid");
-//	        row.createCell(3).setCellValue("TRUE");
+	        if(i.getReceiverPay() == null) row.createCell(3).setCellValue("Missing");
+	        else row.createCell(3).setCellValue(i.getReceiverPay() ? "Receiver paid" : "Sender paid");
 	        row.createCell(4).setCellValue(i.getTotalDue().intValue());
 	        row.createCell(5).setCellValue(p.getAmountPaid().intValue());
 	        row.createCell(6).setCellValue(p.getAmountDue().intValue());
@@ -166,6 +168,7 @@ public class PaymentServiceImpl implements PaymentService {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		workbook.write(os);
 		os.close();
+		workbook.close();
 		return new ByteArrayInputStream(os.toByteArray());
 	}
 }

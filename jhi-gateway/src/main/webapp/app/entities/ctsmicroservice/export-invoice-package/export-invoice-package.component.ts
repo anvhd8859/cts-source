@@ -12,7 +12,7 @@ import { IExportInvoicePackage } from 'app/shared/model/ctsmicroservice/export-i
 import { Principal } from 'app/core';
 import { ExportInvoicePackageService } from './export-invoice-package.service';
 import { Moment } from 'moment';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExportInvoiceModalWarningComponent } from './export-invoice-modal-warning.component';
 
 @Component({
@@ -25,11 +25,8 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
     currentAccount: any;
     eventSubscriber: Subscription;
     selectedInvoiceNo: any;
-    selectedInvoiceStatus: any;
-    listInvoiceStatus: any = [
-        { id: 'first_import', text: 'Nhập kho chi nhánh đầu' },
-        { id: 'last_import', text: 'Nhập kho chi nhánh cuối' }
-    ];
+    listInvoiceStatus: any = [{ id: 'first_import', text: 'Nhập kho chi nhánh đầu' }];
+    selectedInvoiceStatus = this.listInvoiceStatus[0].id;
     listShipmentStatus: any = [
         { id: 'new', text: 'Chưa xử lý' },
         { id: 'collecting', text: 'Nhân viên đang lấy hàng' },
@@ -90,7 +87,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
                 this.invoicePackageShipments = res.body;
                 this.finalData = JSON.parse(JSON.stringify(this.invoicePackageShipments));
                 for (const obj of this.invoicePackageShipments) {
-                    this.selectedCheckBox.push(false);
+                    this.selectedCheckBox.push(true);
                 }
             },
             (res: HttpErrorResponse) => this.onError(res.message)
@@ -122,6 +119,17 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
         }
     }
 
+    clearDatepicker(id: number) {
+        switch (id) {
+            case 2:
+                this.fromTime = null;
+                break;
+            case 3:
+                this.toTime = null;
+                break;
+        }
+    }
+
     exportAll() {
         let todo = false;
         const finalParams = new Array();
@@ -137,7 +145,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
             size: 'lg',
             backdrop: 'static'
         });
-        modalRef.componentInstance.action = todo;
+        modalRef.componentInstance.action = false;
         modalRef.result.then(
             result => {
                 this.isSaving = true;
@@ -214,4 +222,51 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
     private onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
+}
+
+@Component({
+    selector: 'jhi-modal-warning-component',
+    template: `
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">Warning</h4>
+      <button
+        type="button"
+        class="close"
+        aria-describedby="modal-title"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p *ngIf="empty">
+        <strong>Bạn chưa chọn đơn hàng nào</strong>
+      </p>
+      <p *ngIf="!empty">
+        <strong>Bạn xác nhận muốn xuất kho các đơn hàng này?</strong>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button *ngIf="!empty"
+        style="width: 20%;"
+        type="button"
+        class="btn btn-info"
+        (click)="modal.dismiss('Cancel click')"
+      >
+        Hủy
+      </button>
+      <button *ngIf="!empty"
+        style="margin-left: 51%; width: 20%; margin-right:5%"
+        type="button"
+        class="btn btn-warning"
+        (click)="modal.close('Ok click')"
+      >
+        Xác nhận
+      </button>
+    </div>
+  `
+})
+export class ExportModalWarningComponent {
+    empty = true;
+    constructor(public modal: NgbActiveModal) {}
 }

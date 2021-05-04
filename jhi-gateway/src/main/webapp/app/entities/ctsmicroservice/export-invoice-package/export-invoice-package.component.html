@@ -1,28 +1,30 @@
 <div class="row justify-content-center">
     <div class="col-lg-11">
         <br>
-<br>
+        <br>
+        <br>
+        <br>
         <div class="container-fluid">
             <div class="row" style="border-bottom: 2px solid;">
-                <div class="col-lg-6 col-md-12 col-md-12">
+                <div class="col-lg-8 col-md-12 col-md-12">
                     <h2 style="font-weight: bold;" id="page-heading">
                         <span>Quản lý xuất kho</span>
                     </h2>
                 </div>
-                <div class="col-lg-6 col-md-12 col-md-12">
+                <div class="col-lg-4 col-md-12 col-md-12">
                     <button id="jh-create-entity" (click)="exportAll()"
                         [disabled]="invoicePackageShipments.length === 0"
-                        class="btn btn-primary float-right jh-create-entity create-import-invoice-package">
+                        class="btn btn-success float-right jh-create-entity create-import-invoice-package">
                         <fa-icon [icon]="'check'"></fa-icon>
                         <span>
-                            Xuất kho
+                            Xuất Kho
                         </span>
                     </button>
                 </div>
             </div>
         </div>
         <br>
-<br>
+        <br>
         <jhi-alert></jhi-alert>
         <br />
         <div class="card">
@@ -39,12 +41,59 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="form-group">
                             <label for="status">Tình trạng đơn hàng</label>
-                            <ng-select [clearable]="true" [hideSelected]="true" [items]="listInvoiceStatus"
+                            <input type="text" class="form-control" placeholder="(ALL)"
+                                value="{{selectedInvoiceStatus}}" disabled>
+                            <!-- <ng-select [clearable]="true" [hideSelected]="true" [items]="listInvoiceStatus"
                                 bindLabel="text" bindValue="id" id="status" name="status"
                                 [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedInvoiceStatus"
-                                placeholder="(ALL)">
+                                placeholder="(ALL)" >
                                 <ng-option *ngFor="let item of listInvoiceStatus">{{item.text}}</ng-option>
-                            </ng-select>
+                            </ng-select> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 text-center">
+                    </div>
+                </div>
+                <label for="createOn">Ngày tạo đơn:</label>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="createOn">Từ ngày</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="createOn"
+                                    [(ngModel)]="this.fromTime" ngbDatepicker #b="ngbDatepicker" readonly>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(2)"
+                                        type="button">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                    </button>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="b.toggle()" type="button">
+                                        <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="updateOn">Đến ngày</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="updateOn"
+                                    [(ngModel)]="this.toTime" ngbDatepicker #c="ngbDatepicker" readonly>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(3)"
+                                        type="button">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                    </button>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
+                                        <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6 text-center">
@@ -58,9 +107,9 @@
                     </div>
                 </div>
             </div>
-            <br>
-<br>
             <div class="card-body">
+                <br>
+                <br>
                 <div class="table-responsive" *ngIf="!invoicePackageShipments || invoicePackageShipments.length === 0">
                     <h2>Không tìm thấy dữ liệu</h2>
                 </div>
@@ -74,7 +123,7 @@
                                 <th><span>Mã số</span></th>
                                 <th><span>Số hóa đơn</span></th>
                                 <th><span>Tình trạng đơn hàng</span></th>
-                                <th><span>Giao tới địa chỉ</span></th>
+                                <th><span>Địa chỉ giao hàng</span></th>
                                 <th><span>Ghi chú</span></th>
                                 <th><span>Ngày giao dự kiến</span></th>
                                 <th><span>Số gói hàng</span></th>
@@ -84,7 +133,7 @@
                         <tbody>
                             <tr *ngFor="let importInvoicePackage of invoicePackageShipments ;let i = index">
                                 <td><input type="checkbox" id="chkBox{{i}}" [(ngModel)]="selectedCheckBox[i]"
-                                    (change)="checked(i, $event)"></td>
+                                        (change)="checked(i, $event)"></td>
                                 <td><a>{{importInvoicePackage.invoiceHeader.id}}</a></td>
                                 <td>{{importInvoicePackage.invoiceHeader.invoiceNo}}</td>
                                 <td>{{common.processInvoiceStatus(importInvoicePackage.invoiceHeader.status)}}</td>
@@ -99,6 +148,12 @@
                                             class="btn btn-info btn-sm">
                                             <fa-icon [icon]="'eye'"></fa-icon>
                                             <span class="d-none d-md-inline">Chi tiết</span>
+                                        </button>
+                                        <button type="submit"
+                                            [routerLink]="['/', { outlets: { popup: 'export-invoice-package/'+ importInvoicePackage.invoiceHeader.id + '/export'} } ]"
+                                            class="btn btn-primary btn-sm">
+                                            <fa-icon [icon]="'check'"></fa-icon>
+                                            <span class="d-none d-md-inline">Xuất kho</span>
                                         </button>
                                     </div>
                                 </td>

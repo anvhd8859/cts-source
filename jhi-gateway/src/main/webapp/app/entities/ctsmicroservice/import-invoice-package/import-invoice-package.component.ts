@@ -1,5 +1,5 @@
 import { ImportInvoiceModalWarningComponent } from './import-invoice-modal-warning.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonString } from './../../../shared/util/request-util';
 import { IUserProfile } from './../../../shared/model/user-profile.model';
 import { AccountService } from './../../../core/auth/account.service';
@@ -88,7 +88,7 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
                 this.invoicePackageShipments = res.body;
                 this.finalData = JSON.parse(JSON.stringify(this.invoicePackageShipments));
                 for (const obj of this.invoicePackageShipments) {
-                    this.selectedCheckBox.push(false);
+                    this.selectedCheckBox.push(true);
                 }
             },
             (res: HttpErrorResponse) => this.onError(res.message)
@@ -135,7 +135,7 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
             size: 'lg',
             backdrop: 'static'
         });
-        modalRef.componentInstance.action = todo;
+        modalRef.componentInstance.action = false;
         modalRef.result.then(
             result => {
                 this.isSaving = true;
@@ -233,4 +233,51 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     private onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
+}
+
+@Component({
+    selector: 'jhi-modal-warning-component',
+    template: `
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">Warning</h4>
+      <button
+        type="button"
+        class="close"
+        aria-describedby="modal-title"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p *ngIf="empty">
+        <strong>Bạn chưa chọn đơn hàng nào</strong>
+      </p>
+      <p *ngIf="!empty">
+        <strong>Bạn xác nhận muốn nhập kho các đơn hàng này?</strong>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button *ngIf="!empty"
+        style=" width: 20%;"
+        type="button"
+        class="btn btn-info"
+        (click)="modal.dismiss('Cancel click')"
+      >
+        Hủy
+      </button>
+      <button *ngIf="!empty"
+        style="margin-left: 51%; width: 20%; margin-right:5%"
+        type="button"
+        class="btn btn-warning"
+        (click)="modal.close('Ok click')"
+      >
+        Xác nhận
+      </button>
+    </div>
+  `
+})
+export class ImportModalWarningComponent {
+    empty = true;
+    constructor(public modal: NgbActiveModal) {}
 }

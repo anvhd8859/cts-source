@@ -55,15 +55,15 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="import-export-warehouse-shipper" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'list-ul'" [fixedWidth]="true"></fa-icon>
-                            <span>Xem yêu cầu xuất nhập kho</span>
+                        <a class="dropdown-item" routerLink="payment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'money-bill-wave-alt'" [fixedWidth]="true"></fa-icon>
+                            <span>Xem chi tiết thanh toán</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="payment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'list-ul'" [fixedWidth]="true"></fa-icon>
-                            <span>Xem chi tiết thanh toán</span>
+                            <fa-icon [icon]="'warehouse'" [fixedWidth]="true"></fa-icon>
+                            <span>Xem yêu cầu xuất nhập kho</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
@@ -83,8 +83,14 @@
                 <ul class="dropdown-menu" ngbDropdownMenu>
                     <li>
                         <a class="dropdown-item" routerLink="import-export-warehouse" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'file-import'" [fixedWidth]="true"></fa-icon>
+                            <fa-icon [icon]="'warehouse'" [fixedWidth]="true"></fa-icon>
                             <span>Quản lý yêu cầu xuất nhập kho</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="invoice-header-review" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'eye'" [fixedWidth]="true"></fa-icon>
+                            <span>Duyệt đơn hàng</span>
                         </a>
                     </li>
                     <li>
@@ -190,16 +196,16 @@
                     </li>
                     <div class="divider"></div>
                     <li>
-                        <a class="dropdown-item" routerLink="working-area" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="cancel-invoice" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'sticky-note'" [fixedWidth]="true"></fa-icon>
-                            <span>Quản lý khu vực làm việc</span>
+                            <span>Quản lý đơn hàng đã hủy</span>
                         </a>
                     </li>
                     <div class="divider"></div>
                     <li>
-                        <a class="dropdown-item" routerLink="cancel-invoice" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'sticky-note'" [fixedWidth]="true"></fa-icon>
-                            <span>Quản lý đơn hàng đã hủy</span>
+                        <a class="dropdown-item" routerLink="working-area" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'globe-asia'" [fixedWidth]="true"></fa-icon>
+                            <span>Quản lý khu vực làm việc</span>
                         </a>
                     </li>
                     <div class="divider"></div>

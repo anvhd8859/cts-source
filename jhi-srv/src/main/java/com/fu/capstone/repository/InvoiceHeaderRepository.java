@@ -92,4 +92,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 			@Param("status") String status, @Param("receiveFrom") String receiveFrom, @Param("receiveTo") String receiveTo,
 			@Param("createFrom") String createFrom, @Param("createTo") String createTo, Pageable pageable);
 
+	@Query(value = "SELECT i FROM InvoiceHeader i, PersonalShipment p WHERE i.id = p.invoiceHeaderId AND p.id = :id ")
+	InvoiceHeader getInvoiceByShipmentId(@Param("id") Long shipmentId);
+
 }

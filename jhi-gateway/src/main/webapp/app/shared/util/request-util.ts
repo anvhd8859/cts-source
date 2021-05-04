@@ -26,6 +26,7 @@ export class CommonString {
         { id: 'fail_num1', text: 'Giao hàng không thành công lần: 1' },
         { id: 'fail_num2', text: 'Giao hàng không thành công lần: 2' },
         { id: 'fail_num3', text: 'Giao hàng không thành công lần: 3' },
+        { id: 'done', text: 'Đã thực hiện, chờ xác nhận' },
         { id: 'finish', text: 'Hoàn thành' },
         { id: 'cancel', text: 'Hủy' }
     ];
