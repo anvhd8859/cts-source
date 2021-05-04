@@ -117,6 +117,17 @@ export class PaymentComponent implements OnInit, OnDestroy {
         }
     }
 
+    boolToString(b: any) {
+        if (b == null) {
+            return 'Thông tin bị thiếu';
+        }
+        if (b) {
+            return 'Người nhận trả';
+        } else {
+            return 'Người gửi trả';
+        }
+    }
+
     transition() {
         this.router.navigate(['/payment'], {
             queryParams: {
