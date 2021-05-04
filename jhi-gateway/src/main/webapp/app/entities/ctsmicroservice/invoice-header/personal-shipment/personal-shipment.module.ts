@@ -1,4 +1,3 @@
-import { ModalWarningComponent } from './modal-warning.component';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -19,7 +18,8 @@ import {
     PersonalShipmentCancelInvoiceRequestPopupComponent,
     PersonalShipmentCancelInvoiceRequestDialogComponent,
     ExportModalConfirmComponent,
-    ImportModalConfirmComponent
+    ImportModalConfirmComponent,
+    IEModalWarningComponent
 } from './';
 
 const ENTITY_STATES = [...personalShipmentRoute, ...personalShipmentPopupRoute];
@@ -39,7 +39,7 @@ const ENTITY_STATES = [...personalShipmentRoute, ...personalShipmentPopupRoute];
         PersonalShipmentCancelInvoiceRequestPopupComponent,
         ExportModalConfirmComponent,
         ImportModalConfirmComponent,
-        ModalWarningComponent
+        IEModalWarningComponent
     ],
     entryComponents: [
         PersonalShipmentComponent,
@@ -53,7 +53,7 @@ const ENTITY_STATES = [...personalShipmentRoute, ...personalShipmentPopupRoute];
         PersonalShipmentCancelInvoiceRequestPopupComponent,
         ExportModalConfirmComponent,
         ImportModalConfirmComponent,
-        ModalWarningComponent
+        IEModalWarningComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
