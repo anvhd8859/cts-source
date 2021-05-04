@@ -60,6 +60,6 @@ public interface InvoicePackageService {
 
 	InvoiceHeaderDTO putExportOnePackage(Long id);
 
-	Page<InvoicePackageShipmentDTO> getExportPackageByOfficeId(Long id, String invNo, String type, String fromDate, String toDate, Pageable pageable);
+	Page<InvoicePackageShipmentDTO> getExportPackageByOfficeId(Long id, String invNo, String status, String fromDate, String toDate, Pageable pageable);
 
 }
