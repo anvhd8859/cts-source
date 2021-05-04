@@ -9,4 +9,4 @@ export * from './personal-shipment-admin.component';
 export * from './personal-shipment.route';
 export * from './export-modal.component';
 export * from './import-modal.component';
-export * from './modal-warning.component';
+export * from './iemodal-warning.component';
