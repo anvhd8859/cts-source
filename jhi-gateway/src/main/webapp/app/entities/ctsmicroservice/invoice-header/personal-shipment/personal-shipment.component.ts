@@ -12,12 +12,11 @@ import { IUser, Principal } from 'app/core';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { NgxUiLoaderService } from 'ngx-ui-loader/';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ExportModalConfirmComponent } from '.';
+import { ExportModalConfirmComponent, IEModalWarningComponent } from '.';
 import { IImportExportWarehouse, ImportExportWarehouse } from 'app/shared/model/ctsmicroservice/import-export-warehouse.model';
 import { Moment } from 'moment';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { ImportModalConfirmComponent } from './import-modal.component';
-import { ModalWarningComponent } from './modal-warning.component';
 
 @Component({
     selector: 'jhi-personal-shipment',
@@ -294,7 +293,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     }
 
     openWarning() {
-        this.modalService.open(ModalWarningComponent as Component, {
+        this.modalService.open(IEModalWarningComponent as Component, {
             size: 'lg',
             backdrop: 'static'
         });
