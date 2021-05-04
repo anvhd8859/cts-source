@@ -152,7 +152,7 @@ public class RequestDetails implements Serializable {
         return "RequestDetails{" +
             "id=" + getId() +
             ", ieWarehouseId=" + getIeWarehouseId() +
-            ", invoiceHeaderId=" + getShipmentId() +
+            ", shipmentId=" + getShipmentId() +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";

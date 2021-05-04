@@ -5,6 +5,7 @@ import com.fu.capstone.service.RequestDetailsService;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 import com.fu.capstone.service.dto.RequestDetailsDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -120,9 +121,9 @@ public class RequestDetailsResource {
 
     @GetMapping("/request-details/header")
     @Timed
-    public ResponseEntity<List<InvoicePackageDetailDTO>> getRequestDetailsByHeaderId(@RequestParam("id") Long id) {
+    public ResponseEntity<List<PersonalShipmentInvoiceDTO>> getRequestDetailsByHeaderId(@RequestParam("id") Long id) {
         log.debug("REST request to get RequestDetails : {}", id);
-        List<InvoicePackageDetailDTO> list = requestDetailsService.getRequestDetailsByHeaderId(id);
+        List<PersonalShipmentInvoiceDTO> list = requestDetailsService.getRequestDetailsByHeaderId(id);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
     

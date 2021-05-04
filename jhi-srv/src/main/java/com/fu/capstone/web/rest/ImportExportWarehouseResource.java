@@ -8,6 +8,7 @@ import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.DetailsImportExportDTO;
 import com.fu.capstone.service.dto.ImportExportWarehouseDTO;
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -148,11 +149,6 @@ public class ImportExportWarehouseResource {
 	@Timed
 	public ResponseEntity<ImportExportWarehouseDTO> createImportWarehouse(
 			@RequestBody DetailsImportExportDTO importExportWarehouseDTO) throws URISyntaxException {
-		log.debug("REST request to save ImportExportWarehouse : {}", importExportWarehouseDTO);
-		if (importExportWarehouseDTO.getRequestHeader().getId() != null) {
-			throw new BadRequestAlertException("A new importExportWarehouse cannot already have an ID", ENTITY_NAME,
-					"idexists");
-		}
 		ImportExportWarehouseDTO result = importExportWarehouseService.createImportWarehouse(importExportWarehouseDTO);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
 				.body(result);
@@ -187,8 +183,8 @@ public class ImportExportWarehouseResource {
 	@PutMapping("/import-export-warehouses/by-keeper/{id}")
 	@Timed
 	public ResponseEntity<ImportExportWarehouseDTO> updateImportExportByKeeper(@PathVariable Long id,
-			@RequestBody List<InvoicePackageDetailDTO> InvoicePackageDetailDTO) throws URISyntaxException {
-		log.debug("REST request to update ImportExportWarehouse : {}", "");
+			@RequestBody List<PersonalShipmentInvoiceDTO> InvoicePackageDetailDTO) throws URISyntaxException {
+		log.debug("REST request to update ImportExportWarehouse : {}", InvoicePackageDetailDTO);
 		ImportExportWarehouseDTO result = importExportWarehouseService
 				.updateImportExportByKeeper(id, InvoicePackageDetailDTO);
 		return ResponseEntity.ok()

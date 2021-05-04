@@ -1,4 +1,3 @@
-import { IInvoiceHeader } from './../../../shared/model/ctsmicroservice/invoice-header.model';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { RequestDetailsService } from 'app/entities/ctsmicroservice/request-details/request-details.service';
 import { Component, OnInit } from '@angular/core';
@@ -9,6 +8,8 @@ import { PackageDetailsDTO } from '../invoice-header';
 import { CommonString } from 'app/shared';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
+import { IShipmentInvoice } from './../invoice-header/personal-shipment/personal-shipment.service';
+import { IInvoiceHeader } from './../../../shared/model/ctsmicroservice/invoice-header.model';
 
 @Component({
     selector: 'jhi-import-export-warehouse-detail',
@@ -16,7 +17,7 @@ import { Observable } from 'rxjs';
 })
 export class ImportExportWarehouseDetailComponent implements OnInit {
     importExportWarehouse: IImportExportWarehouse;
-    requestDetailsList: InvoicePackageDetailDTO[];
+    requestDetailsList: IShipmentInvoice[];
     common: CommonString;
     isSaving: boolean;
     all: boolean;
@@ -32,16 +33,20 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
     ngOnInit() {
         this.common = new CommonString();
         this.activatedRoute.data.subscribe(({ importExportWarehouse }) => {
+            console.log('0000000');
+            console.log(importExportWarehouse);
             this.importExportWarehouse = importExportWarehouse;
-            this.requestDetailsService
-                .getRequestDetailsByHeaderId({ id: this.importExportWarehouse.id })
-                .subscribe((res: HttpResponse<InvoicePackageDetailDTO[]>) => {
-                    this.requestDetailsList = res.body;
-                    for (const i of this.requestDetailsList) {
-                        this.selectedCheckBox.push(false);
-                    }
-                });
+            this.requestDetailsService.getRequestDetailsByHeaderId({ id: importExportWarehouse.id }).subscribe(res => {
+                this.requestDetailsList = res.body;
+                for (const i of this.requestDetailsList) {
+                    this.selectedCheckBox.push(true);
+                }
+            });
         });
+        console.log('11111');
+        console.log(this.importExportWarehouse);
+        console.log('22222');
+        console.log(this.requestDetailsList);
     }
 
     checked(i: number, e) {
@@ -95,14 +100,25 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
                 if (result) {
                     if (id === 1) {
                         this.importExportWarehouse.note = 'approve';
+                        console.log(this.importExportWarehouse.note);
+                        this.importExportWarehouse.keeperConfirm = true;
+                        this.subscribeToSaveResponse(
+                            this.requestDetailsService.updateImportExportByKeeper(
+                                this.importExportWarehouse.id,
+                                this.selectedRequestInvoices
+                            )
+                        );
                     } else {
                         this.importExportWarehouse.note = 'reject';
+                        // console.log(this.importExportWarehouse.note);
+                        // this.importExportWarehouse.keeperConfirm = true;
+                        // this.subscribeToSaveResponse(
+                        //     this.requestDetailsService.updateImportExportByKeeper(
+                        //         this.importExportWarehouse.id,
+                        //         this.selectedRequestInvoices
+                        //     )
+                        // );
                     }
-                    console.log(this.importExportWarehouse.note);
-                    this.importExportWarehouse.keeperConfirm = true;
-                    this.subscribeToSaveResponse(
-                        this.requestDetailsService.updateImportExportByKeeper(this.importExportWarehouse.id, this.selectedRequestInvoices)
-                    );
                 }
             },
             reason => {}

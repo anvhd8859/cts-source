@@ -29,6 +29,6 @@ export class ImportExportWarehouse implements IImportExportWarehouse {
         public updateDate?: Moment
     ) {
         this.keeperConfirm = this.keeperConfirm || false;
-        this.shipperConfirm = this.shipperConfirm || false;
+        this.shipperConfirm = this.shipperConfirm || true;
     }
 }

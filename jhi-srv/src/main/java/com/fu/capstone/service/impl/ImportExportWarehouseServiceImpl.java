@@ -17,10 +17,13 @@ import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.InvoicePackageDTO;
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
 import com.fu.capstone.service.dto.PackageDetailsDTO;
+import com.fu.capstone.service.dto.PersonalShipmentDTO;
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 import com.fu.capstone.service.dto.RequestDetailsDTO;
 import com.fu.capstone.service.mapper.ImportExportWarehouseMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
+import com.fu.capstone.service.mapper.PersonalShipmentMapper;
 import com.fu.capstone.service.mapper.RequestDetailsMapper;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 
@@ -64,11 +67,14 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 
 	private PersonalShipmentRepository personalShipmentRepository;
 
+	private PersonalShipmentMapper personalShipmentMapper;
+
 	public ImportExportWarehouseServiceImpl(ImportExportWarehouseRepository importExportWarehouseRepository,
 			ImportExportWarehouseMapper importExportWarehouseMapper, RequestDetailsRepository requestDetailsRepository,
 			RequestDetailsMapper requestDetailsMapper, InvoicePackageRepository invoicePackageRepository,
 			InvoicePackageMapper invoicePackageMapper, InvoiceHeaderRepository invoiceHeaderRepository,
-			InvoiceHeaderMapper invoiceHeaderMapper, PersonalShipmentRepository personalShipmentRepository) {
+			InvoiceHeaderMapper invoiceHeaderMapper, PersonalShipmentRepository personalShipmentRepository,
+			PersonalShipmentMapper personalShipmentMapper) {
 		this.importExportWarehouseRepository = importExportWarehouseRepository;
 		this.importExportWarehouseMapper = importExportWarehouseMapper;
 		this.requestDetailsRepository = requestDetailsRepository;
@@ -78,6 +84,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 		this.invoiceHeaderRepository = invoiceHeaderRepository;
 		this.invoiceHeaderMapper = invoiceHeaderMapper;
 		this.personalShipmentRepository = personalShipmentRepository;
+		this.personalShipmentMapper = personalShipmentMapper;
 	}
 
 	/**
@@ -145,7 +152,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 		List<InvoiceHeader> lst = invoiceHeaderRepository.getInvoiceHeaderByListShipmentId(list);
 		for(InvoiceHeader i : lst){
 			if(!i.getFinish()) {
-				throw new BadRequestAlertException("Invalid ", "invoice", " is import ");
+//				throw new BadRequestAlertException("Invalid ", "invoice", " is import ");
 			}
 			i.setFinish(false);
 		}
@@ -221,119 +228,84 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 	}
 
 	@Override
-	public ImportExportWarehouseDTO updateImportExportByKeeper(Long id, List<InvoicePackageDetailDTO> list) {
+	public ImportExportWarehouseDTO updateImportExportByKeeper(Long id, List<PersonalShipmentInvoiceDTO> list) {
 		ImportExportWarehouse dto = importExportWarehouseRepository.getOne(id);
+		System.out.println("\n\n\n====\n" + dto + "\n====\n\n\n");
+		for(PersonalShipmentInvoiceDTO ipd : list) {
+			System.out.println("\n\n====\n" + ipd.getInvoiceHeaderDTO() + "\n====\n\n");
+			System.out.println("\n\n====\n" + ipd.getPersonalShipmentDTO() + "\n====\n\n");
+		}
+		dto.setKeeperConfirm(true);
+		dto.setShipperConfirm(true);
+		dto.setShipDate(Instant.now());
+		dto.setUpdateDate(Instant.now());
 		List<RequestDetails> listRD = requestDetailsRepository.getRequestDetailsByHeaderId(id);
-		List<Long> idList = new ArrayList<>();
 		for (RequestDetails rd : listRD) {
-			idList.add(rd.getShipmentId());
 			rd.setKeeperConfirm(true);
 			rd.setShipperConfirm(true);
 		}
-		List<PersonalShipment> psList = personalShipmentRepository.getPersonalShipmentByListId(idList);
+		System.out.println("\n\n====\n" + listRD);
 		dto.setKeeperConfirm(true);
 		dto.setUpdateDate(Instant.now());
 		dto.setShipDate(Instant.now());
 		List<InvoiceHeaderDTO> invList = new ArrayList<>();
 		List<InvoicePackageDTO> ipkList = new ArrayList<>();
+		List<PersonalShipmentDTO> psdList = new ArrayList<>();
 		if (dto.getType().equals("import")) {
-			for (InvoicePackageDetailDTO ipd : list) {
-				InvoiceHeaderDTO i = ipd.getInvoice();
+			for (PersonalShipmentInvoiceDTO ipd : list) {
+				InvoiceHeaderDTO i = ipd.getInvoiceHeaderDTO();
+				List<InvoicePackage> pdList = invoicePackageRepository.getInvoicePackageByHeaderId(i.getId());
 				if (i.getStatus().equals("collected")) {
+					// shipment set status finish
+					PersonalShipmentDTO psCollect = ipd.getPersonalShipmentDTO();
+					psCollect.setStatus("finish");
 					i.setStatus("first_import");
-					for (PackageDetailsDTO pd : ipd.getPackageList()) {
-						InvoicePackageDTO ip = pd.getInvPackage();
-						if (ip.getInvoiceHeaderId() == i.getId()) {
-							ip.setStatus("first_import");
-							for(RequestDetails rd : listRD) {
-								if(rd.getShipmentId() == ip.getId()){
-									rd.setImpExpConfirm(true);
-								}
-							}
-						}
-						ipkList.add(ip);
+					for(InvoicePackage ip : pdList) {
+						ip.setStatus("first_import");
+						ip.setUpdateDate(Instant.now());
+						ipkList.add(invoicePackageMapper.toDto(ip));
 					}
+					psdList.add(psCollect);
 				}
 				if (i.getStatus().equals("delivering")) {
 					i.setStatus("last_import");
-					for (PackageDetailsDTO pd : ipd.getPackageList()) {
-						InvoicePackageDTO ip = pd.getInvPackage();
-						if (ip.getInvoiceHeaderId() == i.getId()) {
-							ip.setStatus("last_import");
-						}
-						ipkList.add(ip);
-						for(PersonalShipment ps : psList) {
-							if(ps.getInvoiceHeaderId() == ip.getId()){
-								for(RequestDetails rd : listRD) {
-									if(rd.getShipmentId() == ip.getId()){
-										rd.setImpExpConfirm(true);
-									}
-								}
-								if(ps.getStatus().equals("delivering")){
-									ps.setStatus("fail_num1");
-								}
-								if(ps.getStatus().equals("fail_num1")){
-									ps.setStatus("fail_num2");
-								}
-								if(ps.getStatus().equals("fail_num2")){
-									ps.setStatus("fail_num3");
-								}
-								if(ps.getStatus().equals("fail_num3")){
-									ps.setStatus("cancel");
-								}
-								
-							}
-						}
+					// shipment set status 
+					PersonalShipmentDTO psDeli = ipd.getPersonalShipmentDTO();
+					i.setStatus("last_import");
+					for(InvoicePackage ip : pdList) {
+						ip.setStatus("last_import");
+						ip.setUpdateDate(Instant.now());
+						ipkList.add(invoicePackageMapper.toDto(ip));
 					}
+					psdList.add(psDeli);
 				}
 				i.setFinish(false);
 				invList.add(i);
 			}
 		} else {
-			for (InvoicePackageDetailDTO ipd : list) {
-				InvoiceHeaderDTO i = ipd.getInvoice();
+			for (PersonalShipmentInvoiceDTO ipd : list) {
+				InvoiceHeaderDTO i = ipd.getInvoiceHeaderDTO();
+				List<InvoicePackage> pdList = invoicePackageRepository.getInvoicePackageByHeaderId(i.getId());
 				if (i.getStatus().equals("last_import")) {
+					// shipment set status 
+					PersonalShipmentDTO ps = ipd.getPersonalShipmentDTO();
 					i.setStatus("delivering");
-					for (PackageDetailsDTO pd : ipd.getPackageList()) {
-						InvoicePackageDTO ip = pd.getInvPackage();
-						if (ip.getInvoiceHeaderId() == i.getId()) {
-							ip.setStatus("delivering");
-						}
-						ipkList.add(ip);
-						for(PersonalShipment ps : psList) {
-							if(ps.getInvoiceHeaderId() == ip.getId()){
-								for(RequestDetails rd : listRD) {
-									if(rd.getShipmentId() == ip.getId()){
-										rd.setImpExpConfirm(true);
-									}
-								}
-								ps.setStatus("delivering");
-							}
-						}
+					ps.setStatus("delivering");
+					for(InvoicePackage ip : pdList) {
+						ip.setStatus("first_import");
+						ip.setUpdateDate(Instant.now());
+						ipkList.add(invoicePackageMapper.toDto(ip));
 					}
+					psdList.add(ps);
 				}
-				if (i.getStatus().equals("first_import")) {
-					i.setStatus("transporting");
-					for (PackageDetailsDTO pd : ipd.getPackageList()) {
-						InvoicePackageDTO ip = pd.getInvPackage();
-						if (ip.getInvoiceHeaderId() == i.getId()) {
-							for(RequestDetails rd : listRD) {
-								if(rd.getShipmentId() == ip.getId()){
-									rd.setImpExpConfirm(true);
-								}
-							}
-							ip.setStatus("transporting");
-						}
-						ipkList.add(ip);
-					}
-				}
-				i.setFinish(false);
+				i.setFinish(true);
 				invList.add(i);
 			}
 		}
 		requestDetailsRepository.saveAll(listRD);
 		invoiceHeaderRepository.saveAll(invoiceHeaderMapper.toEntity(invList));
 		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(ipkList));
+		personalShipmentRepository.saveAll(personalShipmentMapper.toEntity(psdList));
 		dto = importExportWarehouseRepository.save(dto);
 		return importExportWarehouseMapper.toDto(dto);
 	}

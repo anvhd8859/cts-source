@@ -1,3 +1,4 @@
+import { IShipmentInvoice } from './../invoice-header/personal-shipment/personal-shipment.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -50,9 +51,9 @@ export class RequestDetailsService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
-    updateImportExportByKeeper(id: number, requestDetail: any): Observable<EntityResponseType> {
+    updateImportExportByKeeper(id1: number, requestDetail: any): Observable<EntityResponseType> {
         return this.http
-            .put<any>(SERVER_API_URL + 'ctsmicroservice/api/import-export-warehouses/by-keeper/' + id.toString(), requestDetail, {
+            .put<any>(SERVER_API_URL + 'ctsmicroservice/api/import-export-warehouses/by-keeper/' + id1.toString(), requestDetail, {
                 observe: 'response'
             })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
@@ -67,9 +68,9 @@ export class RequestDetailsService {
         return copy;
     }
 
-    getRequestDetailsByHeaderId(req?: any): Observable<HttpResponse<InvoicePackageDetailDTO[]>> {
+    getRequestDetailsByHeaderId(req?: any): Observable<HttpResponse<any[]>> {
         const options = createRequestOption(req);
-        return this.http.get<InvoicePackageDetailDTO[]>(this.resourceUrl + '/header', { params: options, observe: 'response' });
+        return this.http.get<any[]>(this.resourceUrl + '/header', { params: options, observe: 'response' });
     }
 
     private convertDateFromServer(res: EntityResponseType): EntityResponseType {

@@ -13,10 +13,12 @@ import com.fu.capstone.service.dto.InvoiceDetailsDTO;
 import com.fu.capstone.service.dto.InvoicePackageDTO;
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
 import com.fu.capstone.service.dto.PackageDetailsDTO;
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 import com.fu.capstone.service.dto.RequestDetailsDTO;
 import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
+import com.fu.capstone.service.mapper.PersonalShipmentMapper;
 import com.fu.capstone.service.mapper.RequestDetailsMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,13 +55,13 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 
 	private InvoiceHeaderMapper invoiceHeaderMapper;
 
-	private InvoiceDetailsMapper invoiceDetailsMapper;
+	private PersonalShipmentMapper personalShipmentMapper;
 
 	private InvoicePackageMapper invoicePackageMapper;
 
 	public RequestDetailsServiceImpl(RequestDetailsRepository requestDetailsRepository, RequestDetailsMapper requestDetailsMapper,
 			InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
-			InvoiceDetailsRepository invoiceDetailsRepository, InvoiceDetailsMapper invoiceDetailsMapper,
+			InvoiceDetailsRepository invoiceDetailsRepository, PersonalShipmentMapper personalShipmentMapper,
 			InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
 			PersonalShipmentRepository personalShipmentRepository) {
 		this.requestDetailsRepository = requestDetailsRepository;
@@ -67,7 +69,7 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 		this.invoiceHeaderRepository = invoiceHeaderRepository;
 		this.invoiceHeaderMapper = invoiceHeaderMapper;
 		this.invoiceDetailsRepository = invoiceDetailsRepository;
-		this.invoiceDetailsMapper = invoiceDetailsMapper;
+		this.personalShipmentMapper = personalShipmentMapper;
 		this.invoicePackageRepository = invoicePackageRepository;
 		this.invoicePackageMapper = invoicePackageMapper;
 		this.personalShipmentRepository = personalShipmentRepository;
@@ -129,28 +131,16 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 	}
 
 	@Override
-	public List<InvoicePackageDetailDTO> getRequestDetailsByHeaderId(Long id) {
+	public List<PersonalShipmentInvoiceDTO> getRequestDetailsByHeaderId(Long id) {
 		List<RequestDetails> list = requestDetailsRepository.getRequestDetailsByHeaderId(id);
-		List<InvoicePackageDetailDTO> rs = new ArrayList<>();
-		List<Long> psidList = new ArrayList<>();
+		List<PersonalShipmentInvoiceDTO> rs = new ArrayList<>();
 		for (RequestDetails rd : list) {
-			psidList.add(rd.getIeWarehouseId());
-		}
-		List<InvoiceHeader> ihList = invoiceHeaderRepository.getInvoiceHeaderByListShipmentId(psidList);
-		for (InvoiceHeader ih : ihList) {
-			InvoicePackageDetailDTO dto = new InvoicePackageDetailDTO();
-			dto.setInvoice(invoiceHeaderMapper.toDto(ih));
-			dto.setPackageList(new ArrayList<>());
-			List<InvoicePackageDTO> ipList = invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(ih.getId()));
-			for(InvoicePackageDTO ip : ipList) {
-				PackageDetailsDTO pdDto = new PackageDetailsDTO();
-				List<InvoiceDetailsDTO> idList = invoiceDetailsMapper.toDto(invoiceDetailsRepository.getInvoiceDetailsByHeaderId(ip.getInvoiceHeaderId()));
-				pdDto.setInvPackage(ip);
-				pdDto.setItemList(idList);
-				dto.getPackageList().add(pdDto);
-			}
+			PersonalShipmentInvoiceDTO dto = new PersonalShipmentInvoiceDTO();
+			dto.setInvoiceHeaderDTO(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getInvoiceByShipmentId(rd.getShipmentId())));
+			dto.setPersonalShipmentDTO(personalShipmentMapper.toDto(personalShipmentRepository.getOne(rd.getShipmentId())));
 			rs.add(dto);
 		}
+		
 		return rs;
 	}
 

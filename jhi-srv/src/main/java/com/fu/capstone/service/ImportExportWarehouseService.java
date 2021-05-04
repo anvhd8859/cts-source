@@ -3,6 +3,7 @@ package com.fu.capstone.service;
 import com.fu.capstone.service.dto.DetailsImportExportDTO;
 import com.fu.capstone.service.dto.ImportExportWarehouseDTO;
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,7 +54,7 @@ public interface ImportExportWarehouseService {
 
 	Page<ImportExportWarehouseDTO> getImportExportWarehouseByFilter(Long eid, Long oid, String type, String cf, Pageable pageable);
 
-	ImportExportWarehouseDTO updateImportExportByKeeper(Long id, List<InvoicePackageDetailDTO> InvoicePackageDetailDTO);
+	ImportExportWarehouseDTO updateImportExportByKeeper(Long id, List<PersonalShipmentInvoiceDTO> InvoicePackageDetailDTO);
 
 	Page<ImportExportWarehouseDTO> getImportExportWarehouseForShipper(Long eid, String type, String cf,
 			Pageable pageable);
