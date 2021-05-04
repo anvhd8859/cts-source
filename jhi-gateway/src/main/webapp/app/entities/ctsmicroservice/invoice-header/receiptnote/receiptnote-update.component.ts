@@ -106,8 +106,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                     this.receiptnoteService.createReceiptNoteAndShipmentInvoice(this.data).subscribe(
                         (res: HttpResponse<IReceiptnote>) => {
                             this.isSaving = false;
-                            const note = res.body;
-                            this.route.navigate(['/receiptnote', note.id.toString(), '/view']);
+                            this.route.navigate(['/receiptnote', this.invId.toString(), '/view']);
                         },
                         (res: HttpErrorResponse) => {
                             this.onSaveError();
@@ -126,8 +125,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                     this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
                         (res: HttpResponse<IReceiptnote>) => {
                             this.isSaving = false;
-                            const note = res.body;
-                            this.route.navigate(['/receiptnote', note.id.toString(), '/view']);
+                            this.route.navigate(['/receiptnote', this.invId.toString(), '/view']);
                         },
                         (res: HttpErrorResponse) => {
                             this.onSaveError();
@@ -150,8 +148,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                 this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
                     (res: HttpResponse<IReceiptnote>) => {
                         this.isSaving = false;
-                        const note = res.body;
-                        this.route.navigate(['/receiptnote', note.id.toString(), '/view']);
+                        this.route.navigate(['/receiptnote', this.invId.toString(), '/view']);
                     },
                     (res: HttpErrorResponse) => {
                         this.onSaveError();
