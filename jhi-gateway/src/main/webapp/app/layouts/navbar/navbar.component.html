@@ -88,6 +88,12 @@
                         </a>
                     </li>
                     <li>
+                        <a class="dropdown-item" routerLink="invoice-header-review" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'view'" [fixedWidth]="true"></fa-icon>
+                            <span>Duyệt đơn hàng</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="dropdown-item" routerLink="import-invoice-package" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'file-import'" [fixedWidth]="true"></fa-icon>
                             <span>Nhập đơn hàng vào kho</span>
