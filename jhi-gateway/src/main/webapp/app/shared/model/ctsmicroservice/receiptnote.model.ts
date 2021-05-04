@@ -7,7 +7,7 @@ export interface IReceiptnote {
     shipmentId?: number;
     note?: string;
     imageLink?: string;
-    receiptType?: string;
+    receiptType?: boolean;
     createDate?: Moment;
     updateDate?: Moment;
 }
@@ -21,7 +21,7 @@ export class Receiptnote implements IReceiptnote {
         public shipmentId?: number,
         public note?: string,
         public imageLink?: string,
-        public receiptType?: string,
+        public receiptType?: boolean,
         public createDate?: Moment,
         public updateDate?: Moment
     ) {}

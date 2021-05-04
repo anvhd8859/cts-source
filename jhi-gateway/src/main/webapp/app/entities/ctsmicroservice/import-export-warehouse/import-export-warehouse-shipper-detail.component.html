@@ -1,14 +1,14 @@
 <div class="row justify-content-center">
-    <div class="col-8">
-    <br>
-<br>
-    <br>
-<br>
+    <div class="col-10">
+        <br>
+        <br>
+        <br>
+        <br>
         <div *ngIf="importExportWarehouse">
             <h2>
                 <span>
                     Chi tiết {{importExportWarehouse.type === 'import' ? 'yêu cầu nhập kho' : 'yêu cầu xuất kho'}}
-                </span> mã số {{importExportWarehouse.id}}
+                </span> - Mã số {{importExportWarehouse.id}}
             </h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
@@ -16,7 +16,7 @@
             <!-- END header START body -->
             <div class="card-body">
                 <br>
-<br>
+                <br>
                 <h4>Danh sách đơn</h4>
                 <div class="table-responsive" *ngIf="requestDetailsList">
                     <table class="table table-striped">
@@ -25,7 +25,8 @@
                             <th> Số hóa đơn             </th>
                             <th> Ngày giao dự kiến      </th>
                             <th> Tình trạng hóa đơn     </th>
-                            <th> Số kiện hàng           </th>
+                            <th> Loại vận chuyển          </th>
+                            <th> Tình trạng vận chuyển          </th>
                             <th> Ngày chấp nhận     </th>
                             <th> Ngày tạo     </th>
                             <th> Ngày sửa đổi     </th>
@@ -33,20 +34,14 @@
                         <tbody>
                             <tr *ngFor="let object of requestDetailsList; let i = index">
                                 <td>{{i + 1}} </td>
-                                <td>{{object.invoice.invoiceNo}} </td>
-                                <td>{{object.invoice.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
-                                <td>{{common.processInvoiceStatus(object.invoice.status)}} </td>
-                                <td>{{object.packageList.length}} </td>
-                                <td>{{object.invoice.reviewDate | date:'yyyy-MM-dd HH:mm'}} </td>
-                                <td>{{object.invoice.createDate | date:'yyyy-MM-dd HH:mm'}} </td>
-                                <td>{{object.invoice.updateDate | date:'yyyy-MM-dd HH:mm'}} </td>
-                                <td class="text-left">
-                                    <button type="submit" [routerLink]="['/invoice-header', object.invoice.id, 'view' ]"
-                                        class="btn btn-info btn-sm">
-                                        <fa-icon [icon]="'eye'"></fa-icon>
-                                        <span class="d-none d-md-inline">Chi tiết</span>
-                                    </button>
-                                </td>
+                                <td>{{object.invoiceHeaderDTO.invoiceNo}} </td>
+                                <td>{{object.invoiceHeaderDTO.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
+                                <td>{{common.processInvoiceStatus(object.invoiceHeaderDTO.status)}} </td>
+                                <td>{{common.processShipmentType(object.personalShipmentDTO.shipmentType)}} </td>
+                                <td>{{common.processShipmentStatus(object.personalShipmentDTO.status)}} </td>
+                                <td>{{object.invoiceHeaderDTO.reviewDate | date:'yyyy-MM-dd HH:mm'}} </td>
+                                <td>{{object.invoiceHeaderDTO.createDate | date:'yyyy-MM-dd HH:mm'}} </td>
+                                <td>{{object.invoiceHeaderDTO.updateDate | date:'yyyy-MM-dd HH:mm'}} </td>
                             </tr>
                         </tbody>
                     </table>
