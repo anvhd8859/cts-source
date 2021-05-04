@@ -54,7 +54,10 @@ import {
     faTruckLoading,
     faPlusCircle,
     faArrowRight,
-    faFileDownload
+    faFileDownload,
+    faWarehouse,
+    faMoneyBillWaveAlt,
+    faGlobeAsia
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -108,5 +111,9 @@ library.add(faTruckLoading);
 library.add(faPlusCircle);
 library.add(faArrowRight);
 library.add(faFileDownload);
+library.add(faWarehouse);
+library.add(faMoneyBillWaveAlt);
+library.add(faGlobeAsia);
+library.add(faBan);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
