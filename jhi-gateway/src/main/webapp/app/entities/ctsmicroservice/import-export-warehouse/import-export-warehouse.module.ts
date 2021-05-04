@@ -16,6 +16,7 @@ import {
     importExportWarehousePopupRoute
 } from './';
 import { NgbdModalConfirmComponent } from './import-export-warehouse-detail.component';
+import { ModalWarningComponent } from './modal-warning.component';
 
 const ENTITY_STATES = [...importExportWarehouseRoute, ...importExportWarehousePopupRoute];
 
@@ -29,7 +30,8 @@ const ENTITY_STATES = [...importExportWarehouseRoute, ...importExportWarehousePo
         ImportExportWarehouseDeletePopupComponent,
         NgbdModalConfirmComponent,
         ImportExportWarehouseShipperComponent,
-        ImportExportWarehouseShipperDetailComponent
+        ImportExportWarehouseShipperDetailComponent,
+        ModalWarningComponent
     ],
     entryComponents: [
         ImportExportWarehouseComponent,
@@ -38,7 +40,8 @@ const ENTITY_STATES = [...importExportWarehouseRoute, ...importExportWarehousePo
         ImportExportWarehouseDeletePopupComponent,
         NgbdModalConfirmComponent,
         ImportExportWarehouseShipperComponent,
-        ImportExportWarehouseShipperDetailComponent
+        ImportExportWarehouseShipperDetailComponent,
+        ModalWarningComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
