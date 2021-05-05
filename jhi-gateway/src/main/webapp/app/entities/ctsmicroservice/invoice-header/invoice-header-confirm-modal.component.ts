@@ -19,14 +19,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
         <h3>
             Bạn chắc chắn muốn {{action ? 'Chấp thuận' : 'Từ chối'}} đơn hàng này?
         </h3>
-    <div class="form-group">
-        <label class="form-control-label" for="note">Lý do từ chối</label>
-        <textarea class="form-control" style="resize: none;" rows="3"
-            id="address" id="note" name="note"
-            [(ngModel)]="note">
-             </textarea>
-        </div>
-    </div>
     <div class="modal-footer">
       <button
         style="width: 20%;"
