@@ -32,7 +32,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
         style="margin-left: 51%; width: 20%; margin-right:5%"
         type="button"
         class="btn btn-danger"
-        (click)="modal.close(note)"
+        (click)="modal.close('ok click')"
       >
       {{action ? 'Chấp thuận' : 'Từ chối'}}
       </button>
