@@ -27,6 +27,7 @@ export class ReceiptnoteDetailComponent implements OnInit {
     invoiceHeader: IInvoiceHeader;
     payment: IPayment[];
     common: CommonString;
+    invId: number;
 
     constructor(
         private receiptNoteService: ReceiptnoteService,
@@ -41,25 +42,38 @@ export class ReceiptnoteDetailComponent implements OnInit {
         this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
         this.principal.identity().then(account => {
             this.currentUser = account;
-        });
-        this.activatedRoute.data.subscribe(({ personalShipment }) => {
-            if (personalShipment != null) {
+            this.activatedRoute.data.subscribe(({ personalShipment }) => {
                 this.personalShipment = personalShipment;
-                this.receiptNoteService.getReceiveNote({ id: this.personalShipment.id }).subscribe(res => {
-                    this.receiptNote = res.body;
-                    if (this.receiptNote) {
-                        forkJoin(
-                            this.receiptNoteService.getReceiptItemPackage({ id: this.receiptNote.invoiceHeaderId }),
-                            this.invoiceHeaderService.find(this.receiptNote.invoiceHeaderId),
-                            this.paymentService.findPaymentByParams({ id: this.receiptNote.invoiceHeaderId })
-                        ).subscribe(resp => {
-                            this.createPackage = resp[0].body;
-                            this.invoiceHeader = resp[1].body;
-                            this.payment = resp[2].body;
+                if (this.currentUser.authorities.find(e => e === 'ROLE_SHIPPER')) {
+                    this.receiptNoteService.getReceiveNote({ id: this.personalShipment.id }).subscribe(res => {
+                        this.receiptNote = res.body;
+                        if (this.receiptNote) {
+                            forkJoin(
+                                this.receiptNoteService.getReceiptItemPackage({ id: this.receiptNote.invoiceHeaderId }),
+                                this.invoiceHeaderService.find(this.receiptNote.invoiceHeaderId),
+                                this.paymentService.findPaymentByParams({ id: this.receiptNote.invoiceHeaderId })
+                            ).subscribe(resp => {
+                                this.createPackage = resp[0].body;
+                                this.invoiceHeader = resp[1].body;
+                                this.payment = resp[2].body;
+                            });
+                        }
+                    });
+                } else {
+                    forkJoin(
+                        this.receiptNoteService.getReceiveNoteByInvoiceId({ id: this.id }),
+                        this.paymentService.getPaymentByInvoiceId({ id: this.id }),
+                        this.invoiceHeaderService.find(this.id)
+                    ).subscribe(res => {
+                        this.receiptNote = res[0].body;
+                        this.payment = res[1].body;
+                        this.invoiceHeader = res[2].body;
+                        this.receiptNoteService.getReceiptItemPackage({ id: this.receiptNote.id }).subscribe(response => {
+                            this.createPackage = response.body;
                         });
-                    }
-                });
-            }
+                    });
+                }
+            });
         });
     }
 

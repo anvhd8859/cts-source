@@ -2,8 +2,6 @@
     <div class="col-8">
         <br>
         <br>
-        <br>
-        <br>
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-receiptnote-heading">Tạo biên nhận cho khách hàng</h2>
             <div>
@@ -34,8 +32,8 @@
                                 <div class="row">
                                     <div class="col-10"> Gói hàng #{{i + 1}} </div>
                                     <div class="col-2">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                                            id="package{{i}}" name="package{{i}}"
+                                        <button *ngIf="item.invPackage.id == null" type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true" id="package{{i}}" name="package{{i}}"
                                             (click)="this.removeNewPackageDetailsDTO(i)">&times;</button>
                                     </div>
                                 </div>
@@ -175,7 +173,7 @@
 
                 <!-- START payment -->
                 <div class="row">
-                    <div class="col-lg-7">
+                    <div class="col-lg-6" *ngIf="pay">
                         <div class="form-group"
                             *ngIf="(pay && this.personalShipment.shipmentType === 'delivery') || (!pay && this.personalShipment.shipmentType === 'collect')">
                             <label class="form-control-label" for="from-payment" style="font-weight: 500;"><b>Thanh
@@ -197,20 +195,40 @@
                                         [(ngModel)]="invoiceHeader.totalDue" value="{{invoiceHeader.totalDue}}"
                                         disabled />
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" *ngIf="personalShipment">
+                        <div class="form-group"
+                            *ngIf="(pay && this.personalShipment.shipmentType === 'delivery') || (!pay && this.personalShipment.shipmentType === 'collect')">
+                            <label class="form-control-label" for="from-payment" style="font-weight: 500;"><b>Thanh
+                                    toán</b></label>
+                            <div>
                                 <div class="form-group">
-                                    <label class="form-control-label" for="field_note">Số tiền phải thanh toán</label>
-                                    <input type="number" class="form-control" name="note" id="field_sub_toltal"
-                                        value="{{invoiceHeader.totalDue}}" disabled />
+                                    <label class="form-control-label" for="field_note">Thành tiền</label>
+                                    <input type="text" class="form-control" name="note" id="field_sub_toltal"
+                                        [(ngModel)]="invoiceHeader.subTotal" disabled />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label" for="field_note">Thuế</label>
+                                    <input type="text" class="form-control" name="note" id="field_tax"
+                                        [(ngModel)]="invoiceHeader.taxAmount" disabled />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label" for="field_note">Tổng tiền</label>
+                                    <input type="text" class="form-control" name="note" id="field_toltal"
+                                        [(ngModel)]="invoiceHeader.totalDue" value="{{invoiceHeader.totalDue}}"
+                                        disabled />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-6">
                         <div class="text-center">
                             <!-- START upload image -->
                             <div class="form-group">
                                 <label class="form-control-label" for="from-payment" style="font-weight: 500;">
-                                    <b>Up ảnh cho biên lại</b>
+                                    <b>Xác nhận bằng ảnh</b>
                                 </label>
                             </div>
                             <!-- END upload image -->

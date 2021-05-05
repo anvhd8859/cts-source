@@ -48,9 +48,12 @@ export class PaymentService {
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
-
     findPaymentByParams(req?: any): Observable<HttpResponse<any[]>> {
         return this.http.get<any[]>(this.resourceUrl + '/by-params', { params: req, observe: 'response' });
+    }
+
+    getPaymentByInvoiceId(req?: any): Observable<HttpResponse<any[]>> {
+        return this.http.get<any[]>(this.resourceUrl + '/invoice', { params: req, observe: 'response' });
     }
 
     exportToFileExcel(payment: any): Observable<HttpResponse<any>> {

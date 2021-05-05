@@ -1,4 +1,3 @@
-import { PersonalShipmentService } from 'app/entities/ctsmicroservice/invoice-header/personal-shipment';
 import { InvoiceHeaderService } from 'app/entities/ctsmicroservice/invoice-header/invoice-header.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,58 +26,61 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     createPackage: PackageDetailsDTO[] = [];
     data: CustomReceipt;
     collect = false;
-    payment: string;
+    payment: any;
     invId: number;
     pay: boolean;
-    finalId: number;
 
     constructor(
         private receiptnoteService: ReceiptnoteService,
         private invoiceService: InvoiceHeaderService,
-        private shipmentService: PersonalShipmentService,
         private activatedRoute: ActivatedRoute,
         private route: Router,
         private principal: Principal
     ) {
-        this.principal.identity().then(account => {
-            this.currentUser = account;
-            this.receiptnote = new Receiptnote();
-            this.receiptnote.employeeId = this.currentUser.id;
+        this.receiptnote = new Receiptnote();
+        this.invId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+        this.activatedRoute.data.subscribe(({ personalShipment }) => {
+            this.personalShipment = personalShipment;
         });
         this.invId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+        this.principal.identity().then(account => {
+            this.currentUser = account;
+            this.receiptnote.employeeId = this.currentUser.id;
+        });
     }
 
     ngOnInit() {
-        this.isSaving = false;
+        this.loadAll();
+    }
+
+    loadAll() {
         if (this.currentUser.authorities.find(e => e === 'ROLE_SHIPPER')) {
-            this.activatedRoute.data.subscribe(({ personalShipment }) => {
-                if (personalShipment !== undefined) {
-                    this.personalShipment = personalShipment;
-                    this.finalId = personalShipment.id;
-                    this.receiptnote.invoiceHeaderId = this.personalShipment.invoiceHeaderId;
-                    this.receiptnote.shipmentId = this.personalShipment.id;
-                    this.receiptnoteService.getReceiptItemPackage({ id: this.receiptnote.invoiceHeaderId }).subscribe(res => {
-                        this.createPackage = res.body;
-                    });
-                    this.invoiceService.find(this.receiptnote.invoiceHeaderId).subscribe(res => {
-                        this.invoiceHeader = res.body;
-                        this.pay = this.invoiceHeader.receiverPay;
-                    });
-                    this.payment = this.invoiceHeader.totalDue.toString();
-                }
+            this.receiptnote.invoiceHeaderId = this.personalShipment.invoiceHeaderId;
+            this.receiptnote.shipmentId = this.personalShipment.id;
+            this.receiptnoteService.getReceiptItemPackage({ id: this.receiptnote.invoiceHeaderId }).subscribe(res => {
+                this.createPackage = res.body;
             });
-        } else if (this.currentUser.authorities.find(e => e === 'ROLE_OFFICER')) {
+            this.invoiceService.find(this.receiptnote.invoiceHeaderId).subscribe(res => {
+                this.invoiceHeader = res.body;
+                this.pay = this.invoiceHeader.receiverPay;
+            });
+            this.payment = this.invoiceHeader.totalDue.toString();
+        } else {
             this.invoiceService.find(this.invId).subscribe(res => {
                 this.invoiceHeader = res.body;
-                this.finalId = this.invoiceHeader.id;
                 this.pay = this.invoiceHeader.receiverPay;
                 this.receiptnoteService.getReceiptItemPackage({ id: this.invoiceHeader.id }).subscribe(response => {
                     this.createPackage = response.body;
                 });
                 this.payment = this.invoiceHeader.totalDue.toString();
-                this.receiptnote.invoiceHeaderId = this.personalShipment.invoiceHeaderId;
+                this.receiptnote.invoiceHeaderId = this.invoiceHeader.id;
             });
         }
+        if (!this.personalShipment) {
+            this.pay = !this.invoiceHeader.receiverPay;
+        }
+        console.log('xxx1   ' + this.invId);
+        console.log('xxx2   ' + this.invoiceHeader);
     }
 
     previousState() {
@@ -106,7 +108,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                     this.receiptnoteService.createReceiptNoteAndShipmentInvoice(this.data).subscribe(
                         (res: HttpResponse<IReceiptnote>) => {
                             this.isSaving = false;
-                            this.route.navigate(['/receiptnote', this.invId.toString(), '/view']);
+                            this.route.navigate([`/receiptnote/${this.invId}/view`]);
                         },
                         (res: HttpErrorResponse) => {
                             this.onSaveError();
@@ -125,7 +127,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                     this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
                         (res: HttpResponse<IReceiptnote>) => {
                             this.isSaving = false;
-                            this.route.navigate(['/receiptnote', this.invId.toString(), '/view']);
+                            this.route.navigate([`/receiptnote/${this.invId}/view`]);
                         },
                         (res: HttpErrorResponse) => {
                             this.onSaveError();
@@ -148,7 +150,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                 this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
                     (res: HttpResponse<IReceiptnote>) => {
                         this.isSaving = false;
-                        this.route.navigate(['/receiptnote', this.invId.toString(), '/view']);
+                        this.route.navigate([`/receiptnote/${this.invId}/view`]);
                     },
                     (res: HttpErrorResponse) => {
                         this.onSaveError();

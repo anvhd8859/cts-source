@@ -54,11 +54,13 @@ public interface PaymentService {
      * 
      * @param id the headerId
      */
-    List<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable);
+    List<PaymentDTO> findPaymentListByHeaderId(Long id, Pageable pageable);
     // END TuyenVNT 16/04/2021
 
 	Page<PaymentInvoiceDTO> getPaymentInvoceByParams(String invoiceNo, String type, String receiveFrom, String receiveTo,
 			String createFrom, String createTo, Pageable pageable);
 
 	ByteArrayInputStream createPaymentReport(List<PaymentInvoiceDTO> body) throws IOException;
+
+	PaymentDTO findPaymentByHeaderId(Long id);
 }

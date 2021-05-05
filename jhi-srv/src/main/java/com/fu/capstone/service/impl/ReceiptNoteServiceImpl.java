@@ -403,4 +403,9 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		invoiceHeaderRepository.save(inv);
 		return receiptNoteMapper.toDto(rn);
 	}
+
+	@Override
+	public ReceiptNoteDTO getReceiveNoteByInvoiceId(Long id) {
+		return receiptNoteMapper.toDto(receiptNoteRepository.getReceiptNoteByHeaderId(id).get());
+	}
 }

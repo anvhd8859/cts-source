@@ -41,13 +41,11 @@ export class InvoiceHeaderDetailComponent implements OnInit {
             forkJoin(
                 this.invoiceHeaderService.getPackageByInvoiceId({ id: this.invoiceHeader.id }),
                 this.invoiceHeaderService.getDetailByInvoiceId({ id: this.invoiceHeader.id }),
-                this.invoiceHeaderService.getUserByID({ id: this.invoiceHeader.customerId }),
-                this.officeService.find(this.invoiceHeader.officeId)
+                this.invoiceHeaderService.getUserByID({ id: this.invoiceHeader.customerId })
             ).subscribe(res => {
                 this.lstInvoicePackage = res[0].body;
                 this.lstInvoiceDetails = res[1].body;
                 this.customer = res[2].body;
-                this.office = res[3].body;
                 for (const ip of this.lstInvoicePackage) {
                     const pdDto = new PackageDetailsDTO();
                     pdDto.invPackage = ip;

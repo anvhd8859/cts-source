@@ -112,8 +112,8 @@ public class PaymentServiceImpl implements PaymentService {
 
 	// START TuyenVNT 14/04/2021
 	@Override
-	public List<PaymentDTO> getPaymentByHeaderId(Long id, Pageable pageable) {
-		return paymentMapper.toDto(paymentRepository.getPaymentByHeaderId(id, pageable));
+	public List<PaymentDTO> findPaymentListByHeaderId(Long id, Pageable pageable) {
+		return paymentMapper.toDto(paymentRepository.findPaymentListByHeaderId(id, pageable));
 	}
 	// END TuyenVNT 16/04/2021
 
@@ -170,5 +170,10 @@ public class PaymentServiceImpl implements PaymentService {
 		os.close();
 		workbook.close();
 		return new ByteArrayInputStream(os.toByteArray());
+	}
+
+	@Override
+	public PaymentDTO findPaymentByHeaderId(Long id) {
+		return paymentMapper.toDto(paymentRepository.findPaymentByHeaderId(id));
 	}
 }

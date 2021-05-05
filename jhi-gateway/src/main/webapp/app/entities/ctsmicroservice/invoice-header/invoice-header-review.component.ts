@@ -96,7 +96,7 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
         modalRef.result.then(
             result => {
                 const updateInvoice = this.invoiceHeaders[i];
-                updateInvoice.note = 'OK';
+                updateInvoice.note += 'OK';
                 this.invoiceHeaderService.updateReviewApproveInvoice(updateInvoice).subscribe(
                     (res: HttpResponse<IInvoiceHeader>) => {
                         this.eventManager.broadcast({
@@ -129,7 +129,7 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
         modalRef.result.then(
             result => {
                 const updateInvoice = this.invoiceHeaders[i];
-                updateInvoice.note = 'KO';
+                updateInvoice.note += 'KO';
                 this.invoiceHeaderService.updateReviewRejectInvoice(updateInvoice).subscribe(
                     (res: HttpResponse<IInvoiceHeader>) => {
                         this.eventManager.broadcast({

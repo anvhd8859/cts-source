@@ -1,11 +1,9 @@
 <div class="row justify-content-center">
     <div class="col-16">
         <br>
-<br>
         <br>
-<br>
         <div *ngIf="receiptNote">
-            <h2><span>Biên nhận hóa đơn hàng</span> {{receiptNote.id}}</h2>
+            <h2><span>Biên nhận hóa số: </span> {{receiptNote.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -35,7 +33,7 @@
                 </dd>
             </dl>
             <br>
-<br>
+            <br>
             <!-- START Information Invoice -->
             <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                 <ng-container *ngFor="let item of createPackage; let i = index">
@@ -44,8 +42,8 @@
                             <div class="row">
                                 <div class="col-10"> Gói hàng #{{i + 1}} </div>
                                 <div class="col-2">
-                                    <button *ngIf="item.invPackage.id == null" type="button" class="close" data-dismiss="modal"
-                                        aria-hidden="true" id="package{{i}}" name="package{{i}}"
+                                    <button *ngIf="item.invPackage.id == null" type="button" class="close"
+                                        data-dismiss="modal" aria-hidden="true" id="package{{i}}" name="package{{i}}"
                                         (click)="this.removeNewPackageDetailsDTO(i)">&times;</button>
                                 </div>
                             </div>
@@ -55,32 +53,29 @@
                                 <div class="col-lg-3 col-md-3 col-sm-3">
                                     <div class="form-group">
                                         <label class="form-control-label" for="weight{{i}}">Cân nặng (g)</label>
-                                        <input placeholder="" class="form-control" step="0.1" min="0" type="number"
-                                            name="weight{{i}}" id="weight{{i}}"
-                                            [(ngModel)]="item.invPackage.weight">
+                                        <input placeholder="" class="form-control" step="0.1" min="0" type="number" readonly
+                                            name="weight{{i}}" id="weight{{i}}" [(ngModel)]="item.invPackage.weight">
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-3">
                                     <div class="form-group">
                                         <label class="form-control-label" for="height{{i}}">Cao (cm)</label>
-                                        <input placeholder="" class="form-control" step="0.1" min="0" type="number"
-                                            name="height{{i}}" id="height{{i}}"
-                                            [(ngModel)]="item.invPackage.height">
+                                        <input placeholder="" class="form-control" step="0.1" min="0" type="number" readonly
+                                            name="height{{i}}" id="height{{i}}" [(ngModel)]="item.invPackage.height">
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-3">
                                     <div class="form-group">
                                         <label class="form-control-label" for="width{{i}}">Rộng (cm)</label>
-                                        <input placeholder="" class="form-control" step="0.1" min="0" type="number"
+                                        <input placeholder="" class="form-control" step="0.1" min="0" type="number" readonly
                                             name="width{{i}}" id="width{{i}}" [(ngModel)]="item.invPackage.width">
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-3">
                                     <div class="form-group">
                                         <label class="form-control-label" for="length{{i}}">Dài (cm)</label>
-                                        <input placeholder="" class="form-control" step="0.1" type="number"
-                                            name="length{{i}}" id="length{{i}}"
-                                            [(ngModel)]="item.invPackage.length">
+                                        <input placeholder="" class="form-control" step="0.1" type="number" readonly
+                                            name="length{{i}}" id="length{{i}}" [(ngModel)]="item.invPackage.length">
                                     </div>
                                 </div>
                             </div>
@@ -88,14 +83,14 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="note{{i}}">Ghi chú</label>
-                                        <textarea class="form-control" style="resize: none;" rows="3" id="address"
+                                        <textarea class="form-control" style="resize: none;" rows="3" id="address" readonly
                                             id="note{{i}}" name="note{{i}}" [(ngModel)]="item.invPackage.note">
                                             </textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div style="margin: 40px;">
+                        <div style="margin: 40px;" *ngIf="item.itemList.length !== 0">
                             <!-- Invoice Detail Start -->
                             <label class="form-control-label" for="from-address" style="margin-left: 20px;"><b>Chi
                                     tiết vật phẩm</b></label>
@@ -108,7 +103,8 @@
                                                 <div class="col-10"> Vật phẩm #{{i + 1}} </div>
                                                 <div class="col-2">
                                                     <button *ngIf="itemDetail.id == null" type="button" class="close"
-                                                        data-dismiss="modal" aria-hidden="true" id="detail{{id}}" name="detail{{id}}"
+                                                        data-dismiss="modal" aria-hidden="true" id="detail{{id}}"
+                                                        name="detail{{id}}"
                                                         (click)="this.removeInvoiceDetailElement(i,id)">&times;</button>
                                                 </div>
                                             </div>
@@ -117,9 +113,10 @@
                                             <div class="row">
                                                 <div class="col-lg-4 col-md-12 col-sm-12">
                                                     <div class="form-group">
-                                                        <label class="form-control-label" for="itemName{{i}}">Tên vật phẩm</label>
+                                                        <label class="form-control-label" for="itemName{{i}}">Tên vật
+                                                            phẩm</label>
                                                         <input placeholder="" class="form-control" type="text"
-                                                            name="itemName{{id}}" id="itemName{{id}}"
+                                                            name="itemName{{id}}" id="itemName{{id}}" readonly
                                                             [(ngModel)]="itemDetail.itemName">
                                                     </div>
                                                 </div>
@@ -128,7 +125,7 @@
                                                         <label class="form-control-label"
                                                             for="itemType{{i}}">Loại</label>
                                                         <input placeholder="" class="form-control" type="text"
-                                                            name="itemType{{id}}" id="itemType{{id}}"
+                                                            name="itemType{{id}}" id="itemType{{id}}" readonly
                                                             [(ngModel)]="itemDetail.itemType">
                                                     </div>
                                                 </div>
@@ -136,10 +133,10 @@
                                             <div class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                                     <div class="form-group">
-                                                        <label class="form-control-label"
-                                                            for="description{{id}}">Ghi chú</label>
-                                                        <textarea class="form-control" style="resize: none;"
-                                                            rows="3" id="description{{id}}" name="description{{id}}"
+                                                        <label class="form-control-label" for="description{{id}}">Ghi
+                                                            chú</label>
+                                                        <textarea class="form-control" style="resize: none;" rows="3"
+                                                            id="description{{id}}" name="description{{id}}" readonly
                                                             [(ngModel)]="itemDetail.description">
                                                 </textarea>
                                                     </div>
@@ -148,35 +145,14 @@
                                         </div>
                                     </div>
                                     <br>
-<br>
+                                    <br>
                                 </ng-container>
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-6 col-sm-6">
-                                        <button type="button" class="btn btn-outline-success"
-                                            (click)="this.addNewInvoiceDetailElement(i)">
-                                            <fa-icon [icon]="'plus'"></fa-icon>
-                                            <span class="d-none d-md-inline">Thêm vật phẩm</span>
-                                        </button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                     <br>
-<br>
+                    <br>
                 </ng-container>
-                <br>
-<br>
-                <div class="divider" style="margin: 20px;"></div>
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <button type="button" class="btn btn-outline-success"
-                            (click)="this.addNewPackageDetailsDTO()">
-                            <fa-icon [icon]="'plus'"></fa-icon>
-                            <span class="d-none d-md-inline">Thêm gói hàng</span>
-                        </button>
-                    </div>
-                </div>
             </div>
             <!-- END Information Invoice -->
 
@@ -219,7 +195,8 @@
         <div class="col-16" *ngIf="!receiptNote">
             <div>
                 <h2>Biên nhận chưa được tạo</h2>
-                <button type="button" class="btn btn-primary" [routerLink]="['/receiptnote', id, 'new-receipt']">Tạo biên lại mới</button>
+                <button type="button" class="btn btn-primary" [routerLink]="['/receiptnote', id, 'new-receipt']">Tạo
+                    biên lại mới</button>
             </div>
         </div>
         <br /><br /><br />

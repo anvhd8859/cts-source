@@ -189,4 +189,11 @@ public class ReceiptNoteResource {
     	List<PackageDetailsDTO> page = receiptNoteService.getReceiptItemPackage(id);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
+    
+    @GetMapping("/receipt-notes/by-invoice")
+    @Timed
+    public ResponseEntity<ReceiptNoteDTO> getReceiveNoteByInvoiceId(@RequestParam("id") Long id) {
+    	ReceiptNoteDTO page = receiptNoteService.getReceiveNoteByInvoiceId(id);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
 }

@@ -23,7 +23,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 	// START TuyenVNT 14/04/2021
 	@Query( value="SELECT * FROM payment WHERE invoice_header_id = :invoiceHeaderId",
 			nativeQuery = true)
-	List<Payment> getPaymentByHeaderId(@Param("invoiceHeaderId") Long id,Pageable pageable);
+	List<Payment> findPaymentListByHeaderId(@Param("invoiceHeaderId") Long id,Pageable pageable);
 	// END TuyenVNT 16/04/2021
 
 	@Query(value = "SELECT p FROM Payment p, InvoiceHeader i, ReceiptNote r "
@@ -38,4 +38,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 			@Param("type") Boolean type, @Param("receiveFrom") String receiveFrom,
 			@Param("receiveTo") String receiveTo, @Param("createFrom") String createFrom,
 			@Param("createTo") String createTo, Pageable pageable);
+
+	@Query(value = "SELECT * FROM payment WHERE invoice_header_id = :id LIMIT 1" , nativeQuery = true)
+	Payment findPaymentByHeaderId(@Param("id") Long id);
 }

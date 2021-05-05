@@ -54,7 +54,10 @@ export class ReceiptnoteService {
     getReceiveNote(req?: any): Observable<EntityResponseType> {
         return this.http.get<IReceiptnote>(this.resourceUrl + '/by-shipment', { params: req, observe: 'response' });
     }
-    // ThangND  /item-package
+
+    getReceiveNoteByInvoiceId(req?: any): Observable<EntityResponseType> {
+        return this.http.get<IReceiptnote>(this.resourceUrl + '/by-invoice', { params: req, observe: 'response' });
+    }
 
     getReceiptItemPackage(req?: any): Observable<HttpResponse<any>> {
         return this.http.get<HttpResponse<any>>(this.resourceUrl + '/item-package', { params: req, observe: 'response' });

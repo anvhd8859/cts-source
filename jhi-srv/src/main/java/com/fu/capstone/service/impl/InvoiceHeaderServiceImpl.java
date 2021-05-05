@@ -437,8 +437,9 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	@Override
 	public InvoiceHeaderDTO updateInvoiceHeadersReview(InvoiceHeaderDTO invoice) {
 		List<PersonalShipment> ipList = personalShipmentRepository.getAllShipmentByHeaderId(invoice.getId());
-		System.out.println("\n\n\n====="+ipList.size()+"==\n\n\n");
-		if(invoice.getStatus().equalsIgnoreCase("OK")){
+		invoice.setStatus(invoice.getStatus());
+		String rs = invoice.getStatus().substring(invoice.getStatus().length()-3, invoice.getStatus().length());
+		if(rs.equalsIgnoreCase("OK")){
 			invoice.setFinish(true);
 			if (ipList.size() == 2) {
 				invoice.setStatus("collect");
