@@ -2,12 +2,12 @@ import { InvoiceHeaderService } from 'app/entities/ctsmicroservice/invoice-heade
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IReceiptnote, Receiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
 import { ReceiptnoteService } from './receiptnote.service';
-import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { IInvoiceHeader, InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { IUser, Principal } from 'app/core';
 import { InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 import { PackageDetailsDTO } from '..';
@@ -26,9 +26,11 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     createPackage: PackageDetailsDTO[] = [];
     data: CustomReceipt;
     collect = false;
-    payment: any;
     invId: number;
     pay: boolean;
+    subTotal: number;
+    taxAmount: number;
+    totalDue: number;
 
     constructor(
         private receiptnoteService: ReceiptnoteService,
@@ -38,10 +40,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
         private principal: Principal
     ) {
         this.receiptnote = new Receiptnote();
-        this.invId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-        this.activatedRoute.data.subscribe(({ personalShipment }) => {
-            this.personalShipment = personalShipment;
-        });
+        this.invoiceHeader = new InvoiceHeader();
         this.invId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
         this.principal.identity().then(account => {
             this.currentUser = account;
@@ -50,37 +49,42 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ personalShipment }) => {
+            this.personalShipment = personalShipment;
+            this.loadAll();
+        });
     }
 
     loadAll() {
         if (this.currentUser.authorities.find(e => e === 'ROLE_SHIPPER')) {
             this.receiptnote.invoiceHeaderId = this.personalShipment.invoiceHeaderId;
             this.receiptnote.shipmentId = this.personalShipment.id;
-            this.receiptnoteService.getReceiptItemPackage({ id: this.receiptnote.invoiceHeaderId }).subscribe(res => {
-                this.createPackage = res.body;
-            });
-            this.invoiceService.find(this.receiptnote.invoiceHeaderId).subscribe(res => {
-                this.invoiceHeader = res.body;
+            forkJoin(
+                this.invoiceService.find(this.receiptnote.invoiceHeaderId),
+                this.receiptnoteService.getReceiptItemPackage({ id: this.receiptnote.invoiceHeaderId })
+            ).subscribe(res => {
+                this.invoiceHeader = res[0].body;
                 this.pay = this.invoiceHeader.receiverPay;
+                this.createPackage = res[1].body;
+                this.pay = !this.invoiceHeader.receiverPay;
+                this.subTotal = this.invoiceHeader.subTotal;
+                this.taxAmount = this.invoiceHeader.taxAmount;
+                this.totalDue = this.invoiceHeader.totalDue;
             });
-            this.payment = this.invoiceHeader.totalDue.toString();
         } else {
             this.invoiceService.find(this.invId).subscribe(res => {
                 this.invoiceHeader = res.body;
                 this.pay = this.invoiceHeader.receiverPay;
                 this.receiptnoteService.getReceiptItemPackage({ id: this.invoiceHeader.id }).subscribe(response => {
                     this.createPackage = response.body;
+                    this.receiptnote.invoiceHeaderId = this.invoiceHeader.id;
                 });
-                this.payment = this.invoiceHeader.totalDue.toString();
-                this.receiptnote.invoiceHeaderId = this.invoiceHeader.id;
+                this.pay = !this.invoiceHeader.receiverPay;
+                this.subTotal = this.invoiceHeader.subTotal;
+                this.taxAmount = this.invoiceHeader.taxAmount;
+                this.totalDue = this.invoiceHeader.totalDue;
             });
         }
-        if (!this.personalShipment) {
-            this.pay = !this.invoiceHeader.receiverPay;
-        }
-        console.log('xxx1   ' + this.invId);
-        console.log('xxx2   ' + this.invoiceHeader);
     }
 
     previousState() {
@@ -97,6 +101,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                 this.isSaving = true;
                 if (this.personalShipment.shipmentType === 'collect') {
                     this.data = new CustomReceipt();
+                    this.receiptnote.receiptType = true;
                     this.data.receipt = this.receiptnote;
                     for (const obj of this.createPackage) {
                         this.data.packageList.push(obj);
@@ -116,6 +121,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                     );
                 } else {
                     this.data = new CustomReceipt();
+                    this.receiptnote.receiptType = false;
                     this.data.receipt = this.receiptnote;
                     for (const obj of this.createPackage) {
                         this.data.packageList.push(obj);
@@ -138,16 +144,17 @@ export class ReceiptnoteUpdateComponent implements OnInit {
             } else {
                 this.receiptnote.note = 'Nhận hàng từ khách tại văn phòng';
                 this.data = new CustomReceipt();
+                this.receiptnote.receiptType = true;
                 this.data.receipt = this.receiptnote;
                 if (!this.invoiceHeader.receiverPay) {
                     this.data.pay = true;
-                    this.data.payAmount = this.payment;
+                    this.data.payAmount = this.invoiceHeader.totalDue.toString();
                 }
                 for (const obj of this.createPackage) {
                     obj.invPackage.status = 'first_import';
                     this.data.packageList.push(obj);
                 }
-                this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
+                this.receiptnoteService.createReceiptByOfficer(this.data).subscribe(
                     (res: HttpResponse<IReceiptnote>) => {
                         this.isSaving = false;
                         this.route.navigate([`/receiptnote/${this.invId}/view`]);

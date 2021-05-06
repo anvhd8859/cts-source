@@ -11,12 +11,26 @@
                     <input type="text" class="form-control" id="id" name="id" [(ngModel)]="receiptnote.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_invoiceHeaderId">Mã hóa đơn</label>
+                    <label class="form-control-label" for="field_invoiceHeaderId">Số hóa đơn</label>
                     <input type="number" class="form-control" name="invoiceHeaderId" id="field_invoiceHeaderId"
                         [(ngModel)]="receiptnote.invoiceHeaderId" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_note">Ghi chú</label>
+                    <label class="form-control-label" for="field_invoiceHeaderId">Mã hóa đơn</label>
+                    <input type="text" class="form-control" name="invoiceNo" id="field_invoiceNo"
+                        [(ngModel)]="invoiceHeader.invoiceNo" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_invoiceHeaderId">Tên khách hàng</label>
+                    <input *ngIf="!personalShipment || (personalShipment.shipmentType === 'collect')" type="text"
+                        class="form-control" name="customerName" id="field_customerName"
+                        [(ngModel)]="invoiceHeader.invoiceNo" readonly />
+                    <input *ngIf="personalShipment && (personalShipment.shipmentType === 'delivery')" type="text"
+                        class="form-control" name="customerName" id="field_customerName"
+                        [(ngModel)]="invoiceHeader.receiverName" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_note">Ghi chú biên lai</label>
                     <input type="text" class="form-control" name="note" id="field_note"
                         [(ngModel)]="receiptnote.note" />
                 </div>
@@ -156,8 +170,9 @@
                     </ng-container>
                     <br>
                     <br>
-                    <div class="divider" style="margin: 20px;"></div>
+                    <div class="divider" ></div>
                     <div class="row">
+                        <!-- <div style="width: 4%;"></div> -->
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <button type="button" class="btn btn-outline-success"
                                 (click)="this.addNewPackageDetailsDTO()">
@@ -174,51 +189,47 @@
                 <!-- START payment -->
                 <div class="row">
                     <div class="col-lg-6" *ngIf="pay">
-                        <div class="form-group"
-                            *ngIf="(pay && this.personalShipment.shipmentType === 'delivery') || (!pay && this.personalShipment.shipmentType === 'collect')">
+                        <div class="form-group">
                             <label class="form-control-label" for="from-payment" style="font-weight: 500;"><b>Thanh
                                     toán</b></label>
                             <div>
                                 <div class="form-group">
-                                    <label class="form-control-label" for="field_note">Thành tiền</label>
-                                    <input type="text" class="form-control" name="note" id="field_sub_toltal"
-                                        [(ngModel)]="invoiceHeader.subTotal" disabled />
+                                    <label class="form-control-label" for="field_sub">Thành tiền</label>
+                                    <input type="text" class="form-control" name="sub" id="field_sub_toltal"
+                                        [ngModel]="subTotal" disabled />
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label" for="field_note">Thuế</label>
-                                    <input type="text" class="form-control" name="note" id="field_tax"
-                                        [(ngModel)]="invoiceHeader.taxAmount" disabled />
+                                    <label class="form-control-label" for="field_tax">Thuế</label>
+                                    <input type="text" class="form-control" name="tax" id="field_tax"
+                                        [ngModel]="taxAmount" disabled />
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label" for="field_note">Tổng tiền</label>
-                                    <input type="text" class="form-control" name="note" id="field_toltal"
-                                        [(ngModel)]="invoiceHeader.totalDue" value="{{invoiceHeader.totalDue}}"
-                                        disabled />
+                                    <label class="form-control-label" for="field_totak">Tổng tiền</label>
+                                    <input type="text" class="form-control" name="total" id="field_toltal"
+                                        [ngModel]="totalDue" disabled />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6" *ngIf="personalShipment">
-                        <div class="form-group"
-                            *ngIf="(pay && this.personalShipment.shipmentType === 'delivery') || (!pay && this.personalShipment.shipmentType === 'collect')">
+                    <div class="col-lg-6" *ngIf="(pay && this.personalShipment.shipmentType === 'delivery') || (!pay && this.personalShipment.shipmentType === 'collect')">
+                        <div class="form-group">
                             <label class="form-control-label" for="from-payment" style="font-weight: 500;"><b>Thanh
                                     toán</b></label>
                             <div>
                                 <div class="form-group">
-                                    <label class="form-control-label" for="field_note">Thành tiền</label>
-                                    <input type="text" class="form-control" name="note" id="field_sub_toltal"
-                                        [(ngModel)]="invoiceHeader.subTotal" disabled />
+                                    <label class="form-control-label" for="field_sub">Thành tiền</label>
+                                    <input type="text" class="form-control" name="sub" id="field_sub_toltal"
+                                        [ngModel]="subTotal" disabled />
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label" for="field_note">Thuế</label>
-                                    <input type="text" class="form-control" name="note" id="field_tax"
-                                        [(ngModel)]="invoiceHeader.taxAmount" disabled />
+                                    <label class="form-control-label" for="field_tax">Thuế</label>
+                                    <input type="text" class="form-control" name="tax" id="field_tax"
+                                        [ngModel]="taxAmount" disabled />
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label" for="field_note">Tổng tiền</label>
-                                    <input type="text" class="form-control" name="note" id="field_toltal"
-                                        [(ngModel)]="invoiceHeader.totalDue" value="{{invoiceHeader.totalDue}}"
-                                        disabled />
+                                    <label class="form-control-label" for="field_total">Tổng tiền</label>
+                                    <input type="text" class="form-control" name="total" id="field_toltal"
+                                        [ngModel]="totalDue" disabled />
                                 </div>
                             </div>
                         </div>
@@ -228,7 +239,7 @@
                             <!-- START upload image -->
                             <div class="form-group">
                                 <label class="form-control-label" for="from-payment" style="font-weight: 500;">
-                                    <b>Xác nhận bằng ảnh</b>
+                                    <b>Xác nhận bằng ảnh </b>
                                 </label>
                             </div>
                             <!-- END upload image -->

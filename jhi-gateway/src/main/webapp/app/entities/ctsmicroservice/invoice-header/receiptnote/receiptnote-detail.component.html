@@ -1,9 +1,9 @@
 <div class="row justify-content-center">
-    <div class="col-16">
+    <div class="col-lg-10">
         <br>
         <br>
         <div *ngIf="receiptNote">
-            <h2><span>Biên nhận hóa số: </span> {{receiptNote.id}}</h2>
+            <h2><span>Biên lai số: </span> {{receiptNote.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -19,19 +19,50 @@
                 <dd>
                     <span>{{receiptNote.receiptType ? "Biên nhận lấy hàng" : "Biên nhận giao hàng"}}</span>
                 </dd>
-                <dt><span>Ghi chú</span></dt>
-                <dd>
-                    <span>{{receiptNote.note}}</span>
-                </dd>
                 <dt><span>Ngày tạo</span></dt>
                 <dd>
                     <span>{{receiptNote.createDate | date:'yyyy-MM-dd HH:mm'}}</span>
                 </dd>
-                <dt><span>Ngày sửa đổi</span></dt>
-                <dd>
-                    <span>{{receiptNote.updateDate | date:'yyyy-MM-dd HH:mm'}}</span>
-                </dd>
             </dl>
+            <div class="col-lg-10">
+                <table class="table" style="width: 100%;">
+                    <tr *ngIf="this.customer">
+                        <th>Tên khách hàng: </th>
+                        <td>{{this.customer.firstName + ' ' + this.customer.lastName}}</td>
+                    </tr>
+                    <tr>
+                        <th>Loại hóa đơn: </th>
+                        <td>Giao hàng cá nhân</td>
+                    </tr>
+                    <tr>
+                        <th>Tình trạng hóa đơn: </th>
+                        <td>{{common.processInvoiceStatus(invoiceHeader.status)}}</td>
+                    </tr>
+                    <tr>
+                        <th>Địa chỉ gửi: </th>
+                        <td>{{invoiceHeader.startAddress}}</td>
+                    </tr>
+                    <tr>
+                        <th>Người thanh toán: </th>
+                        <td>{{invoiceHeader.receiverPay ? "Người nhận thanh toán" : "Người gửi thanh toán"}}</td>
+                    </tr>
+                    <tr>
+                        <th>Tên người nhận: </th>
+                        <td>{{invoiceHeader.receiverName}}</td>
+                    </tr>
+                    <tr>
+                        <th>Số điện thoại: </th>
+                        <td>{{invoiceHeader.receiverPhone}}</td>
+                    </tr>
+                    <tr>
+                        <th>Địa chỉ nhận: </th>
+                        <td>{{invoiceHeader.destinationAddress}}</td>
+                    </tr>
+                    <tr>
+                        <th>Ghi chú khách hàng: </th>
+                        <td>{{invoiceHeader.note}}</td>
+                    </tr>
+                </table>
             <br>
             <br>
             <!-- START Information Invoice -->
@@ -191,6 +222,13 @@
                 </div>
             </div>
             <!-- END Payment Invoice -->
+            <div>
+                <button type="submit" (click)="previousState()" class="btn btn-primary btn-sm">
+                <fa-icon [icon]="'back'"></fa-icon>
+                <span class="d-none d-md-inline">Quay lại</span>
+            </button>
+            </div>
+            <br>
         </div>
         <div class="col-16" *ngIf="!receiptNote">
             <div>

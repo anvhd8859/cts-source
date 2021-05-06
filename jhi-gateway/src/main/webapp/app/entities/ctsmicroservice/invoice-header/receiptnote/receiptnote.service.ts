@@ -71,6 +71,10 @@ export class ReceiptnoteService {
         return this.http.post<any>(this.resourceUrl + '/finish-delivery', req, { observe: 'response' });
     }
 
+    createReceiptByOfficer(req?: any): any {
+        return this.http.post<any>(this.resourceUrl + '/officer', req, { observe: 'response' });
+    }
+
     private convertDateFromClient(receiptnote: IReceiptnote): IReceiptnote {
         const copy: IReceiptnote = Object.assign({}, receiptnote, {
             createDate: receiptnote.createDate != null && receiptnote.createDate.isValid() ? receiptnote.createDate.toJSON() : null,

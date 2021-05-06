@@ -22,6 +22,7 @@ export class ReceiptnoteDetailComponent implements OnInit {
     receiptNote: IReceiptnote;
     personalShipment: IPersonalShipment;
     currentUser: IUser;
+    customer: IUser;
     id: number;
     createPackage: PackageDetailsDTO[] = [];
     invoiceHeader: IInvoiceHeader;
@@ -56,20 +57,26 @@ export class ReceiptnoteDetailComponent implements OnInit {
                                 this.createPackage = resp[0].body;
                                 this.invoiceHeader = resp[1].body;
                                 this.payment = resp[2].body;
+                                this.invoiceHeaderService.getUserByID({ id: this.invoiceHeader.customerId }).subscribe(response => {
+                                    this.customer = response.body;
+                                });
                             });
                         }
                     });
                 } else {
-                    forkJoin(
-                        this.receiptNoteService.getReceiveNoteByInvoiceId({ id: this.id }),
-                        this.paymentService.getPaymentByInvoiceId({ id: this.id }),
-                        this.invoiceHeaderService.find(this.id)
-                    ).subscribe(res => {
-                        this.receiptNote = res[0].body;
-                        this.payment = res[1].body;
-                        this.invoiceHeader = res[2].body;
-                        this.receiptNoteService.getReceiptItemPackage({ id: this.receiptNote.id }).subscribe(response => {
-                            this.createPackage = response.body;
+                    this.receiptNoteService.getReceiveNoteByInvoiceId({ id: this.id }).subscribe(res => {
+                        this.receiptNote = res.body;
+                        forkJoin(
+                            this.paymentService.getPaymentByInvoiceId({ id: this.id }),
+                            this.invoiceHeaderService.find(this.id),
+                            this.receiptNoteService.getReceiptItemPackage({ id: this.id })
+                        ).subscribe(resp => {
+                            this.payment = resp[0].body;
+                            this.invoiceHeader = resp[1].body;
+                            this.createPackage = resp[2].body;
+                            this.invoiceHeaderService.getUserByID({ id: this.invoiceHeader.customerId }).subscribe(response => {
+                                this.customer = response.body;
+                            });
                         });
                     });
                 }

@@ -255,6 +255,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 		// process data
 		BigDecimal subTotal = calculateSubTotal(lstPackageDetails, fromStreet, toStreet);
+		System.out.println("\n\nsubtotal = " + subTotal.intValue() + " $$$\n\n");
 		if (check > 0) {
 			// find near office
 			Office ofc = officeRepository.searchOfficeNearby(fromStreet.getId(), fromStreet.getSubDistrictId().getId(),
@@ -266,10 +267,10 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			PersonalShipment ps = new PersonalShipment();
 			ps.setInvoiceHeaderId(invoiceHeaderDTO.getId());
 			ps.setShipmentType("collect");
-			ps.setStatus("new");
+			ps.setStatus("");
 			ps.setCreateDate(instant);
 			ps.setUpdateDate(instant);
-
+			
 			// get employee and add to shipment
 			WorkingArea wa = workingAreaRepository.getEmployeeNearBy(fromStreet.getId(),
 					fromStreet.getSubDistrictId().getId(), fromStreet.getSubDistrictId().getDistrictId().getId(),
@@ -287,7 +288,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		// save data
 		PersonalShipment psDelivery = new PersonalShipment();
 		psDelivery.setInvoiceHeaderId(invoiceHeaderDTO.getId());
-		psDelivery.setStatus("new");
+		psDelivery.setStatus("");
 		psDelivery.setShipmentType("delivery");
 		psDelivery.setCreateDate(instant);
 		psDelivery.setUpdateDate(instant);
@@ -328,24 +329,26 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			else if (totalWeight <= 2.00)
 				result = new BigDecimal(29000);
 			else if (totalWeight <= 100.00)
-				result = new BigDecimal(2600.0 * totalWeight);
+				result = new BigDecimal(29000).add(new BigDecimal(2600.0 * (totalWeight - 2.0)));
 			else
-				result = new BigDecimal(1400.0 * totalWeight);
+				result = new BigDecimal(29000).add(new BigDecimal(2600.0 * 88.0)).add(new BigDecimal(1400.0 * (totalWeight - 100.0)));
+			System.out.println("\n\n rs1 = " + result.intValue() + "$\n\n\n");
 		} else {
 			if (totalWeight <= 0.25)
-				result = new BigDecimal(10000);
+				result = new BigDecimal(11000);
 			else if (totalWeight <= 0.50)
-				result = new BigDecimal(14000);
+				result = new BigDecimal(15000);
 			else if (totalWeight <= 1.00)
-				result = new BigDecimal(17000);
+				result = new BigDecimal(19000);
 			else if (totalWeight <= 1.50)
-				result = new BigDecimal(26000);
+				result = new BigDecimal(27000);
 			else if (totalWeight <= 2.00)
-				result = new BigDecimal(30000);
+				result = new BigDecimal(31000);
 			else if (totalWeight <= 100.00)
-				result = new BigDecimal(5000.0 * totalWeight);
+				result = new BigDecimal(31000).add(new BigDecimal(5000.0 * (totalWeight - 2.0)));
 			else
-				result = new BigDecimal(3200.0 * totalWeight);
+				result = new BigDecimal(31000).add(new BigDecimal(5000.0 * 88.0)).add(new BigDecimal(3200.0 * (totalWeight - 100.0)));
+			System.out.println("\n\n rs2 = " + result.intValue() + "$\n\n\n");
 		}
 		return result;
 	}
@@ -437,14 +440,18 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	@Override
 	public InvoiceHeaderDTO updateInvoiceHeadersReview(InvoiceHeaderDTO invoice) {
 		List<PersonalShipment> ipList = personalShipmentRepository.getAllShipmentByHeaderId(invoice.getId());
-		String rs = invoice.getStatus().substring(invoice.getStatus().length()-2, invoice.getStatus().length());
-		invoice.setStatus(invoice.getStatus().substring(0, invoice.getStatus().length() - 2));
+		System.out.print("\n\n test1:" + invoice.getNote());
+		String rs = invoice.getNote().substring(invoice.getNote().length()-2, invoice.getNote().length());
+		invoice.setNote(invoice.getNote().substring(0, invoice.getNote().length() - 2));
+		System.out.print("**\n\n test2:" + rs);
+		System.out.print("\n\n test3:" + invoice.getNote());
 		if(rs.equalsIgnoreCase("OK")){
 			invoice.setFinish(true);
 			if (ipList.size() == 2) {
 				invoice.setStatus("collect");
-				PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(invoice.getId());
-				ps.setStatus("collecting");
+				for(PersonalShipment ps : ipList) {
+					ps.setStatus("new");
+				}
 			}
 			else {
 				invoice.setStatus("receive");

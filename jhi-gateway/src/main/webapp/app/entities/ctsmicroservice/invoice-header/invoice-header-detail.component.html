@@ -2,23 +2,23 @@
     <div class="col-11">
         <div *ngIf="invoiceHeader">
             <br>
-<br>
             <br>
-<br>
+            <br>
+            <br>
             <div class="container-fluid" style="border-bottom: 2px solid;">
-                <div class="row" >
+                <div class="row">
                     <h2 style="font-weight: bold;"><span>Hóa đơn: </span> {{invoiceHeader.invoiceNo}}</h2>
                 </div>
                 <br>
-<br>
+                <br>
                 <div class="row">
                     <h4><span>Ngày tạo hóa đơn: </span>{{invoiceHeader.createDate | date:'yyyy-MM-dd HH:mm'}}</h4>
                 </div>
                 <br>
-<br>
+                <br>
             </div>
             <br>
-<br>
+            <br>
             <jhi-alert-error></jhi-alert-error>
             <div class="col-12">
                 <table class="table" style="width: 100%;">
@@ -140,7 +140,7 @@
                                             style="border: rgba(161, 161, 161, 0.3) solid thin; border-radius: 5px; padding: 2%;">
                                             <ng-container *ngFor="let itemDetail of item.itemList; let id = index">
                                                 <div class="">
-                                                    <div >
+                                                    <div>
                                                         <div class="card-header">
                                                             <div class="row">
                                                                 <div class="col-10"> Vật phẩm #{{i + 1}} </div>
@@ -156,8 +156,9 @@
                                                                             for="itemName{{i}}">Tên
                                                                             vật
                                                                             phẩm</label>
-                                                                        <input placeholder="" class="form-control" type="text"
-                                                                            name="itemName{{id}}" id="itemName{{id}}" disabled
+                                                                        <input placeholder="" class="form-control"
+                                                                            type="text" name="itemName{{id}}"
+                                                                            id="itemName{{id}}" disabled
                                                                             [(ngModel)]="itemDetail.itemName">
                                                                     </div>
                                                                 </div>
@@ -165,8 +166,9 @@
                                                                     <div class="form-group">
                                                                         <label class="form-control-label"
                                                                             for="itemType{{i}}">Loại</label>
-                                                                        <input placeholder="" class="form-control" type="text"
-                                                                            name="itemType{{id}}" id="itemType{{id}}" disabled
+                                                                        <input placeholder="" class="form-control"
+                                                                            type="text" name="itemType{{id}}"
+                                                                            id="itemType{{id}}" disabled
                                                                             [(ngModel)]="itemDetail.itemType">
                                                                     </div>
                                                                 </div>
@@ -176,8 +178,9 @@
                                                                     <div class="form-group">
                                                                         <label class="form-control-label"
                                                                             for="description{{id}}">Ghi chú</label>
-                                                                        <textarea class="form-control" style="resize: none;"
-                                                                            rows="3" id="description{{id}}"
+                                                                        <textarea class="form-control"
+                                                                            style="resize: none;" rows="3"
+                                                                            id="description{{id}}"
                                                                             name="description{{id}}" disabled
                                                                             [(ngModel)]="itemDetail.description">
                                                                 </textarea>
@@ -188,7 +191,7 @@
                                                     </div>
                                                 </div>
                                                 <br>
-<br>
+                                                <br>
                                             </ng-container>
                                             <div class="row">
                                             </div>
@@ -196,10 +199,10 @@
                                     </div>
                                 </div>
                                 <br>
-<br>
+                                <br>
                             </ng-container>
                             <br>
-<br>
+                            <br>
                             <div class="divider" style="margin: 20px;"></div>
                             <div class="row">
                             </div>
@@ -207,12 +210,12 @@
                     </div>
                 </div>
                 <br>
-<br>
+                <br>
             </div>
             <div class="divider"></div>
             <div class="divider"></div>
             <br>
-<br>
+            <br>
             <div class="row">
                 <div class="col-12">
                     <h4 class="float-right">Tổng phụ: <b>{{invoiceHeader.subTotal | currency:'VND'}}</b></h4>
@@ -231,17 +234,15 @@
                 </div>
             </div>
             <br>
-<br>
+            <br>
             <div class="row">
                 <div style="margin-left: 100px;">
-                    <button type="submit"
-                            (click)="previousState()"
-                            class="btn btn-info">
+                    <button type="submit" (click)="previousState()" class="btn btn-info">
                         <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;&nbsp;<span> Quay lại</span>
                     </button>
                 </div>
             </div>
         </div>
-        <br/><br/><br/>
+        <br /><br /><br />
     </div>
 </div>

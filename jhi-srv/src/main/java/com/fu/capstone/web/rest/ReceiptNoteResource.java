@@ -185,7 +185,7 @@ public class ReceiptNoteResource {
     
     @GetMapping("/receipt-notes/item-package")
     @Timed
-    public ResponseEntity<List<PackageDetailsDTO>> getReceiptItemPackage(@RequestParam("id") Long id) {
+    public ResponseEntity<List<PackageDetailsDTO>> getReceiptItemPackageByHeaderId(@RequestParam("id") Long id) {
     	List<PackageDetailsDTO> page = receiptNoteService.getReceiptItemPackage(id);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }

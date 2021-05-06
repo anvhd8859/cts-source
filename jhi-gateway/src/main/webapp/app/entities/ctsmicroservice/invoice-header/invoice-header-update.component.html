@@ -1,25 +1,28 @@
 <div class="row justify-content-center">
     <div class="col-10">
         <br>
-<br>
         <br>
-<br>
+        <br>
+        <br>
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
                 <br>
-<br>
+                <br>
                 <div class="row" style="border-bottom: 2px solid;">
-                    <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading" style="font-weight: bold;">Tạo hóa đơn</h2>
-                    <h2 *ngIf="this.invoiceHeader.id"  id="jhi-invoice-header-heading" style="font-weight: bold;">Sửa hóa đơn: <b>{{this.invoiceHeader.invoiceNo}}</b></h2>
+                    <h2 *ngIf="!this.invoiceHeader.id" id="jhi-invoice-header-heading" style="font-weight: bold;">Tạo
+                        hóa đơn</h2>
+                    <h2 *ngIf="this.invoiceHeader.id" id="jhi-invoice-header-heading" style="font-weight: bold;">Sửa hóa
+                        đơn: <b>{{this.invoiceHeader.invoiceNo}}</b></h2>
                 </div>
                 <br>
-<br>
+                <br>
                 <jhi-alert></jhi-alert>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="divider"></div>
                 <div class="card">
                     <div class="card-header">
-                        <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Thông tin khách hàng</b></label>
+                        <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Thông tin
+                                khách hàng</b></label>
                     </div>
                     <div class="card-body" name="from-address">
                         <div class="form-group">
@@ -31,14 +34,15 @@
                             </ng-select>
                         </div>
                         <br>
-<br>
-                        <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="form-control-label"
-                            for="">Information</label>
+                        <br>
+                        <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id"
+                            class="form-control-label" for="">Information</label>
                         <div *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="col-lg-12">
                             <table class="table">
                                 <tr>
                                     <th class="text-left">Họ và Tên</th>
-                                    <td class="text-left">{{this.selectedUser.firstName + ' ' +this.selectedUser.lastName}}
+                                    <td class="text-left">{{this.selectedUser.firstName + ' '
+                                        +this.selectedUser.lastName}}
                                     </td>
                                 </tr>
                                 <tr>
@@ -58,15 +62,17 @@
                     </div>
                 </div>
                 <br>
-<br>
+                <br>
                 <div class="divider"></div>
                 <div class="card">
                     <div class="card-header">
-                        <label class="form-control-label" for="from-address" style="font-weight: bold;"><b>Thông tin hóa đơn</b></label>
+                        <label class="form-control-label" for="from-address" style="font-weight: bold;"><b>Thông tin hóa
+                                đơn</b></label>
                     </div>
                     <div class="card-body" name="from-address">
                         <!-- Invoice Package Start-->
-                        <label class="form-control-label" for="from-address" style="font-weight: 500;"><b>Chi tiết gói hàng</b></label>
+                        <label class="form-control-label" for="from-address" style="font-weight: 500;"><b>Chi tiết gói
+                                hàng</b></label>
                         <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                             <ng-container *ngFor="let item of createPackage; let i = index">
                                 <div class="card">
@@ -74,8 +80,9 @@
                                         <div class="row">
                                             <div class="col-10"> Gói hàng #{{i + 1}} </div>
                                             <div class="col-2">
-                                                <button *ngIf="item.invPackage.id == null" type="button" class="close" data-dismiss="modal"
-                                                    aria-hidden="true" id="package{{i}}" name="package{{i}}"
+                                                <button *ngIf="item.invPackage.id == null" type="button" class="close"
+                                                    data-dismiss="modal" aria-hidden="true" id="package{{i}}"
+                                                    name="package{{i}}"
                                                     (click)="this.removeNewPackageDetailsDTO(i)">&times;</button>
                                             </div>
                                         </div>
@@ -84,8 +91,7 @@
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 col-sm-3">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="weight{{i}}">Cân nặng
-                                                        (g)</label>
+                                                    <label class="form-control-label" for="weight{{i}}">Cân nặng (g)</label>
                                                     <input placeholder="" class="form-control" step="0.1" min="0"
                                                         type="number" name="weight{{i}}" id="weight{{i}}"
                                                         [(ngModel)]="item.invPackage.weight">
@@ -130,7 +136,8 @@
                                     </div>
                                     <div style="margin: 40px;">
                                         <!-- Invoice Detail Start -->
-                                        <label class="form-control-label" for="from-address" style="margin-left: 20px;"><b>Chi tiết vật
+                                        <label class="form-control-label" for="from-address"
+                                            style="margin-left: 20px;"><b>Chi tiết vật
                                                 phẩm</b></label>
                                         <div name="from-address"
                                             style="border: rgb(161, 161, 161) solid thin; border-radius: 5px; padding: 2%;">
@@ -140,8 +147,10 @@
                                                         <div class="row">
                                                             <div class="col-10"> Vật phẩm #{{i + 1}} </div>
                                                             <div class="col-2">
-                                                                <button *ngIf="itemDetail.id == null" type="button" class="close" data-dismiss="modal"
-                                                                    aria-hidden="true" id="detail{{id}}" name="detail{{id}}"
+                                                                <button *ngIf="itemDetail.id == null" type="button"
+                                                                    class="close" data-dismiss="modal"
+                                                                    aria-hidden="true" id="detail{{id}}"
+                                                                    name="detail{{id}}"
                                                                     (click)="this.removeInvoiceDetailElement(i,id)">&times;</button>
                                                             </div>
                                                         </div>
@@ -154,8 +163,9 @@
                                                                         for="itemName{{i}}">Tên
                                                                         vật
                                                                         phẩm</label>
-                                                                    <input placeholder="" class="form-control" type="text"
-                                                                        name="itemName{{id}}" id="itemName{{id}}"
+                                                                    <input placeholder="" class="form-control"
+                                                                        type="text" name="itemName{{id}}"
+                                                                        id="itemName{{id}}"
                                                                         [(ngModel)]="itemDetail.itemName">
                                                                 </div>
                                                             </div>
@@ -163,8 +173,9 @@
                                                                 <div class="form-group">
                                                                     <label class="form-control-label"
                                                                         for="itemType{{i}}">Loại</label>
-                                                                    <input placeholder="" class="form-control" type="text"
-                                                                        name="itemType{{id}}" id="itemType{{id}}"
+                                                                    <input placeholder="" class="form-control"
+                                                                        type="text" name="itemType{{id}}"
+                                                                        id="itemType{{id}}"
                                                                         [(ngModel)]="itemDetail.itemType">
                                                                 </div>
                                                             </div>
@@ -185,7 +196,7 @@
                                                     </div>
                                                 </div>
                                                 <br>
-<br>
+                                                <br>
                                             </ng-container>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-6 col-sm-6">
@@ -200,10 +211,10 @@
                                     </div>
                                 </div>
                                 <br>
-<br>
+                                <br>
                             </ng-container>
                             <br>
-<br>
+                            <br>
                             <div class="divider" style="margin: 20px;"></div>
                             <div class="row">
                                 <div class="col-lg-3 col-md-6 col-sm-6">
@@ -218,20 +229,20 @@
                     </div>
                 </div>
                 <br>
-<br>
+                <br>
                 <div class="row">
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="form-group">
                             <label class="form-control-label" for="field_deposit"><b>Tên người nhận</b></label>
-                            <input placeholder="" class="form-control" step="0.1" type="text"
-                                name="receiverName" id="receiverName"[(ngModel)]="invoiceHeader.receiverName" />
+                            <input placeholder="" class="form-control" step="0.1" type="text" name="receiverName"
+                                id="receiverName" [(ngModel)]="invoiceHeader.receiverName" />
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="form-group">
                             <label class="form-control-label" for="field_deposit"><b>Số điện thoại</b></label>
-                            <input placeholder="" class="form-control" step="0.1" type="number"
-                                name="receiverName" id="receiverName"[(ngModel)]="invoiceHeader.receiverPhone" />
+                            <input placeholder="" class="form-control" step="0.1" type="number" name="receiverName"
+                                id="receiverName" [(ngModel)]="invoiceHeader.receiverPhone" />
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12 col-sm-12">
@@ -247,12 +258,13 @@
                 </div>
                 <div class="divider"></div>
                 <br>
-<br>
+                <br>
                 <div class="row" *ngIf="!this.invoiceHeader.id">
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Địa chỉ gửi</b></label>
+                                <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Địa
+                                        chỉ gửi</b></label>
                             </div>
                             <div class="card-body" name="from-address">
                                 <div class="row">
@@ -262,7 +274,8 @@
                                             <ng-select [clearable]="false" [hideSelected]="true"
                                                 [items]="this.lstProvinceFrom" bindLabel="provinceName" id="province"
                                                 name="province" [ngModelOptions]="{standalone: true}"
-                                                [(ngModel)]="this.selectedProvinceFrom" (change)="this.changeCity('from')">
+                                                [(ngModel)]="this.selectedProvinceFrom"
+                                                (change)="this.changeCity('from')">
                                                 <ng-option *ngFor="let item of lstProvinceFrom">{{item.provinceName}}
                                                 </ng-option>
                                             </ng-select>
@@ -289,11 +302,13 @@
                                             <label for="subDistrict">Phường/Xã</label>
                                             <ng-select [clearable]="false" [hideSelected]="true"
                                                 [items]="this.lstSubDistrictFrom" bindLabel="subDistrictName"
-                                                id="subDistrict" name="subDistrict" [ngModelOptions]="{standalone: true}"
+                                                id="subDistrict" name="subDistrict"
+                                                [ngModelOptions]="{standalone: true}"
                                                 [(ngModel)]="this.selectedSubDistrictFrom"
                                                 (change)="this.changeSubDistrict('from')"
                                                 [disabled]="!this.selectedDistrictFrom">
-                                                <ng-option *ngFor="let item of lstSubDistrictFrom">{{item.subDistrictName}}
+                                                <ng-option *ngFor="let item of lstSubDistrictFrom">
+                                                    {{item.subDistrictName}}
                                                 </ng-option>
                                             </ng-select>
                                         </div>
@@ -326,11 +341,12 @@
                         </div>
                     </div>
                     <br>
-<br>
+                    <br>
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <label class="form-control-label" for="to-address" style="font-weight: bolder;"><b>Địa chỉ nhận</b></label>
+                                <label class="form-control-label" for="to-address" style="font-weight: bolder;"><b>Địa
+                                        chỉ nhận</b></label>
                             </div>
                             <div class="card-body" name="to-address">
                                 <div class="row">
@@ -352,7 +368,8 @@
                                             <ng-select [clearable]="false" [hideSelected]="true"
                                                 [items]="this.lstDistrictTo" bindLabel="districtName" id="district"
                                                 name="district" [ngModelOptions]="{standalone: true}"
-                                                [(ngModel)]="this.selectedDistrictTo" (change)="this.changeDistrict('to')"
+                                                [(ngModel)]="this.selectedDistrictTo"
+                                                (change)="this.changeDistrict('to')"
                                                 [disabled]="!this.selectedProvinceTo">
                                                 <ng-option *ngFor="let item of lstDistrictTo">{{item.districtName}}
                                                 </ng-option>
@@ -365,12 +382,14 @@
                                         <div class="form-group">
                                             <label for="subDistrict">Phường/Xã</label>
                                             <ng-select [clearable]="false" [hideSelected]="true"
-                                                [items]="this.lstSubDistrictTo" bindLabel="subDistrictName" id="subDistrict"
-                                                name="subDistrict" [ngModelOptions]="{standalone: true}"
+                                                [items]="this.lstSubDistrictTo" bindLabel="subDistrictName"
+                                                id="subDistrict" name="subDistrict"
+                                                [ngModelOptions]="{standalone: true}"
                                                 [(ngModel)]="this.selectedSubDistrictTo"
                                                 (change)="this.changeSubDistrict('to')"
                                                 [disabled]="!this.selectedDistrictTo">
-                                                <ng-option *ngFor="let item of lstSubDistrictTo">{{item.subDistrictName}}
+                                                <ng-option *ngFor="let item of lstSubDistrictTo">
+                                                    {{item.subDistrictName}}
                                                 </ng-option>
                                             </ng-select>
                                         </div>
@@ -378,11 +397,13 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="street">Đường/Phố</label>
-                                            <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstStreetTo"
-                                                bindLabel="streetName" id="street" name="street"
-                                                [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedStreetTo"
+                                            <ng-select [clearable]="false" [hideSelected]="true"
+                                                [items]="this.lstStreetTo" bindLabel="streetName" id="street"
+                                                name="street" [ngModelOptions]="{standalone: true}"
+                                                [(ngModel)]="this.selectedStreetTo"
                                                 [disabled]="!this.selectedSubDistrictTo">
-                                                <ng-option *ngFor="let item of lstStreetTo">{{item.streetName}}</ng-option>
+                                                <ng-option *ngFor="let item of lstStreetTo">{{item.streetName}}
+                                                </ng-option>
                                             </ng-select>
                                         </div>
                                     </div>
@@ -420,7 +441,7 @@
                     </div>
                 </div>
                 <br>
-<br>
+                <br>
 
                 <div *ngIf="this.invoiceHeader.id" class="form-group">
                     <label class="form-control-label" for="field_dueDate">Ngày giao dự kiến</label>
@@ -450,7 +471,8 @@
             <div class="row justify-content-center">
                 <div class="col-2">
                     <div class="row justify-content-center">
-                        <button type="button" id="cancel-save" class="btn btn-secondary form-control"  (click)="previousState()">
+                        <button type="button" id="cancel-save" class="btn btn-secondary form-control"
+                            (click)="previousState()">
                             <fa-icon [icon]="'ban'"></fa-icon>&nbsp;&nbsp;<span>Hủy</span>
                         </button>
                     </div>
@@ -461,14 +483,15 @@
                 </div>
                 <div class="col-2">
                     <div class="row justify-content-center">
-                        <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary form-control">
+                        <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                            class="btn btn-primary form-control">
                             <fa-icon [icon]="'save'"></fa-icon>&nbsp;&nbsp;<span>Xác nhận</span>
                         </button>
                     </div>
                 </div>
             </div>
             <br>
-<br>
+            <br>
         </form>
     </div>
 </div>

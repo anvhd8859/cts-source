@@ -259,7 +259,6 @@ public class InvoiceHeaderResource {
 		if (invoice.getId() == null) {
 			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
 		}
-		invoice.setStatus("OK");
 		InvoiceHeaderDTO result = invoiceHeaderService.updateInvoiceHeadersReview(invoice);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
 				.body(result);
@@ -272,7 +271,6 @@ public class InvoiceHeaderResource {
 		if (invoice.getId() == null) {
 			throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
 		}
-		invoice.setStatus("REJECT");
 		InvoiceHeaderDTO result = invoiceHeaderService.updateInvoiceHeadersReview(invoice);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
 				.body(result);
