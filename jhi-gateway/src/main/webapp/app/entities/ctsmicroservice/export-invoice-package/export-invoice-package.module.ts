@@ -14,6 +14,7 @@ import {
     exportInvoicePackagePopupRoute,
     ExportInvoiceModalWarningComponent
 } from './';
+import { ExportModalWarningComponent } from './export-invoice-package.component';
 
 const ENTITY_STATES = [...exportInvoicePackageRoute, ...exportInvoicePackagePopupRoute];
 
@@ -25,14 +26,16 @@ const ENTITY_STATES = [...exportInvoicePackageRoute, ...exportInvoicePackagePopu
         ExportInvoicePackageUpdateComponent,
         ExportInvoicePackageDeleteDialogComponent,
         ExportInvoicePackageDeletePopupComponent,
-        ExportInvoiceModalWarningComponent
+        ExportInvoiceModalWarningComponent,
+        ExportModalWarningComponent
     ],
     entryComponents: [
         ExportInvoicePackageComponent,
         ExportInvoicePackageUpdateComponent,
         ExportInvoicePackageDeleteDialogComponent,
         ExportInvoicePackageDeletePopupComponent,
-        ExportInvoiceModalWarningComponent
+        ExportInvoiceModalWarningComponent,
+        ExportModalWarningComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -57,7 +57,15 @@ import {
     faFileDownload,
     faWarehouse,
     faMoneyBillWaveAlt,
-    faGlobeAsia
+    faGlobeAsia,
+    faRocket,
+    faMapMarkedAlt,
+    faMapMarkerAlt,
+    faMicrophoneAlt,
+    faHeadset,
+    faPhone,
+    faNewspaper,
+    faUsers
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -115,5 +123,12 @@ library.add(faWarehouse);
 library.add(faMoneyBillWaveAlt);
 library.add(faGlobeAsia);
 library.add(faBan);
+library.add(faRocket);
+library.add(faMapMarkedAlt);
+library.add(faMapMarkerAlt);
+library.add(faHeadset);
+library.add(faPhone);
+library.add(faNewspaper);
+library.add(faUsers);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

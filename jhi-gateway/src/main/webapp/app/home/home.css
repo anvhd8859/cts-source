@@ -1,27 +1,3 @@
-/* ==========================================================================
-Main page styles
-========================================================================== */
-
-.hipster {
-    display: inline-block;
-    width: 347px;
-    height: 497px;
-    background: url('../../content/images/hipster.png') no-repeat center top;
-    background-size: contain;
-}
-
-/* wait autoprefixer update to allow simple generation of high pixel density media query */
-@media only screen and (-webkit-min-device-pixel-ratio: 2),
-    only screen and (-moz-min-device-pixel-ratio: 2),
-    only screen and (-o-min-device-pixel-ratio: 2/1),
-    only screen and (min-resolution: 192dpi),
-    only screen and (min-resolution: 2dppx) {
-    .hipster {
-        background: url('../../content/images/hipster2x.png') no-repeat center top;
-        background-size: contain;
-    }
-}
-
 .zoom {
     transition: transform 0.2s;
     width: 20rem;
@@ -30,5 +6,14 @@ Main page styles
 }
 
 .zoom:hover {
+    border: palevioletred 2px solid;
     transform: scale(1.2);
+}
+
+.hidden-link {
+    display: none;
+}
+
+.zoom:hover > .hidden-link {
+    display: block;
 }

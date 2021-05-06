@@ -14,6 +14,7 @@ import {
 } from './';
 import { ImportInvoicePackageDetailComponent } from './import-invoice-package-detail.component';
 import { ImportInvoicePackageUpdateComponent } from './import-invoice-package-update.component';
+import { ImportModalWarningComponent } from './import-invoice-package.component';
 
 const ENTITY_STATES = [...importInvoicePackageRoute, ...importInvoicePackagePopupRoute];
 
@@ -25,7 +26,8 @@ const ENTITY_STATES = [...importInvoicePackageRoute, ...importInvoicePackagePopu
         ImportInvoicePackageImportPopupComponent,
         ImportInvoicePackageUpdateComponent,
         ImportInvoicePackageDetailComponent,
-        ImportInvoiceModalWarningComponent
+        ImportInvoiceModalWarningComponent,
+        ImportModalWarningComponent
     ],
     entryComponents: [
         ImportInvoicePackageComponent,
@@ -33,7 +35,8 @@ const ENTITY_STATES = [...importInvoicePackageRoute, ...importInvoicePackagePopu
         ImportInvoicePackageImportPopupComponent,
         ImportInvoicePackageUpdateComponent,
         ImportInvoicePackageDetailComponent,
-        ImportInvoiceModalWarningComponent
+        ImportInvoiceModalWarningComponent,
+        ImportModalWarningComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
