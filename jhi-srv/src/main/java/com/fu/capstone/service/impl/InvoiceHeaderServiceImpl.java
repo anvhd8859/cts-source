@@ -332,7 +332,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 				result = new BigDecimal(29000).add(new BigDecimal(2600.0 * (totalWeight - 2.0)));
 			else
 				result = new BigDecimal(29000).add(new BigDecimal(2600.0 * 88.0)).add(new BigDecimal(1400.0 * (totalWeight - 100.0)));
-			System.out.println("\n\n rs1 = " + result.intValue() + "$\n\n\n");
 		} else {
 			if (totalWeight <= 0.25)
 				result = new BigDecimal(11000);
@@ -348,7 +347,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 				result = new BigDecimal(31000).add(new BigDecimal(5000.0 * (totalWeight - 2.0)));
 			else
 				result = new BigDecimal(31000).add(new BigDecimal(5000.0 * 88.0)).add(new BigDecimal(3200.0 * (totalWeight - 100.0)));
-			System.out.println("\n\n rs2 = " + result.intValue() + "$\n\n\n");
 		}
 		return result;
 	}
