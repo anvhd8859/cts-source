@@ -24,7 +24,7 @@
                     <label class="form-control-label" for="field_invoiceHeaderId">Tên khách hàng</label>
                     <input *ngIf="!personalShipment || (personalShipment.shipmentType === 'collect')" type="text"
                         class="form-control" name="customerName" id="field_customerName"
-                        [(ngModel)]="invoiceHeader.invoiceNo" readonly />
+                        [(ngModel)]="customerName" readonly />
                     <input *ngIf="personalShipment && (personalShipment.shipmentType === 'delivery')" type="text"
                         class="form-control" name="customerName" id="field_customerName"
                         [(ngModel)]="invoiceHeader.receiverName" readonly />
@@ -196,17 +196,17 @@
                                 <div class="form-group">
                                     <label class="form-control-label" for="field_sub">Thành tiền</label>
                                     <input type="text" class="form-control" name="sub" id="field_sub_toltal"
-                                        [ngModel]="subTotal" disabled />
+                                        [ngModel]="invoiceHeader.subTotal" disabled />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label" for="field_tax">Thuế</label>
                                     <input type="text" class="form-control" name="tax" id="field_tax"
-                                        [ngModel]="taxAmount" disabled />
+                                        [ngModel]="invoiceHeader.taxAmount" disabled />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label" for="field_totak">Tổng tiền</label>
                                     <input type="text" class="form-control" name="total" id="field_toltal"
-                                        [ngModel]="totalDue" disabled />
+                                        [ngModel]="invoiceHeader.totalDue" disabled />
                                 </div>
                             </div>
                         </div>
@@ -219,28 +219,37 @@
                                 <div class="form-group">
                                     <label class="form-control-label" for="field_sub">Thành tiền</label>
                                     <input type="text" class="form-control" name="sub" id="field_sub_toltal"
-                                        [ngModel]="subTotal" disabled />
+                                        [ngModel]="invoiceHeader.subTotal" disabled />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label" for="field_tax">Thuế</label>
                                     <input type="text" class="form-control" name="tax" id="field_tax"
-                                        [ngModel]="taxAmount" disabled />
+                                        [ngModel]="invoiceHeader.taxAmount" disabled />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label" for="field_total">Tổng tiền</label>
                                     <input type="text" class="form-control" name="total" id="field_toltal"
-                                        [ngModel]="totalDue" disabled />
+                                        [ngModel]="invoiceHeader.totalDue" disabled />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="text-center">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4">
+                        <div>
                             <!-- START upload image -->
                             <div class="form-group">
                                 <label class="form-control-label" for="from-payment" style="font-weight: 500;">
-                                    <b>Xác nhận bằng ảnh </b>
+                                    <b>Ảnh xác nhận </b>
                                 </label>
+                            </div>
+                            <div>
+                                <label class="btn btn-info">
+                                    <span>Chọn ảnh</span>
+                                    <input style="display: none;" #imageInput type="file" accept="image/*"
+                                           >
+                                           <!-- (change)="processFile(imageInput)" -->
+                                  </label>
                             </div>
                             <!-- END upload image -->
                         </div>

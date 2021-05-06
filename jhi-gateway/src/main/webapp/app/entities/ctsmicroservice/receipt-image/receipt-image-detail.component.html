@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="receiptImage">
+            <h2><span>Receipt Image</span> {{receiptImage.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Receipt Note Id</span></dt>
+                <dd>
+                    <span>{{receiptImage.receiptNoteId}}</span>
+                </dd>
+                <dt><span>Image</span></dt>
+                <dd>
+                    <div *ngIf="receiptImage.image">
+                        <a (click)="openFile(receiptImage.imageContentType, receiptImage.image)">
+                            <img [src]="'data:' + receiptImage.imageContentType + ';base64,' + receiptImage.image" style="max-width: 100%;" alt="receiptImage image"/>
+                        </a>
+                        {{receiptImage.imageContentType}}, {{byteSize(receiptImage.image)}}
+                    </div>
+                </dd>
+                <dt><span>Create Date</span></dt>
+                <dd>
+                    <span>{{receiptImage.createDate}}</span>
+                </dd>
+                <dt><span>Update Date</span></dt>
+                <dd>
+                    <span>{{receiptImage.updateDate}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/receipt-image', receiptImage.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

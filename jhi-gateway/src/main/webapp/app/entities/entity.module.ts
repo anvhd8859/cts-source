@@ -24,6 +24,7 @@ import { CtsgatewayImportExportWarehouseModule as CtsmicroserviceImportExportWar
 import { CtsgatewayRequestImportWarehouseModule as CtsmicroserviceRequestImportWarehouseModule } from './ctsmicroservice/request-import-warehouse/request-import-warehouse.module';
 import { CtsgatewayRequestExportWarehouseModule as CtsmicroserviceRequestExportWarehouseModule } from './ctsmicroservice/request-export-warehouse/request-export-warehouse.module';
 import { CtsgatewayRequestDetailsModule as CtsmicroserviceRequestDetailsModule } from './ctsmicroservice/request-details/request-details.module';
+import { CtsgatewayReceiptImageModule as CtsmicroserviceReceiptImageModule } from './ctsmicroservice/receipt-image/receipt-image.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -53,6 +54,7 @@ import { CtsgatewayRequestDetailsModule as CtsmicroserviceRequestDetailsModule }
         CtsmicroserviceRequestImportWarehouseModule,
         CtsmicroserviceRequestExportWarehouseModule,
         CtsmicroserviceRequestDetailsModule,
+        CtsmicroserviceReceiptImageModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

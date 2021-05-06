@@ -23,14 +23,13 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     invoiceHeader: IInvoiceHeader;
     isSaving: boolean;
     currentUser: IUser;
+    customerUser: IUser;
     createPackage: PackageDetailsDTO[] = [];
     data: CustomReceipt;
     collect = false;
     invId: number;
     pay: boolean;
-    subTotal: number;
-    taxAmount: number;
-    totalDue: number;
+    customerName: any;
 
     constructor(
         private receiptnoteService: ReceiptnoteService,
@@ -64,25 +63,26 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                 this.receiptnoteService.getReceiptItemPackage({ id: this.receiptnote.invoiceHeaderId })
             ).subscribe(res => {
                 this.invoiceHeader = res[0].body;
-                this.pay = this.invoiceHeader.receiverPay;
                 this.createPackage = res[1].body;
-                this.pay = !this.invoiceHeader.receiverPay;
-                this.subTotal = this.invoiceHeader.subTotal;
-                this.taxAmount = this.invoiceHeader.taxAmount;
-                this.totalDue = this.invoiceHeader.totalDue;
+                // only used for officer receipt
+                this.pay = false;
+                this.invoiceService.getUserByID({ id: this.invoiceHeader.customerId }).subscribe(resp => {
+                    this.customerUser = resp.body;
+                    this.customerName = this.customerUser.lastName + ' ' + this.customerUser.firstName;
+                });
             });
         } else {
             this.invoiceService.find(this.invId).subscribe(res => {
                 this.invoiceHeader = res.body;
-                this.pay = this.invoiceHeader.receiverPay;
                 this.receiptnoteService.getReceiptItemPackage({ id: this.invoiceHeader.id }).subscribe(response => {
                     this.createPackage = response.body;
                     this.receiptnote.invoiceHeaderId = this.invoiceHeader.id;
                 });
                 this.pay = !this.invoiceHeader.receiverPay;
-                this.subTotal = this.invoiceHeader.subTotal;
-                this.taxAmount = this.invoiceHeader.taxAmount;
-                this.totalDue = this.invoiceHeader.totalDue;
+                this.invoiceService.getUserByID({ id: this.invoiceHeader.customerId }).subscribe(resp => {
+                    this.customerUser = resp.body;
+                    this.customerName = this.customerUser.lastName + ' ' + this.customerUser.firstName;
+                });
             });
         }
     }

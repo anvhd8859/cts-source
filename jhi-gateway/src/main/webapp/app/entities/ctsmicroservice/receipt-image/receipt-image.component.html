@@ -1,0 +1,65 @@
+<div>
+    <h2 id="page-heading">
+        <span>Receipt Images</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-receipt-image" [routerLink]="['/receipt-image/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Receipt Image
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="receiptImages">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Receipt Note Id</span></th>
+            <th><span>Image</span></th>
+            <th><span>Create Date</span></th>
+            <th><span>Update Date</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let receiptImage of receiptImages ;trackBy: trackId">
+                <td><a [routerLink]="['/receipt-image', receiptImage.id, 'view' ]">{{receiptImage.id}}</a></td>
+                <td>{{receiptImage.receiptNoteId}}</td>
+                <td>
+                    <a *ngIf="receiptImage.image" (click)="openFile(receiptImage.imageContentType, receiptImage.image)">
+                        <img [src]="'data:' + receiptImage.imageContentType + ';base64,' + receiptImage.image" style="max-height: 30px;" alt="receiptImage image"/>
+                    </a>
+                    <span *ngIf="receiptImage.image">{{receiptImage.imageContentType}}, {{byteSize(receiptImage.image)}}</span>
+                </td>
+                <td>{{receiptImage.createDate | date:'medium'}}</td>
+                <td>{{receiptImage.updateDate | date:'medium'}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/receipt-image', receiptImage.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/receipt-image', receiptImage.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'receipt-image/'+ receiptImage.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

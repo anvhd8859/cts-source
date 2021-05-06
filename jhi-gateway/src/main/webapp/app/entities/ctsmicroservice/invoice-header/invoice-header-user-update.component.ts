@@ -5,7 +5,7 @@ import { forkJoin, from, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
-import { IInvoiceHeader, InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { InvoiceHeaderService } from './invoice-header.service';
 import { AccountService, IUser, Principal } from 'app/core';
 import { IDistrict } from 'app/shared/model/ctsmicroservice/district.model';
