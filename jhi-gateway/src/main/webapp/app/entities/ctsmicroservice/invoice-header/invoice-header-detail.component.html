@@ -43,6 +43,18 @@
                         <td>{{invoiceHeader.startAddress}}</td>
                     </tr>
                     <tr>
+                        <th>Người thanh toán: </th>
+                        <td>{{invoiceHeader.receiverPay ? "Người nhận thanh toán" : "Người gửi thanh toán"}}</td>
+                    </tr>
+                    <tr>
+                        <th>Tên người nhận: </th>
+                        <td>{{invoiceHeader.receiverName}}</td>
+                    </tr>
+                    <tr>
+                        <th>Số điện thoại: </th>
+                        <td>{{invoiceHeader.receiverPhone}}</td>
+                    </tr>
+                    <tr>
                         <th>Địa chỉ nhận: </th>
                         <td>{{invoiceHeader.destinationAddress}}</td>
                     </tr>
