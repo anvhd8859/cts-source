@@ -1,3 +1,4 @@
+import { ReceiptImageService } from './image-compress/receipt-image.service';
 import { InvoiceHeaderService } from 'app/entities/ctsmicroservice/invoice-header/invoice-header.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +14,7 @@ import { InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details
 import { PackageDetailsDTO } from '..';
 import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { ReceiptImage } from 'app/shared/model/ctsmicroservice/receipt-image.model';
 
 @Component({
     selector: 'jhi-receiptnote-update',
@@ -46,7 +48,8 @@ export class ReceiptnoteUpdateComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private route: Router,
         private principal: Principal,
-        private imageCompress: NgxImageCompressService
+        private imageCompress: NgxImageCompressService,
+        private imageService: ReceiptImageService
     ) {
         this.receiptnote = new Receiptnote();
         this.invoiceHeader = new InvoiceHeader();
@@ -111,6 +114,17 @@ export class ReceiptnoteUpdateComponent implements OnInit {
         }
     }
 
+    dataURItoBlob(dataURI) {
+        const byteString = window.atob(dataURI);
+        const arrayBuffer = new ArrayBuffer(byteString.length);
+        const int8Array = new Uint8Array(arrayBuffer);
+        for (let i = 0; i < byteString.length; i++) {
+            int8Array[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([int8Array], { type: 'image/jpeg' });
+        return blob;
+    }
+
     compressFile(image, fileName) {
         const orientation = -1;
         this.sizeOfOriginalImage = this.imageCompress.byteCount(image) / (1024 * 1024);
@@ -132,17 +146,6 @@ export class ReceiptnoteUpdateComponent implements OnInit {
         });
     }
 
-    dataURItoBlob(dataURI) {
-        const byteString = window.atob(dataURI);
-        const arrayBuffer = new ArrayBuffer(byteString.length);
-        const int8Array = new Uint8Array(arrayBuffer);
-        for (let i = 0; i < byteString.length; i++) {
-            int8Array[i] = byteString.charCodeAt(i);
-        }
-        const blob = new Blob([int8Array], { type: 'image/jpeg' });
-        return blob;
-    }
-
     previousState() {
         window.history.back();
     }
@@ -155,6 +158,11 @@ export class ReceiptnoteUpdateComponent implements OnInit {
         if (this.createPackage.length > 0 && wei > 0) {
             if (this.personalShipment != null) {
                 this.isSaving = true;
+                const image = new ReceiptImage();
+                if (this.imageBlob) {
+                    image.image = this.imageBlob;
+                    image.imageContentType = this.file.type;
+                }
                 if (this.personalShipment.shipmentType === 'collect') {
                     this.data = new CustomReceipt();
                     this.receiptnote.receiptType = true;
@@ -166,7 +174,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                         this.data.pay = true;
                         this.data.payAmount = this.invoiceHeader.totalDue.toString();
                     }
-                    this.receiptnoteService.createReceiptNoteAndShipmentInvoice(this.data).subscribe(
+                    this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
                         (res: HttpResponse<IReceiptnote>) => {
                             this.isSaving = false;
                             this.route.navigate([`/receiptnote/${this.invId}/view`]);
