@@ -7,7 +7,6 @@ import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
 import com.fu.capstone.service.dto.DetailsImportExportDTO;
 import com.fu.capstone.service.dto.ImportExportWarehouseDTO;
-import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
 import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 
 import io.github.jhipster.web.util.ResponseUtil;

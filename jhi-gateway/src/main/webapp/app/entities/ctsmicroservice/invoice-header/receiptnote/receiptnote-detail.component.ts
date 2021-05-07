@@ -52,7 +52,7 @@ export class ReceiptnoteDetailComponent implements OnInit {
                             forkJoin(
                                 this.receiptNoteService.getReceiptItemPackage({ id: this.receiptNote.invoiceHeaderId }),
                                 this.invoiceHeaderService.find(this.receiptNote.invoiceHeaderId),
-                                this.paymentService.findPaymentByParams({ id: this.receiptNote.invoiceHeaderId })
+                                this.paymentService.getPaymentByInvoiceId({ id: this.receiptNote.invoiceHeaderId })
                             ).subscribe(resp => {
                                 this.createPackage = resp[0].body;
                                 this.invoiceHeader = resp[1].body;

@@ -438,11 +438,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	@Override
 	public InvoiceHeaderDTO updateInvoiceHeadersReview(InvoiceHeaderDTO invoice) {
 		List<PersonalShipment> ipList = personalShipmentRepository.getAllShipmentByHeaderId(invoice.getId());
-		System.out.print("\n\n test1:" + invoice.getNote());
 		String rs = invoice.getNote().substring(invoice.getNote().length()-2, invoice.getNote().length());
 		invoice.setNote(invoice.getNote().substring(0, invoice.getNote().length() - 2));
-		System.out.print("**\n\n test2:" + rs);
-		System.out.print("\n\n test3:" + invoice.getNote());
 		if(rs.equalsIgnoreCase("OK")){
 			invoice.setFinish(true);
 			if (ipList.size() == 2) {
