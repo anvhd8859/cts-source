@@ -32,6 +32,7 @@ import {
     SPINNER
 } from 'ngx-ui-loader';
 import { CtsgatewayAboutUsModule } from './about-us/about-us.module';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     bgsColor: '#3ce6ff',
@@ -99,7 +100,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
             useClass: NotificationInterceptor,
             multi: true,
             deps: [Injector]
-        }
+        },
+        [NgxImageCompressService]
     ],
     bootstrap: [JhiMainComponent]
 })

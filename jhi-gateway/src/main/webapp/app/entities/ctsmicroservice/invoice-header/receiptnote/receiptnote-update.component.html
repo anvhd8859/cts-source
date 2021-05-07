@@ -244,12 +244,18 @@
                                 </label>
                             </div>
                             <div>
-                                <label class="btn btn-info">
-                                    <span>Chọn ảnh</span>
-                                    <input style="display: none;" #imageInput type="file" accept="image/*"
-                                           >
-                                           <!-- (change)="processFile(imageInput)" -->
-                                  </label>
+                                <div>
+                                    <label class="btn btn-info">
+                                        <span>Chọn ảnh</span>
+                                        <input style="display: none;" #imageInput type="file" accept=".jpg,.png,.jpeg" id="image-input" (change)="selectFile($event)">
+                                    </label>
+                                    <br><br>
+                                    <div *ngIf="sizeOFCompressedImage">
+                                        <span>Compressed from {{sizeOfOriginalImage | number : '1.2-2'}} to {{sizeOFCompressedImage | number : '1.2-2'}}MB</span>
+                                        <br>
+                                        <img [src]="localCompressedURl" height="145px">
+                                    </div>
+                                </div>
                             </div>
                             <!-- END upload image -->
                         </div>

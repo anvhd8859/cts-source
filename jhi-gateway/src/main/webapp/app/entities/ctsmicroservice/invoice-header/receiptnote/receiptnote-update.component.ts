@@ -12,6 +12,7 @@ import { IUser, Principal } from 'app/core';
 import { InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 import { PackageDetailsDTO } from '..';
 import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
     selector: 'jhi-receiptnote-update',
@@ -30,13 +31,22 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     invId: number;
     pay: boolean;
     customerName: any;
+    file: any;
+    localUrl: any;
+    localCompressedURl: any;
+    sizeOfOriginalImage: number;
+    sizeOFCompressedImage: number;
+    imgResultBeforeCompress: string;
+    imgResultAfterCompress: string;
+    imageBlob: any;
 
     constructor(
         private receiptnoteService: ReceiptnoteService,
         private invoiceService: InvoiceHeaderService,
         private activatedRoute: ActivatedRoute,
         private route: Router,
-        private principal: Principal
+        private principal: Principal,
+        private imageCompress: NgxImageCompressService
     ) {
         this.receiptnote = new Receiptnote();
         this.invoiceHeader = new InvoiceHeader();
@@ -85,6 +95,52 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                 });
             });
         }
+    }
+
+    selectFile(event: any) {
+        let fileName: any;
+        this.file = event.target.files[0];
+        fileName = this.file['name'];
+        if (event.target.files && event.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (evento: any) => {
+                this.localUrl = evento.target.result;
+                this.compressFile(this.localUrl, fileName);
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    }
+
+    compressFile(image, fileName) {
+        const orientation = -1;
+        this.sizeOfOriginalImage = this.imageCompress.byteCount(image) / (1024 * 1024);
+        console.warn('Size in bytes is now:', this.sizeOfOriginalImage);
+        this.imageCompress.compressFile(image, orientation, 50, 50).then(result => {
+            this.imgResultAfterCompress = result;
+            this.localCompressedURl = result;
+            this.sizeOFCompressedImage = this.imageCompress.byteCount(result) / (1024 * 1024);
+            console.warn('Size in bytes after compression:', this.sizeOFCompressedImage);
+
+            // create file from byte
+            const imageName = fileName;
+
+            // call method that creates a blob from dataUri
+            this.imageBlob = this.dataURItoBlob(this.imgResultAfterCompress.split(',')[1]);
+
+            // imageFile created below is the new compressed file which can be send to API in form data
+            const imageFile = new File([result], imageName, { type: 'image/jpeg' });
+        });
+    }
+
+    dataURItoBlob(dataURI) {
+        const byteString = window.atob(dataURI);
+        const arrayBuffer = new ArrayBuffer(byteString.length);
+        const int8Array = new Uint8Array(arrayBuffer);
+        for (let i = 0; i < byteString.length; i++) {
+            int8Array[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([int8Array], { type: 'image/jpeg' });
+        return blob;
     }
 
     previousState() {
