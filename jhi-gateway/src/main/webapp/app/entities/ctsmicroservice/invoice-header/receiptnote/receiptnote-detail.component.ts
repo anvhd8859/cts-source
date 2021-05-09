@@ -1,3 +1,6 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpResponse } from '@angular/common/http';
+import { IReceiptImage } from './../../../../shared/model/ctsmicroservice/receipt-image.model';
 import { PaymentService } from './../../payment/payment.service';
 import { IPayment, Payment } from './../../../../shared/model/ctsmicroservice/payment.model';
 import { IInvoiceHeader } from './../../../../shared/model/ctsmicroservice/invoice-header.model';
@@ -10,9 +13,11 @@ import { IUser, Principal } from 'app/core';
 import { IReceiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
 import { CommonString } from 'app/shared';
 import { PackageDetailsDTO } from '..';
-import { ReceiptnoteService } from '.';
 import { InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
+import { ReceiptImageModalComponent } from './image-compress/receipt-image-modal.component';
+import { ReceiptnoteService } from '.';
+import { ReceiptImageService } from './image-compress/receipt-image.service';
 
 @Component({
     selector: 'jhi-receiptnote-detail',
@@ -29,13 +34,16 @@ export class ReceiptnoteDetailComponent implements OnInit {
     payment: IPayment[];
     common: CommonString;
     invId: number;
+    image: IReceiptImage;
 
     constructor(
         private receiptNoteService: ReceiptnoteService,
         private activatedRoute: ActivatedRoute,
         private invoiceHeaderService: InvoiceHeaderService,
         private paymentService: PaymentService,
-        private principal: Principal
+        private principal: Principal,
+        private modal: NgbModal,
+        private imageService: ReceiptImageService
     ) {}
 
     ngOnInit() {
@@ -81,6 +89,17 @@ export class ReceiptnoteDetailComponent implements OnInit {
                     });
                 }
             });
+        });
+    }
+
+    loadImage() {
+        this.imageService.findByNoteId(this.receiptNote.id).subscribe((res: HttpResponse<any>) => {
+            this.image = res.body;
+            const modalRef = this.modal.open(ReceiptImageModalComponent as Component, {
+                size: 'lg',
+                backdrop: 'static'
+            });
+            modalRef.componentInstance.image = this.image;
         });
     }
 

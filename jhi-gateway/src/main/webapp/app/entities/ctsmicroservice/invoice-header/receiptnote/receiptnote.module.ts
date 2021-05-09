@@ -1,3 +1,4 @@
+import { ReceiptImageModalComponent } from './image-compress/receipt-image-modal.component';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -29,7 +30,8 @@ const ENTITY_STATES = [...receiptnoteRoute, ...receiptnotePopupRoute];
         ReceiptnoteDeleteDialogComponent,
         ReceiptnoteDeletePopupComponent,
         ReceiptnoteConfirmDialogComponent,
-        ReceiptnoteConfirmPopupComponent
+        ReceiptnoteConfirmPopupComponent,
+        ReceiptImageModalComponent
     ],
     entryComponents: [
         ReceiptnoteComponent,
@@ -38,7 +40,8 @@ const ENTITY_STATES = [...receiptnoteRoute, ...receiptnotePopupRoute];
         ReceiptnoteDeleteDialogComponent,
         ReceiptnoteDeletePopupComponent,
         ReceiptnoteConfirmDialogComponent,
-        ReceiptnoteConfirmPopupComponent
+        ReceiptnoteConfirmPopupComponent,
+        ReceiptImageModalComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

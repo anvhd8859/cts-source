@@ -2,8 +2,11 @@ package com.fu.capstone.service;
 
 import com.fu.capstone.service.dto.ReceiptImageDTO;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Service Interface for managing ReceiptImage.
@@ -40,4 +43,8 @@ public interface ReceiptImageService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    ReceiptImageDTO store(Long id, MultipartFile file) throws IOException;
+
+	ReceiptImageDTO getReceiptImageByReceiptNote(Long id);
 }

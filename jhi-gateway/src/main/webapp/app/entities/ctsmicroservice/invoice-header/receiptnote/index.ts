@@ -6,4 +6,5 @@ export * from './receiptnote.component';
 export * from './receiptnote.route';
 export * from './receipt-note-user.component';
 export * from './receipt-note-user-confirm-dialog.component';
+export * from './image-compress/receipt-image-modal.component';
 export * from './image-compress/receipt-image.service';

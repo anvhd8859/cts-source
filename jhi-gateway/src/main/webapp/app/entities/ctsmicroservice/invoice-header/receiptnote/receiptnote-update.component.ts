@@ -1,3 +1,4 @@
+import { CalculateShipFee, CommonString } from './../../../../shared/util/request-util';
 import { ReceiptImageService } from './image-compress/receipt-image.service';
 import { InvoiceHeaderService } from 'app/entities/ctsmicroservice/invoice-header/invoice-header.service';
 import { Component, OnInit } from '@angular/core';
@@ -14,7 +15,6 @@ import { InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details
 import { PackageDetailsDTO } from '..';
 import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { ReceiptImage } from 'app/shared/model/ctsmicroservice/receipt-image.model';
 
 @Component({
     selector: 'jhi-receiptnote-update',
@@ -41,6 +41,10 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     imgResultBeforeCompress: string;
     imgResultAfterCompress: string;
     imageBlob: any;
+    imageFile: any;
+    cal: CalculateShipFee;
+    // 1: collect; 2: delivery
+    action: number;
 
     constructor(
         private receiptnoteService: ReceiptnoteService,
@@ -51,6 +55,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
         private imageCompress: NgxImageCompressService,
         private imageService: ReceiptImageService
     ) {
+        this.cal = new CalculateShipFee();
         this.receiptnote = new Receiptnote();
         this.invoiceHeader = new InvoiceHeader();
         this.invId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -71,6 +76,11 @@ export class ReceiptnoteUpdateComponent implements OnInit {
         if (this.currentUser.authorities.find(e => e === 'ROLE_SHIPPER')) {
             this.receiptnote.invoiceHeaderId = this.personalShipment.invoiceHeaderId;
             this.receiptnote.shipmentId = this.personalShipment.id;
+            if (this.personalShipment.shipmentType === 'collect') {
+                this.action = 1;
+            } else {
+                this.action = 2;
+            }
             forkJoin(
                 this.invoiceService.find(this.receiptnote.invoiceHeaderId),
                 this.receiptnoteService.getReceiptItemPackage({ id: this.receiptnote.invoiceHeaderId })
@@ -98,6 +108,16 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                 });
             });
         }
+    }
+
+    calculate() {
+        if (this.personalShipment && this.personalShipment.shipmentType === 'collect') {
+            this.invoiceHeader.subTotal = Math.round((this.cal.calculateSubTotal(this.createPackage) * 1.05 + 2500) * 100) / 100;
+        } else {
+            this.invoiceHeader.subTotal = Math.round(this.cal.calculateSubTotal(this.createPackage) * 100) / 100;
+        }
+        this.invoiceHeader.taxAmount = Math.round(0.1 * this.invoiceHeader.subTotal * 100) / 100;
+        this.invoiceHeader.totalDue = Math.round(1.1 * this.invoiceHeader.subTotal * 100) / 100;
     }
 
     selectFile(event: any) {
@@ -134,20 +154,26 @@ export class ReceiptnoteUpdateComponent implements OnInit {
             this.localCompressedURl = result;
             this.sizeOFCompressedImage = this.imageCompress.byteCount(result) / (1024 * 1024);
             console.warn('Size in bytes after compression:', this.sizeOFCompressedImage);
-
             // create file from byte
             const imageName = fileName;
-
             // call method that creates a blob from dataUri
             this.imageBlob = this.dataURItoBlob(this.imgResultAfterCompress.split(',')[1]);
 
             // imageFile created below is the new compressed file which can be send to API in form data
-            const imageFile = new File([result], imageName, { type: 'image/jpeg' });
+            this.imageFile = new File([result], imageName, { type: 'image/jpeg' });
         });
     }
 
     previousState() {
         window.history.back();
+    }
+
+    sendImage(id: number) {
+        if (this.imageBlob) {
+            this.imageService.create(id, this.imageBlob).subscribe(res => {
+                return res;
+            });
+        }
     }
 
     save() {
@@ -158,11 +184,6 @@ export class ReceiptnoteUpdateComponent implements OnInit {
         if (this.createPackage.length > 0 && wei > 0) {
             if (this.personalShipment != null) {
                 this.isSaving = true;
-                const image = new ReceiptImage();
-                if (this.imageBlob) {
-                    image.image = this.imageBlob;
-                    image.imageContentType = this.file.type;
-                }
                 if (this.personalShipment.shipmentType === 'collect') {
                     this.data = new CustomReceipt();
                     this.receiptnote.receiptType = true;
@@ -174,10 +195,12 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                         this.data.pay = true;
                         this.data.payAmount = this.invoiceHeader.totalDue.toString();
                     }
-                    this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
+                    this.receiptnoteService.createReceiptNoteAndShipmentInvoice(this.data).subscribe(
                         (res: HttpResponse<IReceiptnote>) => {
-                            this.isSaving = false;
-                            this.route.navigate([`/receiptnote/${this.invId}/view`]);
+                            if (typeof this.sendImage(res.body.id) !== typeof HttpErrorResponse) {
+                                this.isSaving = false;
+                                this.route.navigate([`/receiptnote/${this.invId}/view`]);
+                            }
                         },
                         (res: HttpErrorResponse) => {
                             this.onSaveError();
@@ -196,8 +219,10 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                     }
                     this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
                         (res: HttpResponse<IReceiptnote>) => {
-                            this.isSaving = false;
-                            this.route.navigate([`/receiptnote/${this.invId}/view`]);
+                            if (typeof this.sendImage(res.body.id) !== typeof HttpErrorResponse) {
+                                this.isSaving = false;
+                                this.route.navigate([`/receiptnote/${this.invId}/view`]);
+                            }
                         },
                         (res: HttpErrorResponse) => {
                             this.onSaveError();

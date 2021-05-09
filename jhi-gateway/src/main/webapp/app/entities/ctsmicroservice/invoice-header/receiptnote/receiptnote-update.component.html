@@ -46,7 +46,8 @@
                                 <div class="row">
                                     <div class="col-10"> Gói hàng #{{i + 1}} </div>
                                     <div class="col-2">
-                                        <button *ngIf="item.invPackage.id == null" type="button" class="close" data-dismiss="modal"
+                                        <button *ngIf="item.invPackage.id == null && !(personalShipment && (personalShipment.shipmentType === 'delivery'))"
+                                            type="button" class="close" data-dismiss="modal"
                                             aria-hidden="true" id="package{{i}}" name="package{{i}}"
                                             (click)="this.removeNewPackageDetailsDTO(i)">&times;</button>
                                     </div>
@@ -109,7 +110,8 @@
                                                 <div class="row">
                                                     <div class="col-10"> Vật phẩm #{{i + 1}} </div>
                                                     <div class="col-2">
-                                                        <button type="button" class="close" data-dismiss="modal"
+                                                        <button *ngIf="itemDetail.id == null && !(personalShipment && (personalShipment.shipmentType === 'delivery'))"
+                                                            type="button" class="close" data-dismiss="modal"
                                                             aria-hidden="true" id="detail{{id}}" name="detail{{id}}"
                                                             (click)="this.removeInvoiceDetailElement(i,id)">&times;</button>
                                                     </div>
@@ -153,7 +155,7 @@
                                         <br>
                                         <br>
                                     </ng-container>
-                                    <div class="row">
+                                    <div class="row" *ngIf="!(personalShipment && (personalShipment.shipmentType === 'delivery'))">
                                         <div class="col-lg-3 col-md-6 col-sm-6">
                                             <button type="button" class="btn btn-outline-success"
                                                 (click)="this.addNewInvoiceDetailElement(i)">
@@ -171,7 +173,7 @@
                     <br>
                     <br>
                     <div class="divider" ></div>
-                    <div class="row">
+                    <div class="row" *ngIf="!(personalShipment && (personalShipment.shipmentType === 'delivery'))">
                         <!-- <div style="width: 4%;"></div> -->
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <button type="button" class="btn btn-outline-success"
@@ -192,6 +194,9 @@
                         <div class="form-group">
                             <label class="form-control-label" for="from-payment" style="font-weight: 500;"><b>Thanh
                                     toán</b></label>
+                            <label class="btn btn-success" (click)="calculate()">
+                                Tính tiền lại
+                            </label>
                             <div>
                                 <div class="form-group">
                                     <label class="form-control-label" for="field_sub">Thành tiền</label>
@@ -215,6 +220,9 @@
                         <div class="form-group">
                             <label class="form-control-label" for="from-payment" style="font-weight: 500;"><b>Thanh
                                     toán</b></label>
+                                    <label class="btn btn-success" (click)="calculate()">
+                                        Tính tiền lại
+                                    </label>
                             <div>
                                 <div class="form-group">
                                     <label class="form-control-label" for="field_sub">Thành tiền</label>

@@ -24,7 +24,6 @@ import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import com.fu.capstone.service.mapper.ReceiptNoteMapper;
-import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,7 +163,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 
 	@Override
 	public ReceiptNoteDTO getReceiptNoteByShipmentId(Long id) {
-		return receiptNoteRepository.getReceiptNoteByShipmentId(id).map(receiptNoteMapper::toDto).get();
+		return receiptNoteMapper.toDto(receiptNoteRepository.getReceiptNoteByShipmentId(id));
 	}
 
 	@Override
@@ -235,8 +234,8 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			Street toStreet = streetRepository.getFullAddressByStreetId(inv.getDestinationStreetId());
 			inv.setUpdateDate(instant);
 			BigDecimal subTotal = calculateSubTotal(data.getPackageList(), fromStreet, toStreet);
-			inv.setSubTotal(subTotal);
 			subTotal = new BigDecimal(2500).add(subTotal.multiply(new BigDecimal(1.05)));
+			inv.setSubTotal(subTotal);
 			inv.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
 			inv.setTotalDue(subTotal.multiply(new BigDecimal(1.1)));
 		}
@@ -250,6 +249,8 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 
 		// save data
 		ReceiptNote rn = receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt()));
+		rn.setCreateDate(instant);
+		rn.setUpdateDate(instant);
 		Payment pm = null;
 		if (data.getPay()) {
 			pm = new Payment();
@@ -260,11 +261,9 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			pm.setAmountPaid(inv.getTotalDue());
 			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
 			pm.setReceiptNoteId(rn.getId());
-		}
-
-		if (data.getPay()) {
 			paymentRepository.save(pm);
 		}
+
 		invoiceHeaderRepository.save(inv);
 		personalShipmentRepository.save(ps);
 		return receiptNoteMapper.toDto(rn);
@@ -290,26 +289,26 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			else if (totalWeight <= 2.00)
 				result = new BigDecimal(29000);
 			else if (totalWeight <= 100.00)
-				result = new BigDecimal(2600.0 * totalWeight);
+				result = new BigDecimal(29000).add(new BigDecimal(2600.0 * (totalWeight - 2.0)));
 			else
-				result = new BigDecimal(1400.0 * totalWeight);
+				result = new BigDecimal(29000).add(new BigDecimal(2600.0 * 88.0)).add(new BigDecimal(1400.0 * (totalWeight - 100.0)));
 		} else {
 			if (totalWeight <= 0.25)
-				result = new BigDecimal(10000);
+				result = new BigDecimal(11000);
 			else if (totalWeight <= 0.50)
-				result = new BigDecimal(14000);
+				result = new BigDecimal(15000);
 			else if (totalWeight <= 1.00)
-				result = new BigDecimal(17000);
+				result = new BigDecimal(19000);
 			else if (totalWeight <= 1.50)
-				result = new BigDecimal(26000);
+				result = new BigDecimal(27000);
 			else if (totalWeight <= 2.00)
-				result = new BigDecimal(30000);
+				result = new BigDecimal(31000);
 			else if (totalWeight <= 100.00)
-				result = new BigDecimal(5000.0 * totalWeight);
+				result = new BigDecimal(31000).add(new BigDecimal(5000.0 * (totalWeight - 2.0)));
 			else
-				result = new BigDecimal(3200.0 * totalWeight);
+				result = new BigDecimal(31000).add(new BigDecimal(5000.0 * 88.0)).add(new BigDecimal(3200.0 * (totalWeight - 100.0)));
 		}
-		return result.add(new BigDecimal(3000));
+		return result;
 	}
 
 	@Override
@@ -332,6 +331,10 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		ps.setFinishTime(instant);
 		ps.setUpdateDate(instant);
 
+		// save data
+		ReceiptNote rn = receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt()));
+		rn.setCreateDate(instant);
+		rn.setUpdateDate(instant);
 		Payment pm = null;
 		if (data.getPay()) {
 			pm = new Payment();
@@ -341,20 +344,13 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			pm.setUpdateDate(instant);
 			pm.setAmountPaid(new BigDecimal(data.getPayAmount()));
 			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
+			pm.setReceiptNoteId(rn.getId());
+			paymentRepository.save(pm);
 		}
 
-		// save data
-		ReceiptNote rn = receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt()));
-		if (pm != null)
-			if (pm.getAmountDue() != null) {
-				if (pm.getAmountDue().intValue() == 0) {
-					pm.setReceiptNoteId(rn.getId());
-					paymentRepository.save(pm);
-				}
-			}
 		invoiceHeaderRepository.save(inv);
 		personalShipmentRepository.save(ps);
-		return receiptNoteMapper.toDto(receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt())));
+		return receiptNoteMapper.toDto(receiptNoteRepository.save(rn));
 	}
 
 	@Override
@@ -381,6 +377,8 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 
 		// save data
 		ReceiptNote rn = receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt()));
+		rn.setCreateDate(instant);
+		rn.setUpdateDate(instant);
 		Payment pm = null;
 		if (data.getPay()) {
 			pm = new Payment();
@@ -391,13 +389,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			pm.setAmountPaid(new BigDecimal(data.getPayAmount()));
 			pm.setAmountDue(inv.getTotalDue().subtract(pm.getAmountPaid()));
 			pm.setReceiptNoteId(rn.getId());
-		}
-
-		if (pm.getAmountDue() != null) {
-			if (pm.getAmountDue().intValue() != 0)
-				throw new BadRequestAlertException("Amount due", "receipt note", "not equal 0");
-			else
-				paymentRepository.save(pm);
+			paymentRepository.save(pm);
 		}
 
 		invoiceHeaderRepository.save(inv);

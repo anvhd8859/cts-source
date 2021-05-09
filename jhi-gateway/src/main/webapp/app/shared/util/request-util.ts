@@ -1,4 +1,5 @@
 import { HttpParams } from '@angular/common/http';
+import { PackageDetailsDTO } from 'app/entities/ctsmicroservice/invoice-header';
 
 export const createRequestOption = (req?: any): HttpParams => {
     let options: HttpParams = new HttpParams();
@@ -96,5 +97,32 @@ export class CommonString {
             }
         }
         return rs;
+    }
+}
+
+export class CalculateShipFee {
+    public calculateSubTotal(lstPackage: PackageDetailsDTO[]) {
+        let result = 0;
+        let totalWeight = 0;
+        for (const ip of lstPackage) {
+            totalWeight += ip.invPackage.weight;
+        }
+        totalWeight /= 1000;
+        if (totalWeight <= 0.25) {
+            result = 9000;
+        } else if (totalWeight <= 0.5) {
+            result = 13000;
+        } else if (totalWeight <= 1.0) {
+            result = 16000;
+        } else if (totalWeight <= 1.5) {
+            result = 25000;
+        } else if (totalWeight <= 2.0) {
+            result = 29000;
+        } else if (totalWeight <= 100.0) {
+            result = 29000 + 2600.0 * (totalWeight - 2);
+        } else {
+            result = 29000 + 2600.0 * 88 + 1400.0 * (totalWeight - 100);
+        }
+        return result;
     }
 }

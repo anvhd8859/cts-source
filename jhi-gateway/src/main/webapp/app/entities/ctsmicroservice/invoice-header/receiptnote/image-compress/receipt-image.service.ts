@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
@@ -18,10 +18,18 @@ export class ReceiptImageService {
 
     constructor(private http: HttpClient) {}
 
-    create(receiptImage: IReceiptImage): Observable<EntityResponseType> {
-        const copy = this.convertDateFromClient(receiptImage);
+    create(id: number, file: File): Observable<EntityResponseType> {
+        const data: FormData = new FormData();
+        data.append('data', file);
+        return this.http.post<any>(`${this.resourceUrl}/${id}`, data, {
+            reportProgress: true,
+            observe: 'response'
+        });
+    }
+
+    findByNoteId(id: number): Observable<EntityResponseType> {
         return this.http
-            .post<IReceiptImage>(this.resourceUrl, copy, { observe: 'response' })
+            .get<IReceiptImage>(`${this.resourceUrl}/note/${id}`, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 

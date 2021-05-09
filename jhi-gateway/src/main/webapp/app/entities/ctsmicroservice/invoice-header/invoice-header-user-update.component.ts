@@ -65,6 +65,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
     lstInvoiceDetails: IInvoiceDetails[] = [];
     invDetailCount = 0;
     common: CommonString;
+    vnf_regex = /(09|03|07|08|05)([0-9]{8})/g;
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -213,10 +214,15 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
             msg += 'Mục Gói hàng không được để Trống! <br>';
         }
         if (this.invoiceHeader.receiverName == null || this.invoiceHeader.receiverName.trim() === '') {
-            msg += 'Mục Tên điện thoại người nhận không được để Trống! <br>';
+            msg += 'Mục Tên người nhận không được để Trống! <br>';
         }
         if (this.invoiceHeader.receiverPhone == null) {
             msg += 'Mục Số điện thoại người nhận không được để Trống! <br>';
+        } else {
+            const rg = new RegExp(this.vnf_regex);
+            if (!rg.test(this.invoiceHeader.receiverPhone)) {
+                msg += 'Mục Số điện thoại người nhận sai định dạng! <br>';
+            }
         }
         if (!this.selectedPayer) {
             msg += 'Mục Lựa chọn thanh toán không được để Trống! <br>';

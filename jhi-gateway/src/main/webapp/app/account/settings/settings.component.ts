@@ -1,5 +1,6 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { Principal, AccountService, User } from 'app/core';
 import { UserProfileService } from 'app/entities/user-profile';
@@ -17,7 +18,7 @@ import { forkJoin } from 'rxjs';
     templateUrl: './settings.component.html'
 })
 export class SettingsComponent implements OnInit {
-    error: string;
+    err: string;
     success: string;
     settingsAccount: any;
     languages: any[];
@@ -35,6 +36,8 @@ export class SettingsComponent implements OnInit {
     userProfile: IUserProfile;
     selectedGender: any;
     user: any;
+    vnf_regex = '^(09|03|07|08|05)([0-9]{8})$';
+    isValidFormSubmitted: any;
 
     constructor(
         private accountService: AccountService,
@@ -82,15 +85,20 @@ export class SettingsComponent implements OnInit {
         });
     }
 
-    save() {
+    save(form: NgForm) {
+        this.isValidFormSubmitted = false;
+        if (form.invalid) {
+            return;
+        }
         if (
             (this.selectedDistrict || this.selectedProvince || this.selectedSubDistrict || this.userProfile.address) &&
             this.userProfile.streetId === null
         ) {
-            this.alertService.warning('Fill all data in User Address');
+            this.alertService.warning('Hãy điền thông tin vào trường trống!');
             window.scroll(0, 0);
             return;
         }
+        this.isValidFormSubmitted = true;
         this.userProfile.userId = this.user.id;
         this.accountService.save(this.settingsAccount).subscribe(
             () => {
@@ -99,7 +107,7 @@ export class SettingsComponent implements OnInit {
                 } else {
                     this.accountService.createProfile(this.userProfile).subscribe();
                 }
-                this.error = null;
+                this.err = null;
                 this.success = 'OK';
                 this.principal.identity(true).then(account => {
                     this.settingsAccount = this.copyAccount(account);
@@ -109,7 +117,7 @@ export class SettingsComponent implements OnInit {
             },
             () => {
                 this.success = null;
-                this.error = 'ERROR';
+                this.err = 'err';
             }
         );
     }

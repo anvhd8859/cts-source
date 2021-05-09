@@ -63,174 +63,192 @@
                         <td>{{invoiceHeader.note}}</td>
                     </tr>
                 </table>
-            <br>
-            <br>
-            <!-- START Information Invoice -->
-            <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
-                <ng-container *ngFor="let item of createPackage; let i = index">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-10"> Gói hàng #{{i + 1}} </div>
-                                <div class="col-2">
-                                    <button *ngIf="item.invPackage.id == null" type="button" class="close"
-                                        data-dismiss="modal" aria-hidden="true" id="package{{i}}" name="package{{i}}"
-                                        (click)="this.removeNewPackageDetailsDTO(i)">&times;</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="weight{{i}}">Cân nặng (g)</label>
-                                        <input placeholder="" class="form-control" step="0.1" min="0" type="number" readonly
-                                            name="weight{{i}}" id="weight{{i}}" [(ngModel)]="item.invPackage.weight">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="height{{i}}">Cao (cm)</label>
-                                        <input placeholder="" class="form-control" step="0.1" min="0" type="number" readonly
-                                            name="height{{i}}" id="height{{i}}" [(ngModel)]="item.invPackage.height">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="width{{i}}">Rộng (cm)</label>
-                                        <input placeholder="" class="form-control" step="0.1" min="0" type="number" readonly
-                                            name="width{{i}}" id="width{{i}}" [(ngModel)]="item.invPackage.width">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="length{{i}}">Dài (cm)</label>
-                                        <input placeholder="" class="form-control" step="0.1" type="number" readonly
-                                            name="length{{i}}" id="length{{i}}" [(ngModel)]="item.invPackage.length">
+                <br>
+                <br>
+                <!-- START Information Invoice -->
+                <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
+                    <ng-container *ngFor="let item of createPackage; let i = index">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-10"> Gói hàng #{{i + 1}} </div>
+                                    <div class="col-2">
+                                        <button *ngIf="item.invPackage.id == null" type="button" class="close"
+                                            data-dismiss="modal" aria-hidden="true" id="package{{i}}"
+                                            name="package{{i}}"
+                                            (click)="this.removeNewPackageDetailsDTO(i)">&times;</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="note{{i}}">Ghi chú</label>
-                                        <textarea class="form-control" style="resize: none;" rows="3" id="address" readonly
-                                            id="note{{i}}" name="note{{i}}" [(ngModel)]="item.invPackage.note">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="weight{{i}}">Cân nặng (g)</label>
+                                            <input placeholder="" class="form-control" step="0.1" min="0" type="number"
+                                                readonly name="weight{{i}}" id="weight{{i}}"
+                                                [(ngModel)]="item.invPackage.weight">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="height{{i}}">Cao (cm)</label>
+                                            <input placeholder="" class="form-control" step="0.1" min="0" type="number"
+                                                readonly name="height{{i}}" id="height{{i}}"
+                                                [(ngModel)]="item.invPackage.height">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="width{{i}}">Rộng (cm)</label>
+                                            <input placeholder="" class="form-control" step="0.1" min="0" type="number"
+                                                readonly name="width{{i}}" id="width{{i}}"
+                                                [(ngModel)]="item.invPackage.width">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="length{{i}}">Dài (cm)</label>
+                                            <input placeholder="" class="form-control" step="0.1" type="number" readonly
+                                                name="length{{i}}" id="length{{i}}"
+                                                [(ngModel)]="item.invPackage.length">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="note{{i}}">Ghi chú</label>
+                                            <textarea class="form-control" style="resize: none;" rows="3" id="address"
+                                                readonly id="note{{i}}" name="note{{i}}"
+                                                [(ngModel)]="item.invPackage.note">
                                             </textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div style="margin: 40px;" *ngIf="item.itemList.length !== 0">
-                            <!-- Invoice Detail Start -->
-                            <label class="form-control-label" for="from-address" style="margin-left: 20px;"><b>Chi
-                                    tiết vật phẩm</b></label>
-                            <div name="from-address"
-                                style="border: rgb(161, 161, 161) solid thin; border-radius: 5px; padding: 2%;">
-                                <ng-container *ngFor="let itemDetail of item.itemList; let id = index">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <div class="row">
-                                                <div class="col-10"> Vật phẩm #{{i + 1}} </div>
-                                                <div class="col-2">
-                                                    <button *ngIf="itemDetail.id == null" type="button" class="close"
-                                                        data-dismiss="modal" aria-hidden="true" id="detail{{id}}"
-                                                        name="detail{{id}}"
-                                                        (click)="this.removeInvoiceDetailElement(i,id)">&times;</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label" for="itemName{{i}}">Tên vật
-                                                            phẩm</label>
-                                                        <input placeholder="" class="form-control" type="text"
-                                                            name="itemName{{id}}" id="itemName{{id}}" readonly
-                                                            [(ngModel)]="itemDetail.itemName">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label"
-                                                            for="itemType{{i}}">Loại</label>
-                                                        <input placeholder="" class="form-control" type="text"
-                                                            name="itemType{{id}}" id="itemType{{id}}" readonly
-                                                            [(ngModel)]="itemDetail.itemType">
+                            <div style="margin: 40px;" *ngIf="item.itemList.length !== 0">
+                                <!-- Invoice Detail Start -->
+                                <label class="form-control-label" for="from-address" style="margin-left: 20px;"><b>Chi
+                                        tiết vật phẩm</b></label>
+                                <div name="from-address"
+                                    style="border: rgb(161, 161, 161) solid thin; border-radius: 5px; padding: 2%;">
+                                    <ng-container *ngFor="let itemDetail of item.itemList; let id = index">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col-10"> Vật phẩm #{{i + 1}} </div>
+                                                    <div class="col-2">
+                                                        <button *ngIf="itemDetail.id == null" type="button"
+                                                            class="close" data-dismiss="modal" aria-hidden="true"
+                                                            id="detail{{id}}" name="detail{{id}}"
+                                                            (click)="this.removeInvoiceDetailElement(i,id)">&times;</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label" for="description{{id}}">Ghi
-                                                            chú</label>
-                                                        <textarea class="form-control" style="resize: none;" rows="3"
-                                                            id="description{{id}}" name="description{{id}}" readonly
-                                                            [(ngModel)]="itemDetail.description">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label" for="itemName{{i}}">Tên
+                                                                vật
+                                                                phẩm</label>
+                                                            <input placeholder="" class="form-control" type="text"
+                                                                name="itemName{{id}}" id="itemName{{id}}" readonly
+                                                                [(ngModel)]="itemDetail.itemName">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label"
+                                                                for="itemType{{i}}">Loại</label>
+                                                            <input placeholder="" class="form-control" type="text"
+                                                                name="itemType{{id}}" id="itemType{{id}}" readonly
+                                                                [(ngModel)]="itemDetail.itemType">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label"
+                                                                for="description{{id}}">Ghi
+                                                                chú</label>
+                                                            <textarea class="form-control" style="resize: none;"
+                                                                rows="3" id="description{{id}}" name="description{{id}}"
+                                                                readonly [(ngModel)]="itemDetail.description">
                                                 </textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <br>
-                                    <br>
-                                </ng-container>
+                                        <br>
+                                        <br>
+                                    </ng-container>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <br>
-                    <br>
-                </ng-container>
-            </div>
-            <!-- END Information Invoice -->
-
-            <!-- START Payment Invoice -->
-            <div *ngIf="payment.length > 0">
-                <div *ngFor="let item of payment">
-                    <h2><span>Payment</span> {{item.id}}</h2>
-                    <hr>
-                    <jhi-alert-error></jhi-alert-error>
-                    <dl class="row-md jh-entity-details">
-                        <dt><span>Mã hóa đơn</span></dt>
-                        <dd>
-                            <span>{{item.invoiceHeaderId}}</span>
-                        </dd>
-                        <dt><span>Mã nhân viên</span></dt>
-                        <dd>
-                            <span>{{item.employeeId}}</span>
-                        </dd>
-                        <dt><span>Payment Type</span></dt>
-                        <dd>
-                            <span>{{item.paymentType}}</span>
-                        </dd>
-                        <dt><span>Khách hàng thanh toán</span></dt>
-                        <dd>
-                            <span>{{item.amountPaid}}</span>
-                        </dd>
-                        <dt><span>Số dư hóa đơn</span></dt>
-                        <dd>
-                            <span>{{item.amountDue}}</span>
-                        </dd>
-                        <dt><span>Ngày tạo</span></dt>
-                        <dd>
-                            <span>{{item.createDate}}</span>
-                        </dd>
-                    </dl>
+                        <br>
+                        <br>
+                    </ng-container>
                 </div>
+                <!-- END Information Invoice -->
+
+                <!-- START Payment Invoice -->
+                <div *ngIf="payment.length > 0">
+                    <div *ngFor="let item of payment">
+                        <h2><span>Payment</span> {{item.id}}</h2>
+                        <hr>
+                        <jhi-alert-error></jhi-alert-error>
+                        <dl class="row-md jh-entity-details">
+                            <dt><span>Mã hóa đơn</span></dt>
+                            <dd>
+                                <span>{{item.invoiceHeaderId}}</span>
+                            </dd>
+                            <dt><span>Mã nhân viên</span></dt>
+                            <dd>
+                                <span>{{item.employeeId}}</span>
+                            </dd>
+                            <dt><span>Payment Type</span></dt>
+                            <dd>
+                                <span>{{item.paymentType}}</span>
+                            </dd>
+                            <dt><span>Khách hàng thanh toán</span></dt>
+                            <dd>
+                                <span>{{item.amountPaid}}</span>
+                            </dd>
+                            <dt><span>Số dư hóa đơn</span></dt>
+                            <dd>
+                                <span>{{item.amountDue}}</span>
+                            </dd>
+                            <dt><span>Ngày tạo</span></dt>
+                            <dd>
+                                <span>{{item.createDate}}</span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <!-- END Payment Invoice -->
+                <div *ngIf="personalShipment">
+                    <br><br>
+                    <button class="btn btn-info" (click)="loadImage()">
+                        <span>Xem ảnh xác nhận</span>
+                    </button>
+                </div>
+                <br><br>
+                <div>
+                    <button type="submit" (click)="previousState()" class="btn btn-primary">
+                        <fa-icon [icon]="'back'"></fa-icon>
+                        <span class="d-none d-md-inline">Quay lại</span>
+                    </button>
+                </div>
+                <br><br>
             </div>
-            <!-- END Payment Invoice -->
-            <div>
-                <button type="submit" (click)="previousState()" class="btn btn-primary btn-sm">
-                <fa-icon [icon]="'back'"></fa-icon>
-                <span class="d-none d-md-inline">Quay lại</span>
-            </button>
-            </div>
-            <br>
         </div>
-        <div class="col-16" *ngIf="!receiptNote">
+
+        <div class="col-lg-10" *ngIf="!receiptNote">
+            <br><br>
             <div>
                 <h2>Biên nhận chưa được tạo</h2>
                 <button type="button" class="btn btn-primary" [routerLink]="['/receiptnote', id, 'new-receipt']">Tạo
@@ -239,3 +257,4 @@
         </div>
         <br /><br /><br />
     </div>
+</div>

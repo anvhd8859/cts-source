@@ -7,10 +7,12 @@ import com.fu.capstone.service.dto.ReceiptImageDTO;
 import com.fu.capstone.service.mapper.ReceiptImageMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -88,4 +90,23 @@ public class ReceiptImageServiceImpl implements ReceiptImageService {
         log.debug("Request to delete ReceiptImage : {}", id);
         receiptImageRepository.deleteById(id);
     }
+
+	@Override
+	public ReceiptImageDTO store(Long id, MultipartFile file) throws IOException {
+		Instant instant = Instant.now();
+		ReceiptImage ri = new  ReceiptImage();
+		ri.setReceiptNoteId(id);
+		ri.setImage(file.getBytes());
+		ri.setImageContentType(file.getContentType());
+		ri.setCreateDate(instant);
+		ri.setUpdateDate(instant);
+		ri = receiptImageRepository.save(ri);
+		return receiptImageMapper.toDto(receiptImageRepository.save(ri));
+	}
+
+	@Override
+	public ReceiptImageDTO getReceiptImageByReceiptNote(Long id) {
+		return receiptImageMapper.toDto(receiptImageRepository.getImageByNoteId(id));
+	}
+
 }
