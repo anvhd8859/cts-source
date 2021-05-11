@@ -65,7 +65,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
     lstInvoiceDetails: IInvoiceDetails[] = [];
     invDetailCount = 0;
     common: CommonString;
-    vnf_regex = /(09|03|07|08|05)([0-9]{8})/g;
+    vnf_regex = /^(09|03|07|08|05)([0-9]{8})$/;
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -216,12 +216,12 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         if (this.invoiceHeader.receiverName == null || this.invoiceHeader.receiverName.trim() === '') {
             msg += 'Mục Tên người nhận không được để Trống! <br>';
         }
-        if (this.invoiceHeader.receiverPhone == null) {
+        if (this.invoiceHeader.receiverPhone == null || this.invoiceHeader.receiverPhone.trim() === '') {
             msg += 'Mục Số điện thoại người nhận không được để Trống! <br>';
         } else {
             const rg = new RegExp(this.vnf_regex);
             if (!rg.test(this.invoiceHeader.receiverPhone)) {
-                msg += 'Mục Số điện thoại người nhận sai định dạng! <br>';
+                msg += 'Mục Số điện thoại người nhận phải gồm 10 số và có dạng 09|03|07|08|05|xxxxxxx  <br>';
             }
         }
         if (!this.selectedPayer) {

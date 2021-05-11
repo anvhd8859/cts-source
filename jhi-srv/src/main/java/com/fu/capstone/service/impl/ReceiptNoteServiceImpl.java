@@ -316,7 +316,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		Instant instant = Instant.now();
 		InvoiceHeader inv = invoiceHeaderRepository.getOne(data.getReceipt().getInvoiceHeaderId());
 		PersonalShipment ps = personalShipmentRepository
-				.getCollectShipmentByInvoice(data.getReceipt().getInvoiceHeaderId());
+				.getDeliveryShipmentByInvoice(data.getReceipt().getInvoiceHeaderId());
 
 		// delivery receipt and process
 		for (PackageDetailsDTO pd : data.getPackageList()) {
