@@ -46,7 +46,6 @@ describe('Component Tests', () => {
 
             // WHEN
             comp.settingsAccount = accountValues;
-            // comp.save();
 
             // THEN
             expect(mockPrincipal.identitySpy).toHaveBeenCalled();
