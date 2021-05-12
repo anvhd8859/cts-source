@@ -41,7 +41,7 @@
                             <label for="createOn">Từ ngày</label>
                             <div class="input-group">
                                 <input class="form-control" placeholder="yyyy-mm-dd" name="fromInvoiceDate"
-                                    [(ngModel)]="this.fromInvoiceCreate" ngbDatepicker #b="ngbDatepicker" readonly>
+                                    [(ngModel)]="this.fromInvoiceCreate" ngbDatepicker #a="ngbDatepicker" readonly>
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(1)"
                                         type="button">
@@ -49,7 +49,7 @@
                                     </button>
                                 </div>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="b.toggle()" type="button">
+                                    <button class="btn btn-outline-secondary" (click)="a.toggle()" type="button">
                                         <fa-icon [icon]="'calendar-alt'"></fa-icon>
                                     </button>
                                 </div>
@@ -61,29 +61,9 @@
                             <label for="updateOn">Đến ngày</label>
                             <div class="input-group">
                                 <input class="form-control" placeholder="yyyy-mm-dd" name="toInvoiceDate"
-                                    [(ngModel)]="this.toInvoiceCreate" ngbDatepicker #c="ngbDatepicker" readonly>
+                                    [(ngModel)]="this.toInvoiceCreate" ngbDatepicker #b="ngbDatepicker" readonly>
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(2)"
-                                        type="button">
-                                        <fa-icon [icon]="'times'"></fa-icon>
-                                    </button>
-                                </div>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
-                                        <fa-icon [icon]="'calendar-alt'"></fa-icon>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="form-group">
-                            <label for="createOn">Từ ngày</label>
-                            <div class="input-group">
-                                <input class="form-control" placeholder="yyyy-mm-dd" name="fromPaymentDate"
-                                    [(ngModel)]="this.fromPaymentCreate" ngbDatepicker #b="ngbDatepicker" readonly>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(3)"
                                         type="button">
                                         <fa-icon [icon]="'times'"></fa-icon>
                                     </button>
@@ -98,10 +78,30 @@
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="form-group">
+                            <label for="createOn">Từ ngày</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="fromPaymentDate"
+                                    [(ngModel)]="this.fromPaymentCreate" ngbDatepicker #c="ngbDatepicker" readonly>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(3)"
+                                        type="button">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                    </button>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
+                                        <fa-icon [icon]="'calendar-alt'"></fa-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
                             <label for="updateOn">Đến ngày</label>
                             <div class="input-group">
                                 <input class="form-control" placeholder="yyyy-mm-dd" name="toPaymentDate"
-                                    [(ngModel)]="this.toPaymentCreate" ngbDatepicker #c="ngbDatepicker" readonly>
+                                    [(ngModel)]="this.toPaymentCreate" ngbDatepicker #d="ngbDatepicker" readonly>
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(4)"
                                         type="button">
@@ -109,7 +109,7 @@
                                     </button>
                                 </div>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
+                                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                                         <fa-icon [icon]="'calendar-alt'"></fa-icon>
                                     </button>
                                 </div>
