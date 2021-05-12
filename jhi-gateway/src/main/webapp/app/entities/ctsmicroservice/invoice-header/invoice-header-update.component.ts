@@ -178,7 +178,6 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 wei += i.invPackage.weight;
             }
             this.invoiceHeader.note = '';
-            this.invoiceHeader.note += ' - Tổng trọng lượng: ' + wei + ' (g); ';
             this.invoiceHeader.dueDate = this.dueDate != null ? moment(this.dueDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.finishDate = this.finishDate != null ? moment(this.finishDate, DATE_TIME_FORMAT) : null;
             this.invoiceHeader.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;

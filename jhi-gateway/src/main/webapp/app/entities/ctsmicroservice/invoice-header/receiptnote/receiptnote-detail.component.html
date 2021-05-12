@@ -196,7 +196,7 @@
                 <!-- END Information Invoice -->
 
                 <!-- START Payment Invoice -->
-                <div *ngIf="payment.length > 0">
+                <div *ngIf="payment">
                     <div *ngFor="let item of payment">
                         <h2><span>Payment</span> {{item.id}}</h2>
                         <hr>

@@ -159,7 +159,6 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
             if (this.invoiceHeader.note == null) {
                 this.invoiceHeader.note = '';
             }
-            this.invoiceHeader.note += ' - Tổng trọng lượng: ' + wei + ' (g); ';
             if (this.invoiceHeader.id !== undefined) {
                 this.subscribeToSaveResponse(this.invoiceHeaderService.updateExistedInvoice(postObject));
             } else {

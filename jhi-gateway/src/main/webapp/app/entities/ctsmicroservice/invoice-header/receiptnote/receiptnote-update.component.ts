@@ -111,7 +111,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     }
 
     calculate() {
-        if (this.personalShipment && this.personalShipment.shipmentType === 'collect') {
+        if (this.currentUser.authorities.find(e => e === 'ROLE_SHIPPER') && this.personalShipment.shipmentType === 'collect') {
             this.invoiceHeader.subTotal = Math.round((this.cal.calculateSubTotal(this.createPackage) * 1.05 + 2500) * 100) / 100;
         } else {
             this.invoiceHeader.subTotal = Math.round(this.cal.calculateSubTotal(this.createPackage) * 100) / 100;
@@ -182,7 +182,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
             wei += obj.invPackage.weight;
         }
         if (this.createPackage.length > 0 && wei > 0) {
-            if (this.personalShipment != null) {
+            if (this.currentUser.authorities.find(e => e === 'ROLE_SHIPPER')) {
                 this.isSaving = true;
                 if (this.personalShipment.shipmentType === 'collect') {
                     this.data = new CustomReceipt();
@@ -231,7 +231,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                 }
                 this.isSaving = false;
             } else {
-                this.receiptnote.note = 'Nhận hàng từ khách tại văn phòng';
+                this.receiptnote.note += ' - Nhận hàng từ khách tại văn phòng';
                 this.data = new CustomReceipt();
                 this.receiptnote.receiptType = true;
                 this.data.receipt = this.receiptnote;
