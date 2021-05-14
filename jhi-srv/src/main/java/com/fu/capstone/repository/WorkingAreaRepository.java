@@ -25,5 +25,8 @@ public interface WorkingAreaRepository extends JpaRepository<WorkingArea, Long> 
 				 + " AND (:sid IS NULL OR :sid = w.streetId) "
 				 + " AND (:eid IS NULL OR :eid = w.employeeId)")
 	Page<WorkingArea> getWorkingAreaByFilter(@Param("sid") Long sid, @Param("eid") Long eid, Pageable pageable);
+	
+	@Query(value = "SELECT w FROM WorkingArea w WHERE w.streetId = :sid AND w.employeeId = :eid")
+	WorkingArea findWorkingAreaDuplicate(@Param("eid") Long eid, @Param("sid") Long sid);
 
 }

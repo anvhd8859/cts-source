@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="#{email.receipt.title}">Biên nhận hóa đơn</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="shortcut icon" th:href="@{|${baseUrl}/favicon.ico|}" />
+</head>
+<body>
+	<p>
+		<span
+			th:text="'Dear ' + ${customer.firstName} + ' ' + ${customer.lastName}"></span>
+	</p>
+	<p>Chúng tôi xin gửi bạn thông tin biên nhận:</p>
+	<p>
+		<span th:text="'Biên nhận hóa đơn số: ' + ${receipt.id}"></span>
+	</p>
+	<p>
+		<span>Nhân viên: </span><span
+			th:text="${employee.firstName} + ' ' + ${employee.lastName}"></span>
+	</p>
+	<p>
+		<span>Loại biên nhận </span> <span
+			th:text="receipt.receiptType ? 'Biên nhận lấy hàng' : 'Biên nhận giao hàng'"></span>
+	</p>
+	<p>
+		<span>Ngày tạo</span> <span th:text="${receipt.createDate}"></span>
+	</p>
+	<p>
+		<span>Hóa đơn số:</span> <span th:text="${invoiceHeader.invoiceNo}"></span>
+	</p>
+	<p>
+		<span>Ngày tạo:</span> <span th:text=" ${invoiceHeader.createDate}"></span>
+	</p>
+	<p>
+		<span>Loại hóa đơn: </span> Giao hàng cá nhân
+	</p>
+	<p>
+		<span>Địa chỉ gửi: </span> <span
+			th:text="${invoiceHeader.startAddress}"></span>
+	</p>
+	<p>
+		<span>Người thanh toán: </span> <span
+			th:text="${invoiceHeader.receiverPay} ? 'Người nhận thanh toán' : 'Người gửi thanh toán'"></span>
+	</p>
+	<p>
+		<span>Tên người nhận: </span> <span
+			th:text="${invoiceHeader.receiverName}"></span>
+	</p>
+	<p>
+		<span>Số điện thoại: </span> <span
+			th:text="${invoiceHeader.receiverPhone}"></span>
+	</p>
+	<p>
+		<span>Địa chỉ nhận: </span> <span
+			th:text="${invoiceHeader.destinationAddress}"></span>
+	</p>
+	<p>
+		<span th:text="#{email.receipt.text2}">Regards, </span> <br />
+	</p>
+	<h3>
+		<em th:text="#{email.signature}">JHipster CTS service</em>
+	</h3>
+</body>
+</html>

@@ -55,7 +55,7 @@ public class WorkingAreaResource {
         if (workingAreaDTO.getId() != null) {
             throw new BadRequestAlertException("A new workingArea cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        WorkingAreaDTO result = workingAreaService.save(workingAreaDTO);
+        WorkingAreaDTO result = workingAreaService.saveAndCheckDeplicate(workingAreaDTO);
         return ResponseEntity.created(new URI("/api/working-areas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

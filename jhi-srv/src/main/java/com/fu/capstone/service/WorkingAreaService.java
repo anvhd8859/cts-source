@@ -46,4 +46,6 @@ public interface WorkingAreaService {
     void delete(Long id);
 
 	Page<WorkingAreaStreetDTO> getWorkingAreaByFilter(Long sid, Long eid, Pageable pageable);
+	
+    WorkingAreaDTO saveAndCheckDeplicate(WorkingAreaDTO workingAreaDTO);
 }

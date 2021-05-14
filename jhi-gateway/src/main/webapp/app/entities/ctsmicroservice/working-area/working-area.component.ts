@@ -1,10 +1,10 @@
 import { CommonString } from './../../../shared/util/request-util';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { forkJoin, Subscription } from 'rxjs';
+import { forkJoin, Observable, Subscription } from 'rxjs';
 import { JhiEventManager, JhiAlertService, JhiParseLinks } from 'ng-jhipster';
 
-import { IWorkingArea } from 'app/shared/model/ctsmicroservice/working-area.model';
+import { IWorkingArea, WorkingArea } from 'app/shared/model/ctsmicroservice/working-area.model';
 import { AccountService, IUser, Principal } from 'app/core';
 import { WorkingAreaService } from './working-area.service';
 import { InvoiceHeaderService } from '../invoice-header';
@@ -16,12 +16,14 @@ import { IProvince } from 'app/shared/model/ctsmicroservice/province.model';
 import { IDistrict } from 'app/shared/model/ctsmicroservice/district.model';
 import { ISubDistrict } from 'app/shared/model/ctsmicroservice/sub-district.model';
 import { element } from '@angular/core/src/render3/instructions';
+import { IUserProfile } from 'app/shared/model/user-profile.model';
 
 @Component({
     selector: 'jhi-working-area',
     templateUrl: './working-area.component.html'
 })
 export class WorkingAreaComponent implements OnInit, OnDestroy {
+    workingArea: IWorkingArea;
     areas: CustomWorkingArea[];
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -46,6 +48,9 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
     lstUser: IUser[] = [];
     selectedUser: IUser;
     common: CommonString;
+    selectedUserProfile: IUserProfile;
+    currentProfile: IUserProfile;
+    isSaving: boolean;
 
     constructor(
         private workingAreaService: WorkingAreaService,
@@ -57,7 +62,8 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
         private principal: Principal,
         private router: Router,
         private activatedRoute: ActivatedRoute,
-        private ngxUiLoaderService: NgxUiLoaderService
+        private ngxUiLoaderService: NgxUiLoaderService,
+        private alertService: JhiAlertService
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -66,6 +72,48 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
         });
+    }
+
+    save() {
+        this.workingArea = new WorkingArea();
+        this.workingArea.employeeId = this.selectedUser.id;
+        this.workingArea.streetId = this.selectedStreet;
+        const msg = this.validateInput();
+        if (msg === '') {
+            this.isSaving = true;
+            this.subscribeToSaveResponse(this.workingAreaService.create(this.workingArea));
+        } else {
+            window.scroll(0, 0);
+            this.alertService.error(msg);
+        }
+    }
+
+    validateInput(): string {
+        let msg = '';
+        if (!this.selectedUser) {
+            msg += 'Hãy lựa chọn nhân viên! <br>';
+        }
+        if (!this.selectedStreet) {
+            msg += 'Đường không được để trống! <br>';
+        }
+        if (!this.selectedSubDistrict) {
+            msg += 'Phường/Xã không được để trống! <br>';
+        }
+        if (!this.selectedDistrict) {
+            msg += 'Quận/Huyện không được để trống! <br>';
+        }
+        if (!this.selectedProvince) {
+            msg += 'Tỉnh/Thành phố không được để trống! <br>';
+        }
+        // if (msg === '') {
+        //     for (const wa of this.areas) {
+        //         if (wa.workingArea.streetId === this.workingArea.streetId && this.workingArea.employeeId === wa.workingArea.employeeId) {
+        //             msg += 'Khu vực làm việc này đã tồn tại! <br>';
+        //             break;
+        //         }
+        //     }
+        // }
+        return msg;
     }
 
     loadAll() {
@@ -82,14 +130,14 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
                 this.ngxUiLoaderService.stop();
             },
             (res: HttpErrorResponse) => {
-                this.onError(res.message);
+                // this.onError(res.message);
                 this.ngxUiLoaderService.stop();
             }
         );
     }
 
     findEmployee(id: number): string {
-        const i = this.lstUser.find(element => element.id === id);
+        const i = this.lstUser.find(e => e.id === id);
         if (i.lastName == null) {
             return '';
         }
@@ -97,7 +145,7 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
     }
 
     findEmail(id: number): string {
-        const i = this.lstUser.find(element => element.id === id);
+        const i = this.lstUser.find(e => e.id === id);
         if (i.email == null) {
             return '';
         }
@@ -109,6 +157,13 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
             this.previousPage = page;
             this.transition();
         }
+    }
+
+    changeUser() {
+        this.accountService.findByUserID({ id: this.selectedUser.id }).subscribe(res => {
+            this.selectedUserProfile = res.body;
+            this.loadAll();
+        });
     }
 
     changeCity() {
@@ -142,6 +197,10 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
         this.accountService.getLstStreetByWard(param).subscribe(res => {
             this.lstStreet = res.body;
         });
+    }
+
+    onChange() {
+        this.workingArea.streetId = this.selectedStreet;
     }
 
     transition() {
@@ -201,6 +260,23 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
 
     private onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    private subscribeToSaveResponse(result: Observable<HttpResponse<IWorkingArea>>) {
+        result.subscribe((res: HttpResponse<IWorkingArea>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    }
+
+    private onSaveSuccess() {
+        this.eventManager.broadcast({
+            name: 'workingAreaListModification',
+            content: 'Reload workingArea'
+        });
+        this.workingArea = null;
+        this.isSaving = false;
+    }
+
+    private onSaveError() {
+        this.isSaving = false;
     }
 }
 

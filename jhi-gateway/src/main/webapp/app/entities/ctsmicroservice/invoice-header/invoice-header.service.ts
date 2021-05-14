@@ -9,6 +9,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { IUser } from 'app/core';
+import { ReceiptInvoice } from './receiptnote';
 
 type EntityResponseType = HttpResponse<IInvoiceHeader>;
 type EntityArrayResponseType = HttpResponse<IInvoiceHeader[]>;
@@ -19,6 +20,7 @@ export class InvoiceHeaderService {
     public packageResourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-packages';
     public detailResourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-details';
     public resourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-headers';
+    public receiptEmailURL = SERVER_API_URL + 'api/sendReceiptNoteEmail';
 
     constructor(private http: HttpClient) {}
 
@@ -168,5 +170,9 @@ export class InvoiceHeaderService {
         return this.http
             .put<IInvoiceHeader>(this.resourceUrl + '/finish', copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    sendReceiptNoteEmail(param?: ReceiptInvoice): any {
+        return this.http.post<ReceiptInvoice>(this.receiptEmailURL, param, { observe: 'response' });
     }
 }

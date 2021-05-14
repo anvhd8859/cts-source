@@ -86,7 +86,7 @@ export const workingAreaPopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'WorkingAreas'
+            pageTitle: 'CTS: Quản lý khu vực làm việc'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

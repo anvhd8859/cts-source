@@ -1,3 +1,4 @@
+import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { CalculateShipFee, CommonString } from './../../../../shared/util/request-util';
 import { ReceiptImageService } from './image-compress/receipt-image.service';
 import { InvoiceHeaderService } from 'app/entities/ctsmicroservice/invoice-header/invoice-header.service';
@@ -10,7 +11,7 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { IReceiptnote, Receiptnote } from 'app/shared/model/ctsmicroservice/receiptnote.model';
 import { ReceiptnoteService } from './receiptnote.service';
 import { IInvoiceHeader, InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
-import { IUser, Principal } from 'app/core';
+import { AccountService, IUser, Principal } from 'app/core';
 import { InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details.model';
 import { PackageDetailsDTO } from '..';
 import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
@@ -26,6 +27,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     invoiceHeader: IInvoiceHeader;
     isSaving: boolean;
     currentUser: IUser;
+    currentProfile: IUserProfile;
     customerUser: IUser;
     createPackage: PackageDetailsDTO[] = [];
     data: CustomReceipt;
@@ -53,15 +55,20 @@ export class ReceiptnoteUpdateComponent implements OnInit {
         private route: Router,
         private principal: Principal,
         private imageCompress: NgxImageCompressService,
-        private imageService: ReceiptImageService
+        private imageService: ReceiptImageService,
+        private accountService: AccountService
     ) {
         this.cal = new CalculateShipFee();
         this.receiptnote = new Receiptnote();
         this.invoiceHeader = new InvoiceHeader();
+        this.pay = false;
         this.invId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
         this.principal.identity().then(account => {
             this.currentUser = account;
             this.receiptnote.employeeId = this.currentUser.id;
+            this.accountService.findByUserID({ id: this.currentUser.id }).subscribe(res => {
+                this.currentProfile = res.body;
+            });
         });
     }
 
@@ -76,18 +83,18 @@ export class ReceiptnoteUpdateComponent implements OnInit {
         if (this.currentUser.authorities.find(e => e === 'ROLE_SHIPPER')) {
             this.receiptnote.invoiceHeaderId = this.personalShipment.invoiceHeaderId;
             this.receiptnote.shipmentId = this.personalShipment.id;
-            if (this.personalShipment.shipmentType === 'collect') {
-                this.action = 1;
-            } else {
-                this.action = 2;
-            }
             forkJoin(
                 this.invoiceService.find(this.receiptnote.invoiceHeaderId),
                 this.receiptnoteService.getReceiptItemPackage({ id: this.receiptnote.invoiceHeaderId })
             ).subscribe(res => {
                 this.invoiceHeader = res[0].body;
                 this.createPackage = res[1].body;
-                // only used for officer receipt
+                if (
+                    (!this.invoiceHeader.receiverPay && this.personalShipment.shipmentType === 'collect') ||
+                    (this.invoiceHeader.receiverPay && this.personalShipment.shipmentType === 'delivery')
+                ) {
+                    this.pay = true;
+                }
                 this.pay = false;
                 this.invoiceService.getUserByID({ id: this.invoiceHeader.customerId }).subscribe(resp => {
                     this.customerUser = resp.body;
@@ -198,6 +205,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                     this.receiptnoteService.createReceiptNoteAndShipmentInvoice(this.data).subscribe(
                         (res: HttpResponse<IReceiptnote>) => {
                             if (typeof this.sendImage(res.body.id) !== typeof HttpErrorResponse) {
+                                this.sendEmail(res.body);
                                 this.isSaving = false;
                                 this.route.navigate([`/receiptnote/${this.invId}/view`]);
                             }
@@ -220,6 +228,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                     this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
                         (res: HttpResponse<IReceiptnote>) => {
                             if (typeof this.sendImage(res.body.id) !== typeof HttpErrorResponse) {
+                                this.sendEmail(res.body);
                                 this.isSaving = false;
                                 this.route.navigate([`/receiptnote/${this.invId}/view`]);
                             }
@@ -231,29 +240,43 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                 }
                 this.isSaving = false;
             } else {
-                this.receiptnote.note += ' - Nhận hàng từ khách tại văn phòng';
-                this.data = new CustomReceipt();
-                this.receiptnote.receiptType = true;
-                this.data.receipt = this.receiptnote;
-                if (!this.invoiceHeader.receiverPay) {
-                    this.data.pay = true;
-                    this.data.payAmount = this.invoiceHeader.totalDue.toString();
-                }
-                for (const obj of this.createPackage) {
-                    obj.invPackage.status = 'first_import';
-                    this.data.packageList.push(obj);
-                }
-                this.receiptnoteService.createReceiptByOfficer(this.data).subscribe(
-                    (res: HttpResponse<IReceiptnote>) => {
-                        this.isSaving = false;
-                        this.route.navigate([`/receiptnote/${this.invId}/view`]);
-                    },
-                    (res: HttpErrorResponse) => {
-                        this.onSaveError();
+                this.receiptnote.note = this.receiptnote.note ? this.receiptnote.note : '';
+                this.receiptnote.note += ' Nhận hàng từ khách tại văn phòng';
+                this.invoiceHeader.officeId = this.currentProfile.officeId;
+                this.invoiceService.update(this.invoiceHeader).subscribe(response => {
+                    this.data = new CustomReceipt();
+                    this.receiptnote.receiptType = true;
+                    this.data.receipt = this.receiptnote;
+                    if (!this.invoiceHeader.receiverPay) {
+                        this.data.pay = true;
+                        this.data.payAmount = this.invoiceHeader.totalDue.toString();
                     }
-                );
+                    for (const obj of this.createPackage) {
+                        obj.invPackage.status = 'first_import';
+                        this.data.packageList.push(obj);
+                    }
+                    this.receiptnoteService.createReceiptByOfficer(this.data).subscribe(
+                        (res: HttpResponse<IReceiptnote>) => {
+                            this.sendEmail(res.body);
+                            this.isSaving = false;
+                            this.route.navigate([`/receiptnote/${this.invId}/view`]);
+                        },
+                        (res: HttpErrorResponse) => {
+                            this.onSaveError();
+                        }
+                    );
+                });
             }
         }
+    }
+
+    sendEmail(receipt: any) {
+        const param = new ReceiptInvoice();
+        param.customer = this.customerUser;
+        param.employee = this.currentUser;
+        param.receipt = receipt;
+        param.invoiceHeader = this.invoiceHeader;
+        this.invoiceService.sendReceiptNoteEmail(param).subscribe();
     }
 
     // HaiNM
@@ -298,4 +321,11 @@ export class CustomReceipt {
         this.pay = false;
         this.payAmount = '';
     }
+}
+
+export class ReceiptInvoice {
+    customer: IUser;
+    employee: IUser;
+    receipt: IReceiptnote;
+    invoiceHeader: IInvoiceHeader;
 }

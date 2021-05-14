@@ -216,32 +216,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6" *ngIf="(pay && this.personalShipment.shipmentType === 'delivery') || (!pay && this.personalShipment.shipmentType === 'collect')">
-                        <div class="form-group">
-                            <label class="form-control-label" for="from-payment" style="font-weight: 500;"><b>Thanh
-                                    toán</b></label>
-                                    <label class="btn btn-success" (click)="calculate()">
-                                        Tính tiền lại
-                                    </label>
-                            <div>
-                                <div class="form-group">
-                                    <label class="form-control-label" for="field_sub">Thành tiền</label>
-                                    <input type="text" class="form-control" name="sub" id="field_sub_toltal"
-                                        [ngModel]="invoiceHeader.subTotal" disabled />
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-control-label" for="field_tax">Thuế</label>
-                                    <input type="text" class="form-control" name="tax" id="field_tax"
-                                        [ngModel]="invoiceHeader.taxAmount" disabled />
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-control-label" for="field_total">Tổng tiền</label>
-                                    <input type="text" class="form-control" name="total" id="field_toltal"
-                                        [ngModel]="invoiceHeader.totalDue" disabled />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-lg-1"></div>
                     <div class="col-lg-4">
                         <div>
