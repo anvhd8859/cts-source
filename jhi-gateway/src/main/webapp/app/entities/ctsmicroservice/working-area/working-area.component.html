@@ -68,7 +68,7 @@
                                     <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstProvince"
                                         bindLabel="provinceName" bindValue="id"  id="province" name="province"
                                         [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedProvince"
-                                        (change)="this.changeCity('from')">
+                                        (change)="this.changeCity()">
                                         <ng-option *ngFor="let item of lstProvince">{{item.provinceName}}
                                         </ng-option>
                                     </ng-select>
@@ -81,7 +81,7 @@
                                         [clearable]="false" [hideSelected]="true" [items]="this.lstDistrict"
                                         bindLabel="districtName" bindValue="id"  id="district" name="district"
                                         [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedDistrict"
-                                        (change)="this.changeDistrict('from')" [disabled]="this.lstDistrict == null">
+                                        (change)="this.changeDistrict()" [disabled]="this.lstDistrict == null">
                                         <ng-option *ngFor="let item of lstDistrict">{{item.districtName}}
                                         </ng-option>
                                     </ng-select>
@@ -94,7 +94,7 @@
                                         [clearable]="false" [hideSelected]="true" [items]="this.lstSubDistrict"
                                         bindLabel="subDistrictName" bindValue="id" id="subDistrict" name="subDistrict"
                                         [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedSubDistrict"
-                                        (change)="this.changeSubDistrict('from')"
+                                        (change)="this.changeSubDistrict()"
                                         [disabled]="this.lstSubDistrict == null">
                                         <ng-option *ngFor="let item of lstSubDistrict">{{item.subDistrictName}}
                                         </ng-option>
