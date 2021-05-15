@@ -444,12 +444,12 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			invoice.setFinish(true);
 			if (ipList.size() == 2) {
 				invoice.setStatus("collect");
-				for(PersonalShipment ps : ipList) {
-					ps.setStatus("new");
-				}
 			}
 			else {
 				invoice.setStatus("receive");
+			}
+			for(PersonalShipment ps : ipList) {
+				ps.setStatus("new");
 			}
 		}
 		else {
