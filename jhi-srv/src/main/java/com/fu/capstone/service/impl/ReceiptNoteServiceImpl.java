@@ -326,6 +326,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		}
 
 		inv.setStatus("finish");
+		inv.setFinishDate(instant);
 		ps.setStatus("finish");
 		ps.setShipTime(instant);
 		ps.setFinishTime(instant);
