@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     registerAccount: IUser;
     success: boolean;
     modalRef: NgbModalRef;
+    isAgree = false;
 
     constructor(
         private loginModalService: LoginModalService,
