@@ -26,7 +26,7 @@ export class InvoiceHeaderBanItemDialogComponent {
 }
 
 @Component({
-    selector: 'jhi-invoice-header-delete-popup',
+    selector: 'jhi-invoice-header-ban-item-popup',
     template: ''
 })
 export class InvoiceHeaderBanItemPopupComponent implements OnInit, OnDestroy {

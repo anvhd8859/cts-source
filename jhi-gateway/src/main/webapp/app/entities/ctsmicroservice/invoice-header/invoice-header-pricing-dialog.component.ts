@@ -26,7 +26,7 @@ export class InvoiceHeaderPricingDialogComponent {
 }
 
 @Component({
-    selector: 'jhi-invoice-header-delete-popup',
+    selector: 'jhi-invoice-header-pricing-popup',
     template: ''
 })
 export class InvoiceHeaderPricingPopupComponent implements OnInit, OnDestroy {
