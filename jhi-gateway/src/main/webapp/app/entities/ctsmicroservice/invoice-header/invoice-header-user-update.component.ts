@@ -19,6 +19,7 @@ import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservic
 import { CommonString } from 'app/shared';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { InvoiceHeaderPricingDialogComponent, InvoiceHeaderPricingPopupComponent } from './invoice-header-pricing-dialog.component';
+import { InvoiceHeaderBanItemDialogComponent } from '.';
 
 @Component({
     selector: 'jhi-invoice-header-user-update',
@@ -27,6 +28,7 @@ import { InvoiceHeaderPricingDialogComponent, InvoiceHeaderPricingPopupComponent
 export class InvoiceHeaderUserUpdateComponent implements OnInit {
     modalRef: NgbModalRef;
     pricingIsOpen = false;
+    lstBanItem = false;
     invoiceHeader: IInvoiceHeader;
     isSaving: boolean;
     dueDate: string;
@@ -308,6 +310,10 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         this.modalRef = this.openPricingModal();
     }
 
+    openListBanItem() {
+        this.modalRef = this.openListBanModal();
+    }
+
     openPricingModal(): NgbModalRef {
         if (this.pricingIsOpen) {
             return;
@@ -320,6 +326,23 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
             },
             reason => {
                 this.pricingIsOpen = false;
+            }
+        );
+        return modalRef;
+    }
+
+    openListBanModal(): NgbModalRef {
+        if (this.lstBanItem) {
+            return;
+        }
+        this.lstBanItem = true;
+        const modalRef = this.modalService.open(InvoiceHeaderBanItemDialogComponent, { size: 'lg', backdrop: 'static', keyboard: false });
+        modalRef.result.then(
+            result => {
+                this.lstBanItem = false;
+            },
+            reason => {
+                this.lstBanItem = false;
             }
         );
         return modalRef;
