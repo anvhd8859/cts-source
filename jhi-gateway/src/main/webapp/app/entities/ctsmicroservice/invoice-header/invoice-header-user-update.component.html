@@ -77,11 +77,16 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-lg-8 col-md-6">
+                            <div class="col-lg-4 col-md-4">
                                 <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Thông tin đơn hàng</b></label>
                             </div>
-                            <div class="col-lg-4 col-md-6" style="text-align: right;">
-                                <a (click)="openPricing()" class="btn btn-link">
+                            <div class="col-lg-4 col-md-4" style="text-align: right;">
+                                <a id="banitem" (click)="openListBanItem()" class="btn btn-link">
+                                    <span class="d-none d-md-inline">Danh sách vật phẩm cấm</span>
+                                </a>
+                            </div>
+                            <div class="col-lg-4 col-md-4" style="text-align: right;">
+                                <a id="pricing" (click)="openPricing()" class="btn btn-link">
                                     <span class="d-none d-md-inline">Chi tiết bảng giá</span>
                                 </a>
                             </div>
