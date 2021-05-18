@@ -126,8 +126,17 @@
                         </small>
                     </div>
                 </div>
+                <br>
                 <div class="form-group">
-                    <button type="submit" [disabled]="registerForm.form.invalid" class="btn btn-primary form-control">Đăng ký</button>
+                    <input type="checkbox" class="" id="agree" name="agree" #confirmPasswordInput="ngModel"
+                    [(ngModel)]="this.isAgree">
+                    <span>
+                        Tôi đồng ý với <a href="../../../content/Term_of_service.txt" target="_blank" download>điều khoản dịch vụ</a> của hệ thống CTS
+                    </span>
+                </div>
+                <br>
+                <div class="form-group">
+                    <button type="submit" [disabled]="registerForm.form.invalid || isAgree === false" class="btn btn-primary form-control">Đăng ký</button>
                 </div>
             </form>
         </div>
