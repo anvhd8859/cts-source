@@ -16,7 +16,8 @@ import {
     InvoiceHeaderUserUpdateComponent,
     InvoiceHeaderUserComponent,
     InvoiceHeaderFinishPopupComponent,
-    InvoiceHeaderBanItemDialogComponent
+    InvoiceHeaderBanItemDialogComponent,
+    InvoiceHeaderBanItemPopupComponent
 } from './';
 import { InvoiceHeaderConfirmComponent } from './invoice-header-confirm-modal.component';
 import { InvoiceHeaderPricingDialogComponent, InvoiceHeaderPricingPopupComponent } from './invoice-header-pricing-dialog.component';
@@ -40,7 +41,8 @@ const ENTITY_STATES = [...invoiceHeaderRoute, ...invoiceHeaderPopupRoute];
         InvoiceHeaderConfirmComponent,
         InvoiceHeaderPricingPopupComponent,
         InvoiceHeaderPricingDialogComponent,
-        InvoiceHeaderBanItemDialogComponent
+        InvoiceHeaderBanItemDialogComponent,
+        InvoiceHeaderBanItemPopupComponent
     ],
     entryComponents: [
         InvoiceHeaderComponent,
@@ -55,7 +57,8 @@ const ENTITY_STATES = [...invoiceHeaderRoute, ...invoiceHeaderPopupRoute];
         InvoiceHeaderConfirmComponent,
         InvoiceHeaderPricingPopupComponent,
         InvoiceHeaderPricingDialogComponent,
-        InvoiceHeaderBanItemDialogComponent
+        InvoiceHeaderBanItemDialogComponent,
+        InvoiceHeaderBanItemPopupComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
