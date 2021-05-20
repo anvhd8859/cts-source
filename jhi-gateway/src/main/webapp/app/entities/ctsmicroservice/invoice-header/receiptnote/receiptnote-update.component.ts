@@ -73,6 +73,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.pay = false;
         this.activatedRoute.data.subscribe(({ personalShipment }) => {
             this.personalShipment = personalShipment;
             this.loadAll();
@@ -89,13 +90,11 @@ export class ReceiptnoteUpdateComponent implements OnInit {
             ).subscribe(res => {
                 this.invoiceHeader = res[0].body;
                 this.createPackage = res[1].body;
-                if (
-                    (!this.invoiceHeader.receiverPay && this.personalShipment.shipmentType === 'collect') ||
-                    (this.invoiceHeader.receiverPay && this.personalShipment.shipmentType === 'delivery')
-                ) {
-                    this.pay = true;
+                if (this.personalShipment.shipmentType === 'collect') {
+                    this.pay = !this.invoiceHeader.receiverPay;
+                } else {
+                    this.pay = this.invoiceHeader.receiverPay;
                 }
-                this.pay = false;
                 this.invoiceService.getUserByID({ id: this.invoiceHeader.customerId }).subscribe(resp => {
                     this.customerUser = resp.body;
                     this.customerName = this.customerUser.lastName + ' ' + this.customerUser.firstName;

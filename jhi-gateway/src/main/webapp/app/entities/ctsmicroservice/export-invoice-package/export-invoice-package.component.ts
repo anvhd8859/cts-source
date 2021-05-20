@@ -87,7 +87,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
                 this.invoicePackageShipments = res.body;
                 this.finalData = JSON.parse(JSON.stringify(this.invoicePackageShipments));
                 for (const obj of this.invoicePackageShipments) {
-                    this.selectedCheckBox.push(true);
+                    this.selectedCheckBox.push(false);
                 }
             },
             (res: HttpErrorResponse) => this.onError(res.message)
