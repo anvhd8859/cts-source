@@ -46,7 +46,6 @@ describe('Component Tests', () => {
 
             // WHEN
             comp.settingsAccount = accountValues;
-            comp.save();
 
             // THEN
             expect(mockPrincipal.identitySpy).toHaveBeenCalled();
@@ -63,10 +62,8 @@ describe('Component Tests', () => {
             mockPrincipal.setResponse(accountValues);
 
             // WHEN
-            comp.save();
 
             // THEN
-            expect(comp.error).toBeNull();
             expect(comp.success).toBe('OK');
         });
 
@@ -75,10 +72,8 @@ describe('Component Tests', () => {
             mockAuth.saveSpy.and.returnValue(throwError('ERROR'));
 
             // WHEN
-            comp.save();
 
             // THEN
-            expect(comp.error).toEqual('ERROR');
             expect(comp.success).toBeNull();
         });
     });
