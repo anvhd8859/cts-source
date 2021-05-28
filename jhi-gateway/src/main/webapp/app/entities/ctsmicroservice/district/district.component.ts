@@ -52,7 +52,7 @@ export class DistrictComponent implements OnInit, OnDestroy {
         this.districtService
             .query({
                 page: this.page - 1,
-                size: this.itemsPerPage,
+                size: 9999,
                 sort: this.sort()
             })
             .subscribe(

@@ -52,7 +52,7 @@ export class SubDistrictComponent implements OnInit, OnDestroy {
         this.subDistrictService
             .query({
                 page: this.page - 1,
-                size: this.itemsPerPage,
+                size: 9999,
                 sort: this.sort()
             })
             .subscribe(

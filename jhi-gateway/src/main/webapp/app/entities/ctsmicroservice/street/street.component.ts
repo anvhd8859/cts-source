@@ -52,7 +52,7 @@ export class StreetComponent implements OnInit, OnDestroy {
         this.streetService
             .query({
                 page: this.page - 1,
-                size: this.itemsPerPage,
+                size: 9999,
                 sort: this.sort()
             })
             .subscribe(
