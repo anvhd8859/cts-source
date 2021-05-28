@@ -130,5 +130,5 @@ library.add(faHeadset);
 library.add(faPhone);
 library.add(faNewspaper);
 library.add(faUsers);
-
+library.add(faCheckCircle);
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
