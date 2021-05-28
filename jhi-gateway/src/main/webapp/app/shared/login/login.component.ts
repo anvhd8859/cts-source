@@ -6,6 +6,7 @@ import { JhiEventManager } from 'ng-jhipster';
 import { LoginService } from 'app/core/login/login.service';
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 import { RegisterModalService } from 'app/account/register/register-modal.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -18,6 +19,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
     username: string;
     credentials: any;
     modalRef: NgbModalRef;
+    isSuccess = false;
 
     constructor(
         private eventManager: JhiEventManager,
@@ -27,7 +29,8 @@ export class JhiLoginModalComponent implements AfterViewInit {
         private renderer: Renderer,
         private router: Router,
         public activeModal: NgbActiveModal,
-        private registerModalService: RegisterModalService
+        private registerModalService: RegisterModalService,
+        private ngxUiloaderService: NgxUiLoaderService
     ) {
         this.credentials = {};
     }
@@ -47,6 +50,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
     }
 
     login() {
+        this.ngxUiloaderService.start();
         this.loginService
             .login({
                 username: this.username,
@@ -54,27 +58,35 @@ export class JhiLoginModalComponent implements AfterViewInit {
                 rememberMe: this.rememberMe
             })
             .then(() => {
+                this.ngxUiloaderService.stop();
                 this.authenticationError = false;
-                this.activeModal.dismiss('login success');
-                if (this.router.url === '/register' || /^\/activate\//.test(this.router.url) || /^\/reset\//.test(this.router.url)) {
-                    this.router.navigate(['']);
-                }
+                this.isSuccess = true;
+                setTimeout(() => {
+                    this.ngxUiloaderService.start();
+                    this.activeModal.dismiss('login success');
+                    if (this.router.url === '/register' || /^\/activate\//.test(this.router.url) || /^\/reset\//.test(this.router.url)) {
+                        this.router.navigate(['']);
+                    }
 
-                this.eventManager.broadcast({
-                    name: 'authenticationSuccess',
-                    content: this.username
-                });
+                    this.eventManager.broadcast({
+                        name: 'authenticationSuccess',
+                        content: this.username
+                    });
 
-                // previousState was set in the authExpiredInterceptor before being redirected to login modal.
-                // since login is succesful, go to stored previousState and clear previousState
-                const redirect = this.stateStorageService.getUrl();
-                if (redirect) {
-                    this.stateStorageService.storeUrl(null);
-                    this.router.navigate([redirect]);
-                }
+                    // previousState was set in the authExpiredInterceptor before being redirected to login modal.
+                    // since login is succesful, go to stored previousState and clear previousState
+                    const redirect = this.stateStorageService.getUrl();
+                    if (redirect) {
+                        this.stateStorageService.storeUrl(null);
+                        this.router.navigate([redirect]);
+                    }
+                    this.ngxUiloaderService.stop();
+                }, 3000);
             })
             .catch(() => {
+                this.isSuccess = false;
                 this.authenticationError = true;
+                this.ngxUiloaderService.stop();
             });
     }
 
