@@ -1,11 +1,12 @@
 <div class="modal-header">
     <h4 class="modal-title">Đăng nhập</h4>
     <br>
-<br>
-    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')"><span aria-hidden="true">x</span>
+    <br>
+    <button aria-label="Close" data-dismiss="modal" class="close" type="button"
+        (click)="activeModal.dismiss('closed')"><span aria-hidden="true">x</span>
     </button>
 </div>
-<div class="modal-body">
+<div *ngIf="!this.isSuccess" class="modal-body">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="alert alert-danger" *ngIf="authenticationError">
@@ -19,20 +20,21 @@
             <form class="form" role="form" (ngSubmit)="login()">
                 <div class="form-group">
                     <input type="text" class="form-control" name="username" id="username" placeholder="Email"
-                    [(ngModel)]="username">
+                        [(ngModel)]="username">
                 </div>
                 <div class="form-group">
                     <input type="password" class="form-control" name="password" id="password" placeholder="Mật khẩu"
-                           [(ngModel)]="password">
+                        [(ngModel)]="password">
                 </div>
                 <div class="form-check">
                     <label class="form-check-label" for="rememberMe">
-                        <input class="form-check-input" type="checkbox" name="rememberMe" id="rememberMe" [(ngModel)]="rememberMe" checked>
+                        <input class="form-check-input" type="checkbox" name="rememberMe" id="rememberMe"
+                            [(ngModel)]="rememberMe" checked>
                         <span>Lưu phiên đăng nhập.</span>
                     </label>
                 </div>
                 <br>
-<br>
+                <br>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary form-control">Đăng nhập</button>
                 </div>
@@ -42,14 +44,30 @@
                 <a class="alert-link" (click)="requestResetPassword()">Quên mật khẩu?</a>
             </div>
             <br>
-<br>
+            <br>
             <div class="divider"></div>
             <div class="form-group" style="text-align: center;">
                 <span>Bạn chưa có tài khoản?</span>
             </div>
             <div class="form-group" style="text-align: center;">
-                <button type="submit" class="btn btn-primary form-control" (click)="register()">Đăng ký tài khoản mới</button>
+                <button type="submit" class="btn btn-primary form-control" (click)="register()">Đăng ký tài khoản
+                    mới</button>
             </div>
         </div>
     </div>
+</div>
+<div *ngIf="this.isSuccess" class="modal-body">
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <h3 style="text-align: center;"> Đăng nhập thành công </h3>
+        </div>
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <span style="text-align: center; color: green;">
+            <fa-icon [icon]="'check-circle'" [size]="'4x'"></fa-icon>
+        </span>
+    </div>
+    <br>
 </div>
