@@ -33,7 +33,7 @@ export class StreetUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ street }) => {
             this.street = street;
         });
-        this.subDistrictService.query().subscribe(
+        this.subDistrictService.query({ page: 0, size: 99999 }).subscribe(
             (res: HttpResponse<ISubDistrict[]>) => {
                 this.subdistricts = res.body;
             },
