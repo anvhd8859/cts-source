@@ -36,7 +36,7 @@ export class DistrictUpdateComponent implements OnInit {
             this.createDate = this.district.createDate != null ? this.district.createDate.format(DATE_TIME_FORMAT) : null;
             this.updateDate = this.district.updateDate != null ? this.district.updateDate.format(DATE_TIME_FORMAT) : null;
         });
-        this.provinceService.query().subscribe(
+        this.provinceService.query({ page: 0, size: 99999 }).subscribe(
             (res: HttpResponse<IProvince[]>) => {
                 this.provinces = res.body;
             },
