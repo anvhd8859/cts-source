@@ -33,7 +33,7 @@ export class SubDistrictUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ subDistrict }) => {
             this.subDistrict = subDistrict;
         });
-        this.districtService.query().subscribe(
+        this.districtService.query({ page: 0, size: 99999 }).subscribe(
             (res: HttpResponse<IDistrict[]>) => {
                 this.districts = res.body;
             },
