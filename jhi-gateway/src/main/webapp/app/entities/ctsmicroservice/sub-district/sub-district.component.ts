@@ -72,7 +72,7 @@ export class SubDistrictComponent implements OnInit, OnDestroy {
         this.router.navigate(['/sub-district'], {
             queryParams: {
                 page: this.page,
-                size: this.itemsPerPage,
+                size: 9999,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
             }
         });
@@ -85,6 +85,7 @@ export class SubDistrictComponent implements OnInit, OnDestroy {
             '/sub-district',
             {
                 page: this.page,
+                size: 9999,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
             }
         ]);
