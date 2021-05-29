@@ -39,7 +39,7 @@ export class DistrictComponent implements OnInit, OnDestroy {
         private router: Router,
         private eventManager: JhiEventManager
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
+        this.itemsPerPage = 9999;
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
             this.previousPage = data.pagingParams.page;
@@ -52,7 +52,7 @@ export class DistrictComponent implements OnInit, OnDestroy {
         this.districtService
             .query({
                 page: this.page - 1,
-                size: 9999,
+                size: this.itemsPerPage,
                 sort: this.sort()
             })
             .subscribe(
@@ -72,7 +72,7 @@ export class DistrictComponent implements OnInit, OnDestroy {
         this.router.navigate(['/district'], {
             queryParams: {
                 page: this.page,
-                size: 9999,
+                size: this.itemsPerPage,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
             }
         });
@@ -85,7 +85,7 @@ export class DistrictComponent implements OnInit, OnDestroy {
             '/district',
             {
                 page: this.page,
-                size: 9999,
+                size: this.itemsPerPage,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
             }
         ]);
