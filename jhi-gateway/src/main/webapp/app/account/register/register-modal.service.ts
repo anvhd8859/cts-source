@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Component } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { RegisterComponent } from '..';
 
@@ -12,7 +12,7 @@ export class RegisterModalService {
             return;
         }
         this.isOpen = true;
-        const modalRef = this.modalService.open(RegisterComponent);
+        const modalRef = this.modalService.open(RegisterComponent as Component, { backdrop: 'static' });
         modalRef.result.then(
             result => {
                 this.isOpen = false;

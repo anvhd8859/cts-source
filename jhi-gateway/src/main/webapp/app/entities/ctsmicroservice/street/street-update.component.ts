@@ -47,7 +47,9 @@ export class StreetUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.street.createDate == null) this.street.createDate = moment(new Date(), DATE_TIME_FORMAT);
+        if (this.street.createDate == null) {
+            this.street.createDate = moment(new Date(), DATE_TIME_FORMAT);
+        }
         this.street.updateDate = moment(new Date(), DATE_TIME_FORMAT);
         if (this.street.id !== undefined) {
             this.subscribeToSaveResponse(this.streetService.update(this.street));

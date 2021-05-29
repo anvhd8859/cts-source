@@ -47,7 +47,9 @@ export class SubDistrictUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.subDistrict.createDate == null) this.subDistrict.createDate = moment(new Date(), DATE_TIME_FORMAT);
+        if (this.subDistrict.createDate == null) {
+            this.subDistrict.createDate = moment(new Date(), DATE_TIME_FORMAT);
+        }
         this.subDistrict.updateDate = moment(new Date(), DATE_TIME_FORMAT);
         if (this.subDistrict.id !== undefined) {
             this.subscribeToSaveResponse(this.subDistrictService.update(this.subDistrict));
