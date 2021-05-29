@@ -22,9 +22,9 @@ public interface OfficeRepository extends JpaRepository<Office, Long> {
 	@Query( value = " SELECT o.* FROM office o, street s, district d, sub_district sd, province p "
 				  + " WHERE o.street_id = s.id AND s.sub_district_id_id = sd.id "
 				  + " AND sd.district_id_id = d.id AND d.province_id_id = p.id "
-				  + " AND ( s.id = :streetId OR sd.id = :subDistrictId OR d.id = :districtId OR p.id = :provinceId ) LIMIT 1",
+				  + " AND ( s.id = :streetId OR sd.id = :subDistrictId OR d.id = :districtId) LIMIT 1",
 			nativeQuery = true)
 	Office searchOfficeNearby(@Param("streetId") Long streetId, @Param("subDistrictId") Long subDistrictId,
-			@Param("districtId") Long districtId, @Param("provinceId") Long provinceId);
+			@Param("districtId") Long districtId);
 
 }

@@ -9,7 +9,8 @@ import {
     ProvinceDeletePopupComponent,
     ProvinceDeleteDialogComponent,
     provinceRoute,
-    provincePopupRoute
+    provincePopupRoute,
+    PolicyComponent
 } from './';
 
 const ENTITY_STATES = [...provinceRoute, ...provincePopupRoute];
@@ -21,9 +22,16 @@ const ENTITY_STATES = [...provinceRoute, ...provincePopupRoute];
         ProvinceDetailComponent,
         ProvinceUpdateComponent,
         ProvinceDeleteDialogComponent,
-        ProvinceDeletePopupComponent
+        ProvinceDeletePopupComponent,
+        PolicyComponent
     ],
-    entryComponents: [ProvinceComponent, ProvinceUpdateComponent, ProvinceDeleteDialogComponent, ProvinceDeletePopupComponent],
+    entryComponents: [
+        ProvinceComponent,
+        ProvinceUpdateComponent,
+        ProvinceDeleteDialogComponent,
+        ProvinceDeletePopupComponent,
+        PolicyComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CtsgatewayProvinceModule {}

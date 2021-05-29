@@ -12,6 +12,7 @@ import { ProvinceDetailComponent } from './province-detail.component';
 import { ProvinceUpdateComponent } from './province-update.component';
 import { ProvinceDeletePopupComponent } from './province-delete-dialog.component';
 import { IProvince } from 'app/shared/model/ctsmicroservice/province.model';
+import { PolicyComponent } from './policy.component';
 
 @Injectable({ providedIn: 'root' })
 export class ProvinceResolve implements Resolve<IProvince> {
@@ -75,6 +76,14 @@ export const provinceRoute: Routes = [
             pageTitle: 'CTS: Quản lý danh sách Tỉnh/Thành phố'
         },
         canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'policy',
+        component: PolicyComponent,
+        data: {
+            authorities: [],
+            pageTitle: 'CTS: Policy'
+        }
     }
 ];
 

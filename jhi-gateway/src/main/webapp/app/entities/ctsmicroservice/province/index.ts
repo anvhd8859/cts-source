@@ -4,3 +4,4 @@ export * from './province-delete-dialog.component';
 export * from './province-detail.component';
 export * from './province.component';
 export * from './province.route';
+export * from './policy.component';

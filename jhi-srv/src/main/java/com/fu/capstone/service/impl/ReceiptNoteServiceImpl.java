@@ -206,12 +206,6 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			data.getReceipt().setCreateDate(instant);
 		data.getReceipt().setUpdateDate(instant);
 
-		boolean reCalculate = false;
-		if (data.getPackageList().size() != invoicePackageRepository
-				.getInvoicePackageByHeaderId(data.getReceipt().getInvoiceHeaderId()).size()) {
-			reCalculate = true;
-		}
-
 		// collect receipt and process
 		data.getReceipt().setReceiptType(true);
 		for (PackageDetailsDTO pd : data.getPackageList()) {
@@ -229,7 +223,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		}
 
 		InvoiceHeader inv = invoiceHeaderRepository.getOne(data.getReceipt().getInvoiceHeaderId());
-		if (reCalculate) {
+
 			Street fromStreet = streetRepository.getFullAddressByStreetId(inv.getStartStreetId());
 			Street toStreet = streetRepository.getFullAddressByStreetId(inv.getDestinationStreetId());
 			inv.setUpdateDate(instant);
@@ -238,7 +232,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			inv.setSubTotal(subTotal);
 			inv.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
 			inv.setTotalDue(subTotal.multiply(new BigDecimal(1.1)));
-		}
+
 		inv.setStatus("collected");
 		PersonalShipment ps = personalShipmentRepository
 				.getCollectShipmentByInvoice(data.getReceipt().getInvoiceHeaderId());
@@ -375,6 +369,15 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			}
 			invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(pd.getItemList()));
 		}
+
+		Street fromStreet = streetRepository.getFullAddressByStreetId(inv.getStartStreetId());
+		Street toStreet = streetRepository.getFullAddressByStreetId(inv.getDestinationStreetId());
+		inv.setUpdateDate(instant);
+		BigDecimal subTotal = calculateSubTotal(data.getPackageList(), fromStreet, toStreet);
+		subTotal = new BigDecimal(2500).add(subTotal.multiply(new BigDecimal(1.05)));
+		inv.setSubTotal(subTotal);
+		inv.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
+		inv.setTotalDue(subTotal.multiply(new BigDecimal(1.1)));
 
 		// save data
 		ReceiptNote rn = receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt()));

@@ -216,9 +216,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		// get destination office id
 		if (invoiceHeaderDTO.getId() == null) {
 			Office ofc = officeRepository.searchOfficeNearby(toStreet.getId(), toStreet.getSubDistrictId().getId(),
-					toStreet.getSubDistrictId().getDistrictId().getId(),
-					toStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
-			invoiceHeaderDTO.setDestinationOfficeId(ofc.getId());
+					toStreet.getSubDistrictId().getDistrictId().getId());
+			if(ofc != null) invoiceHeaderDTO.setDestinationOfficeId(ofc.getId());
 			invoiceHeaderDTO.setStatus("waiting");
 		}
 
@@ -259,9 +258,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		if (check > 0) {
 			// find near office
 			Office ofc = officeRepository.searchOfficeNearby(fromStreet.getId(), fromStreet.getSubDistrictId().getId(),
-					fromStreet.getSubDistrictId().getDistrictId().getId(),
-					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
-			invoiceHeaderDTO.setOfficeId(ofc.getId());
+					fromStreet.getSubDistrictId().getDistrictId().getId());
+			if(ofc != null) invoiceHeaderDTO.setOfficeId(ofc.getId());
 
 			// process collect shipment and sub total fee
 			PersonalShipment ps = new PersonalShipment();
@@ -272,10 +270,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			ps.setUpdateDate(instant);
 			
 			// get employee and add to shipment
-			WorkingArea wa = workingAreaRepository.getEmployeeNearBy(fromStreet.getId(),
-					fromStreet.getSubDistrictId().getId(), fromStreet.getSubDistrictId().getDistrictId().getId(),
-					fromStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
-			ps.setEmployeeId(wa.getEmployeeId());
+			WorkingArea wa = workingAreaRepository.getEmployeeNearBy(fromStreet.getId());
+			if (wa != null) ps.setEmployeeId(wa.getEmployeeId());
 			subTotal = new BigDecimal(2500).add(subTotal.multiply(new BigDecimal(1.05)));
 			lstShipment.add(ps);
 		}
@@ -292,10 +288,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		psDelivery.setShipmentType("delivery");
 		psDelivery.setCreateDate(instant);
 		psDelivery.setUpdateDate(instant);
-		WorkingArea wa = workingAreaRepository.getEmployeeNearBy(toStreet.getId(), toStreet.getSubDistrictId().getId(),
-				toStreet.getSubDistrictId().getDistrictId().getId(),
-				toStreet.getSubDistrictId().getDistrictId().getProvinceId().getId());
-		psDelivery.setEmployeeId(wa.getEmployeeId());
+		WorkingArea wa = workingAreaRepository.getEmployeeNearBy(toStreet.getId());
+		if (wa != null) psDelivery.setEmployeeId(wa.getEmployeeId());
 		lstShipment.add(psDelivery);
 
 		personalShipmentRepository.saveAll(lstShipment);
