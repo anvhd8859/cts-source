@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
 
-	@Query(value = "SELECT profile FROM UserProfile profile WHERE profile.userId = :id ")
+	@Query(value = "SELECT * FROM user_profile p WHERE p.user_id = :id LIMIT 1", nativeQuery = true)
 	Optional<UserProfile> findByUserId(@Param("id")Long id);
 
 	@Query(value = "SELECT p FROM UserProfile p WHERE p.officeId = :id ")
