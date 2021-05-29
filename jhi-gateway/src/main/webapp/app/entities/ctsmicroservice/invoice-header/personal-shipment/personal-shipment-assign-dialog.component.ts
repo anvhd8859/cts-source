@@ -66,8 +66,8 @@ export class PersonalShipmentAssignPopupComponent implements OnInit, OnDestroy {
                     backdrop: 'static'
                 });
                 setTimeout(() => {
-                    this.invoiceHeaderService.getLstUser().subscribe(res => {
-                        this.lstShipper = res.body.filter(e => e.authorities.filter(i => i === 'ROLE_SHIPPER'));
+                    this.invoiceHeaderService.getListUserByRole({ role: 'ROLE_SHIPPER' }).subscribe(res => {
+                        this.lstShipper = res.body;
                         this.ngbModalRef.componentInstance.personalShipment = personalShipment;
                         this.ngbModalRef.componentInstance.lstShipper = this.lstShipper;
                         this.ngbModalRef.componentInstance.currentAssignee = this.lstShipper.find(

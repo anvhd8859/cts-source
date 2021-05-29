@@ -128,9 +128,9 @@ export class PersonalShipmentAdminComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        forkJoin(this.accountService.getLstCity(), this.invoiceHeaderService.getLstUser()).subscribe(res => {
+        forkJoin(this.accountService.getLstCity(), this.invoiceHeaderService.getListUserByRole({ role: 'ROLE_SHIPPER' })).subscribe(res => {
             this.lstProvince = res[0].body;
-            this.lstShipper = res[1].body.filter(e => e.authorities.filter(i => i === 'ROLE_SHIPPER'));
+            this.lstShipper = res[1].body;
             this.loadAll();
         });
         this.registerChangeInPersonalShipments();

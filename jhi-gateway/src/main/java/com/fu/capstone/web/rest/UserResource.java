@@ -148,6 +148,20 @@ public class UserResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+    
+    /**
+     * AnhVD
+     * GET /users : get all users by role.
+     *
+     * @param role the role name
+     * @return the ResponseEntity with status 200 (OK) and with body all users
+     */
+    @GetMapping("/users/by-role")
+    @Timed
+    public ResponseEntity<List<UserDTO>> getAllUsersByRole(@RequestParam("role") String role) {
+        final List<UserDTO> page = userService.getAllUsersByRole(role);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
 
     /**
      * @return a string list of the all of the roles

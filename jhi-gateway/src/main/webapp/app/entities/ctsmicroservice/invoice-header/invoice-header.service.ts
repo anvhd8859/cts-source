@@ -68,6 +68,11 @@ export class InvoiceHeaderService {
         return this.http.get<IUser[]>(this.userResourceUrl, { params: options, observe: 'response' });
     }
 
+    getListUserByRole(req?: any): Observable<HttpResponse<IUser[]>> {
+        const options = createRequestOption(req);
+        return this.http.get<IUser[]>(this.userResourceUrl + '/by-role', { params: options, observe: 'response' });
+    }
+
     getListKeeperByOfficeID(req: any): Observable<HttpResponse<IUser[]>> {
         return this.http.get<IUser[]>(this.userResourceUrl + '/keeper', { params: req, observe: 'response' });
     }

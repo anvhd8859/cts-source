@@ -63,8 +63,12 @@ export class WorkingAreaUpdateComponent implements OnInit {
             this.createDate = this.workingArea.createDate != null ? this.workingArea.createDate.format(DATE_TIME_FORMAT) : null;
             this.updateDate = this.workingArea.updateDate != null ? this.workingArea.updateDate.format(DATE_TIME_FORMAT) : null;
         });
-        forkJoin(this.invoiceHeaderService.getLstUser(), this.accountService.getLstCity(), this.principal.identity()).subscribe(res => {
-            this.lstUser = res[0].body.filter(e => e.authorities.filter(i => i === 'ROLE_SHIPPER'));
+        forkJoin(
+            this.invoiceHeaderService.getListUserByRole({ role: 'ROLE_SHIPPER' }),
+            this.accountService.getLstCity(),
+            this.principal.identity()
+        ).subscribe(res => {
+            this.lstUser = res[0].body;
             this.lstProvinceFrom = res[1].body;
             this.lstProvinceTo = res[1].body;
             if (this.workingArea.employeeId) {

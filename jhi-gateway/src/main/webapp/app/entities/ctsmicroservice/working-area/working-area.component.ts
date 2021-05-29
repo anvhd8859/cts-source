@@ -230,9 +230,9 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
         this.principal.identity().then(account => {
             this.currentAccount = account;
         });
-        forkJoin(this.accountService.getLstCity(), this.invoiceHeaderService.getLstUser()).subscribe(res => {
+        forkJoin(this.accountService.getLstCity(), this.invoiceHeaderService.getListUserByRole({ role: 'ROLE_SHIPPER' })).subscribe(res => {
             this.lstProvince = res[0].body;
-            this.lstUser = res[1].body.filter(e => e.authorities.filter(i => i === 'ROLE_SHIPPER'));
+            this.lstUser = res[1].body;
             this.loadAll();
         });
         this.loadAll();

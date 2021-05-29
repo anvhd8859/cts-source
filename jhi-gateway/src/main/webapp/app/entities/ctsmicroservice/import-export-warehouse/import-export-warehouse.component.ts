@@ -68,8 +68,8 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
 
     loadAll() {
         this.ngxUiLoaderService.start();
-        forkJoin(this.invoiceHeaderService.getLstUser(), this.principal.identity()).subscribe(resp => {
-            this.lstUser = resp[0].body.filter(e => e.authorities.filter(i => i === 'ROLE_SHIPPER'));
+        forkJoin(this.invoiceHeaderService.getListUserByRole({ role: 'ROLE_SHIPPER' }), this.principal.identity()).subscribe(resp => {
+            this.lstUser = resp[0].body;
             this.currentAccount = resp[1];
             this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(profile => {
                 this.currentProfile = profile.body;

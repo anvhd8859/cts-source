@@ -104,8 +104,12 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 });
             }
         });
-        forkJoin(this.invoiceHeaderService.getLstUser(), this.accountService.getLstCity(), this.principal.identity()).subscribe(res => {
-            this.lstUser = res[0].body.filter(e => e.authorities.filter(i => i === 'ROLE_USER'));
+        forkJoin(
+            this.invoiceHeaderService.getListUserByRole({ role: 'ROLE_USER' }),
+            this.accountService.getLstCity(),
+            this.principal.identity()
+        ).subscribe(res => {
+            this.lstUser = res[0].body;
             this.lstProvinceFrom = res[1].body;
             this.lstProvinceTo = res[1].body;
             this.currentUser = res[2];

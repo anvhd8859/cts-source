@@ -321,4 +321,13 @@ public class UserService {
 		}
 		return rs;
 	}
+
+	public List<UserDTO> getAllUsersByRole(String role) {
+		List<User> list = userRepository.getAllUsersByRole(role);
+		List<UserDTO> rs = new ArrayList<UserDTO>();
+		for (User u : list) {
+			rs.add(new UserDTO(u));
+		}
+		return rs;
+	}
 }
