@@ -227,6 +227,7 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.registerChangeInWorkingAreas();
         this.principal.identity().then(account => {
             this.currentAccount = account;
         });
@@ -236,7 +237,6 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
             this.loadAll();
         });
         this.loadAll();
-        this.registerChangeInWorkingAreas();
     }
 
     ngOnDestroy() {
@@ -267,12 +267,13 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
     }
 
     private onSaveSuccess() {
+        this.workingArea = null;
         this.eventManager.broadcast({
             name: 'workingAreaListModification',
             content: 'Reload workingArea'
         });
-        this.workingArea = null;
         this.isSaving = false;
+        this.transition();
     }
 
     private onSaveError() {
