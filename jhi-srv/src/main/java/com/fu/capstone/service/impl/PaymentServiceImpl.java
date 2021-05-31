@@ -118,12 +118,12 @@ public class PaymentServiceImpl implements PaymentService {
 	// END TuyenVNT 16/04/2021
 
 	@Override
-	public Page<PaymentInvoiceDTO> getPaymentInvoceByParams(String invoiceNo, String type, String receiveFrom,
+	public Page<PaymentInvoiceDTO> getPaymentInvoceByParams(Long id, String invoiceNo, String type, String receiveFrom,
 			String receiveTo, String createFrom, String createTo, Pageable pageable) {
 		Boolean tp = null;
 		if(type.equals("1")) tp = true;
 		if(type.equals("0")) tp = false;
-		Page<Payment> page = paymentRepository.getPaymentInvoceByParams(invoiceNo, tp, receiveFrom, receiveTo,
+		Page<Payment> page = paymentRepository.getPaymentInvoceByParams(id, invoiceNo, tp, receiveFrom, receiveTo,
 				createFrom, createTo, pageable);
 		return page.map(this::convert);
 	}

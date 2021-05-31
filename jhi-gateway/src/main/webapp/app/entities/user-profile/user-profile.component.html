@@ -1,9 +1,9 @@
 <div class="row justify-content-center">
     <div class="col-lg-11">
         <br>
-<br>
         <br>
-<br>
+        <br>
+        <br>
         <div class="container-fluid">
             <div class="row" style="border-bottom: 2px solid;">
                 <div class="col-lg-6 col-md-12 col-md-12">
@@ -19,9 +19,9 @@
             </div>
         </div>
         <br>
-<br>
+        <br>
         <jhi-alert></jhi-alert>
-        <br/>
+        <br />
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive" *ngIf="!userProfiles || userProfiles.length === 0">
@@ -30,55 +30,52 @@
                 <div class="table-responsive" *ngIf="userProfiles && userProfiles.length > 0">
                     <table class="table table-striped">
                         <thead>
-                        <tr>
-                        <th><span>Mã số</span></th>
-                        <th><span>Mã người dùng</span></th>
-                        <th><span>Giới tính</span></th>
-                        <th><span>Address</span></th>
-                        <th><span>Mã Đường/Phố</span></th>
-                        <th><span>Phone Number</span></th>
-                        <th><span>Ngày sinh</span></th>
-                        <th><span>Ngày tạo</span></th>
-                        <th><span>Ngày cập nhật</span></th>
-                        <th></th>
-                        </tr>
+                            <tr>
+                                <th><span>Mã số</span></th>
+                                <th><span>Mã người dùng</span></th>
+                                <th><span>Giới tính</span></th>
+                                <th><span>Address</span></th>
+                                <th><span>Mã Đường/Phố</span></th>
+                                <th><span>Phone Number</span></th>
+                                <th><span>Ngày sinh</span></th>
+                                <th><span>Ngày tạo</span></th>
+                                <th><span>Ngày cập nhật</span></th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let userProfile of userProfiles ;trackBy: trackId">
-                            <td><a [routerLink]="['/user-profile', userProfile.id, 'view' ]">{{userProfile.id}}</a></td>
-                            <td>{{userProfile.userId}}</td>
-                            <td>{{userProfile.gender}}</td>
-                            <td>{{userProfile.address}}</td>
-                            <td>{{userProfile.streetId}}</td>
-                            <td>{{userProfile.phoneNumber}}</td>
-                            <td>{{userProfile.dateOfBirth | date:'yyyy-MM-dd HH:mm'}}</td>
-                            <td>{{userProfile.createdDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                            <td>{{userProfile.updatedDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                            <td class="text-right">
-                                <div class="btn-group flex-btn-group-container">
-                                    <button type="submit"
-                                            [routerLink]="['/user-profile', userProfile.id, 'view' ]"
+                            <tr *ngFor="let userProfile of userProfiles ;trackBy: trackId">
+                                <td><a [routerLink]="['/user-profile', userProfile.id, 'view' ]">{{userProfile.id}}</a>
+                                </td>
+                                <td>{{userProfile.userId}}</td>
+                                <td>{{userProfile.gender}}</td>
+                                <td>{{userProfile.address}}</td>
+                                <td>{{userProfile.streetId}}</td>
+                                <td>{{userProfile.phoneNumber}}</td>
+                                <td>{{userProfile.dateOfBirth | date:'yyyy-MM-dd HH:mm'}}</td>
+                                <td>{{userProfile.createdDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                                <td>{{userProfile.updatedDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                                <td class="text-right">
+                                    <div class="btn-group flex-btn-group-container">
+                                        <button type="submit" [routerLink]="['/user-profile', userProfile.id, 'view' ]"
                                             class="btn btn-info btn-sm">
-                                        <fa-icon [icon]="'eye'"></fa-icon>
-                                        <span class="d-none d-md-inline">Chi tiết</span>
-                                    </button>
-                                    <button type="submit"
-                                            [routerLink]="['/user-profile', userProfile.id, 'edit']"
+                                            <fa-icon [icon]="'eye'"></fa-icon>
+                                            <span class="d-none d-md-inline">Chi tiết</span>
+                                        </button>
+                                        <button type="submit" [routerLink]="['/user-profile', userProfile.id, 'edit']"
                                             class="btn btn-primary btn-sm">
-                                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                        <span class="d-none d-md-inline">Sửa</span>
-                                    </button>
-                                    <button type="submit"
+                                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                            <span class="d-none d-md-inline">Sửa</span>
+                                        </button>
+                                        <button type="submit"
                                             [routerLink]="['/', { outlets: { popup: 'user-profile/'+ userProfile.id + '/delete'} }]"
-                                            replaceUrl="true"
-                                            queryParamsHandling="merge"
-                                            class="btn btn-danger btn-sm">
-                                        <fa-icon [icon]="'times'"></fa-icon>
-                                        <span class="d-none d-md-inline">Xóa</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                                            replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                                            <fa-icon [icon]="'times'"></fa-icon>
+                                            <span class="d-none d-md-inline">Xóa</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

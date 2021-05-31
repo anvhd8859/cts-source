@@ -26,15 +26,16 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 	List<Payment> findPaymentListByHeaderId(@Param("invoiceHeaderId") Long id,Pageable pageable);
 	// END TuyenVNT 16/04/2021
 
-	@Query(value = "SELECT p FROM Payment p, InvoiceHeader i, ReceiptNote r "
-				 + " WHERE i.id = p.invoiceHeaderId AND i.id = r.invoiceHeaderId"
+	@Query(value = "SELECT DISTINCT p FROM Payment p, InvoiceHeader i, ReceiptNote r "
+				 + " WHERE i.id = p.invoiceHeaderId AND i.id = r.invoiceHeaderId "
+				 + " AND p.employeeId = :id "
 				 + " AND (:invoiceNo = '' OR i.invoiceNo LIKE CONCAT('%',:invoiceNo,'%')) "
 				 + " AND (r.receiptType = :type OR :type IS NULL) "
 				 + " AND (:receiveFrom = '' OR p.createDate >= CONCAT(:receiveFrom, ' 00:00:00')) "
 				 + " AND (:receiveTo = '' OR p.createDate <= CONCAT(:receiveTo, ' 23:59:59'))  "
 				 + " AND (:createFrom = '' OR i.createDate >= CONCAT(:createFrom, ' 00:00:00')) "
 				 + " AND (:createTo = '' OR i.createDate <= CONCAT(:createTo, ' 23:59:59'))  ")
-	Page<Payment> getPaymentInvoceByParams(@Param("invoiceNo") String invoiceNo,
+	Page<Payment> getPaymentInvoceByParams(@Param("id") Long id, @Param("invoiceNo") String invoiceNo,
 			@Param("type") Boolean type, @Param("receiveFrom") String receiveFrom,
 			@Param("receiveTo") String receiveTo, @Param("createFrom") String createFrom,
 			@Param("createTo") String createTo, Pageable pageable);

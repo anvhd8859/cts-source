@@ -86,6 +86,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     loadAll() {
         this.paymentService
             .findPaymentByParams({
+                eid: this.currentAccount.id,
                 invoiceNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
                 type: this.selectedTypeShipment ? this.selectedTypeShipment : '',
                 receiveFrom: this.fromPaymentCreate
@@ -152,9 +153,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
         this.principal.identity().then(account => {
             this.currentAccount = account;
+            this.loadAll();
         });
         this.registerChangeInPayments();
     }

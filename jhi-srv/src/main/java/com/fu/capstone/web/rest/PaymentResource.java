@@ -157,11 +157,12 @@ public class PaymentResource {
 
 	@GetMapping("/payments/by-params")
 	@Timed
-	public ResponseEntity<List<PaymentInvoiceDTO>> getPaymentInvoiceByParams(@RequestParam("invoiceNo") String invoiceNo,
+	public ResponseEntity<List<PaymentInvoiceDTO>> getPaymentInvoiceByParams(
+			@RequestParam("eid") Long id, @RequestParam("invoiceNo") String invoiceNo,
 			@RequestParam("type") String type, @RequestParam("receiveFrom") String receiveFrom,
 			@RequestParam("receiveTo") String receiveTo, @RequestParam("createFrom") String createFrom,
 			@RequestParam("createTo") String createTo, Pageable pageable) {
-		Page<PaymentInvoiceDTO> page = paymentService.getPaymentInvoceByParams(invoiceNo, type, receiveFrom, receiveTo,
+		Page<PaymentInvoiceDTO> page = paymentService.getPaymentInvoceByParams(id, invoiceNo, type, receiveFrom, receiveTo,
 				createFrom, createTo, pageable);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/payments/by-params");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
