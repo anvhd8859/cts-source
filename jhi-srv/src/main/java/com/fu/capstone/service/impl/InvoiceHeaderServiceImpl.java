@@ -103,15 +103,15 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	@Override
 	public InvoiceHeaderDTO save(InvoiceHeaderDTO invoiceHeaderDTO) {
 		log.debug("Request to save InvoiceHeader : {}", invoiceHeaderDTO);
-
 		InvoiceHeader invoiceHeader = invoiceHeaderMapper.toEntity(invoiceHeaderDTO);
 		Instant instant = Instant.now();
 		if (invoiceHeader.getId() == null) {
 			invoiceHeader.setCreateDate(instant);
-			invoiceHeader.setUpdateDate(instant);
-			invoiceHeader.setDueDate(instant.plus(7, ChronoUnit.DAYS));
-		} else
-			invoiceHeader.setUpdateDate(instant);
+			invoiceHeader.setDueDate(instant.plus(3, ChronoUnit.DAYS));
+		} else{
+			invoiceHeader.setDueDate(invoiceHeader.getCreateDate().plus(3, ChronoUnit.DAYS));
+		}
+		invoiceHeader.setUpdateDate(instant);
 		invoiceHeader = invoiceHeaderRepository.save(invoiceHeader);
 		return invoiceHeaderMapper.toDto(invoiceHeader);
 	}
