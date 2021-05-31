@@ -34,7 +34,7 @@ export const paymentRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER'],
             defaultSort: 'id,asc',
             pageTitle: 'Payments'
         },
@@ -47,7 +47,7 @@ export const paymentRoute: Routes = [
             payment: PaymentResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER'],
             pageTitle: 'Payments'
         },
         canActivate: [UserRouteAccessService]
