@@ -3,8 +3,10 @@ package com.fu.capstone.service.impl;
 import com.fu.capstone.service.PersonalShipmentService;
 import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.PersonalShipment;
+import com.fu.capstone.domain.Street;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.PersonalShipmentRepository;
+import com.fu.capstone.repository.StreetRepository;
 import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.PersonalShipmentDTO;
 import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
@@ -41,13 +43,17 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
     private PersonalShipmentRepository personalShipmentRepository;
 
     private PersonalShipmentMapper personalShipmentMapper;
+    
+    private StreetRepository streetRepository;
 
     public PersonalShipmentServiceImpl(PersonalShipmentRepository personalShipmentRepository, PersonalShipmentMapper personalShipmentMapper,
-    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper) {
+    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
+    		StreetRepository streetRepository) {
         this.personalShipmentRepository = personalShipmentRepository;
         this.personalShipmentMapper = personalShipmentMapper;
         this.invoiceHeaderRepository = invoiceHeaderRepository;
         this.invoiceHeaderMapper = invoiceHeaderMapper;
+        this.streetRepository = streetRepository;
     }
 
     /**
@@ -165,8 +171,12 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 	}
 
 	@Override
-	public Page<PersonalShipmentInvoiceDTO> getAllPersonaShipmentInvoices(Long empId, String invNo, Long strId, String type, Pageable pageable) {
-		Page<PersonalShipment> pgShipment = personalShipmentRepository.getAllPersonaShipmentInvoices(empId, invNo, strId, type, pageable);
+	public Page<PersonalShipmentInvoiceDTO> getAllPersonaShipmentInvoices(Long empId, String invNo, 
+			Long prvId, Long dstId, Long sdtId, Long strId, String type, Pageable pageable) {
+		List<Street> strList = streetRepository.getAllStreetByParam(prvId, dstId, sdtId, strId);
+		List<Long> sidList = new ArrayList<>();
+		strList.forEach(street -> sidList.add(street.getId()));
+		Page<PersonalShipment> pgShipment = personalShipmentRepository.getAllPersonaShipmentInvoices(empId, invNo, sidList, type, pageable);
 		return pgShipment.map(this::convertPersonalShipmentToPersonalShipmentInvoiceDTO);
 	}
 	private PersonalShipmentInvoiceDTO convertPersonalShipmentToPersonalShipmentInvoiceDTO(PersonalShipment entity){

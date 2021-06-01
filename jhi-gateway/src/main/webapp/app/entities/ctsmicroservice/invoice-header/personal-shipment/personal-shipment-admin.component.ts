@@ -79,6 +79,9 @@ export class PersonalShipmentAdminComponent implements OnInit, OnDestroy {
         const param = {
             empId: this.selectedShipper ? this.selectedShipper.id : '',
             invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
+            prvId: this.selectedProvince ? this.selectedProvince : '',
+            dstId: this.selectedDistrict ? this.selectedDistrict : '',
+            sdtId: this.selectedSubDistrict ? this.selectedSubDistrict : '',
             strId: this.selectedStreet ? this.selectedStreet : '',
             type: this.selectedShipmentType ? this.selectedShipmentType : '',
             page: this.page - 1,

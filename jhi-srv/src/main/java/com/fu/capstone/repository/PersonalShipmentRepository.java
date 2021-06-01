@@ -58,13 +58,15 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 	@Query( value = "SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :id AND p.shipmentType = 'delivery'")
 	PersonalShipment getDeliveryShipmentByHeaderId(@Param("id") Long id);
 
-	@Query( value = "SELECT p FROM PersonalShipment p, InvoiceHeader i WHERE p.invoiceHeaderId = i.id "
+	@Query( value = "SELECT DISTINCT p FROM PersonalShipment p, InvoiceHeader i "
+				  + " WHERE p.invoiceHeaderId = i.id "
 				  + " AND (:empId is NULL OR p.employeeId = :empId) "
 				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo , '%')) "
-				  + " AND (:strId is NULL OR (i.startStreetId = :strId AND p.shipmentType = 'collect') OR (i.destinationStreetId = :strId AND p.shipmentType = 'delivery')) "
+				  + " AND ( COALESCE(:sidList) IS NULL OR (i.startStreetId IN (:sidList) AND p.shipmentType = 'collect') "
+				  + "  OR  (i.destinationStreetId IN (:sidList) AND p.shipmentType = 'delivery') ) "
 				  + " AND (:type = '' OR :type = p.shipmentType) ")
-	Page<PersonalShipment> getAllPersonaShipmentInvoices(@Param("empId") Long empId
-    		,@Param("invNo") String invNo, @Param("strId") Long strId, @Param("type") String type, Pageable pageable);
+	Page<PersonalShipment> getAllPersonaShipmentInvoices(@Param("empId") Long empId, @Param("invNo") String invNo,
+			@Param("sidList") List<Long> sidList, @Param("type") String type, Pageable pageable);
 
 	@Query( value = "SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :id AND p.shipmentType = 'delivery'")
 	PersonalShipment getDeliveryShipmentByInvoice(@Param("id") Long id);

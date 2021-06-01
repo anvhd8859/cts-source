@@ -115,7 +115,7 @@ export const receiptnoteRoute: Routes = [
             personalShipment: PersonalShipmentResolve
         },
         data: {
-            authorities: ['ROLE_SHIPPER', 'ROLE_OFFICER', 'ROLE_ADMIN'],
+            authorities: ['ROLE_SHIPPER', 'ROLE_OFFICER'],
             pageTitle: 'CTS: Biên lai'
         },
         canActivate: [UserRouteAccessService]

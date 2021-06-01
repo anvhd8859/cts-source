@@ -17,7 +17,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     </div>
     <div class="modal-body">
       <p>
-        <strong>Bạn lựa chọn một số hóa đơn đã yêu cầu xuất nhập kho hoặc không đủ điều kiện</strong>
+        <strong>Bạn lựa chọn một số hóa đơn đã không đủ điều kiện</strong>
       </p>
     </div>
     <div class="modal-footer">

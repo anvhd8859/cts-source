@@ -14,15 +14,32 @@ import java.util.Objects;
 @Entity
 @Table(name="street")
 @NamedNativeQuery(
-	name = "get_sub_district_id",
-	query =
-	  "SELECT id, street_name, create_date , update_date" + 
-	  " FROM street WHERE sub_district_id_id = :subDistrictId",
-	resultClass = Street.class
+	name = "get-street-by-param",
+	query = "SELECT s.id AS id, s.street_name AS streetName FROM street s, sub_district sd, district d, province p "
+			  + " WHERE s.sub_district_id_id = sd.id "
+			  + " AND sd.district_id_id = d.id "
+			  + " AND d.province_id_id = p.id "
+			  + " AND ( s.id = :strId OR :strId IS NULL ) "
+			  + " AND ( sd.id = :sdtId OR :sdtId IS NULL ) "
+			  + " AND ( d.id = :dstId OR :dstId IS NULL ) "
+			  + " AND ( p.id = :prvId OR :prvId IS NULL ) ",
+			  resultSetMapping = "street-map"
 )
+@SqlResultSetMapping(name = "street-map", classes = @ConstructorResult(columns = {
+		@ColumnResult(name = "id", type = Long.class),
+		@ColumnResult(name = "streetName", type = String.class) }, targetClass = Street.class))
 public class Street implements Serializable {
+	
+    public Street() {
+		super();
+	}
 
-    private static final long serialVersionUID = 1L;
+	public Street(Long id, String streetName) {
+		this.id = id;
+		this.streetName = streetName;
+	}
+
+	private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

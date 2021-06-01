@@ -3,6 +3,7 @@ package com.fu.capstone.repository;
 import com.fu.capstone.domain.Street;
 import com.fu.capstone.service.dto.StreetDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -28,5 +29,9 @@ public interface StreetRepository extends JpaRepository<Street, Long> {
 
 	@Query( value = "SELECT s FROM Street s, Office o WHERE s.id = o.streetId AND o.id = :id")
 	Street getAddressByOfficeId(@Param("id") Long id);
+	
+	@Query( name = "get-street-by-param" ,nativeQuery = true)
+	List<Street> getAllStreetByParam(@Param("prvId") Long prvId, @Param("dstId") Long dstId,
+			@Param("sdtId") Long sdtId, @Param("strId") Long strId);
 
 }
