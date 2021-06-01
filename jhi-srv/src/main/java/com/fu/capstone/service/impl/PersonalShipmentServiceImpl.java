@@ -175,8 +175,8 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 			Long prvId, Long dstId, Long sdtId, Long strId, String type, Pageable pageable) {
 		List<Street> strList = streetRepository.getAllStreetByParam(prvId, dstId, sdtId, strId);
 		List<Long> sidList = new ArrayList<>();
-		if(strId == null) strList.forEach(street -> sidList.add(street.getId()));
-		else sidList.add(strId);
+		if(strId == null && prvId != null) strList.forEach(street -> sidList.add(street.getId()));
+		else if(strId != null) sidList.add(strId);
 		Page<PersonalShipment> pgShipment = personalShipmentRepository.getAllPersonaShipmentInvoices(empId, invNo, sidList, type, pageable);
 		return pgShipment.map(this::convertPersonalShipmentToPersonalShipmentInvoiceDTO);
 	}
