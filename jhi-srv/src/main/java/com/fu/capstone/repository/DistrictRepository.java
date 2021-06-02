@@ -5,6 +5,8 @@ import com.fu.capstone.service.dto.DistrictDTO;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -17,8 +19,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DistrictRepository extends JpaRepository<District, Long> {
 
-	@Query(value="SELECT d FROM District d WHERE d.provinceId.id = :provinceId")
-	List<District> getDistrictByProvinceId(@Param("provinceId") Long id);
+	@Query(name = "get-district-by")
+	List<District> getDistrictByProvinceId(@Param("id") Long id);
+	
+	@Query(name = "get-all-district")
+	Page<District> getAll(Pageable pageable);
 
 	@Query(value="SELECT d.* FROM district d, sub_district sd ,street s "
 			+ " WHERE d.id = sd.district_id_id AND sd.id = s.sub_district_id_id AND s.id = :id",

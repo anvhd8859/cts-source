@@ -91,7 +91,7 @@ public class ProvinceResource {
     @Timed
     public ResponseEntity<List<ProvinceDTO>> getAllProvinces(Pageable pageable) {
         log.debug("REST request to get a page of Provinces");
-        Page<ProvinceDTO> page = provinceService.findAll(pageable);
+        Page<ProvinceDTO> page = provinceService.getAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/provinces");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

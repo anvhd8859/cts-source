@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -90,9 +91,8 @@ public class StreetServiceImpl implements StreetService {
 
     // AnhVD new code
 	@Override
-	public Page<StreetDTO> getAllStreetsBySubDistrictId(Long id, Pageable pageable) {
-		return streetRepository.getAllStreetsBySubDistrictId(id, pageable)
-				.map(streetMapper::toDto);
+	public List<StreetDTO> getAllStreetsBySubDistrictId(Long id, Pageable pageable) {
+		return streetMapper.toDto(streetRepository.getAllStreetsBySubDistrictId(id));
 	}
 
 	@Override

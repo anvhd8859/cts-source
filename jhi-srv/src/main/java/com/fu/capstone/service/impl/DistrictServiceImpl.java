@@ -59,7 +59,7 @@ public class DistrictServiceImpl implements DistrictService {
     @Transactional(readOnly = true)
     public Page<DistrictDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Districts");
-        return districtRepository.findAll(pageable)
+        return districtRepository.getAll(pageable)
             .map(districtMapper::toDto);
     }
 

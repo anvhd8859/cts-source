@@ -87,4 +87,9 @@ public class ProvinceServiceImpl implements ProvinceService {
         log.debug("Request to delete Province : {}", id);
         provinceRepository.deleteById(id);
     }
+
+	@Override
+	public Page<ProvinceDTO> getAll(Pageable pageable) {
+		return provinceRepository.getAll(pageable).map(provinceMapper::toDto);
+	}
 }

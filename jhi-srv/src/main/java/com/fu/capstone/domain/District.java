@@ -16,7 +16,22 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "district")
+@NamedNativeQueries(value = {
+	@NamedNativeQuery(name = "get-all-district", query = "SELECT id, district_name AS districtName FROM district", resultSetMapping = "district"),
+	@NamedNativeQuery(name = "get-district-by", query = "SELECT DISTINCT d.id, d.district_name AS districtName FROM district d, province p WHERE d.province_id_id = p.id AND p.id = :id ", resultSetMapping = "district")
+})
+@SqlResultSetMapping(name = "district", classes = @ConstructorResult(columns = {
+		@ColumnResult(name = "id", type = Long.class),
+		@ColumnResult(name = "districtName", type = String.class) }, targetClass = District.class))
 public class District implements Serializable {
+	
+	public District() {
+	}
+	
+	public District(Long id, String districtName) {
+		this.id = id;
+		this.districtName = districtName;
+	}
 
     private static final long serialVersionUID = 1L;
 

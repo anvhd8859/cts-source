@@ -18,11 +18,10 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface StreetRepository extends JpaRepository<Street, Long> {
-
-	@Query( value = "SELECT * FROM street WHERE sub_district_id_id = :subDistrictId",
-			countQuery = "SELECT count(*) FROM street WHERE sub_district_id_id = :subDistrictId", 
+	
+	@Query( name = "get-street-by",
 			nativeQuery = true)
-	Page<Street> getAllStreetsBySubDistrictId(@Param("subDistrictId") Long id,Pageable pageable);
+	List<Street> getAllStreetsBySubDistrictId(@Param("id") Long id);
 
 	@Query( value = "SELECT s FROM Street s WHERE s.id = :id")
 	Street getFullAddressByStreetId(@Param("id") Long id);

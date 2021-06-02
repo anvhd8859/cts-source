@@ -285,18 +285,19 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		psDelivery.setCreateDate(instant);
 		psDelivery.setUpdateDate(instant);
 		WorkingArea wa = workingAreaRepository.getEmployeeNearBy(toStreet.getId());
+
+		// check online of offline create invoice if it is create by officer set delivery status to new
+		if (invoiceHeaderDTO.getEmployeeId() != null){
+			invoiceHeaderDTO.setStatus("first_import");
+			psDelivery.setStatus("new");
+		}
+		
+		// set employee and add delivery
 		if (wa != null) psDelivery.setEmployeeId(wa.getEmployeeId());
 		lstShipment.add(psDelivery);
 
 		personalShipmentRepository.saveAll(lstShipment);
 		invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(lstDetailDTO));
-
-
-		// check online of offline create invoice
-		if (invoiceHeaderDTO.getEmployeeId() != null){
-			invoiceHeaderDTO.setStatus("first_import");
-			psDelivery.setStatus("new");
-		}
 
 		// process invoice header no and save
 		String invNo = "INV" + LocalDate.now().getYear() + "-" + String.format("%010d", invoiceHeaderDTO.getId());

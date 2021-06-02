@@ -23,15 +23,18 @@ import java.util.Objects;
 			  + " AND ( sd.id = :sdtId OR :sdtId IS NULL ) "
 			  + " AND ( d.id = :dstId OR :dstId IS NULL ) "
 			  + " AND ( p.id = :prvId OR :prvId IS NULL ) ",
-			  resultSetMapping = "street-map"
+			  resultSetMapping = "street"
 )
-@SqlResultSetMapping(name = "street-map", classes = @ConstructorResult(columns = {
-		@ColumnResult(name = "id", type = Long.class),
-		@ColumnResult(name = "streetName", type = String.class) }, targetClass = Street.class))
+@NamedNativeQueries(value = {
+		@NamedNativeQuery(name = "get-all-street", query = "SELECT id, street_name AS streetName FROM street", resultSetMapping = "street"),
+		@NamedNativeQuery(name = "get-street-by", query = "SELECT s.id, s.street_name AS streetName FROM street s, sub_district sd WHERE s.sub_district_id_id = sd.id AND sd.id = :id", resultSetMapping = "street")
+	})
+	@SqlResultSetMapping(name = "street", classes = @ConstructorResult(columns = {
+			@ColumnResult(name = "id", type = Long.class),
+			@ColumnResult(name = "streetName", type = String.class) }, targetClass = Street.class))
 public class Street implements Serializable {
 	
     public Street() {
-		super();
 	}
 
 	public Street(Long id, String streetName) {

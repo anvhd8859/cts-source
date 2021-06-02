@@ -137,9 +137,8 @@ public class StreetResource {
     @GetMapping("/streets/by-sub-district")
     @Timed
     public ResponseEntity<List<StreetDTO>> getAllStreetsBySubDistrictId(@RequestParam("id") Long id, Pageable pageable) {
-        Page<StreetDTO> page = streetService.getAllStreetsBySubDistrictId(id, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/streets/by-sub-district");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        List<StreetDTO> page = streetService.getAllStreetsBySubDistrictId(id, pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
     
     /**

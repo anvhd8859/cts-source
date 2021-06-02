@@ -15,7 +15,19 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "province")
+@NamedNativeQuery(name = "get-all-province", query = "SELECT id, province_name AS provinceName FROM province", resultSetMapping = "province")
+@SqlResultSetMapping(name = "province", classes = @ConstructorResult(columns = {
+		@ColumnResult(name = "id", type = Long.class),
+		@ColumnResult(name = "provinceName", type = String.class) }, targetClass = Province.class))
 public class Province implements Serializable {
+	
+	public Province() {
+	}
+	
+	public Province(Long id, String provinceName) {
+		this.id = id;
+		this.provinceName = provinceName;
+	}
 
     private static final long serialVersionUID = 1L;
 

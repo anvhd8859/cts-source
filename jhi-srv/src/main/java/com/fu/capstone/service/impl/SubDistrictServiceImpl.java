@@ -59,7 +59,7 @@ public class SubDistrictServiceImpl implements SubDistrictService {
     @Transactional(readOnly = true)
     public Page<SubDistrictDTO> findAll(Pageable pageable) {
         log.debug("Request to get all SubDistricts");
-        return subDistrictRepository.findAll(pageable)
+        return subDistrictRepository.getAll(pageable)
             .map(subDistrictMapper::toDto);
     }
 

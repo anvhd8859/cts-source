@@ -134,7 +134,6 @@ public class SubDistrictResource {
     @GetMapping("/sub-districts/by-district-id")
     @Timed
     public ResponseEntity<List<SubDistrictDTO>> getAllSubDistrictsByDistrictId(@RequestParam("id")Long id) {
-//        log.debug("REST request to get a page of SubDistricts");
         List<SubDistrictDTO> page = subDistrictService.getAllSubDistrictsByDistrictId(id);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }

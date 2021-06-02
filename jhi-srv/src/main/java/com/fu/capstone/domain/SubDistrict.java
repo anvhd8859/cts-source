@@ -16,8 +16,11 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "sub_district")
-@NamedNativeQuery(name = "get-by-district-id", query = "SELECT id, sub_district_name AS subDistrictName FROM sub_district WHERE district_id_id = :districtId", resultSetMapping = "constructor-map")
-@SqlResultSetMapping(name = "constructor-map", classes = @ConstructorResult(columns = {
+@NamedNativeQueries(value = {
+	@NamedNativeQuery(name = "get-all-sub_district", query = "SELECT id, sub_district_name AS subDistrictName FROM sub_district", resultSetMapping = "sub_district"),
+	@NamedNativeQuery(name = "get-sub_district-by", query = "SELECT sd.id, sd.sub_district_name AS subDistrictName FROM sub_district sd, district d WHERE sd.district_id_id = d.id AND d.id = :id", resultSetMapping = "sub_district")
+})
+@SqlResultSetMapping(name = "sub_district", classes = @ConstructorResult(columns = {
 		@ColumnResult(name = "id", type = Long.class),
 		@ColumnResult(name = "subDistrictName", type = String.class) }, targetClass = SubDistrict.class))
 public class SubDistrict implements Serializable {
@@ -46,7 +49,7 @@ public class SubDistrict implements Serializable {
 	@Column(name = "update_date")
 	private Instant updateDate;
 
-	@OneToMany(mappedBy = "subDistrictId", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "subDistrictId", fetch = FetchType.LAZY)
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private Set<Street> streets = new HashSet<>();
 	@ManyToOne
