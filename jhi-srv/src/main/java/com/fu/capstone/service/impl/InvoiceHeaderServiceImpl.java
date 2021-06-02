@@ -221,10 +221,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			invoiceHeaderDTO.setStatus("waiting");
 		}
 
-		// check online of offline create invoice
-		if (invoiceHeaderDTO.getEmployeeId() != null)
-			invoiceHeaderDTO.setStatus("first_import");
-
 		// create invoice and get invoice with ID
 		invoiceHeaderDTO = this.save(invoiceHeaderDTO);
 		List<PersonalShipment> lstShipment = new ArrayList<>();
@@ -294,6 +290,13 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 		personalShipmentRepository.saveAll(lstShipment);
 		invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(lstDetailDTO));
+
+
+		// check online of offline create invoice
+		if (invoiceHeaderDTO.getEmployeeId() != null){
+			invoiceHeaderDTO.setStatus("first_import");
+			psDelivery.setStatus("new");
+		}
 
 		// process invoice header no and save
 		String invNo = "INV" + LocalDate.now().getYear() + "-" + String.format("%010d", invoiceHeaderDTO.getId());
