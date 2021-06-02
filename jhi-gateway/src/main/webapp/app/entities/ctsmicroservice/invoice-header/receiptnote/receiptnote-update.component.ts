@@ -189,6 +189,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
         }
         if (this.createPackage.length > 0 && wei > 0) {
             if (this.currentUser.authorities.find(e => e === 'ROLE_SHIPPER')) {
+                console.log('shipper');
                 this.isSaving = true;
                 if (this.personalShipment.shipmentType === 'collect') {
                     this.data = new CustomReceipt();
@@ -239,6 +240,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                 }
                 this.isSaving = false;
             } else {
+                console.log('officer');
                 this.receiptnote.note = this.receiptnote.note ? this.receiptnote.note : '';
                 this.receiptnote.note += ' Nhận hàng từ khách tại văn phòng';
                 this.invoiceHeader.officeId = this.currentProfile.officeId;

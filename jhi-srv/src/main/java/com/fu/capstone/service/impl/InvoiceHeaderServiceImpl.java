@@ -223,7 +223,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 		// check online of offline create invoice
 		if (invoiceHeaderDTO.getEmployeeId() != null)
-			invoiceHeaderDTO.setStatus("collected");
+			invoiceHeaderDTO.setStatus("first_import");
 
 		// create invoice and get invoice with ID
 		invoiceHeaderDTO = this.save(invoiceHeaderDTO);
