@@ -2,7 +2,7 @@
     <div class="col-8">
         <br><br><br><br>
         <div *ngIf="userProfile">
-            <h2><span>User Profile</span> {{userProfile.id}}</h2>
+            <h2><span>Hồ sơ người dùng</span> {{userProfile.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -14,7 +14,7 @@
                 <dd>
                     <span>{{userProfile.gender}}</span>
                 </dd>
-                <dt><span>Address</span></dt>
+                <dt><span>Địa chỉ</span></dt>
                 <dd>
                     <span>{{userProfile.address}}</span>
                 </dd>
@@ -22,7 +22,7 @@
                 <dd>
                     <span>{{userProfile.streetId}}</span>
                 </dd>
-                <dt><span>Phone Number</span></dt>
+                <dt><span>Số điện thoại</span></dt>
                 <dd>
                     <span>{{userProfile.phoneNumber}}</span>
                 </dd>

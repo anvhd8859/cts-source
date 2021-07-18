@@ -72,7 +72,7 @@ export class SubDistrictUpdateComponent implements OnInit {
     }
 
     private onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.jhiAlertService.error('Đã xảy ra lỗi khi thực hiện', null, null);
     }
 
     trackDistrictById(index: number, item: IDistrict) {
