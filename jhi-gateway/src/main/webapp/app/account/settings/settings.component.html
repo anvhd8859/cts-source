@@ -13,7 +13,8 @@
         <jhi-alert></jhi-alert>
         <jhi-alert-error></jhi-alert-error>
 
-        <form #form="ngForm" name="form" role="form" (ngSubmit)="save(form)" #settingsForm="ngForm" *ngIf="settingsAccount" novalidate>
+        <form #form="ngForm" name="form" role="form" (ngSubmit)="save(form)" #settingsForm="ngForm"
+            *ngIf="settingsAccount" novalidate>
             <div class="card">
                 <div class="card-header">
                     <label for="user-profile"><b>Thông tin tài khoản</b></label>
@@ -26,16 +27,16 @@
                             email required readonly>
                         <div *ngIf="emailInput.dirty && emailInput.invalid">
                             <small class="form-text text-danger" *ngIf="emailInput.errors.required">
-                                Your email is required.
+                                Trường email trống.
                             </small>
                             <small class="form-text text-danger" *ngIf="emailInput.errors.email">
-                                Your email is invalid.
+                                Định dạng email sai.
                             </small>
                             <small class="form-text text-danger" *ngIf="emailInput.errors.minlength">
-                                Your email is required to be at least 5 characters.
+                                Độ dài email tối thiểu 5 ký tự.
                             </small>
                             <small class="form-text text-danger" *ngIf="emailInput.errors.maxlength">
-                                Your email cannot be longer than 100 characters.
+                                Độ dài email vượt quá 100 ký tự.
                             </small>
                         </div>
                     </div>
@@ -48,13 +49,13 @@
                                     maxlength=50 #lastNameInput="ngModel" required>
                                 <div *ngIf="lastNameInput.dirty && lastNameInput.invalid">
                                     <small class="form-text text-danger" *ngIf="lastNameInput.errors.required">
-                                        Your last name is required.
+                                        Trường Họ trống.
                                     </small>
                                     <small class="form-text text-danger" *ngIf="lastNameInput.errors.minlength">
-                                        Your last name is required to be at least 1 character.
+                                        Độ dài trường Họ tối thiểu là 2 ký tự.
                                     </small>
                                     <small class="form-text text-danger" *ngIf="lastNameInput.errors.maxlength">
-                                        Your last name cannot be longer than 50 characters.
+                                        Độ dài trường Họ tối da 50 ký tự.
                                     </small>
                                 </div>
                             </div>
@@ -67,13 +68,13 @@
                                     maxlength=50 #firstNameInput="ngModel" required>
                                 <div *ngIf="firstNameInput.dirty && firstNameInput.invalid">
                                     <small class="form-text text-danger" *ngIf="firstNameInput.errors.required">
-                                        Your first name is required.
+                                        Trường Tên trống.
                                     </small>
                                     <small class="form-text text-danger" *ngIf="firstNameInput.errors.minlength">
-                                        Your first name is required to be at least 1 character.
+                                        Độ dài trường Tên tối thiểu là 2 ký tự.
                                     </small>
                                     <small class="form-text text-danger" *ngIf="firstNameInput.errors.maxlength">
-                                        Your first name cannot be longer than 50 characters.
+                                        Độ dài trường Tên tối da là 50 ký tự.
                                     </small>
                                 </div>
                             </div>
@@ -97,7 +98,8 @@
                                     value="{{this.userProfile.phoneNumber}}" id="phone" name="phone" length=10
                                     [pattern]="vnf_regex" #phoneInput="ngModel">
                             </div>
-                            <div *ngIf="phoneInput.errors && form.submitted && !isValidFormSubmitted" [ngClass] = "'error'">
+                            <div *ngIf="phoneInput.errors && form.submitted && !isValidFormSubmitted"
+                                [ngClass]="'error'">
                                 <small class="form-text text-danger" *ngIf="phoneInput.errors.pattern">
                                     Số điện thoại phải là số và gồm 10 số, có dạng 09/08/07/05/03xxxxxxxx
                                 </small>
@@ -183,8 +185,15 @@
                             <div class="form-group">
                                 <label for="address">Địa chỉ</label>
                                 <textarea class="form-control" style="resize: none;" rows="3" id="address"
-                                    name="address" [(ngModel)]="this.userProfile.address">
+                                    name="address" [(ngModel)]="this.userProfile.address" [pattern]="adr_regex"
+                                    #addressInput='ngModel'>
                                 </textarea>
+                            </div>
+                            <div *ngIf="addressInput.errors && form.submitted && !isValidFormSubmitted"
+                                [ngClass]="'error'">
+                                <small class="form-text text-danger" *ngIf="addressInput.errors.pattern">
+                                    Địa chỉ tối thiểu là 4 ký tự và tối đa 100 ký tự
+                                </small>
                             </div>
                         </div>
                     </div>
