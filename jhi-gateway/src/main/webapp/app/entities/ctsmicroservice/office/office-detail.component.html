@@ -5,21 +5,17 @@
         <br>
 <br>
         <div *ngIf="office">
-            <h2><span>Office</span> {{office.id}}</h2>
+            <h2><span>Văn phòng</span> {{office.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Office Name</span></dt>
+                <dt><span>Tên văn phòng</span></dt>
                 <dd>
                     <span>{{office.officeName}}</span>
                 </dd>
                 <dt><span>Địa chỉ</span></dt>
                 <dd>
                     <span>{{office.address}}</span>
-                </dd>
-                <dt><span>Mã Đường/Phố</span></dt>
-                <dd>
-                    <span>{{office.streetId}}</span>
                 </dd>
                 <dt><span>Ngày khởi tạo</span></dt>
                 <dd>

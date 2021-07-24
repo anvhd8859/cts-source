@@ -3,7 +3,7 @@
         <br>
 <br>
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-office-heading">Create or edit a Office</h2>
+            <h2 id="jhi-office-heading">Văn phòng</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!office.id">
@@ -12,7 +12,7 @@
                         [(ngModel)]="office.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_officeName">Office Name</label>
+                    <label class="form-control-label" for="field_officeName">Tên văng phòng</label>
                     <input type="text" class="form-control" name="officeName" id="field_officeName"
                         [(ngModel)]="office.officeName" />
                 </div>

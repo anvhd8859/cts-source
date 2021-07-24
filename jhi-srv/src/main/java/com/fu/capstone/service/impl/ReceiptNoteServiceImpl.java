@@ -396,6 +396,10 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			paymentRepository.save(pm);
 		}
 
+		PersonalShipment psDelivery = personalShipmentRepository.getDeliveryShipmentByInvoice(inv.getId());
+		psDelivery.setStatus("new");
+		personalShipmentRepository.save(psDelivery);
+
 		invoiceHeaderRepository.save(inv);
 		return receiptNoteMapper.toDto(rn);
 	}
