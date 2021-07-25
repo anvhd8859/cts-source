@@ -25,37 +25,37 @@
             </thead>
             <tbody>
                 <tr *ngFor="let warehouse of warehouses; let office of offices; trackBy: trackId">   
-                <td><a [routerLink]="['/warehouse', warehouse.id, 'view' ]">{{warehouse.id}}</a></td>
-                <td>{{warehouse.warehouseName}}</td>
-                <td>{{office.officeName}}</td>
-                <td>{{warehouse.address}}</td>                
-                <td>{{warehouse.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                <td>{{warehouse.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/warehouse', warehouse.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">Chi tiết</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/warehouse', warehouse.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Sửa</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'warehouse/'+ warehouse.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Xóa</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
+                    <td><a [routerLink]="['/warehouse', warehouse.id, 'view' ]">{{warehouse.id}}</a></td>
+                    <td>{{warehouse.warehouseName}}</td>
+                    <td>{{office.officeName}}</td>
+                    <td>{{warehouse.address}}</td>                
+                    <td>{{warehouse.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                    <td>{{warehouse.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    [routerLink]="['/warehouse', warehouse.id, 'view' ]"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <span class="d-none d-md-inline">Chi tiết</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/warehouse', warehouse.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline">Sửa</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/', { outlets: { popup: 'warehouse/'+ warehouse.id + '/delete'} }]"
+                                    replaceUrl="true"
+                                    queryParamsHandling="merge"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline">Xóa</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
