@@ -40,4 +40,7 @@ public interface WarehouseService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    List<WarehouseDTO> getWarehouseByProvinceId(Long id);
+
+    WarehouseDTO getWarehouseByStreetId(Long id);
 }

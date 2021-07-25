@@ -115,4 +115,11 @@ public class WarehouseResource {
         warehouseService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    //thangnd 
+    @GetMapping("/warehouses/by-street")
+    @Timed
+    public ResponseEntity<WarehouseDTO> getWarehouseByStreetId(@RequestParam("id")Long id) {
+    	WarehouseDTO warehouseDTO = warehouseService.getWarehouseByStreetId(id);
+        return new ResponseEntity<>(warehouseDTO, HttpStatus.OK);
+    }
 }

@@ -88,4 +88,13 @@ public class WarehouseServiceImpl implements WarehouseService {
         log.debug("Request to delete Warehouse : {}", id);
         warehouseRepository.deleteById(id);
     }
+    @Override
+	public List<WarehouseDTO> getWarehouseByProvinceId(Long id) {
+		return warehouseMapper.toDto(warehouseRepository.getWarehouseByProvinceId(id));
+	}
+
+	@Override
+	public WarehouseDTO getWarehouseByStreetId(Long id) {
+		return warehouseMapper.toDto(warehouseRepository.getWarehouseByStreetId(id));
+	}
 }
