@@ -4,7 +4,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-
+import { IOffice } from 'app/shared/model/ctsmicroservice/office.model';
 import { IWarehouse } from 'app/shared/model/ctsmicroservice/warehouse.model';
 import { WarehouseService } from './warehouse.service';
 
@@ -13,6 +13,7 @@ import { WarehouseService } from './warehouse.service';
     templateUrl: './warehouse-update.component.html'
 })
 export class WarehouseUpdateComponent implements OnInit {
+    office: IOffice;
     warehouse: IWarehouse;
     isSaving: boolean;
     createDate: string;
@@ -22,8 +23,9 @@ export class WarehouseUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ warehouse }) => {
+        this.activatedRoute.data.subscribe(({ warehouse, office }) => {
             this.warehouse = warehouse;
+            this.office = office;
             this.createDate = this.warehouse.createDate != null ? this.warehouse.createDate.format(DATE_TIME_FORMAT) : null;
             this.updateDate = this.warehouse.updateDate != null ? this.warehouse.updateDate.format(DATE_TIME_FORMAT) : null;
         });

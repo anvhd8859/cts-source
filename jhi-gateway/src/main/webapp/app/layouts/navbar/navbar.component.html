@@ -161,6 +161,13 @@
                     </li>
                     <div class="divider"></div>
                     <li>
+                        <a class="dropdown-item" routerLink="warehouse" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'building'" [fixedWidth]="true"></fa-icon>
+                            <span>Quản lý kho hàng</span>
+                        </a>
+                    </li>
+                    <div class="divider"></div>
+                    <li>
                         <a class="dropdown-item" routerLink="user-profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'address-card'"></fa-icon>
                             <span>Quản lý hồ sơ người dùng</span>
