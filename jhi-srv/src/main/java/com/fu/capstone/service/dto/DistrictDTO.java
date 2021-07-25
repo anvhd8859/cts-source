@@ -1,4 +1,4 @@
-package com.fu.capstone.service.dto;
+spackage com.fu.capstone.service.dto;
 
 import java.time.Instant;
 import java.io.Serializable;
