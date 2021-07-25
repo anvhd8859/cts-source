@@ -4,6 +4,7 @@ export interface IWarehouse {
     id?: number;
     warehouseName?: string;
     officeId?: number;
+    officeName?: string;
     keeperId?: number;
     address?: string;
     streetId?: string;
@@ -18,6 +19,7 @@ export class Warehouse implements IWarehouse {
         public id?: number,
         public warehouseName?: string,
         public officeId?: number,
+        public officeName?: string,
         public keeperId?: number,
         public address?: string,
         public streetId?: string,

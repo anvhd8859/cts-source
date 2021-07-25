@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { IWarehouse } from 'app/shared/model/ctsmicroservice/warehouse.model';
+import { IOffice } from './../../../shared/model/ctsmicroservice/office.model';
 
 @Component({
     selector: 'jhi-warehouse-detail',
@@ -9,6 +10,7 @@ import { IWarehouse } from 'app/shared/model/ctsmicroservice/warehouse.model';
 })
 export class WarehouseDetailComponent implements OnInit {
     warehouse: IWarehouse;
+    office: IOffice;
 
     constructor(private activatedRoute: ActivatedRoute) {}
 

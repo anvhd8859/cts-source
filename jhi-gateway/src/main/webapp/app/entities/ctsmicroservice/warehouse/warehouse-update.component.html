@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-warehouse-heading">Create or edit a Warehouse</h2>
+            <h2 id="jhi-warehouse-heading">Thông tin kho hàng</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!warehouse.id">
@@ -10,34 +10,34 @@
                         [(ngModel)]="warehouse.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_warehouseName">Warehouse Name</label>
+                    <label class="form-control-label" for="field_warehouseName">Tên kho hàng</label>
                     <input type="text" class="form-control" name="warehouseName" id="field_warehouseName"
                         [(ngModel)]="warehouse.warehouseName" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_keeperId">Keeper Id</label>
-                    <input type="number" class="form-control" name="keeperId" id="field_keeperId"
-                        [(ngModel)]="warehouse.keeperId" />
+                    <label class="form-control-label" for="field_keeperId">Mã Office</label>
+                    <input type="number" class="form-control" name="id" id="id"
+                        [(ngModel)]="office.id" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_address">Địa chỉ</label>
-                    <input type="text" class="form-control" name="address" id="field_address"
-                        [(ngModel)]="warehouse.address" />
+                    <label class="form-control-label" for="field_keeperId">Mã nhân viên kho</label>
+                    <input type="number" class="form-control" name="keeperId" id="field_keeperId"
+                        [(ngModel)]="warehouse.keeperId" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_streetId">Mã Đường/Phố</label>
                     <input type="text" class="form-control" name="streetId" id="field_streetId"
                         [(ngModel)]="warehouse.streetId" />
-                </div>
+                </div>                
                 <div class="form-group">
-                    <label class="form-control-label" for="field_warehouseType">Warehouse Type</label>
-                    <input type="text" class="form-control" name="warehouseType" id="field_warehouseType"
-                        [(ngModel)]="warehouse.warehouseType" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_masterWarehouseId">Master Warehouse Id</label>
+                    <label class="form-control-label" for="field_masterWarehouseId">Mã kho hàng Master</label>
                     <input type="number" class="form-control" name="masterWarehouseId" id="field_masterWarehouseId"
                         [(ngModel)]="warehouse.masterWarehouseId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_address">Địa chỉ</label>
+                    <input type="text" class="form-control" name="address" id="field_address"
+                        [(ngModel)]="warehouse.address" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_createDate">Ngày khởi tạo</label>

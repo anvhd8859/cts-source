@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span>Warehouses</span>
+        <span>Quản lý danh sách kho hàng</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-warehouse" [routerLink]="['/warehouse/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
-            Create new Warehouse
+            Tạo mới kho hàng
             </span>
         </button>
     </h2>
@@ -15,26 +15,20 @@
             <thead>
             <tr>
             <th><span>Mã số</span></th>
-            <th><span>Warehouse Name</span></th>
-            <th><span>Keeper Id</span></th>
+            <th><span>Tên kho hàng</span></th>
+            <th><span>Tên Office</span></th>            
             <th><span>Địa chỉ</span></th>
-            <th><span>Mã Đường/Phố</span></th>
-            <th><span>Warehouse Type</span></th>
-            <th><span>Master Warehouse Id</span></th>
             <th><span>Ngày khởi tạo</span></th>
             <th><span>Ngày cập nhật</span></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let warehouse of warehouses ;trackBy: trackId">
+                <tr *ngFor="let warehouse of warehouses; let office of offices; trackBy: trackId">   
                 <td><a [routerLink]="['/warehouse', warehouse.id, 'view' ]">{{warehouse.id}}</a></td>
                 <td>{{warehouse.warehouseName}}</td>
-                <td>{{warehouse.keeperId}}</td>
-                <td>{{warehouse.address}}</td>
-                <td>{{warehouse.streetId}}</td>
-                <td>{{warehouse.warehouseType}}</td>
-                <td>{{warehouse.masterWarehouseId}}</td>
+                <td>{{office.officeName}}</td>
+                <td>{{warehouse.address}}</td>                
                 <td>{{warehouse.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td>{{warehouse.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td class="text-right">
