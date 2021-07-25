@@ -23,8 +23,9 @@ export class WarehouseUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ warehouse }) => {
+        this.activatedRoute.data.subscribe(({ warehouse, office }) => {
             this.warehouse = warehouse;
+            this.office = office;
             this.createDate = this.warehouse.createDate != null ? this.warehouse.createDate.format(DATE_TIME_FORMAT) : null;
             this.updateDate = this.warehouse.updateDate != null ? this.warehouse.updateDate.format(DATE_TIME_FORMAT) : null;
         });

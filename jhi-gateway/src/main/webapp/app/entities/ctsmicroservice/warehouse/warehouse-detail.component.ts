@@ -15,8 +15,9 @@ export class WarehouseDetailComponent implements OnInit {
     constructor(private activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
-        this.activatedRoute.data.subscribe(({ warehouse }) => {
+        this.activatedRoute.data.subscribe(({ warehouse, office }) => {
             this.warehouse = warehouse;
+            this.office = office;
         });
     }
 

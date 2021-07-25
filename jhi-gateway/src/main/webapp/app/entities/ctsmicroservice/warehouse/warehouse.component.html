@@ -16,7 +16,7 @@
             <tr>
             <th><span>Mã số</span></th>
             <th><span>Tên kho hàng</span></th>
-            <th><span>Tên Office</span></th>            
+            <th><span>Mã văn phòng</span></th>            
             <th><span>Địa chỉ</span></th>
             <th><span>Ngày khởi tạo</span></th>
             <th><span>Ngày cập nhật</span></th>
@@ -24,10 +24,10 @@
             </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let warehouse of warehouses; let office of offices; trackBy: trackId">   
+                <tr *ngFor="let warehouse of warehouses; let office of offices; trackBy: trackId; trackBy: trackName;">   
                     <td><a [routerLink]="['/warehouse', warehouse.id, 'view' ]">{{warehouse.id}}</a></td>
                     <td>{{warehouse.warehouseName}}</td>
-                    <td>{{office.officeName}}</td>
+                    <td>{{office.officeId}}</td>
                     <td>{{warehouse.address}}</td>                
                     <td>{{warehouse.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
                     <td>{{warehouse.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
