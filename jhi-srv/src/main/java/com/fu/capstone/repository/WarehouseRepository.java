@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
 	@Query(name = "get-warehouse-by")
-	List<District> getWarehouseyProvinceId(@Param("id") Long id);
+	List<Warehouse> getWarehouseyProvinceId(@Param("id") Long id);
 	
 	@Query(name = "get-all-warehouse")
 	Page<Warehouse> getAll(Pageable pageable);
@@ -22,3 +22,4 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
 			nativeQuery = true)
 	Warehouse getWarehouseByStreetId(@Param("id") Long id);
 }
+ 
