@@ -127,6 +127,6 @@ export class ReceiptnoteComponent implements OnInit, OnDestroy {
     }
 
     private onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.jhiAlertService.error('Đã xảy ra lỗi khi thực hiện', null, null);
     }
 }

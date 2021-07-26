@@ -6,13 +6,14 @@ import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
-import { Principal } from 'app/core';
+import { AccountService, Principal } from 'app/core';
 
 import { ITEMS_PER_PAGE, CommonString } from 'app/shared';
 import { InvoiceHeaderService } from './invoice-header.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { InvoiceHeaderConfirmComponent } from './invoice-header-confirm-modal.component';
 import { Moment } from 'moment';
+import { IUserProfile } from 'app/shared/model/user-profile.model';
 
 @Component({
     selector: 'jhi-invoice-header-review',
@@ -20,6 +21,7 @@ import { Moment } from 'moment';
 })
 export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
     currentAccount: any;
+    currentProfile: IUserProfile;
     invoiceHeaders: IInvoiceHeader[];
     error: any;
     success: any;
@@ -44,6 +46,7 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
         private invoiceHeaderService: InvoiceHeaderService,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
+        private accountService: AccountService,
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private router: Router,
@@ -64,8 +67,8 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
     loadAll() {
         this.ngxUiLoaderService.start();
         const param = {
+            id: this.currentProfile.officeId,
             invoiceNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
-            status: 'waiting',
             receiveDate: this.receiveTime
                 ? this.receiveTime.year() + '-' + (this.receiveTime.month() + 1) + '-' + this.receiveTime.date()
                 : '',
@@ -75,7 +78,7 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
             size: this.itemsPerPage,
             sort: this.sort()
         };
-        this.invoiceHeaderService.searchByParam(param).subscribe(
+        this.invoiceHeaderService.getWaitingReview(param).subscribe(
             (res: HttpResponse<IInvoiceHeader[]>) => {
                 this.paginateInvoiceHeaders(res.body, res.headers);
                 this.ngxUiLoaderService.stop();
@@ -184,9 +187,12 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
         this.principal.identity().then(account => {
             this.currentAccount = account;
+            this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(profile => {
+                this.currentProfile = profile.body;
+                this.loadAll();
+            });
         });
         this.registerChangeInInvoiceHeaders();
     }
@@ -233,6 +239,6 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
     }
 
     private onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.jhiAlertService.error('Đã xảy ra lỗi khi thực hiện', null, null);
     }
 }

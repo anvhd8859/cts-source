@@ -6,6 +6,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { IWarehouse } from 'app/shared/model/ctsmicroservice/warehouse.model';
 import { Principal } from 'app/core';
 import { WarehouseService } from './warehouse.service';
+import { IOffice } from './../../../shared/model/ctsmicroservice/office.model';
 
 @Component({
     selector: 'jhi-warehouse',
@@ -13,6 +14,7 @@ import { WarehouseService } from './warehouse.service';
 })
 export class WarehouseComponent implements OnInit, OnDestroy {
     warehouses: IWarehouse[];
+    offices: IOffice[];
     currentAccount: any;
     eventSubscriber: Subscription;
 
@@ -47,12 +49,15 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     trackId(index: number, item: IWarehouse) {
         return item.id;
     }
+    trackName(index: string, item: IOffice) {
+        return item.officeName;
+    }
 
     registerChangeInWarehouses() {
         this.eventSubscriber = this.eventManager.subscribe('warehouseListModification', response => this.loadAll());
     }
 
     private onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.jhiAlertService.error('Đã xảy ra lỗi khi thực hiện', null, null);
     }
 }

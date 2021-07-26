@@ -96,8 +96,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	/**
 	 * Save a invoiceHeader.
 	 *
-	 * @param invoiceHeaderDTO
-	 *            the entity to save
+	 * @param invoiceHeaderDTO the entity to save
 	 * @return the persisted entity
 	 */
 	@Override
@@ -119,8 +118,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	/**
 	 * Get all the invoiceHeaders.
 	 *
-	 * @param pageable
-	 *            the pagination information
+	 * @param pageable the pagination information
 	 * @return the list of entities
 	 */
 	@Override
@@ -133,8 +131,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	/**
 	 * Get one invoiceHeader by id.
 	 *
-	 * @param id
-	 *            the id of the entity
+	 * @param id the id of the entity
 	 * @return the entity
 	 */
 	@Override
@@ -147,8 +144,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	/**
 	 * Delete the invoiceHeader by id.
 	 *
-	 * @param id
-	 *            the id of the entity
+	 * @param id the id of the entity
 	 */
 	@Override
 	public void delete(Long id) {
@@ -183,8 +179,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	public Page<InvoiceShipmentDTO> getInvoiceHeadersByShipper(Long id, String invNo, String type, Pageable pageable) {
 		Page<InvoiceHeaderDTO> invoicePage = invoiceHeaderRepository
 				.getInvoiceHeadersByShipper(id, invNo, type, pageable).map(invoiceHeaderMapper::toDto);
-		Page<InvoiceShipmentDTO> dtoPage = invoicePage.map(this::convert);
-		return dtoPage;
+		return invoicePage.map(this::convert);
 	}
 
 	// convert
@@ -232,9 +227,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			ip.setInvoiceHeaderId(invoiceHeaderDTO.getId());
 			if (ip.getId() == null) {
 				ip.setCreateDate(instant);
-				ip.setUpdateDate(instant);
-			} else
-				ip.setUpdateDate(instant);
+			}
+			ip.setUpdateDate(instant);
 			ip = invoicePackageMapper.toDto(invoicePackageRepository.save(invoicePackageMapper.toEntity(ip)));
 			for (InvoiceDetailsDTO id : i.getItemList()) {
 				id.setInvoiceHeaderId(invoiceHeaderDTO.getId());
@@ -250,7 +244,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 		// process data
 		BigDecimal subTotal = calculateSubTotal(lstPackageDetails, fromStreet, toStreet);
-		System.out.println("\n\nsubtotal = " + subTotal.intValue() + " $$$\n\n");
+//		log.info("\n\n subtotal = " + subTotal.intValue() + " $$$\n\n");
 		if (check > 0) {
 			// find near office
 			Office ofc = officeRepository.searchOfficeNearby(fromStreet.getId(), fromStreet.getSubDistrictId().getId(),
@@ -264,16 +258,17 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			ps.setStatus("");
 			ps.setCreateDate(instant);
 			ps.setUpdateDate(instant);
-			
+
 			// get employee and add to shipment
 			WorkingArea wa = workingAreaRepository.getEmployeeNearBy(fromStreet.getId());
 			if (wa != null) ps.setEmployeeId(wa.getEmployeeId());
-			subTotal = new BigDecimal(2500).add(subTotal.multiply(new BigDecimal(1.05)));
+			subTotal = new BigDecimal(2500).add(subTotal.multiply(new BigDecimal("1.05")));
 			lstShipment.add(ps);
 		}
+		else invoiceHeaderDTO.setStatus("");
 		invoiceHeaderDTO.setSubTotal(subTotal);
-		invoiceHeaderDTO.setTaxAmount(subTotal.multiply(new BigDecimal(0.1)));
-		invoiceHeaderDTO.setTotalDue(subTotal.multiply(new BigDecimal(1.1)));
+		invoiceHeaderDTO.setTaxAmount(subTotal.multiply(new BigDecimal("0.1")));
+		invoiceHeaderDTO.setTotalDue(subTotal.multiply(new BigDecimal("1.1")));
 		// finish = true, can import
 		invoiceHeaderDTO.setFinish(true);
 
@@ -291,7 +286,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			invoiceHeaderDTO.setStatus("first_import");
 			psDelivery.setStatus("new");
 		}
-		
+
 		// set employee and add delivery
 		if (wa != null) psDelivery.setEmployeeId(wa.getEmployeeId());
 		lstShipment.add(psDelivery);
@@ -308,7 +303,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	}
 
 	private BigDecimal calculateSubTotal(List<PackageDetailsDTO> lstPackage, Street fromStreet, Street toStreet) {
-		BigDecimal result = new BigDecimal(0);
+		BigDecimal result;
 		float totalWeight = 0;
 		for (PackageDetailsDTO ip : lstPackage) {
 			totalWeight += ip.getInvPackage().getWeight();
@@ -327,9 +322,9 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			else if (totalWeight <= 2.00)
 				result = new BigDecimal(29000);
 			else if (totalWeight <= 100.00)
-				result = new BigDecimal(29000).add(new BigDecimal(2600.0 * (totalWeight - 2.0)));
+				result = new BigDecimal(29000).add(BigDecimal.valueOf(2600.0 * (totalWeight - 2.0)));
 			else
-				result = new BigDecimal(29000).add(new BigDecimal(2600.0 * 88.0)).add(new BigDecimal(1400.0 * (totalWeight - 100.0)));
+				result = new BigDecimal(29000).add(BigDecimal.valueOf(2600.0 * 88.0)).add(BigDecimal.valueOf(1400.0 * (totalWeight - 100.0)));
 		} else {
 			if (totalWeight <= 0.25)
 				result = new BigDecimal(11000);
@@ -342,9 +337,9 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			else if (totalWeight <= 2.00)
 				result = new BigDecimal(31000);
 			else if (totalWeight <= 100.00)
-				result = new BigDecimal(31000).add(new BigDecimal(5000.0 * (totalWeight - 2.0)));
+				result = new BigDecimal(31000).add(BigDecimal.valueOf(5000.0 * (totalWeight - 2.0)));
 			else
-				result = new BigDecimal(31000).add(new BigDecimal(5000.0 * 88.0)).add(new BigDecimal(3200.0 * (totalWeight - 100.0)));
+				result = new BigDecimal(31000).add(BigDecimal.valueOf(5000.0 * 88.0)).add(BigDecimal.valueOf(3200.0 * (totalWeight - 100.0)));
 		}
 		return result;
 	}
@@ -406,8 +401,10 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	}
 
 	@Override
-	public Page<InvoicePackageDetailDTO> getInvoiceHeadersWaitingReview(Long id, Pageable pageable) {
-		Page<InvoiceHeader> page = invoiceHeaderRepository.getInvoiceHeadersWaitingReview(id, pageable);
+	public Page<InvoicePackageDetailDTO> getInvoiceHeadersWaitingReview(Long id, String invoiceNo,
+			String receiveDate, String createDate, String updateDate, Pageable pageable) {
+		Page<InvoiceHeader> page = invoiceHeaderRepository.getInvoiceHeadersWaitingReview(id, invoiceNo,
+				receiveDate, createDate, updateDate,  pageable);
 		return page.map(this::converterInvoicePackageDetailDTO);
 	}
 
@@ -461,7 +458,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	@Override
 	public Page<InvoicePackageDetailDTO> getFullInvoiceByPayment(Long id, String invoiceNo, String status,
 			String receiveFrom, String receiveTo, String createFrom, String createTo, Pageable pageable) {
-		Page<InvoiceHeader> page = invoiceHeaderRepository.getFullInvoiceByPayment(id, invoiceNo, status, 
+		Page<InvoiceHeader> page = invoiceHeaderRepository.getFullInvoiceByPayment(id, invoiceNo, status,
 				receiveFrom, receiveTo, createFrom, createTo, pageable);
 		return page.map(this::converterInvoicePackageDetailDTO);
 	}

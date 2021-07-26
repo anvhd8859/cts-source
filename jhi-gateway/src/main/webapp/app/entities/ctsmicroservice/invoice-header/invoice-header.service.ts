@@ -63,6 +63,13 @@ export class InvoiceHeaderService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
+    getWaitingReview(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<IInvoiceHeader[]>(this.resourceUrl + '/get-waiting', { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
     getLstUser(req?: any): Observable<HttpResponse<IUser[]>> {
         const options = createRequestOption(req);
         return this.http.get<IUser[]>(this.userResourceUrl, { params: options, observe: 'response' });

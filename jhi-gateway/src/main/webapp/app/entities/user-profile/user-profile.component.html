@@ -34,9 +34,9 @@
                                 <th><span>Mã số</span></th>
                                 <th><span>Mã người dùng</span></th>
                                 <th><span>Giới tính</span></th>
-                                <th><span>Address</span></th>
+                                <th><span>Địa chỉ</span></th>
                                 <th><span>Mã Đường/Phố</span></th>
-                                <th><span>Phone Number</span></th>
+                                <th><span>Số điện thoại</span></th>
                                 <th><span>Ngày sinh</span></th>
                                 <th><span>Ngày tạo</span></th>
                                 <th><span>Ngày cập nhật</span></th>
@@ -48,7 +48,7 @@
                                 <td><a [routerLink]="['/user-profile', userProfile.id, 'view' ]">{{userProfile.id}}</a>
                                 </td>
                                 <td>{{userProfile.userId}}</td>
-                                <td>{{userProfile.gender}}</td>
+                                <td>{{userProfile.gender === 'Male' ? 'Nam' : 'Nữ'}}</td>
                                 <td>{{userProfile.address}}</td>
                                 <td>{{userProfile.streetId}}</td>
                                 <td>{{userProfile.phoneNumber}}</td>

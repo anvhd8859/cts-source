@@ -37,6 +37,7 @@ export class SettingsComponent implements OnInit {
     selectedGender: any;
     user: any;
     vnf_regex = '^(09|03|07|08|05)([0-9]{8})$';
+    adr_regex = '^([.]{4,100})$';
     isValidFormSubmitted: any;
 
     constructor(
@@ -46,7 +47,7 @@ export class SettingsComponent implements OnInit {
         private alertService: JhiAlertService
     ) {
         this.userProfile = new UserProfile();
-        this.lstGender = [{ id: 'Male', text: 'Male' }, { id: 'Female', text: 'Female' }, { id: 'Other', text: 'Other' }];
+        this.lstGender = [{ id: 'Male', text: 'Nam' }, { id: 'Female', text: 'Nữ' }];
     }
 
     ngOnInit() {

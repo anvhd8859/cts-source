@@ -75,7 +75,7 @@ export class DistrictUpdateComponent implements OnInit {
     }
 
     private onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.jhiAlertService.error('Đã xảy ra lỗi khi thực hiện', null, null);
     }
 
     trackProvinceById(index: number, item: IProvince) {

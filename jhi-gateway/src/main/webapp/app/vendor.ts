@@ -61,7 +61,7 @@ import {
     faRocket,
     faMapMarkedAlt,
     faMapMarkerAlt,
-    faMicrophoneAlt,
+    faBuilding,
     faHeadset,
     faPhone,
     faNewspaper,
@@ -131,4 +131,5 @@ library.add(faPhone);
 library.add(faNewspaper);
 library.add(faUsers);
 library.add(faCheckCircle);
+library.add(faBuilding);
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
