@@ -48,7 +48,7 @@ public class WarehouseResource {
         if (warehouseDTO.getId() != null) {
             throw new BadRequestAlertException("A new warehouse cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        WarehouseDTO result = warehouseService.save(warehouseDTO);
+        WarehouseDTO result = warehouseService.saveWarehouse(warehouseDTO);
         return ResponseEntity.created(new URI("/api/warehouses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -114,12 +114,5 @@ public class WarehouseResource {
         log.debug("REST request to delete Warehouse : {}", id);
         warehouseService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
-    //thangnd 
-    @GetMapping("/warehouses/by-street")
-    @Timed
-    public ResponseEntity<WarehouseDTO> getWarehouseByStreetId(@RequestParam("id")Long id) {
-    	WarehouseDTO warehouseDTO = warehouseService.getWarehouseByStreetId(id);
-        return new ResponseEntity<>(warehouseDTO, HttpStatus.OK);
     }
 }
