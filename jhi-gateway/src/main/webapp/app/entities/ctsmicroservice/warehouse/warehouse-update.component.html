@@ -15,9 +15,12 @@
                         [(ngModel)]="warehouse.warehouseName" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_keeperId">Mã văn phòng</label>
-                    <input type="number" class="form-control" name="id" id="id"
-                        [(ngModel)]="office.id" />
+                    <label class="form-control-label" for="field_keeperId">Tên văn phòng</label>
+                    <ng-select [clearable]="true" [hideSelected]="true" [items]="this.offices" bindLabel="id"
+                                id="field_officeId" name="field_officeId" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="this.selectedOffice" >
+                                <ng-option *ngFor="let item of offices">{{item.officeName}}</ng-option>
+                            </ng-select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_keeperId">Mã nhân viên kho</label>

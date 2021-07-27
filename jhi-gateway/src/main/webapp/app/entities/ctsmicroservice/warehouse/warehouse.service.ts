@@ -45,6 +45,10 @@ export class WarehouseService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
+    getFullDetail(): Observable<HttpResponse<any[]>> {
+        return this.http.get<any[]>(this.resourceUrl + '/full-detail', { observe: 'response' });
+    }
+
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
