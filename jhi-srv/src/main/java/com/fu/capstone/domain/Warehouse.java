@@ -198,7 +198,7 @@ public class Warehouse implements Serializable {
             ", address='" + getAddress() + "'" +
             ", streetId='" + getStreetId() + "'" +
             ", warehouseType='" + getWarehouseType() + "'" +
-            ", masterWarehouseId=" + getMasterWarehouseId() +
+            ", masterWarehouseId='" + getMasterWarehouseId() + "'"  +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";
