@@ -1,6 +1,9 @@
 package com.fu.capstone.service;
 
 import com.fu.capstone.service.dto.WarehouseDTO;
+import com.fu.capstone.service.dto.WarehouseDetailDTO;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,8 +42,11 @@ public interface WarehouseService {
      *
      * @param id the id of the entity
      */
+
     void delete(Long id);    
 
     WarehouseDTO saveWarehouse(WarehouseDTO warehouseDTO);
+
+    List<WarehouseDetailDTO> getAllWarehousesDetail();
 
 }

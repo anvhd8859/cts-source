@@ -2,10 +2,13 @@ package com.fu.capstone.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fu.capstone.service.WarehouseService;
+import com.fu.capstone.service.dto.WarehouseDetailDTO;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.service.dto.WarehouseDTO;
-import io.github.jhipster.web.util.ResponseUtil;
+import io.github.jhipster.web.util.ResponseUtil;;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -114,5 +117,13 @@ public class WarehouseResource {
         log.debug("REST request to delete Warehouse : {}", id);
         warehouseService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+
+    @GetMapping("/warehouses/full-detail")
+    @Timed
+    public List<WarehouseDetailDTO> getAllWarehousesDetail() {
+        log.debug("REST request to get all Warehouses detail");
+        return warehouseService.getAllWarehousesDetail();
     }
 }

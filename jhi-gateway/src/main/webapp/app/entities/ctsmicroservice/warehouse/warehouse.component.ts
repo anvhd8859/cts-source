@@ -13,8 +13,7 @@ import { IOffice } from './../../../shared/model/ctsmicroservice/office.model';
     templateUrl: './warehouse.component.html'
 })
 export class WarehouseComponent implements OnInit, OnDestroy {
-    warehouses: IWarehouse[];
-    offices: IOffice[];
+    warehouses: any[];
     currentAccount: any;
     eventSubscriber: Subscription;
 
@@ -26,8 +25,8 @@ export class WarehouseComponent implements OnInit, OnDestroy {
     ) {}
 
     loadAll() {
-        this.warehouseService.query().subscribe(
-            (res: HttpResponse<IWarehouse[]>) => {
+        this.warehouseService.getFullDetail().subscribe(
+            (res: HttpResponse<any[]>) => {
                 this.warehouses = res.body;
             },
             (res: HttpErrorResponse) => this.onError(res.message)

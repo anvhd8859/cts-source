@@ -1,11 +1,15 @@
 package com.fu.capstone.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fu.capstone.domain.Office;
+import com.fu.capstone.repository.OfficeRepository;
 import com.fu.capstone.service.WarehouseService;
 import com.fu.capstone.domain.Office;
 import com.fu.capstone.domain.Warehouse;
 import com.fu.capstone.repository.OfficeRepository;
 import com.fu.capstone.repository.WarehouseRepository;
 import com.fu.capstone.service.dto.WarehouseDTO;
+import com.fu.capstone.service.dto.WarehouseDetailDTO;
 import com.fu.capstone.service.mapper.WarehouseMapper;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 
@@ -15,9 +19,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -30,7 +36,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	private final Logger log = LoggerFactory.getLogger(WarehouseServiceImpl.class);
 
 	private WarehouseRepository warehouseRepository;
-	
+
 	private OfficeRepository officeRepository;
 
 	private WarehouseMapper warehouseMapper;
@@ -46,8 +52,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	/**
 	 * Save a warehouse.
 	 *
-	 * @param warehouseDTO
-	 *            the entity to save
+	 * @param warehouseDTO the entity to save
 	 * @return the persisted entity
 	 */
 	@Override
@@ -75,8 +80,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	/**
 	 * Get one warehouse by id.
 	 *
-	 * @param id
-	 *            the id of the entity
+	 * @param id the id of the entity
 	 * @return the entity
 	 */
 	@Override
@@ -89,8 +93,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	/**
 	 * Delete the warehouse by id.
 	 *
-	 * @param id
-	 *            the id of the entity
+	 * @param id the id of the entity
 	 */
 	@Override
 	public void delete(Long id) {
@@ -113,5 +116,18 @@ public class WarehouseServiceImpl implements WarehouseService {
 		warehouse.setStreetId(ofc.getStreetId().toString());
 		warehouse = warehouseRepository.save(warehouse);
 		return warehouseMapper.toDto(warehouse);
+
+  @Override
+	public List<WarehouseDetailDTO> getAllWarehousesDetail() {
+		List<WarehouseDetailDTO> rs = new ArrayList<>();
+		List<Warehouse> warehouseList = warehouseRepository.findAll();
+		Map<Long, Office> officeMap = officeRepository.findAll().stream().collect(Collectors.toMap(Office::getId, Function.identity()));
+		warehouseList.forEach(w -> {
+			WarehouseDetailDTO object = new WarehouseDetailDTO();
+			object.setWarehouseDTO(warehouseMapper.toDto(w));
+			object.setOfficeName(officeMap.get(w.getOfficeId()).getOfficeName());
+			rs.add(object);
+		});
+		return rs;
 	}
 }

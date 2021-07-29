@@ -7,27 +7,31 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { IOffice } from 'app/shared/model/ctsmicroservice/office.model';
 import { IWarehouse } from 'app/shared/model/ctsmicroservice/warehouse.model';
 import { WarehouseService } from './warehouse.service';
+import { OfficeService } from 'app/entities/ctsmicroservice/office/office.service';
 
 @Component({
     selector: 'jhi-warehouse-update',
     templateUrl: './warehouse-update.component.html'
 })
 export class WarehouseUpdateComponent implements OnInit {
-    office: IOffice;
+    offices: IOffice[];
+    selectedOffice: IOffice;
     warehouse: IWarehouse;
     isSaving: boolean;
     createDate: string;
     updateDate: string;
 
-    constructor(private warehouseService: WarehouseService, private activatedRoute: ActivatedRoute) {}
+    constructor(private warehouseService: WarehouseService, private officeService: OfficeService, private activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ warehouse, office }) => {
+        this.activatedRoute.data.subscribe(({ warehouse }) => {
             this.warehouse = warehouse;
-            this.office = office;
             this.createDate = this.warehouse.createDate != null ? this.warehouse.createDate.format(DATE_TIME_FORMAT) : null;
             this.updateDate = this.warehouse.updateDate != null ? this.warehouse.updateDate.format(DATE_TIME_FORMAT) : null;
+        });
+        this.officeService.query({ page: 0, size: 999 }).subscribe((res: HttpResponse<IOffice[]>) => {
+            this.offices = res.body;
         });
     }
 
@@ -37,6 +41,7 @@ export class WarehouseUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.warehouse.officeId = this.selectedOffice.id;
         this.warehouse.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
         this.warehouse.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
         if (this.warehouse.id !== undefined) {
