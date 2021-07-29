@@ -51,7 +51,7 @@ public class WarehouseResource {
         if (warehouseDTO.getId() != null) {
             throw new BadRequestAlertException("A new warehouse cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        WarehouseDTO result = warehouseService.save(warehouseDTO);
+        WarehouseDTO result = warehouseService.saveWarehouse(warehouseDTO);
         return ResponseEntity.created(new URI("/api/warehouses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

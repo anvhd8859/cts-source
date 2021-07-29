@@ -4,14 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fu.capstone.domain.Office;
 import com.fu.capstone.repository.OfficeRepository;
 import com.fu.capstone.service.WarehouseService;
+import com.fu.capstone.domain.Office;
 import com.fu.capstone.domain.Warehouse;
+import com.fu.capstone.repository.OfficeRepository;
 import com.fu.capstone.repository.WarehouseRepository;
 import com.fu.capstone.service.dto.WarehouseDTO;
 import com.fu.capstone.service.dto.WarehouseDetailDTO;
 import com.fu.capstone.service.mapper.WarehouseMapper;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
+import com.fu.capstone.web.rest.errors.BadRequestAlertException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,11 +73,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 	@Transactional(readOnly = true)
 	public List<WarehouseDTO> findAll() {
 		log.debug("Request to get all Warehouses");
-		return warehouseRepository.findAll().stream()
-				.map(warehouseMapper::toDto)
+		return warehouseRepository.findAll().stream().map(warehouseMapper::toDto)
 				.collect(Collectors.toCollection(LinkedList::new));
 	}
-
 
 	/**
 	 * Get one warehouse by id.
@@ -88,8 +87,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	@Transactional(readOnly = true)
 	public Optional<WarehouseDTO> findOne(Long id) {
 		log.debug("Request to get Warehouse : {}", id);
-		return warehouseRepository.findById(id)
-				.map(warehouseMapper::toDto);
+		return warehouseRepository.findById(id).map(warehouseMapper::toDto);
 	}
 
 	/**
@@ -104,6 +102,22 @@ public class WarehouseServiceImpl implements WarehouseService {
 	}
 
 	@Override
+	public WarehouseDTO saveWarehouse(WarehouseDTO warehouseDTO) {
+		log.debug("Request to save Warehouse : {}", warehouseDTO);
+		
+		// validate
+		Warehouse warehouse = warehouseRepository.getWarehouseByOfficeId(warehouseDTO.getOfficeId());
+		if(warehouse != null ) 
+			throw new BadRequestAlertException("OfficeID:" + warehouseDTO.getOfficeId() + " allreade have an warehouseID:" + warehouse.getId(), "ctsmicroserviceWarehouse", "");
+		
+		Office ofc = officeRepository.getOne(warehouseDTO.getOfficeId());
+		warehouse = warehouseMapper.toEntity(warehouseDTO);
+		warehouse.setAddress(ofc.getAddress());
+		warehouse.setStreetId(ofc.getStreetId().toString());
+		warehouse = warehouseRepository.save(warehouse);
+		return warehouseMapper.toDto(warehouse);
+
+  @Override
 	public List<WarehouseDetailDTO> getAllWarehousesDetail() {
 		List<WarehouseDetailDTO> rs = new ArrayList<>();
 		List<Warehouse> warehouseList = warehouseRepository.findAll();
