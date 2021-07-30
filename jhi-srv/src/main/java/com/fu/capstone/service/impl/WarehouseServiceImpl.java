@@ -104,20 +104,21 @@ public class WarehouseServiceImpl implements WarehouseService {
 	@Override
 	public WarehouseDTO saveWarehouse(WarehouseDTO warehouseDTO) {
 		log.debug("Request to save Warehouse : {}", warehouseDTO);
-		
+
 		// validate
 		Warehouse warehouse = warehouseRepository.getWarehouseByOfficeId(warehouseDTO.getOfficeId());
-		if(warehouse != null ) 
+		if (warehouse != null)
 			throw new BadRequestAlertException("OfficeID:" + warehouseDTO.getOfficeId() + " allreade have an warehouseID:" + warehouse.getId(), "ctsmicroserviceWarehouse", "");
-		
+
 		Office ofc = officeRepository.getOne(warehouseDTO.getOfficeId());
 		warehouse = warehouseMapper.toEntity(warehouseDTO);
 		warehouse.setAddress(ofc.getAddress());
 		warehouse.setStreetId(ofc.getStreetId().toString());
 		warehouse = warehouseRepository.save(warehouse);
 		return warehouseMapper.toDto(warehouse);
+	}
 
-  @Override
+	@Override
 	public List<WarehouseDetailDTO> getAllWarehousesDetail() {
 		List<WarehouseDetailDTO> rs = new ArrayList<>();
 		List<Warehouse> warehouseList = warehouseRepository.findAll();
