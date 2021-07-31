@@ -11,8 +11,8 @@ import java.util.Objects;
  * A ImportExportWarehouse.
  */
 @Entity
-@Table(name = "import_export_warehouse")
-public class ImportExportWarehouse implements Serializable {
+@Table(name = "import_export_request")
+public class ImportExportRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,8 +20,8 @@ public class ImportExportWarehouse implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "office_id")
-    private Long officeId;
+    @Column(name = "warehouse_id")
+    private Long warehouseId;
 
     @Column(name = "keeper_id")
     private Long keeperId;
@@ -32,8 +32,8 @@ public class ImportExportWarehouse implements Serializable {
     @Column(name = "jhi_type")
     private String type;
 
-    @Column(name = "note")
-    private String note;
+    @Column(name = "status")
+    private String status;
 
     @Column(name = "keeper_confirm")
     private Boolean keeperConfirm;
@@ -59,24 +59,24 @@ public class ImportExportWarehouse implements Serializable {
         this.id = id;
     }
 
-    public Long getOfficeId() {
-        return officeId;
+    public Long getWarehouseId() {
+        return warehouseId;
     }
 
-    public ImportExportWarehouse officeId(Long officeId) {
-        this.officeId = officeId;
+    public ImportExportRequest officeId(Long officeId) {
+        this.warehouseId = officeId;
         return this;
     }
 
-    public void setOfficeId(Long officeId) {
-        this.officeId = officeId;
+    public void setWarehouseId(Long officeId) {
+        this.warehouseId = officeId;
     }
 
     public Long getKeeperId() {
         return keeperId;
     }
 
-    public ImportExportWarehouse keeperId(Long keeperId) {
+    public ImportExportRequest keeperId(Long keeperId) {
         this.keeperId = keeperId;
         return this;
     }
@@ -89,7 +89,7 @@ public class ImportExportWarehouse implements Serializable {
         return employeeId;
     }
 
-    public ImportExportWarehouse employeeId(Long employeeId) {
+    public ImportExportRequest employeeId(Long employeeId) {
         this.employeeId = employeeId;
         return this;
     }
@@ -102,7 +102,7 @@ public class ImportExportWarehouse implements Serializable {
         return type;
     }
 
-    public ImportExportWarehouse type(String type) {
+    public ImportExportRequest type(String type) {
         this.type = type;
         return this;
     }
@@ -111,24 +111,24 @@ public class ImportExportWarehouse implements Serializable {
         this.type = type;
     }
 
-    public String getNote() {
-        return note;
+    public String getStatus() {
+        return status;
     }
 
-    public ImportExportWarehouse note(String note) {
-        this.note = note;
+    public ImportExportRequest note(String note) {
+        this.status = note;
         return this;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setStatus(String note) {
+        this.status = note;
     }
 
     public Boolean isKeeperConfirm() {
         return keeperConfirm;
     }
 
-    public ImportExportWarehouse keeperConfirm(Boolean keeperConfirm) {
+    public ImportExportRequest keeperConfirm(Boolean keeperConfirm) {
         this.keeperConfirm = keeperConfirm;
         return this;
     }
@@ -141,7 +141,7 @@ public class ImportExportWarehouse implements Serializable {
         return shipDate;
     }
 
-    public ImportExportWarehouse shipDate(Instant shipDate) {
+    public ImportExportRequest shipDate(Instant shipDate) {
         this.shipDate = shipDate;
         return this;
     }
@@ -169,7 +169,7 @@ public class ImportExportWarehouse implements Serializable {
         return createDate;
     }
 
-    public ImportExportWarehouse createDate(Instant createDate) {
+    public ImportExportRequest createDate(Instant createDate) {
         this.createDate = createDate;
         return this;
     }
@@ -182,7 +182,7 @@ public class ImportExportWarehouse implements Serializable {
         return updateDate;
     }
 
-    public ImportExportWarehouse updateDate(Instant updateDate) {
+    public ImportExportRequest updateDate(Instant updateDate) {
         this.updateDate = updateDate;
         return this;
     }
@@ -200,11 +200,11 @@ public class ImportExportWarehouse implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ImportExportWarehouse importExportWarehouse = (ImportExportWarehouse) o;
-        if (importExportWarehouse.getId() == null || getId() == null) {
+        ImportExportRequest importExportRequest = (ImportExportRequest) o;
+        if (importExportRequest.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), importExportWarehouse.getId());
+        return Objects.equals(getId(), importExportRequest.getId());
     }
 
     @Override
@@ -216,11 +216,11 @@ public class ImportExportWarehouse implements Serializable {
     public String toString() {
         return "ImportExportWarehouse{" +
             "id=" + getId() +
-            ", officeId=" + getOfficeId() +
+            ", warehouseId=" + getWarehouseId() +
             ", keeperId=" + getKeeperId() +
             ", employeeId=" + getEmployeeId() +
             ", type='" + getType() + "'" +
-            ", note='" + getNote() + "'" +
+            ", status='" + getStatus() + "'" +
             ", keeperConfirm='" + isKeeperConfirm() + "'" +
             ", shipDate='" + getShipDate() + "'" +
             ", createDate='" + getCreateDate() + "'" +

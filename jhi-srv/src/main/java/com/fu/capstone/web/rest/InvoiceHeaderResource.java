@@ -234,11 +234,11 @@ public class InvoiceHeaderResource {
 
 	@GetMapping("/invoice-headers/get-waiting")
 	@Timed
-	public ResponseEntity<List<InvoicePackageDetailDTO>> getInvoiceHeadersWaitingReview(
+	public ResponseEntity<List<InvoiceHeaderDTO>> getInvoiceHeadersWaitingReview(
 			@RequestParam("id") Long id, @RequestParam("invoiceNo") String invoiceNo,
 			@RequestParam("receiveDate") String receiveDate, @RequestParam("createDate") String createDate,
 			@RequestParam("updateDate") String updateDate, Pageable pageable) {
-		Page<InvoicePackageDetailDTO> page = invoiceHeaderService.getInvoiceHeadersWaitingReview(id, invoiceNo,
+		Page<InvoiceHeaderDTO> page = invoiceHeaderService.getInvoiceHeadersWaitingReview(id, invoiceNo,
 				receiveDate, createDate, updateDate, pageable);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/get-waiting");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);

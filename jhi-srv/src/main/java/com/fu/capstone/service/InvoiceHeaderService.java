@@ -70,7 +70,7 @@ public interface InvoiceHeaderService {
 
 	InvoiceHeaderDTO updateFinishInvoicePersonalShipment(InvoiceHeaderDTO invoice);
 
-	Page<InvoicePackageDetailDTO> getInvoiceHeadersWaitingReview(Long id, String invoiceNo, String receiveDate,
+	Page<InvoiceHeaderDTO> getInvoiceHeadersWaitingReview(Long id, String invoiceNo, String receiveDate,
 			String createDate, String updateDate, Pageable pageable);
 
 	InvoiceHeaderDTO updateInvoiceHeadersReview(InvoiceHeaderDTO invoice);

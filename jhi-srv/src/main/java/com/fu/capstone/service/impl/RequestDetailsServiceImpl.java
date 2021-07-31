@@ -1,7 +1,6 @@
 package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.RequestDetailsService;
-import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.domain.RequestDetails;
 import com.fu.capstone.repository.InvoiceDetailsRepository;
@@ -9,13 +8,9 @@ import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
 import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.RequestDetailsRepository;
-import com.fu.capstone.service.dto.InvoiceDetailsDTO;
-import com.fu.capstone.service.dto.InvoicePackageDTO;
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
-import com.fu.capstone.service.dto.PackageDetailsDTO;
 import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 import com.fu.capstone.service.dto.RequestDetailsDTO;
-import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import com.fu.capstone.service.mapper.PersonalShipmentMapper;
@@ -136,8 +131,8 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 		List<PersonalShipmentInvoiceDTO> rs = new ArrayList<>();
 		for (RequestDetails rd : list) {
 			PersonalShipmentInvoiceDTO dto = new PersonalShipmentInvoiceDTO();
-			dto.setInvoiceHeaderDTO(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getInvoiceByShipmentId(rd.getShipmentId())));
-			dto.setPersonalShipmentDTO(personalShipmentMapper.toDto(personalShipmentRepository.getOne(rd.getShipmentId())));
+			dto.setInvoiceHeaderDTO(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getInvoiceByShipmentId(rd.getInvoicePackageId())));
+			dto.setPersonalShipmentDTO(personalShipmentMapper.toDto(personalShipmentRepository.getOne(rd.getInvoicePackageId())));
 			rs.add(dto);
 		}
 		
@@ -152,7 +147,7 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 			for(PersonalShipment ps : psList) {
 				if(o.getInvoice().getId() == ps.getInvoiceHeaderId()) {
 					for(RequestDetails rd : rdList) {
-						if(ps.getId() == rd.getShipmentId()){
+						if(ps.getId() == rd.getInvoicePackageId()){
 							rd.setKeeperConfirm(true);
 							rd.setShipperConfirm(true);
 							rd.setImpExpConfirm(true);

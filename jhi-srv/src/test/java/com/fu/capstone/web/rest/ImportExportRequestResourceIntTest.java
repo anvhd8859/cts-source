@@ -2,10 +2,10 @@ package com.fu.capstone.web.rest;
 
 import com.fu.capstone.CtsmicroserviceApp;
 
-import com.fu.capstone.domain.ImportExportWarehouse;
+import com.fu.capstone.domain.ImportExportRequest;
 import com.fu.capstone.repository.ImportExportWarehouseRepository;
 import com.fu.capstone.service.ImportExportWarehouseService;
-import com.fu.capstone.service.dto.ImportExportWarehouseDTO;
+import com.fu.capstone.service.dto.ImportExportRequestDTO;
 import com.fu.capstone.service.mapper.ImportExportWarehouseMapper;
 import com.fu.capstone.web.rest.errors.ExceptionTranslator;
 
@@ -42,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CtsmicroserviceApp.class)
-public class ImportExportWarehouseResourceIntTest {
+public class ImportExportRequestResourceIntTest {
 
     private static final Long DEFAULT_OFFICE_ID = 1L;
     private static final Long UPDATED_OFFICE_ID = 2L;
@@ -94,7 +94,7 @@ public class ImportExportWarehouseResourceIntTest {
 
     private MockMvc restImportExportWarehouseMockMvc;
 
-    private ImportExportWarehouse importExportWarehouse;
+    private ImportExportRequest importExportRequest;
 
     @Before
     public void setup() {
@@ -113,8 +113,8 @@ public class ImportExportWarehouseResourceIntTest {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static ImportExportWarehouse createEntity(EntityManager em) {
-        ImportExportWarehouse importExportWarehouse = new ImportExportWarehouse()
+    public static ImportExportRequest createEntity(EntityManager em) {
+        ImportExportRequest importExportRequest = new ImportExportRequest()
             .officeId(DEFAULT_OFFICE_ID)
             .keeperId(DEFAULT_KEEPER_ID)
             .employeeId(DEFAULT_EMPLOYEE_ID)
@@ -124,12 +124,12 @@ public class ImportExportWarehouseResourceIntTest {
             .shipDate(DEFAULT_SHIP_DATE)
             .createDate(DEFAULT_CREATE_DATE)
             .updateDate(DEFAULT_UPDATE_DATE);
-        return importExportWarehouse;
+        return importExportRequest;
     }
 
     @Before
     public void initTest() {
-        importExportWarehouse = createEntity(em);
+        importExportRequest = createEntity(em);
     }
 
     @Test
@@ -138,25 +138,25 @@ public class ImportExportWarehouseResourceIntTest {
         int databaseSizeBeforeCreate = importExportWarehouseRepository.findAll().size();
 
         // Create the ImportExportWarehouse
-        ImportExportWarehouseDTO importExportWarehouseDTO = importExportWarehouseMapper.toDto(importExportWarehouse);
+        ImportExportRequestDTO importExportRequestDTO = importExportWarehouseMapper.toDto(importExportRequest);
         restImportExportWarehouseMockMvc.perform(post("/api/import-export-warehouses")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(importExportWarehouseDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(importExportRequestDTO)))
             .andExpect(status().isCreated());
 
         // Validate the ImportExportWarehouse in the database
-        List<ImportExportWarehouse> importExportWarehouseList = importExportWarehouseRepository.findAll();
-        assertThat(importExportWarehouseList).hasSize(databaseSizeBeforeCreate + 1);
-        ImportExportWarehouse testImportExportWarehouse = importExportWarehouseList.get(importExportWarehouseList.size() - 1);
-        assertThat(testImportExportWarehouse.getOfficeId()).isEqualTo(DEFAULT_OFFICE_ID);
-        assertThat(testImportExportWarehouse.getKeeperId()).isEqualTo(DEFAULT_KEEPER_ID);
-        assertThat(testImportExportWarehouse.getEmployeeId()).isEqualTo(DEFAULT_EMPLOYEE_ID);
-        assertThat(testImportExportWarehouse.getType()).isEqualTo(DEFAULT_TYPE);
-        assertThat(testImportExportWarehouse.getNote()).isEqualTo(DEFAULT_NOTE);
-        assertThat(testImportExportWarehouse.isKeeperConfirm()).isEqualTo(DEFAULT_KEEPER_CONFIRM);
-        assertThat(testImportExportWarehouse.getShipDate()).isEqualTo(DEFAULT_SHIP_DATE);
-        assertThat(testImportExportWarehouse.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
-        assertThat(testImportExportWarehouse.getUpdateDate()).isEqualTo(DEFAULT_UPDATE_DATE);
+        List<ImportExportRequest> importExportRequestList = importExportWarehouseRepository.findAll();
+        assertThat(importExportRequestList).hasSize(databaseSizeBeforeCreate + 1);
+        ImportExportRequest testImportExportRequest = importExportRequestList.get(importExportRequestList.size() - 1);
+        assertThat(testImportExportRequest.getWarehouseId()).isEqualTo(DEFAULT_OFFICE_ID);
+        assertThat(testImportExportRequest.getKeeperId()).isEqualTo(DEFAULT_KEEPER_ID);
+        assertThat(testImportExportRequest.getEmployeeId()).isEqualTo(DEFAULT_EMPLOYEE_ID);
+        assertThat(testImportExportRequest.getType()).isEqualTo(DEFAULT_TYPE);
+        assertThat(testImportExportRequest.getStatus()).isEqualTo(DEFAULT_NOTE);
+        assertThat(testImportExportRequest.isKeeperConfirm()).isEqualTo(DEFAULT_KEEPER_CONFIRM);
+        assertThat(testImportExportRequest.getShipDate()).isEqualTo(DEFAULT_SHIP_DATE);
+        assertThat(testImportExportRequest.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
+        assertThat(testImportExportRequest.getUpdateDate()).isEqualTo(DEFAULT_UPDATE_DATE);
     }
 
     @Test
@@ -165,31 +165,31 @@ public class ImportExportWarehouseResourceIntTest {
         int databaseSizeBeforeCreate = importExportWarehouseRepository.findAll().size();
 
         // Create the ImportExportWarehouse with an existing ID
-        importExportWarehouse.setId(1L);
-        ImportExportWarehouseDTO importExportWarehouseDTO = importExportWarehouseMapper.toDto(importExportWarehouse);
+        importExportRequest.setId(1L);
+        ImportExportRequestDTO importExportRequestDTO = importExportWarehouseMapper.toDto(importExportRequest);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restImportExportWarehouseMockMvc.perform(post("/api/import-export-warehouses")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(importExportWarehouseDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(importExportRequestDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the ImportExportWarehouse in the database
-        List<ImportExportWarehouse> importExportWarehouseList = importExportWarehouseRepository.findAll();
-        assertThat(importExportWarehouseList).hasSize(databaseSizeBeforeCreate);
+        List<ImportExportRequest> importExportRequestList = importExportWarehouseRepository.findAll();
+        assertThat(importExportRequestList).hasSize(databaseSizeBeforeCreate);
     }
 
     @Test
     @Transactional
     public void getAllImportExportWarehouses() throws Exception {
         // Initialize the database
-        importExportWarehouseRepository.saveAndFlush(importExportWarehouse);
+        importExportWarehouseRepository.saveAndFlush(importExportRequest);
 
         // Get all the importExportWarehouseList
         restImportExportWarehouseMockMvc.perform(get("/api/import-export-warehouses?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(importExportWarehouse.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(importExportRequest.getId().intValue())))
             .andExpect(jsonPath("$.[*].officeId").value(hasItem(DEFAULT_OFFICE_ID.intValue())))
             .andExpect(jsonPath("$.[*].keeperId").value(hasItem(DEFAULT_KEEPER_ID.intValue())))
             .andExpect(jsonPath("$.[*].employeeId").value(hasItem(DEFAULT_EMPLOYEE_ID.intValue())))
@@ -205,13 +205,13 @@ public class ImportExportWarehouseResourceIntTest {
     @Transactional
     public void getImportExportWarehouse() throws Exception {
         // Initialize the database
-        importExportWarehouseRepository.saveAndFlush(importExportWarehouse);
+        importExportWarehouseRepository.saveAndFlush(importExportRequest);
 
         // Get the importExportWarehouse
-        restImportExportWarehouseMockMvc.perform(get("/api/import-export-warehouses/{id}", importExportWarehouse.getId()))
+        restImportExportWarehouseMockMvc.perform(get("/api/import-export-warehouses/{id}", importExportRequest.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(importExportWarehouse.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(importExportRequest.getId().intValue()))
             .andExpect(jsonPath("$.officeId").value(DEFAULT_OFFICE_ID.intValue()))
             .andExpect(jsonPath("$.keeperId").value(DEFAULT_KEEPER_ID.intValue()))
             .andExpect(jsonPath("$.employeeId").value(DEFAULT_EMPLOYEE_ID.intValue()))
@@ -235,15 +235,15 @@ public class ImportExportWarehouseResourceIntTest {
     @Transactional
     public void updateImportExportWarehouse() throws Exception {
         // Initialize the database
-        importExportWarehouseRepository.saveAndFlush(importExportWarehouse);
+        importExportWarehouseRepository.saveAndFlush(importExportRequest);
 
         int databaseSizeBeforeUpdate = importExportWarehouseRepository.findAll().size();
 
         // Update the importExportWarehouse
-        ImportExportWarehouse updatedImportExportWarehouse = importExportWarehouseRepository.findById(importExportWarehouse.getId()).get();
+        ImportExportRequest updatedImportExportRequest = importExportWarehouseRepository.findById(importExportRequest.getId()).get();
         // Disconnect from session so that the updates on updatedImportExportWarehouse are not directly saved in db
-        em.detach(updatedImportExportWarehouse);
-        updatedImportExportWarehouse
+        em.detach(updatedImportExportRequest);
+        updatedImportExportRequest
             .officeId(UPDATED_OFFICE_ID)
             .keeperId(UPDATED_KEEPER_ID)
             .employeeId(UPDATED_EMPLOYEE_ID)
@@ -253,26 +253,26 @@ public class ImportExportWarehouseResourceIntTest {
             .shipDate(UPDATED_SHIP_DATE)
             .createDate(UPDATED_CREATE_DATE)
             .updateDate(UPDATED_UPDATE_DATE);
-        ImportExportWarehouseDTO importExportWarehouseDTO = importExportWarehouseMapper.toDto(updatedImportExportWarehouse);
+        ImportExportRequestDTO importExportRequestDTO = importExportWarehouseMapper.toDto(updatedImportExportRequest);
 
         restImportExportWarehouseMockMvc.perform(put("/api/import-export-warehouses")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(importExportWarehouseDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(importExportRequestDTO)))
             .andExpect(status().isOk());
 
         // Validate the ImportExportWarehouse in the database
-        List<ImportExportWarehouse> importExportWarehouseList = importExportWarehouseRepository.findAll();
-        assertThat(importExportWarehouseList).hasSize(databaseSizeBeforeUpdate);
-        ImportExportWarehouse testImportExportWarehouse = importExportWarehouseList.get(importExportWarehouseList.size() - 1);
-        assertThat(testImportExportWarehouse.getOfficeId()).isEqualTo(UPDATED_OFFICE_ID);
-        assertThat(testImportExportWarehouse.getKeeperId()).isEqualTo(UPDATED_KEEPER_ID);
-        assertThat(testImportExportWarehouse.getEmployeeId()).isEqualTo(UPDATED_EMPLOYEE_ID);
-        assertThat(testImportExportWarehouse.getType()).isEqualTo(UPDATED_TYPE);
-        assertThat(testImportExportWarehouse.getNote()).isEqualTo(UPDATED_NOTE);
-        assertThat(testImportExportWarehouse.isKeeperConfirm()).isEqualTo(UPDATED_KEEPER_CONFIRM);
-        assertThat(testImportExportWarehouse.getShipDate()).isEqualTo(UPDATED_SHIP_DATE);
-        assertThat(testImportExportWarehouse.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
-        assertThat(testImportExportWarehouse.getUpdateDate()).isEqualTo(UPDATED_UPDATE_DATE);
+        List<ImportExportRequest> importExportRequestList = importExportWarehouseRepository.findAll();
+        assertThat(importExportRequestList).hasSize(databaseSizeBeforeUpdate);
+        ImportExportRequest testImportExportRequest = importExportRequestList.get(importExportRequestList.size() - 1);
+        assertThat(testImportExportRequest.getWarehouseId()).isEqualTo(UPDATED_OFFICE_ID);
+        assertThat(testImportExportRequest.getKeeperId()).isEqualTo(UPDATED_KEEPER_ID);
+        assertThat(testImportExportRequest.getEmployeeId()).isEqualTo(UPDATED_EMPLOYEE_ID);
+        assertThat(testImportExportRequest.getType()).isEqualTo(UPDATED_TYPE);
+        assertThat(testImportExportRequest.getStatus()).isEqualTo(UPDATED_NOTE);
+        assertThat(testImportExportRequest.isKeeperConfirm()).isEqualTo(UPDATED_KEEPER_CONFIRM);
+        assertThat(testImportExportRequest.getShipDate()).isEqualTo(UPDATED_SHIP_DATE);
+        assertThat(testImportExportRequest.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
+        assertThat(testImportExportRequest.getUpdateDate()).isEqualTo(UPDATED_UPDATE_DATE);
     }
 
     @Test
@@ -281,66 +281,66 @@ public class ImportExportWarehouseResourceIntTest {
         int databaseSizeBeforeUpdate = importExportWarehouseRepository.findAll().size();
 
         // Create the ImportExportWarehouse
-        ImportExportWarehouseDTO importExportWarehouseDTO = importExportWarehouseMapper.toDto(importExportWarehouse);
+        ImportExportRequestDTO importExportRequestDTO = importExportWarehouseMapper.toDto(importExportRequest);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restImportExportWarehouseMockMvc.perform(put("/api/import-export-warehouses")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(importExportWarehouseDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(importExportRequestDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the ImportExportWarehouse in the database
-        List<ImportExportWarehouse> importExportWarehouseList = importExportWarehouseRepository.findAll();
-        assertThat(importExportWarehouseList).hasSize(databaseSizeBeforeUpdate);
+        List<ImportExportRequest> importExportRequestList = importExportWarehouseRepository.findAll();
+        assertThat(importExportRequestList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     public void deleteImportExportWarehouse() throws Exception {
         // Initialize the database
-        importExportWarehouseRepository.saveAndFlush(importExportWarehouse);
+        importExportWarehouseRepository.saveAndFlush(importExportRequest);
 
         int databaseSizeBeforeDelete = importExportWarehouseRepository.findAll().size();
 
         // Get the importExportWarehouse
-        restImportExportWarehouseMockMvc.perform(delete("/api/import-export-warehouses/{id}", importExportWarehouse.getId())
+        restImportExportWarehouseMockMvc.perform(delete("/api/import-export-warehouses/{id}", importExportRequest.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
         // Validate the database is empty
-        List<ImportExportWarehouse> importExportWarehouseList = importExportWarehouseRepository.findAll();
-        assertThat(importExportWarehouseList).hasSize(databaseSizeBeforeDelete - 1);
+        List<ImportExportRequest> importExportRequestList = importExportWarehouseRepository.findAll();
+        assertThat(importExportRequestList).hasSize(databaseSizeBeforeDelete - 1);
     }
 
     @Test
     @Transactional
     public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(ImportExportWarehouse.class);
-        ImportExportWarehouse importExportWarehouse1 = new ImportExportWarehouse();
-        importExportWarehouse1.setId(1L);
-        ImportExportWarehouse importExportWarehouse2 = new ImportExportWarehouse();
-        importExportWarehouse2.setId(importExportWarehouse1.getId());
-        assertThat(importExportWarehouse1).isEqualTo(importExportWarehouse2);
-        importExportWarehouse2.setId(2L);
-        assertThat(importExportWarehouse1).isNotEqualTo(importExportWarehouse2);
-        importExportWarehouse1.setId(null);
-        assertThat(importExportWarehouse1).isNotEqualTo(importExportWarehouse2);
+        TestUtil.equalsVerifier(ImportExportRequest.class);
+        ImportExportRequest importExportRequest1 = new ImportExportRequest();
+        importExportRequest1.setId(1L);
+        ImportExportRequest importExportRequest2 = new ImportExportRequest();
+        importExportRequest2.setId(importExportRequest1.getId());
+        assertThat(importExportRequest1).isEqualTo(importExportRequest2);
+        importExportRequest2.setId(2L);
+        assertThat(importExportRequest1).isNotEqualTo(importExportRequest2);
+        importExportRequest1.setId(null);
+        assertThat(importExportRequest1).isNotEqualTo(importExportRequest2);
     }
 
     @Test
     @Transactional
     public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(ImportExportWarehouseDTO.class);
-        ImportExportWarehouseDTO importExportWarehouseDTO1 = new ImportExportWarehouseDTO();
-        importExportWarehouseDTO1.setId(1L);
-        ImportExportWarehouseDTO importExportWarehouseDTO2 = new ImportExportWarehouseDTO();
-        assertThat(importExportWarehouseDTO1).isNotEqualTo(importExportWarehouseDTO2);
-        importExportWarehouseDTO2.setId(importExportWarehouseDTO1.getId());
-        assertThat(importExportWarehouseDTO1).isEqualTo(importExportWarehouseDTO2);
-        importExportWarehouseDTO2.setId(2L);
-        assertThat(importExportWarehouseDTO1).isNotEqualTo(importExportWarehouseDTO2);
-        importExportWarehouseDTO1.setId(null);
-        assertThat(importExportWarehouseDTO1).isNotEqualTo(importExportWarehouseDTO2);
+        TestUtil.equalsVerifier(ImportExportRequestDTO.class);
+        ImportExportRequestDTO importExportRequestDTO1 = new ImportExportRequestDTO();
+        importExportRequestDTO1.setId(1L);
+        ImportExportRequestDTO importExportRequestDTO2 = new ImportExportRequestDTO();
+        assertThat(importExportRequestDTO1).isNotEqualTo(importExportRequestDTO2);
+        importExportRequestDTO2.setId(importExportRequestDTO1.getId());
+        assertThat(importExportRequestDTO1).isEqualTo(importExportRequestDTO2);
+        importExportRequestDTO2.setId(2L);
+        assertThat(importExportRequestDTO1).isNotEqualTo(importExportRequestDTO2);
+        importExportRequestDTO1.setId(null);
+        assertThat(importExportRequestDTO1).isNotEqualTo(importExportRequestDTO2);
     }
 
     @Test

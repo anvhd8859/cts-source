@@ -401,11 +401,11 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	}
 
 	@Override
-	public Page<InvoicePackageDetailDTO> getInvoiceHeadersWaitingReview(Long id, String invoiceNo,
+	public Page<InvoiceHeaderDTO> getInvoiceHeadersWaitingReview(Long id, String invoiceNo,
 			String receiveDate, String createDate, String updateDate, Pageable pageable) {
 		Page<InvoiceHeader> page = invoiceHeaderRepository.getInvoiceHeadersWaitingReview(id, invoiceNo,
 				receiveDate, createDate, updateDate,  pageable);
-		return page.map(this::converterInvoicePackageDetailDTO);
+		return page.map(invoiceHeaderMapper::toDto);
 	}
 
 	private InvoicePackageDetailDTO converterInvoicePackageDetailDTO(InvoiceHeader inv) {
