@@ -1,0 +1,32 @@
+{
+    "name": "TransferDetail",
+    "fields": [
+        {
+            "fieldName": "transferId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "invoicePackageIdackageId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20210731111607",
+    "entityTableName": "transfer_detail",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

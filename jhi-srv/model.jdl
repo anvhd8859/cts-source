@@ -1,0 +1,23 @@
+entity WarehouseTransferRequest {
+	fromWarehouseId Long,
+	toWarehouseId Long,
+	fromKeeperId Long,
+	toKeeperId Long,
+	status String,
+	receiveDate Instant,
+	createDate Instant,
+	updateDate Instant
+}
+
+entity TransferDetail {
+	transferId Long,
+	invoicePackageIdackageId Long,
+	createDate Instant,
+	updateDate Instant	
+}
+
+paginate WarehouseTransferRequest, TransferDetail with pagination
+
+dto * with mapstruct
+
+service all with serviceImpl
