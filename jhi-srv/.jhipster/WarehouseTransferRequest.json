@@ -38,7 +38,7 @@
     "changelogDate": "20210731111606",
     "entityTableName": "warehouse_transfer_request",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
