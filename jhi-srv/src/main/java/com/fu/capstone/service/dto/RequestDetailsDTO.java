@@ -24,7 +24,7 @@ public class RequestDetailsDTO implements Serializable {
     
     private Boolean shipperConfirm;
     
-    private Boolean impExpConfirm;
+    private Boolean status;
 
     private Instant createDate;
 
@@ -66,12 +66,12 @@ public class RequestDetailsDTO implements Serializable {
 		this.shipperConfirm = shipperConfirm;
 	}
 
-	public boolean getImpExpConfirm() {
-		return impExpConfirm;
+	public boolean getStatus() {
+		return status;
 	}
 
-	public void setImpExpConfirm(Boolean impExpConfirm) {
-		this.impExpConfirm = impExpConfirm;
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 
 	public void setInvoicePackageId(Long invoicePackageId) {

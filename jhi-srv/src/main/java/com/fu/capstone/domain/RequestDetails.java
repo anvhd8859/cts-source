@@ -32,8 +32,8 @@ public class RequestDetails implements Serializable {
     @Column(name = "shipper_confirm")
     private Boolean shipperConfirm;
 
-    @Column(name = "imp_exp_confirm")
-    private Boolean impExpConfirm;
+    @Column(name = "status")
+    private Boolean status;
 
     @Column(name = "create_date")
     private Instant createDate;
@@ -101,12 +101,12 @@ public class RequestDetails implements Serializable {
 		this.shipperConfirm = shipperConfirm;
 	}
 
-	public Boolean getImpExpConfirm() {
-		return impExpConfirm;
+	public Boolean getStatus() {
+		return status;
 	}
 
-	public void setImpExpConfirm(Boolean impExpConfirm) {
-		this.impExpConfirm = impExpConfirm;
+	public void setStatus(Boolean impExpConfirm) {
+		this.status = impExpConfirm;
 	}
 
 	public void setCreateDate(Instant createDate) {

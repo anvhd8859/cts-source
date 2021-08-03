@@ -150,17 +150,17 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 						if(ps.getId() == rd.getInvoicePackageId()){
 							rd.setKeeperConfirm(true);
 							rd.setShipperConfirm(true);
-							rd.setImpExpConfirm(true);
+							rd.setStatus(true);
 						}
 					}
 				}
 			}
 		}
 		for(RequestDetails rd : rdList){
-			if(rd.getImpExpConfirm() == null || !rd.getImpExpConfirm()) {
+			if(rd.getStatus() == null || !rd.getStatus()) {
 				rd.setKeeperConfirm(true);
 				rd.setShipperConfirm(true);
-				rd.setImpExpConfirm(false);
+				rd.setStatus(false);
 			}
 		}
 		requestDetailsRepository.saveAll(rdList);

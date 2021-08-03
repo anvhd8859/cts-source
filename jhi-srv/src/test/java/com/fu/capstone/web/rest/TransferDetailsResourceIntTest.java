@@ -129,7 +129,7 @@ public class TransferDetailsResourceIntTest {
         assertThat(transferDetailsList).hasSize(databaseSizeBeforeCreate + 1);
         TransferDetails testTransferDetails = transferDetailsList.get(transferDetailsList.size() - 1);
         assertThat(testTransferDetails.getTransferId()).isEqualTo(DEFAULT_TRANSFER_ID);
-        assertThat(testTransferDetails.getInvoicePackageIdackageId()).isEqualTo(DEFAULT_INVOICE_PACKAGE_IDACKAGE_ID);
+        assertThat(testTransferDetails.getInvoicePackageId()).isEqualTo(DEFAULT_INVOICE_PACKAGE_IDACKAGE_ID);
         assertThat(testTransferDetails.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
         assertThat(testTransferDetails.getUpdateDate()).isEqualTo(DEFAULT_UPDATE_DATE);
     }
@@ -225,7 +225,7 @@ public class TransferDetailsResourceIntTest {
         assertThat(transferDetailsList).hasSize(databaseSizeBeforeUpdate);
         TransferDetails testTransferDetails = transferDetailsList.get(transferDetailsList.size() - 1);
         assertThat(testTransferDetails.getTransferId()).isEqualTo(UPDATED_TRANSFER_ID);
-        assertThat(testTransferDetails.getInvoicePackageIdackageId()).isEqualTo(UPDATED_INVOICE_PACKAGE_IDACKAGE_ID);
+        assertThat(testTransferDetails.getInvoicePackageId()).isEqualTo(UPDATED_INVOICE_PACKAGE_IDACKAGE_ID);
         assertThat(testTransferDetails.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
         assertThat(testTransferDetails.getUpdateDate()).isEqualTo(UPDATED_UPDATE_DATE);
     }

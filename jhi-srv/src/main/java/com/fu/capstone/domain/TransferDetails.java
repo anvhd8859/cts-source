@@ -23,8 +23,11 @@ public class TransferDetails implements Serializable {
     @Column(name = "transfer_id")
     private Long transferId;
 
-    @Column(name = "invoice_package_idackage_id")
-    private Long invoicePackageIdackageId;
+    @Column(name = "invoice_package_id")
+    private Long invoicePackageId;
+
+    @Column(name = "status")
+    private Boolean status;
 
     @Column(name = "create_date")
     private Instant createDate;
@@ -54,17 +57,25 @@ public class TransferDetails implements Serializable {
         this.transferId = transferId;
     }
 
-    public Long getInvoicePackageIdackageId() {
-        return invoicePackageIdackageId;
+    public Long getInvoicePackageId() {
+        return invoicePackageId;
     }
 
-    public TransferDetails invoicePackageIdackageId(Long invoicePackageIdackageId) {
-        this.invoicePackageIdackageId = invoicePackageIdackageId;
+    public TransferDetails invoicePackageId(Long invoicePackageId) {
+        this.invoicePackageId = invoicePackageId;
         return this;
     }
 
-    public void setInvoicePackageIdackageId(Long invoicePackageIdackageId) {
-        this.invoicePackageIdackageId = invoicePackageIdackageId;
+    public void setInvoicePackageId(Long invoicePackageId) {
+        this.invoicePackageId = invoicePackageId;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     public Instant getCreateDate() {
@@ -119,7 +130,7 @@ public class TransferDetails implements Serializable {
         return "TransferDetails{" +
             "id=" + getId() +
             ", transferId=" + getTransferId() +
-            ", invoicePackageIdackageId=" + getInvoicePackageIdackageId() +
+            ", invoicePackageId=" + getInvoicePackageId() +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";
