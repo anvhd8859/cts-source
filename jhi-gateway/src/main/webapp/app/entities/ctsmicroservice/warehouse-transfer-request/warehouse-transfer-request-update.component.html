@@ -1,0 +1,70 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-warehouse-transfer-request-heading">Create or edit a Warehouse Transfer Request</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!warehouseTransferRequest.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="warehouseTransferRequest.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fromWarehouseId">From Warehouse Id</label>
+                    <input type="number" class="form-control" name="fromWarehouseId" id="field_fromWarehouseId"
+                        [(ngModel)]="warehouseTransferRequest.fromWarehouseId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_toWarehouseId">To Warehouse Id</label>
+                    <input type="number" class="form-control" name="toWarehouseId" id="field_toWarehouseId"
+                        [(ngModel)]="warehouseTransferRequest.toWarehouseId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fromKeeperId">From Keeper Id</label>
+                    <input type="number" class="form-control" name="fromKeeperId" id="field_fromKeeperId"
+                        [(ngModel)]="warehouseTransferRequest.fromKeeperId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_toKeeperId">To Keeper Id</label>
+                    <input type="number" class="form-control" name="toKeeperId" id="field_toKeeperId"
+                        [(ngModel)]="warehouseTransferRequest.toKeeperId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <input type="text" class="form-control" name="status" id="field_status"
+                        [(ngModel)]="warehouseTransferRequest.status" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_receiveDate">Receive Date</label>
+                    <div class="d-flex">
+                        <input id="field_receiveDate" type="datetime-local" class="form-control" name="receiveDate" [(ngModel)]="receiveDate"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createDate">Create Date</label>
+                    <div class="d-flex">
+                        <input id="field_createDate" type="datetime-local" class="form-control" name="createDate" [(ngModel)]="createDate"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updateDate">Update Date</label>
+                    <div class="d-flex">
+                        <input id="field_updateDate" type="datetime-local" class="form-control" name="updateDate" [(ngModel)]="updateDate"
+                        />
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
