@@ -20,11 +20,11 @@ public class RequestDetails implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ie_warehouse_id")
-    private Long ieWarehouseId;
+    @Column(name = "request_id")
+    private Long requestId;
 
-    @Column(name = "shipment_id")
-    private Long shipmentId;
+    @Column(name = "invoice_package_id")
+    private Long invoicePackageId;
 
     @Column(name = "keeper_confirm")
     private Boolean keeperConfirm;
@@ -32,8 +32,8 @@ public class RequestDetails implements Serializable {
     @Column(name = "shipper_confirm")
     private Boolean shipperConfirm;
 
-    @Column(name = "imp_exp_confirm")
-    private Boolean impExpConfirm;
+    @Column(name = "status")
+    private Boolean status;
 
     @Column(name = "create_date")
     private Instant createDate;
@@ -50,30 +50,30 @@ public class RequestDetails implements Serializable {
         this.id = id;
     }
 
-    public Long getIeWarehouseId() {
-        return ieWarehouseId;
+    public Long getRequestId() {
+        return requestId;
     }
 
     public RequestDetails ieWarehouseId(Long ieWarehouseId) {
-        this.ieWarehouseId = ieWarehouseId;
+        this.requestId = ieWarehouseId;
         return this;
     }
 
-    public void setIeWarehouseId(Long ieWarehouseId) {
-        this.ieWarehouseId = ieWarehouseId;
+    public void setRequestId(Long ieWarehouseId) {
+        this.requestId = ieWarehouseId;
     }
 
-    public Long getShipmentId() {
-        return shipmentId;
+    public Long getInvoicePackageId() {
+        return invoicePackageId;
     }
 
     public RequestDetails shipmentId(Long shipmentId) {
-        this.shipmentId = shipmentId;
+        this.invoicePackageId = shipmentId;
         return this;
     }
 
-    public void setShipmentId(Long shipmentId) {
-        this.shipmentId = shipmentId;
+    public void setInvoicePackageId(Long shipmentId) {
+        this.invoicePackageId = shipmentId;
     }
 
     public Instant getCreateDate() {
@@ -101,12 +101,12 @@ public class RequestDetails implements Serializable {
 		this.shipperConfirm = shipperConfirm;
 	}
 
-	public Boolean getImpExpConfirm() {
-		return impExpConfirm;
+	public Boolean getStatus() {
+		return status;
 	}
 
-	public void setImpExpConfirm(Boolean impExpConfirm) {
-		this.impExpConfirm = impExpConfirm;
+	public void setStatus(Boolean impExpConfirm) {
+		this.status = impExpConfirm;
 	}
 
 	public void setCreateDate(Instant createDate) {
@@ -151,8 +151,8 @@ public class RequestDetails implements Serializable {
     public String toString() {
         return "RequestDetails{" +
             "id=" + getId() +
-            ", ieWarehouseId=" + getIeWarehouseId() +
-            ", shipmentId=" + getShipmentId() +
+            ", requestId=" + getRequestId() +
+            ", invoicePackageId=" + getInvoicePackageId() +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";

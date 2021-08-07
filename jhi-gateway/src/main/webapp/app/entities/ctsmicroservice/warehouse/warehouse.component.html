@@ -16,7 +16,7 @@
             <tr>
             <th><span>Mã số</span></th>
             <th><span>Tên kho hàng</span></th>
-            <th><span>Tên văn phòng</span></th>            
+            <th><span>Tên văn phòng</span></th>
             <th><span>Địa chỉ</span></th>
             <th><span>Ngày khởi tạo</span></th>
             <th><span>Ngày cập nhật</span></th>
@@ -24,29 +24,29 @@
             </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let warehouse of warehouses; trackBy: trackId;">   
-                    <td><a [routerLink]="['/warehouse', warehouse.id, 'view' ]">{{warehouse.id}}</a></td>
-                    <td>{{warehouse.warehouseName}}</td>
-                    <td>{{warehouse.officeName}}</td>
-                    <td>{{warehouse.address}}</td>                
-                    <td>{{warehouse.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                    <td>{{warehouse.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                <tr *ngFor="let w of warehouses; trackBy: trackId;">
+                    <td><a [routerLink]="['/warehouse', w.warehouseDTO.id, 'view' ]">{{w.id}}</a></td>
+                    <td>{{w.warehouseDTO.warehouseName}}</td>
+                    <td>{{w.officeName}}</td>
+                    <td>{{w.warehouseDTO.address}}</td>
+                    <td>{{w.warehouseDTO.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                    <td>{{w.warehouseDTO.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
-                                    [routerLink]="['/warehouse', warehouse.id, 'view' ]"
+                                    [routerLink]="['/warehouse', w.warehouseDTO.id, 'view' ]"
                                     class="btn btn-info btn-sm">
                                 <fa-icon [icon]="'eye'"></fa-icon>
                                 <span class="d-none d-md-inline">Chi tiết</span>
                             </button>
                             <button type="submit"
-                                    [routerLink]="['/warehouse', warehouse.id, 'edit']"
+                                    [routerLink]="['/warehouse', w.warehouseDTO.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                 <span class="d-none d-md-inline">Sửa</span>
                             </button>
                             <button type="submit"
-                                    [routerLink]="['/', { outlets: { popup: 'warehouse/'+ warehouse.id + '/delete'} }]"
+                                    [routerLink]="['/', { outlets: { popup: 'warehouse/'+ w.warehouseDTO.id + '/delete'} }]"
                                     replaceUrl="true"
                                     queryParamsHandling="merge"
                                     class="btn btn-danger btn-sm">

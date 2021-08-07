@@ -1,8 +1,7 @@
 package com.fu.capstone.service;
 
 import com.fu.capstone.service.dto.DetailsImportExportDTO;
-import com.fu.capstone.service.dto.ImportExportWarehouseDTO;
-import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
+import com.fu.capstone.service.dto.ImportExportRequestDTO;
 import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 
 import org.springframework.data.domain.Page;
@@ -19,10 +18,10 @@ public interface ImportExportWarehouseService {
     /**
      * Save a importExportWarehouse.
      *
-     * @param importExportWarehouseDTO the entity to save
+     * @param importExportRequestDTO the entity to save
      * @return the persisted entity
      */
-    ImportExportWarehouseDTO save(ImportExportWarehouseDTO importExportWarehouseDTO);
+    ImportExportRequestDTO save(ImportExportRequestDTO importExportRequestDTO);
 
     /**
      * Get all the importExportWarehouses.
@@ -30,7 +29,7 @@ public interface ImportExportWarehouseService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    Page<ImportExportWarehouseDTO> findAll(Pageable pageable);
+    Page<ImportExportRequestDTO> findAll(Pageable pageable);
 
 
     /**
@@ -39,7 +38,7 @@ public interface ImportExportWarehouseService {
      * @param id the id of the entity
      * @return the entity
      */
-    Optional<ImportExportWarehouseDTO> findOne(Long id);
+    Optional<ImportExportRequestDTO> findOne(Long id);
 
     /**
      * Delete the "id" importExportWarehouse.
@@ -48,14 +47,14 @@ public interface ImportExportWarehouseService {
      */
     void delete(Long id);
 
-	ImportExportWarehouseDTO createImportWarehouse(DetailsImportExportDTO importExportWarehouseDTO);
+	ImportExportRequestDTO createImportWarehouse(DetailsImportExportDTO importExportWarehouseDTO);
 
-	ImportExportWarehouseDTO createExportWarehouse(DetailsImportExportDTO importExportWarehouseDTO);
+	ImportExportRequestDTO createExportWarehouse(DetailsImportExportDTO importExportWarehouseDTO);
 
-	Page<ImportExportWarehouseDTO> getImportExportWarehouseByFilter(Long eid, Long oid, String type, String cf, Pageable pageable);
+	Page<ImportExportRequestDTO> getImportExportWarehouseByFilter(Long eid, Long oid, String type, String cf, Pageable pageable);
 
-	ImportExportWarehouseDTO updateImportExportByKeeper(Long id, List<PersonalShipmentInvoiceDTO> InvoicePackageDetailDTO);
+	ImportExportRequestDTO updateImportExportByKeeper(Long id, List<PersonalShipmentInvoiceDTO> InvoicePackageDetailDTO);
 
-	Page<ImportExportWarehouseDTO> getImportExportWarehouseForShipper(Long eid, String type, String cf,
+	Page<ImportExportRequestDTO> getImportExportWarehouseForShipper(Long eid, String type, String cf,
 			Pageable pageable);
 }

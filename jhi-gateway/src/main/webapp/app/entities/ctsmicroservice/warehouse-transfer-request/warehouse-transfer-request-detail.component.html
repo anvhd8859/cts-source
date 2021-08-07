@@ -1,0 +1,55 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="warehouseTransferRequest">
+            <h2><span>Warehouse Transfer Request</span> {{warehouseTransferRequest.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>From Warehouse Id</span></dt>
+                <dd>
+                    <span>{{warehouseTransferRequest.fromWarehouseId}}</span>
+                </dd>
+                <dt><span>To Warehouse Id</span></dt>
+                <dd>
+                    <span>{{warehouseTransferRequest.toWarehouseId}}</span>
+                </dd>
+                <dt><span>From Keeper Id</span></dt>
+                <dd>
+                    <span>{{warehouseTransferRequest.fromKeeperId}}</span>
+                </dd>
+                <dt><span>To Keeper Id</span></dt>
+                <dd>
+                    <span>{{warehouseTransferRequest.toKeeperId}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{warehouseTransferRequest.status}}</span>
+                </dd>
+                <dt><span>Receive Date</span></dt>
+                <dd>
+                    <span>{{warehouseTransferRequest.receiveDate}}</span>
+                </dd>
+                <dt><span>Create Date</span></dt>
+                <dd>
+                    <span>{{warehouseTransferRequest.createDate}}</span>
+                </dd>
+                <dt><span>Update Date</span></dt>
+                <dd>
+                    <span>{{warehouseTransferRequest.updateDate}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/warehouse-transfer-request', warehouseTransferRequest.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

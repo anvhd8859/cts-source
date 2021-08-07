@@ -10,15 +10,15 @@ public class DetailsImportExportDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private ImportExportWarehouseDTO requestHeader;
+	private ImportExportRequestDTO requestHeader;
 	
 	private List<RequestDetailsDTO> requestDetailsList;
 
-	public ImportExportWarehouseDTO getRequestHeader() {
+	public ImportExportRequestDTO getRequestHeader() {
 		return requestHeader;
 	}
 
-	public void setRequestHeader(ImportExportWarehouseDTO requestHeader) {
+	public void setRequestHeader(ImportExportRequestDTO requestHeader) {
 		this.requestHeader = requestHeader;
 	}
 

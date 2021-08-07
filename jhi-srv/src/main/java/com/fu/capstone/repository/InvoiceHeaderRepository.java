@@ -82,7 +82,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 			@RequestParam("updateDate") String updateDate, Pageable pageable);
 
 	@Query(value = "SELECT i FROM InvoiceHeader i, RequestDetails r, PersonalShipment p "
-			+ " WHERE i.id = p.invoiceHeaderId AND p.id = r.shipmentId " + " AND r.ieWarehouseId = :id ")
+			+ " WHERE i.id = p.invoiceHeaderId AND p.id = r.invoicePackageId " + " AND r.requestId = :id ")
 	List<InvoiceHeader> getInvoiceHeaderByIEID(@Param("id") Long id);
 
 	@Query(value = "SELECT i FROM InvoiceHeader i, PersonalShipment p WHERE i.id = p.invoiceHeaderId "

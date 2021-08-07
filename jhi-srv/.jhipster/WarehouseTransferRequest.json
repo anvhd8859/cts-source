@@ -1,0 +1,48 @@
+{
+    "name": "WarehouseTransferRequest",
+    "fields": [
+        {
+            "fieldName": "fromWarehouseId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "toWarehouseId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "fromKeeperId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "toKeeperId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "receiveDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20210731111606",
+    "entityTableName": "warehouse_transfer_request",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "ctsmicroservice",
+    "applications": "*",
+    "microserviceName": "ctsmicroservice"
+}

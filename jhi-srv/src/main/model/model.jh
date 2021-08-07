@@ -1,6 +1,10 @@
-entity ReceiptImage {
-	receiptNoteId Long
-	image ImageBlob
+entity WarehouseTransferRequest {
+	fromWarehouseId Long
+	toWarehouseId Long
+	fromKeeperId Long
+	toKeeperId Long
+	status String
+	receiveDate Instant
 	createDate Instant
 	updateDate Instant
 }

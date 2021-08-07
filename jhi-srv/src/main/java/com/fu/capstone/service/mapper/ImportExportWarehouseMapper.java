@@ -1,7 +1,7 @@
 package com.fu.capstone.service.mapper;
 
 import com.fu.capstone.domain.*;
-import com.fu.capstone.service.dto.ImportExportWarehouseDTO;
+import com.fu.capstone.service.dto.ImportExportRequestDTO;
 
 import org.mapstruct.*;
 
@@ -9,16 +9,16 @@ import org.mapstruct.*;
  * Mapper for the entity ImportExportWarehouse and its DTO ImportExportWarehouseDTO.
  */
 @Mapper(componentModel = "spring", uses = {})
-public interface ImportExportWarehouseMapper extends EntityMapper<ImportExportWarehouseDTO, ImportExportWarehouse> {
+public interface ImportExportWarehouseMapper extends EntityMapper<ImportExportRequestDTO, ImportExportRequest> {
 
 
 
-    default ImportExportWarehouse fromId(Long id) {
+    default ImportExportRequest fromId(Long id) {
         if (id == null) {
             return null;
         }
-        ImportExportWarehouse importExportWarehouse = new ImportExportWarehouse();
-        importExportWarehouse.setId(id);
-        return importExportWarehouse;
+        ImportExportRequest importExportRequest = new ImportExportRequest();
+        importExportRequest.setId(id);
+        return importExportRequest;
     }
 }

@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * A DTO for the ImportExportWarehouse entity.
  */
-public class ImportExportWarehouseDTO implements Serializable {
+public class ImportExportRequestDTO implements Serializable {
 
     /**
 	 * 
@@ -16,7 +16,7 @@ public class ImportExportWarehouseDTO implements Serializable {
 
 	private Long id;
 
-    private Long officeId;
+    private Long warehouseId;
 
     private Long keeperId;
 
@@ -44,12 +44,12 @@ public class ImportExportWarehouseDTO implements Serializable {
         this.id = id;
     }
 
-    public Long getOfficeId() {
-        return officeId;
+    public Long getWarehouseId() {
+        return warehouseId;
     }
 
-    public void setOfficeId(Long officeId) {
-        this.officeId = officeId;
+    public void setWarehouseId(Long warehouseId) {
+        this.warehouseId = warehouseId;
     }
 
     public Long getKeeperId() {
@@ -128,11 +128,11 @@ public class ImportExportWarehouseDTO implements Serializable {
             return false;
         }
 
-        ImportExportWarehouseDTO importExportWarehouseDTO = (ImportExportWarehouseDTO) o;
-        if (importExportWarehouseDTO.getId() == null || getId() == null) {
+        ImportExportRequestDTO importExportRequestDTO = (ImportExportRequestDTO) o;
+        if (importExportRequestDTO.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), importExportWarehouseDTO.getId());
+        return Objects.equals(getId(), importExportRequestDTO.getId());
     }
 
     @Override
@@ -144,7 +144,7 @@ public class ImportExportWarehouseDTO implements Serializable {
     public String toString() {
         return "ImportExportWarehouseDTO{" +
             "id=" + getId() +
-            ", officeId=" + getOfficeId() +
+            ", warehouseID=" + getWarehouseId() +
             ", keeperId=" + getKeeperId() +
             ", employeeId=" + getEmployeeId() +
             ", type='" + getType() + "'" +
