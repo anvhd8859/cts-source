@@ -179,6 +179,12 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         } else if (!this.selectedAddressFrom || this.selectedAddressFrom.trim() === '') {
             msg += 'Mục Địa chỉ lấy hàng không được để Trống! <br>';
         }
+        if (this.selectedAddressFrom.trim().length() > 100) {
+            msg += 'Mục Địa chỉ gửi của bạn dài quá 100 kí tự! <br>';
+        }
+        if (this.selectedAddressTo.trim().length() > 100) {
+            msg += 'Mục địa chỉ nhận của bạn dài quá 100 kí tự! <br>';
+        }
         if (!this.selectedStreetFrom && !this.invoiceHeader.id) {
             msg += 'Mục Đường/Phố lấy hàng không được để Trống! <br>';
         }
@@ -213,6 +219,25 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         }
         if (this.createPackage.length === 0) {
             msg += 'Mục Gói hàng không được để Trống! <br>';
+        }
+        let count = 0;
+        for (let obj of this.createPackage) {
+            count++;
+            if (obj.invPackage.weight > 50000 || obj.invPackage.weight < 1) {
+                msg += 'Mục cân nặng của Gói hàng #' + count + ' phải nằm trong khoảng 1 đến 50000g! <br>';
+            }
+            if (obj.invPackage.height > 100 || obj.invPackage.height < 1) {
+                msg += 'Mục chiều cao của Gói hàng #' + count + ' phải nằm trong khoảng 1 đến 100cm! <br>';
+            }
+            if (obj.invPackage.width > 100 || obj.invPackage.width < 1) {
+                msg += 'Mục chiều rộng của Gói hàng #' + count + ' phải nằm trong khoảng 1 đến 100cm! <br>';
+            }
+            if (obj.invPackage.width > obj.invPackage.length) {
+                msg += 'Hãy chắc chắn về kích thước rộng và dài về khối hàng của bạn! <br>';
+            }
+            if (obj.invPackage.length > 100 || obj.invPackage.length < 1) {
+                msg += 'Mục chiều dài của Gói hàng #' + count + ' phải nằm trong khoảng 1 đến 100cm! <br>';
+            }
         }
         if (this.invoiceHeader.receiverName == null || this.invoiceHeader.receiverName.trim() === '') {
             msg += 'Mục Tên người nhận không được để Trống! <br>';
