@@ -223,8 +223,8 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         let count = 0;
         for (let obj of this.createPackage) {
             count++;
-            if (obj.invPackage.weight > 20000 || obj.invPackage.weight < 50) {
-                msg += 'Mục cân nặng của Gói hàng #' + count + ' phải nằm trong khoảng 50g đến 20000g! <br>';
+            if (obj.invPackage.weight > 30000 || obj.invPackage.weight < 50) {
+                msg += 'Mục cân nặng của Gói hàng #' + count + ' phải nằm trong khoảng 50g đến 30000g! <br>';
             }
             if (obj.invPackage.weight === null) {
                 msg += 'Mục cân nặng của Gói hàng không được để trống! <br>';
