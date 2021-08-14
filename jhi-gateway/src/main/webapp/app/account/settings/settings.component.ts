@@ -114,7 +114,7 @@ export class SettingsComponent implements OnInit {
                     this.settingsAccount = this.copyAccount(account);
                 });
                 window.scroll(0, 0);
-                this.alertService.success('Update Profile Success');
+                //this.alertService.success('Update Profile Success');
             },
             () => {
                 this.success = null;

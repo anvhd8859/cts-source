@@ -223,8 +223,20 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         let count = 0;
         for (let obj of this.createPackage) {
             count++;
-            if (obj.invPackage.weight > 50000 || obj.invPackage.weight < 1) {
-                msg += 'Mục cân nặng của Gói hàng #' + count + ' phải nằm trong khoảng 1 đến 50000g! <br>';
+            if (obj.invPackage.weight > 20000 || obj.invPackage.weight < 50) {
+                msg += 'Mục cân nặng của Gói hàng #' + count + ' phải nằm trong khoảng 50g đến 20000g! <br>';
+            }
+            if (obj.invPackage.weight === null) {
+                msg += 'Mục cân nặng của Gói hàng không được để trống! <br>';
+            }
+            if (obj.invPackage.height === null) {
+                msg += 'Mục chiều cao của Gói hàng không được để trống! <br>';
+            }
+            if (obj.invPackage.width === null) {
+                msg += 'Mục chiều rộng của Gói hàng không được để trống! <br>';
+            }
+            if (obj.invPackage.length === null) {
+                msg += 'Mục chiều dài của Gói hàng không được để trống! <br>';
             }
             if (obj.invPackage.height > 100 || obj.invPackage.height < 1) {
                 msg += 'Mục chiều cao của Gói hàng #' + count + ' phải nằm trong khoảng 1 đến 100cm! <br>';
@@ -233,14 +245,23 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
                 msg += 'Mục chiều rộng của Gói hàng #' + count + ' phải nằm trong khoảng 1 đến 100cm! <br>';
             }
             if (obj.invPackage.width > obj.invPackage.length) {
-                msg += 'Hãy chắc chắn về kích thước rộng và dài về khối hàng của bạn! <br>';
+                msg += 'Hãy chắc chắn về kích thước rộng và dài khối hàng của bạn! <br>';
             }
-            if (obj.invPackage.length > 100 || obj.invPackage.length < 1) {
-                msg += 'Mục chiều dài của Gói hàng #' + count + ' phải nằm trong khoảng 1 đến 100cm! <br>';
+            if (obj.invPackage.length > 100 || obj.invPackage.length < 5) {
+                msg += 'Mục chiều dài của Gói hàng #' + count + ' phải nằm trong khoảng 5 đến 100cm! <br>';
             }
+            if (obj.invPackage.note.length > 100) {
+                msg += 'Mục ghi chú của gói hàng không thể vượt quá 100 kí tự! <br>';
+            }
+        }
+        if (this.invoiceHeader.note.length > 100) {
+            msg += 'Mục Ghi chú khách hàng không thể vượt quá 100 kí tự! <br>';
         }
         if (this.invoiceHeader.receiverName == null || this.invoiceHeader.receiverName.trim() === '') {
             msg += 'Mục Tên người nhận không được để Trống! <br>';
+        }
+        if (this.invoiceHeader.receiverName.length > 100) {
+            msg += 'Mục Tên người nhận không thể vượt quá 100 kí tự! <br>';
         }
         if (this.invoiceHeader.receiverPhone == null || this.invoiceHeader.receiverPhone.trim() === '') {
             msg += 'Mục Số điện thoại người nhận không được để Trống! <br>';
@@ -252,6 +273,9 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         }
         if (!this.selectedPayer) {
             msg += 'Mục Lựa chọn thanh toán không được để Trống! <br>';
+        }
+        if (!this.selectedCollect) {
+            msg += 'Mục Hình thức kí gửi không được để Trống! <br>';
         }
         this.invoiceHeader.invoiceType = 'personal';
         return msg;
