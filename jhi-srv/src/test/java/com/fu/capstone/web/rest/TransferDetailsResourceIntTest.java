@@ -101,7 +101,7 @@ public class TransferDetailsResourceIntTest {
     public static TransferDetails createEntity(EntityManager em) {
         TransferDetails transferDetails = new TransferDetails()
             .transferId(DEFAULT_TRANSFER_ID)
-            .invoicePackageIdackageId(DEFAULT_INVOICE_PACKAGE_IDACKAGE_ID)
+            .invoicePackageId(DEFAULT_INVOICE_PACKAGE_IDACKAGE_ID)
             .createDate(DEFAULT_CREATE_DATE)
             .updateDate(DEFAULT_UPDATE_DATE);
         return transferDetails;
@@ -210,7 +210,7 @@ public class TransferDetailsResourceIntTest {
         em.detach(updatedTransferDetails);
         updatedTransferDetails
             .transferId(UPDATED_TRANSFER_ID)
-            .invoicePackageIdackageId(UPDATED_INVOICE_PACKAGE_IDACKAGE_ID)
+            .invoicePackageId(UPDATED_INVOICE_PACKAGE_IDACKAGE_ID)
             .createDate(UPDATED_CREATE_DATE)
             .updateDate(UPDATED_UPDATE_DATE);
         TransferDetailsDTO transferDetailsDTO = transferDetailsMapper.toDto(updatedTransferDetails);

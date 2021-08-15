@@ -4,6 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@a
 import { UserRouteAccessService } from 'app/core';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { JhiResolvePagingParams } from 'ng-jhipster';
 import { WarehouseTransferRequest } from 'app/shared/model/ctsmicroservice/warehouse-transfer-request.model';
 import { WarehouseTransferRequestService } from './warehouse-transfer-request.service';
 import { WarehouseTransferRequestComponent } from './warehouse-transfer-request.component';
@@ -31,9 +32,12 @@ export const warehouseTransferRequestRoute: Routes = [
     {
         path: 'warehouse-transfer-request',
         component: WarehouseTransferRequestComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'WarehouseTransferRequests'
+            authorities: ['ROLE_KEEPER', 'ROLE_ADMIN'],
+            pageTitle: 'CTS: Đơn hàng chuyển kho'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -44,8 +48,8 @@ export const warehouseTransferRequestRoute: Routes = [
             warehouseTransferRequest: WarehouseTransferRequestResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'WarehouseTransferRequests'
+            authorities: ['ROLE_KEEPER', 'ROLE_ADMIN'],
+            pageTitle: 'CTS: Đơn hàng chuyển kho'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -56,8 +60,8 @@ export const warehouseTransferRequestRoute: Routes = [
             warehouseTransferRequest: WarehouseTransferRequestResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'WarehouseTransferRequests'
+            authorities: ['ROLE_KEEPER', 'ROLE_ADMIN'],
+            pageTitle: 'CTS: Đơn hàng chuyển kho'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -68,8 +72,8 @@ export const warehouseTransferRequestRoute: Routes = [
             warehouseTransferRequest: WarehouseTransferRequestResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'WarehouseTransferRequests'
+            authorities: ['ROLE_KEEPER', 'ROLE_ADMIN'],
+            pageTitle: 'CTS: Đơn hàng chuyển kho'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -83,8 +87,8 @@ export const warehouseTransferRequestPopupRoute: Routes = [
             warehouseTransferRequest: WarehouseTransferRequestResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'WarehouseTransferRequests'
+            authorities: ['ROLE_KEEPER', 'ROLE_ADMIN'],
+            pageTitle: 'CTS: Đơn hàng chuyển kho'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

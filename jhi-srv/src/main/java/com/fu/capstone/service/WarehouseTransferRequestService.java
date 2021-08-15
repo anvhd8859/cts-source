@@ -1,6 +1,10 @@
 package com.fu.capstone.service;
 
+import com.fu.capstone.service.dto.TransferDetailsInvoiceDTO;
+import com.fu.capstone.service.dto.TransferInvoicePackageDTO;
 import com.fu.capstone.service.dto.WarehouseTransferRequestDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,4 +44,12 @@ public interface WarehouseTransferRequestService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+	WarehouseTransferRequestDTO createTransferRequest(TransferInvoicePackageDTO body);
+
+    Page<TransferInvoicePackageDTO> getWarehouseTransferByOffice(Long id, Pageable pageable);
+
+    List<TransferDetailsInvoiceDTO> getWarehouseTransferData(Long id);
+
+    WarehouseTransferRequestDTO approveTransferRequest(List<TransferDetailsInvoiceDTO> body);
 }

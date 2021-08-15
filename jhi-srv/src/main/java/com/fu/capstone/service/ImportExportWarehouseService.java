@@ -1,6 +1,7 @@
 package com.fu.capstone.service;
 
 import com.fu.capstone.service.dto.DetailsImportExportDTO;
+import com.fu.capstone.service.dto.IERequestDetailDTO;
 import com.fu.capstone.service.dto.ImportExportRequestDTO;
 import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 
@@ -57,4 +58,8 @@ public interface ImportExportWarehouseService {
 
 	Page<ImportExportRequestDTO> getImportExportWarehouseForShipper(Long eid, String type, String cf,
 			Pageable pageable);
+
+	ImportExportRequestDTO approveWarehouseRequest(IERequestDetailDTO body);
+
+	ImportExportRequestDTO rejectWarehouseRequest(IERequestDetailDTO body);
 }

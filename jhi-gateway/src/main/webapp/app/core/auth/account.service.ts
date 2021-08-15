@@ -7,6 +7,7 @@ import { IProvince } from 'app/shared/model/ctsmicroservice/province.model';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { createRequestOption } from 'app/shared';
 import { map } from 'rxjs/operators';
+import { Account } from '../user/account.model';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {

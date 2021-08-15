@@ -26,6 +26,8 @@ public class RequestDetailsDTO implements Serializable {
     
     private Boolean status;
 
+    private String note;
+
     private Instant createDate;
 
     private Instant updateDate;
@@ -94,7 +96,15 @@ public class RequestDetailsDTO implements Serializable {
         this.updateDate = updateDate;
     }
 
-    @Override
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

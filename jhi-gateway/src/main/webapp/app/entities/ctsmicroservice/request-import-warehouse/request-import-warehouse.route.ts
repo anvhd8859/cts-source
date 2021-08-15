@@ -9,9 +9,10 @@ import { RequestImportWarehouse } from 'app/shared/model/ctsmicroservice/request
 import { RequestImportWarehouseService } from './request-import-warehouse.service';
 import { RequestImportWarehouseComponent } from './request-import-warehouse.component';
 import { RequestImportWarehouseDetailComponent } from './request-import-warehouse-detail.component';
-import { RequestImportWarehouseUpdateComponent } from './request-import-warehouse-update.component';
+import { RequestImportWarehouseShipperUpdateComponent } from './request-import-warehouse-shipper-update.component';
 import { RequestImportWarehouseDeletePopupComponent } from './request-import-warehouse-delete-dialog.component';
 import { IRequestImportWarehouse } from 'app/shared/model/ctsmicroservice/request-import-warehouse.model';
+import { RequestImportWarehouseOfficerUpdateComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class RequestImportWarehouseResolve implements Resolve<IRequestImportWarehouse> {
@@ -36,9 +37,9 @@ export const requestImportWarehouseRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'RequestImportWarehouses'
+            pageTitle: 'CTS: Yêu cầu nhập kho'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -49,32 +50,44 @@ export const requestImportWarehouseRoute: Routes = [
             requestImportWarehouse: RequestImportWarehouseResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'RequestImportWarehouses'
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'CTS: Yêu cầu nhập kho'
         },
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'request-import-warehouse/new',
-        component: RequestImportWarehouseUpdateComponent,
+        path: 'request-import-warehouse-shipper',
+        component: RequestImportWarehouseShipperUpdateComponent,
         resolve: {
-            requestImportWarehouse: RequestImportWarehouseResolve
+            pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'RequestImportWarehouses'
+            authorities: ['ROLE_SHIPPER'],
+            pageTitle: 'CTS: Yêu cầu nhập kho'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'request-import-warehouse-officer',
+        component: RequestImportWarehouseOfficerUpdateComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_OFFICER'],
+            pageTitle: 'CTS: Yêu cầu nhập kho'
         },
         canActivate: [UserRouteAccessService]
     },
     {
         path: 'request-import-warehouse/:id/edit',
-        component: RequestImportWarehouseUpdateComponent,
+        component: RequestImportWarehouseShipperUpdateComponent,
         resolve: {
             requestImportWarehouse: RequestImportWarehouseResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'RequestImportWarehouses'
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'CTS: Yêu cầu nhập kho'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -88,8 +101,8 @@ export const requestImportWarehousePopupRoute: Routes = [
             requestImportWarehouse: RequestImportWarehouseResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'RequestImportWarehouses'
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'CTS: Yêu cầu nhập kho'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

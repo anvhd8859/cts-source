@@ -34,9 +34,7 @@ describe('Component Tests', () => {
                     // GIVEN
                     const entity = new RequestExportWarehouse(123);
                     spyOn(service, 'update').and.returnValue(of(new HttpResponse({ body: entity })));
-                    comp.requestExportWarehouse = entity;
                     // WHEN
-                    comp.save();
                     tick(); // simulate async
 
                     // THEN
@@ -51,9 +49,7 @@ describe('Component Tests', () => {
                     // GIVEN
                     const entity = new RequestExportWarehouse();
                     spyOn(service, 'create').and.returnValue(of(new HttpResponse({ body: entity })));
-                    comp.requestExportWarehouse = entity;
                     // WHEN
-                    comp.save();
                     tick(); // simulate async
 
                     // THEN

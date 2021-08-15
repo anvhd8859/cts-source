@@ -160,6 +160,14 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     checked(i: number, e) {
         if (e.target.checked) {
             this.selectedCheckBox[i] = true;
+            let myAll = true;
+            for (let bool of this.selectedCheckBox) {
+                if (!bool) {
+                    myAll = false;
+                    break;
+                }
+            }
+            this.all = myAll;
         } else {
             this.selectedCheckBox[i] = false;
             this.all = false;
@@ -187,7 +195,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     createNewRequestHeader(): ImportExportWarehouse {
         const result: ImportExportWarehouse = new ImportExportWarehouse();
         result.employeeId = this.currentAccount.id;
-        result.officeId = this.currentProfile.officeId;
+        result.warehouseId = this.currentProfile.officeId;
         for (const obj of this.keeperList) {
             if (obj.activated) {
                 result.keeperId = obj.id;
@@ -223,7 +231,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
                         for (const i in this.selectedCheckBox) {
                             if (this.selectedCheckBox[i]) {
                                 const rd = new RequestDetailsDTO();
-                                rd.shipmentId = this.shipmentInvoices[i].personalShipmentDTO.id;
+                                rd.invoicePackageId = this.shipmentInvoices[i].personalShipmentDTO.id;
                                 data.requestDetailsList.push(rd);
                             }
                         }
@@ -231,7 +239,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
                             (res: HttpResponse<any>) => {
                                 this.isSaving = false;
                                 const responseData: IImportExportWarehouse = res.body;
-                                this.router.navigate(['/import-export-warehouse-shipper/' + responseData.id + '/view']);
+                                this.router.navigate(['/import-export-warehouse-employee/' + responseData.id + '/view']);
                             },
                             (res: HttpErrorResponse) => {
                                 this.isSaving = false;
@@ -271,7 +279,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
                         for (const i in this.selectedCheckBox) {
                             if (this.selectedCheckBox[i]) {
                                 const rd = new RequestDetailsDTO();
-                                rd.shipmentId = this.shipmentInvoices[i].personalShipmentDTO.id;
+                                rd.invoicePackageId = this.shipmentInvoices[i].personalShipmentDTO.id;
                                 data.requestDetailsList.push(rd);
                             }
                         }
@@ -280,7 +288,7 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
                             (res: HttpResponse<any>) => {
                                 this.isSaving = false;
                                 const responseData: IImportExportWarehouse = res.body;
-                                this.router.navigate(['/import-export-warehouse-shipper/' + responseData.id + '/view']);
+                                this.router.navigate(['/import-export-warehouse-employee/' + responseData.id + '/view']);
                             },
                             (res: HttpErrorResponse) => {
                                 this.isSaving = false;
@@ -376,19 +384,19 @@ export class DetailsImportExportDTO {
 
 export class RequestDetailsDTO {
     id: number;
-    ieWarehouseId: number;
-    shipmentId: number;
+    requestId: number;
+    invoicePackageId: number;
     keeperConfirm: boolean;
     shipperConfirm: boolean;
-    impExpConfirm: boolean;
+    status: boolean;
     createDate: Moment;
     updateDate: Moment;
     constructor() {
         this.id = null;
-        this.ieWarehouseId = null;
-        this.shipmentId = null;
+        this.requestId = null;
+        this.invoicePackageId = null;
         this.keeperConfirm = false;
         this.shipperConfirm = false;
-        this.impExpConfirm = false;
+        this.status = false;
     }
 }

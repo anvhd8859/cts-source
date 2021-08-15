@@ -15,31 +15,34 @@
             <div class="table table-responsive">
                 <table class="table table-striped">
                     <thead>
-                        <!-- <th> <input type="checkbox" [(ngModel)]="this.all" (change)="checkAll($event)" placeholder="All">
-                        </th> -->
+                        <th> <input type="checkbox" [(ngModel)]="this.all" (change)="checkAll($event)"
+                                placeholder="All"> </th>
                         <th> STT </th>
                         <th> Số hóa đơn </th>
-                        <th> Ngày giao dự kiến </th>
-                        <th> Tình trạng hóa đơn </th>
-                        <th> Loại vận chuyển </th>
-                        <th> Tình trạng vận chuyển </th>
-                        <th> Ngày chấp nhận </th>
-                        <th> Ngày tạo </th>
-                        <th> Ngày sửa đổi </th>
+                        <th> Trạng thái </th>
+                        <th> Số gói hàng </th>
+                        <th> Tổng khối lượng </th>
+                        <th> Kích thước </th>
+                        <th> Ghi chú </th>
                     </thead>
                     <tbody>
                         <tr *ngFor="let object of requestDetailsList; let i = index">
-                            <!-- <td><input type="checkbox" id="chkBox{{i}}" [(ngModel)]="selectedCheckBox[i]"
-                                (change)="checked(i, $event)"></td> -->
+                            <td><input type="checkbox" id="chkBox{{i}}" [(ngModel)]="selectedCheckBox[i]"
+                                    (change)="checked(i, $event)"></td>
                             <td>{{i + 1}} </td>
-                            <td>{{object.invoiceHeaderDTO.invoiceNo}} </td>
-                            <td>{{object.invoiceHeaderDTO.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
-                            <td>{{common.processInvoiceStatus(object.invoiceHeaderDTO.status)}} </td>
-                            <td>{{common.processShipmentType(object.personalShipmentDTO.shipmentType)}} </td>
-                            <td>{{common.processShipmentStatus(object.personalShipmentDTO.status)}} </td>
-                            <td>{{object.invoiceHeaderDTO.reviewDate | date:'yyyy-MM-dd HH:mm'}} </td>
-                            <td>{{object.invoiceHeaderDTO.createDate | date:'yyyy-MM-dd HH:mm'}} </td>
-                            <td>{{object.invoiceHeaderDTO.updateDate | date:'yyyy-MM-dd HH:mm'}} </td>
+                            <td>{{object.invoiceHeader.invoiceNo}} </td>
+                            <td>{{common.processInvoiceStatus(object.invoiceHeader.status)}} </td>
+                            <td>{{object.packageList.length}} (g) </td>
+                            <td>{{totalWeight(object.packageList)}} </td>
+                            <td>
+                                <span *ngFor="let pk of object.packageList ; let pi = index">
+                                    #{{pi}}: {{pk.length}}(cm) x {{pk.width}}(cm) x {{pk.height}}(cm): {{pk.weight}}(g) <br/>
+                                </span>
+                            </td>
+                            <td>{{common.processInvoiceStatus(object.invoiceHeader.status)}} </td>
+                            <td>
+                                <input  type="text" id="note{{i}}" [(ngModel)]="object.requestDetails.note">
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -2,8 +2,12 @@ import { Moment } from 'moment';
 
 export interface IRequestDetails {
     id?: number;
-    ieWarehouseId?: number;
-    invoiceHeaderId?: number;
+    requestId?: number;
+    invoicePackageId?: number;
+    keeperConfirm?: boolean;
+    shipperConfirm?: boolean;
+    status?: boolean;
+    note?: string;
     createDate?: Moment;
     updateDate?: Moment;
 }
@@ -11,8 +15,12 @@ export interface IRequestDetails {
 export class RequestDetails implements IRequestDetails {
     constructor(
         public id?: number,
-        public ieWarehouseId?: number,
-        public invoiceHeaderId?: number,
+        public requestId?: number,
+        public invoicePackageId?: number,
+        public keeperConfirm?: boolean,
+        public shipperConfirm?: boolean,
+        public status?: boolean,
+        public note?: string,
         public createDate?: Moment,
         public updateDate?: Moment
     ) {}

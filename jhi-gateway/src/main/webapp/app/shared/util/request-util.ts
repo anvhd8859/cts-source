@@ -22,12 +22,12 @@ export class CommonString {
     listTypeShipment: any = [{ id: 'collect', text: 'Lấy hàng' }, { id: 'delivery', text: 'Giao hàng' }];
     listStatusShipment: any = [
         { id: 'new', text: 'Chấp nhận' },
-        { id: 'collecting', text: 'Nhân viên bắt đầu lấy hàng' },
-        { id: 'delivering', text: 'Nhân viên bắt đầu giao hàng' },
+        { id: 'collecting', text: 'Đang lấy hàng' },
+        { id: 'delivering', text: 'Đang giao hàng' },
         { id: 'fail_num1', text: 'Giao hàng không thành công lần: 1' },
         { id: 'fail_num2', text: 'Giao hàng không thành công lần: 2' },
         { id: 'fail_num3', text: 'Giao hàng không thành công lần: 3' },
-        { id: 'done', text: 'Đã thực hiện, chờ nhập kho' },
+        { id: 'done', text: 'Đã lấy hàng, cần nhập kho' },
         { id: 'finish', text: 'Hoàn thành' },
         { id: 'cancel', text: 'Hủy' }
     ];
@@ -36,6 +36,7 @@ export class CommonString {
         { id: 'collect', text: 'Chờ nhân viên lấy hàng' },
         { id: 'receive', text: 'Chờ khách giao hàng' },
         { id: 'collected', text: 'Đã nhận được đơn hàng' },
+        { id: 'received', text: 'Đã nhận được đơn hàng' },
         { id: 'first_import', text: 'Nhập kho chi nhánh đầu' },
         { id: 'transporting', text: 'Đang vận chuyển' },
         { id: 'last_import', text: 'Nhập kho chi nhánh cuối' },

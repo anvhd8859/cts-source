@@ -13,7 +13,9 @@ public class TransferDetailsDTO implements Serializable {
 
     private Long transferId;
 
-    private Long invoicePackageIdackageId;
+    private Long invoicePackageId;
+
+    private Boolean status;
 
     private Instant createDate;
 
@@ -35,12 +37,20 @@ public class TransferDetailsDTO implements Serializable {
         this.transferId = transferId;
     }
 
-    public Long getInvoicePackageIdackageId() {
-        return invoicePackageIdackageId;
+    public Long getInvoicePackageId() {
+        return invoicePackageId;
     }
 
-    public void setInvoicePackageIdackageId(Long invoicePackageIdackageId) {
-        this.invoicePackageIdackageId = invoicePackageIdackageId;
+    public void setInvoicePackageId(Long invoicePackageId) {
+        this.invoicePackageId = invoicePackageId;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     public Instant getCreateDate() {
@@ -85,7 +95,7 @@ public class TransferDetailsDTO implements Serializable {
         return "TransferDetailsDTO{" +
             "id=" + getId() +
             ", transferId=" + getTransferId() +
-            ", invoicePackageIdackageId=" + getInvoicePackageIdackageId() +
+            ", invoicePackageIdackageId=" + getInvoicePackageId() +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";

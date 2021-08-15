@@ -1,4 +1,7 @@
 <div>
+    <br>
+    <br>
+    <br>
     <h2 id="page-heading">
         <span>Quản lý danh sách kho hàng</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-warehouse" [routerLink]="['/warehouse/new']">
@@ -25,7 +28,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let w of warehouses; trackBy: trackId;">
-                    <td><a [routerLink]="['/warehouse', w.warehouseDTO.id, 'view' ]">{{w.id}}</a></td>
+                    <td><a [routerLink]="['/warehouse', w.warehouseDTO.id, 'view' ]">{{w.warehouseDTO.id}}</a></td>
                     <td>{{w.warehouseDTO.warehouseName}}</td>
                     <td>{{w.officeName}}</td>
                     <td>{{w.warehouseDTO.address}}</td>

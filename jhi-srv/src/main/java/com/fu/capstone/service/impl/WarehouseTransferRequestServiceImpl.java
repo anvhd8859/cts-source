@@ -1,16 +1,23 @@
 package com.fu.capstone.service.impl;
 
+import com.fu.capstone.domain.*;
+import com.fu.capstone.repository.*;
 import com.fu.capstone.service.WarehouseTransferRequestService;
-import com.fu.capstone.domain.WarehouseTransferRequest;
-import com.fu.capstone.repository.WarehouseTransferRequestRepository;
-import com.fu.capstone.service.dto.WarehouseTransferRequestDTO;
+import com.fu.capstone.service.dto.*;
+import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
+import com.fu.capstone.service.mapper.InvoicePackageMapper;
+import com.fu.capstone.service.mapper.TransferDetailsMapper;
 import com.fu.capstone.service.mapper.WarehouseTransferRequestMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -23,69 +30,205 @@ import java.util.stream.Collectors;
 @Transactional
 public class WarehouseTransferRequestServiceImpl implements WarehouseTransferRequestService {
 
-    private final Logger log = LoggerFactory.getLogger(WarehouseTransferRequestServiceImpl.class);
+	private final Logger log = LoggerFactory.getLogger(WarehouseTransferRequestServiceImpl.class);
 
-    private WarehouseTransferRequestRepository warehouseTransferRequestRepository;
+	private WarehouseTransferRequestRepository warehouseTransferRequestRepository;
 
-    private WarehouseTransferRequestMapper warehouseTransferRequestMapper;
+	private WarehouseTransferRequestMapper warehouseTransferRequestMapper;
 
-    public WarehouseTransferRequestServiceImpl(WarehouseTransferRequestRepository warehouseTransferRequestRepository, WarehouseTransferRequestMapper warehouseTransferRequestMapper) {
-        this.warehouseTransferRequestRepository = warehouseTransferRequestRepository;
-        this.warehouseTransferRequestMapper = warehouseTransferRequestMapper;
-    }
+	private WarehouseRepository warehouseRepository;
 
-    /**
-     * Save a warehouseTransferRequest.
-     *
-     * @param warehouseTransferRequestDTO the entity to save
-     * @return the persisted entity
-     */
-    @Override
-    public WarehouseTransferRequestDTO save(WarehouseTransferRequestDTO warehouseTransferRequestDTO) {
-        log.debug("Request to save WarehouseTransferRequest : {}", warehouseTransferRequestDTO);
+	private TransferDetailsRepository transferDetailsRepository;
 
-        WarehouseTransferRequest warehouseTransferRequest = warehouseTransferRequestMapper.toEntity(warehouseTransferRequestDTO);
-        warehouseTransferRequest = warehouseTransferRequestRepository.save(warehouseTransferRequest);
-        return warehouseTransferRequestMapper.toDto(warehouseTransferRequest);
-    }
+	private InvoiceHeaderRepository invoiceHeaderRepository;
 
-    /**
-     * Get all the warehouseTransferRequests.
-     *
-     * @return the list of entities
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<WarehouseTransferRequestDTO> findAll() {
-        log.debug("Request to get all WarehouseTransferRequests");
-        return warehouseTransferRequestRepository.findAll().stream()
-            .map(warehouseTransferRequestMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
-    }
+	private InvoicePackageRepository invoicePackageRepository;
+
+	private InvoiceHeaderMapper invoiceHeaderMapper;
+
+	private InvoicePackageMapper invoicePackageMapper;
+
+	private TransferDetailsMapper transferDetailsMapper;
+
+	private PersonalShipmentRepository personalShipmentRepository;
+
+	public WarehouseTransferRequestServiceImpl(WarehouseTransferRequestRepository warehouseTransferRequestRepository,
+			WarehouseTransferRequestMapper warehouseTransferRequestMapper,
+			WarehouseRepository warehouseRepository,
+			TransferDetailsRepository transferDetailsRepository,TransferDetailsMapper transferDetailsMapper,
+			InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
+			InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper,
+			PersonalShipmentRepository personalShipmentRepository) {
+		this.warehouseTransferRequestRepository = warehouseTransferRequestRepository;
+		this.warehouseTransferRequestMapper = warehouseTransferRequestMapper;
+		this.warehouseRepository = warehouseRepository;
+		this.transferDetailsRepository = transferDetailsRepository;
+		this.invoiceHeaderRepository = invoiceHeaderRepository;
+		this.invoicePackageRepository = invoicePackageRepository;
+		this.transferDetailsMapper = transferDetailsMapper;
+		this.invoiceHeaderMapper = invoiceHeaderMapper;
+		this.invoicePackageMapper = invoicePackageMapper;
+		this.personalShipmentRepository = personalShipmentRepository;
+	}
+
+	/**
+	 * Save a warehouseTransferRequest.
+	 *
+	 * @param warehouseTransferRequestDTO the entity to save
+	 * @return the persisted entity
+	 */
+	@Override
+	public WarehouseTransferRequestDTO save(WarehouseTransferRequestDTO warehouseTransferRequestDTO) {
+		log.debug("Request to save WarehouseTransferRequest : {}", warehouseTransferRequestDTO);
+
+		WarehouseTransferRequest warehouseTransferRequest = warehouseTransferRequestMapper.toEntity(warehouseTransferRequestDTO);
+		warehouseTransferRequest = warehouseTransferRequestRepository.save(warehouseTransferRequest);
+		return warehouseTransferRequestMapper.toDto(warehouseTransferRequest);
+	}
+
+	/**
+	 * Get all the warehouseTransferRequests.
+	 *
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<WarehouseTransferRequestDTO> findAll() {
+		log.debug("Request to get all WarehouseTransferRequests");
+		return warehouseTransferRequestRepository.findAll().stream()
+				.map(warehouseTransferRequestMapper::toDto)
+				.collect(Collectors.toCollection(LinkedList::new));
+	}
 
 
-    /**
-     * Get one warehouseTransferRequest by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<WarehouseTransferRequestDTO> findOne(Long id) {
-        log.debug("Request to get WarehouseTransferRequest : {}", id);
-        return warehouseTransferRequestRepository.findById(id)
-            .map(warehouseTransferRequestMapper::toDto);
-    }
+	/**
+	 * Get one warehouseTransferRequest by id.
+	 *
+	 * @param id the id of the entity
+	 * @return the entity
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<WarehouseTransferRequestDTO> findOne(Long id) {
+		log.debug("Request to get WarehouseTransferRequest : {}", id);
+		return warehouseTransferRequestRepository.findById(id)
+				.map(warehouseTransferRequestMapper::toDto);
+	}
 
-    /**
-     * Delete the warehouseTransferRequest by id.
-     *
-     * @param id the id of the entity
-     */
-    @Override
-    public void delete(Long id) {
-        log.debug("Request to delete WarehouseTransferRequest : {}", id);
-        warehouseTransferRequestRepository.deleteById(id);
-    }
+	/**
+	 * Delete the warehouseTransferRequest by id.
+	 *
+	 * @param id the id of the entity
+	 */
+	@Override
+	public void delete(Long id) {
+		log.debug("Request to delete WarehouseTransferRequest : {}", id);
+		warehouseTransferRequestRepository.deleteById(id);
+	}
+
+	@Override
+	public WarehouseTransferRequestDTO createTransferRequest(TransferInvoicePackageDTO body) {
+		Instant instant = Instant.now();
+		WarehouseTransferRequest entity = warehouseTransferRequestMapper.toEntity(body.getTransferRequest());
+		Warehouse from = warehouseRepository.getWarehouseByKeeperId(entity.getFromKeeperId());
+
+		entity.setFromWarehouseId(from.getId());
+		entity.setCreateDate(instant);
+		entity.setUpdateDate(instant);
+		entity = warehouseTransferRequestRepository.save(entity);
+
+		List<TransferDetails> tdList = new ArrayList<>();
+		List<InvoicePackageShipmentDTO> data = body.getInvoicePackageList();
+		for (InvoicePackageShipmentDTO ips : data) {
+			TransferDetails td = new TransferDetails();
+			td.setTransferId(entity.getId());
+			td.setInvoicePackageId(ips.getInvoiceHeader().getId());
+			td.setStatus(false);
+			td.setCreateDate(instant);
+			td.setUpdateDate(instant);
+			tdList.add(td);
+		}
+
+		transferDetailsRepository.saveAll(tdList);
+		return warehouseTransferRequestMapper.toDto(entity);
+	}
+
+	@Override
+	public Page<TransferInvoicePackageDTO> getWarehouseTransferByOffice(Long id, Pageable pageable) {
+		return warehouseTransferRequestRepository.getWarehouseTransferByOffice(id, pageable)
+				.map(this::toTransferInvoicePackageDTO);
+	}
+
+	@Override
+	public List<TransferDetailsInvoiceDTO> getWarehouseTransferData(Long id) {
+		List<TransferDetails> list = transferDetailsRepository.findAllByTransferId(id);
+		List<TransferDetailsInvoiceDTO> rs = new ArrayList<>();
+		list.forEach(x -> {
+			rs.add(toTransferInvoicePackageDTO(x));
+		});
+		return rs;
+	}
+
+	@Override
+	public WarehouseTransferRequestDTO approveTransferRequest(List<TransferDetailsInvoiceDTO> body) {
+		Instant instant = Instant.now();
+		WarehouseTransferRequest rs = warehouseTransferRequestRepository.getOne(body.get(0).getTransferDetails().getTransferId());
+		List<Long> invoiceIds = new ArrayList<>();
+		List<TransferDetailsDTO> tdList = new ArrayList<>();
+		List<InvoiceHeaderDTO> ihList = new ArrayList<>();
+		List<InvoicePackageDTO> ipList = new ArrayList<>();
+		body.forEach(obj -> {
+			if (obj.getTransferDetails().getStatus()) {
+				InvoiceHeaderDTO inv = obj.getInvoiceHeader();
+				inv.setStatus("last_import");
+				inv.setUpdateDate(instant);
+				invoiceIds.add(inv.getId());
+				List<InvoicePackageDTO> innerIpList = obj.getInvoicePackageList();
+				ihList.add(inv);
+				ipList.addAll(innerIpList);
+			}
+			tdList.add(obj.getTransferDetails());
+		});
+
+		ipList.forEach(invoicePackageDTO -> {
+			invoicePackageDTO.setWarehouseId(rs.getToWarehouseId());
+			invoicePackageDTO.setUpdateDate(instant);
+		});
+
+		rs.setStatus("approve");
+		rs.setReceiveDate(instant);
+		rs.setUpdateDate(instant);
+
+		List<PersonalShipment> psList = personalShipmentRepository.getDeliveryShipmentByHeaderIds( invoiceIds);
+
+		transferDetailsRepository.saveAll(transferDetailsMapper.toEntity(tdList));
+		invoiceHeaderRepository.saveAll(invoiceHeaderMapper.toEntity(ihList));
+		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(ipList));
+		return warehouseTransferRequestMapper.toDto(warehouseTransferRequestRepository.save(rs));
+	}
+
+	private TransferDetailsInvoiceDTO toTransferInvoicePackageDTO(TransferDetails from) {
+		TransferDetailsInvoiceDTO toDTO = new TransferDetailsInvoiceDTO();
+		toDTO.setTransferDetails(transferDetailsMapper.toDto(from));
+		toDTO.setInvoiceHeader(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(from.getInvoicePackageId())));
+		toDTO.setInvoicePackageList(invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(from.getInvoicePackageId())));
+		return toDTO;
+	}
+
+	private TransferInvoicePackageDTO toTransferInvoicePackageDTO(WarehouseTransferRequest from) {
+		TransferInvoicePackageDTO toDTO = new TransferInvoicePackageDTO();
+		toDTO.setTransferRequest(warehouseTransferRequestMapper.toDto(from));
+		List<InvoiceHeader> ihList = invoiceHeaderRepository.getInvoiceHeaderByTransferId(from.getId());
+
+		List<InvoicePackageShipmentDTO> list = new ArrayList<>();
+		for (InvoiceHeader inv : ihList) {
+			InvoicePackageShipmentDTO data = new InvoicePackageShipmentDTO();
+			data.setInvoiceHeader(invoiceHeaderMapper.toDto(inv));
+			data.setInvoicePackageList(invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(inv.getId())));
+			list.add(data);
+		}
+
+		toDTO.setInvoicePackageList(list);
+		return toDTO;
+	}
 }

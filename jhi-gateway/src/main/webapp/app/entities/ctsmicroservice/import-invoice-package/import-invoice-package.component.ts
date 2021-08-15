@@ -98,6 +98,14 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     checked(i: number, e) {
         if (e.target.checked) {
             this.selectedCheckBox[i] = true;
+            let myAll = true;
+            for (let bool of this.selectedCheckBox) {
+                if (!bool) {
+                    myAll = false;
+                    break;
+                }
+            }
+            this.all = myAll;
         } else {
             this.selectedCheckBox[i] = false;
             this.all = false;

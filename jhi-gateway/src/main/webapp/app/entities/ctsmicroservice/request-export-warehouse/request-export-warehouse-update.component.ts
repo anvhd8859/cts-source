@@ -1,36 +1,85 @@
+import { ImportExportWarehouseService } from 'app/entities/ctsmicroservice/import-export-warehouse/import-export-warehouse.service';
+import {
+    DetailsImportExportDTO,
+    IShipmentInvoice,
+    IShipmentInvoicePackages,
+    PersonalShipmentService,
+    RequestDetailsDTO
+} from 'app/entities/ctsmicroservice/invoice-header/personal-shipment';
+import { IUserProfile } from 'app/shared/model/user-profile.model';
+import { Principal, IUser, AccountService } from 'app/core';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpResponse, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
-import { IRequestExportWarehouse } from 'app/shared/model/ctsmicroservice/request-export-warehouse.model';
-import { RequestExportWarehouseService } from './request-export-warehouse.service';
+import { CommonString } from 'app/shared';
+import { Moment } from 'moment';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { JhiAlertService, JhiParseLinks } from 'ng-jhipster';
+import { InvoiceHeaderService } from '../invoice-header';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RequestExportModalConfirmComponent } from '.';
+import { IImportExportWarehouse, ImportExportWarehouse } from 'app/shared/model/ctsmicroservice/import-export-warehouse.model';
+import { IInvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 
 @Component({
     selector: 'jhi-request-export-warehouse-update',
     templateUrl: './request-export-warehouse-update.component.html'
 })
 export class RequestExportWarehouseUpdateComponent implements OnInit {
-    requestExportWarehouse: IRequestExportWarehouse;
+    currentAccount: IUser;
+    currentProfile: IUserProfile;
+    keeperList: IUser[];
+    shipmentInvoices: IShipmentInvoicePackages[];
     isSaving: boolean;
     shipDate: string;
     createDate: string;
     updateDate: string;
+    selectedInvoiceNumber: any;
+    selectedTypeShipment: any;
+    selectedTypeFromServer: any;
+    common: CommonString;
+    fromTime: Moment;
+    toTime: Moment;
+    links: any;
+    totalItems: any;
+    queryCount: any;
+    itemsPerPage: any;
+    page: any;
+    predicate: any;
+    previousPage: any;
+    reverse: any;
+    routeData: any;
+    selectedCheckBox: boolean[] = [];
+    all: boolean;
 
-    constructor(private requestExportWarehouseService: RequestExportWarehouseService, private activatedRoute: ActivatedRoute) {}
+    constructor(
+        private importExportWarehouseService: ImportExportWarehouseService,
+        private personalShipmentService: PersonalShipmentService,
+        private invoiceHeaderService: InvoiceHeaderService,
+        private accountService: AccountService,
+        private principal: Principal,
+        private modalService: NgbModal,
+        private jhiAlertService: JhiAlertService,
+        private ngxUiLoaderService: NgxUiLoaderService,
+        private parseLinks: JhiParseLinks,
+        private activatedRoute: ActivatedRoute,
+        private router: Router
+    ) {}
 
     ngOnInit() {
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+        });
+        this.selectedTypeShipment = this.common.listTypeShipment[0].id;
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ requestExportWarehouse }) => {
-            this.requestExportWarehouse = requestExportWarehouse;
-            this.shipDate =
-                this.requestExportWarehouse.shipDate != null ? this.requestExportWarehouse.shipDate.format(DATE_TIME_FORMAT) : null;
-            this.createDate =
-                this.requestExportWarehouse.createDate != null ? this.requestExportWarehouse.createDate.format(DATE_TIME_FORMAT) : null;
-            this.updateDate =
-                this.requestExportWarehouse.updateDate != null ? this.requestExportWarehouse.updateDate.format(DATE_TIME_FORMAT) : null;
+        this.itemsPerPage = 50;
+        this.routeData = this.activatedRoute.data.subscribe(data => {
+            this.page = data.pagingParams.page;
+            this.previousPage = data.pagingParams.page;
+            this.reverse = data.pagingParams.ascending;
+            this.predicate = data.pagingParams.predicate;
         });
     }
 
@@ -38,23 +87,124 @@ export class RequestExportWarehouseUpdateComponent implements OnInit {
         window.history.back();
     }
 
-    save() {
-        this.isSaving = true;
-        this.requestExportWarehouse.shipDate = this.shipDate != null ? moment(this.shipDate, DATE_TIME_FORMAT) : null;
-        this.requestExportWarehouse.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
-        this.requestExportWarehouse.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
-        if (this.requestExportWarehouse.id !== undefined) {
-            this.subscribeToSaveResponse(this.requestExportWarehouseService.update(this.requestExportWarehouse));
-        } else {
-            this.subscribeToSaveResponse(this.requestExportWarehouseService.create(this.requestExportWarehouse));
+    clearDatepicker(id: number) {
+        switch (id) {
+            case 2:
+                this.fromTime = null;
+                break;
+            case 3:
+                this.toTime = null;
+                break;
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<HttpResponse<IRequestExportWarehouse>>) {
-        result.subscribe(
-            (res: HttpResponse<IRequestExportWarehouse>) => this.onSaveSuccess(),
-            (res: HttpErrorResponse) => this.onSaveError()
+    createImportRequest() {
+        this.isSaving = false;
+        let closeResult = '';
+
+        let selectedRequestInvoices = new Array();
+        if (this.selectedCheckBox) {
+            for (const i in this.selectedCheckBox) {
+                if (this.selectedCheckBox[i]) {
+                    selectedRequestInvoices.push(this.shipmentInvoices[i]);
+                }
+            }
+        }
+        const modalRef = this.modalService.open(RequestExportModalConfirmComponent as Component, {
+            size: 'lg',
+            backdrop: 'static'
+        });
+        modalRef.componentInstance.selectedImportInvoices = selectedRequestInvoices;
+        modalRef.result.then(
+            result => {
+                if (result) {
+                    closeResult = result;
+                    if (closeResult.startsWith('OK')) {
+                        const data = new DetailsImportExportDTO();
+                        data.requestHeader = this.createNewRequestHeader();
+                        data.requestDetailsList = new Array();
+                        for (const i in this.selectedCheckBox) {
+                            if (this.selectedCheckBox[i]) {
+                                const rd = new RequestDetailsDTO();
+                                rd.invoicePackageId = this.shipmentInvoices[i].invoiceHeaderDTO.id;
+                                data.requestDetailsList.push(rd);
+                            }
+                        }
+                        console.log(data);
+                        this.importExportWarehouseService.createImportWarehouse(data).subscribe(
+                            (res: HttpResponse<any>) => {
+                                this.isSaving = false;
+                                const responseData: IImportExportWarehouse = res.body;
+                                this.router.navigate(['/import-export-warehouse-employee/' + responseData.id + '/view']);
+                            },
+                            (res: HttpErrorResponse) => {
+                                this.isSaving = false;
+                            }
+                        );
+                    }
+                }
+            },
+            reason => {}
         );
+    }
+
+    createNewRequestHeader(): ImportExportWarehouse {
+        const result: ImportExportWarehouse = new ImportExportWarehouse();
+        result.employeeId = this.currentAccount.id;
+        result.warehouseId = this.currentProfile.officeId;
+        for (const obj of this.keeperList) {
+            if (obj.activated) {
+                result.keeperId = obj.id;
+            }
+        }
+        return result;
+    }
+
+    loadAll() {
+        this.isSaving = false;
+        this.ngxUiLoaderService.start();
+        const param = {
+            id: this.currentAccount.id,
+            invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
+            type: this.selectedTypeShipment,
+            from: this.fromTime ? this.fromTime.year() + '-' + (this.fromTime.month() + 1) + '-' + this.fromTime.date() : '',
+            to: this.toTime ? this.toTime.year() + '-' + (this.toTime.month() + 1) + '-' + this.toTime.date() : '',
+            page: this.page - 1,
+            size: this.itemsPerPage
+        };
+        this.personalShipmentService.getImportShipmentByShipper(param).subscribe(
+            (res: HttpResponse<any>) => {
+                this.paginateInvoiceHeaders(res.body, res.headers);
+                this.selectedTypeFromServer = this.selectedTypeShipment;
+                this.ngxUiLoaderService.stop();
+            },
+            (res: HttpErrorResponse) => {
+                this.onError();
+                this.ngxUiLoaderService.stop();
+            }
+        );
+        this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(res => {
+            this.currentProfile = res.body;
+            this.invoiceHeaderService.getListKeeperByOfficeID({ id: this.currentProfile.officeId }).subscribe(resp => {
+                this.keeperList = resp.body;
+            });
+        });
+    }
+
+    private paginateInvoiceHeaders(data: IShipmentInvoicePackages[], headers: HttpHeaders) {
+        this.links = this.parseLinks.parse(headers.get('link'));
+        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        this.queryCount = this.totalItems;
+        this.shipmentInvoices = data;
+        for (const obj of data) {
+            if (obj) {
+                this.selectedCheckBox.push(false);
+            }
+        }
+    }
+
+    private subscribeToSaveResponse(result: Observable<HttpResponse<any>>) {
+        result.subscribe((res: HttpResponse<any>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     private onSaveSuccess() {
@@ -64,5 +214,78 @@ export class RequestExportWarehouseUpdateComponent implements OnInit {
 
     private onSaveError() {
         this.isSaving = false;
+    }
+
+    private onError() {
+        this.jhiAlertService.error('Đã xảy ra lỗi khi thực hiện', null, null);
+    }
+
+    checkAll(e) {
+        if (e.target.checked) {
+            this.all = true;
+            for (const i in this.selectedCheckBox) {
+                if (this.selectedCheckBox.hasOwnProperty(i)) {
+                    this.selectedCheckBox[i] = true;
+                }
+            }
+        } else {
+            this.all = false;
+            for (const i in this.selectedCheckBox) {
+                if (this.selectedCheckBox.hasOwnProperty(i)) {
+                    this.selectedCheckBox[i] = false;
+                }
+            }
+        }
+    }
+
+    checked(i: number, e) {
+        if (e.target.checked) {
+            this.selectedCheckBox[i] = true;
+            let myAll = true;
+            for (let bool of this.selectedCheckBox) {
+                if (!bool) {
+                    myAll = false;
+                    break;
+                }
+            }
+            this.all = myAll;
+        } else {
+            this.selectedCheckBox[i] = false;
+            this.all = false;
+        }
+    }
+
+    loadPage(page: number) {
+        if (page !== this.previousPage) {
+            this.previousPage = page;
+            this.transition();
+        }
+    }
+
+    transition() {
+        this.router.navigate(['/request-import-warehouse-shipper'], {
+            queryParams: {
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        });
+        this.loadAll();
+    }
+
+    sort() {
+        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        if (this.predicate !== 'id') {
+            result.push('id');
+        }
+        return result;
+    }
+
+    totalWeight(packageList: IInvoicePackage[]) {
+        let x = 0;
+        for (const obj of packageList) {
+            x += obj.weight;
+        }
+        return x;
     }
 }

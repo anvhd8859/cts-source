@@ -24,6 +24,8 @@ public class ImportExportRequestDTO implements Serializable {
 
     private String type;
 
+    private String status;
+
     private String note;
 
     private Boolean keeperConfirm;
@@ -76,17 +78,18 @@ public class ImportExportRequestDTO implements Serializable {
         this.type = type;
     }
 
-    public String getNote() {
-        return note;
+    public String getStatus() {
+        return status;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Boolean isKeeperConfirm() {
         return keeperConfirm;
     }
+
     public Boolean isShipperConfirm() {
         return shipperConfirm;
     }
@@ -119,6 +122,18 @@ public class ImportExportRequestDTO implements Serializable {
         this.updateDate = updateDate;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public Boolean getKeeperConfirm() {
+        return keeperConfirm;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -148,7 +163,7 @@ public class ImportExportRequestDTO implements Serializable {
             ", keeperId=" + getKeeperId() +
             ", employeeId=" + getEmployeeId() +
             ", type='" + getType() + "'" +
-            ", note='" + getNote() + "'" +
+            ", note='" + getStatus() + "'" +
             ", keeperConfirm='" + isKeeperConfirm() + "'" +
             ", shipDate='" + getShipDate() + "'" +
             ", createDate='" + getCreateDate() + "'" +

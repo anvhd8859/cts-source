@@ -2,6 +2,7 @@ package com.fu.capstone.service;
 
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
 import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
+import com.fu.capstone.service.dto.RequestDetailInvoiceDTO;
 import com.fu.capstone.service.dto.RequestDetailsDTO;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public interface RequestDetailsService {
      */
     void delete(Long id);
 
-	List<PersonalShipmentInvoiceDTO> getRequestDetailsByHeaderId(Long id);
+	List<RequestDetailInvoiceDTO> getRequestDetailsByHeaderId(Long id);
 
 	RequestDetailsDTO updateImportExportByKeeper(Long eid, Long wid, List<InvoicePackageDetailDTO> body);
 	

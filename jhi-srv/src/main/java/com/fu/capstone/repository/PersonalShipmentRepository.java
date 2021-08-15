@@ -36,11 +36,11 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 
 	@Query(value = "SELECT ps.* FROM personal_shipment ps, invoice_header i "
 				 + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
-				 + " AND ps.status <> 'finish' AND ps.status <> '' "
+				 + " AND ps.status <> 'finish' AND ps.status <> 'received' AND ps.status <> '' "
 				 + " AND ps.shipment_type = :type AND (:status = '' OR i.status = :status) "
 				 + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
 				 + " AND (:from = '' OR i.due_date >= CONCAT(:from , ' 00:00:00')) "
-				 + " AND (:to = '' OR i.due_date <= CONCAT(:to , ' 00:00:00')) "
+				 + " AND (:to = '' OR i.due_date <= CONCAT(:to , ' 23:59:59')) "
 				 + " ORDER BY i.due_date",
 			countQuery = "SELECT COUNT(*) FROM personal_shipment ps, invoice_header i"
 					   + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
@@ -59,8 +59,8 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 				  + " WHERE p.invoiceHeaderId = i.id "
 				  + " AND (:empId is NULL OR p.employeeId = :empId) "
 				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo , '%')) "
-				  + " AND ( COALESCE(:sidList) IS NULL OR (i.startStreetId IN (:sidList) AND p.shipmentType = 'collect') "
-				  + "  OR  (i.destinationStreetId IN (:sidList) AND p.shipmentType = 'delivery') ) "
+				  + " AND ( :sidList IS NULL OR (i.startStreetId IN (:sidList) AND p.shipmentType = 'collect') "
+				  + " OR  (i.destinationStreetId IN (:sidList) AND p.shipmentType = 'delivery') ) "
 				  + " AND (:type = '' OR :type = p.shipmentType) ")
 	Page<PersonalShipment> getAllPersonaShipmentInvoices(@Param("empId") Long empId, @Param("invNo") String invNo,
 			@Param("sidList") List<Long> sidList, @Param("type") String type, Pageable pageable);
@@ -81,4 +81,29 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 	@Query( value = "SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :id ")
 	List<PersonalShipment> getAllShipmentByHeaderId(@Param("id") Long id);
 
+	@Query(value = "SELECT ps.* FROM personal_shipment ps, invoice_header i "
+			+ " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
+			+ " AND (ps.status = 'done' OR ps.status = 'delivering') "
+			+ " AND ps.shipment_type = :type "
+			+ " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
+			+ " AND (:from = '' OR ps.due_date >= CONCAT(:from , ' 00:00:00')) "
+			+ " AND (:to = '' OR ps.due_date <= CONCAT(:to , ' 23:59:59')) "
+			+ " ORDER BY i.due_date",
+			countQuery = "SELECT COUNT(*) FROM personal_shipment ps, invoice_header i"
+					+ " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
+					+ " AND (ps.status = 'done' OR ps.status = 'delivering') "
+					+ " AND ps.shipment_type = :type "
+					+ " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
+					+ " AND (:from = '' OR ps.finish_time >= CONCAT(:from , ' 00:00:00')) "
+					+ " AND (:to = '' OR ps.finish_time <= CONCAT(:to , ' 23:59:59')) "
+					+ " ORDER BY i.due_date",
+			nativeQuery = true)
+	Page<PersonalShipment> getImportShipmentByShipper(@Param("id") Long id,
+			@Param("invNo") String invNo, @Param("type") String type,
+			@Param("from") String from, @Param("to") String to, Pageable pageable);
+
+	List<PersonalShipment> findAllByShipmentTypeAndId(String shipmentType, Long id);
+
+	@Query( value = "SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId IN (:list) AND p.shipmentType = 'delivery'")
+	List<PersonalShipment> getDeliveryShipmentByHeaderIds(@Param("list") List<Long> invoiceIds);
 }

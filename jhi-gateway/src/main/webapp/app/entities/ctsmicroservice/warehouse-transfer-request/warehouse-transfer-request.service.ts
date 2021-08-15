@@ -49,6 +49,14 @@ export class WarehouseTransferRequestService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
+    getWarehouseTransferData(id: number): Observable<HttpResponse<any>> {
+        return this.http.get<any>(`${this.resourceUrl}/full-detail/${id}`, { observe: 'response' });
+    }
+
+    approveTransferRequest(param?: any): Observable<HttpResponse<any>> {
+        return this.http.post<IWarehouseTransferRequest>(this.resourceUrl + '/approve', param, { observe: 'response' });
+    }
+
     private convertDateFromClient(warehouseTransferRequest: IWarehouseTransferRequest): IWarehouseTransferRequest {
         const copy: IWarehouseTransferRequest = Object.assign({}, warehouseTransferRequest, {
             receiveDate:
@@ -84,5 +92,9 @@ export class WarehouseTransferRequestService {
                 warehouseTransferRequest.updateDate != null ? moment(warehouseTransferRequest.updateDate) : null;
         });
         return res;
+    }
+
+    getWarehouseTransferByOffice(options?: any): Observable<HttpResponse<any>> {
+        return this.http.get<any>(this.resourceUrl + '/office', { params: options, observe: 'response' });
     }
 }

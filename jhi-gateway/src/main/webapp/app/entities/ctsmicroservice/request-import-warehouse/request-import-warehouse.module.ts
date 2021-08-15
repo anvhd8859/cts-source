@@ -5,11 +5,13 @@ import { CtsgatewaySharedModule } from 'app/shared';
 import {
     RequestImportWarehouseComponent,
     RequestImportWarehouseDetailComponent,
-    RequestImportWarehouseUpdateComponent,
+    RequestImportWarehouseShipperUpdateComponent,
     RequestImportWarehouseDeletePopupComponent,
     RequestImportWarehouseDeleteDialogComponent,
     requestImportWarehouseRoute,
-    requestImportWarehousePopupRoute
+    requestImportWarehousePopupRoute,
+    RequestImportModalConfirmComponent,
+    RequestImportWarehouseOfficerUpdateComponent
 } from './';
 
 const ENTITY_STATES = [...requestImportWarehouseRoute, ...requestImportWarehousePopupRoute];
@@ -19,15 +21,19 @@ const ENTITY_STATES = [...requestImportWarehouseRoute, ...requestImportWarehouse
     declarations: [
         RequestImportWarehouseComponent,
         RequestImportWarehouseDetailComponent,
-        RequestImportWarehouseUpdateComponent,
+        RequestImportWarehouseShipperUpdateComponent,
+        RequestImportWarehouseOfficerUpdateComponent,
         RequestImportWarehouseDeleteDialogComponent,
-        RequestImportWarehouseDeletePopupComponent
+        RequestImportWarehouseDeletePopupComponent,
+        RequestImportModalConfirmComponent
     ],
     entryComponents: [
         RequestImportWarehouseComponent,
-        RequestImportWarehouseUpdateComponent,
+        RequestImportWarehouseShipperUpdateComponent,
+        RequestImportWarehouseOfficerUpdateComponent,
         RequestImportWarehouseDeleteDialogComponent,
-        RequestImportWarehouseDeletePopupComponent
+        RequestImportWarehouseDeletePopupComponent,
+        RequestImportModalConfirmComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

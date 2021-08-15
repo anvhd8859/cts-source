@@ -19,4 +19,9 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
 
 	@Query(value = "SELECT w FROM Warehouse w WHERE w.officeId = :id")
 	Warehouse getWarehouseByOfficeId(@Param("id") Long id);
+
+	@Query(value = "SELECT w FROM Warehouse w WHERE w.keeperId = :id")
+	Warehouse getWarehouseByKeeperId(@Param("id") Long fromKeeperId);
+
+	Warehouse findDistinctByOfficeId(Long officeId);
 }

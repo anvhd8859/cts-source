@@ -1,3 +1,4 @@
+import { IInvoicePackage } from './../../../../shared/model/ctsmicroservice/invoice-package.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -99,6 +100,13 @@ export class PersonalShipmentService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayShipInvoice(res)));
     }
 
+    getImportShipmentByShipper(req?: any): Observable<any> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<any>(this.resourceUrl + '/import/by-shipper', { params: options, observe: 'response' })
+            .pipe(map((res: any) => this.convertDateArrayShipInvoice(res)));
+    }
+
     private convertDateArrayShipInvoice(res: EntityArrayResponseType): EntityArrayResponseType {
         res.body.forEach((shipmentInvoice: any) => {
             shipmentInvoice.invoiceHeaderDTO.dueDate =
@@ -125,4 +133,10 @@ export class PersonalShipmentService {
 export interface IShipmentInvoice {
     personalShipmentDTO?: IPersonalShipment;
     invoiceHeaderDTO?: IInvoiceHeader;
+}
+
+export interface IShipmentInvoicePackages {
+    personalShipmentDTO?: IPersonalShipment;
+    invoiceHeaderDTO?: IInvoiceHeader;
+    packageList?: IInvoicePackage[];
 }

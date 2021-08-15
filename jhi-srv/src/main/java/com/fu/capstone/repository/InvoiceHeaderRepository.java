@@ -61,13 +61,15 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 			@Param("status") String status, @Param("fromDate") String fromDate,
 			@Param("toDate") String toDate, Pageable pageable);
 
-	@Query(value = "SELECT i FROM InvoiceHeader i WHERE i.officeId = :id "
+	@Query(value = "SELECT i FROM InvoiceHeader i, InvoicePackage p WHERE i.id = p.invoiceHeaderId"
+			+ " AND i.officeId = :id "
+			+ " AND i.destinationOfficeId = :tid"
 			+ " AND (i.status = :status) "
 			+ " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%')) "
 			+ " AND (:fromDate = '' OR i.createDate >= CONCAT(:fromDate , ' 00:00:00')) "
 			+ " AND (:toDate = '' OR i.createDate <= CONCAT(:toDate , ' 23:59:59')) "
 			+ " ORDER BY i.dueDate ASC")
-	Page<InvoiceHeader> getExportPackageByOfficeId(@Param("id") Long id, @Param("invNo") String invNo,
+	Page<InvoiceHeader> getExportPackageByOfficeId(@Param("id") Long id, @Param("tid") Long toOfficeId, @Param("invNo") String invNo,
 			@Param("status") String status, @Param("fromDate") String fromDate,
 			@Param("toDate") String toDate, Pageable pageable);
 
@@ -104,4 +106,24 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 	@Query(value = "SELECT i FROM InvoiceHeader i, PersonalShipment p WHERE i.id = p.invoiceHeaderId AND p.id = :id ")
 	InvoiceHeader getInvoiceByShipmentId(@Param("id") Long shipmentId);
 
+	@Query(value = "SELECT i.* FROM invoice_header i "
+			+ " WHERE i.employee_id = :id "
+			+ " AND i.status = 'received' "
+			+ " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
+			+ " AND (:from = '' OR i.review_date >= CONCAT(:from , ' 00:00:00')) "
+			+ " AND (:to = '' OR i.review_date <= CONCAT(:to , ' 23:59:59')) "
+			+ " ORDER BY i.due_date",
+			countQuery = "SELECT COUNT(*) FROM invoice_header i "
+					+ " WHERE i.employee_id = :id "
+					+ " AND i.status = 'received' "
+					+ " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
+					+ " AND (:from = '' OR i.review_date >= CONCAT(:from , ' 00:00:00')) "
+					+ " AND (:to = '' OR i.review_date <= CONCAT(:to , ' 23:59:59')) "
+					+ " ORDER BY i.due_date",
+			nativeQuery = true)
+	Page<InvoiceHeader> getImportInvoiceByOfficer(Long id, String invNo, String from, String to, Pageable pageable);
+
+	@Query(value = "SELECT i FROM InvoiceHeader i, TransferDetails t WHERE i.id = t.invoicePackageId "
+				 + " AND t.transferId = :id ")
+	List<InvoiceHeader> getInvoiceHeaderByTransferId(@Param("id") Long id);
 }

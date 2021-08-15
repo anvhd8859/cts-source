@@ -4,6 +4,7 @@ import com.fu.capstone.service.dto.InvoiceHeaderDTO;
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
 import com.fu.capstone.service.dto.InvoiceShipmentDTO;
 
+import com.fu.capstone.service.dto.ShipmentInvoicePackagesDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -78,4 +79,5 @@ public interface InvoiceHeaderService {
 	Page<InvoicePackageDetailDTO> getFullInvoiceByPayment(Long id, String invoiceNo, String status, String receiveFrom,
 			String receiveTo, String createFrom, String createTo, Pageable pageable);
 
+	Page<InvoicePackageDetailDTO> getImportInvoiceByOfficer(Long id, String invNo, String from, String to, Pageable pageable);
 }

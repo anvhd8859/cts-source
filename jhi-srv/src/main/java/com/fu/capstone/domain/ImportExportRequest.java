@@ -35,6 +35,9 @@ public class ImportExportRequest implements Serializable {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "note")
+    private String note;
+
     @Column(name = "keeper_confirm")
     private Boolean keeperConfirm;
 
@@ -122,6 +125,14 @@ public class ImportExportRequest implements Serializable {
 
     public void setStatus(String note) {
         this.status = note;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public Boolean isKeeperConfirm() {

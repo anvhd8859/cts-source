@@ -2,6 +2,7 @@ package com.fu.capstone.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fu.capstone.service.ImportExportWarehouseService;
+import com.fu.capstone.service.dto.IERequestDetailDTO;
 import com.fu.capstone.service.dto.ImportExportRequestDTO;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
@@ -201,5 +202,22 @@ public class ImportExportWarehouseResource {
 				cf, pageable);
 		HttpHeaders header = PaginationUtil.generatePaginationHttpHeaders(page, "/api/import-export-warehouses/filter");
 		return new ResponseEntity<>(page.getContent(), header, HttpStatus.OK);
+	}
+
+	// v2
+	@PostMapping("/import-export-warehouses/approve-request")
+	@Timed
+	public ResponseEntity<ImportExportRequestDTO> approveWarehouseRequest(@RequestBody IERequestDetailDTO body) {
+		log.debug("REST request to approve ImportExportWarehouse ");
+		ImportExportRequestDTO data = importExportWarehouseService.approveWarehouseRequest(body);
+		return ResponseEntity.ok().body(data);
+	}
+
+	@PostMapping("/import-export-warehouses/reject-request")
+	@Timed
+	public ResponseEntity<ImportExportRequestDTO> rejectWarehouseRequest(@RequestBody IERequestDetailDTO body) {
+		log.debug("REST request to reject ImportExportWarehouse ");
+		ImportExportRequestDTO data = importExportWarehouseService.rejectWarehouseRequest(body);
+		return ResponseEntity.ok().body(data);
 	}
 }

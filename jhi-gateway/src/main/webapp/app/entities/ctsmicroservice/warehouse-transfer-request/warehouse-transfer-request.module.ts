@@ -9,7 +9,8 @@ import {
     WarehouseTransferRequestDeletePopupComponent,
     WarehouseTransferRequestDeleteDialogComponent,
     warehouseTransferRequestRoute,
-    warehouseTransferRequestPopupRoute
+    warehouseTransferRequestPopupRoute,
+    WarehouseTransferConfirmModalComponent
 } from './';
 
 const ENTITY_STATES = [...warehouseTransferRequestRoute, ...warehouseTransferRequestPopupRoute];
@@ -21,13 +22,15 @@ const ENTITY_STATES = [...warehouseTransferRequestRoute, ...warehouseTransferReq
         WarehouseTransferRequestDetailComponent,
         WarehouseTransferRequestUpdateComponent,
         WarehouseTransferRequestDeleteDialogComponent,
-        WarehouseTransferRequestDeletePopupComponent
+        WarehouseTransferRequestDeletePopupComponent,
+        WarehouseTransferConfirmModalComponent
     ],
     entryComponents: [
         WarehouseTransferRequestComponent,
         WarehouseTransferRequestUpdateComponent,
         WarehouseTransferRequestDeleteDialogComponent,
-        WarehouseTransferRequestDeletePopupComponent
+        WarehouseTransferRequestDeletePopupComponent,
+        WarehouseTransferConfirmModalComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

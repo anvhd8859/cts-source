@@ -13,20 +13,20 @@
     <div class="table-responsive" *ngIf="transferDetails">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="transferId"><span>Transfer Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="invoicePackageIdackageId"><span>Invoice Package Idackage Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createDate"><span>Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updateDate"><span>Update Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <tr>
+            <th>ID</th>
+            <th>Transfer Id</th>
+            <th>Invoice Package Id</th>
+            <th>Create Date</th>
+            <th>Update Date</th>
             <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let transferDetails of transferDetails ;trackBy: trackId">
-                <td><a [routerLink]="['/transfer-details', transferDetails.id, 'view' ]">{{transferDetails.id}}</a></td>
+            <tr *ngFor="let transferDetails of transferDetails ;">
+                <td>{{transferDetails.id}}</td>
                 <td>{{transferDetails.transferId}}</td>
-                <td>{{transferDetails.invoicePackageIdackageId}}</td>
+                <td>{{transferDetails.invoicePackageId}}</td>
                 <td>{{transferDetails.createDate | date:'medium'}}</td>
                 <td>{{transferDetails.updateDate | date:'medium'}}</td>
                 <td class="text-right">
@@ -35,21 +35,7 @@
                                 [routerLink]="['/transfer-details', transferDetails.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/transfer-details', transferDetails.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'transfer-details/'+ transferDetails.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
+                            <span class="d-none d-md-inline">Chi tiết</span>
                         </button>
                     </div>
                 </td>

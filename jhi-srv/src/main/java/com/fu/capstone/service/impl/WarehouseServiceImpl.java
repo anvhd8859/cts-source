@@ -1,12 +1,9 @@
 package com.fu.capstone.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fu.capstone.domain.Office;
 import com.fu.capstone.repository.OfficeRepository;
 import com.fu.capstone.service.WarehouseService;
-import com.fu.capstone.domain.Office;
 import com.fu.capstone.domain.Warehouse;
-import com.fu.capstone.repository.OfficeRepository;
 import com.fu.capstone.repository.WarehouseRepository;
 import com.fu.capstone.service.dto.WarehouseDTO;
 import com.fu.capstone.service.dto.WarehouseDetailDTO;
@@ -19,9 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -130,5 +124,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 			rs.add(object);
 		});
 		return rs;
+	}
+
+	@Override
+	public WarehouseDTO getWarehouseByOffice(Long id) {
+		return warehouseMapper.toDto(warehouseRepository.findDistinctByOfficeId(id));
 	}
 }

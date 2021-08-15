@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new TransferDetails(0, 0, 0, currentDate, currentDate);
+            elemDefault = new TransferDetails(0, 0, 0, false, currentDate, currentDate);
         });
 
         describe('Service methods', async () => {
@@ -74,7 +74,8 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         transferId: 1,
-                        invoicePackageIdackageId: 1,
+                        invoicePackageId: 1,
+                        status: false,
                         createDate: currentDate.format(DATE_TIME_FORMAT),
                         updateDate: currentDate.format(DATE_TIME_FORMAT)
                     },
@@ -100,7 +101,8 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         transferId: 1,
-                        invoicePackageIdackageId: 1,
+                        invoicePackageId: 1,
+                        status: false,
                         createDate: currentDate.format(DATE_TIME_FORMAT),
                         updateDate: currentDate.format(DATE_TIME_FORMAT)
                     },

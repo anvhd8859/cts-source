@@ -61,9 +61,21 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="import-export-warehouse-shipper" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="import-export-warehouse-employee" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'warehouse'" [fixedWidth]="true"></fa-icon>
                             <span>Xem yêu cầu xuất nhập kho</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="request-import-warehouse-shipper" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'warehouse'" [fixedWidth]="true"></fa-icon>
+                            <span>Tạo yêu cầu nhập kho</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="request-export-warehouse" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'warehouse'" [fixedWidth]="true"></fa-icon>
+                            <span>Tạo yêu cầu xuất kho</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
@@ -88,7 +100,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="import-invoice-package" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="warehouse-transfer-request" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'file-import'" [fixedWidth]="true"></fa-icon>
                             <span>Nhập đơn hàng vào kho</span>
                         </a>
@@ -130,6 +142,18 @@
                         <a class="dropdown-item" routerLink="invoice-header-review" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'eye'" [fixedWidth]="true"></fa-icon>
                             <span>Duyệt đơn hàng</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="request-import-warehouse-officer" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'file-import'" [fixedWidth]="true"></fa-icon>
+                            <span>Tạo yêu cầu nhập kho</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="import-export-warehouse-employee" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'warehouse'" [fixedWidth]="true"></fa-icon>
+                            <span>Xem yêu cầu xuất nhập kho</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

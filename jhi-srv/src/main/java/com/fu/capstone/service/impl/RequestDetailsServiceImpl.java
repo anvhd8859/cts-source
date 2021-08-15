@@ -10,6 +10,7 @@ import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.RequestDetailsRepository;
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
 import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
+import com.fu.capstone.service.dto.RequestDetailInvoiceDTO;
 import com.fu.capstone.service.dto.RequestDetailsDTO;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
@@ -126,13 +127,13 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 	}
 
 	@Override
-	public List<PersonalShipmentInvoiceDTO> getRequestDetailsByHeaderId(Long id) {
+	public List<RequestDetailInvoiceDTO> getRequestDetailsByHeaderId(Long id) {
 		List<RequestDetails> list = requestDetailsRepository.getRequestDetailsByHeaderId(id);
-		List<PersonalShipmentInvoiceDTO> rs = new ArrayList<>();
+		List<RequestDetailInvoiceDTO> rs = new ArrayList<>();
 		for (RequestDetails rd : list) {
-			PersonalShipmentInvoiceDTO dto = new PersonalShipmentInvoiceDTO();
-			dto.setInvoiceHeaderDTO(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getInvoiceByShipmentId(rd.getInvoicePackageId())));
-			dto.setPersonalShipmentDTO(personalShipmentMapper.toDto(personalShipmentRepository.getOne(rd.getInvoicePackageId())));
+			RequestDetailInvoiceDTO dto = new RequestDetailInvoiceDTO();
+			dto.setInvoiceHeader(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getInvoiceByShipmentId(rd.getInvoicePackageId())));
+			dto.setPackageList(invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(rd.getInvoicePackageId())));
 			rs.add(dto);
 		}
 		

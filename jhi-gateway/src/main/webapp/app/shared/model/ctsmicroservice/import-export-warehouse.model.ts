@@ -2,10 +2,11 @@ import { Moment } from 'moment';
 
 export interface IImportExportWarehouse {
     id?: number;
-    officeId?: number;
+    warehouseId?: number;
     keeperId?: number;
     employeeId?: number;
     type?: string;
+    status?: string;
     note?: string;
     keeperConfirm?: boolean;
     shipperConfirm?: boolean;
@@ -17,10 +18,11 @@ export interface IImportExportWarehouse {
 export class ImportExportWarehouse implements IImportExportWarehouse {
     constructor(
         public id?: number,
-        public officeId?: number,
+        public warehouseId?: number,
         public keeperId?: number,
         public employeeId?: number,
         public type?: string,
+        public status?: string,
         public note?: string,
         public keeperConfirm?: boolean,
         public shipperConfirm?: boolean,

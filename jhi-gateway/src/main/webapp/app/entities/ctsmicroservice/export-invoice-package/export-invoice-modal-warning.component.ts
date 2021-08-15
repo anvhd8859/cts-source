@@ -5,7 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     selector: 'jhi-export-invoice-modal-warning-component',
     template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">Warning</h4>
+      <h4 class="modal-title" id="modal-title">Xác nhân!</h4>
       <button
         type="button"
         class="close"
@@ -16,10 +16,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
       </button>
     </div>
     <div class="modal-body">
-      <p *ngIf="!action">
-        <strong>Bạn chắc chắn muốn Xuất các hóa đơn khỏi kho?</strong>
+      <p *ngIf="!empty">
+        <strong>Bạn chắc chắn muốn Xuất các hóa đơn này?</strong>
       </p>
-      <p *ngIf="action">
+      <p *ngIf="empty">
         <strong>Bạn chưa lựa chọn hóa đơn nào!</strong>
       </p>
     </div>
@@ -32,7 +32,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
       >
         Hủy
       </button>
-      <button *ngIf="!action"
+      <button *ngIf="!empty"
         style="margin-left: 51%; width: 20%; margin-right:5%"
         type="button"
         class="btn btn-primary"
@@ -44,6 +44,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   `
 })
 export class ExportInvoiceModalWarningComponent {
-    action = false;
+    empty = false;
     constructor(public modal: NgbActiveModal) {}
 }
