@@ -37,7 +37,7 @@ export class SettingsComponent implements OnInit {
     selectedGender: any;
     user: any;
     vnf_regex = '^(09|03|07|08|05)([0-9]{8})$';
-    adr_regex = '^([.]{4,100})$';
+    adr_regex = '^({4,100})$';
     isValidFormSubmitted: any;
 
     constructor(
@@ -114,7 +114,7 @@ export class SettingsComponent implements OnInit {
                     this.settingsAccount = this.copyAccount(account);
                 });
                 window.scroll(0, 0);
-                this.alertService.success('Update Profile Success');
+                //this.alertService.success('Update Profile Success');
             },
             () => {
                 this.success = null;

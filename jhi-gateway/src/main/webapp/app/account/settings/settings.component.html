@@ -43,38 +43,38 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="form-control-label" for="lastName">Họ</label>
+                                <label class="form-control-label" for="lastName">Tên</label>
                                 <input type="text" class="form-control" id="lastName" name="lastName"
                                     placeholder="Your last name" [(ngModel)]="settingsAccount.lastName" minlength=1
                                     maxlength=50 #lastNameInput="ngModel" required>
                                 <div *ngIf="lastNameInput.dirty && lastNameInput.invalid">
                                     <small class="form-text text-danger" *ngIf="lastNameInput.errors.required">
-                                        Trường Họ trống.
+                                        Trường Tên trống.
                                     </small>
                                     <small class="form-text text-danger" *ngIf="lastNameInput.errors.minlength">
-                                        Độ dài trường Họ tối thiểu là 2 ký tự.
+                                        Độ dài trường Tên tối thiểu là 2 ký tự.
                                     </small>
                                     <small class="form-text text-danger" *ngIf="lastNameInput.errors.maxlength">
-                                        Độ dài trường Họ tối da 50 ký tự.
+                                        Độ dài trường Tên tối da 50 ký tự.
                                     </small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="form-control-label" for="firstName">Tên</label>
+                                <label class="form-control-label" for="firstName">Họ</label>
                                 <input type="text" class="form-control" id="firstName" name="firstName"
                                     placeholder="Your first name" [(ngModel)]="settingsAccount.firstName" minlength=1
                                     maxlength=50 #firstNameInput="ngModel" required>
                                 <div *ngIf="firstNameInput.dirty && firstNameInput.invalid">
                                     <small class="form-text text-danger" *ngIf="firstNameInput.errors.required">
-                                        Trường Tên trống.
+                                        Trường Họ trống.
                                     </small>
                                     <small class="form-text text-danger" *ngIf="firstNameInput.errors.minlength">
-                                        Độ dài trường Tên tối thiểu là 2 ký tự.
+                                        Độ dài trường Họ tối thiểu là 2 ký tự.
                                     </small>
                                     <small class="form-text text-danger" *ngIf="firstNameInput.errors.maxlength">
-                                        Độ dài trường Tên tối da là 50 ký tự.
+                                        Độ dài trường Họ tối da là 50 ký tự.
                                     </small>
                                 </div>
                             </div>
