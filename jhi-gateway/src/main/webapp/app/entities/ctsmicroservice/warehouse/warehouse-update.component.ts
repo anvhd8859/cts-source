@@ -36,10 +36,6 @@ export class WarehouseUpdateComponent implements OnInit {
     lstDistrictFrom: IDistrict[] = [];
     lstSubDistrictFrom: ISubDistrict[] = [];
     lstStreetFrom: IStreet[] = [];
-    lstProvinceTo: IProvince[] = [];
-    lstDistrictTo: IDistrict[] = [];
-    lstSubDistrictTo: ISubDistrict[] = [];
-    lstStreetTo: IStreet[] = [];
     selectedProvinceFrom: any;
     selectedDistrictFrom: any;
     selectedSubDistrictFrom: any;
@@ -68,7 +64,7 @@ export class WarehouseUpdateComponent implements OnInit {
             this.updateDate = this.warehouse.updateDate != null ? this.warehouse.updateDate.format(DATE_TIME_FORMAT) : null;
         });
         forkJoin(this.accountService.getLstCity(), this.officeService.query({ page: 0, size: 999 })).subscribe(res => {
-            this.lstProvinceTo = res[0].body;
+            this.lstProvinceFrom = res[0].body;
             this.offices = res[1].body;
         });
     }
