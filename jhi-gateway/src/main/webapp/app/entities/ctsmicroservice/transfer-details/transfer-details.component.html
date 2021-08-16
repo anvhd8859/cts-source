@@ -1,0 +1,54 @@
+<div>
+    <h2 id="page-heading">
+        <span>Transfer Details</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-transfer-details" [routerLink]="['/transfer-details/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Transfer Details
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="transferDetails">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th>ID</th>
+            <th>Transfer Id</th>
+            <th>Invoice Package Id</th>
+            <th>Create Date</th>
+            <th>Update Date</th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let transferDetails of transferDetails ;">
+                <td>{{transferDetails.id}}</td>
+                <td>{{transferDetails.transferId}}</td>
+                <td>{{transferDetails.invoicePackageId}}</td>
+                <td>{{transferDetails.createDate | date:'medium'}}</td>
+                <td>{{transferDetails.updateDate | date:'medium'}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/transfer-details', transferDetails.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">Chi tiết</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="transferDetails && transferDetails.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * A DTO for the ImportExportWarehouse entity.
  */
-public class ImportExportWarehouseDTO implements Serializable {
+public class ImportExportRequestDTO implements Serializable {
 
     /**
 	 * 
@@ -16,13 +16,15 @@ public class ImportExportWarehouseDTO implements Serializable {
 
 	private Long id;
 
-    private Long officeId;
+    private Long warehouseId;
 
     private Long keeperId;
 
     private Long employeeId;
 
     private String type;
+
+    private String status;
 
     private String note;
 
@@ -44,12 +46,12 @@ public class ImportExportWarehouseDTO implements Serializable {
         this.id = id;
     }
 
-    public Long getOfficeId() {
-        return officeId;
+    public Long getWarehouseId() {
+        return warehouseId;
     }
 
-    public void setOfficeId(Long officeId) {
-        this.officeId = officeId;
+    public void setWarehouseId(Long warehouseId) {
+        this.warehouseId = warehouseId;
     }
 
     public Long getKeeperId() {
@@ -76,17 +78,18 @@ public class ImportExportWarehouseDTO implements Serializable {
         this.type = type;
     }
 
-    public String getNote() {
-        return note;
+    public String getStatus() {
+        return status;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Boolean isKeeperConfirm() {
         return keeperConfirm;
     }
+
     public Boolean isShipperConfirm() {
         return shipperConfirm;
     }
@@ -119,6 +122,18 @@ public class ImportExportWarehouseDTO implements Serializable {
         this.updateDate = updateDate;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public Boolean getKeeperConfirm() {
+        return keeperConfirm;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -128,11 +143,11 @@ public class ImportExportWarehouseDTO implements Serializable {
             return false;
         }
 
-        ImportExportWarehouseDTO importExportWarehouseDTO = (ImportExportWarehouseDTO) o;
-        if (importExportWarehouseDTO.getId() == null || getId() == null) {
+        ImportExportRequestDTO importExportRequestDTO = (ImportExportRequestDTO) o;
+        if (importExportRequestDTO.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), importExportWarehouseDTO.getId());
+        return Objects.equals(getId(), importExportRequestDTO.getId());
     }
 
     @Override
@@ -144,11 +159,11 @@ public class ImportExportWarehouseDTO implements Serializable {
     public String toString() {
         return "ImportExportWarehouseDTO{" +
             "id=" + getId() +
-            ", officeId=" + getOfficeId() +
+            ", warehouseID=" + getWarehouseId() +
             ", keeperId=" + getKeeperId() +
             ", employeeId=" + getEmployeeId() +
             ", type='" + getType() + "'" +
-            ", note='" + getNote() + "'" +
+            ", note='" + getStatus() + "'" +
             ", keeperConfirm='" + isKeeperConfirm() + "'" +
             ", shipDate='" + getShipDate() + "'" +
             ", createDate='" + getCreateDate() + "'" +

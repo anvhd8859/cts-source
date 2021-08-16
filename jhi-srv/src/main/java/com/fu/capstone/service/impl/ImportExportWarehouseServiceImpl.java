@@ -1,31 +1,15 @@
 package com.fu.capstone.service.impl;
 
+import com.fu.capstone.domain.*;
+import com.fu.capstone.repository.*;
 import com.fu.capstone.service.ImportExportWarehouseService;
-import com.fu.capstone.domain.ImportExportWarehouse;
-import com.fu.capstone.domain.InvoiceHeader;
-import com.fu.capstone.domain.InvoicePackage;
-import com.fu.capstone.domain.PersonalShipment;
-import com.fu.capstone.domain.RequestDetails;
-import com.fu.capstone.repository.ImportExportWarehouseRepository;
-import com.fu.capstone.repository.InvoicePackageRepository;
-import com.fu.capstone.repository.PersonalShipmentRepository;
-import com.fu.capstone.repository.InvoiceHeaderRepository;
-import com.fu.capstone.repository.RequestDetailsRepository;
-import com.fu.capstone.service.dto.DetailsImportExportDTO;
-import com.fu.capstone.service.dto.ImportExportWarehouseDTO;
-import com.fu.capstone.service.dto.InvoiceHeaderDTO;
-import com.fu.capstone.service.dto.InvoicePackageDTO;
-import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
-import com.fu.capstone.service.dto.PackageDetailsDTO;
-import com.fu.capstone.service.dto.PersonalShipmentDTO;
-import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
-import com.fu.capstone.service.dto.RequestDetailsDTO;
+import com.fu.capstone.service.dto.*;
+import com.fu.capstone.service.dto.ImportExportRequestDTO;
 import com.fu.capstone.service.mapper.ImportExportWarehouseMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import com.fu.capstone.service.mapper.PersonalShipmentMapper;
 import com.fu.capstone.service.mapper.RequestDetailsMapper;
-import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,12 +53,15 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 
 	private PersonalShipmentMapper personalShipmentMapper;
 
+	private WarehouseRepository warehouseRepository;
+
 	public ImportExportWarehouseServiceImpl(ImportExportWarehouseRepository importExportWarehouseRepository,
 			ImportExportWarehouseMapper importExportWarehouseMapper, RequestDetailsRepository requestDetailsRepository,
 			RequestDetailsMapper requestDetailsMapper, InvoicePackageRepository invoicePackageRepository,
 			InvoicePackageMapper invoicePackageMapper, InvoiceHeaderRepository invoiceHeaderRepository,
 			InvoiceHeaderMapper invoiceHeaderMapper, PersonalShipmentRepository personalShipmentRepository,
-			PersonalShipmentMapper personalShipmentMapper) {
+			PersonalShipmentMapper personalShipmentMapper,
+			WarehouseRepository warehouseRepository) {
 		this.importExportWarehouseRepository = importExportWarehouseRepository;
 		this.importExportWarehouseMapper = importExportWarehouseMapper;
 		this.requestDetailsRepository = requestDetailsRepository;
@@ -85,34 +72,33 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 		this.invoiceHeaderMapper = invoiceHeaderMapper;
 		this.personalShipmentRepository = personalShipmentRepository;
 		this.personalShipmentMapper = personalShipmentMapper;
+		this.warehouseRepository = warehouseRepository;
 	}
 
 	/**
 	 * Save a importExportWarehouse.
 	 *
-	 * @param importExportWarehouseDTO
-	 *            the entity to save
+	 * @param importExportRequestDTO the entity to save
 	 * @return the persisted entity
 	 */
 	@Override
-	public ImportExportWarehouseDTO save(ImportExportWarehouseDTO importExportWarehouseDTO) {
-		log.debug("Request to save ImportExportWarehouse : {}", importExportWarehouseDTO);
+	public ImportExportRequestDTO save(ImportExportRequestDTO importExportRequestDTO) {
+		log.debug("Request to save ImportExportWarehouse : {}", importExportRequestDTO);
 
-		ImportExportWarehouse importExportWarehouse = importExportWarehouseMapper.toEntity(importExportWarehouseDTO);
-		importExportWarehouse = importExportWarehouseRepository.save(importExportWarehouse);
-		return importExportWarehouseMapper.toDto(importExportWarehouse);
+		ImportExportRequest importExportRequest = importExportWarehouseMapper.toEntity(importExportRequestDTO);
+		importExportRequest = importExportWarehouseRepository.save(importExportRequest);
+		return importExportWarehouseMapper.toDto(importExportRequest);
 	}
 
 	/**
 	 * Get all the importExportWarehouses.
 	 *
-	 * @param pageable
-	 *            the pagination information
+	 * @param pageable the pagination information
 	 * @return the list of entities
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public Page<ImportExportWarehouseDTO> findAll(Pageable pageable) {
+	public Page<ImportExportRequestDTO> findAll(Pageable pageable) {
 		log.debug("Request to get all ImportExportWarehouses");
 		return importExportWarehouseRepository.findAll(pageable).map(importExportWarehouseMapper::toDto);
 	}
@@ -120,13 +106,12 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 	/**
 	 * Get one importExportWarehouse by id.
 	 *
-	 * @param id
-	 *            the id of the entity
+	 * @param id the id of the entity
 	 * @return the entity
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<ImportExportWarehouseDTO> findOne(Long id) {
+	public Optional<ImportExportRequestDTO> findOne(Long id) {
 		log.debug("Request to get ImportExportWarehouse : {}", id);
 		return importExportWarehouseRepository.findById(id).map(importExportWarehouseMapper::toDto);
 	}
@@ -134,8 +119,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 	/**
 	 * Delete the importExportWarehouse by id.
 	 *
-	 * @param id
-	 *            the id of the entity
+	 * @param id the id of the entity
 	 */
 	@Override
 	public void delete(Long id) {
@@ -144,68 +128,81 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 	}
 
 	@Override
-	public ImportExportWarehouseDTO createImportWarehouse(DetailsImportExportDTO importExportWarehouseDTO) {
+	public ImportExportRequestDTO createImportWarehouse(DetailsImportExportDTO importExportWarehouseDTO) {
+		// get invoice Id list
 		List<Long> list = new ArrayList<>();
 		for (RequestDetailsDTO rd : importExportWarehouseDTO.getRequestDetailsList()) {
-			list.add(rd.getShipmentId());
+			list.add(rd.getInvoicePackageId());
 		}
-		List<InvoiceHeader> lst = invoiceHeaderRepository.getInvoiceHeaderByListShipmentId(list);
-		for(InvoiceHeader i : lst){
-			if(!i.getFinish()) {
-//				throw new BadRequestAlertException("Invalid ", "invoice", " is import ");
-			}
-			i.setFinish(false);
-		}
-		ImportExportWarehouse header = importExportWarehouseRepository
-				.save(importExportWarehouseMapper.toEntity(importExportWarehouseDTO.getRequestHeader()));
+		// set warehouse id from office id
+		Warehouse warehouse = warehouseRepository.getWarehouseByOfficeId(importExportWarehouseDTO.getRequestHeader().getWarehouseId());
+		importExportWarehouseDTO.getRequestHeader().setWarehouseId(warehouse.getId());
+
+		// get packages
+		List<InvoicePackage> packageList = invoicePackageRepository.getInvoicePackageByHeaderList(list);
 		Instant instant = Instant.now();
+
+		// ie warehouse
+		ImportExportRequest header = importExportWarehouseRepository
+				.save(importExportWarehouseMapper.toEntity(importExportWarehouseDTO.getRequestHeader()));
 		header.setCreateDate(instant);
 		header.setUpdateDate(instant);
 		header.setType("import");
 		header.setShipperConfirm(true);
-		header.setNote("");
-		for (RequestDetailsDTO rd : importExportWarehouseDTO.getRequestDetailsList()) {
-			rd.setIeWarehouseId(header.getId());
+		header.setStatus("");
+
+		// RequestDetails list
+		List<RequestDetails> rdList = new ArrayList<>();
+		for (Long id : list) {
+			RequestDetails rd = new RequestDetails();
+			rd.setRequestId(header.getId());
+			rd.setInvoicePackageId(id);
+			rd.setShipperConfirm(true);
+			rd.setStatus(false);
 			rd.setCreateDate(instant);
 			rd.setUpdateDate(instant);
+			rdList.add(rd);
 		}
-		for(InvoiceHeader i : lst){
-			i.setFinish(false);
-		}
-		invoiceHeaderRepository.saveAll(lst);
-		requestDetailsRepository
-				.saveAll(requestDetailsMapper.toEntity(importExportWarehouseDTO.getRequestDetailsList()));
+
+		// packages -> warehouse
+		packageList.forEach(p -> {
+			p.setWarehouseId(warehouse.getId());
+			p.setUpdateDate(instant);
+		});
+
+		invoicePackageRepository.saveAll(packageList);
+		requestDetailsRepository.saveAll(rdList);
 		return importExportWarehouseMapper.toDto(importExportWarehouseRepository.save(header));
 	}
 
 	@Override
-	public ImportExportWarehouseDTO createExportWarehouse(DetailsImportExportDTO importExportWarehouseDTO) {
+	public ImportExportRequestDTO createExportWarehouse(DetailsImportExportDTO importExportWarehouseDTO) {
 		List<Long> list = new ArrayList<>();
 		for (RequestDetailsDTO rd : importExportWarehouseDTO.getRequestDetailsList()) {
-			list.add(rd.getShipmentId());
+			list.add(rd.getInvoicePackageId());
 		}
 		List<InvoiceHeader> lst = invoiceHeaderRepository.getInvoiceHeaderByListShipmentId(list);
-		for(InvoiceHeader i : lst){
-			if(i.getFinish()) {
-//				throw new BadRequestAlertException("Invalid ", "invoice", " is exported ");
+		for (InvoiceHeader i : lst) {
+			if (i.getFinish()) {
+				//				throw new BadRequestAlertException("Invalid ", "invoice", " is exported ");
 			}
 			i.setFinish(true);
 		}
-		ImportExportWarehouse header = importExportWarehouseRepository
+		ImportExportRequest header = importExportWarehouseRepository
 				.save(importExportWarehouseMapper.toEntity(importExportWarehouseDTO.getRequestHeader()));
 		Instant instant = Instant.now();
 		header.setCreateDate(instant);
 		header.setUpdateDate(instant);
 		header.setType("export");
 		header.setShipperConfirm(true);
-		header.setNote("");
+		header.setStatus("");
 		for (RequestDetailsDTO rd : importExportWarehouseDTO.getRequestDetailsList()) {
-			rd.setIeWarehouseId(header.getId());
+			rd.setRequestId(header.getId());
 			rd.setCreateDate(instant);
 			rd.setUpdateDate(instant);
 		}
 
-		for(InvoiceHeader i : lst){
+		for (InvoiceHeader i : lst) {
 			i.setFinish(false);
 		}
 
@@ -215,36 +212,29 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 	}
 
 	@Override
-	public Page<ImportExportWarehouseDTO> getImportExportWarehouseByFilter(Long eid, Long oid, String type, String cf,
+	public Page<ImportExportRequestDTO> getImportExportWarehouseByFilter(Long eid, Long oid, String type, String cf,
 			Pageable pageable) {
-		Boolean confirm = null;
-		if (cf.equals("1"))
-			confirm = true;
-		else
-			confirm = false;
-		Page<ImportExportWarehouse> page = importExportWarehouseRepository.getImportExportWarehouseByFilter(eid, oid,
+		Boolean confirm = cf.equals("1");
+		Warehouse warehouse = warehouseRepository.getWarehouseByOfficeId(oid);
+		Page<ImportExportRequest> page = importExportWarehouseRepository.getImportExportWarehouseByFilter(eid, warehouse.getId(),
 				type, confirm, pageable);
 		return page.map(importExportWarehouseMapper::toDto);
 	}
 
 	@Override
-	public ImportExportWarehouseDTO updateImportExportByKeeper(Long id, List<PersonalShipmentInvoiceDTO> list) {
-		ImportExportWarehouse dto = importExportWarehouseRepository.getOne(id);
-		System.out.println("\n\n\n====\n" + dto + "\n====\n\n\n");
-		for(PersonalShipmentInvoiceDTO ipd : list) {
-			System.out.println("\n\n====\n" + ipd.getInvoiceHeaderDTO() + "\n====\n\n");
-			System.out.println("\n\n====\n" + ipd.getPersonalShipmentDTO() + "\n====\n\n");
-		}
+	public ImportExportRequestDTO updateImportExportByKeeper(Long id, List<PersonalShipmentInvoiceDTO> list) {
+		ImportExportRequest dto = importExportWarehouseRepository.getOne(id);
 		dto.setKeeperConfirm(true);
 		dto.setShipperConfirm(true);
 		dto.setShipDate(Instant.now());
 		dto.setUpdateDate(Instant.now());
+
 		List<RequestDetails> listRD = requestDetailsRepository.getRequestDetailsByHeaderId(id);
 		for (RequestDetails rd : listRD) {
 			rd.setKeeperConfirm(true);
 			rd.setShipperConfirm(true);
 		}
-		System.out.println("\n\n====\n" + listRD);
+
 		dto.setKeeperConfirm(true);
 		dto.setUpdateDate(Instant.now());
 		dto.setShipDate(Instant.now());
@@ -260,7 +250,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 					PersonalShipmentDTO psCollect = ipd.getPersonalShipmentDTO();
 					psCollect.setStatus("finish");
 					i.setStatus("first_import");
-					for(InvoicePackage ip : pdList) {
+					for (InvoicePackage ip : pdList) {
 						ip.setStatus("first_import");
 						ip.setUpdateDate(Instant.now());
 						ipkList.add(invoicePackageMapper.toDto(ip));
@@ -272,7 +262,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 					// shipment set status 
 					PersonalShipmentDTO psDeli = ipd.getPersonalShipmentDTO();
 					i.setStatus("last_import");
-					for(InvoicePackage ip : pdList) {
+					for (InvoicePackage ip : pdList) {
 						ip.setStatus("last_import");
 						ip.setUpdateDate(Instant.now());
 						ipkList.add(invoicePackageMapper.toDto(ip));
@@ -291,7 +281,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 					PersonalShipmentDTO ps = ipd.getPersonalShipmentDTO();
 					i.setStatus("delivering");
 					ps.setStatus("delivering");
-					for(InvoicePackage ip : pdList) {
+					for (InvoicePackage ip : pdList) {
 						ip.setStatus("first_import");
 						ip.setUpdateDate(Instant.now());
 						ipkList.add(invoicePackageMapper.toDto(ip));
@@ -311,14 +301,70 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 	}
 
 	@Override
-	public Page<ImportExportWarehouseDTO> getImportExportWarehouseForShipper(Long eid, String type, String cf,
+	public Page<ImportExportRequestDTO> getImportExportWarehouseForShipper(Long eid, String type, String cf,
 			Pageable pageable) {
 		Boolean confirm = null;
 		if (cf.equals("1"))
 			confirm = true;
 		if (cf.equals("0"))
 			confirm = false;
-		Page<ImportExportWarehouse> page = importExportWarehouseRepository.getImportExportWarehouseForShipper(eid, type, confirm, pageable);
+		Page<ImportExportRequest> page = importExportWarehouseRepository.getImportExportWarehouseForShipper(eid, type, confirm, pageable);
 		return page.map(importExportWarehouseMapper::toDto);
+	}
+
+	@Override
+	public ImportExportRequestDTO approveWarehouseRequest(IERequestDetailDTO body) {
+		Instant instant = Instant.now();
+		ImportExportRequestDTO request = body.getImportExportWarehouse();
+		Warehouse warehouse = warehouseRepository.getOne(request.getWarehouseId());
+		List<RequestDetailsDTO> rdList = new ArrayList<>();
+		List<InvoiceHeaderDTO> ihList = new ArrayList<>();
+		List<InvoicePackageDTO> ipList = new ArrayList<>();
+
+		List<RequestDetailInvoiceDTO> requestDetails = body.getRequestDetailsList();
+		request.setKeeperConfirm(true);
+		request.setStatus("approve");
+		request.setUpdateDate(instant);
+		int[] count = new int[]{0, 0};
+		requestDetails.forEach(rd -> {
+			if (rd.getRequestDetails().getStatus()) {
+				if (request.getType().equals("import")) rd.getInvoiceHeader().setStatus("first_import");
+				else rd.getInvoiceHeader().setStatus("last_import");
+				rd.getInvoiceHeader().setOfficeId(warehouse.getOfficeId());
+				rd.getPackageList().forEach(ip -> {
+					ip.setWarehouseId(request.getWarehouseId());
+				});
+				ihList.add(rd.getInvoiceHeader());
+				ipList.addAll(rd.getPackageList());
+				count[0]++;
+			}
+			rdList.add(rd.getRequestDetails());
+			count[1]++;
+		});
+		request.setNote(String.format("%d/%d", count[0], count[1]));
+
+		requestDetailsRepository.saveAll(requestDetailsMapper.toEntity(rdList));
+		invoiceHeaderRepository.saveAll(invoiceHeaderMapper.toEntity(ihList));
+		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(ipList));
+		return importExportWarehouseMapper
+				.toDto(importExportWarehouseRepository.save(importExportWarehouseMapper.toEntity(request)));
+	}
+
+	@Override
+	public ImportExportRequestDTO rejectWarehouseRequest(IERequestDetailDTO body) {
+		Instant instant = Instant.now();
+		ImportExportRequestDTO request = body.getImportExportWarehouse();
+		List<RequestDetailsDTO> rdList = new ArrayList<>();
+
+		List<RequestDetailInvoiceDTO> requestDetails = body.getRequestDetailsList();
+
+		request.setKeeperConfirm(true);
+		request.setStatus("reject");
+		request.setUpdateDate(instant);
+		requestDetails.forEach(rd -> {
+
+		});
+
+		return null;
 	}
 }

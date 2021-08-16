@@ -128,8 +128,8 @@ public class RequestDetailsResourceIntTest {
         List<RequestDetails> requestDetailsList = requestDetailsRepository.findAll();
         assertThat(requestDetailsList).hasSize(databaseSizeBeforeCreate + 1);
         RequestDetails testRequestDetails = requestDetailsList.get(requestDetailsList.size() - 1);
-        assertThat(testRequestDetails.getIeWarehouseId()).isEqualTo(DEFAULT_IE_WAREHOUSE_ID);
-        assertThat(testRequestDetails.getShipmentId()).isEqualTo(DEFAULT_INVOICE_HEADER_ID);
+        assertThat(testRequestDetails.getRequestId()).isEqualTo(DEFAULT_IE_WAREHOUSE_ID);
+        assertThat(testRequestDetails.getInvoicePackageId()).isEqualTo(DEFAULT_INVOICE_HEADER_ID);
         assertThat(testRequestDetails.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
         assertThat(testRequestDetails.getUpdateDate()).isEqualTo(DEFAULT_UPDATE_DATE);
     }
@@ -224,8 +224,8 @@ public class RequestDetailsResourceIntTest {
         List<RequestDetails> requestDetailsList = requestDetailsRepository.findAll();
         assertThat(requestDetailsList).hasSize(databaseSizeBeforeUpdate);
         RequestDetails testRequestDetails = requestDetailsList.get(requestDetailsList.size() - 1);
-        assertThat(testRequestDetails.getIeWarehouseId()).isEqualTo(UPDATED_IE_WAREHOUSE_ID);
-        assertThat(testRequestDetails.getShipmentId()).isEqualTo(UPDATED_INVOICE_HEADER_ID);
+        assertThat(testRequestDetails.getRequestId()).isEqualTo(UPDATED_IE_WAREHOUSE_ID);
+        assertThat(testRequestDetails.getInvoicePackageId()).isEqualTo(UPDATED_INVOICE_HEADER_ID);
         assertThat(testRequestDetails.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
         assertThat(testRequestDetails.getUpdateDate()).isEqualTo(UPDATED_UPDATE_DATE);
     }

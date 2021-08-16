@@ -1,3 +1,4 @@
+import { IWarehouse } from './../../../shared/model/ctsmicroservice/warehouse.model';
 import { CommonString } from './../../../shared/util/request-util';
 import { AccountService } from './../../../core/auth/account.service';
 import { IInvoicePackageShipment } from './../import-invoice-package/import-invoice-package.model';
@@ -14,6 +15,7 @@ import { ExportInvoicePackageService } from './export-invoice-package.service';
 import { Moment } from 'moment';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExportInvoiceModalWarningComponent } from './export-invoice-modal-warning.component';
+import { IWarehouseTransferRequest } from 'app/shared/model/ctsmicroservice/warehouse-transfer-request.model';
 
 @Component({
     selector: 'jhi-export-invoice-package',
@@ -21,7 +23,7 @@ import { ExportInvoiceModalWarningComponent } from './export-invoice-modal-warni
 })
 export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
     invoicePackageShipments: IInvoicePackageShipment[] = [];
-    finalData: any;
+    finalData: TransferInvoicePackageDTO;
     currentAccount: any;
     eventSubscriber: Subscription;
     selectedInvoiceNo: any;
@@ -52,6 +54,8 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
     toTime: Moment;
     all: boolean;
     selectedCheckBox: boolean[] = [];
+    listWarehouse: IWarehouse[];
+    selectedWarehouse: IWarehouse;
 
     constructor(
         private exportInvoicePackageService: ExportInvoicePackageService,
@@ -75,8 +79,8 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
     loadAll() {
         const param = {
             id: this.officeId,
+            wid: this.selectedWarehouse.id,
             invNo: this.selectedInvoiceNo ? this.selectedInvoiceNo : '',
-            status: this.listInvoiceStatus[0].id,
             fromDate: this.fromTime ? this.fromTime.year() + '-' + (this.fromTime.month() + 1) + '-' + this.fromTime.date() : '',
             toDate: this.toTime ? this.toTime.year() + '-' + (this.toTime.month() + 1) + '-' + this.toTime.date() : '',
             page: this.page - 1,
@@ -85,7 +89,6 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
         this.exportInvoicePackageService.getExportPackageByOfficeId(param).subscribe(
             (res: HttpResponse<IInvoicePackageShipment[]>) => {
                 this.invoicePackageShipments = res.body;
-                this.finalData = JSON.parse(JSON.stringify(this.invoicePackageShipments));
                 for (const obj of this.invoicePackageShipments) {
                     this.selectedCheckBox.push(false);
                 }
@@ -97,6 +100,14 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
     checked(i: number, e) {
         if (e.target.checked) {
             this.selectedCheckBox[i] = true;
+            let myAll = true;
+            for (let bool of this.selectedCheckBox) {
+                if (!bool) {
+                    myAll = false;
+                    break;
+                }
+            }
+            this.all = myAll;
         } else {
             this.selectedCheckBox[i] = false;
             this.all = false;
@@ -131,28 +142,38 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
     }
 
     exportAll() {
-        let todo = false;
-        const finalParams = new Array();
+        let empty = false;
+        this.finalData.invoicePackageList = new Array();
         for (const i in this.selectedCheckBox) {
             if (this.selectedCheckBox[i]) {
-                finalParams.push(this.finalData[i]);
+                this.finalData.invoicePackageList.push(this.finalData[i]);
             }
         }
-        if (finalParams.length === 0) {
-            todo = true;
+        if (this.finalData.invoicePackageList.length === 0) {
+            empty = true;
         }
         const modalRef = this.modal.open(ExportInvoiceModalWarningComponent as Component, {
             size: 'lg',
             backdrop: 'static'
         });
-        modalRef.componentInstance.action = false;
+        modalRef.componentInstance.empty = empty;
         modalRef.result.then(
             result => {
                 this.isSaving = true;
-                this.subscribeToSaveResponse(this.exportInvoicePackageService.updateExportAllPackage(finalParams));
+                this.createTransferData();
+                this.subscribeToSaveResponse(this.exportInvoicePackageService.createTransferRequest(this.finalData));
             },
             reason => {}
         );
+    }
+
+    createTransferData() {
+        let transfer: IWarehouseTransferRequest;
+        transfer.fromKeeperId = this.currentAccount.id;
+        transfer.toWarehouseId = this.selectedWarehouse.id;
+        transfer.toKeeperId = this.selectedWarehouse.keeperId;
+        transfer.status = '';
+        this.finalData.transferRequest = transfer;
     }
 
     private subscribeToSaveResponse(result: any) {
@@ -269,4 +290,9 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
 export class ExportModalWarningComponent {
     empty = true;
     constructor(public modal: NgbActiveModal) {}
+}
+
+export class TransferInvoicePackageDTO {
+    public transferRequest: IWarehouseTransferRequest;
+    public invoicePackageList: IInvoicePackageShipment[];
 }

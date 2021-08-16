@@ -1,5 +1,7 @@
 package com.fu.capstone.service.impl;
 
+import com.fu.capstone.domain.Warehouse;
+import com.fu.capstone.repository.WarehouseRepository;
 import com.fu.capstone.service.InvoicePackageService;
 import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.InvoicePackage;
@@ -42,13 +44,17 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
 
 	private InvoiceHeaderMapper invoiceHeaderMapper;
 
+	private WarehouseRepository warehouseRepository;
+
 	public InvoicePackageServiceImpl(InvoicePackageRepository invoicePackageRepository,
 			InvoicePackageMapper invoicePackageMapper, InvoiceHeaderRepository invoiceHeaderRepository,
-			InvoiceHeaderMapper invoiceHeaderMapper) {
+			InvoiceHeaderMapper invoiceHeaderMapper,
+			WarehouseRepository warehouseRepository) {
 		this.invoicePackageRepository = invoicePackageRepository;
 		this.invoicePackageMapper = invoicePackageMapper;
 		this.invoiceHeaderRepository = invoiceHeaderRepository;
 		this.invoiceHeaderMapper = invoiceHeaderMapper;
+		this.warehouseRepository = warehouseRepository;
 	}
 
 	/**
@@ -193,10 +199,11 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
 	}
 
 	@Override
-	public Page<InvoicePackageShipmentDTO> getExportPackageByOfficeId(Long id, String invNo, String status,
+	public Page<InvoicePackageShipmentDTO> getExportPackageByOfficeId(Long id, Long wid, String invNo, String status,
 			String fromDate, String toDate, Pageable pageable) {
+		Warehouse w = warehouseRepository.getOne(wid);
 		Page<InvoiceHeaderDTO> pageInvoice = invoiceHeaderRepository
-				.getExportPackageByOfficeId(id, invNo, status, fromDate, toDate, pageable)
+				.getExportPackageByOfficeId(id, w.getOfficeId(), invNo, status, fromDate, toDate, pageable)
 				.map(invoiceHeaderMapper::toDto);
 		Page<InvoicePackageShipmentDTO> page = pageInvoice.map(this::convert);
 		return page;

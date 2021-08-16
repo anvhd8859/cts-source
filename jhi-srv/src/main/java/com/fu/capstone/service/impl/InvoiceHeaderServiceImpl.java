@@ -432,7 +432,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 	@Override
 	public InvoiceHeaderDTO updateInvoiceHeadersReview(InvoiceHeaderDTO invoice) {
-		List<PersonalShipment> ipList = personalShipmentRepository.getAllShipmentByHeaderId(invoice.getId());
+		List<PersonalShipment> ipList = personalShipmentRepository.findAllByShipmentTypeAndId("collect", invoice.getId());
 		String rs = invoice.getNote().substring(invoice.getNote().length()-2, invoice.getNote().length());
 		invoice.setNote(invoice.getNote().substring(0, invoice.getNote().length() - 2));
 		if(rs.equalsIgnoreCase("OK")){
@@ -460,6 +460,13 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 			String receiveFrom, String receiveTo, String createFrom, String createTo, Pageable pageable) {
 		Page<InvoiceHeader> page = invoiceHeaderRepository.getFullInvoiceByPayment(id, invoiceNo, status,
 				receiveFrom, receiveTo, createFrom, createTo, pageable);
+		return page.map(this::converterInvoicePackageDetailDTO);
+	}
+
+	@Override
+	public Page<InvoicePackageDetailDTO> getImportInvoiceByOfficer(Long id, String invNo, String from,
+			String to, Pageable pageable) {
+		Page<InvoiceHeader> page = invoiceHeaderRepository.getImportInvoiceByOfficer(id, invNo, from, to, pageable);
 		return page.map(this::converterInvoicePackageDetailDTO);
 	}
 

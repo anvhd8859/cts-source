@@ -2,6 +2,7 @@ package com.fu.capstone.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fu.capstone.service.PersonalShipmentService;
+import com.fu.capstone.service.dto.ShipmentInvoicePackagesDTO;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
@@ -189,5 +190,16 @@ public class PersonalShipmentResource {
     public ResponseEntity<List<PersonalShipmentInvoiceDTO>> getPersonalShipmentByRequestId(@RequestParam("id") Long id) {
     	List<PersonalShipmentInvoiceDTO> page = personalShipmentService.getPersonalShipmentByRequestId(id);
         return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    // new code v2
+    @GetMapping("/personal-shipments/import/by-shipper")
+    @Timed
+    public ResponseEntity<List<ShipmentInvoicePackagesDTO>> getImportShipmentByShipper(@RequestParam("id") Long id,
+            @RequestParam("invNo") String invNo, @RequestParam("type") String type,
+            @RequestParam("from") String from, @RequestParam("to") String to, Pageable pageable) {
+        Page<ShipmentInvoicePackagesDTO> page = personalShipmentService.getImportShipmentByShipper(id, invNo, type, from, to, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments/by-shipper");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 }

@@ -11,6 +11,8 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -119,11 +121,17 @@ public class WarehouseResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-
+    // v2
     @GetMapping("/warehouses/full-detail")
     @Timed
     public List<WarehouseDetailDTO> getAllWarehousesDetail() {
         log.debug("REST request to get all Warehouses detail");
         return warehouseService.getAllWarehousesDetail();
+    }
+
+    @GetMapping("/warehouses/office/{id}")
+    @Timed
+    public ResponseEntity<WarehouseDTO> getWarehouseByOffice(@PathVariable Long id) {
+        return new ResponseEntity(warehouseService.getWarehouseByOffice(id), HttpStatus.OK);
     }
 }

@@ -1,3 +1,6 @@
+import { ImportExportWarehouseService } from './import-export-warehouse.service';
+import { IInvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
+import { IRequestDetails } from './../../../shared/model/ctsmicroservice/request-details.model';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { RequestDetailsService } from 'app/entities/ctsmicroservice/request-details/request-details.service';
 import { Component, OnInit } from '@angular/core';
@@ -8,29 +11,39 @@ import { PackageDetailsDTO } from '../invoice-header';
 import { CommonString } from 'app/shared';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { IShipmentInvoice } from './../invoice-header/personal-shipment/personal-shipment.service';
-import { IInvoiceHeader } from './../../../shared/model/ctsmicroservice/invoice-header.model';
+import { IInvoicePackageShipment } from '../import-invoice-package';
+import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
+import { IUser, Principal } from 'app/core';
+import { IUserProfile } from 'app/shared/model/user-profile.model';
 
 @Component({
     selector: 'jhi-import-export-warehouse-detail',
     templateUrl: './import-export-warehouse-detail.component.html'
 })
 export class ImportExportWarehouseDetailComponent implements OnInit {
+    currentAccount: IUser;
+    currentProfile: IUserProfile;
     importExportWarehouse: IImportExportWarehouse;
-    requestDetailsList: IShipmentInvoice[];
+    requestDetailsList: RequestDetailInvoice[];
     common: CommonString;
     isSaving: boolean;
     all: boolean;
     selectedCheckBox: boolean[] = [];
     selectedRequestInvoices: any;
+    listNote = {};
 
     constructor(
         private activatedRoute: ActivatedRoute,
+        private importExportWarehouseService: ImportExportWarehouseService,
         private requestDetailsService: RequestDetailsService,
+        private principal: Principal,
         private modalService: NgbModal
     ) {}
 
     ngOnInit() {
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+        });
         this.common = new CommonString();
         this.activatedRoute.data.subscribe(({ importExportWarehouse }) => {
             console.log('0000000');
@@ -52,6 +65,14 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
     checked(i: number, e) {
         if (e.target.checked) {
             this.selectedCheckBox[i] = true;
+            let myAll = true;
+            for (let bool of this.selectedCheckBox) {
+                if (!bool) {
+                    myAll = false;
+                    break;
+                }
+            }
+            this.all = myAll;
         } else {
             this.selectedCheckBox[i] = false;
             this.all = false;
@@ -97,28 +118,25 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
         modalRef.componentInstance.empty = empty;
         modalRef.result.then(
             result => {
-                if (result) {
-                    if (id === 1) {
-                        this.importExportWarehouse.note = 'approve';
-                        console.log(this.importExportWarehouse.note);
-                        this.importExportWarehouse.keeperConfirm = true;
-                        this.subscribeToSaveResponse(
-                            this.requestDetailsService.updateImportExportByKeeper(
-                                this.importExportWarehouse.id,
-                                this.selectedRequestInvoices
-                            )
-                        );
-                    } else {
-                        this.importExportWarehouse.note = 'reject';
-                        // console.log(this.importExportWarehouse.note);
-                        // this.importExportWarehouse.keeperConfirm = true;
-                        // this.subscribeToSaveResponse(
-                        //     this.requestDetailsService.updateImportExportByKeeper(
-                        //         this.importExportWarehouse.id,
-                        //         this.selectedRequestInvoices
-                        //     )
-                        // );
+                let ieRequestDetail = new IERequestDetail();
+                this.importExportWarehouse.keeperConfirm = true;
+                this.importExportWarehouse.keeperId = this.currentAccount.id;
+                this.importExportWarehouse.note = result;
+                ieRequestDetail.importExportWarehouse = this.importExportWarehouse;
+                if (id === 1) {
+                    for (let i in this.selectedCheckBox) {
+                        if (this.selectedCheckBox[i]) {
+                            this.requestDetailsList[i].requestDetails.keeperConfirm = true;
+                            this.requestDetailsList[i].requestDetails.status = true;
+                        } else {
+                            this.requestDetailsList[i].requestDetails.keeperConfirm = true;
+                            this.requestDetailsList[i].requestDetails.status = false;
+                        }
                     }
+                    ieRequestDetail.requestDetailsList = this.requestDetailsList;
+                    this.subscribeToSaveResponse(this.importExportWarehouseService.approveIERequest(ieRequestDetail));
+                } else {
+                    this.subscribeToSaveResponse(this.importExportWarehouseService.rejectIERequest(ieRequestDetail));
                 }
             },
             reason => {}
@@ -144,6 +162,16 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
     previousState() {
         window.history.back();
     }
+
+    totalWeight(packageList: IInvoicePackage[]) {
+        let x = 0;
+        for (const obj of packageList) {
+            x += obj.weight;
+        }
+        return x;
+    }
+
+    // END TS FILE
 }
 
 export class InvoicePackageDetailDTO {
@@ -161,6 +189,7 @@ export class InvoicePackageDetailDTO {
     <div class="modal-body">
       <p *ngIf='!empty'>
         <strong>Bạn chắc chắn muốn {{action}} những yêu cầu này?</strong>
+        <input *ngIf="action === 'từ chối'" ([ngModel])="note" type="text">
       </p>
       <p *ngIf="empty">
       <strong>Bạn chưa lựa chọn hóa đơn nào!</strong>
@@ -179,7 +208,7 @@ export class InvoicePackageDetailDTO {
         style="margin-left: 51%; width: 20%; margin-right:5%"
         type="button"
         class="btn btn-primary"
-        (click)="modal.close('Ok')"
+        (click)="modal.close(this.note)"
       >
         Ok
       </button>
@@ -188,7 +217,24 @@ export class InvoicePackageDetailDTO {
 })
 export class NgbdModalConfirmComponent {
     action: string;
+    note: string;
     empty = false;
 
-    constructor(public modal: NgbActiveModal) {}
+    constructor(public modal: NgbActiveModal) {
+        this.note = '';
+        if (this.action === 'từ chối') {
+            this.empty = false;
+        }
+    }
+}
+
+export class IERequestDetail {
+    importExportWarehouse: IImportExportWarehouse;
+    requestDetailsList: RequestDetailInvoice[];
+}
+
+export class RequestDetailInvoice {
+    requestDetails: IRequestDetails;
+    invoiceHeader: IInvoiceHeader;
+    packageList: IInvoicePackage[];
 }

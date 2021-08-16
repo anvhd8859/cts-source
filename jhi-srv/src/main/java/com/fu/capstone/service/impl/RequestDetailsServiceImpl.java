@@ -1,7 +1,6 @@
 package com.fu.capstone.service.impl;
 
 import com.fu.capstone.service.RequestDetailsService;
-import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.PersonalShipment;
 import com.fu.capstone.domain.RequestDetails;
 import com.fu.capstone.repository.InvoiceDetailsRepository;
@@ -9,13 +8,10 @@ import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.InvoicePackageRepository;
 import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.RequestDetailsRepository;
-import com.fu.capstone.service.dto.InvoiceDetailsDTO;
-import com.fu.capstone.service.dto.InvoicePackageDTO;
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
-import com.fu.capstone.service.dto.PackageDetailsDTO;
 import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
+import com.fu.capstone.service.dto.RequestDetailInvoiceDTO;
 import com.fu.capstone.service.dto.RequestDetailsDTO;
-import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import com.fu.capstone.service.mapper.PersonalShipmentMapper;
@@ -131,13 +127,13 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 	}
 
 	@Override
-	public List<PersonalShipmentInvoiceDTO> getRequestDetailsByHeaderId(Long id) {
+	public List<RequestDetailInvoiceDTO> getRequestDetailsByHeaderId(Long id) {
 		List<RequestDetails> list = requestDetailsRepository.getRequestDetailsByHeaderId(id);
-		List<PersonalShipmentInvoiceDTO> rs = new ArrayList<>();
+		List<RequestDetailInvoiceDTO> rs = new ArrayList<>();
 		for (RequestDetails rd : list) {
-			PersonalShipmentInvoiceDTO dto = new PersonalShipmentInvoiceDTO();
-			dto.setInvoiceHeaderDTO(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getInvoiceByShipmentId(rd.getShipmentId())));
-			dto.setPersonalShipmentDTO(personalShipmentMapper.toDto(personalShipmentRepository.getOne(rd.getShipmentId())));
+			RequestDetailInvoiceDTO dto = new RequestDetailInvoiceDTO();
+			dto.setInvoiceHeader(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getInvoiceByShipmentId(rd.getInvoicePackageId())));
+			dto.setPackageList(invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(rd.getInvoicePackageId())));
 			rs.add(dto);
 		}
 		
@@ -152,20 +148,20 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 			for(PersonalShipment ps : psList) {
 				if(o.getInvoice().getId() == ps.getInvoiceHeaderId()) {
 					for(RequestDetails rd : rdList) {
-						if(ps.getId() == rd.getShipmentId()){
+						if(ps.getId() == rd.getInvoicePackageId()){
 							rd.setKeeperConfirm(true);
 							rd.setShipperConfirm(true);
-							rd.setImpExpConfirm(true);
+							rd.setStatus(true);
 						}
 					}
 				}
 			}
 		}
 		for(RequestDetails rd : rdList){
-			if(rd.getImpExpConfirm() == null || !rd.getImpExpConfirm()) {
+			if(rd.getStatus() == null || !rd.getStatus()) {
 				rd.setKeeperConfirm(true);
 				rd.setShipperConfirm(true);
-				rd.setImpExpConfirm(false);
+				rd.setStatus(false);
 			}
 		}
 		requestDetailsRepository.saveAll(rdList);

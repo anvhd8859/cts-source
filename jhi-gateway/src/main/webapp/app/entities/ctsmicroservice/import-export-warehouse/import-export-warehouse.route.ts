@@ -51,7 +51,7 @@ export const importExportWarehouseRoute: Routes = [
             importExportWarehouse: ImportExportWarehouseResolve
         },
         data: {
-            authorities: ['ROLE_SHIPPER', 'ROLE_KEEPER', 'ROLE_ADMIN'],
+            authorities: ['ROLE_KEEPER', 'ROLE_ADMIN'],
             pageTitle: 'CTS: Chi tiết yêu cầu xuất nhập kho'
         },
         canActivate: [UserRouteAccessService]
@@ -81,7 +81,7 @@ export const importExportWarehouseRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'import-export-warehouse-shipper',
+        path: 'import-export-warehouse-employee',
         component: ImportExportWarehouseShipperComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
@@ -93,7 +93,7 @@ export const importExportWarehouseRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'import-export-warehouse-shipper/:id/view',
+        path: 'import-export-warehouse-employee/:id/view',
         component: ImportExportWarehouseShipperDetailComponent,
         resolve: {
             importExportWarehouse: ImportExportWarehouseResolve

@@ -2,6 +2,7 @@ package com.fu.capstone.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fu.capstone.service.RequestDetailsService;
+import com.fu.capstone.service.dto.RequestDetailInvoiceDTO;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
@@ -121,16 +122,16 @@ public class RequestDetailsResource {
 
     @GetMapping("/request-details/header")
     @Timed
-    public ResponseEntity<List<PersonalShipmentInvoiceDTO>> getRequestDetailsByHeaderId(@RequestParam("id") Long id) {
+    public ResponseEntity<List<RequestDetailInvoiceDTO>> getRequestDetailsByHeaderId(@RequestParam("id") Long id) {
         log.debug("REST request to get RequestDetails : {}", id);
-        List<PersonalShipmentInvoiceDTO> list = requestDetailsService.getRequestDetailsByHeaderId(id);
+        List<RequestDetailInvoiceDTO> list = requestDetailsService.getRequestDetailsByHeaderId(id);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
     
     @PutMapping("/request-details/by-keeper/{eid}-{wid}")
     @Timed
     public ResponseEntity<RequestDetailsDTO> updateImportExportByKeeper(@PathVariable Long eid,@PathVariable Long wid, @RequestBody List<InvoicePackageDetailDTO> body) throws URISyntaxException {
-        log.debug("REST request to update RequestDetails : {}");
+        log.debug("REST request to update RequestDetails");
         RequestDetailsDTO result = requestDetailsService.updateImportExportByKeeper(eid, wid, body);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, wid.toString()))

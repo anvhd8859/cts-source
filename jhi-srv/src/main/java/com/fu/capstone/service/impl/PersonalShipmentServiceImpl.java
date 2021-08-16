@@ -1,5 +1,6 @@
 package com.fu.capstone.service.impl;
 
+import com.fu.capstone.repository.InvoicePackageRepository;
 import com.fu.capstone.service.PersonalShipmentService;
 import com.fu.capstone.domain.InvoiceHeader;
 import com.fu.capstone.domain.PersonalShipment;
@@ -7,10 +8,9 @@ import com.fu.capstone.domain.Street;
 import com.fu.capstone.repository.InvoiceHeaderRepository;
 import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.StreetRepository;
-import com.fu.capstone.service.dto.InvoiceHeaderDTO;
-import com.fu.capstone.service.dto.PersonalShipmentDTO;
-import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
+import com.fu.capstone.service.dto.*;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
+import com.fu.capstone.service.mapper.InvoicePackageMapper;
 import com.fu.capstone.service.mapper.PersonalShipmentMapper;
 
 import org.slf4j.Logger;
@@ -46,14 +46,21 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
     
     private StreetRepository streetRepository;
 
+    private InvoicePackageRepository invoicePackageRepository;
+
+    private InvoicePackageMapper invoicePackageMapper;
+
     public PersonalShipmentServiceImpl(PersonalShipmentRepository personalShipmentRepository, PersonalShipmentMapper personalShipmentMapper,
     		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
-    		StreetRepository streetRepository) {
+    		StreetRepository streetRepository,
+			InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper) {
         this.personalShipmentRepository = personalShipmentRepository;
         this.personalShipmentMapper = personalShipmentMapper;
         this.invoiceHeaderRepository = invoiceHeaderRepository;
         this.invoiceHeaderMapper = invoiceHeaderMapper;
-        this.streetRepository = streetRepository;
+		this.streetRepository = streetRepository;
+		this.invoicePackageRepository = invoicePackageRepository;
+		this.invoicePackageMapper = invoicePackageMapper;
     }
 
     /**
@@ -203,6 +210,23 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 			result.add(dto);
 		}
 		return result;
+	}
+
+	@Override
+	public Page<ShipmentInvoicePackagesDTO> getImportShipmentByShipper(Long id, String invNo, String type, String from,
+			String to, Pageable pageable) {
+		Page<PersonalShipmentDTO> page = personalShipmentRepository.getImportShipmentByShipper(id, invNo, type, from, to, pageable)
+				.map(personalShipmentMapper::toDto);
+		return page.map(this::toSipDTO);
+	}
+	private ShipmentInvoicePackagesDTO toSipDTO(PersonalShipmentDTO entity) {
+		ShipmentInvoicePackagesDTO dto = new ShipmentInvoicePackagesDTO();
+		InvoiceHeaderDTO invDTO = invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId()));
+		List<InvoicePackageDTO> list = invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(invDTO.getId()));
+		dto.setPersonalShipmentDTO(entity);
+		dto.setInvoiceHeaderDTO(invDTO);
+		dto.setPackageList(list);
+		return dto;
 	}
 
 }

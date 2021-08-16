@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RequestDetailsRepository extends JpaRepository<RequestDetails, Long> {
 
-	@Query(value = "SELECT r FROM RequestDetails r WHERE r.ieWarehouseId = :id")
+	@Query(value = "SELECT r FROM RequestDetails r WHERE r.requestId = :id")
 	List<RequestDetails> getRequestDetailsByHeaderId(@Param("id") Long id);
 
 }

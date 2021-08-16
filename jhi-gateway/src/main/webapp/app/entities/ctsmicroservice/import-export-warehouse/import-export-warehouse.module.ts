@@ -1,5 +1,3 @@
-import { ImportExportWarehouseShipperDetailComponent } from './import-export-warehouse-shipper-detail.component';
-import { ImportExportWarehouseShipperComponent } from './import-export-warehouse-shipper.component';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -12,6 +10,8 @@ import {
     ImportExportWarehouseUpdateComponent,
     ImportExportWarehouseDeletePopupComponent,
     ImportExportWarehouseDeleteDialogComponent,
+    ImportExportWarehouseShipperComponent,
+    ImportExportWarehouseShipperDetailComponent,
     importExportWarehouseRoute,
     importExportWarehousePopupRoute
 } from './';

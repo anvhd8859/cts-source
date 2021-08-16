@@ -71,6 +71,26 @@ export class ImportExportWarehouseService {
             .get<IImportExportWarehouse[]>(this.resourceUrl + '/by-shipper', { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
+
+    getImportInvoiceByOfficer(req?: any): Observable<any> {
+        const options = createRequestOption(req);
+        return this.http.get<any>(this.resourceUrl + '/import/by-officer', { params: options, observe: 'response' });
+    }
+
+    createImportRequestByShipper(req?: any, data?: any): Observable<EntityResponseType> {
+        return this.http
+            .post<IImportExportWarehouse>(this.resourceUrl + '/shipper', req, { params: data, observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    approveIERequest(req?: any): Observable<EntityResponseType> {
+        return this.http.post<IImportExportWarehouse>(this.resourceUrl + '/approve-request', req, { observe: 'response' });
+    }
+
+    rejectIERequest(req?: any): Observable<EntityResponseType> {
+        return this.http.post<IImportExportWarehouse>(this.resourceUrl + '/reject-request', req, { observe: 'response' });
+    }
+
     private convertDateFromClient(importExportWarehouse: IImportExportWarehouse): IImportExportWarehouse {
         const copy: IImportExportWarehouse = Object.assign({}, importExportWarehouse, {
             shipDate:

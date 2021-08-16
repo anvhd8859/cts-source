@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Xác nhận nhập kho</h4>
+    <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar"
+        *ngIf="selectedImportInvoices.length !== 0">
+        <div>
+            <h3>Bạn có muốn tạo nhập kho những đơn hàng sau?</h3>
+            <br />
+            <span>Đã chọn {{selectedImportInvoices.length }} đơn hàng</span>
+        </div>
+    </div>
+
+    <div *ngIf="selectedImportInvoices.length === 0">
+        <h3>Bạn chưa chọn đơn hàng nào!</h3>
+    </div>
+</div>
+<div class="modal-footer">
+    <button style="width: 20%;" type="button" class="btn btn-outline-secondary"
+        (click)="modal.dismiss('cancel click')">Hủy</button>
+    <button style="margin-left: 51%; width: 20%; margin-right:5%" *ngIf="selectedImportInvoices.length !== 0"
+        type="button" class="btn btn-primary" (click)="passBack()">Xác nhận</button>
+</div>

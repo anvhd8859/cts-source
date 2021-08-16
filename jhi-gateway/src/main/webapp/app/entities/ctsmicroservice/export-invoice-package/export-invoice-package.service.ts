@@ -16,6 +16,7 @@ type EntityArrayResponseType = HttpResponse<IInvoicePackageShipment[]>;
 @Injectable({ providedIn: 'root' })
 export class ExportInvoicePackageService {
     public resourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-packages';
+    public transferUrl = SERVER_API_URL + 'ctsmicroservice/api/warehouse-transfer-requests';
 
     constructor(private http: HttpClient) {}
 
@@ -124,4 +125,9 @@ export class ExportInvoicePackageService {
             .pipe(map((res: any) => this.invoiceDateFromServer(res)));
     }
     // end
+
+    // v2
+    createTransferRequest(options?: any): Observable<HttpResponse<any>> {
+        return this.http.post<Observable<HttpResponse<any>>>(this.transferUrl + '/export-package', options, { observe: 'response' });
+    }
 }

@@ -4,25 +4,25 @@ import { HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { CtsgatewayTestModule } from '../../../../test.module';
-import { RequestImportWarehouseUpdateComponent } from 'app/entities/ctsmicroservice/request-import-warehouse/request-import-warehouse-update.component';
+import { RequestImportWarehouseShipperUpdateComponent } from 'app/entities/ctsmicroservice/request-import-warehouse/request-import-warehouse-shipper-update.component';
 import { RequestImportWarehouseService } from 'app/entities/ctsmicroservice/request-import-warehouse/request-import-warehouse.service';
 import { RequestImportWarehouse } from 'app/shared/model/ctsmicroservice/request-import-warehouse.model';
 
 describe('Component Tests', () => {
     describe('RequestImportWarehouse Management Update Component', () => {
-        let comp: RequestImportWarehouseUpdateComponent;
-        let fixture: ComponentFixture<RequestImportWarehouseUpdateComponent>;
+        let comp: RequestImportWarehouseShipperUpdateComponent;
+        let fixture: ComponentFixture<RequestImportWarehouseShipperUpdateComponent>;
         let service: RequestImportWarehouseService;
 
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [CtsgatewayTestModule],
-                declarations: [RequestImportWarehouseUpdateComponent]
+                declarations: [RequestImportWarehouseShipperUpdateComponent]
             })
-                .overrideTemplate(RequestImportWarehouseUpdateComponent, '')
+                .overrideTemplate(RequestImportWarehouseShipperUpdateComponent, '')
                 .compileComponents();
 
-            fixture = TestBed.createComponent(RequestImportWarehouseUpdateComponent);
+            fixture = TestBed.createComponent(RequestImportWarehouseShipperUpdateComponent);
             comp = fixture.componentInstance;
             service = fixture.debugElement.injector.get(RequestImportWarehouseService);
         });
@@ -34,9 +34,7 @@ describe('Component Tests', () => {
                     // GIVEN
                     const entity = new RequestImportWarehouse(123);
                     spyOn(service, 'update').and.returnValue(of(new HttpResponse({ body: entity })));
-                    comp.requestImportWarehouse = entity;
                     // WHEN
-                    comp.save();
                     tick(); // simulate async
 
                     // THEN
@@ -51,9 +49,7 @@ describe('Component Tests', () => {
                     // GIVEN
                     const entity = new RequestImportWarehouse();
                     spyOn(service, 'create').and.returnValue(of(new HttpResponse({ body: entity })));
-                    comp.requestImportWarehouse = entity;
                     // WHEN
-                    comp.save();
                     tick(); // simulate async
 
                     // THEN

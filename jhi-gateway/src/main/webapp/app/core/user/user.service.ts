@@ -41,4 +41,8 @@ export class UserService {
     authorities(): Observable<string[]> {
         return this.http.get<string[]>(SERVER_API_URL + 'api/users/authorities');
     }
+
+    getAllKeeperUserByOfficeID(options?: any) {
+        return this.http.get<IUser[]>(this.resourceUrl + '/keeper', { params: options, observe: 'response' });
+    }
 }

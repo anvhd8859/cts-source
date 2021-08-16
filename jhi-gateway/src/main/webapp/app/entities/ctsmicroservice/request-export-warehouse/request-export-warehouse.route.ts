@@ -38,7 +38,7 @@ export const requestExportWarehouseRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'RequestExportWarehouses'
+            pageTitle: 'CTS: Yêu cầu xuất kho'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -50,19 +50,19 @@ export const requestExportWarehouseRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'RequestExportWarehouses'
+            pageTitle: 'CTS: Yêu cầu xuất kho'
         },
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'request-export-warehouse/new',
+        path: 'request-export-warehouse-shipper',
         component: RequestExportWarehouseUpdateComponent,
         resolve: {
-            requestExportWarehouse: RequestExportWarehouseResolve
+            pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'RequestExportWarehouses'
+            authorities: ['ROLE_SHIPPER'],
+            pageTitle: 'CTS: Yêu cầu xuất kho'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -74,7 +74,7 @@ export const requestExportWarehouseRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'RequestExportWarehouses'
+            pageTitle: 'CTS: Yêu cầu xuất kho'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -89,7 +89,7 @@ export const requestExportWarehousePopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'RequestExportWarehouses'
+            pageTitle: 'CTS: Yêu cầu xuất kho'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

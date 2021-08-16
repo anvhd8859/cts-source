@@ -3,41 +3,35 @@
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <div class="row">
                 <div class="col-12">
-                    <h2 *ngIf="this.user.id"> Edit User Account</h2>
-                    <h2 *ngIf="!this.user.id">Create New User Account</h2>
+                    <h2 *ngIf="this.user.id"> Sửa tài khoản </h2>
+                    <h2 *ngIf="!this.user.id">Tạo tài khoản mới</h2>
                 </div>
             </div>
             <div>
-            <jhi-alert-error></jhi-alert-error>
+                <jhi-alert-error></jhi-alert-error>
                 <!-- JHI-USER -->
-                <label for="user-address"><b>User Credential</b></label>
+                <label for="user-address"><b>Thông tin đăng nhập của người dùng</b></label>
                 <div name="user-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                     <div class="form-group" [hidden]="!user.id">
                         <label>Mã số</label>
-                        <input type="text" class="form-control" name="id"
-                            [(ngModel)]="user.id" readonly>
+                        <input type="text" class="form-control" name="id" [(ngModel)]="user.id" readonly>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="form-control-label">Login</label>
-                                <input type="text" class="form-control" name="login" #loginInput="ngModel" [readOnly]="this.user.id"
-                                    [(ngModel)]="user.login" required minlength="1" maxlength="50" pattern="^[_.@A-Za-z0-9-]*$">
+                                <input type="text" class="form-control" name="login" #loginInput="ngModel"
+                                    [readOnly]="this.user.id" [(ngModel)]="user.login" required minlength="1"
+                                    maxlength="50" pattern="^[_.@A-Za-z0-9-]*$">
 
                                 <div *ngIf="loginInput.dirty && loginInput.invalid">
-                                    <small class="form-text text-danger"
-                                    *ngIf="loginInput.errors.required">
+                                    <small class="form-text text-danger" *ngIf="loginInput.errors.required">
                                         This field is required.
                                     </small>
-
-                                    <small class="form-text text-danger"
-                                    *ngIf="loginInput.errors.maxlength"
-                                >
+                                    <small class="form-text text-danger" *ngIf="loginInput.errors.maxlength">
                                         This field cannot be longer than 50 characters.
                                     </small>
-
-                                    <small class="form-text text-danger"
-                                    *ngIf="loginInput.errors.pattern">
+                                    <small class="form-text text-danger" *ngIf="loginInput.errors.pattern">
                                         This field can only contain letters, digits and e-mail addresses.
                                     </small>
                                 </div>
@@ -48,29 +42,24 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="form-control-label">Email</label>
-                                <input type="email" class="form-control" name="email" #emailInput="ngModel" [readOnly]="this.user.id"
-                                    [(ngModel)]="user.email" minlength="5" required maxlength="254" email>
+                                <input type="email" class="form-control" name="email" #emailInput="ngModel"
+                                    [readOnly]="this.user.id" [(ngModel)]="user.email" minlength="5" required
+                                    maxlength="254" email>
 
                                 <div *ngIf="emailInput.dirty && emailInput.invalid">
-                                    <small class="form-text text-danger"
-                                    *ngIf="emailInput.errors.required">
+                                    <small class="form-text text-danger" *ngIf="emailInput.errors.required">
                                         This field is required.
                                     </small>
 
-                                    <small class="form-text text-danger"
-                                    *ngIf="emailInput.errors.maxlength"
-                                >
+                                    <small class="form-text text-danger" *ngIf="emailInput.errors.maxlength">
                                         This field cannot be longer than 100 characters.
                                     </small>
 
-                                    <small class="form-text text-danger"
-                                    *ngIf="emailInput.errors.minlength"
-                                >
+                                    <small class="form-text text-danger" *ngIf="emailInput.errors.minlength">
                                         This field is required to be at least 5 characters.
                                     </small>
 
-                                    <small class="form-text text-danger"
-                                    *ngIf="emailInput.errors.email">
+                                    <small class="form-text text-danger" *ngIf="emailInput.errors.email">
                                         Your email is invalid.
                                     </small>
                                 </div>
@@ -80,14 +69,12 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label class="form-control-label">First Name</label>
+                                <label class="form-control-label">Họ</label>
                                 <input type="text" class="form-control" name="firstName" #firstNameInput="ngModel"
                                     [(ngModel)]="user.firstName" maxlength="50">
 
                                 <div *ngIf="firstNameInput.dirty && firstNameInput.invalid">
-                                    <small class="form-text text-danger"
-                                    *ngIf="firstNameInput.errors.maxlength"
-                                >
+                                    <small class="form-text text-danger" *ngIf="firstNameInput.errors.maxlength">
                                         This field cannot be longer than 50 characters.
                                     </small>
                                 </div>
@@ -100,9 +87,7 @@
                                     [(ngModel)]="user.lastName" maxlength="50">
 
                                 <div *ngIf="lastNameInput.dirty && lastNameInput.invalid">
-                                    <small class="form-text text-danger"
-                                    *ngIf="lastNameInput.errors.maxlength"
-                                >
+                                    <small class="form-text text-danger" *ngIf="lastNameInput.errors.maxlength">
                                         This field cannot be longer than 50 characters.
                                     </small>
                                 </div>
@@ -114,7 +99,8 @@
                             <div class="form-group">
                                 <label>Profiles</label>
                                 <select class="form-control" multiple name="authority" [(ngModel)]="user.authorities">
-                                    <option *ngFor="let authority of authorities" [value]="authority">{{authority}}</option>
+                                    <option *ngFor="let authority of authorities" [value]="authority">{{authority}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -126,16 +112,9 @@
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label>Giới tính</label>
-                                <ng-select  [clearable]="false"
-                                            [hideSelected]="true"
-                                            [items]="this.lstGender"
-                                            bindLabel="text"
-                                            bindValue="id"
-                                            id="gender"
-                                            name="gender"
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.userProfile.gender"
-                                            >
+                                <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstGender"
+                                    bindLabel="text" bindValue="id" id="gender" name="gender"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="this.userProfile.gender">
                                     <ng-option *ngFor="let item of lstGender">{{item.text}}</ng-option>
                                 </ng-select>
                             </div>
@@ -143,13 +122,8 @@
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label for="phone">Số điện thoại</label>
-                                <input  class="form-control"
-                                        type="text"
-                                        [(ngModel)]="this.userProfile.phoneNumber"
-                                        value="{{this.userProfile.phoneNumber}}"
-                                        id="phone"
-                                        name="phone"
-                                        >
+                                <input class="form-control" type="text" [(ngModel)]="this.userProfile.phoneNumber"
+                                    value="{{this.userProfile.phoneNumber}}" id="phone" name="phone">
                             </div>
                         </div>
                     </div>
@@ -158,8 +132,9 @@
                             <div class="form-group">
                                 <label for="dob">Ngày sinh</label>
                                 <div class="input-group">
-                                    <input class="form-control" placeholder="yyyy-mm-dd"
-                                        name="dp" [(ngModel)]="this.userProfile.dateOfBirth" ngbDatepicker #d="ngbDatepicker" readonly>
+                                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                                        [(ngModel)]="this.userProfile.dateOfBirth" ngbDatepicker #d="ngbDatepicker"
+                                        readonly>
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                                             <fa-icon [icon]="'calendar-alt'"></fa-icon>
@@ -170,17 +145,10 @@
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label>Working Office</label>
-                                <ng-select  [clearable]="false"
-                                            [hideSelected]="true"
-                                            [items]="this.lstOffice"
-                                            bindLabel="officeName"
-                                            bindValue="id"
-                                            id="office"
-                                            name="office"
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.userProfile.officeId"
-                                            >
+                                <label>Văn phòng làm việc</label>
+                                <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstOffice"
+                                    bindLabel="officeName" bindValue="id" id="office" name="office"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="this.userProfile.officeId">
                                     <ng-option *ngFor="let item of lstOffice">{{item.officeName}}</ng-option>
                                 </ng-select>
                             </div>
@@ -189,10 +157,11 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label for="hire">Hire Date</label>
+                                <label for="hire">Ngày bắt đầu hợp đồng</label>
                                 <div class="input-group">
-                                    <input class="form-control" placeholder="yyyy-mm-dd"
-                                        name="hire" [(ngModel)]="this.userProfile.hireDate" ngbDatepicker #hire="ngbDatepicker" readonly>
+                                    <input class="form-control" placeholder="yyyy-mm-dd" name="hire"
+                                        [(ngModel)]="this.userProfile.hireDate" ngbDatepicker #hire="ngbDatepicker"
+                                        readonly>
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary" (click)="hire.toggle()" type="button">
                                             <fa-icon [icon]="'calendar-alt'"></fa-icon>
@@ -203,10 +172,11 @@
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label for="end">End Date</label>
+                                <label for="end">Ngày hết hợp đồng</label>
                                 <div class="input-group">
-                                    <input class="form-control" placeholder="yyyy-mm-dd"
-                                        name="end" [(ngModel)]="this.userProfile.endDate" ngbDatepicker #end="ngbDatepicker" readonly>
+                                    <input class="form-control" placeholder="yyyy-mm-dd" name="end"
+                                        [(ngModel)]="this.userProfile.endDate" ngbDatepicker #end="ngbDatepicker"
+                                        readonly>
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary" (click)="end.toggle()" type="button">
                                             <fa-icon [icon]="'calendar-alt'"></fa-icon>
@@ -220,23 +190,15 @@
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label>PIT Code</label>
-                                <input  class="form-control"
-                                        type="text"
-                                        [(ngModel)]="this.userProfile.pitCode"
-                                        value="{{this.userProfile.pitCode}}"
-                                        id="pit"
-                                        name="pit">
+                                <input class="form-control" type="text" [(ngModel)]="this.userProfile.pitCode"
+                                    value="{{this.userProfile.pitCode}}" id="pit" name="pit">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label for="socialNum">Social Number</label>
-                                <input  class="form-control"
-                                        type="text"
-                                        [(ngModel)]="this.userProfile.socialNumber"
-                                        value="{{this.userProfile.socialNumber}}"
-                                        id="socialNum"
-                                        name="socialNum">
+                                <label for="socialNum">Số CCCD</label>
+                                <input class="form-control" type="text" [(ngModel)]="this.userProfile.socialNumber"
+                                    value="{{this.userProfile.socialNumber}}" id="socialNum" name="socialNum">
                             </div>
                         </div>
                     </div>
@@ -244,109 +206,73 @@
                 <!-- User Profile -->
             </div>
             <br>
-<br>
-                <label for="user-address"><b>User Address</b></label>
-                <div name="user-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="province">Tỉnh/Thành phố</label>
-                                <ng-select  [clearable]="false"
-                                            [hideSelected]="true"
-                                            [items]="this.lstProvince"
-                                            bindLabel="provinceName"
-                                            bindValue="id"
-                                            id="province"
-                                            name="province"
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.selectedProvince"
-                                            (change)="this.changeCity()"
-                                            >
-                                    <ng-option *ngFor="let item of lstProvince">{{item.provinceName}}</ng-option>
-                                </ng-select>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="district">Quận/Huyện</label>
-                                <ng-select  [clearable]="false"
-                                            [hideSelected]="true"
-                                            [items]="this.lstDistrict"
-                                            bindValue="id"
-                                            bindLabel="districtName"
-                                            id="district"
-                                            name="district"
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.selectedDistrict"
-                                            (change)="this.changeDistrict()"
-                                            [disabled]="!this.selectedProvince"
-                                            >
-                                    <ng-option *ngFor="let item of lstDistrict">{{item.districtName}}</ng-option>
-                                </ng-select>
-                            </div>
+            <br>
+            <label for="user-address"><b>Thông tin địa chỉ</b></label>
+            <div name="user-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="province">Tỉnh/Thành phố</label>
+                            <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstProvince"
+                                bindLabel="provinceName" bindValue="id" id="province" name="province"
+                                [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedProvince"
+                                (change)="this.changeCity()">
+                                <ng-option *ngFor="let item of lstProvince">{{item.provinceName}}</ng-option>
+                            </ng-select>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="subDistrict">Phường/Xã</label>
-                                <ng-select  [clearable]="false"
-                                            [hideSelected]="true"
-                                            [items]="this.lstSubDistrict"
-                                            bindLabel="subDistrictName"
-                                            bindValue="id"
-                                            id="subDistrict"
-                                            name="subDistrict"
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.selectedSubDistrict"
-                                            (change)="this.changeSubDistrict()"
-                                            [disabled]="!this.selectedDistrict"
-                                            >
-                                    <ng-option *ngFor="let item of lstSubDistrict">{{item.subDistrictName}}</ng-option>
-                                </ng-select>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="street">Street</label>
-                                <ng-select  [clearable]="false"
-                                            [hideSelected]="true"
-                                            [items]="this.lstStreet"
-                                            bindLabel="streetName"
-                                            bindValue="id"
-                                            id="street"
-                                            name="street"
-                                            [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.userProfile.streetId"
-                                            [disabled]="!this.selectedSubDistrict"
-                                            >
-                                    <ng-option *ngFor="let item of lstStreet">{{item.streetName}}</ng-option>
-                                </ng-select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="address">Địa chỉ</label>
-                                <textarea class="form-control"
-                                    style="resize: none;"
-                                    rows="3"
-                                    id="address"
-                                    name="address"
-                                    [(ngModel)]="this.userProfile.address"
-                                >
-                                </textarea>
-                            </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="district">Quận/Huyện</label>
+                            <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstDistrict"
+                                bindValue="id" bindLabel="districtName" id="district" name="district"
+                                [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedDistrict"
+                                (change)="this.changeDistrict()" [disabled]="!this.selectedProvince">
+                                <ng-option *ngFor="let item of lstDistrict">{{item.districtName}}</ng-option>
+                            </ng-select>
                         </div>
                     </div>
                 </div>
-                <br>
-<br>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="subDistrict">Phường/Xã</label>
+                            <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstSubDistrict"
+                                bindLabel="subDistrictName" bindValue="id" id="subDistrict" name="subDistrict"
+                                [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedSubDistrict"
+                                (change)="this.changeSubDistrict()" [disabled]="!this.selectedDistrict">
+                                <ng-option *ngFor="let item of lstSubDistrict">{{item.subDistrictName}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="street">Đường</label>
+                            <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstStreet"
+                                bindLabel="streetName" bindValue="id" id="street" name="street"
+                                [ngModelOptions]="{standalone: true}" [(ngModel)]="this.userProfile.streetId"
+                                [disabled]="!this.selectedSubDistrict">
+                                <ng-option *ngFor="let item of lstStreet">{{item.streetName}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="address">Địa chỉ</label>
+                            <textarea class="form-control" style="resize: none;" rows="3" id="address" name="address"
+                                [(ngModel)]="this.userProfile.address">
+                                </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
             <div>
                 <button type="button" class="btn btn-secondary" (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;&nbsp;<span
-                   >Hủy</span>
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;&nbsp;<span>Hủy</span>
                 </button>
                 <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;&nbsp;<span>Lưu</span>

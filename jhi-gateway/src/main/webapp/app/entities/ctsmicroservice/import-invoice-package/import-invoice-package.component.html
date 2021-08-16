@@ -42,7 +42,7 @@
                         <div class="form-group">
                             <label for="status">Tình trạng đơn hàng</label>
                             <input type="text" class="form-control" placeholder="(ALL)"
-                                value="{{selectedInvoiceStatus}}" disabled>
+                                value="{{common.processInvoiceStatus(selectedInvoiceStatus)}}" disabled>
                             <!-- <ng-select [clearable]="true" [hideSelected]="true" [items]="listInvoiceStatus"
                                 bindLabel="text" bindValue="id" id="status" name="status"
                                 [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedInvoiceStatus"
@@ -120,7 +120,6 @@
                                 <th> <input type="checkbox" [(ngModel)]="this.all" (change)="checkAll($event)"
                                         placeholder="All">
                                 </th>
-                                <th><span>Mã số</span></th>
                                 <th><span>Số hóa đơn</span></th>
                                 <th><span>Tình trạng đơn hàng</span></th>
                                 <th><span>Địa chỉ giao hàng</span></th>
@@ -134,7 +133,6 @@
                             <tr *ngFor="let importInvoicePackage of invoicePackageShipments ;let i = index">
                                 <td><input type="checkbox" id="chkBox{{i}}" [(ngModel)]="selectedCheckBox[i]"
                                         (change)="checked(i, $event)"></td>
-                                <td><a>{{importInvoicePackage.invoiceHeader.id}}</a></td>
                                 <td>{{importInvoicePackage.invoiceHeader.invoiceNo}}</td>
                                 <td>{{common.processInvoiceStatus(importInvoicePackage.invoiceHeader.status)}}</td>
                                 <td>{{importInvoicePackage.invoiceHeader.destinationAddress}}</td>

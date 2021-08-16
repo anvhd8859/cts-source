@@ -9,7 +9,8 @@ import {
     RequestExportWarehouseDeletePopupComponent,
     RequestExportWarehouseDeleteDialogComponent,
     requestExportWarehouseRoute,
-    requestExportWarehousePopupRoute
+    requestExportWarehousePopupRoute,
+    RequestExportModalConfirmComponent
 } from './';
 
 const ENTITY_STATES = [...requestExportWarehouseRoute, ...requestExportWarehousePopupRoute];
@@ -21,13 +22,15 @@ const ENTITY_STATES = [...requestExportWarehouseRoute, ...requestExportWarehouse
         RequestExportWarehouseDetailComponent,
         RequestExportWarehouseUpdateComponent,
         RequestExportWarehouseDeleteDialogComponent,
-        RequestExportWarehouseDeletePopupComponent
+        RequestExportWarehouseDeletePopupComponent,
+        RequestExportModalConfirmComponent
     ],
     entryComponents: [
         RequestExportWarehouseComponent,
         RequestExportWarehouseUpdateComponent,
         RequestExportWarehouseDeleteDialogComponent,
-        RequestExportWarehouseDeletePopupComponent
+        RequestExportWarehouseDeletePopupComponent,
+        RequestExportModalConfirmComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

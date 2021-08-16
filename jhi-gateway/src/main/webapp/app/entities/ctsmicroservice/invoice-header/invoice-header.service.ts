@@ -187,4 +187,9 @@ export class InvoiceHeaderService {
     sendReceiptNoteEmail(param?: ReceiptInvoice): any {
         return this.http.post<ReceiptInvoice>(this.receiptEmailURL, param, { observe: 'response' });
     }
+
+    getImportInvoiceByOfficer(req?: any): Observable<any> {
+        const options = createRequestOption(req);
+        return this.http.get<any>(this.resourceUrl + '/import/by-officer', { params: options, observe: 'response' });
+    }
 }

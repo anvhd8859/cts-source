@@ -29,7 +29,7 @@ export const exportInvoicePackageRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_KEEPER'],
+            authorities: ['ROLE_KEEPER', 'ROLE_ADMIN'],
             pageTitle: 'CTS: Quản lý xuất kho'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const exportInvoicePackagePopupRoute: Routes = [
             exportInvoicePackage: ExportInvoicePackageResolve
         },
         data: {
-            authorities: ['ROLE_KEEPER'],
+            authorities: ['ROLE_KEEPER', 'ROLE_ADMIN'],
             pageTitle: 'CTS: Quản lý xuất kho'
         },
         canActivate: [UserRouteAccessService],

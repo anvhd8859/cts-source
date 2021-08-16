@@ -3,6 +3,7 @@ package com.fu.capstone.service;
 import com.fu.capstone.service.dto.PersonalShipmentDTO;
 import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 
+import com.fu.capstone.service.dto.ShipmentInvoicePackagesDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -70,4 +71,6 @@ public interface PersonalShipmentService {
 
 	List<PersonalShipmentInvoiceDTO> getPersonalShipmentByRequestId(Long id);
 
+	// v2
+	Page<ShipmentInvoicePackagesDTO> getImportShipmentByShipper(Long id, String invNo, String type, String from, String to, Pageable pageable);
 }

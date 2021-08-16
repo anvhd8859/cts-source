@@ -16,15 +16,17 @@ public class RequestDetailsDTO implements Serializable {
 
 	private Long id;
 
-    private Long ieWarehouseId;
+    private Long requestId;
 
-    private Long shipmentId;
+    private Long invoicePackageId;
     
     private Boolean keeperConfirm;
     
     private Boolean shipperConfirm;
     
-    private Boolean impExpConfirm;
+    private Boolean status;
+
+    private String note;
 
     private Instant createDate;
 
@@ -38,16 +40,16 @@ public class RequestDetailsDTO implements Serializable {
         this.id = id;
     }
 
-    public Long getIeWarehouseId() {
-        return ieWarehouseId;
+    public Long getRequestId() {
+        return requestId;
     }
 
-    public void setIeWarehouseId(Long ieWarehouseId) {
-        this.ieWarehouseId = ieWarehouseId;
+    public void setRequestId(Long requestId) {
+        this.requestId = requestId;
     }
 
-    public Long getShipmentId() {
-        return shipmentId;
+    public Long getInvoicePackageId() {
+        return invoicePackageId;
     }
 
     public Boolean getKeeperConfirm() {
@@ -66,16 +68,16 @@ public class RequestDetailsDTO implements Serializable {
 		this.shipperConfirm = shipperConfirm;
 	}
 
-	public boolean getImpExpConfirm() {
-		return impExpConfirm;
+	public boolean getStatus() {
+		return status;
 	}
 
-	public void setImpExpConfirm(Boolean impExpConfirm) {
-		this.impExpConfirm = impExpConfirm;
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 
-	public void setShipmentId(Long shipmentId) {
-        this.shipmentId = shipmentId;
+	public void setInvoicePackageId(Long invoicePackageId) {
+        this.invoicePackageId = invoicePackageId;
     }
 
     public Instant getCreateDate() {
@@ -94,7 +96,15 @@ public class RequestDetailsDTO implements Serializable {
         this.updateDate = updateDate;
     }
 
-    @Override
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -119,8 +129,8 @@ public class RequestDetailsDTO implements Serializable {
     public String toString() {
         return "RequestDetailsDTO{" +
             "id=" + getId() +
-            ", ieWarehouseId=" + getIeWarehouseId() +
-            ", invoiceHeaderId=" + getShipmentId() +
+            ", requestId=" + getRequestId() +
+            ", invoicePackageId=" + getInvoicePackageId() +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";

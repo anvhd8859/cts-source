@@ -1,14 +1,13 @@
 {
-    "name": "ReceiptImage",
+    "name": "TransferDetails",
     "fields": [
         {
-            "fieldName": "receiptNoteId",
+            "fieldName": "transferId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "image",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "image"
+            "fieldName": "invoicePackageIdackageId",
+            "fieldType": "Long"
         },
         {
             "fieldName": "createDate",
@@ -20,10 +19,10 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20210501032209",
-    "entityTableName": "receipt_image",
+    "changelogDate": "20210801082246",
+    "entityTableName": "transfer_details",
     "dto": "mapstruct",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
