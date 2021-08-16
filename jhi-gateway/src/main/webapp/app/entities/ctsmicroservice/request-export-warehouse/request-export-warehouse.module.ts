@@ -1,5 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { CtsgatewaySharedModule } from 'app/shared';
 import {
@@ -16,7 +18,7 @@ import {
 const ENTITY_STATES = [...requestExportWarehouseRoute, ...requestExportWarehousePopupRoute];
 
 @NgModule({
-    imports: [CtsgatewaySharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [CtsgatewaySharedModule, RouterModule.forChild(ENTITY_STATES), NgSelectModule, FormsModule],
     declarations: [
         RequestExportWarehouseComponent,
         RequestExportWarehouseDetailComponent,

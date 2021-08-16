@@ -17,6 +17,7 @@ import { IProvince } from 'app/shared/model/ctsmicroservice/province.model';
 import { IStreet } from 'app/shared/model/ctsmicroservice/street.model';
 import { ISubDistrict } from 'app/shared/model/ctsmicroservice/sub-district.model';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
+import { JhiAlertService } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-warehouse-update',
@@ -52,7 +53,8 @@ export class WarehouseUpdateComponent implements OnInit {
         private userService: UserService,
         private accountService: AccountService,
         private officeService: OfficeService,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private alertService: JhiAlertService
     ) {}
 
     ngOnInit() {
@@ -65,8 +67,9 @@ export class WarehouseUpdateComponent implements OnInit {
             this.createDate = this.warehouse.createDate != null ? this.warehouse.createDate.format(DATE_TIME_FORMAT) : null;
             this.updateDate = this.warehouse.updateDate != null ? this.warehouse.updateDate.format(DATE_TIME_FORMAT) : null;
         });
-        this.officeService.query({ page: 0, size: 999 }).subscribe((res: HttpResponse<IOffice[]>) => {
-            this.offices = res.body;
+        forkJoin(this.accountService.getLstCity(), this.officeService.query({ page: 0, size: 999 })).subscribe(res => {
+            this.lstProvinceTo = res[0].body;
+            this.offices = res[1].body;
         });
     }
 
@@ -75,16 +78,45 @@ export class WarehouseUpdateComponent implements OnInit {
     }
 
     save() {
-        this.isSaving = true;
-        this.warehouse.officeId = this.selectedOffice.id;
-        this.warehouse.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
-        this.warehouse.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
-        this.appendAddress();
-        if (this.warehouse.id !== undefined) {
-            this.subscribeToSaveResponse(this.warehouseService.update(this.warehouse));
+        const msg = this.validate();
+        if (!msg) {
+            this.isSaving = true;
+            this.warehouse.officeId = this.selectedOffice.id;
+            this.warehouse.createDate = this.createDate != null ? moment(this.createDate, DATE_TIME_FORMAT) : null;
+            this.warehouse.updateDate = this.updateDate != null ? moment(this.updateDate, DATE_TIME_FORMAT) : null;
+            this.appendAddress();
+            if (this.warehouse.id !== undefined) {
+                this.subscribeToSaveResponse(this.warehouseService.update(this.warehouse));
+            } else {
+                this.subscribeToSaveResponse(this.warehouseService.create(this.warehouse));
+            }
         } else {
-            this.subscribeToSaveResponse(this.warehouseService.create(this.warehouse));
+            window.scroll(0, 0);
+            this.alertService.error(msg);
         }
+    }
+
+    validate() {
+        let msg = '';
+        if (!this.selectedOffice) {
+            msg += 'Trường văn phòng đang trống <br>';
+        }
+        if (!this.selectedProvinceFrom) {
+            msg += 'Trường Tỉnh/Thành phố đang trống <br>';
+        }
+        if (!this.selectedDistrictFrom) {
+            msg += 'Trường Quận/Huyện phố đang trống <br>';
+        }
+        if (!this.selectedSubDistrictFrom) {
+            msg += 'Trường Phường/Xã đang trống <br>';
+        }
+        if (!this.selectedStreetFrom) {
+            msg += 'Trường Đường/Phố đang trống <br>';
+        }
+        if (!this.selectedAddressFrom) {
+            msg += 'Trường Địa chỉ đang trống <br>';
+        }
+        return msg;
     }
 
     appendAddress() {
