@@ -94,7 +94,7 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 			@Param("invNo") String invNo, @Param("type") String type,
 			@Param("from") String from, @Param("to") String to, Pageable pageable);
 
-	List<PersonalShipment> findAllByShipmentTypeAndId(String shipmentType, Long id);
+	List<PersonalShipment> findAllByShipmentTypeAndInvoiceHeaderId(String shipmentType, Long invoiceHeaderId);
 
 	@Query( value = "SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId IN (:list) AND p.shipmentType = 'delivery'")
 	List<PersonalShipment> getDeliveryShipmentByHeaderIds(@Param("list") List<Long> invoiceIds);
