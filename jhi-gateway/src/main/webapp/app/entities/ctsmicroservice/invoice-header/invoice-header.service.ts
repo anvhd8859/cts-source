@@ -128,6 +128,10 @@ export class InvoiceHeaderService {
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
+    getInvoiceByWarehouse(options?: any): Observable<HttpResponse<any>> {
+        return this.http.get<any>(this.userResourceUrl + '/warehouse', { params: options, observe: 'response' });
+    }
+
     private convertDateFromClient(invoiceHeader: IInvoiceHeader): IInvoiceHeader {
         const copy: IInvoiceHeader = Object.assign({}, invoiceHeader, {
             reviewDate: invoiceHeader.reviewDate != null && invoiceHeader.reviewDate.isValid() ? invoiceHeader.reviewDate.toJSON() : null,

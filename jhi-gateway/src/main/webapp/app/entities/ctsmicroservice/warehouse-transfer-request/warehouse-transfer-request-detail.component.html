@@ -1,11 +1,14 @@
 <div class="row justify-content-center">
+    <br>
+    <br>
+    <br>
     <div class="col-8">
         <div *ngIf="transferRequest">
             <h2>Yêu cầu vận chuyển</h2>
             <hr>
             <jhi-alert></jhi-alert>
             <br>
-                <div class="table-responsive" *ngIf="!invoicePackageShipments || invoicePackageShipments.length === 0">
+                <div class="table-responsive" *ngIf="!(invoicePackageShipments && invoicePackageShipments.length !== 0)">
                     <h2>Không tìm thấy dữ liệu</h2>
                 </div>
                 <div class="table-responsive" *ngIf="invoicePackageShipments && invoicePackageShipments.length > 0">

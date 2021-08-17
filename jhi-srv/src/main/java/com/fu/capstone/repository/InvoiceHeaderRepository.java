@@ -126,4 +126,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 	@Query(value = "SELECT i FROM InvoiceHeader i, TransferDetails t WHERE i.id = t.invoicePackageId "
 				 + " AND t.transferId = :id ")
 	List<InvoiceHeader> getInvoiceHeaderByTransferId(@Param("id") Long id);
+
+	@Query(value = "SELECT i FROM InvoiceHeader i, InvoicePackage p WHERE i.id = p.invoiceHeaderId AND p.warehouseId = :id ")
+	Page<InvoiceHeader> getInvoiceByWarehouse(@Param("id") Long id, Pageable pageable);
 }

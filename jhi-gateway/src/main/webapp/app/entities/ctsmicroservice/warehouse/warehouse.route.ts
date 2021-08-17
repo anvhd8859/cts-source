@@ -11,6 +11,7 @@ import { WarehouseDetailComponent } from './warehouse-detail.component';
 import { WarehouseUpdateComponent } from './warehouse-update.component';
 import { WarehouseDeletePopupComponent } from './warehouse-delete-dialog.component';
 import { IWarehouse } from 'app/shared/model/ctsmicroservice/warehouse.model';
+import { JhiResolvePagingParams } from 'ng-jhipster';
 
 @Injectable({ providedIn: 'root' })
 export class WarehouseResolve implements Resolve<IWarehouse> {
@@ -31,7 +32,7 @@ export const warehouseRoute: Routes = [
         component: WarehouseComponent,
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Warehouses'
+            pageTitle: 'CTS: Quản lý kho hàng'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -39,11 +40,11 @@ export const warehouseRoute: Routes = [
         path: 'warehouse/:id/view',
         component: WarehouseDetailComponent,
         resolve: {
-            warehouse: WarehouseResolve
+            pagingParams: JhiResolvePagingParams
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Warehouses'
+            pageTitle: 'CTS: Quản lý kho hàng'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -55,7 +56,7 @@ export const warehouseRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Warehouses'
+            pageTitle: 'CTS: Quản lý kho hàng'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -67,7 +68,7 @@ export const warehouseRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Warehouses'
+            pageTitle: 'CTS: Quản lý kho hàng'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -82,7 +83,7 @@ export const warehousePopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Warehouses'
+            pageTitle: 'CTS: Quản lý kho hàng'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

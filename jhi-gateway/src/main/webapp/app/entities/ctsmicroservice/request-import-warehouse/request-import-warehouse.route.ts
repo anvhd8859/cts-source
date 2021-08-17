@@ -47,7 +47,7 @@ export const requestImportWarehouseRoute: Routes = [
         path: 'request-import-warehouse/:id/view',
         component: RequestImportWarehouseDetailComponent,
         resolve: {
-            requestImportWarehouse: RequestImportWarehouseResolve
+            pagingParams: JhiResolvePagingParams
         },
         data: {
             authorities: ['ROLE_ADMIN'],

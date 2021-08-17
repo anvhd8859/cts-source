@@ -70,9 +70,6 @@ export class RequestImportWarehouseShipperUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.common = new CommonString();
-        this.principal.identity().then(account => {
-            this.currentAccount = account;
-        });
         this.selectedTypeShipment = this.common.listTypeShipment[0].id;
         this.isSaving = false;
         this.itemsPerPage = 50;
@@ -83,7 +80,10 @@ export class RequestImportWarehouseShipperUpdateComponent implements OnInit {
             this.predicate = data.pagingParams.predicate;
         });
         this.selectedTypeShipment = this.common.listTypeShipment[0].id;
-        this.loadAll();
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+            this.loadAll();
+        });
     }
 
     previousState() {

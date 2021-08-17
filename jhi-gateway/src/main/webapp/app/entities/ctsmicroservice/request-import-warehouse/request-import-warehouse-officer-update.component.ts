@@ -69,9 +69,6 @@ export class RequestImportWarehouseOfficerUpdateComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.principal.identity().then(account => {
-            this.currentAccount = account;
-        });
         this.selectedTypeShipment = this.common.listTypeShipment[0].id;
         this.isSaving = false;
         this.itemsPerPage = 50;
@@ -81,7 +78,10 @@ export class RequestImportWarehouseOfficerUpdateComponent implements OnInit {
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
         });
-        this.loadAll();
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+            this.loadAll();
+        });
     }
 
     previousState() {

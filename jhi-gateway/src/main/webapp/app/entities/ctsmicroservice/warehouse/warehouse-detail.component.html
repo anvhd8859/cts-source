@@ -1,53 +1,57 @@
 <div class="row justify-content-center">
+    <br>
+    <br>
+    <br>
     <div class="col-8">
         <div *ngIf="warehouse">
-            <h2><span>Warehouse</span> {{warehouse.id}}</h2>
+            <h2><span>Chi tiết kho hàng </span></h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
-            <dl class="row-md jh-entity-details">
-                <dt><span>Tên kho hàng</span></dt>
-                <dd>
-                    <span>{{warehouse.warehouseName}}</span>
-                </dd>
-                <dt><span>Tên văn phòng</span></dt>
-                <dd>
-                    <span>{{office.officeName}}</span>
-                </dd>
-                <dt><span>Mã nhân viên kho</span></dt>
-                <dd>
-                    <span>{{warehouse.keeperId}}</span>
-                </dd>               
-                <dt><span>Mã Đường/Phố</span></dt>
-                <dd>
-                    <span>{{warehouse.streetId}}</span>
-                </dd>
-                <dt><span>Mã kho hàng Master</span></dt>
-                <dd>
-                    <span>{{warehouse.masterWarehouseId}}</span>
-                </dd>
-                <dt><span>Địa chỉ</span></dt>
-                <dd>
-                    <span>{{warehouse.address}}</span>
-                </dd>
-                <dt><span>Ngày khởi tạo</span></dt>
-                <dd>
-                    <span>{{warehouse.createDate}}</span>
-                </dd>
-                <dt><span>Ngày cập nhật</span></dt>
-                <dd>
-                    <span>{{warehouse.updateDate}}</span>
-                </dd>
-            </dl>
+            <div class="card-body">
+                <br>
+                <br>
+                <h4>Danh sách đơn</h4>
+                <div class="table-responsive" *ngIf="invoices">
+                    <table class="table table-striped">
+                        <thead>
+                            <th> Số hóa đơn </th>
+                            <th> Số gói hàng </th>
+                            <th> Tổng khối lượng </th>
+                            <th> Kích thước chi tiết </th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let object of invoices">
+                                <td>{{object.invoiceHeader.invoiceNo}} </td>
+                                <td> {{object.invoicePackageList.length}} </td>
+                                <td>{{totalWeight(object.invoicePackageList)}}</td>
+                                <td>
+                                    <span *ngFor="let pk of object.invoicePackageList ; let pi = index">
+                                        #{{pi}}: {{pk.length}}(cm) x {{pk.width}}(cm) x {{pk.height}}(cm):
+                                        {{pk.weight}}(g) <br />
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <div class="btn-group flex-btn-group-container">
+                                        <button type="submit"
+                                            [routerLink]="['/invoice-header', object.invoiceHeader.id, 'view']"
+                                            class="btn btn-info btn-sm">
+                                            <fa-icon [icon]="'eye'"></fa-icon>
+                                            <span class="d-none d-md-inline">Chi tiết</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info">
+            <button type="submit" (click)="previousState()" class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;&nbsp;<span> Quay lại</span>
             </button>
 
-            <button type="button"
-                    [routerLink]="['/warehouse', warehouse.id, 'edit']"
-                    class="btn btn-primary">
+            <button type="button" [routerLink]="['/warehouse', warehouse.id, 'edit']" class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;&nbsp;<span> Chỉnh sửa</span>
             </button>
         </div>

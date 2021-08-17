@@ -80,4 +80,6 @@ public interface InvoiceHeaderService {
 			String receiveTo, String createFrom, String createTo, Pageable pageable);
 
 	Page<InvoicePackageDetailDTO> getImportInvoiceByOfficer(Long id, String invNo, String from, String to, Pageable pageable);
+
+	Page<InvoicePackageDetailDTO> getInvoiceByWarehouse(Long id, Pageable pageable);
 }

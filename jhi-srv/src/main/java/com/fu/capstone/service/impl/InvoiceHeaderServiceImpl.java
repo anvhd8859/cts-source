@@ -470,4 +470,10 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		return page.map(this::converterInvoicePackageDetailDTO);
 	}
 
+	@Override
+	public Page<InvoicePackageDetailDTO> getInvoiceByWarehouse(Long id, Pageable pageable) {
+		Page<InvoiceHeader> page = invoiceHeaderRepository.getInvoiceByWarehouse(id, pageable);
+		return page.map(this::converterInvoicePackageDetailDTO);
+	}
+
 }
