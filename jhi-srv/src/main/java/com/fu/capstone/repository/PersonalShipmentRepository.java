@@ -45,7 +45,7 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 				 + " ORDER BY i.due_date",
 			countQuery = "SELECT COUNT(*) FROM personal_shipment ps, invoice_header i"
 					   + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
-					   + " AND ps.status <> 'finish' AND ps.status <> '' "
+					   + " AND ps.status <> 'finish'  AND ps.status <> 'received' AND  ps.status <> '' "
 					   + " AND ps.shipment_type = :type AND (:status = '' OR i.status = :status) "
 					   + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
 					   + " AND (:from = '' OR i.due_date >= CONCAT(:from , ' 00:00:00')) "

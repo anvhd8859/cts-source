@@ -53,7 +53,13 @@ export class WarehouseDetailComponent implements OnInit {
     }
 
     loadAll() {
-        this.invoiceService.getInvoiceByWarehouse({ id: this.warehouse.id }).subscribe(res => {
+        const param = {
+            id: this.warehouse.id,
+            page: this.page,
+            size: this.itemsPerPage,
+            sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+        };
+        this.invoiceService.getInvoiceByWarehouse(param).subscribe(res => {
             this.paginateInvoiceHeaders(res.body, res.headers);
         });
     }

@@ -31,83 +31,9 @@
                     <label class="form-control-label" for="field_keeperId">Nhân viên kho</label>
                     <input type="text" class="form-control" id="empId" name="empId" value="{{this.selectedUser.firstName + ' ' + this.selectedUser.lastName}}" disabled>
                 </div>
-                <div>
-                    <div class="card">
-                        <div class="card-header">
-                            <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Địa
-                                    chỉ</b></label>
-                        </div>
-                        <div class="card-body" name="from-address">
-                            <div class="row">
-                                <div class="col-10">
-                                    <div class="form-group">
-                                        <label for="province">Tỉnh/Thành Phố</label>
-                                        <ng-select [clearable]="false" [hideSelected]="true"
-                                            [items]="this.lstProvinceFrom" bindLabel="provinceName" id="province"
-                                            name="province" [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.selectedProvinceFrom" (change)="this.changeCity('from')">
-                                            <ng-option *ngFor="let item of lstProvinceFrom">{{item.provinceName}}
-                                            </ng-option>
-                                        </ng-select>
-                                    </div>
-                                </div>
-                                <div class="col-10">
-                                    <div class="form-group">
-                                        <label for="district">Quận/Huyện</label>
-                                        <ng-select [clearable]="false" [hideSelected]="true"
-                                            [items]="this.lstDistrictFrom" bindLabel="districtName" id="district"
-                                            name="district" [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.selectedDistrictFrom"
-                                            (change)="this.changeDistrict('from')"
-                                            [disabled]="!this.selectedProvinceFrom">
-                                            <ng-option *ngFor="let item of lstDistrictFrom">{{item.districtName}}
-                                            </ng-option>
-                                        </ng-select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-10">
-                                    <div class="form-group">
-                                        <label for="subDistrict">Phường/Xã</label>
-                                        <ng-select [clearable]="false" [hideSelected]="true"
-                                            [items]="this.lstSubDistrictFrom" bindLabel="subDistrictName"
-                                            id="subDistrict" name="subDistrict" [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.selectedSubDistrictFrom"
-                                            (change)="this.changeSubDistrict('from')"
-                                            [disabled]="!this.selectedDistrictFrom">
-                                            <ng-option *ngFor="let item of lstSubDistrictFrom">
-                                                {{item.subDistrictName}}
-                                            </ng-option>
-                                        </ng-select>
-                                    </div>
-                                </div>
-                                <div class="col-10">
-                                    <div class="form-group">
-                                        <label for="street">Đường/Phố</label>
-                                        <ng-select [clearable]="false" [hideSelected]="true"
-                                            [items]="this.lstStreetFrom" bindLabel="streetName" id="street"
-                                            name="street" [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="this.selectedStreetFrom"
-                                            [disabled]="!this.selectedSubDistrictFrom">
-                                            <ng-option *ngFor="let item of lstStreetFrom">{{item.streetName}}
-                                            </ng-option>
-                                        </ng-select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="address">Địa chỉ</label>
-                                        <textarea class="form-control" style="resize: none;" rows="3" id="address"
-                                            name="address" [(ngModel)]="this.selectedAddressFrom">
-                                        </textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_address">Địa chỉ</label>
+                    <input type="text" class="form-control" id="address" name="address" value="{{selectedOffice.address}}" disabled>
                 </div>
             </div>
             <br>

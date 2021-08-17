@@ -164,7 +164,7 @@ public class PersonalShipmentResource {
     		@RequestParam("invNo") String invNo, @RequestParam("status") String status, @RequestParam("type") String type,
     		@RequestParam("from") String from, @RequestParam("to") String to,Pageable pageable) {
     	Page<PersonalShipmentInvoiceDTO> page = personalShipmentService.getPersonalShipmentByShipper(id, invNo, status, type, from, to, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments/by-shiper");
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments/by-shipper");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     

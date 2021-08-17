@@ -103,25 +103,6 @@
                     </div>
                 </div>
                 <br />
-                <div class="row">
-                    <div class="col-lg-9"></div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 text-center">
-                        <div class="form-group" *ngIf=" selectedTypeFromServer === 'delivery' ">
-                            <button style="margin-top: 20px" id="export" name="export" class="btn btn-success"
-                                (click)="createExportRequest()">
-                                <fa-icon [icon]="'file-export'"></fa-icon>
-                                <span>Tạo yêu cầu Xuất Kho</span>
-                            </button>
-                        </div>
-                        <div class="form-group">
-                            <button style="margin-top: 10px" id="import" name="import" class="btn btn-success"
-                                (click)="createImportRequest()">
-                                <fa-icon [icon]="'file-import'"></fa-icon>
-                                <span>Tạo yêu cầu Nhập Kho</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!-- END header START body -->
             <div class="card-body">
@@ -179,23 +160,21 @@
                                         <span class="d-none d-md-inline">Chi tiết</span>
                                     </button>
                                     <button *ngIf="object.personalShipmentDTO.shipmentType === 'collect'"
-                                        [disabled]="object.personalShipmentDTO.status === 'finish' || object.invoiceHeaderDTO.status !== 'collect'"
-                                        type="submit"
+                                        [disabled]="object.personalShipmentDTO.status === 'finish'" type="submit"
                                         [routerLink]="['/receiptnote', object.personalShipmentDTO.id, 'new-receipt']"
                                         class="btn btn-primary btn-sm">
                                         <fa-icon [icon]="'check-circle'"></fa-icon>
                                         <span class="d-none d-md-inline">Hoàn thành lấy hàng</span>
                                     </button>
-                                    <button *ngIf="object.personalShipmentDTO.shipmentType === 'delivery'" type="submit"
-                                        [disabled]="object.personalShipmentDTO.status === 'finish' || object.invoiceHeaderDTO.status !== 'delivering'"
+                                    <button *ngIf="object.personalShipmentDTO.shipmentType === 'delivery'"
+                                        [disabled]="object.personalShipmentDTO.status === 'finish'" type="submit"
                                         [routerLink]="['/receiptnote', object.personalShipmentDTO.id, 'new-receipt']"
                                         class="btn btn-success btn-sm">
                                         <fa-icon [icon]="'check'"></fa-icon>
                                         <span class="d-none d-md-inline">Hoàn thành giao hàng</span>
                                     </button>
-                                    <button type="submit" *ngIf="!object.invoiceHeaderDTO.cancel"
+                                    <button type="submit" *ngIf="!object.invoiceHeaderDTO.cancel && object.invoiceHeaderDTO.changeNote !== 'request'"
                                         [routerLink]="['/', { outlets: { popup: 'personal-shipment-cancel-invoice/'+ object.invoiceHeaderDTO.id + '/send-request'} }]"
-                                        [disabled]="object.invoiceHeaderDTO.changeNote === 'request'"
                                         class="btn btn-danger btn-sm">
                                         <fa-icon [icon]="'times'"></fa-icon>
                                         <span class="d-none d-md-inline">Yêu cầu hủy</span>

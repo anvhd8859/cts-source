@@ -34,129 +34,130 @@ import java.util.Optional;
 @Transactional
 public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 
-    private final Logger log = LoggerFactory.getLogger(PersonalShipmentServiceImpl.class);
-    
-    private InvoiceHeaderRepository invoiceHeaderRepository;
+	private final Logger log = LoggerFactory.getLogger(PersonalShipmentServiceImpl.class);
 
-    private InvoiceHeaderMapper invoiceHeaderMapper;
+	private InvoiceHeaderRepository invoiceHeaderRepository;
 
-    private PersonalShipmentRepository personalShipmentRepository;
+	private InvoiceHeaderMapper invoiceHeaderMapper;
 
-    private PersonalShipmentMapper personalShipmentMapper;
-    
-    private StreetRepository streetRepository;
+	private PersonalShipmentRepository personalShipmentRepository;
 
-    private InvoicePackageRepository invoicePackageRepository;
+	private PersonalShipmentMapper personalShipmentMapper;
 
-    private InvoicePackageMapper invoicePackageMapper;
+	private StreetRepository streetRepository;
 
-    public PersonalShipmentServiceImpl(PersonalShipmentRepository personalShipmentRepository, PersonalShipmentMapper personalShipmentMapper,
-    		InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
-    		StreetRepository streetRepository,
+	private InvoicePackageRepository invoicePackageRepository;
+
+	private InvoicePackageMapper invoicePackageMapper;
+
+	public PersonalShipmentServiceImpl(PersonalShipmentRepository personalShipmentRepository,
+			PersonalShipmentMapper personalShipmentMapper,
+			InvoiceHeaderRepository invoiceHeaderRepository, InvoiceHeaderMapper invoiceHeaderMapper,
+			StreetRepository streetRepository,
 			InvoicePackageRepository invoicePackageRepository, InvoicePackageMapper invoicePackageMapper) {
-        this.personalShipmentRepository = personalShipmentRepository;
-        this.personalShipmentMapper = personalShipmentMapper;
-        this.invoiceHeaderRepository = invoiceHeaderRepository;
-        this.invoiceHeaderMapper = invoiceHeaderMapper;
+		this.personalShipmentRepository = personalShipmentRepository;
+		this.personalShipmentMapper = personalShipmentMapper;
+		this.invoiceHeaderRepository = invoiceHeaderRepository;
+		this.invoiceHeaderMapper = invoiceHeaderMapper;
 		this.streetRepository = streetRepository;
 		this.invoicePackageRepository = invoicePackageRepository;
 		this.invoicePackageMapper = invoicePackageMapper;
-    }
+	}
 
-    /**
-     * Save a personalShipment.
-     *
-     * @param personalShipmentDTO the entity to save
-     * @return the persisted entity
-     */
-    @Override
-    public PersonalShipmentDTO save(PersonalShipmentDTO personalShipmentDTO) {
-        log.debug("Request to save PersonalShipment : {}", personalShipmentDTO);
+	/**
+	 * Save a personalShipment.
+	 *
+	 * @param personalShipmentDTO the entity to save
+	 * @return the persisted entity
+	 */
+	@Override
+	public PersonalShipmentDTO save(PersonalShipmentDTO personalShipmentDTO) {
+		log.debug("Request to save PersonalShipment : {}", personalShipmentDTO);
 
-        PersonalShipment personalShipment = personalShipmentMapper.toEntity(personalShipmentDTO);
+		PersonalShipment personalShipment = personalShipmentMapper.toEntity(personalShipmentDTO);
 		Instant instant = Instant.now();
-		if(personalShipment.getId() == null){
+		if (personalShipment.getId() == null) {
 			personalShipment.setCreateDate(instant);
 			personalShipment.setUpdateDate(instant);
-		}
-		else personalShipment.setUpdateDate(instant);
-        personalShipment = personalShipmentRepository.save(personalShipment);
-        return personalShipmentMapper.toDto(personalShipment);
-    }
+		} else personalShipment.setUpdateDate(instant);
+		personalShipment = personalShipmentRepository.save(personalShipment);
+		return personalShipmentMapper.toDto(personalShipment);
+	}
 
-    /**
-     * Get all the personalShipments.
-     *
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public Page<PersonalShipmentDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all PersonalShipments");
-        return personalShipmentRepository.findAll(pageable)
-            .map(personalShipmentMapper::toDto);
-    }
-
-
-    /**
-     * Get one personalShipment by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<PersonalShipmentDTO> findOne(Long id) {
-        log.debug("Request to get PersonalShipment : {}", id);
-        return personalShipmentRepository.findById(id)
-            .map(personalShipmentMapper::toDto);
-    }
-
-    /**
-     * Delete the personalShipment by id.
-     *
-     * @param id the id of the entity
-     */
-    @Override
-    public void delete(Long id) {
-        log.debug("Request to delete PersonalShipment : {}", id);
-        personalShipmentRepository.deleteById(id);
-    }
-
-    
-    // START TuyenVNT 14/04/2021
- 	@Override
- 	public Page<PersonalShipmentDTO> getPersonalShipmentByHeaderId(Long id, Pageable pageable) {
- 		return personalShipmentRepository.getPersonalShipmentByHeaderId(id, pageable)
+	/**
+	 * Get all the personalShipments.
+	 *
+	 * @param pageable the pagination information
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Page<PersonalShipmentDTO> findAll(Pageable pageable) {
+		log.debug("Request to get all PersonalShipments");
+		return personalShipmentRepository.findAll(pageable)
 				.map(personalShipmentMapper::toDto);
- 	}
- 	// END TuyenVNT 16/04/2021
- 	
- 	// START TuyenVNT 16/04/2021
- 	@Override
- 	public Page<PersonalShipmentDTO> getPersonalShipmentNotAssigned(Pageable pageable) {
- 		return personalShipmentRepository.getPersonalShipmentNotAssigned(pageable)
+	}
+
+
+	/**
+	 * Get one personalShipment by id.
+	 *
+	 * @param id the id of the entity
+	 * @return the entity
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<PersonalShipmentDTO> findOne(Long id) {
+		log.debug("Request to get PersonalShipment : {}", id);
+		return personalShipmentRepository.findById(id)
 				.map(personalShipmentMapper::toDto);
- 	}
- 	// END TuyenVNT 16/04/2021
+	}
+
+	/**
+	 * Delete the personalShipment by id.
+	 *
+	 * @param id the id of the entity
+	 */
+	@Override
+	public void delete(Long id) {
+		log.debug("Request to delete PersonalShipment : {}", id);
+		personalShipmentRepository.deleteById(id);
+	}
+
+
+	// START TuyenVNT 14/04/2021
+	@Override
+	public Page<PersonalShipmentDTO> getPersonalShipmentByHeaderId(Long id, Pageable pageable) {
+		return personalShipmentRepository.getPersonalShipmentByHeaderId(id, pageable)
+				.map(personalShipmentMapper::toDto);
+	}
+	// END TuyenVNT 16/04/2021
+
+	// START TuyenVNT 16/04/2021
+	@Override
+	public Page<PersonalShipmentDTO> getPersonalShipmentNotAssigned(Pageable pageable) {
+		return personalShipmentRepository.getPersonalShipmentNotAssigned(pageable)
+				.map(personalShipmentMapper::toDto);
+	}
+	// END TuyenVNT 16/04/2021
 
 
 	@Override
-	public Page<PersonalShipmentInvoiceDTO> getPersonalShipmentByShipper(Long id, String invNo, String status, String type, String from, String to, Pageable pageable) {
-		Page<PersonalShipmentDTO> page = personalShipmentRepository.getPersonalShipmentByShipper(id, invNo, status, type, from, to, pageable)
-					.map(personalShipmentMapper::toDto);
-		
-		Page<PersonalShipmentInvoiceDTO> result = page.map(this::convert);
-		return result;
+	public Page<PersonalShipmentInvoiceDTO> getPersonalShipmentByShipper(Long id, String invNo, String status,
+			String type, String from, String to, Pageable pageable) {
+		Page<PersonalShipmentDTO> page = personalShipmentRepository
+				.getPersonalShipmentByShipper(id, invNo, status, type, from, to, pageable)
+				.map(personalShipmentMapper::toDto);
+		return page.map(this::convert);
 	}
+
 	private PersonalShipmentInvoiceDTO convert(PersonalShipmentDTO entity) {
 		PersonalShipmentInvoiceDTO dto = new PersonalShipmentInvoiceDTO();
-        InvoiceHeaderDTO invDTO = invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId()));
-        dto.setPersonalShipmentDTO(entity);
-        dto.setInvoiceHeaderDTO(invDTO);
-        return dto;
-    }
+		InvoiceHeaderDTO invDTO = invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId()));
+		dto.setPersonalShipmentDTO(entity);
+		dto.setInvoiceHeaderDTO(invDTO);
+		return dto;
+	}
 
 	@Override
 	public PersonalShipmentDTO createCollectPersonalShipmentForInvoice(Long id) {
@@ -169,7 +170,7 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 		ps.setUpdateDate(instant);
 		// re-calculate total due 
 		InvoiceHeader inv = invoiceHeaderRepository.findById(id).get();
-		if(inv != null) {
+		if (inv != null) {
 			BigDecimal subTotal = inv.getSubTotal();
 			subTotal = new BigDecimal(3000).add(subTotal.multiply(new BigDecimal(1.07)));
 			invoiceHeaderRepository.save(inv);
@@ -178,21 +179,22 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 	}
 
 	@Override
-	public Page<PersonalShipmentInvoiceDTO> getAllPersonaShipmentInvoices(Long empId, String invNo, 
+	public Page<PersonalShipmentInvoiceDTO> getAllPersonaShipmentInvoices(Long empId, String invNo,
 			Long prvId, Long dstId, Long sdtId, Long strId, String type, Pageable pageable) {
 		Page<PersonalShipment> pgShipment = null;
-		if(prvId == null) {
+		if (prvId == null) {
 			pgShipment = personalShipmentRepository.getAllPersonaShipmentInvoices(empId, invNo, null, type, pageable);
 		} else {
 			List<Street> strList = streetRepository.getAllStreetByParam(prvId, dstId, sdtId, strId);
 			List<Long> sidList = new ArrayList<>();
-			if(strId == null) strList.forEach(street -> sidList.add(street.getId()));
+			if (strId == null) strList.forEach(street -> sidList.add(street.getId()));
 			else sidList.add(strId);
 			pgShipment = personalShipmentRepository.getAllPersonaShipmentInvoices(empId, invNo, sidList, type, pageable);
 		}
 		return pgShipment.map(this::convertPersonalShipmentToPersonalShipmentInvoiceDTO);
 	}
-	private PersonalShipmentInvoiceDTO convertPersonalShipmentToPersonalShipmentInvoiceDTO(PersonalShipment entity){
+
+	private PersonalShipmentInvoiceDTO convertPersonalShipmentToPersonalShipmentInvoiceDTO(PersonalShipment entity) {
 		PersonalShipmentInvoiceDTO result = new PersonalShipmentInvoiceDTO();
 		result.setPersonalShipmentDTO(personalShipmentMapper.toDto(entity));
 		result.setInvoiceHeaderDTO(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId())));
@@ -203,9 +205,9 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 	public List<PersonalShipmentInvoiceDTO> getPersonalShipmentByRequestId(Long id) {
 		List<PersonalShipmentDTO> page = personalShipmentMapper
 				.toDto(personalShipmentRepository.getPersonalShipmentByRequestId(id));
-	
+
 		List<PersonalShipmentInvoiceDTO> result = new ArrayList<>();
-		for(PersonalShipmentDTO ps : page) {
+		for (PersonalShipmentDTO ps : page) {
 			PersonalShipmentInvoiceDTO dto = this.convert(ps);
 			result.add(dto);
 		}
