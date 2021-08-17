@@ -65,6 +65,7 @@ export class WorkingAreaComponent implements OnInit, OnDestroy {
         private ngxUiLoaderService: NgxUiLoaderService,
         private alertService: JhiAlertService
     ) {
+        this.common = new CommonString();
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;

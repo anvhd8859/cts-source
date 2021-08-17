@@ -56,6 +56,7 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private ngxUiLoaderService: NgxUiLoaderService
     ) {
+        this.common = new CommonString();
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;

@@ -79,6 +79,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.common = new CommonString();
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ invoiceHeader }) => {
             this.invoiceHeader = invoiceHeader;

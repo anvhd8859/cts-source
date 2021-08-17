@@ -69,6 +69,7 @@ export class RequestImportWarehouseShipperUpdateComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.common = new CommonString();
         this.principal.identity().then(account => {
             this.currentAccount = account;
         });

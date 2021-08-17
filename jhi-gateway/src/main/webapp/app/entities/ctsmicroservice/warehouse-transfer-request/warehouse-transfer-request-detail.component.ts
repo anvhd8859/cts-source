@@ -47,6 +47,7 @@ export class WarehouseTransferRequestDetailComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.common = new CommonString();
         this.activatedRoute.data.subscribe(({ warehouseTransferRequest }) => {
             forkJoin(
                 this.warehouseTransferRequestService.getWarehouseTransferData(warehouseTransferRequest.id),

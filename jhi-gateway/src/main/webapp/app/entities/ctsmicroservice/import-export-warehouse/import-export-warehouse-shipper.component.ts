@@ -62,6 +62,7 @@ export class ImportExportWarehouseShipperComponent implements OnInit, OnDestroy 
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
         });
+        this.common = new CommonString();
     }
 
     loadAll() {
