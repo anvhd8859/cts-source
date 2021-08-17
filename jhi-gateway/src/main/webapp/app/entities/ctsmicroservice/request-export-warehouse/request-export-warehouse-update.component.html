@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <br />
-                <label for="createOn">Ngày hoàn thành:</label>
+                <label for="createOn">Hạn hoàn thành:</label>
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="form-group">
@@ -139,13 +139,17 @@
             </div>
             <!-- end body  -->
         </div>
+        <br>
+        <br>
         <div>
             <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                 <fa-icon [icon]="'ban'"></fa-icon>&nbsp;&nbsp;<span>Quay lại</span>
             </button>
-            <button type="button" id="save-entity" class="btn btn-primary" (click)="createImportRequest()">
+            <button type="button" id="save-entity" class="btn btn-primary" (click)="createExportRequest()">
                 <fa-icon [icon]="'save'"></fa-icon>&nbsp;&nbsp;<span>Tạo yêu cầu</span>
             </button>
         </div>
+        <br>
+        <br>
     </div>
 </div>

@@ -73,4 +73,6 @@ public interface PersonalShipmentService {
 
 	// v2
 	Page<ShipmentInvoicePackagesDTO> getImportShipmentByShipper(Long id, String invNo, String type, String from, String to, Pageable pageable);
+
+	Page<ShipmentInvoicePackagesDTO> getExportShipmentByShipper(Long id, String invNo, String type, String from, String to, Pageable pageable);
 }

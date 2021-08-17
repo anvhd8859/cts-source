@@ -99,7 +99,7 @@ export class RequestExportWarehouseUpdateComponent implements OnInit {
         }
     }
 
-    createImportRequest() {
+    createExportRequest() {
         this.isSaving = false;
         let closeResult = '';
 
@@ -173,7 +173,7 @@ export class RequestExportWarehouseUpdateComponent implements OnInit {
             page: this.page - 1,
             size: this.itemsPerPage
         };
-        this.personalShipmentService.getImportShipmentByShipper(param).subscribe(
+        this.personalShipmentService.getExportShipmentByShipper(param).subscribe(
             (res: HttpResponse<any>) => {
                 this.paginateInvoiceHeaders(res.body, res.headers);
                 this.selectedTypeFromServer = this.selectedTypeShipment;

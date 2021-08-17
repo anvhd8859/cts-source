@@ -82,6 +82,8 @@ export class RequestImportWarehouseShipperUpdateComponent implements OnInit {
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
         });
+        this.selectedTypeShipment = this.common.listTypeShipment[0].id;
+        this.loadAll();
     }
 
     previousState() {
@@ -167,7 +169,7 @@ export class RequestImportWarehouseShipperUpdateComponent implements OnInit {
         const param = {
             id: this.currentAccount.id,
             invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
-            type: this.selectedTypeShipment,
+            type: this.selectedTypeShipment ? this.selectedTypeShipment : 'collect',
             from: this.fromTime ? this.fromTime.year() + '-' + (this.fromTime.month() + 1) + '-' + this.fromTime.date() : '',
             to: this.toTime ? this.toTime.year() + '-' + (this.toTime.month() + 1) + '-' + this.toTime.date() : '',
             page: this.page - 1,

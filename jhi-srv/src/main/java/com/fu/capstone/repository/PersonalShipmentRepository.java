@@ -3,6 +3,7 @@ package com.fu.capstone.repository;
 import com.fu.capstone.domain.PersonalShipment;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -81,23 +82,14 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 	@Query( value = "SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId = :id ")
 	List<PersonalShipment> getAllShipmentByHeaderId(@Param("id") Long id);
 
-	@Query(value = "SELECT ps.* FROM personal_shipment ps, invoice_header i "
-			+ " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
+	@Query(value = "SELECT ps FROM PersonalShipment ps, InvoiceHeader i  "
+			+ " WHERE i.id = ps.invoiceHeaderId AND ps.employeeId = :id "
 			+ " AND (ps.status = 'done' OR ps.status = 'delivering') "
-			+ " AND ps.shipment_type = :type "
-			+ " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
-			+ " AND (:from = '' OR ps.due_date >= CONCAT(:from , ' 00:00:00')) "
-			+ " AND (:to = '' OR ps.due_date <= CONCAT(:to , ' 23:59:59')) "
-			+ " ORDER BY i.due_date",
-			countQuery = "SELECT COUNT(*) FROM personal_shipment ps, invoice_header i"
-					+ " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
-					+ " AND (ps.status = 'done' OR ps.status = 'delivering') "
-					+ " AND ps.shipment_type = :type "
-					+ " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
-					+ " AND (:from = '' OR ps.finish_time >= CONCAT(:from , ' 00:00:00')) "
-					+ " AND (:to = '' OR ps.finish_time <= CONCAT(:to , ' 23:59:59')) "
-					+ " ORDER BY i.due_date",
-			nativeQuery = true)
+			+ " AND ps.shipmentType = :type "
+			+ " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo , '%')) "
+			+ " AND (:from = '' OR ps.finishTime >= CONCAT(:from , ' 00:00:00')) "
+			+ " AND (:to = '' OR ps.finishTime <= CONCAT(:to , ' 23:59:59')) "
+			+ " ORDER BY i.dueDate")
 	Page<PersonalShipment> getImportShipmentByShipper(@Param("id") Long id,
 			@Param("invNo") String invNo, @Param("type") String type,
 			@Param("from") String from, @Param("to") String to, Pageable pageable);
@@ -106,4 +98,16 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 
 	@Query( value = "SELECT p FROM PersonalShipment p WHERE p.invoiceHeaderId IN (:list) AND p.shipmentType = 'delivery'")
 	List<PersonalShipment> getDeliveryShipmentByHeaderIds(@Param("list") List<Long> invoiceIds);
+
+	@Query(value = "SELECT ps FROM PersonalShipment ps, InvoiceHeader i  "
+			+ " WHERE i.id = ps.invoiceHeaderId AND ps.employeeId = :id "
+			+ " AND ps.status = 'new' "
+			+ " AND ps.shipmentType = :type "
+			+ " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo , '%')) "
+			+ " AND (:from = '' OR i.dueDate >= CONCAT(:from , ' 00:00:00')) "
+			+ " AND (:to = '' OR i.dueDate <= CONCAT(:to , ' 23:59:59')) "
+			+ " ORDER BY i.dueDate")
+	Page<PersonalShipment> getExportShipmentByShipper(@Param("id") Long id,
+			@Param("invNo") String invNo, @Param("type") String type,
+			@Param("from") String from, @Param("to") String to, Pageable pageable);
 }

@@ -219,6 +219,15 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 				.map(personalShipmentMapper::toDto);
 		return page.map(this::toSipDTO);
 	}
+
+	@Override
+	public Page<ShipmentInvoicePackagesDTO> getExportShipmentByShipper(Long id, String invNo, String type, String from,
+			String to, Pageable pageable) {
+		Page<PersonalShipmentDTO> page = personalShipmentRepository.getExportShipmentByShipper(id, invNo, type, from, to, pageable)
+				.map(personalShipmentMapper::toDto);
+		return page.map(this::toSipDTO);
+	}
+
 	private ShipmentInvoicePackagesDTO toSipDTO(PersonalShipmentDTO entity) {
 		ShipmentInvoicePackagesDTO dto = new ShipmentInvoicePackagesDTO();
 		InvoiceHeaderDTO invDTO = invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId()));

@@ -81,6 +81,7 @@ export class RequestImportWarehouseOfficerUpdateComponent implements OnInit {
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
         });
+        this.loadAll();
     }
 
     previousState() {

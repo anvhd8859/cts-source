@@ -107,6 +107,13 @@ export class PersonalShipmentService {
             .pipe(map((res: any) => this.convertDateArrayShipInvoice(res)));
     }
 
+    getExportShipmentByShipper(req?: any): Observable<any> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<any>(this.resourceUrl + '/export/by-shipper', { params: options, observe: 'response' })
+            .pipe(map((res: any) => this.convertDateArrayShipInvoice(res)));
+    }
+
     private convertDateArrayShipInvoice(res: EntityArrayResponseType): EntityArrayResponseType {
         res.body.forEach((shipmentInvoice: any) => {
             shipmentInvoice.invoiceHeaderDTO.dueDate =
