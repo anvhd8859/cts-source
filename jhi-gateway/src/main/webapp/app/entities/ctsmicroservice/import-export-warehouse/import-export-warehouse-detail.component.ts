@@ -194,7 +194,11 @@ export class InvoicePackageDetailDTO {
     <div class="modal-body">
       <p *ngIf='!empty'>
         <strong>Bạn chắc chắn muốn {{action}} những yêu cầu này?</strong>
+        <br>
+        <br>
+        <label>Lý do hủy: </label>
         <input *ngIf="action === 'từ chối'" ([ngModel])="note" type="text">
+        <br>
       </p>
       <p *ngIf="empty">
       <strong>Bạn chưa lựa chọn hóa đơn nào!</strong>
