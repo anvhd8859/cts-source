@@ -9,6 +9,7 @@ import { CommonString } from 'app/shared';
 import { InvoiceHeaderService } from '../invoice-header/invoice-header.service';
 import { HttpHeaders } from '@angular/common/http';
 import { JhiParseLinks } from 'ng-jhipster';
+import { Principal } from 'app/core';
 
 @Component({
     selector: 'jhi-warehouse-detail',
@@ -27,25 +28,29 @@ export class WarehouseDetailComponent implements OnInit {
     previousPage: any;
     reverse: any;
     id: any;
+    account: any;
 
     constructor(
         private activatedRoute: ActivatedRoute,
         private invoiceService: InvoiceHeaderService,
         private warehouseService: WarehouseService,
         private router: Router,
-        private parseLinks: JhiParseLinks
+        private parseLinks: JhiParseLinks,
+        private principal: Principal
     ) {}
 
     ngOnInit() {
         this.itemsPerPage = 50;
         this.common = new CommonString();
-        this.id = this.activatedRoute.snapshot.paramMap.get('id');
         this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
             this.previousPage = data.pagingParams.page;
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
-            this.warehouseService.find(this.id).subscribe(res => {
+        });
+        this.principal.identity().then(account => {
+            this.account = account;
+            this.warehouseService.findWarehouseByEmployee(account.id).subscribe(res => {
                 this.warehouse = res.body;
                 this.loadAll();
             });
@@ -91,7 +96,7 @@ export class WarehouseDetailComponent implements OnInit {
     }
 
     transition() {
-        this.router.navigate(['/warehouse/' + this.id + '/view'], {
+        this.router.navigate(['/warehouse-detail'], {
             queryParams: {
                 page: this.page,
                 size: this.itemsPerPage,

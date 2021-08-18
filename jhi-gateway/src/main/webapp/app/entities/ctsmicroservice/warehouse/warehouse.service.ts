@@ -52,9 +52,15 @@ export class WarehouseService {
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
+
     getWarehouseByOffice(id: number): Observable<EntityResponseType> {
         return this.http.get<any>(`${this.resourceUrl}/office/${id}`, { observe: 'response' });
     }
+
+    findWarehouseByEmployee(id: number): Observable<EntityResponseType> {
+        return this.http.get<any>(`${this.resourceUrl}/keeper/${id}`, { observe: 'response' });
+    }
+
     private convertDateFromClient(warehouse: IWarehouse): IWarehouse {
         const copy: IWarehouse = Object.assign({}, warehouse, {
             createDate: warehouse.createDate != null && warehouse.createDate.isValid() ? warehouse.createDate.toJSON() : null,

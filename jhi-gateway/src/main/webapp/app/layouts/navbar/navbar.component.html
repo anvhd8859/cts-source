@@ -100,6 +100,12 @@
                         </a>
                     </li>
                     <li>
+                        <a class="dropdown-item" routerLink="warehouse-detail" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'warehouse'" [fixedWidth]="true"></fa-icon>
+                            <span>Xem chi tiết kho hàng</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="dropdown-item" routerLink="warehouse-transfer-request" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'file-import'" [fixedWidth]="true"></fa-icon>
                             <span>Nhập đơn hàng vào kho</span>

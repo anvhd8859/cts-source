@@ -24,4 +24,6 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
 	Warehouse getWarehouseByKeeperId(@Param("id") Long fromKeeperId);
 
 	Warehouse findDistinctByOfficeId(Long officeId);
+
+	Warehouse findDistinctByKeeperId(Long keeperId);
 }

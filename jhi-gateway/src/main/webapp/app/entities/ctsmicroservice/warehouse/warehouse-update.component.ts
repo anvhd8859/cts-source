@@ -60,7 +60,8 @@ export class WarehouseUpdateComponent implements OnInit {
             this.createDate = this.warehouse.createDate != null ? this.warehouse.createDate.format(DATE_TIME_FORMAT) : null;
             this.updateDate = this.warehouse.updateDate != null ? this.warehouse.updateDate.format(DATE_TIME_FORMAT) : null;
         });
-        forkJoin(this.accountService.getLstCity(), this.officeService.query({ page: 0, size: 999 })).subscribe(res => {
+        // available
+        forkJoin(this.accountService.getLstCity(), this.officeService.getAvailableOffice()).subscribe(res => {
             this.lstProvinceFrom = res[0].body;
             this.offices = res[1].body;
         });
@@ -75,13 +76,8 @@ export class WarehouseUpdateComponent implements OnInit {
         if (!msg) {
             this.isSaving = true;
             this.warehouse.officeId = this.selectedOffice.id;
-            this.warehouse.address = this.selectedOffice.address;
-            this.warehouse.streetId = this.selectedOffice.streetId;
-            if (this.warehouse.id !== undefined) {
-                this.subscribeToSaveResponse(this.warehouseService.update(this.warehouse));
-            } else {
-                this.subscribeToSaveResponse(this.warehouseService.create(this.warehouse));
-            }
+            this.warehouse.keeperId = this.selectedUser.id;
+            this.subscribeToSaveResponse(this.warehouseService.create(this.warehouse));
         } else {
             window.scroll(0, 0);
             this.alertService.error(msg);

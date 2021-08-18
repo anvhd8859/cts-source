@@ -48,4 +48,6 @@ public interface WarehouseService {
     List<WarehouseDetailDTO> getAllWarehousesDetail();
 
 	WarehouseDTO getWarehouseByOffice(Long id);
+
+    WarehouseDTO findWarehouseByEmployee(Long id);
 }
