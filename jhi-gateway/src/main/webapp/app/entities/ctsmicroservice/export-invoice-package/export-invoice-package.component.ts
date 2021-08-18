@@ -58,6 +58,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
     selectedCheckBox: boolean[] = [];
     listWarehouse: IWarehouse[];
     selectedWarehouse: IWarehouse;
+    myWarehouse: IWarehouse;
 
     constructor(
         private exportInvoicePackageService: ExportInvoicePackageService,
@@ -82,9 +83,20 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.principal.identity().then(account => {
             this.currentAccount = account;
-            forkJoin(this.accountService.findByUserID({ id: this.currentAccount.id }), this.warehouseService.query()).subscribe(res => {
+            forkJoin(
+                this.accountService.findByUserID({ id: this.currentAccount.id }),
+                this.warehouseService.query(),
+                this.warehouseService.findWarehouseByEmployee(account.id)
+            ).subscribe(res => {
                 this.officeId = res[0].body.officeId;
                 this.listWarehouse = res[1].body;
+                this.myWarehouse = res[2].body;
+                for (const i in this.listWarehouse) {
+                    if (this.listWarehouse[i].id === this.myWarehouse.id) {
+                        const index = Number.parseInt(i);
+                        this.listWarehouse.slice(index, 1);
+                    }
+                }
                 this.loadAll();
             });
         });
