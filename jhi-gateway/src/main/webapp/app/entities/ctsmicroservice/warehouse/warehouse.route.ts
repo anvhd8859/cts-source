@@ -37,14 +37,14 @@ export const warehouseRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'warehouse/:id/view',
+        path: 'warehouse-detail',
         component: WarehouseDetailComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'CTS: Quản lý kho hàng'
+            authorities: ['ROLE_ADMIN', 'ROLE_KEEPER'],
+            pageTitle: 'CTS: Xem chi tiết kho hàng'
         },
         canActivate: [UserRouteAccessService]
     },
