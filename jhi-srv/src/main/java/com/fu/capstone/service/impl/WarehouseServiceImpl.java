@@ -116,12 +116,20 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public List<WarehouseDetailDTO> getAllWarehousesDetail() {
 		List<WarehouseDetailDTO> rs = new ArrayList<>();
 		List<Warehouse> warehouseList = warehouseRepository.findAll();
-		Map<Long, Office> officeMap = officeRepository.findAll().stream().collect(Collectors.toMap(Office::getId, Function.identity()));
+		List<Long> idList = new ArrayList<>();
 		warehouseList.forEach(w -> {
-			WarehouseDetailDTO object = new WarehouseDetailDTO();
-			object.setWarehouseDTO(warehouseMapper.toDto(w));
-			object.setOfficeName(officeMap.get(w.getOfficeId()).getOfficeName());
-			rs.add(object);
+			idList.add(w.getOfficeId());
+		});
+		List<Office> officeList = officeRepository.getAllByIdList(idList);
+		Map<Long, Office> officeMap = officeList.stream().collect(Collectors.toMap(Office::getId, Function.identity()));
+		warehouseList.forEach(w -> {
+			WarehouseDetailDTO dto = new WarehouseDetailDTO();
+			Long id = w.getOfficeId();
+			if (officeMap.containsKey(id)) {
+				dto.setWarehouseDTO(warehouseMapper.toDto(w));
+				dto.setOfficeName(officeMap.get(id).getOfficeName());
+			}
+			rs.add(dto);
 		});
 		return rs;
 	}

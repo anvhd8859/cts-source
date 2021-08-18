@@ -42,7 +42,7 @@
                                 </td>
                                 <td>{{common.processInvoiceStatus(object.invoiceHeader.status)}} </td>
                                 <td>{{object.requestDetails.status? 'Đã nhận' : 'Từ chối'}} </td>
-                                <td>{{object.requestDetails.note}} </td>
+                                <td>{{object.requestDetails.note? object.requestDetails.note : ''}} </td>
                             </tr>
                         </tbody>
                     </table>
@@ -54,8 +54,12 @@
                     </h4>
                 </div>
                 <br>
-
+                <br>
+                <br>
+                <br>
             </div>
+            <br>
+            <br>
         </div>
     </div>
 </div>

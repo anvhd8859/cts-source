@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 /**
  * Spring Data  repository for the Office entity.
@@ -27,4 +29,6 @@ public interface OfficeRepository extends JpaRepository<Office, Long> {
 	Office searchOfficeNearby(@Param("streetId") Long streetId, @Param("subDistrictId") Long subDistrictId,
 			@Param("districtId") Long districtId);
 
+	@Query(value = "SELECT o FROM Office o WHERE o.id IN (:id)")
+	List<Office> getAllByIdList(@Param("id") List<Long> idList);
 }
