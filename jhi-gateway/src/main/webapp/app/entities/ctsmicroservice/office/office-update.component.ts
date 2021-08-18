@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
@@ -51,8 +51,11 @@ export class OfficeUpdateComponent implements OnInit {
             this.lstProvinceFrom = res.body;
         });
         if (this.office.id) {
-            this.accountService.getStreetAndParentById({ id: this.office.streetId }).subscribe(res => {
-                this.selectedStreetFrom = res.body;
+            forkJoin(
+                this.accountService.getStreetAndParentById({ id: this.office.streetId }),
+                this.accountService.getLstDistrictByCity({ provinceId: this.selectedProvinceFrom.id })
+            ).subscribe(res => {
+                this.selectedStreetFrom = res[0].body;
                 this.selectedSubDistrictFrom = this.selectedStreetFrom.subDistrictId;
                 this.selectedDistrictFrom = this.selectedSubDistrictFrom.districtId;
                 this.selectedProvinceFrom = this.selectedDistrictFrom.provinceId;
