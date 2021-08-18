@@ -1,3 +1,5 @@
+import { WarehouseService } from 'app/entities/ctsmicroservice/warehouse/warehouse.service';
+import { Warehouse } from 'app/shared/model/ctsmicroservice/warehouse.model';
 import { IWarehouse } from './../../../shared/model/ctsmicroservice/warehouse.model';
 import { CommonString } from './../../../shared/util/request-util';
 import { AccountService } from './../../../core/auth/account.service';
@@ -6,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ITEMS_PER_PAGE } from './../../../shared/constants/pagination.constants';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { IExportInvoicePackage } from 'app/shared/model/ctsmicroservice/export-invoice-package.model';
@@ -59,6 +61,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
 
     constructor(
         private exportInvoicePackageService: ExportInvoicePackageService,
+        private warehouseService: WarehouseService,
         private accountService: AccountService,
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
@@ -76,7 +79,22 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
         });
     }
 
+    ngOnInit() {
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+            forkJoin(this.accountService.findByUserID({ id: this.currentAccount.id }), this.warehouseService.query()).subscribe(res => {
+                this.officeId = res[0].body.officeId;
+                this.listWarehouse = res[1].body;
+                this.loadAll();
+            });
+        });
+        this.registerChangeInExportInvoicePackages();
+    }
+
     loadAll() {
+        if (!this.selectedWarehouse) {
+            this.selectedWarehouse = this.listWarehouse[0];
+        }
         const param = {
             id: this.officeId,
             wid: this.selectedWarehouse.id,
@@ -215,17 +233,6 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
             }
         ]);
         this.loadAll();
-    }
-
-    ngOnInit() {
-        this.principal.identity().then(account => {
-            this.currentAccount = account;
-            this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(res => {
-                this.officeId = res.body.officeId;
-                this.loadAll();
-            });
-        });
-        this.registerChangeInExportInvoicePackages();
     }
 
     ngOnDestroy() {

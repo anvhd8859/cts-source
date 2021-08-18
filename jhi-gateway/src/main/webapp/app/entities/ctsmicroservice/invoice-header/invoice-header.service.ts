@@ -129,7 +129,7 @@ export class InvoiceHeaderService {
     }
 
     getInvoiceByWarehouse(options?: any): Observable<HttpResponse<any>> {
-        return this.http.get<any>(this.userResourceUrl + '/warehouse', { params: options, observe: 'response' });
+        return this.http.get<any>(this.resourceUrl + '/warehouse', { params: options, observe: 'response' });
     }
 
     private convertDateFromClient(invoiceHeader: IInvoiceHeader): IInvoiceHeader {

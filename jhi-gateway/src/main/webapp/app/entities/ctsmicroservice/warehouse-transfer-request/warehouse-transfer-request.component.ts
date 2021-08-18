@@ -1,3 +1,6 @@
+import { IUserProfile } from './../../../shared/model/user-profile.model';
+import { AccountService } from './../../../core/auth/account.service';
+import { IUser } from './../../../core/user/user.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
@@ -17,7 +20,8 @@ import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 })
 export class WarehouseTransferRequestComponent implements OnInit, OnDestroy {
     warehouseTransferRequests: TransferInvoicePackageDTO[];
-    currentAccount: any;
+    currentAccount: IUser;
+    profile: IUserProfile;
     eventSubscriber: Subscription;
     links: any;
     totalItems: any;
@@ -33,6 +37,7 @@ export class WarehouseTransferRequestComponent implements OnInit, OnDestroy {
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
         private activatedRoute: ActivatedRoute,
+        private accountService: AccountService,
         private router: Router,
         private eventManager: JhiEventManager,
         private principal: Principal
@@ -47,7 +52,7 @@ export class WarehouseTransferRequestComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.warehouseTransferRequestService.getWarehouseTransferByOffice().subscribe(
+        this.warehouseTransferRequestService.getWarehouseTransferByOffice({ id: this.profile.officeId }).subscribe(
             (res: HttpResponse<any>) => {
                 this.paginateData(res.body, res.headers);
             },
@@ -56,9 +61,12 @@ export class WarehouseTransferRequestComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
         this.principal.identity().then(account => {
             this.currentAccount = account;
+            this.accountService.findByUserID({ id: account.id }).subscribe(profile => {
+                this.profile = profile.body;
+                this.loadAll();
+            });
         });
         this.registerChangeInWarehouseTransferRequests();
     }

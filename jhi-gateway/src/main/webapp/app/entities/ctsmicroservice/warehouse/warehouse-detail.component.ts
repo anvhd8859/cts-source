@@ -60,7 +60,7 @@ export class WarehouseDetailComponent implements OnInit {
     loadAll() {
         const param = {
             id: this.warehouse.id,
-            page: this.page,
+            page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         };
