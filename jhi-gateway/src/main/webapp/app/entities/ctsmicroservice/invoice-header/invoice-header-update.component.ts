@@ -276,7 +276,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 }
             }
         }
-        if (this.invoiceHeader.note.length > 100) {
+        if (this.invoiceHeader.note && this.invoiceHeader.note.length > 100) {
             msg += 'Mục Ghi chú khách hàng không thể vượt quá 100 kí tự! <br>';
         }
         if (!(this.invoiceHeader.receiverName && this.invoiceHeader.receiverName.trim() !== '')) {

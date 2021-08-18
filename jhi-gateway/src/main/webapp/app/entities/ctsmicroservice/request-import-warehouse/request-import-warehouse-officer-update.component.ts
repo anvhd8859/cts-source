@@ -69,6 +69,7 @@ export class RequestImportWarehouseOfficerUpdateComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.common = new CommonString();
         this.selectedTypeShipment = this.common.listTypeShipment[0].id;
         this.isSaving = false;
         this.itemsPerPage = 50;

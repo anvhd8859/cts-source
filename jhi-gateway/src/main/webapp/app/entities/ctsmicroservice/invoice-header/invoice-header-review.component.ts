@@ -187,6 +187,7 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.common = new CommonString();
         this.principal.identity().then(account => {
             this.currentAccount = account;
             this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(profile => {
