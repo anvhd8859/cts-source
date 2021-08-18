@@ -193,6 +193,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
 
     createTransferData() {
         let transfer: IWarehouseTransferRequest;
+        transfer = new Object();
         transfer.fromKeeperId = this.currentAccount.id;
         transfer.toWarehouseId = this.selectedWarehouse.id;
         transfer.toKeeperId = this.selectedWarehouse.keeperId;
