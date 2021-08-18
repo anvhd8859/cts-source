@@ -126,10 +126,20 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
                         } else {
                             this.requestDetailsList[i].requestDetails.keeperConfirm = true;
                             this.requestDetailsList[i].requestDetails.status = false;
+                            if (
+                                !(
+                                    this.requestDetailsList[i].requestDetails.note &&
+                                    this.requestDetailsList[i].requestDetails.note.trim() !== ''
+                                )
+                            ) {
+                                check = false;
+                            }
                         }
                     }
-                    ieRequestDetail.requestDetailsList = this.requestDetailsList;
-                    this.subscribeToSaveResponse(this.importExportWarehouseService.approveIERequest(ieRequestDetail));
+                    if (check) {
+                        ieRequestDetail.requestDetailsList = this.requestDetailsList;
+                        this.subscribeToSaveResponse(this.importExportWarehouseService.approveIERequest(ieRequestDetail));
+                    }
                 } else {
                     this.subscribeToSaveResponse(this.importExportWarehouseService.rejectIERequest(ieRequestDetail));
                 }
