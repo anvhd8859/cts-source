@@ -93,6 +93,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 	@Override
 	public void delete(Long id) {
 		log.debug("Request to delete Warehouse : {}", id);
+		Warehouse w = warehouseRepository.getOne(id);
+		Office o = officeRepository.getOne(w.getOfficeId());
+		o.setUpdateDate(null);
+		officeRepository.save(o);
 		warehouseRepository.deleteById(id);
 	}
 
