@@ -150,4 +150,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public List<WarehouseDTO> findWarehouseExceptEmployee(Long id) {
 		return warehouseMapper.toDto(warehouseRepository.findWarehouseExceptEmployee(id));
 	}
+
+	@Override
+	public WarehouseDTO findWarehouseByEmployee(Long id) {
+		return warehouseMapper.toDto(warehouseRepository.findDistinctByKeeperId(id));
+	}
 }

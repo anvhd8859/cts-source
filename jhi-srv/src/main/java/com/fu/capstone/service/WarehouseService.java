@@ -50,4 +50,6 @@ public interface WarehouseService {
 	WarehouseDTO getWarehouseByOffice(Long id);
 
     List<WarehouseDTO> findWarehouseExceptEmployee(Long id);
+
+    WarehouseDTO findWarehouseByEmployee(Long id);
 }

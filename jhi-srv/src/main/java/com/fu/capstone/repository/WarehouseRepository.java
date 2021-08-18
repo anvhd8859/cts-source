@@ -28,4 +28,6 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
 
 	@Query(value = "SELECT w FROM Warehouse w WHERE w.keeperId <> :id")
 	List<Warehouse> findWarehouseExceptEmployee(@Param("id") Long keeperId);
+
+	Warehouse findDistinctByKeeperId(Long keeperId);
 }
