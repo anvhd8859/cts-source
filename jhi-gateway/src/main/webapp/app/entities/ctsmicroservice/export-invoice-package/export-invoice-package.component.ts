@@ -166,6 +166,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
 
     exportAll() {
         let empty = false;
+        this.finalData = new TransferInvoicePackageDTO();
         this.finalData.invoicePackageList = new Array();
         for (const i in this.selectedCheckBox) {
             if (this.selectedCheckBox[i]) {
