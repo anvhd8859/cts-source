@@ -53,7 +53,6 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     selectedUserProfile: IUserProfile;
     lstInvStatus: any = new CommonString().listStatusInvoice;
     lstCollect: any = [{ id: '1', text: 'Lấy hàng tại nhà' }, { id: '0', text: 'Mang hàng đến bưu cục' }];
-    selectedCollect = 0;
     lstPayer: any = [{ id: '0', text: 'Người gửi thanh toán' }, { id: '1', text: 'Người nhận thanh toán' }];
     selectedPayer: any;
     createPackage: PackageDetailsDTO[] = [];
@@ -193,7 +192,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             if (this.invoiceHeader.id !== undefined) {
                 this.subscribeToSaveResponse(this.invoiceHeaderService.updateExistedInvoice(postObject));
             } else {
-                this.subscribeToSaveResponse(this.invoiceHeaderService.createNewInvoice(postObject, this.selectedCollect));
+                this.subscribeToSaveResponse(this.invoiceHeaderService.createNewInvoice(postObject, 0));
             }
         } else {
             window.scroll(0, 0);
@@ -295,9 +294,6 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         }
         if (!this.selectedPayer) {
             msg += 'Mục Lựa chọn thanh toán không được để Trống! <br>';
-        }
-        if (!this.selectedCollect) {
-            msg += 'Mục Hình thức kí gửi không được để Trống! <br>';
         }
         this.invoiceHeader.invoiceType = 'personal';
         return msg;
