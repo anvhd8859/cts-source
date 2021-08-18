@@ -1,64 +1,57 @@
 <div>
     <h2 id="page-heading">
         <br>
-<br>
-        <span>Văn phòng</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-office" [routerLink]="['/office/new']">
+        <br>
+        <span style="font-weight: 600;">Văn phòng</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-office"
+            [routerLink]="['/office/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-            Tạo Văn phòng
+            <span>
+                Tạo Văn phòng
             </span>
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    <br/>
-    <div class="table-responsive" *ngIf="offices">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-            <th><span>Mã số</span></th>
-            <th><span>Tên Văn phòng</span></th>
-            <th><span>Địa chỉ</span></th>
-            <th><span>Mã Đường/Phố</span></th>
-            <th><span>Ngày khởi tạo</span></th>
-            <th><span>Ngày cập nhật</span></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let office of offices ;trackBy: trackId">
-                <td><a [routerLink]="['/office', office.id, 'view' ]">{{office.id}}</a></td>
-                <td>{{office.officeName}}</td>
-                <td>{{office.address}}</td>
-                <td>{{office.streetId}}</td>
-                <td>{{office.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                <td>{{office.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/office', office.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">Chi tiết</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/office', office.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Sửa</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'office/'+ office.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Xóa</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <br />
+    <div class="col-8">
+        <div class="table-responsive" *ngIf="offices">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th><span>Mã số</span></th>
+                        <th><span>Tên Văn phòng</span></th>
+                        <th><span>Địa chỉ</span></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let office of offices ;trackBy: trackId">
+                        <td><a [routerLink]="['/office', office.id, 'view' ]">{{office.id}}</a></td>
+                        <td>{{office.officeName}}</td>
+                        <td>{{office.address}}</td>
+                        <td class="text-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="submit" [routerLink]="['/office', office.id, 'view' ]"
+                                    class="btn btn-info btn-sm">
+                                    <fa-icon [icon]="'eye'"></fa-icon>
+                                    <span class="d-none d-md-inline">Chi tiết</span>
+                                </button>
+                                <button type="submit" [routerLink]="['/office', office.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                    <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                    <span class="d-none d-md-inline">Sửa</span>
+                                </button>
+                                <button type="submit"
+                                    [routerLink]="['/', { outlets: { popup: 'office/'+ office.id + '/delete'} }]"
+                                    replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                    <span class="d-none d-md-inline">Xóa</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

@@ -31,7 +31,7 @@ export const officeRoute: Routes = [
         component: OfficeComponent,
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Offices'
+            pageTitle: 'CTS: Quản lý văn phòng'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -43,7 +43,7 @@ export const officeRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Offices'
+            pageTitle: 'CTS: Quản lý văn phòng'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -55,7 +55,7 @@ export const officeRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Offices'
+            pageTitle: 'CTS: Quản lý văn phòng'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -67,7 +67,7 @@ export const officeRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Offices'
+            pageTitle: 'CTS: Quản lý văn phòng'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -82,7 +82,7 @@ export const officePopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Offices'
+            pageTitle: 'CTS: Quản lý văn phòng'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

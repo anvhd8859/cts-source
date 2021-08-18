@@ -103,7 +103,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
             id: this.officeId,
             wid: this.selectedWarehouse.id,
             invNo: this.selectedInvoiceNo ? this.selectedInvoiceNo : '',
-            status: this.selectedInvoiceStatus.id,
+            status: this.selectedInvoiceStatus,
             fromDate: this.fromTime ? this.fromTime.year() + '-' + (this.fromTime.month() + 1) + '-' + this.fromTime.date() : '',
             toDate: this.toTime ? this.toTime.year() + '-' + (this.toTime.month() + 1) + '-' + this.toTime.date() : '',
             page: this.page - 1,
