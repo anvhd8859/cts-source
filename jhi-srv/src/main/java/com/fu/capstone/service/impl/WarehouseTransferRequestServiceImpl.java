@@ -205,10 +205,15 @@ public class WarehouseTransferRequestServiceImpl implements WarehouseTransferReq
 		rs.setUpdateDate(instant);
 
 		List<PersonalShipment> psList = personalShipmentRepository.getDeliveryShipmentByHeaderIds( invoiceIds);
+		psList.forEach(personalShipment -> {
+			personalShipment.setStatus("new");
+			personalShipment.setUpdateDate(instant);
+		});
 
 		transferDetailsRepository.saveAll(transferDetailsMapper.toEntity(tdList));
 		invoiceHeaderRepository.saveAll(invoiceHeaderMapper.toEntity(ihList));
 		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(ipList));
+		personalShipmentRepository.saveAll(psList);
 		return warehouseTransferRequestMapper.toDto(warehouseTransferRequestRepository.save(rs));
 	}
 
