@@ -5,7 +5,7 @@
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-receiptnote-heading">Tạo biên nhận cho khách hàng</h2>
             <div>
-                <jhi-alert-error></jhi-alert-error>
+                <jhi-alert></jhi-alert>
                 <div class="form-group" [hidden]="!receiptnote.id">
                     <label for="id">Mã số</label>
                     <input type="text" class="form-control" id="id" name="id" [(ngModel)]="receiptnote.id" readonly />

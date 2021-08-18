@@ -16,6 +16,7 @@ import { InvoiceDetails } from 'app/shared/model/ctsmicroservice/invoice-details
 import { PackageDetailsDTO } from '..';
 import { IPersonalShipment } from 'app/shared/model/ctsmicroservice/personal-shipment.model';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { JhiAlertService } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-receiptnote-update',
@@ -56,7 +57,8 @@ export class ReceiptnoteUpdateComponent implements OnInit {
         private principal: Principal,
         private imageCompress: NgxImageCompressService,
         private imageService: ReceiptImageService,
-        private accountService: AccountService
+        private accountService: AccountService,
+        private alertService: JhiAlertService
     ) {
         this.cal = new CalculateShipFee();
         this.receiptnote = new Receiptnote();
@@ -183,91 +185,96 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     }
 
     save() {
-        let wei = 0;
-        for (const obj of this.createPackage) {
-            wei += obj.invPackage.weight;
-        }
-        if (this.createPackage.length > 0 && wei > 0) {
-            if (this.currentUser.authorities.find(e => e === 'ROLE_SHIPPER')) {
-                console.log('shipper');
-                this.isSaving = true;
-                if (this.personalShipment.shipmentType === 'collect') {
-                    this.data = new CustomReceipt();
-                    this.receiptnote.receiptType = true;
-                    this.data.receipt = this.receiptnote;
-                    for (const obj of this.createPackage) {
-                        this.data.packageList.push(obj);
-                    }
-                    if (!this.invoiceHeader.receiverPay) {
-                        this.data.pay = true;
-                        this.data.payAmount = this.invoiceHeader.totalDue.toString();
-                    }
-                    this.receiptnoteService.createReceiptNoteAndShipmentInvoice(this.data).subscribe(
-                        (res: HttpResponse<IReceiptnote>) => {
-                            if (typeof this.sendImage(res.body.id) !== typeof HttpErrorResponse) {
-                                this.sendEmail(res.body);
-                                this.isSaving = false;
-                                this.route.navigate([`/receiptnote/${this.invId}/view`]);
-                            }
-                        },
-                        (res: HttpErrorResponse) => {
-                            this.onSaveError();
-                        }
-                    );
-                } else {
-                    this.data = new CustomReceipt();
-                    this.receiptnote.receiptType = false;
-                    this.data.receipt = this.receiptnote;
-                    for (const obj of this.createPackage) {
-                        this.data.packageList.push(obj);
-                    }
-                    if (this.invoiceHeader.receiverPay) {
-                        this.data.pay = true;
-                        this.data.payAmount = this.invoiceHeader.totalDue.toString();
-                    }
-                    this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
-                        (res: HttpResponse<IReceiptnote>) => {
-                            if (typeof this.sendImage(res.body.id) !== typeof HttpErrorResponse) {
-                                this.sendEmail(res.body);
-                                this.isSaving = false;
-                                this.route.navigate([`/receiptnote/${this.invId}/view`]);
-                            }
-                        },
-                        (res: HttpErrorResponse) => {
-                            this.onSaveError();
-                        }
-                    );
-                }
-                this.isSaving = false;
-            } else {
-                console.log('officer');
-                this.receiptnote.note = this.receiptnote.note ? this.receiptnote.note : '';
-                this.receiptnote.note += ' Nhận hàng từ khách tại văn phòng';
-                this.invoiceHeader.officeId = this.currentProfile.officeId;
-                this.invoiceService.update(this.invoiceHeader).subscribe(response => {
-                    this.data = new CustomReceipt();
-                    this.receiptnote.receiptType = true;
-                    this.data.receipt = this.receiptnote;
-                    if (!this.invoiceHeader.receiverPay) {
-                        this.data.pay = true;
-                        this.data.payAmount = this.invoiceHeader.totalDue.toString();
-                    }
-                    for (const obj of this.createPackage) {
-                        obj.invPackage.status = 'first_import';
-                        this.data.packageList.push(obj);
-                    }
-                    this.receiptnoteService.createReceiptByOfficer(this.data).subscribe(
-                        (res: HttpResponse<IReceiptnote>) => {
-                            this.sendEmail(res.body);
-                            this.isSaving = false;
-                            this.route.navigate([`/receiptnote/${this.invId}/view`]);
-                        },
-                        (res: HttpErrorResponse) => {
-                            this.onSaveError();
-                        }
-                    );
-                });
+        if (this.sizeOFCompressedImage) {
+            let wei = 0;
+            for (const obj of this.createPackage) {
+                wei += obj.invPackage.weight;
             }
+            if (this.createPackage.length > 0 && wei > 0) {
+                if (this.currentUser.authorities.find(e => e === 'ROLE_SHIPPER')) {
+                    console.log('shipper');
+                    this.isSaving = true;
+                    if (this.personalShipment.shipmentType === 'collect') {
+                        this.data = new CustomReceipt();
+                        this.receiptnote.receiptType = true;
+                        this.data.receipt = this.receiptnote;
+                        for (const obj of this.createPackage) {
+                            this.data.packageList.push(obj);
+                        }
+                        if (!this.invoiceHeader.receiverPay) {
+                            this.data.pay = true;
+                            this.data.payAmount = this.invoiceHeader.totalDue.toString();
+                        }
+                        this.receiptnoteService.createReceiptNoteAndShipmentInvoice(this.data).subscribe(
+                            (res: HttpResponse<IReceiptnote>) => {
+                                if (typeof this.sendImage(res.body.id) !== typeof HttpErrorResponse) {
+                                    this.sendEmail(res.body);
+                                    this.isSaving = false;
+                                    this.route.navigate([`/receiptnote/${this.invId}/view`]);
+                                }
+                            },
+                            (res: HttpErrorResponse) => {
+                                this.onSaveError();
+                            }
+                        );
+                    } else {
+                        this.data = new CustomReceipt();
+                        this.receiptnote.receiptType = false;
+                        this.data.receipt = this.receiptnote;
+                        for (const obj of this.createPackage) {
+                            this.data.packageList.push(obj);
+                        }
+                        if (this.invoiceHeader.receiverPay) {
+                            this.data.pay = true;
+                            this.data.payAmount = this.invoiceHeader.totalDue.toString();
+                        }
+                        this.receiptnoteService.createReceiptNoteAndFinishInvoice(this.data).subscribe(
+                            (res: HttpResponse<IReceiptnote>) => {
+                                if (typeof this.sendImage(res.body.id) !== typeof HttpErrorResponse) {
+                                    this.sendEmail(res.body);
+                                    this.isSaving = false;
+                                    this.route.navigate([`/receiptnote/${this.invId}/view`]);
+                                }
+                            },
+                            (res: HttpErrorResponse) => {
+                                this.onSaveError();
+                            }
+                        );
+                    }
+                    this.isSaving = false;
+                } else {
+                    console.log('officer');
+                    this.receiptnote.note = this.receiptnote.note ? this.receiptnote.note : '';
+                    this.receiptnote.note += ' Nhận hàng từ khách tại văn phòng';
+                    this.invoiceHeader.officeId = this.currentProfile.officeId;
+                    this.invoiceService.update(this.invoiceHeader).subscribe(response => {
+                        this.data = new CustomReceipt();
+                        this.receiptnote.receiptType = true;
+                        this.data.receipt = this.receiptnote;
+                        if (!this.invoiceHeader.receiverPay) {
+                            this.data.pay = true;
+                            this.data.payAmount = this.invoiceHeader.totalDue.toString();
+                        }
+                        for (const obj of this.createPackage) {
+                            obj.invPackage.status = 'first_import';
+                            this.data.packageList.push(obj);
+                        }
+                        this.receiptnoteService.createReceiptByOfficer(this.data).subscribe(
+                            (res: HttpResponse<IReceiptnote>) => {
+                                this.sendEmail(res.body);
+                                this.isSaving = false;
+                                this.route.navigate([`/receiptnote/${this.invId}/view`]);
+                            },
+                            (res: HttpErrorResponse) => {
+                                this.onSaveError();
+                            }
+                        );
+                    });
+                }
+            }
+        } else {
+            window.scroll(0, 0);
+            this.alertService.error('Chưa có ảnh chụp giao nhận gói hàng');
         }
     }
 

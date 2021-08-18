@@ -46,8 +46,6 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
         });
         this.common = new CommonString();
         this.activatedRoute.data.subscribe(({ importExportWarehouse }) => {
-            console.log('0000000');
-            console.log(importExportWarehouse);
             this.importExportWarehouse = importExportWarehouse;
             this.requestDetailsService.getRequestDetailsByHeaderId({ id: importExportWarehouse.id }).subscribe(res => {
                 this.requestDetailsList = res.body;
@@ -120,6 +118,7 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
                 this.importExportWarehouse.note = result;
                 ieRequestDetail.importExportWarehouse = this.importExportWarehouse;
                 if (id === 1) {
+                    let check = true;
                     for (let i in this.selectedCheckBox) {
                         if (this.selectedCheckBox[i]) {
                             this.requestDetailsList[i].requestDetails.keeperConfirm = true;
