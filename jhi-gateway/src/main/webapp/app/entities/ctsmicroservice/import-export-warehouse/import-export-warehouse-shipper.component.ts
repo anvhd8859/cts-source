@@ -108,7 +108,7 @@ export class ImportExportWarehouseShipperComponent implements OnInit, OnDestroy 
     }
 
     transition() {
-        this.router.navigate(['/import-export-warehouse-shipper'], {
+        this.router.navigate(['/import-export-warehouse-employee'], {
             queryParams: {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -121,7 +121,7 @@ export class ImportExportWarehouseShipperComponent implements OnInit, OnDestroy 
     clear() {
         this.page = 0;
         this.router.navigate([
-            '/import-export-warehouse-shipper',
+            '/import-export-warehouse-employee',
             {
                 page: this.page,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
