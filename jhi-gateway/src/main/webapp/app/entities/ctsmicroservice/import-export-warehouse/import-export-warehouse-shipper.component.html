@@ -55,8 +55,6 @@
             <thead>
                 <tr>
                     <th><span>#</span></th>
-                    <th><span>Mã nhân viên</span></th>
-                    <th><span>Tên nhân viên</span></th>
                     <th><span>Loại yêu cầu</span></th>
                     <th><span>Tình trạng</span></th>
                     <th><span>Ghi chú</span></th>
@@ -67,8 +65,6 @@
             <tbody>
                 <tr *ngFor="let importExportWarehouse of importExportWarehouses">
                     <td><a>{{importExportWarehouse.id}}</a></td>
-                    <td>{{importExportWarehouse.employeeId}}</td>
-                    <td>{{getName(importExportWarehouse.employeeId)}}</td>
                     <td>{{importExportWarehouse.type === 'import' ? 'Nhập kho' : 'Xuất kho'}}</td>
                     <td>{{importExportWarehouse.keeperConfirm ? 'Đã xác nhận' : 'Chưa xác nhận'}}</td>
                     <td>{{importExportWarehouse.note === '' ? '' : 'Nhập kho' }} {{importExportWarehouse.note}}</td>
