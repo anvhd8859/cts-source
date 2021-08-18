@@ -132,6 +132,7 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 		List<RequestDetailInvoiceDTO> rs = new ArrayList<>();
 		for (RequestDetails rd : list) {
 			RequestDetailInvoiceDTO dto = new RequestDetailInvoiceDTO();
+			dto.setRequestDetails(requestDetailsMapper.toDto(rd));
 			dto.setInvoiceHeader(invoiceHeaderMapper.toDto(invoiceHeaderRepository.getInvoiceByShipmentId(rd.getInvoicePackageId())));
 			dto.setPackageList(invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(rd.getInvoicePackageId())));
 			rs.add(dto);
