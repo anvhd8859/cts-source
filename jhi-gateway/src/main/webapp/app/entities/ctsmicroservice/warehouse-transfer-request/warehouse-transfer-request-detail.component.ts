@@ -85,7 +85,6 @@ export class WarehouseTransferRequestDetailComponent implements OnInit {
                     const closeResult = result;
                     if (closeResult.startsWith('OK')) {
                         const data = new Array();
-                        data.push;
                         for (const i in this.selectedCheckBox) {
                             const rd = this.invoicePackageShipments[i];
                             if (this.selectedCheckBox[i]) {
