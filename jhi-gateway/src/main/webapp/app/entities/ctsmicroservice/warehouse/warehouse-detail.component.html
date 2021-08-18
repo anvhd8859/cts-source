@@ -22,11 +22,11 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let object of invoices">
-                                <td>{{object.invoiceHeader.invoiceNo}} </td>
-                                <td> {{object.invoicePackageList.length}} </td>
-                                <td>{{totalWeight(object.invoicePackageList)}}</td>
+                                <td>{{object.invoice.invoiceNo}} </td>
+                                <td> {{object.packageList.length}} </td>
+                                <td>{{totalWeight(object.packageList)}}</td>
                                 <td>
-                                    <span *ngFor="let pk of object.invoicePackageList ; let pi = index">
+                                    <span *ngFor="let pk of object.packageList ; let pi = index">
                                         #{{pi}}: {{pk.length}}(cm) x {{pk.width}}(cm) x {{pk.height}}(cm):
                                         {{pk.weight}}(g) <br />
                                     </span>
@@ -34,7 +34,7 @@
                                 <td class="text-right">
                                     <div class="btn-group flex-btn-group-container">
                                         <button type="submit"
-                                            [routerLink]="['/invoice-header', object.invoiceHeader.id, 'view']"
+                                            [routerLink]="['/invoice-header', object.invoice.id, 'view']"
                                             class="btn btn-info btn-sm">
                                             <fa-icon [icon]="'eye'"></fa-icon>
                                             <span class="d-none d-md-inline">Chi tiết</span>
@@ -46,14 +46,13 @@
                     </table>
                 </div>
             </div>
-
+            <br>
+            <br>
             <button type="submit" (click)="previousState()" class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;&nbsp;<span> Quay lại</span>
             </button>
-
-            <button type="button" [routerLink]="['/warehouse', warehouse.id, 'edit']" class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;&nbsp;<span> Chỉnh sửa</span>
-            </button>
+            <br>
+            <br>
         </div>
     </div>
 </div>

@@ -57,7 +57,7 @@ export class WarehouseService {
         return this.http.get<any>(`${this.resourceUrl}/office/${id}`, { observe: 'response' });
     }
 
-    findWarehouseByEmployee(id: number): Observable<EntityResponseType> {
+    findWarehouseExceptEmployee(id: number): Observable<EntityArrayResponseType> {
         return this.http.get<any>(`${this.resourceUrl}/keeper/${id}`, { observe: 'response' });
     }
 

@@ -4,6 +4,7 @@ import com.fu.capstone.domain.Warehouse;
 
 import java.util.List;
 
+import com.fu.capstone.service.dto.WarehouseDetailDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
@@ -25,5 +26,6 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
 
 	Warehouse findDistinctByOfficeId(Long officeId);
 
-	Warehouse findDistinctByKeeperId(Long keeperId);
+	@Query(value = "SELECT w FROM Warehouse w WHERE w.keeperId <> :id")
+	List<Warehouse> findWarehouseExceptEmployee(@Param("id") Long keeperId);
 }

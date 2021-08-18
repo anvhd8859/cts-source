@@ -136,7 +136,7 @@ public class WarehouseResource {
     }
 
     @GetMapping("/warehouses/keeper/{id}")
-    public ResponseEntity<WarehouseDTO> findWarehouseByEmployee(@PathVariable Long id) {
-        return new ResponseEntity(warehouseService.findWarehouseByEmployee(id), HttpStatus.OK);
+    public ResponseEntity<List<WarehouseDTO>> findWarehouseExceptEmployee(@PathVariable Long id) {
+        return new ResponseEntity(warehouseService.findWarehouseExceptEmployee(id), HttpStatus.OK);
     }
 }

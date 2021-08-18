@@ -10,6 +10,7 @@ import { InvoiceHeaderService } from '../invoice-header/invoice-header.service';
 import { HttpHeaders } from '@angular/common/http';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Principal } from 'app/core';
+import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 
 @Component({
     selector: 'jhi-warehouse-detail',
@@ -17,7 +18,7 @@ import { Principal } from 'app/core';
 })
 export class WarehouseDetailComponent implements OnInit {
     warehouse: IWarehouse;
-    invoices: IInvoicePackageShipment[];
+    invoices: InvoicePackages[];
     common: CommonString;
     links: any;
     totalItems: any;
@@ -73,7 +74,7 @@ export class WarehouseDetailComponent implements OnInit {
         window.history.back();
     }
 
-    private paginateInvoiceHeaders(data: IInvoicePackageShipment[], headers: HttpHeaders) {
+    private paginateInvoiceHeaders(data: InvoicePackages[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.queryCount = this.totalItems;
@@ -113,4 +114,9 @@ export class WarehouseDetailComponent implements OnInit {
         }
         return result;
     }
+}
+
+export interface InvoicePackages {
+    invoice?: IInvoiceHeader;
+    packageList?: IInvoicePackage[];
 }

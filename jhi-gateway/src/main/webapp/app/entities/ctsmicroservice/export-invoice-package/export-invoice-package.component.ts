@@ -85,18 +85,10 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
             this.currentAccount = account;
             forkJoin(
                 this.accountService.findByUserID({ id: this.currentAccount.id }),
-                this.warehouseService.query(),
-                this.warehouseService.findWarehouseByEmployee(account.id)
+                this.warehouseService.findWarehouseExceptEmployee(account.id)
             ).subscribe(res => {
                 this.officeId = res[0].body.officeId;
                 this.listWarehouse = res[1].body;
-                this.myWarehouse = res[2].body;
-                for (const i in this.listWarehouse) {
-                    if (this.listWarehouse[i].id === this.myWarehouse.id) {
-                        const index = Number.parseInt(i);
-                        this.listWarehouse.slice(index, 1);
-                    }
-                }
                 this.loadAll();
             });
         });
@@ -111,6 +103,7 @@ export class ExportInvoicePackageComponent implements OnInit, OnDestroy {
             id: this.officeId,
             wid: this.selectedWarehouse.id,
             invNo: this.selectedInvoiceNo ? this.selectedInvoiceNo : '',
+            status: this.selectedInvoiceStatus.id,
             fromDate: this.fromTime ? this.fromTime.year() + '-' + (this.fromTime.month() + 1) + '-' + this.fromTime.date() : '',
             toDate: this.toTime ? this.toTime.year() + '-' + (this.toTime.month() + 1) + '-' + this.toTime.date() : '',
             page: this.page - 1,
