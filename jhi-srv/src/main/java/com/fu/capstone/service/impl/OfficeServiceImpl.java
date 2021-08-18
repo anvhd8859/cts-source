@@ -92,4 +92,9 @@ public class OfficeServiceImpl implements OfficeService {
 	public OfficeDTO getOfficeByStreetId(Long id) {
 		return officeMapper.toDto(officeRepository.getOfficeByStreetId(id));
 	}
+
+    @Override
+    public List<OfficeDTO> getAvailableOffice() {
+        return officeMapper.toDto(officeRepository.getAvailableOffice());
+    }
 }

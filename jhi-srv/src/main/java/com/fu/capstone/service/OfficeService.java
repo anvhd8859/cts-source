@@ -42,4 +42,6 @@ public interface OfficeService {
     void delete(Long id);
 
     OfficeDTO getOfficeByStreetId(Long id);
+
+	List<OfficeDTO> getAvailableOffice();
 }

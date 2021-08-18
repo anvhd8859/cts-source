@@ -56,10 +56,6 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
                 }
             });
         });
-        console.log('11111');
-        console.log(this.importExportWarehouse);
-        console.log('22222');
-        console.log(this.requestDetailsList);
     }
 
     checked(i: number, e) {

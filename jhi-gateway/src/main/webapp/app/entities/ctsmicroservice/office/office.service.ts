@@ -49,6 +49,12 @@ export class OfficeService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
+    getAvailableOffice(): Observable<EntityArrayResponseType> {
+        return this.http
+            .get<IOffice[]>(this.resourceUrl + '/warehouse-not-exist', { observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
     private convertDateFromClient(office: IOffice): IOffice {
         const copy: IOffice = Object.assign({}, office, {
             createDate: office.createDate != null && office.createDate.isValid() ? office.createDate.toJSON() : null,

@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Warehouse(0, 'AAAAAAA', 0, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, currentDate, currentDate);
+            elemDefault = new Warehouse(0, 'AAAAAAA', 0, 0, 'AAAAAAA', 0, 'AAAAAAA', 0, currentDate, currentDate);
         });
 
         describe('Service methods', async () => {
@@ -76,7 +76,7 @@ describe('Service Tests', () => {
                         warehouseName: 'BBBBBB',
                         keeperId: 1,
                         address: 'BBBBBB',
-                        streetId: 'BBBBBB',
+                        streetId: 1,
                         warehouseType: 'BBBBBB',
                         masterWarehouseId: 1,
                         createDate: currentDate.format(DATE_TIME_FORMAT),
@@ -106,7 +106,7 @@ describe('Service Tests', () => {
                         warehouseName: 'BBBBBB',
                         keeperId: 1,
                         address: 'BBBBBB',
-                        streetId: 'BBBBBB',
+                        streetId: 1,
                         warehouseType: 'BBBBBB',
                         masterWarehouseId: 1,
                         createDate: currentDate.format(DATE_TIME_FORMAT),

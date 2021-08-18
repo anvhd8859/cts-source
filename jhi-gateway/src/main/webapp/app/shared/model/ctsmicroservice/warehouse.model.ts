@@ -6,7 +6,7 @@ export interface IWarehouse {
     officeId?: number;
     keeperId?: number;
     address?: string;
-    streetId?: string;
+    streetId?: number;
     warehouseType?: string;
     masterWarehouseId?: number;
     createDate?: Moment;
@@ -20,7 +20,7 @@ export class Warehouse implements IWarehouse {
         public officeId?: number,
         public keeperId?: number,
         public address?: string,
-        public streetId?: string,
+        public streetId?: number,
         public warehouseType?: string,
         public masterWarehouseId?: number,
         public createDate?: Moment,

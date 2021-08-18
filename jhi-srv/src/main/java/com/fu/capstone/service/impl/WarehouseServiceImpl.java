@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -105,6 +106,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 			throw new BadRequestAlertException("OfficeID:" + warehouseDTO.getOfficeId() + " allreade have an warehouseID:" + warehouse.getId(), "ctsmicroserviceWarehouse", "");
 
 		Office ofc = officeRepository.getOne(warehouseDTO.getOfficeId());
+		ofc.setUpdateDate(Instant.now());
+		officeRepository.save(ofc);
 		warehouse = warehouseMapper.toEntity(warehouseDTO);
 		warehouse.setAddress(ofc.getAddress());
 		warehouse.setStreetId(ofc.getStreetId().toString());

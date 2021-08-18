@@ -31,4 +31,7 @@ public interface OfficeRepository extends JpaRepository<Office, Long> {
 
 	@Query(value = "SELECT o FROM Office o WHERE o.id IN (:id)")
 	List<Office> getAllByIdList(@Param("id") List<Long> idList);
+
+	@Query(value = "SELECT o FROM Office o WHERE o.updateDate IS NULL")
+	List<Office> getAvailableOffice();
 }

@@ -1,15 +1,15 @@
 <div class="row justify-content-center">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
     <div class="col-8">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-warehouse-heading" style="font-weight: 700;">Thông tin kho hàng</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
+                <i style="color: red;">{{offices.length === 0 ? 'Không còn Văn phòng nào chưa có Kho hàng' : ''}}</i>
                 <div class="form-group" [hidden]="!warehouse.id">
                     <label for="id">Mã số</label>
                     <input type="text" class="form-control" id="id" name="id" [(ngModel)]="warehouse.id" readonly />
@@ -29,11 +29,11 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_keeperId">Nhân viên kho</label>
-                    <input type="text" class="form-control" id="empId" name="empId" value="{{this.selectedUser.firstName + ' ' + this.selectedUser.lastName}}" disabled>
+                    <input type="text" class="form-control" id="empId" name="empId" value="{{selectedUser.firstName + ' ' + selectedUser.lastName}}" disabled>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_address">Địa chỉ</label>
-                    <input type="text" class="form-control" id="address" name="address" value="{{selectedOffice.address}}" disabled>
+                    <input type="text" class="form-control" id="address" name="address" value="{{selectedOffice ? selectedOffice.address : ''}}" disabled>
                 </div>
             </div>
             <br>
