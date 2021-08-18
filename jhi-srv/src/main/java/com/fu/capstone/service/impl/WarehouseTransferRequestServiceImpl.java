@@ -138,18 +138,23 @@ public class WarehouseTransferRequestServiceImpl implements WarehouseTransferReq
 		entity = warehouseTransferRequestRepository.save(entity);
 
 		List<TransferDetails> tdList = new ArrayList<>();
+		List<InvoiceHeader> invList = new ArrayList<>();
 		List<InvoicePackageShipmentDTO> data = body.getInvoicePackageList();
 		for (InvoicePackageShipmentDTO ips : data) {
 			TransferDetails td = new TransferDetails();
+			InvoiceHeader inv = invoiceHeaderMapper.toEntity(ips.getInvoiceHeader());
+			inv.setStatus("transporting");
 			td.setTransferId(entity.getId());
 			td.setInvoicePackageId(ips.getInvoiceHeader().getId());
 			td.setStatus(false);
 			td.setCreateDate(instant);
 			td.setUpdateDate(instant);
 			tdList.add(td);
+			invList.add(inv);
 		}
 
 		transferDetailsRepository.saveAll(tdList);
+		invoiceHeaderRepository.saveAll(invList);
 		return warehouseTransferRequestMapper.toDto(entity);
 	}
 

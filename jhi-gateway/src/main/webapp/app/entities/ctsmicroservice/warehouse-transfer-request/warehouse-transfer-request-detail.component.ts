@@ -95,7 +95,7 @@ export class WarehouseTransferRequestDetailComponent implements OnInit {
                             }
                             data.push(rd);
                         }
-                        this.warehouseTransferRequestService.approveTransferRequest().subscribe(
+                        this.warehouseTransferRequestService.approveTransferRequest(data).subscribe(
                             (res: HttpResponse<any>) => {
                                 this.previousState();
                             },

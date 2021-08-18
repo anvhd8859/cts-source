@@ -16,6 +16,9 @@
             <br/>
             <br/>
             <br/>
+            <div class="table-responsive" *ngIf="!warehouseTransferRequests">
+                Không có đơn hàng nhập kho
+            </div>
             <div class="table-responsive" *ngIf="warehouseTransferRequests">
                 <table class="table table-striped">
                     <thead>
