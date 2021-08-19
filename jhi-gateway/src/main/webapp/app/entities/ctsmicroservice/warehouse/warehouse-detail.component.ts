@@ -18,7 +18,7 @@ import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.
 })
 export class WarehouseDetailComponent implements OnInit {
     warehouse: IWarehouse;
-    invoices: InvoicePackages[];
+    invoices: IInvoicePackageShipment[];
     common: CommonString;
     links: any;
     totalItems: any;
@@ -30,6 +30,7 @@ export class WarehouseDetailComponent implements OnInit {
     reverse: any;
     id: any;
     account: any;
+    selectedInvoiceNumber: any;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -61,6 +62,7 @@ export class WarehouseDetailComponent implements OnInit {
     loadAll() {
         const param = {
             id: this.warehouse.id,
+            invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
@@ -74,7 +76,7 @@ export class WarehouseDetailComponent implements OnInit {
         window.history.back();
     }
 
-    private paginateInvoiceHeaders(data: InvoicePackages[], headers: HttpHeaders) {
+    private paginateInvoiceHeaders(data: IInvoicePackageShipment[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.queryCount = this.totalItems;

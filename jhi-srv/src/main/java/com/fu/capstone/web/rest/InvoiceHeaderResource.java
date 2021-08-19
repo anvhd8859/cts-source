@@ -2,6 +2,7 @@ package com.fu.capstone.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fu.capstone.service.InvoiceHeaderService;
+import com.fu.capstone.service.dto.InvoicePackageShipmentDTO;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
@@ -292,10 +293,10 @@ public class InvoiceHeaderResource {
 
 	@GetMapping("/invoice-headers/warehouse")
 	@Timed
-	public ResponseEntity<List<InvoicePackageDetailDTO>> getInvoiceByWarehouse(
-			@RequestParam("id") Long id, Pageable pageable) {
-		Page<InvoicePackageDetailDTO> page = invoiceHeaderService.getInvoiceByWarehouse(id, pageable);
-		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/import/by-officer");
+	public ResponseEntity<List<InvoicePackageShipmentDTO>> getInvoiceByWarehouse(
+			@RequestParam("id") Long id, @RequestParam("invNo") String invNo, Pageable pageable) {
+		Page<InvoicePackageShipmentDTO> page = invoiceHeaderService.getInvoiceByWarehouse(id, invNo, pageable);
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/warehouse");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
 

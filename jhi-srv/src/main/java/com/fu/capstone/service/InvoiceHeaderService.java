@@ -1,10 +1,7 @@
 package com.fu.capstone.service;
 
-import com.fu.capstone.service.dto.InvoiceHeaderDTO;
-import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
-import com.fu.capstone.service.dto.InvoiceShipmentDTO;
+import com.fu.capstone.service.dto.*;
 
-import com.fu.capstone.service.dto.ShipmentInvoicePackagesDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -81,5 +78,5 @@ public interface InvoiceHeaderService {
 
 	Page<InvoicePackageDetailDTO> getImportInvoiceByOfficer(Long id, String invNo, String from, String to, Pageable pageable);
 
-	Page<InvoicePackageDetailDTO> getInvoiceByWarehouse(Long id, Pageable pageable);
+	Page<InvoicePackageShipmentDTO> getInvoiceByWarehouse(Long id, String invNo, Pageable pageable);
 }

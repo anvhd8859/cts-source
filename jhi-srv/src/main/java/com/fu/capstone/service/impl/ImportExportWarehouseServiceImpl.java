@@ -361,10 +361,15 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 		request.setKeeperConfirm(true);
 		request.setStatus("reject");
 		request.setUpdateDate(instant);
-		requestDetails.forEach(rd -> {
-
+		requestDetails.forEach(x -> {
+			RequestDetailsDTO rd = x.getRequestDetails();
+			rd.setKeeperConfirm(true);
+			rd.setStatus(false);
+			rd.setUpdateDate(instant);
+			rdList.add(rd);
 		});
 
-		return null;
+		requestDetailsRepository.saveAll(requestDetailsMapper.toEntity(rdList));
+		return importExportWarehouseMapper.toDto(importExportWarehouseRepository.save(importExportWarehouseMapper.toEntity(request)));
 	}
 }

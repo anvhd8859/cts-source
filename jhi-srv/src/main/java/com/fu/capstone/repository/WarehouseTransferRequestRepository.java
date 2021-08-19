@@ -17,6 +17,7 @@ import java.util.Optional;
 @Repository
 public interface WarehouseTransferRequestRepository extends JpaRepository<WarehouseTransferRequest, Long> {
 
-	@Query(value = "SELECT w FROM WarehouseTransferRequest w WHERE w.toWarehouseId = :id")
+	@Query(value = " SELECT wt FROM WarehouseTransferRequest wt, Warehouse w "
+				 + " WHERE w.id = wt.toWarehouseId AND w.officeId = :id ")
 	Page<WarehouseTransferRequest> getWarehouseTransferByOffice(@Param("id") Long id, Pageable pageable);
 }

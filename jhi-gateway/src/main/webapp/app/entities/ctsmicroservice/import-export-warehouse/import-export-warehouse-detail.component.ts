@@ -15,6 +15,7 @@ import { IInvoicePackageShipment } from '../import-invoice-package';
 import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.model';
 import { IUser, Principal } from 'app/core';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
+import { JhiAlertService } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-import-export-warehouse-detail',
@@ -37,6 +38,7 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
         private importExportWarehouseService: ImportExportWarehouseService,
         private requestDetailsService: RequestDetailsService,
         private principal: Principal,
+        private alertService: JhiAlertService,
         private modalService: NgbModal
     ) {}
 
@@ -63,7 +65,6 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
             for (let bool of this.selectedCheckBox) {
                 if (!bool) {
                     myAll = false;
-                    break;
                 }
             }
             this.all = myAll;
@@ -139,8 +140,12 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
                     if (check) {
                         ieRequestDetail.requestDetailsList = this.requestDetailsList;
                         this.subscribeToSaveResponse(this.importExportWarehouseService.approveIERequest(ieRequestDetail));
+                    } else {
+                        window.scroll(0, 0);
+                        this.alertService.error('Bạn chưa điền lý do từ chố đơn');
                     }
                 } else {
+                    ieRequestDetail.requestDetailsList = this.requestDetailsList;
                     this.subscribeToSaveResponse(this.importExportWarehouseService.rejectIERequest(ieRequestDetail));
                 }
             },

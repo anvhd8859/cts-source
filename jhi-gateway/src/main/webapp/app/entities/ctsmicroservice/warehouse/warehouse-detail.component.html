@@ -4,10 +4,31 @@
     <br>
     <div class="col-8">
         <div *ngIf="warehouse">
-            <h2><span>Chi tiết kho hàng </span></h2>
+            <h2><span style="font-weight: 600;">Chi tiết kho hàng </span></h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <div class="card-body">
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="invoiceNumber">Số hóa đơn</label>
+                            <input type="text" class="form-control" placeholder="(Tất cả)"
+                                [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedInvoiceNumber"
+                                value="{{selectedInvoiceNumber}}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 text-center">
+                        <div class="form-group">
+                            <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary"
+                                (click)="this.loadAll()">
+                                <fa-icon [icon]="'search'"></fa-icon>
+                                <span>Tìm kiếm</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <br>
                 <br>
                 <h4>Danh sách đơn</h4>
@@ -22,11 +43,11 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let object of invoices">
-                                <td>{{object.invoice.invoiceNo}} </td>
-                                <td> {{object.packageList.length}} </td>
-                                <td>{{totalWeight(object.packageList)}}</td>
+                                <td>{{object.invoiceHeader.invoiceNo}} </td>
+                                <td> {{object.invoicePackageList.length}} </td>
+                                <td>{{totalWeight(object.invoicePackageList)}}</td>
                                 <td>
-                                    <span *ngFor="let pk of object.packageList ; let pi = index">
+                                    <span *ngFor="let pk of object.invoicePackageList ; let pi = index">
                                         #{{pi}}: {{pk.length}}(cm) x {{pk.width}}(cm) x {{pk.height}}(cm):
                                         {{pk.weight}}(g) <br />
                                     </span>
@@ -34,7 +55,7 @@
                                 <td class="text-right">
                                     <div class="btn-group flex-btn-group-container">
                                         <button type="submit"
-                                            [routerLink]="['/invoice-header', object.invoice.id, 'view']"
+                                            [routerLink]="['/invoice-header', object.invoiceHeader.id, 'view']"
                                             class="btn btn-info btn-sm">
                                             <fa-icon [icon]="'eye'"></fa-icon>
                                             <span class="d-none d-md-inline">Chi tiết</span>
@@ -45,6 +66,22 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="table-responsive" *ngIf="invoices">
+                    <h3>Không có dữ liệu</h3>
+                </div>
+                <br>
+                <div *ngIf="invoices && invoices.length">
+                    <div class="row justify-content-center">
+                        <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
+                        </jhi-item-count>
+                    </div>
+                    <div class="row justify-content-center">
+                        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage"
+                            [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                        </ngb-pagination>
+                    </div>
+                </div>
+                <br>
             </div>
             <br>
             <br>

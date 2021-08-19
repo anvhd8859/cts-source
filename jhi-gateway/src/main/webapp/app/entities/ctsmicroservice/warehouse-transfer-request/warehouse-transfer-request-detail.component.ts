@@ -34,8 +34,6 @@ export class WarehouseTransferRequestDetailComponent implements OnInit {
 
     constructor(
         private warehouseTransferRequestService: WarehouseTransferRequestService,
-        private accountService: AccountService,
-        private userService: UserService,
         private warehouseService: WarehouseService,
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
@@ -121,7 +119,6 @@ export class WarehouseTransferRequestDetailComponent implements OnInit {
             for (let bool of this.selectedCheckBox) {
                 if (!bool) {
                     myAll = false;
-                    break;
                 }
             }
             this.all = myAll;

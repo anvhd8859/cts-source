@@ -127,6 +127,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 				 + " AND t.transferId = :id ")
 	List<InvoiceHeader> getInvoiceHeaderByTransferId(@Param("id") Long id);
 
-	@Query(value = "SELECT i FROM InvoiceHeader i, InvoicePackage p WHERE i.id = p.invoiceHeaderId AND p.warehouseId = :id ")
-	Page<InvoiceHeader> getInvoiceByWarehouse(@Param("id") Long id, Pageable pageable);
+	@Query(value = "SELECT i FROM InvoiceHeader i, InvoicePackage p WHERE i.id = p.invoiceHeaderId "
+				 + " AND p.warehouseId = :id AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo , '%')) ")
+	Page<InvoiceHeader> getInvoiceByWarehouse(@Param("id") Long id, @Param("invNo") String invNo, Pageable pageable);
 }

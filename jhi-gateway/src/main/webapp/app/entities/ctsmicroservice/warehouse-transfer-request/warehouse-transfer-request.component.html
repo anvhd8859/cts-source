@@ -13,47 +13,48 @@
                     </div>
                 </div>
             </div>
-            <br/>
-            <br/>
-            <br/>
+            <br />
+            <br />
+            <br />
             <div class="table-responsive" *ngIf="!warehouseTransferRequests">
                 Không có đơn hàng nhập kho
             </div>
             <div class="table-responsive" *ngIf="warehouseTransferRequests">
                 <table class="table table-striped">
                     <thead>
-                    <tr>
-                    <th>Mã vận chuyển</th>
-                    <th>Kho hàng đầu</th>
-                    <th>Số đơn hàng</th>
-                    <th>Số gói hàng</th>
-                    <th>Trạng thái</th>
-                    <th>Ngày tạo</th>
-                    <th></th>
-                    </tr>
+                        <tr>
+                            <th>Mã vận chuyển</th>
+                            <th>Kho hàng đầu</th>
+                            <th>Số đơn hàng</th>
+                            <th>Số gói hàng</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày tạo</th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let object of warehouseTransferRequests">
-                        <td>{{object.transferRequest.id}}</td>
-                        <td>{{object.transferRequest.fromWarehouseId}}</td>
-                        <td>{{object.invoicePackageList.length}}</td>
-                        <td>{{totalPackages(object.invoicePackageList)}}</td>
-                        <td>{{object.transferRequest.status === ''? 'Chưa xác nhận' : 'Đã xác nhận'}}</td>
-                        <td>{{object.transferRequest.createDate | date:'medium'}}</td>
-                        <td class="text-right">
-                            <div class="btn-group flex-btn-group-container">
-                                <button type="submit"
+                        <tr *ngFor="let object of warehouseTransferRequests">
+                            <td>{{object.transferRequest.id}}</td>
+                            <td>{{object.transferRequest.fromWarehouseId}}</td>
+                            <td>{{object.invoicePackageList.length}}</td>
+                            <td>{{totalPackages(object.invoicePackageList)}}</td>
+                            <td>{{object.transferRequest.status === ''? 'Chưa xác nhận' : 'Đã xác nhận'}}</td>
+                            <td>{{object.transferRequest.createDate | date:'medium'}}</td>
+                            <td class="text-right">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button type="submit"
                                         [routerLink]="['/warehouse-transfer-request', object.transferRequest.id, 'view' ]"
                                         class="btn btn-info btn-sm">
-                                    <fa-icon [icon]="'eye'"></fa-icon>
-                                    <span class="d-none d-md-inline">Chi tiết</span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">Chi tiết</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
+            <br>
             <div *ngIf="warehouseTransferRequests && warehouseTransferRequests.length">
                 <div class="row justify-content-center">
                     <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
@@ -64,6 +65,9 @@
                         [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)">
                     </ngb-pagination>
                 </div>
+            </div>
+            <br>
+            <br>
         </div>
     </div>
 </div>

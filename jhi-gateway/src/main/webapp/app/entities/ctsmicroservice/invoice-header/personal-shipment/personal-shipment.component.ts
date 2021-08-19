@@ -164,7 +164,6 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
             for (let bool of this.selectedCheckBox) {
                 if (!bool) {
                     myAll = false;
-                    break;
                 }
             }
             this.all = myAll;

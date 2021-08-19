@@ -14,13 +14,7 @@ import com.fu.capstone.repository.OfficeRepository;
 import com.fu.capstone.repository.PersonalShipmentRepository;
 import com.fu.capstone.repository.StreetRepository;
 import com.fu.capstone.repository.WorkingAreaRepository;
-import com.fu.capstone.service.dto.InvoiceDetailsDTO;
-import com.fu.capstone.service.dto.InvoiceHeaderDTO;
-import com.fu.capstone.service.dto.InvoicePackageDTO;
-import com.fu.capstone.service.dto.InvoicePackageDetailDTO;
-import com.fu.capstone.service.dto.InvoiceShipmentDTO;
-import com.fu.capstone.service.dto.PackageDetailsDTO;
-import com.fu.capstone.service.dto.PersonalShipmentDTO;
+import com.fu.capstone.service.dto.*;
 import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
 import com.fu.capstone.service.mapper.InvoicePackageMapper;
@@ -471,9 +465,18 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	}
 
 	@Override
-	public Page<InvoicePackageDetailDTO> getInvoiceByWarehouse(Long id, Pageable pageable) {
-		Page<InvoiceHeader> page = invoiceHeaderRepository.getInvoiceByWarehouse(id, pageable);
-		return page.map(this::converterInvoicePackageDetailDTO);
+	public Page<InvoicePackageShipmentDTO> getInvoiceByWarehouse(Long id, String invNo, Pageable pageable) {
+		Page<InvoiceHeader> page = invoiceHeaderRepository.getInvoiceByWarehouse(id, invNo, pageable);
+		return page.map(this::toInvoicePackageShipmentDTO);
+	}
+
+	private InvoicePackageShipmentDTO toInvoicePackageShipmentDTO(InvoiceHeader inv) {
+		InvoicePackageShipmentDTO dto = new InvoicePackageShipmentDTO();
+		List<InvoicePackageDTO> lstPackage = invoicePackageMapper
+				.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(inv.getId()));
+		dto.setInvoiceHeader(invoiceHeaderMapper.toDto(inv));
+		dto.setInvoicePackageList(lstPackage);
+		return dto;
 	}
 
 }
