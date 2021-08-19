@@ -70,7 +70,7 @@ export class RequestExportWarehouseUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.common = new CommonString();
-        this.selectedTypeShipment = this.common.listTypeShipment[0].id;
+        this.selectedTypeShipment = this.common.listTypeShipment[1].id;
         this.isSaving = false;
         this.itemsPerPage = 50;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -133,7 +133,7 @@ export class RequestExportWarehouseUpdateComponent implements OnInit {
                             }
                         }
                         console.log(data);
-                        this.importExportWarehouseService.createImportWarehouse(data).subscribe(
+                        this.importExportWarehouseService.createExportWarehouse(data).subscribe(
                             (res: HttpResponse<any>) => {
                                 this.isSaving = false;
                                 const responseData: IImportExportWarehouse = res.body;
@@ -154,6 +154,7 @@ export class RequestExportWarehouseUpdateComponent implements OnInit {
         const result: ImportExportWarehouse = new ImportExportWarehouse();
         result.employeeId = this.currentAccount.id;
         result.warehouseId = this.currentProfile.officeId;
+        result.type = 'export';
         for (const obj of this.keeperList) {
             if (obj.activated) {
                 result.keeperId = obj.id;

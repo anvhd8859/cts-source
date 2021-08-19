@@ -90,10 +90,13 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     loadAll() {
         this.isSaving = false;
         this.ngxUiLoaderService.start();
+        if (this.selectedTypeShipment === 'delivery') {
+            this.selectedInvoiceStatus = 'delivering';
+        }
         const param = {
             id: this.currentAccount.id,
             invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
-            status: this.selectedInvoiceStatus ? this.selectedInvoiceStatus : '',
+            status: this.selectedInvoiceStatus,
             type: this.selectedTypeShipment,
             from: this.fromTime ? this.fromTime.year() + '-' + (this.fromTime.month() + 1) + '-' + this.fromTime.date() : '',
             to: this.toTime ? this.toTime.year() + '-' + (this.toTime.month() + 1) + '-' + this.toTime.date() : '',

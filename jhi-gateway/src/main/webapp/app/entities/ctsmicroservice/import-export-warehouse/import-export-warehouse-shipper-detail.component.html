@@ -26,7 +26,6 @@
                             <th> Số gói hàng </th>
                             <th> Tổng khối lượng </th>
                             <th> Kích thước </th>
-                            <th> Trạng thái </th>
                             <th> Ghi chú </th>
                         </thead>
                         <tbody>
@@ -40,8 +39,6 @@
                                         #{{pi + 1}}: {{pk.length}}(cm) x {{pk.width}}(cm) x {{pk.height}}(cm): {{pk.weight}}(g) <br/>
                                     </span>
                                 </td>
-                                <td>{{common.processInvoiceStatus(object.invoiceHeader.status)}} </td>
-                                <td>{{object.requestDetails.status? 'Đã nhận' : 'Từ chối'}} </td>
                                 <td>{{object.requestDetails.note? object.requestDetails.note : ''}} </td>
                             </tr>
                         </tbody>

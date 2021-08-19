@@ -309,6 +309,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 	public ReceiptNoteDTO createReceiptNoteDeliveryShipment(ReceiptDetailPackageDTO data) {
 		Instant instant = Instant.now();
 		InvoiceHeader inv = invoiceHeaderRepository.getOne(data.getReceipt().getInvoiceHeaderId());
+		List<InvoicePackage> ipList = invoicePackageRepository.getInvoicePackageByHeaderId(inv.getId());
 		PersonalShipment ps = personalShipmentRepository
 				.getDeliveryShipmentByInvoice(data.getReceipt().getInvoiceHeaderId());
 
@@ -319,12 +320,18 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 			pd.getInvPackage().setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
 		}
 
+		// invoice process
 		inv.setStatus("finish");
 		inv.setFinishDate(instant);
 		ps.setStatus("finish");
 		ps.setShipTime(instant);
 		ps.setFinishTime(instant);
 		ps.setUpdateDate(instant);
+
+		// package process
+		for (InvoicePackage ip : ipList) {
+			ip.setWarehouseId(null);
+		}
 
 		// save data
 		ReceiptNote rn = receiptNoteRepository.save(receiptNoteMapper.toEntity(data.getReceipt()));
@@ -344,6 +351,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 		}
 
 		invoiceHeaderRepository.save(inv);
+		invoicePackageRepository.saveAll(ipList);
 		personalShipmentRepository.save(ps);
 		return receiptNoteMapper.toDto(receiptNoteRepository.save(rn));
 	}

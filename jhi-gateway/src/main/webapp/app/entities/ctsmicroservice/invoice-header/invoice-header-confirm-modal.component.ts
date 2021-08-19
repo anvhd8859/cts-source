@@ -54,7 +54,7 @@ export class InvoiceHeaderConfirmComponent {
     }
 
     pasBack() {
-        if (this.note && this.note.trim()) {
+        if (this.action || (this.note && this.note.trim())) {
             this.modal.close(this.note);
         } else {
             this.check = 'Hãy điền lý do hủy đơn hàng';

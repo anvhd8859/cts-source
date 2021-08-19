@@ -36,15 +36,6 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="form-group">
-                            <label for="type">Tình trạng đơn hàng</label>
-                            <ng-select [clearable]="true" [hideSelected]="true" [items]="lstInvoiceStatus"
-                                bindLabel="text" bindValue="id" id="status" name="status"
-                                [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedInvoiceStatus"
-                                placeholder="(ALL)">
-                                <ng-option *ngFor="let item of common.listTypeShipment">{{item.text}}</ng-option>
-                            </ng-select>
-                        </div>
                     </div>
                 </div>
                 <br />
