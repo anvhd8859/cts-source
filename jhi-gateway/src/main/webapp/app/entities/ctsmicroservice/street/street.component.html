@@ -25,12 +25,6 @@
                     <th jhiSortBy="streetName"><span>Tên Đường/Phố</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="createDate"><span>Ngày khởi tạo</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th jhiSortBy="updateDate"><span>Ngày cập nhật</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
                     <th jhiSortBy="subDistrictIdId"><span>Mã Phường/Xã</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -41,8 +35,6 @@
                 <tr *ngFor="let street of streets ;trackBy: trackId">
                     <td><a [routerLink]="['/street', street.id, 'view' ]">{{street.id}}</a></td>
                     <td>{{street.streetName}}</td>
-                    <td>{{street.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                    <td>{{street.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                     <td>
                         <div *ngIf="street.subDistrictIdId">
                             <a

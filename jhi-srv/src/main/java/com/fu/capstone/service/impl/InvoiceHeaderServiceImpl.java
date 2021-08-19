@@ -470,6 +470,20 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 		return page.map(this::toInvoicePackageShipmentDTO);
 	}
 
+	@Override
+	public InvoiceHeaderDTO approveCancelInvoiceHeaders(Long id) {
+		InvoiceHeader inv = invoiceHeaderRepository.getOne(id);
+		List<PersonalShipment> psList = personalShipmentRepository.getAllShipmentByHeaderId(id);
+		inv.setChangeNote("approved");
+		inv.setStatus("cancel");
+		inv.setCancel(true);
+		for (PersonalShipment ps : psList) {
+			ps.setStatus("cancel");
+		}
+		personalShipmentRepository.saveAll(psList);
+		return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(inv));
+	}
+
 	private InvoicePackageShipmentDTO toInvoicePackageShipmentDTO(InvoiceHeader inv) {
 		InvoicePackageShipmentDTO dto = new InvoicePackageShipmentDTO();
 		List<InvoicePackageDTO> lstPackage = invoicePackageMapper

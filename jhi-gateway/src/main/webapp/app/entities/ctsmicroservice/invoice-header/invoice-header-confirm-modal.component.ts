@@ -47,8 +47,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class InvoiceHeaderConfirmComponent {
     action: boolean;
-    note: string;
-    check: string;
+    note: string = '';
+    check: string = '';
     constructor(public modal: NgbActiveModal) {
         this.check = '';
     }

@@ -79,4 +79,6 @@ public interface InvoiceHeaderService {
 	Page<InvoicePackageDetailDTO> getImportInvoiceByOfficer(Long id, String invNo, String from, String to, Pageable pageable);
 
 	Page<InvoicePackageShipmentDTO> getInvoiceByWarehouse(Long id, String invNo, Pageable pageable);
+
+	InvoiceHeaderDTO approveCancelInvoiceHeaders(Long id);
 }

@@ -7,7 +7,7 @@ import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 import { ICancelInvoice } from 'app/shared/model/ctsmicroservice/cancel-invoice.model';
 import { Principal } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { ITEMS_PER_PAGE, CommonString } from 'app/shared';
 import { CancelInvoiceService } from './cancel-invoice.service';
 
 @Component({
@@ -30,6 +30,7 @@ export class CancelInvoiceComponent implements OnInit, OnDestroy {
     previousPage: any;
     reverse: any;
     isSaving: boolean;
+    common: CommonString = new CommonString();
 
     constructor(
         private cancelInvoiceService: CancelInvoiceService,

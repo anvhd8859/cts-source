@@ -22,8 +22,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>Mã số</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="subDistrictName"><span>Tên Phường/Xã</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createDate"><span>Ngày khởi tạo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updateDate"><span>Ngày cập nhật</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="districtIdId"><span>Mã Quận/Huyện</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -32,8 +30,6 @@
             <tr *ngFor="let subDistrict of subDistricts ;trackBy: trackId">
                 <td><a [routerLink]="['/sub-district', subDistrict.id, 'view' ]">{{subDistrict.id}}</a></td>
                 <td>{{subDistrict.subDistrictName}}</td>
-                <td>{{subDistrict.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                <td>{{subDistrict.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td>
                     <div *ngIf="subDistrict.districtIdId">
                         <a [routerLink]="['../district', subDistrict.districtIdId , 'view' ]" >{{subDistrict.districtIdId}}</a>

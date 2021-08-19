@@ -15,6 +15,8 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 export class CancelInvoiceApproveDialogComponent {
     cancelInvoice: ICancelInvoice;
     isSaving: boolean;
+    note: string = '';
+    check: string = '';
 
     constructor(
         private cancelInvoiceService: CancelInvoiceService,
@@ -27,28 +29,30 @@ export class CancelInvoiceApproveDialogComponent {
     }
 
     confirmApprove(cancelInvoice: ICancelInvoice) {
-        this.isSaving = true;
-        cancelInvoice.changeNote = 'approved';
-        cancelInvoice.cancel = true;
-        cancelInvoice.status = 'cancel';
-        this.cancelInvoiceService.update(cancelInvoice).subscribe(
-            (response: HttpResponse<ICancelInvoice>) => {
-                this.isSaving = false;
-                this.eventManager.broadcast({
-                    name: 'cancelInvoiceListModification',
-                    content: 'Approved an request'
-                });
-                this.activeModal.dismiss(true);
-            },
-            (response: HttpErrorResponse) => {
-                this.isSaving = false;
-                this.eventManager.broadcast({
-                    name: 'cancelInvoiceListModification',
-                    content: response.message
-                });
-                this.activeModal.dismiss(true);
-            }
-        );
+        if (this.note) {
+            this.isSaving = true;
+            this.cancelInvoice.cancelReason = this.note;
+            this.cancelInvoiceService.approveCancelInvoiceHeaders(cancelInvoice).subscribe(
+                (response: HttpResponse<ICancelInvoice>) => {
+                    this.isSaving = false;
+                    this.eventManager.broadcast({
+                        name: 'cancelInvoiceListModification',
+                        content: 'Đã hủy đơn hàng ' + cancelInvoice.invoiceNo
+                    });
+                    this.activeModal.dismiss(true);
+                },
+                (response: HttpErrorResponse) => {
+                    this.isSaving = false;
+                    this.eventManager.broadcast({
+                        name: 'cancelInvoiceListModification',
+                        content: response.message
+                    });
+                    this.activeModal.dismiss(true);
+                }
+            );
+        } else {
+            this.check = 'Hãy lý do hủy đơn hàng';
+        }
     }
 }
 @Component({

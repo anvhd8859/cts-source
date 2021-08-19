@@ -55,6 +55,11 @@ export class CancelInvoiceService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
+    approveCancelInvoiceHeaders(cancelInvoice: ICancelInvoice): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(cancelInvoice);
+        return this.http.put<any>(this.resourceUrl + '/approve-cancel', copy, { observe: 'response' });
+    }
+
     private convertDateFromClient(cancelInvoice: ICancelInvoice): ICancelInvoice {
         const copy: ICancelInvoice = Object.assign({}, cancelInvoice, {
             dueDate: cancelInvoice.dueDate != null && cancelInvoice.dueDate.isValid() ? cancelInvoice.dueDate.toJSON() : null,

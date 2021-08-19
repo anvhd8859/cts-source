@@ -16,7 +16,7 @@
                             [disabled]="cancelInvoices.length === 0">
                             <fa-icon [icon]="'check'"></fa-icon>
                         <span >
-                        Chấp thuật tất cả các yêu cầu đang hiển thị
+                        Chấp thuật tất cả
                         </span>
                     </button>
                 </div>
@@ -49,7 +49,7 @@
                             <tr *ngFor="let cancelInvoice of cancelInvoices">
                                 <td><a>{{cancelInvoice.id}}</a></td>
                                 <td>{{cancelInvoice.invoiceNo}}</td>
-                                <td>{{cancelInvoice.status}}</td>
+                                <td>{{common.processInvoiceStatus(cancelInvoice.status)}}</td>
                                 <td>{{cancelInvoice.startAddress}}</td>
                                 <td>{{cancelInvoice.destinationAddress}}</td>
                                 <td>{{cancelInvoice.totalDue}}</td>
