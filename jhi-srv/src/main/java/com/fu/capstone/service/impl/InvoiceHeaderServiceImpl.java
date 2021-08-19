@@ -277,7 +277,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
 		// check online of offline create invoice if it is create by officer set delivery status to new
 		if (invoiceHeaderDTO.getEmployeeId() != null){
-			invoiceHeaderDTO.setStatus("first_import");
+			invoiceHeaderDTO.setStatus("received");
 			psDelivery.setStatus("new");
 		}
 

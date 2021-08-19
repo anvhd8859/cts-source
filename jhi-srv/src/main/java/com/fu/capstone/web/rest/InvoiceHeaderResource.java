@@ -299,5 +299,5 @@ public class InvoiceHeaderResource {
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/warehouse");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
-	
+
 }

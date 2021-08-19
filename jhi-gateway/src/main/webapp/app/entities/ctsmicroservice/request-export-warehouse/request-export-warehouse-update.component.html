@@ -24,11 +24,6 @@
                         <div class="form-group">
                             <label for="type">Loại đơn chuyển phát</label>
                             <input type="text" class="form-control" value="{{selectedTypeShipment}}" >
-                            <ng-select [clearable]="false" [hideSelected]="true" [items]="common.listTypeShipment"
-                                bindLabel="text" bindValue="id" id="type" name="type" disabled
-                                [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedTypeShipment">
-                                <ng-option></ng-option>
-                            </ng-select>
                         </div>
                     </div>
                 </div>
