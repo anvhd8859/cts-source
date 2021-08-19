@@ -132,6 +132,7 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
         modalRef.result.then(
             result => {
                 const updateInvoice = this.invoiceHeaders[i];
+                updateInvoice.note = result;
                 updateInvoice.note += 'KO';
                 this.invoiceHeaderService.updateReviewRejectInvoice(updateInvoice).subscribe(
                     (res: HttpResponse<IInvoiceHeader>) => {

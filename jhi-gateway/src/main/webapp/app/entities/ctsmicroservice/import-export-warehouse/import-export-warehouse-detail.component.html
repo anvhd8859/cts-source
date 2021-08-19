@@ -36,7 +36,7 @@
                             <td>{{totalWeight(object.packageList)}} </td>
                             <td>
                                 <span *ngFor="let pk of object.packageList ; let pi = index">
-                                    #{{pi}}: {{pk.length}}(cm) x {{pk.width}}(cm) x {{pk.height}}(cm): {{pk.weight}}(g) <br/>
+                                    #{{pi + 1}}: {{pk.length}}(cm) x {{pk.width}}(cm) x {{pk.height}}(cm): {{pk.weight}}(g) <br/>
                                 </span>
                             </td>
                             <td>

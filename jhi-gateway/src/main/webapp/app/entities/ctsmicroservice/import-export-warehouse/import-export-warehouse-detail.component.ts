@@ -201,8 +201,11 @@ export class InvoicePackageDetailDTO {
         <strong>Bạn chắc chắn muốn {{action}} những yêu cầu này?</strong>
         <br>
         <br>
-        <label>Lý do hủy: </label>
-        <input *ngIf="action === 'từ chối'" ([ngModel])="note" type="text">
+        <span *ngIf="action === 'từ chối'">
+            <label>Lý do: </label>
+            <textarea  class="form-control" style="resize: none;" rows="3"
+                ([ngModel])="note" type="text"></textarea>
+        </span>
         <br>
       </p>
       <p *ngIf="empty">

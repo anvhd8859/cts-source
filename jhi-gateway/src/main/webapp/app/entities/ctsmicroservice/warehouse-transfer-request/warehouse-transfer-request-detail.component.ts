@@ -29,7 +29,7 @@ export class WarehouseTransferRequestDetailComponent implements OnInit {
     currentAccount: IUser;
     fromKeeper: IUser;
     all: boolean;
-    selectedCheckBox: boolean[];
+    selectedCheckBox: boolean[] = [];
     common: CommonString;
 
     constructor(

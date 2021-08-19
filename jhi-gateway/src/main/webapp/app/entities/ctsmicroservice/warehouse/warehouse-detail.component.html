@@ -2,7 +2,7 @@
     <br>
     <br>
     <br>
-    <div class="col-8">
+    <div class="col-lg-9">
         <div *ngIf="warehouse">
             <h2><span style="font-weight: 600;">Chi tiết kho hàng </span></h2>
             <hr>
@@ -11,7 +11,7 @@
                 <br>
                 <br>
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-8 col-md-6 col-sm-6">
                         <div class="form-group">
                             <label for="invoiceNumber">Số hóa đơn</label>
                             <input type="text" class="form-control" placeholder="(Tất cả)"
@@ -19,7 +19,7 @@
                                 value="{{selectedInvoiceNumber}}">
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 text-center">
+                    <div class="col-lg-3 col-md-6 col-sm-6 text-center">
                         <div class="form-group">
                             <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary"
                                 (click)="this.loadAll()">
@@ -48,7 +48,7 @@
                                 <td>{{totalWeight(object.invoicePackageList)}}</td>
                                 <td>
                                     <span *ngFor="let pk of object.invoicePackageList ; let pi = index">
-                                        #{{pi}}: {{pk.length}}(cm) x {{pk.width}}(cm) x {{pk.height}}(cm):
+                                        #{{pi + 1}}: {{pk.length}}(cm) x {{pk.width}}(cm) x {{pk.height}}(cm):
                                         {{pk.weight}}(g) <br />
                                     </span>
                                 </td>
@@ -66,7 +66,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="table-responsive" *ngIf="invoices">
+                <div class="table-responsive" *ngIf="!invoices">
                     <h3>Không có dữ liệu</h3>
                 </div>
                 <br>

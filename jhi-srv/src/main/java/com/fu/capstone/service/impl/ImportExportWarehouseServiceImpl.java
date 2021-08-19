@@ -164,12 +164,6 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 			rdList.add(rd);
 		}
 
-		// packages -> warehouse
-		packageList.forEach(p -> {
-			p.setWarehouseId(warehouse.getId());
-			p.setUpdateDate(instant);
-		});
-
 		invoicePackageRepository.saveAll(packageList);
 		requestDetailsRepository.saveAll(rdList);
 		return importExportWarehouseMapper.toDto(importExportWarehouseRepository.save(header));
@@ -337,6 +331,17 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 				ihList.add(rd.getInvoiceHeader());
 				ipList.addAll(rd.getPackageList());
 				count[0]++;
+
+				List<PersonalShipment> shipments = personalShipmentRepository
+						.getAllShipmentByHeaderId(rd.getInvoiceHeader().getId());
+				for (PersonalShipment ps : shipments) {
+					if (ps.getShipmentType().equals("collect") && ps.getStatus().equals("done")) {
+						ps.setStatus("finish");
+					}
+					if (ps.getShipmentType().equals("delivery" )&& ps.getStatus().equals("delivering")) {
+						ps.setStatus("new");
+					}
+				}
 			}
 			rdList.add(rd.getRequestDetails());
 			count[1]++;

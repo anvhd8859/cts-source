@@ -2,94 +2,99 @@
     <br>
     <br>
     <br>
-    <div class="col-8">
+    <div class="col-lg-9">
         <div *ngIf="transferRequest">
-            <h2>Yêu cầu vận chuyển</h2>
+            <br>
+            <br>
+            <h2 style="font-weight: 600;">Yêu cầu vận chuyển</h2>
             <hr>
             <jhi-alert></jhi-alert>
             <br>
-                <div class="table-responsive" *ngIf="!(invoicePackageShipments && invoicePackageShipments.length !== 0)">
-                    <h2>Không tìm thấy dữ liệu</h2>
-                </div>
-                <div class="table-responsive" *ngIf="invoicePackageShipments && invoicePackageShipments.length > 0">
-                    <div class="card">
-                        <div class="card-header">
-                            Thông tin đơn vận chuyển
-                        </div>
-                        <div class="card-body">
-                            <table class="table" style="width: 100%;">
-                                <tr>
-                                    <th>Mã vận đơn: </th>
-                                    <td>{{transferRequest.id}}</td>
-                                </tr>
-                                <tr>
-                                    <th>Từ kho hàng: </th>
-                                    <td>{{transferRequest.fromWarehouseId}} - {{fromWarehouse.warehouseName}}</td>
-                                </tr>
-                                <tr>
-                                    <th>Ngày tạo: </th>
-                                    <td>{{transferRequest.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                                </tr>
-                                <tr>
-                                    <th>Số đơn hàng: </th>
-                                    <td>{{invoicePackageShipments.length}}</td>
-                                </tr>
-                                <tr>
-                                    <th>Số gói hàng: </th>
-                                    <td>{{totalPackages(invoicePackageShipments)}}</td>
-                                </tr>
-                            </table>
-                        </div>
+            <div class="table-responsive" *ngIf="!(invoicePackageShipments && invoicePackageShipments.length !== 0)">
+                <h2>Không có yêu cầu nào</h2>
+            </div>
+            <div class="table-responsive" *ngIf="invoicePackageShipments && invoicePackageShipments.length > 0">
+                <div class="card">
+                    <div class="card-header">
+                        Thông tin đơn vận chuyển
                     </div>
-                    <br>
-                    <table class="table table-striped">
-                        <thead>
+                    <div class="card-body">
+                        <table class="table" style="width: 100%;">
                             <tr>
-                                <th>
-                                    <input type="checkbox" [(ngModel)]="this.all" (change)="checkAll($event)" >
-                                </th>
-                                <th>Số hóa đơn</th>
-                                <th>Tình trạng đơn hàng</th>
-                                <th>Số gói hàng</th>
-                                <th>Kích thước chi tiết</th>
-                                <th></th>
+                                <th>Mã vận đơn: </th>
+                                <td>{{transferRequest.id}}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let object of invoicePackageShipments ;let i = index">
-                                <td><input type="checkbox" id="chkBox{{i}}" [(ngModel)]="selectedCheckBox[i]"
-                                        (change)="checked(i, $event)"></td>
-                                <td>{{object.invoiceHeader.invoiceNo}}</td>
-                                <td>{{common.processInvoiceStatus(object.invoiceHeader.status)}}</td>
-                                <td>{{object.invoicePackageList.length}}</td>
-                                <td>
-                                    <span *ngFor="let pk of object.invoicePackageList ; let pi = index">
-                                        #{{pi}}: {{pk.length}}(cm) x {{pk.width}}(cm) x {{pk.height}}(cm):
-                                        {{pk.weight}}(g) <br />
-                                    </span>
-                                </td>
-                                <td class="text-right">
-                                    <div class="btn-group flex-btn-group-container">
-                                        <button type="submit"
-                                            [routerLink]="['/invoice-header', object.invoiceHeader.id, 'view']"
-                                            class="btn btn-info btn-sm">
-                                            <fa-icon [icon]="'eye'"></fa-icon>
-                                            <span class="d-none d-md-inline">Chi tiết</span>
-                                        </button>
-                                    </div>
-                                </td>
+                            <tr>
+                                <th>Từ kho hàng: </th>
+                                <td>{{transferRequest.fromWarehouseId}} - {{fromWarehouse.warehouseName}}</td>
                             </tr>
-                        </tbody>
-                    </table>
+                            <tr>
+                                <th>Ngày tạo: </th>
+                                <td>{{transferRequest.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                            </tr>
+                            <tr>
+                                <th>Số đơn hàng: </th>
+                                <td>{{invoicePackageShipments.length}}</td>
+                            </tr>
+                            <tr>
+                                <th>Số gói hàng: </th>
+                                <td>{{totalPackages(invoicePackageShipments)}}</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-
-            <button type="submit" (click)="previousState()"  class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
-            </button>
-
-            <button type="button" class="btn btn-primary" (click)="approve()">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Xác nhận</span>
-            </button>
+                <br>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" [(ngModel)]="this.all" (change)="checkAll($event)">
+                            </th>
+                            <th>Số hóa đơn</th>
+                            <th>Tình trạng đơn hàng</th>
+                            <th>Số gói hàng</th>
+                            <th>Kích thước chi tiết</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let object of invoicePackageShipments ;let i = index">
+                            <td><input type="checkbox" id="chkBox{{i}}" [(ngModel)]="selectedCheckBox[i]"
+                                    (change)="checked(i, $event)"></td>
+                            <td>{{object.invoiceHeader.invoiceNo}}</td>
+                            <td>{{common.processInvoiceStatus(object.invoiceHeader.status)}}</td>
+                            <td>{{object.invoicePackageList.length}}</td>
+                            <td>
+                                <span *ngFor="let pk of object.invoicePackageList ; let pi = index">
+                                    #{{pi + 1}}: {{pk.length}}(cm) x {{pk.width}}(cm) x {{pk.height}}(cm):
+                                    {{pk.weight}}(g) <br />
+                                </span>
+                            </td>
+                            <td class="text-right">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button type="submit"
+                                        [routerLink]="['/invoice-header', object.invoiceHeader.id, 'view']"
+                                        class="btn btn-info btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">Chi tiết</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div>
+                <button type="submit" (click)="previousState()" class="btn btn-info">
+                    <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Quay lại</span>
+                </button>
+                <button type="button" class="btn btn-primary" (click)="approve()">
+                    <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Xác nhận</span>
+                </button>
+            </div>
+            <br>
+            <br>
         </div>
     </div>
 </div>
