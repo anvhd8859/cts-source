@@ -173,7 +173,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 this.invoiceHeader.officeId = this.currentProfile.officeId;
                 this.invoiceHeader.employeeId = this.currentUser.id;
             }
-            this.invoiceHeader.status = 'first_import';
+            this.invoiceHeader.status = 'received';
             this.invoiceHeader.customerId = this.selectedUser.id;
             this.invoiceHeader.receiverPay = this.selectedPayer === '1' ? true : false;
             let wei = 0;
