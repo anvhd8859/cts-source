@@ -360,12 +360,12 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
 	public ReceiptNoteDTO createReceiptByOfficer(ReceiptDetailPackageDTO data) {
 		Instant instant = Instant.now();
 		InvoiceHeader inv = invoiceHeaderRepository.getOne(data.getReceipt().getInvoiceHeaderId());
-		inv.setStatus("first_import");
+		inv.setStatus("received");
 
 		// delivery receipt and process
 		for (PackageDetailsDTO pd : data.getPackageList()) {
 			pd.getInvPackage().setUpdateDate(instant);
-			pd.getInvPackage().setStatus("first_import");
+			pd.getInvPackage().setStatus("received");
 			pd.getInvPackage().setInvoiceHeaderId(data.getReceipt().getInvoiceHeaderId());
 			InvoicePackage ip = invoicePackageRepository.save(invoicePackageMapper.toEntity(pd.getInvPackage()));
 			for (InvoiceDetailsDTO id : pd.getItemList()) {

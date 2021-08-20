@@ -43,6 +43,7 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
     currentProfile: IUserProfile;
     profileList: IUserProfile[];
     common: CommonString;
+    lstShipper: IUser[] = [];
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -69,9 +70,14 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
 
     loadAll() {
         this.ngxUiLoaderService.start();
-        forkJoin(this.invoiceHeaderService.getListUserByRole({ role: 'ROLE_SHIPPER' }), this.principal.identity()).subscribe(resp => {
+        forkJoin(
+            this.invoiceHeaderService.getListUserByRole({ role: 'ROLE_SHIPPER' }),
+            this.principal.identity(),
+            this.invoiceHeaderService.getListUserByRole({ role: 'ROLE_OFFICER' })
+        ).subscribe(resp => {
             this.lstUser = resp[0].body;
             this.currentAccount = resp[1];
+            this.lstShipper = resp[2].body;
             this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(profile => {
                 this.currentProfile = profile.body;
                 this.officeId = this.currentProfile.officeId;
@@ -101,6 +107,11 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
 
     getName(id: number): string {
         for (const obj of this.lstUser) {
+            if (obj.id === id) {
+                return obj.lastName + ' ' + obj.firstName;
+            }
+        }
+        for (const obj of this.lstShipper) {
             if (obj.id === id) {
                 return obj.lastName + ' ' + obj.firstName;
             }

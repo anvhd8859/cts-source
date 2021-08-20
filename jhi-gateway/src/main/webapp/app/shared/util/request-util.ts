@@ -119,7 +119,7 @@ export class CalculateShipFee {
             result = 25000;
         } else if (totalWeight <= 2.0) {
             result = 29000;
-        } else if (totalWeight <= 100.0) {
+        } else if (totalWeight <= 10.0) {
             result = 29000 + 2600.0 * (totalWeight - 2);
         } else {
             result = 29000 + 2600.0 * 88 + 1400.0 * (totalWeight - 100);

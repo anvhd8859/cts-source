@@ -135,6 +135,9 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         this.invoiceHeader.subTotal = Math.round(this.cal.calculateSubTotal(this.createPackage) * 100) / 100;
         this.invoiceHeader.taxAmount = Math.round(0.1 * this.invoiceHeader.subTotal * 100) / 100;
         this.invoiceHeader.totalDue = Math.round(1.1 * this.invoiceHeader.subTotal * 100) / 100;
+        this.invoiceHeader.subTotal = Math.round(this.invoiceHeader.subTotal / 100) * 100;
+        this.invoiceHeader.taxAmount = Math.round(this.invoiceHeader.taxAmount / 100) * 100;
+        this.invoiceHeader.totalDue = Math.round(this.invoiceHeader.totalDue / 100) * 100;
     }
 
     addNewPackageDetailsDTO() {

@@ -315,7 +315,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 				result = new BigDecimal(25000);
 			else if (totalWeight <= 2.00)
 				result = new BigDecimal(29000);
-			else if (totalWeight <= 100.00)
+			else if (totalWeight <= 10.00)
 				result = new BigDecimal(29000).add(BigDecimal.valueOf(2600.0 * (totalWeight - 2.0)));
 			else
 				result = new BigDecimal(29000).add(BigDecimal.valueOf(2600.0 * 88.0)).add(BigDecimal.valueOf(1400.0 * (totalWeight - 100.0)));
@@ -330,11 +330,12 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 				result = new BigDecimal(27000);
 			else if (totalWeight <= 2.00)
 				result = new BigDecimal(31000);
-			else if (totalWeight <= 100.00)
+			else if (totalWeight <= 10.00)
 				result = new BigDecimal(31000).add(BigDecimal.valueOf(5000.0 * (totalWeight - 2.0)));
 			else
 				result = new BigDecimal(31000).add(BigDecimal.valueOf(5000.0 * 88.0)).add(BigDecimal.valueOf(3200.0 * (totalWeight - 100.0)));
 		}
+		result = result.divide(BigDecimal.valueOf(100)).setScale(0, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal.valueOf(100));
 		return result;
 	}
 
