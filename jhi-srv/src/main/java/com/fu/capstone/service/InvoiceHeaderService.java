@@ -76,7 +76,7 @@ public interface InvoiceHeaderService {
 	Page<InvoicePackageDetailDTO> getFullInvoiceByPayment(Long id, String invoiceNo, String status, String receiveFrom,
 			String receiveTo, String createFrom, String createTo, Pageable pageable);
 
-	Page<InvoicePackageDetailDTO> getImportInvoiceByOfficer(Long id, String invNo, String from, String to, Pageable pageable);
+	Page<InvoicePackageDetailDTO> getImportInvoiceByOfficer(Long id, Long oid, String invNo, String from, String to, Pageable pageable);
 
 	Page<InvoicePackageShipmentDTO> getInvoiceByWarehouse(Long id, String invNo, Pageable pageable);
 

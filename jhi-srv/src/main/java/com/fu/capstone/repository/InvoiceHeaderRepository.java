@@ -107,21 +107,21 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 	InvoiceHeader getInvoiceByShipmentId(@Param("id") Long shipmentId);
 
 	@Query(value = "SELECT i.* FROM invoice_header i "
-			+ " WHERE i.employee_id = :id "
+			+ " WHERE (i.employee_id = :id OR i.office_id = :oid) "
 			+ " AND i.status = 'received' "
 			+ " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
 			+ " AND (:from = '' OR i.review_date >= CONCAT(:from , ' 00:00:00')) "
 			+ " AND (:to = '' OR i.review_date <= CONCAT(:to , ' 23:59:59')) "
 			+ " ORDER BY i.due_date",
 			countQuery = "SELECT COUNT(*) FROM invoice_header i "
-					+ " WHERE i.employee_id = :id "
+					+ " WHERE (i.employee_id = :id OR i.office_id = :oid) "
 					+ " AND i.status = 'received' "
 					+ " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
 					+ " AND (:from = '' OR i.review_date >= CONCAT(:from , ' 00:00:00')) "
 					+ " AND (:to = '' OR i.review_date <= CONCAT(:to , ' 23:59:59')) "
 					+ " ORDER BY i.due_date",
 			nativeQuery = true)
-	Page<InvoiceHeader> getImportInvoiceByOfficer(Long id, String invNo, String from, String to, Pageable pageable);
+	Page<InvoiceHeader> getImportInvoiceByOfficer(Long id, Long oid,String invNo, String from, String to, Pageable pageable);
 
 	@Query(value = "SELECT i FROM InvoiceHeader i, TransferDetails t WHERE i.id = t.invoicePackageId "
 				 + " AND t.transferId = :id ")

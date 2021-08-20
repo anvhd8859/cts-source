@@ -459,9 +459,9 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 	}
 
 	@Override
-	public Page<InvoicePackageDetailDTO> getImportInvoiceByOfficer(Long id, String invNo, String from,
+	public Page<InvoicePackageDetailDTO> getImportInvoiceByOfficer(Long id, Long oid,String invNo, String from,
 			String to, Pageable pageable) {
-		Page<InvoiceHeader> page = invoiceHeaderRepository.getImportInvoiceByOfficer(id, invNo, from, to, pageable);
+		Page<InvoiceHeader> page = invoiceHeaderRepository.getImportInvoiceByOfficer(id, oid, invNo, from, to, pageable);
 		return page.map(this::converterInvoicePackageDetailDTO);
 	}
 

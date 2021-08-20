@@ -82,8 +82,40 @@ export class RequestImportWarehouseOfficerUpdateComponent implements OnInit {
         });
         this.principal.identity().then(account => {
             this.currentAccount = account;
-            this.loadAll();
+            this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(res => {
+                this.currentProfile = res.body;
+                this.invoiceHeaderService.getListKeeperByOfficeID({ id: this.currentProfile.officeId }).subscribe(resp => {
+                    this.keeperList = resp.body;
+                });
+                this.loadAll();
+            });
         });
+    }
+
+    loadAll() {
+        this.isSaving = false;
+        this.ngxUiLoaderService.start();
+        const param = {
+            id: this.currentAccount.id,
+            oid: this.currentProfile.officeId,
+            invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
+            type: this.selectedTypeShipment,
+            from: this.fromTime ? this.fromTime.year() + '-' + (this.fromTime.month() + 1) + '-' + this.fromTime.date() : '',
+            to: this.toTime ? this.toTime.year() + '-' + (this.toTime.month() + 1) + '-' + this.toTime.date() : '',
+            page: this.page - 1,
+            size: this.itemsPerPage
+        };
+        this.invoiceHeaderService.getImportInvoiceByOfficer(param).subscribe(
+            (res: HttpResponse<any>) => {
+                this.paginateInvoiceHeaders(res.body, res.headers);
+                this.selectedTypeFromServer = this.selectedTypeShipment;
+                this.ngxUiLoaderService.stop();
+            },
+            (res: HttpErrorResponse) => {
+                this.onError();
+                this.ngxUiLoaderService.stop();
+            }
+        );
     }
 
     previousState() {
@@ -159,37 +191,6 @@ export class RequestImportWarehouseOfficerUpdateComponent implements OnInit {
             }
         }
         return result;
-    }
-
-    loadAll() {
-        this.isSaving = false;
-        this.ngxUiLoaderService.start();
-        const param = {
-            id: this.currentAccount.id,
-            invNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
-            type: this.selectedTypeShipment,
-            from: this.fromTime ? this.fromTime.year() + '-' + (this.fromTime.month() + 1) + '-' + this.fromTime.date() : '',
-            to: this.toTime ? this.toTime.year() + '-' + (this.toTime.month() + 1) + '-' + this.toTime.date() : '',
-            page: this.page - 1,
-            size: this.itemsPerPage
-        };
-        this.invoiceHeaderService.getImportInvoiceByOfficer(param).subscribe(
-            (res: HttpResponse<any>) => {
-                this.paginateInvoiceHeaders(res.body, res.headers);
-                this.selectedTypeFromServer = this.selectedTypeShipment;
-                this.ngxUiLoaderService.stop();
-            },
-            (res: HttpErrorResponse) => {
-                this.onError();
-                this.ngxUiLoaderService.stop();
-            }
-        );
-        this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(res => {
-            this.currentProfile = res.body;
-            this.invoiceHeaderService.getListKeeperByOfficeID({ id: this.currentProfile.officeId }).subscribe(resp => {
-                this.keeperList = resp.body;
-            });
-        });
     }
 
     private paginateInvoiceHeaders(data: InvoicePackages[], headers: HttpHeaders) {
