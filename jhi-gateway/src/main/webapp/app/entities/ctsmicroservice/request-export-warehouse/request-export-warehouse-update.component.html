@@ -7,7 +7,6 @@
         <h2 style="font-weight: bold;" id="page-heading">
             <span>Tạo yêu cầu xuất kho</span>
         </h2>
-
         <div class="card">
             <!-- header filter -->
             <div class="card-header">
@@ -23,7 +22,8 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="form-group">
                             <label for="type">Loại đơn chuyển phát</label>
-                            <input type="text" class="form-control" value="{{selectedTypeShipment}}" >
+                            <input type="text" class="form-control"
+                            value="{{common.processShipmentType(selectedTypeShipment)}}" disabled >
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,4 @@
+import { CalculateShipFee } from './../../../shared/util/request-util';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
@@ -67,6 +68,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
     lstInvoiceDetails: IInvoiceDetails[] = [];
     invDetailCount = 0;
     common: CommonString;
+    cal: CalculateShipFee;
     vnf_regex = /^(09|03|07|08|05)([0-9]{8})$/;
 
     constructor(
@@ -80,6 +82,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.common = new CommonString();
+        this.cal = new CalculateShipFee();
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ invoiceHeader }) => {
             this.invoiceHeader = invoiceHeader;
@@ -111,6 +114,16 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         this.createPackage[packageIndex].itemList.splice(index, 1);
     }
     // HaiNM
+
+    calculate() {
+        if (this.selectedCollect && this.selectedCollect === 1) {
+            this.invoiceHeader.subTotal = Math.round((this.cal.calculateSubTotal(this.createPackage) * 1.05 + 2500) * 100) / 100;
+        } else {
+            this.invoiceHeader.subTotal = Math.round(this.cal.calculateSubTotal(this.createPackage) * 100) / 100;
+        }
+        this.invoiceHeader.taxAmount = Math.round(0.1 * this.invoiceHeader.subTotal * 100) / 100;
+        this.invoiceHeader.totalDue = Math.round(1.1 * this.invoiceHeader.subTotal * 100) / 100;
+    }
 
     previousState() {
         window.history.back();

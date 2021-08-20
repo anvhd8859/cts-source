@@ -1,3 +1,4 @@
+import { CalculateShipFee } from './../../../shared/util/request-util';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
@@ -63,6 +64,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     invDetailCount = 0;
     currentUser: IUser;
     currentProfile: IUserProfile;
+    cal: CalculateShipFee;
     vnf_regex = /(09|03|07|08|05)([0-9]{8})/g;
 
     constructor(
@@ -74,6 +76,7 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.cal = new CalculateShipFee();
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ invoiceHeader }) => {
             this.invoiceHeader = invoiceHeader;
@@ -127,6 +130,13 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
     }
 
     // HaiNM
+
+    calculate() {
+        this.invoiceHeader.subTotal = Math.round(this.cal.calculateSubTotal(this.createPackage) * 100) / 100;
+        this.invoiceHeader.taxAmount = Math.round(0.1 * this.invoiceHeader.subTotal * 100) / 100;
+        this.invoiceHeader.totalDue = Math.round(1.1 * this.invoiceHeader.subTotal * 100) / 100;
+    }
+
     addNewPackageDetailsDTO() {
         const obj = new PackageDetailsDTO();
         this.createPackage.push(obj);

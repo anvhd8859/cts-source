@@ -334,8 +334,10 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
                     if (rd.getInvoiceHeader().getStatus().equals("collected") || rd.getInvoiceHeader().getStatus().equals("received")) {
                         rd.getInvoiceHeader().setStatus("first_import");
                         PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(rd.getInvoiceHeader().getId());
-                        ps.setStatus("finish");
-                        psList.add(ps);
+                        if (ps != null) {
+                            ps.setStatus("finish");
+                            psList.add(ps);
+                        }
                     }
 
                     // to last import
