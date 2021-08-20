@@ -90,10 +90,10 @@ export class PersonalShipmentComponent implements OnInit, OnDestroy {
     loadAll() {
         this.isSaving = false;
         this.ngxUiLoaderService.start();
-        if (this.selectedTypeShipment.id === 'delivery') {
+        if (this.selectedTypeShipment === 'delivery') {
             this.selectedInvoiceStatus = 'delivering';
         }
-        if (this.selectedTypeShipment.id === 'collect') {
+        if (this.selectedTypeShipment === 'collect') {
             this.selectedInvoiceStatus = 'new';
         }
         const param = {
