@@ -139,6 +139,7 @@ public class WarehouseTransferRequestServiceImpl implements WarehouseTransferReq
 
 		List<TransferDetails> tdList = new ArrayList<>();
 		List<InvoiceHeader> invList = new ArrayList<>();
+        List<InvoicePackage> ipList = new ArrayList<>();
 		List<InvoicePackageShipmentDTO> data = body.getInvoicePackageList();
 		for (InvoicePackageShipmentDTO ips : data) {
 			TransferDetails td = new TransferDetails();
@@ -149,12 +150,19 @@ public class WarehouseTransferRequestServiceImpl implements WarehouseTransferReq
 			td.setStatus(false);
 			td.setCreateDate(instant);
 			td.setUpdateDate(instant);
+
 			tdList.add(td);
 			invList.add(inv);
+            ipList.addAll(invoicePackageMapper.toEntity(ips.getInvoicePackageList()));
 		}
+
+		ipList.forEach(x -> {
+		   x.setWarehouseId(null);
+        });
 
 		transferDetailsRepository.saveAll(tdList);
 		invoiceHeaderRepository.saveAll(invList);
+		invoicePackageRepository.saveAll(ipList);
 		return warehouseTransferRequestMapper.toDto(entity);
 	}
 

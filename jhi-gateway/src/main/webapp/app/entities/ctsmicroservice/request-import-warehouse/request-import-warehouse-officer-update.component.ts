@@ -1,3 +1,4 @@
+import { InvoicePackages } from './../warehouse/warehouse-detail.component';
 import { IInvoicePackageShipment } from './../import-invoice-package/import-invoice-package.model';
 import { ImportExportWarehouseService } from 'app/entities/ctsmicroservice/import-export-warehouse/import-export-warehouse.service';
 import {
@@ -20,7 +21,7 @@ import { JhiAlertService, JhiParseLinks } from 'ng-jhipster';
 import { InvoiceHeaderService } from '../invoice-header';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RequestImportModalConfirmComponent } from '.';
-import { IImportExportWarehouse, ImportExportWarehouse } from 'app/shared/model/ctsmicroservice/import-export-warehouse.model';
+import { ImportExportWarehouse } from 'app/shared/model/ctsmicroservice/import-export-warehouse.model';
 import { IInvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 
 @Component({
@@ -31,7 +32,7 @@ export class RequestImportWarehouseOfficerUpdateComponent implements OnInit {
     currentAccount: IUser;
     currentProfile: IUserProfile;
     keeperList: IUser[];
-    shipmentInvoices: IInvoicePackageShipment[];
+    shipmentInvoices: InvoicePackages[];
     isSaving: boolean;
     shipDate: string;
     createDate: string;
@@ -128,7 +129,7 @@ export class RequestImportWarehouseOfficerUpdateComponent implements OnInit {
                         for (const i in this.selectedCheckBox) {
                             if (this.selectedCheckBox[i]) {
                                 const rd = new RequestDetailsDTO();
-                                rd.invoicePackageId = this.shipmentInvoices[i].invoiceHeader.id;
+                                rd.invoicePackageId = this.shipmentInvoices[i].invoice.id;
                                 data.requestDetailsList.push(rd);
                             }
                         }
@@ -191,7 +192,7 @@ export class RequestImportWarehouseOfficerUpdateComponent implements OnInit {
         });
     }
 
-    private paginateInvoiceHeaders(data: IInvoicePackageShipment[], headers: HttpHeaders) {
+    private paginateInvoiceHeaders(data: InvoicePackages[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.queryCount = this.totalItems;

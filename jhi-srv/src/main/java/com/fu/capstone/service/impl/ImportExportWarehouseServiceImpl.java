@@ -259,7 +259,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 				}
 				if (i.getStatus().equals("delivering")) {
 					i.setStatus("last_import");
-					// shipment set status 
+					// shipment set status
 					PersonalShipmentDTO psDeli = ipd.getPersonalShipmentDTO();
 					i.setStatus("last_import");
 					for (InvoicePackage ip : pdList) {
@@ -277,7 +277,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 				InvoiceHeaderDTO i = ipd.getInvoiceHeaderDTO();
 				List<InvoicePackage> pdList = invoicePackageRepository.getInvoicePackageByHeaderId(i.getId());
 				if (i.getStatus().equals("last_import")) {
-					// shipment set status 
+					// shipment set status
 					PersonalShipmentDTO ps = ipd.getPersonalShipmentDTO();
 					i.setStatus("delivering");
 					ps.setStatus("delivering");
@@ -316,11 +316,10 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 	public ImportExportRequestDTO approveWarehouseRequest(IERequestDetailDTO body) {
 		Instant instant = Instant.now();
 		ImportExportRequestDTO request = body.getImportExportWarehouse();
-		Warehouse warehouse = warehouseRepository.getOne(request.getWarehouseId());
 		List<RequestDetailsDTO> rdList = new ArrayList<>();
 		List<InvoiceHeaderDTO> ihList = new ArrayList<>();
 		List<InvoicePackageDTO> ipList = new ArrayList<>();
-		List<Long> invoiceIds = new ArrayList<>();
+        List<PersonalShipment> psList = new ArrayList<>();
 
 		List<RequestDetailInvoiceDTO> requestDetails = body.getRequestDetailsList();
 		request.setKeeperConfirm(true);
@@ -329,29 +328,44 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 		int[] count = new int[]{0, 0};
 		requestDetails.forEach(rd -> {
 			if (rd.getRequestDetails().getStatus()) {
-				if (request.getType().equals("import")) rd.getInvoiceHeader().setStatus("first_import");
-				else rd.getInvoiceHeader().setStatus("last_import");
-				rd.getInvoiceHeader().setOfficeId(warehouse.getOfficeId());
-				rd.getPackageList().forEach(ip -> {
-					ip.setWarehouseId(request.getWarehouseId());
-				});
+			    // import
+                if (request.getType().equals("import")){
+                    // to first import
+                    if (rd.getInvoiceHeader().getStatus().equals("collected") || rd.getInvoiceHeader().getStatus().equals("received")) {
+                        rd.getInvoiceHeader().setStatus("first_import");
+                        PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(rd.getInvoiceHeader().getId());
+                        ps.setStatus("finish");
+                        psList.add(ps);
+                    }
+
+                    // to last import
+                    if (rd.getInvoiceHeader().getStatus().equals("delivering")) {
+                        rd.getInvoiceHeader().setStatus("last_import");
+                        PersonalShipment ps = personalShipmentRepository.getCollectShipmentByInvoice(rd.getInvoiceHeader().getId());
+                        ps.setStatus("new");
+                        psList.add(ps);
+                    }
+
+                    // set warehouse
+                    rd.getPackageList().forEach(ip -> {
+                        ip.setWarehouseId(request.getWarehouseId());
+                    });
+                }
+
+                // export from last import
+                if (request.getType().equals("export")){
+                    rd.getInvoiceHeader().setStatus("delivering");
+                    PersonalShipment ps = personalShipmentRepository.getDeliveryShipmentByInvoice(rd.getInvoiceHeader().getId());
+                    ps.setStatus("delivering");
+                    psList.add(ps);
+                    rd.getPackageList().forEach(ip -> {
+                        ip.setWarehouseId(null);
+                    });
+                }
+
 				ihList.add(rd.getInvoiceHeader());
 				ipList.addAll(rd.getPackageList());
 				count[0]++;
-
-				List<PersonalShipment> shipments = personalShipmentRepository
-						.getAllShipmentByHeaderId(rd.getInvoiceHeader().getId());
-				for (PersonalShipment ps : shipments) {
-					if (ps.getShipmentType().equals("collect") && ps.getStatus().equals("done")) {
-						ps.setStatus("finish");
-					}
-					if (ps.getShipmentType().equals("delivery") && ps.getStatus().equals("delivering")) {
-						ps.setStatus("new");
-					}
-					if (request.getType().equals("export") && ps.getShipmentType().equals("delivery")) {
-						ps.setStatus("delivering");
-					}
-				}
 			}
 			rdList.add(rd.getRequestDetails());
 			count[1]++;
@@ -361,6 +375,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 		requestDetailsRepository.saveAll(requestDetailsMapper.toEntity(rdList));
 		invoiceHeaderRepository.saveAll(invoiceHeaderMapper.toEntity(ihList));
 		invoicePackageRepository.saveAll(invoicePackageMapper.toEntity(ipList));
+		personalShipmentRepository.saveAll(psList);
 		return importExportWarehouseMapper
 				.toDto(importExportWarehouseRepository.save(importExportWarehouseMapper.toEntity(request)));
 	}

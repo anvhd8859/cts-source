@@ -103,12 +103,12 @@
                                 <td><input type="checkbox" id="chkBox{{i}}" [(ngModel)]="selectedCheckBox[i]"
                                         (change)="checked(i, $event)"></td>
                                 <td>{{i + 1}} </td>
-                                <td>{{object.invoiceHeader.invoiceNo}} </td>
-                                <td>{{object.invoicePackageList.length}}</td>
-                                <td>{{totalWeight(object.invoicePackageList)}} g</td>
-                                <td>{{object.invoiceHeader.startAddress}} </td>
-                                <td>{{object.invoiceHeader.destinationAddress}} </td>
-                                <td>{{object.invoiceHeader.reviewDate}} </td>
+                                <td>{{object.invoice.invoiceNo}} </td>
+                                <td>{{object.packageList.length}}</td>
+                                <td>{{totalWeight(object.packageList)}} g</td>
+                                <td>{{object.invoice.startAddress}} </td>
+                                <td>{{object.invoice.destinationAddress}} </td>
+                                <td>{{object.invoice.reviewDate}} </td>
                             </tr>
                         </tbody>
                     </table>

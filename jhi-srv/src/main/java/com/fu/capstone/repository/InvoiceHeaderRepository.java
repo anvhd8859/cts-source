@@ -128,6 +128,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 	List<InvoiceHeader> getInvoiceHeaderByTransferId(@Param("id") Long id);
 
 	@Query(value = "SELECT i FROM InvoiceHeader i, InvoicePackage p WHERE i.id = p.invoiceHeaderId "
+                 + " AND (i.status = 'first_import' OR i.status = 'last_import') "
 				 + " AND p.warehouseId = :id AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo , '%')) ")
 	Page<InvoiceHeader> getInvoiceByWarehouse(@Param("id") Long id, @Param("invNo") String invNo, Pageable pageable);
 }
