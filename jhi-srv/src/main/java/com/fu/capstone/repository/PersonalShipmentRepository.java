@@ -18,17 +18,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PersonalShipmentRepository extends JpaRepository<PersonalShipment, Long> {
 
-	// START TuyenVNT 
+	// START TuyenVNT
 	@Query( value="SELECT * FROM personal_shipment WHERE invoice_header_id = :invoiceHeaderId",
-			countQuery = "SELECT count(*) FROM personal_shipment WHERE invoice_header_id = :invoiceHeaderId", 
+			countQuery = "SELECT count(*) FROM personal_shipment WHERE invoice_header_id = :invoiceHeaderId",
 			nativeQuery = true)
 	Page<PersonalShipment> getPersonalShipmentByHeaderId(@Param("invoiceHeaderId") Long id,Pageable pageable);
 
 	@Query( value="SELECT * FROM personal_shipment WHERE employee_id is null",
-			countQuery = "SELECT count(*) FROM personal_shipment WHERE employee_id is null", 
+			countQuery = "SELECT count(*) FROM personal_shipment WHERE employee_id is null",
 			nativeQuery = true)
 	Page<PersonalShipment> getPersonalShipmentNotAssigned(Pageable pageable);
-	// END TuyenVNT 
+	// END TuyenVNT
 
 
     // new code DongPH
@@ -38,7 +38,7 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 	@Query(value = "SELECT ps.* FROM personal_shipment ps, invoice_header i "
 				 + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
 				 + " AND ps.status <> 'finish' AND ps.status <> 'done' AND ps.status <> '' "
-				 + " AND ps.shipment_type = :type AND (:status = '' OR i.status = :status) "
+				 + " AND ps.shipment_type = :type AND (:status = '' OR ps.status = :status) "
 				 + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
 				 + " AND (:from = '' OR i.due_date >= CONCAT(:from , ' 00:00:00')) "
 				 + " AND (:to = '' OR i.due_date <= CONCAT(:to , ' 23:59:59')) "
@@ -46,13 +46,13 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 			countQuery = "SELECT COUNT(*) FROM personal_shipment ps, invoice_header i"
 					   + " WHERE i.id = ps.invoice_header_id AND ps.employee_id = :id "
 					   + " AND ps.status <> 'finish'  AND ps.status <> 'done' AND  ps.status <> '' "
-					   + " AND ps.shipment_type = :type AND (:status = '' OR i.status = :status) "
+					   + " AND ps.shipment_type = :type AND (:status = '' OR ps.status = :status) "
 					   + " AND (:invNo = '' OR i.invoice_no like CONCAT('%', :invNo , '%')) "
 					   + " AND (:from = '' OR i.due_date >= CONCAT(:from , ' 00:00:00')) "
 					   + " AND (:to = '' OR i.due_date <= CONCAT(:to , ' 23:59:59')) "
 					   + " ORDER BY i.due_date",
 			nativeQuery = true)
-	Page<PersonalShipment> getPersonalShipmentByShipper(@Param("id") Long id, 
+	Page<PersonalShipment> getPersonalShipmentByShipper(@Param("id") Long id,
 			@Param("invNo") String invNo, @Param("status") String status, @Param("type") String type,
 			@Param("from") String from, @Param("to") String to, Pageable pageable);
 
