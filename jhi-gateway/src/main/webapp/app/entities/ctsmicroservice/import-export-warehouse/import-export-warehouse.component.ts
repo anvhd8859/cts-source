@@ -83,7 +83,7 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
                 this.officeId = this.currentProfile.officeId;
                 this.importExportWarehouseService
                     .getImportExportWarehouseByFilter({
-                        eid: this.selectedShipper ? this.selectedShipper.Id : '',
+                        eid: this.selectedShipper ? this.selectedShipper.id : '',
                         oid: this.officeId,
                         type: this.selectedType ? this.selectedType : '',
                         cf: this.selectedConfirm ? this.selectedConfirm : '',
@@ -119,6 +119,19 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
         return '';
     }
 
+    getEmail(id: number): string {
+        for (const obj of this.lstUser) {
+            if (obj.id === id) {
+                return obj.login;
+            }
+        }
+        for (const obj of this.lstShipper) {
+            if (obj.id === id) {
+                return obj.login;
+            }
+        }
+        return '';
+    }
     loadPage(page: number) {
         if (page !== this.previousPage) {
             this.previousPage = page;

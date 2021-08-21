@@ -1,6 +1,6 @@
 import { CalculateShipFee } from './../../../shared/util/request-util';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { forkJoin, from, Observable } from 'rxjs';
 import * as moment from 'moment';
@@ -19,7 +19,7 @@ import { IInvoiceDetails, InvoiceDetails } from 'app/shared/model/ctsmicroservic
 import { IInvoicePackage, InvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 import { CommonString } from 'app/shared';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { InvoiceHeaderPricingDialogComponent, InvoiceHeaderPricingPopupComponent } from './invoice-header-pricing-dialog.component';
+import { InvoiceHeaderPricingDialogComponent } from './invoice-header-pricing-dialog.component';
 import { InvoiceHeaderBanItemDialogComponent } from '.';
 
 @Component({
@@ -75,6 +75,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         private invoiceHeaderService: InvoiceHeaderService,
         private accountService: AccountService,
         private activatedRoute: ActivatedRoute,
+        private router: Router,
         private alertService: JhiAlertService,
         private principal: Principal,
         private modalService: NgbModal
@@ -92,7 +93,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
             this.updateDate = this.invoiceHeader.updateDate != null ? this.invoiceHeader.updateDate.format(DATE_TIME_FORMAT) : null;
         });
         forkJoin(this.principal.identity(), this.accountService.getLstCity()).subscribe(res => {
-            (this.selectedUser = res[0]), (this.lstProvinceFrom = res[1].body);
+            this.selectedUser = res[0];
             this.lstProvinceTo = res[1].body;
             this.changeUser();
         });
@@ -295,6 +296,19 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
     changeUser() {
         this.accountService.findByUserID({ id: this.selectedUser.id }).subscribe(res => {
             this.selectedUserProfile = res.body;
+            this.accountService.getStreetAndParentById({ id: this.selectedUserProfile.streetId }).subscribe(res => {
+                const data = res.body;
+                this.selectedUserProfile.address =
+                    this.selectedUserProfile.address +
+                    ', ' +
+                    data.streetName +
+                    ', ' +
+                    data.subDistrictId.subDistrictName +
+                    ', ' +
+                    data.subDistrictId.districtId.districtName +
+                    ', ' +
+                    data.subDistrictId.districtId.provinceId.provinceName;
+            });
         });
     }
 
@@ -408,12 +422,15 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
     }
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<IInvoiceHeader>>) {
-        result.subscribe((res: HttpResponse<IInvoiceHeader>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe(
+            (res: HttpResponse<IInvoiceHeader>) => this.onSaveSuccess(res.body),
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
     }
 
-    private onSaveSuccess() {
+    private onSaveSuccess(data?: any) {
         this.isSaving = false;
-        this.previousState();
+        this.router.navigate(['/invoice-header', data.id, 'view']);
     }
 
     private onSaveError() {

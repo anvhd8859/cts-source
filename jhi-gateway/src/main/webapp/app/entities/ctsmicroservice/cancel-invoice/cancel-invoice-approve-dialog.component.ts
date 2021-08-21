@@ -29,30 +29,26 @@ export class CancelInvoiceApproveDialogComponent {
     }
 
     confirmApprove(cancelInvoice: ICancelInvoice) {
-        if (this.note) {
-            this.isSaving = true;
-            this.cancelInvoice.cancelReason = this.note;
-            this.cancelInvoiceService.approveCancelInvoiceHeaders(cancelInvoice).subscribe(
-                (response: HttpResponse<ICancelInvoice>) => {
-                    this.isSaving = false;
-                    this.eventManager.broadcast({
-                        name: 'cancelInvoiceListModification',
-                        content: 'Đã hủy đơn hàng ' + cancelInvoice.invoiceNo
-                    });
-                    this.activeModal.dismiss(true);
-                },
-                (response: HttpErrorResponse) => {
-                    this.isSaving = false;
-                    this.eventManager.broadcast({
-                        name: 'cancelInvoiceListModification',
-                        content: response.message
-                    });
-                    this.activeModal.dismiss(true);
-                }
-            );
-        } else {
-            this.check = 'Hãy lý do hủy đơn hàng';
-        }
+        this.isSaving = true;
+        this.cancelInvoice.cancelReason = this.note;
+        this.cancelInvoiceService.approveCancelInvoiceHeaders(cancelInvoice).subscribe(
+            (response: HttpResponse<ICancelInvoice>) => {
+                this.isSaving = false;
+                this.eventManager.broadcast({
+                    name: 'cancelInvoiceListModification',
+                    content: 'Đã hủy đơn hàng ' + cancelInvoice.invoiceNo
+                });
+                this.activeModal.dismiss(true);
+            },
+            (response: HttpErrorResponse) => {
+                this.isSaving = false;
+                this.eventManager.broadcast({
+                    name: 'cancelInvoiceListModification',
+                    content: response.message
+                });
+                this.activeModal.dismiss(true);
+            }
+        );
     }
 }
 @Component({

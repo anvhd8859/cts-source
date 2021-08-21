@@ -15,8 +15,8 @@
         <br />
         <div class="card">
             <div class="card-body">
-                <div *ngIf="!invoiceHeaders || invoiceHeaders.length === 0">
-                    <h2>Không tìm thấy dữ liệu</h2>
+                <div *ngIf="!(invoiceHeaders && invoiceHeaders.length > 0)">
+                    <h3>Không tìm thấy dữ liệu</h3>
                 </div>
                 <div *ngIf="invoiceHeaders && invoiceHeaders.length > 0">
                     <table class="table table-striped">

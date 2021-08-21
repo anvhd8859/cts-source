@@ -3,8 +3,7 @@
         <br>
         <br>
         <br>
-        <br>
-        <span>Quản lý yêu cầu Xuất, Nhập kho</span>
+        <span style="font-weight: 700;">Quản lý yêu cầu Xuất, Nhập kho</span>
         <!-- <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-import-export-warehouse" [routerLink]="['/import-export-warehouse/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
@@ -13,6 +12,7 @@
         </button> -->
     </h2>
     <jhi-alert></jhi-alert>
+    <br>
     <div class="divider"></div>
     <div class="card">
         <div class="card-header">
@@ -23,7 +23,7 @@
                         <ng-select [clearable]="true" [hideSelected]="true" [items]="this.lstUser" bindLabel="email"
                             id="field_customerId" name="field_customerId" [ngModelOptions]="{standalone: true}"
                             [(ngModel)]="this.selectedShipper">
-                            <ng-option *ngFor="let item of lstUser">{{item.email}}</ng-option>
+                            <ng-option *ngFor="let item of lstUser">{{item}}</ng-option>
                         </ng-select>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                         </ng-select>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-3 col-md-6 col-sm-6 text-center">
                     <div class="form-group">
                         <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary"
                             (click)="this.loadAll()">
@@ -64,25 +64,23 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th><span>#</span></th>
-                    <th><span>Mã nhân viên</span></th>
+                    <th><span>Mã số</span></th>
                     <th><span>Tên nhân viên</span></th>
+                    <th><span>Tên đăng nhập</span></th>
                     <th><span>Loại yêu cầu</span></th>
                     <th><span>Tình trạng</span></th>
                     <th><span>Ngày tạo</span></th>
-                    <th><span>Ngày chỉnh sửa</span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let importExportWarehouse of importExportWarehouses">
                     <td><a>{{importExportWarehouse.id}}</a></td>
-                    <td>{{importExportWarehouse.employeeId}}</td>
                     <td>{{getName(importExportWarehouse.employeeId)}}</td>
+                    <td>{{getEmail(importExportWarehouse.employeeId)}}</td>
                     <td>{{importExportWarehouse.type === 'import' ? 'Nhập kho' : 'Xuất kho'}}</td>
                     <td>{{importExportWarehouse.keeperConfirm ? 'Đã xác nhận' : 'Chưa xác nhận'}}</td>
                     <td>{{importExportWarehouse.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                    <td>{{importExportWarehouse.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
@@ -97,6 +95,7 @@
             </tbody>
         </table>
     </div>
+    <br>
     <div *ngIf="importExportWarehouses && importExportWarehouses.length">
         <div class="row justify-content-center">
             <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
@@ -107,4 +106,5 @@
                 [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
     </div>
+    <br>
 </div>

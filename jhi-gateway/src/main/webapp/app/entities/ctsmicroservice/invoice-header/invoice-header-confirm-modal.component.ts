@@ -21,7 +21,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
             <span *ngIf="!action">
                 <i style="color: red">{{check}}</i>
                 <label>Lý do: </label>
-                <textarea  class="form-control" style="resize: none;" rows="3"
+                <textarea  class="form-control" style="resize: none;" rows="3" cols="60"
                     ([ngModel])="note" type="text"></textarea>
             </span>
         </h3>

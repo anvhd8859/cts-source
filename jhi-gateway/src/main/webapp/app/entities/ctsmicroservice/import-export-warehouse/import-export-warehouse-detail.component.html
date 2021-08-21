@@ -11,7 +11,16 @@
             </h2>
             <hr>
             <jhi-alert></jhi-alert>
-
+            <br>
+            <br>
+            <div>
+                <div class="col-lg-3 ">
+                    <button type="submit" (click)="previousState()" style="width: 150px;" class="btn btn-info">
+                        <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;&nbsp;<span> Quay lại</span>
+                    </button>
+                </div>
+            </div>
+            <br>
             <div class="table table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -46,19 +55,16 @@
                     </tbody>
                 </table>
             </div>
-
+            <br>
             <div class="row">
                 <div class="col-lg-2"></div>
-                <div class="col-lg-3 ">
-                    <button type="submit" (click)="previousState()" style="width: 150px;" class="btn btn-info">
-                        <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;&nbsp;<span> Quay lại</span>
-                    </button>
-                </div>
                 <div class="col-lg-3 ">
                     <button type="submit" (click)="processAction(0)" style="width: 150px;"
                         *ngIf="!importExportWarehouse.keeperConfirm" class="btn btn-danger">
                         <fa-icon [icon]="'times'"></fa-icon>&nbsp;&nbsp;<span> Hủy</span>
                     </button>
+                </div>
+                <div class="col-lg-3 ">
                 </div>
                 <div class="col-lg-2 ">
                     <button type="submit" (click)="processAction(1)" style="width: 150px;"
@@ -67,6 +73,8 @@
                     </button>
                 </div>
             </div>
+            <br>
+            <br>
         </div>
     </div>
 </div>

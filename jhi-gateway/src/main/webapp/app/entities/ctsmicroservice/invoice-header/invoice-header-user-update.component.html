@@ -24,7 +24,7 @@
                     </div>
                     <div class="card-body" name="from-address">
                         <div class="form-group">
-                            <label class="form-control-label" for="field_customerId">Tài khoản khách</label>
+                            <label class="form-control-label" for="field_customerId" style="font-weight: 700;">Tài khoản khách</label>
                             <!-- <ng-select  [clearable]="true"
                                         [hideSelected]="true"
                                         [items]="this.lstUser"
@@ -45,7 +45,7 @@
                         <br>
                         <br>
                         <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id"
-                            class="form-control-label" for="">Thông tin khách hàng</label>
+                            class="form-control-label" for="customer-info" style="font-weight: 700;">Thông tin khách hàng</label>
                         <div *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="col-lg-12">
                             <table class="table">
                                 <tr>
@@ -55,7 +55,7 @@
                                 </tr>
                                 <tr>
                                     <th class="text-left">Giới tính</th>
-                                    <td class="text-left">{{this.selectedUserProfile.gender}}</td>
+                                    <td class="text-left">{{this.selectedUserProfile.gender === 'Male' ? 'Nam' : 'Nữ'}}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left">Số điện thoại</th>
@@ -82,12 +82,12 @@
                             </div>
                             <div class="col-lg-4 col-md-4" style="text-align: right;">
                                 <a id="banitem" (click)="openListBanItem()" class="btn btn-link">
-                                    <span class="d-none d-md-inline">Danh sách vật phẩm cấm</span>
+                                    <fa-icon [icon]="'info-circle'"></fa-icon><span class="d-none d-md-inline"><u>Danh sách vật phẩm cấm</u></span>
                                 </a>
                             </div>
                             <div class="col-lg-4 col-md-4" style="text-align: right;">
                                 <a id="pricing" (click)="openPricing()" class="btn btn-link">
-                                    <span class="d-none d-md-inline">Chi tiết bảng giá</span>
+                                    <fa-icon [icon]="'info-circle'"></fa-icon><span class="d-none d-md-inline"><u>Chi tiết bảng giá</u></span>
                                 </a>
                             </div>
                         </div>
@@ -95,13 +95,13 @@
                     <div class="card-body" name="from-address">
                         <!-- Invoice Package Start-->
                         <label class="form-control-label" for="from-address" style="font-weight: 500;"><b>Chi tiết gói
-                                hàng</b></label>
+                                hàng</b> <span style="color: red;"> *</span></label>
                         <div name="from-address" style="border: gray solid thin; border-radius: 5px; padding: 2%;">
                             <ng-container *ngFor="let item of createPackage; let i = index">
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="row">
-                                            <div class="col-10"> Gói hàng #{{i + 1}} </div>
+                                            <div class="col-10"> Gói hàng #{{i + 1}}  <span style="color: red;"> *</span></div>
                                             <div class="col-2">
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-hidden="true" id="package{{i}}" name="package{{i}}"
@@ -114,7 +114,7 @@
                                             <div class="col-lg-3 col-md-3 col-sm-3">
                                                 <div class="form-group">
                                                     <label class="form-control-label" for="weight{{i}}">Cân nặng
-                                                        (g)</label>
+                                                        (g)  <span style="color: red;"> *</span></label>
                                                     <input placeholder="" class="form-control" step="0.1" min="0"
                                                         type="number" name="weight{{i}}" id="weight{{i}}"
                                                         [(ngModel)]="item.invPackage.weight">
@@ -122,7 +122,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="height{{i}}">Cao (cm)</label>
+                                                    <label class="form-control-label" for="height{{i}}">Cao (cm) <span style="color: red;"> *</span></label>
                                                     <input placeholder="" class="form-control" step="0.1" min="0"
                                                         type="number" name="height{{i}}" id="height{{i}}"
                                                         [(ngModel)]="item.invPackage.height">
@@ -130,7 +130,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="width{{i}}">Rộng (cm)</label>
+                                                    <label class="form-control-label" for="width{{i}}">Rộng (cm) <span style="color: red;"> *</span></label>
                                                     <input placeholder="" class="form-control" step="0.1" min="0"
                                                         type="number" name="width{{i}}" id="width{{i}}"
                                                         [(ngModel)]="item.invPackage.width">
@@ -138,7 +138,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="length{{i}}">Dài (cm)</label>
+                                                    <label class="form-control-label" for="length{{i}}">Dài (cm) <span style="color: red;"> *</span></label>
                                                     <input placeholder="" class="form-control" step="0.1" type="number"
                                                         name="length{{i}}" id="length{{i}}"
                                                         [(ngModel)]="item.invPackage.length">
@@ -260,21 +260,21 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-12 col-sm-12">
                         <div class="form-group">
-                            <label class="form-control-label" for="field_name"><b>Tên người nhận</b></label>
+                            <label class="form-control-label" for="field_name"><b>Tên người nhận <span style="color: red;"> *</span></b></label>
                             <input placeholder="" class="form-control" step="0.1" type="text" name="receiverName"
                                 id="receiverName" [(ngModel)]="invoiceHeader.receiverName" />
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-12 col-sm-12">
                         <div class="form-group">
-                            <label class="form-control-label" for="field_phone"><b>Số điện thoại</b></label>
+                            <label class="form-control-label" for="field_phone"><b>Số điện thoại <span style="color: red;"> *</span></b></label>
                             <input placeholder="" class="form-control" step="1" type="text" name="receiverPhone"
                                 id="receiverPhone" [(ngModel)]="invoiceHeader.receiverPhone" />
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-12 col-sm-12">
                         <div class="form-group">
-                            <label class="form-control-label" for="field_deposit"><b>Hình thức ký gửi</b></label>
+                            <label class="form-control-label" for="field_deposit"><b>Hình thức ký gửi <span style="color: red;"> *</span></b></label>
                             <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstCollect"
                                 bindLabel="text" bindValue="id" id="field_deposit" name="field_deposit"
                                 [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedCollect">
@@ -284,7 +284,7 @@
                     </div>
                     <div class="col-lg-3 col-md-12 col-sm-12">
                         <div class="form-group">
-                            <label class="form-control-label" for="field_payer"><b>Lựa chọn thanh toán</b></label>
+                            <label class="form-control-label" for="field_payer"><b>Lựa chọn thanh toán <span style="color: red;"> *</span></b></label>
                             <ng-select [clearable]="false" [hideSelected]="true" [items]="this.lstPayer"
                                 bindLabel="text" bindValue="id" id="field_payer" name="field_payer"
                                 [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedPayer">
@@ -316,13 +316,13 @@
                         <div class="card">
                             <div class="card-header">
                                 <label class="form-control-label" for="from-address" style="font-weight: bolder;"><b>Địa
-                                        chỉ gửi</b></label>
+                                        chỉ gửi <span style="color: red;"> *</span></b></label>
                             </div>
                             <div class="card-body" name="from-address">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="province">Tỉnh/Thành phố</label>
+                                            <label for="province">Tỉnh/Thành phố <span style="color: red;"> *</span></label>
                                             <ng-select [clearable]="false" [hideSelected]="true"
                                                 [items]="this.lstProvinceFrom" bindLabel="provinceName" id="province"
                                                 name="province" [ngModelOptions]="{standalone: true}"
@@ -335,7 +335,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="district">Quận/Huyện</label>
+                                            <label for="district">Quận/Huyện <span style="color: red;"> *</span></label>
                                             <ng-select [clearable]="false" [hideSelected]="true"
                                                 [items]="this.lstDistrictFrom" bindLabel="districtName" id="district"
                                                 name="district" [ngModelOptions]="{standalone: true}"
@@ -351,7 +351,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="subDistrict">Phường/Xã</label>
+                                            <label for="subDistrict">Phường/Xã <span style="color: red;"> *</span></label>
                                             <ng-select [clearable]="false" [hideSelected]="true"
                                                 [items]="this.lstSubDistrictFrom" bindLabel="subDistrictName"
                                                 id="subDistrict" name="subDistrict"
@@ -366,7 +366,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="street">Đường/Phố</label>
+                                            <label for="street">Đường/Phố <span style="color: red;"> *</span></label>
                                             <ng-select [clearable]="false" [hideSelected]="true"
                                                 [items]="this.lstStreetFrom" bindLabel="streetName" id="street"
                                                 name="street" [ngModelOptions]="{standalone: true}"
@@ -381,7 +381,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="address">Địa chỉ</label>
+                                            <label for="address">Địa chỉ <span style="color: red;"> *</span></label>
                                             <textarea class="form-control" style="resize: none;" rows="3" id="address"
                                                 name="address" [(ngModel)]="this.selectedAddressFrom">
                                             </textarea>
@@ -397,13 +397,13 @@
                         <div class="card">
                             <div class="card-header">
                                 <label class="form-control-label" for="to-address" style="font-weight: bolder;"><b>Địa
-                                        chỉ nhận</b></label>
+                                        chỉ nhận <span style="color: red;"> *</span></b></label>
                             </div>
                             <div class="card-body" name="to-address">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="province">Tỉnh/Thành Phố</label>
+                                            <label for="province">Tỉnh/Thành Phố <span style="color: red;"> *</span></label>
                                             <ng-select [clearable]="false" [hideSelected]="true"
                                                 [items]="this.lstProvinceTo" bindLabel="provinceName" id="province"
                                                 name="province" [ngModelOptions]="{standalone: true}"
@@ -415,7 +415,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="district">Quận/Huyện</label>
+                                            <label for="district">Quận/Huyện <span style="color: red;"> *</span></label>
                                             <ng-select [clearable]="false" [hideSelected]="true"
                                                 [items]="this.lstDistrictTo" bindLabel="districtName" id="district"
                                                 name="district" [ngModelOptions]="{standalone: true}"
@@ -431,7 +431,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="subDistrict">Phường/Xã</label>
+                                            <label for="subDistrict">Phường/Xã <span style="color: red;"> *</span></label>
                                             <ng-select [clearable]="false" [hideSelected]="true"
                                                 [items]="this.lstSubDistrictTo" bindLabel="subDistrictName"
                                                 id="subDistrict" name="subDistrict"
@@ -446,7 +446,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="street">Đường/Phố</label>
+                                            <label for="street">Đường/Phố <span style="color: red;"> *</span></label>
                                             <ng-select [clearable]="false" [hideSelected]="true"
                                                 [items]="this.lstStreetTo" bindLabel="streetName" id="street"
                                                 name="street" [ngModelOptions]="{standalone: true}"
@@ -461,7 +461,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="address">Địa chỉ</label>
+                                            <label for="address">Địa chỉ <span style="color: red;"> *</span></label>
                                             <textarea class="form-control" style="resize: none;" rows="3" id="address"
                                                 name="address" [(ngModel)]="this.selectedAddressTo">
                                             </textarea>
@@ -474,7 +474,7 @@
                 </div>
                 <div class="row" *ngIf="this.invoiceHeader.id">
                     <div class="col-lg-6 col-md-12 col-sm-12">
-                        <label class="form-control-label" for="addressFrom"><b>Địa chỉ gửi</b></label>
+                        <label class="form-control-label" for="addressFrom"><b>Địa chỉ gửi <span style="color: red;"> *</span></b></label>
                         <div class="form-group">
                             <textarea class="form-control" style="resize: none;" rows="3" id="addressFrom"
                                 name="addressFrom" [(ngModel)]="this.invoiceHeader.startAddress">
@@ -482,7 +482,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12">
-                        <label class="form-control-label" for="addressTo"><b>Địa chỉ nhận</b></label>
+                        <label class="form-control-label" for="addressTo"><b>Địa chỉ nhận</b> <span style="color: red;"> *</span></label>
                         <div class="form-group">
                             <textarea class="form-control" style="resize: none;" rows="3" id="addressTo"
                                 name="addressTo" [(ngModel)]="this.invoiceHeader.destinationAddress">

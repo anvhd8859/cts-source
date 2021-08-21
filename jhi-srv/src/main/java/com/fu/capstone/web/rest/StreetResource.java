@@ -124,14 +124,14 @@ public class StreetResource {
         streetService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-    
-    
+
+
     // AnhVD new code
-    
+
     /**
      * GET  /streets/by-sub-district : get all the streets by sub-district id.
      *
-     * @param pageable the pagination information
+     * @param id the sun district id
      * @return the ResponseEntity with status 200 (OK) and the list of streets in body
      */
     @GetMapping("/streets/by-sub-district")
@@ -140,11 +140,11 @@ public class StreetResource {
         List<StreetDTO> page = streetService.getAllStreetsBySubDistrictId(id, pageable);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
-    
+
     /**
      * GET  /streets/get-full-address?id=:id get all the streets by street id.
      *
-     * @param pageable the pagination information
+     * @param id the street id
      * @return the ResponseEntity with status 200 (OK) and the list of streets in body
      */
     @GetMapping("/streets/get-full-address")

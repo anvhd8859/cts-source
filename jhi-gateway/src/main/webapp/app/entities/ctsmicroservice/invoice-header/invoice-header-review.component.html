@@ -8,7 +8,7 @@
             <div class="row" style="border-bottom: 2px solid;">
                 <div class="col-lg-6 col-md-12 col-md-12">
                     <h2 style="font-weight: bold;" id="page-heading">
-                        <span>Quản lý hóa đơn</span>
+                        <span>Duyệt đơn hàng</span>
                     </h2>
                 </div>
                 <div class="col-lg-6 col-md-12 col-md-12">
@@ -64,6 +64,12 @@
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="form-group">
+                            <label for="invoiceNumber">Số hóa đơn</label>
+                            <input type="text" class="form-control" placeholder="(Tất cả)"
+                                [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedInvoiceNumber"
+                                value="{{selectedInvoiceNumber}}">
+                        </div>
+                        <!-- <div class="form-group">
                             <label for="updateOn">Ngày cập nhật</label>
                             <div class="input-group">
                                 <input class="form-control" placeholder="yyyy-mm-dd" name="updateOn"
@@ -80,20 +86,20 @@
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="invoiceNumber">Số hóa đơn</label>
                             <input type="text" class="form-control" placeholder="(Tất cả)"
                                 [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedInvoiceNumber"
                                 value="{{selectedInvoiceNumber}}">
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="status">Tình trạng đơn</label>
                             <ng-select [clearable]="true" [hideSelected]="true" [items]="common.listStatusInvoice"
                                 bindLabel="text" bindValue="id" id="status" name="status"
@@ -101,7 +107,7 @@
                                 placeholder="(Tất cả)">
                                 <ng-option *ngFor="let item of common.listStatusInvoice">{{item.text}}</ng-option>
                             </ng-select>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6 text-center">
                         <div class="form-group">
@@ -130,10 +136,8 @@
                             <th>STT </th>
                             <th>Số hóa đơn </th>
                             <th>Ngày giao dự kiến </th>
-                            <th>Ngày hoàn thành đơn </th>
                             <th>Tình trạng đơn </th>
                             <th>Ngày tạo đơn </th>
-                            <th>Ngày cập nhật</th>
                             <th class="text-center">Hành động</th>
                         </thead>
                         <tbody>
@@ -141,12 +145,16 @@
                                 <td>{{i + 1}} </td>
                                 <td>{{invoiceHeader.invoiceNo}} </td>
                                 <td>{{invoiceHeader.dueDate | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
-                                <td>{{invoiceHeader.finishDate | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
                                 <td>{{common.processInvoiceStatus(invoiceHeader.status)}} </td>
                                 <td>{{invoiceHeader.createDate | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
-                                <td>{{invoiceHeader.updateDate | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
                                 <td class="text-center">
                                     <div class="btn-group flex-btn-group-container">
+                                        <button type="submit"
+                                            [routerLink]="['/invoice-header', invoiceHeader.id, 'view' ]"
+                                            class="btn btn-info btn-sm">
+                                            <fa-icon [icon]="'eye'"></fa-icon>
+                                            <span class="d-none d-md-inline">Chi tiết</span>
+                                        </button>
                                         <button type="submit" (click)="approve(i)" class="btn btn-primary btn-sm">
                                             <fa-icon [icon]="'check'"></fa-icon>
                                             <span class="d-none d-md-inline">Chấp nhận</span>

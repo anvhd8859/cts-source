@@ -3,17 +3,13 @@
         <br>
         <br>
         <div *ngIf="receiptNote">
-            <h2><span>Biên lai số: </span> {{receiptNote.id}}</h2>
+            <h2 style="font-weight: 700;"><span>Biên lai số: </span> {{receiptNote.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Mã số nhân viên</span></dt>
-                <dd>
-                    <span>{{receiptNote.employeeId}}</span>
-                </dd>
                 <dt><span>Mã hóa đơn</span></dt>
                 <dd>
-                    <span>{{receiptNote.invoiceHeaderId}}</span>
+                    <span>{{invoiceHeader.invoiceNo}}</span>
                 </dd>
                 <dt><span>Loại biên nhận</span></dt>
                 <dd>
@@ -236,23 +232,13 @@
                         <span>Xem ảnh xác nhận</span>
                     </button>
                 </div>
-                <br><br>
-                <div>
-                    <button type="submit" (click)="previousState()" class="btn btn-primary">
-                        <fa-icon [icon]="'back'"></fa-icon>
-                        <span class="d-none d-md-inline">Quay lại</span>
-                    </button>
-                </div>
-                <br><br>
+                <br><br><br>
             </div>
         </div>
-
         <div class="col-lg-10" *ngIf="!receiptNote">
             <br><br>
             <div>
                 <h2>Biên nhận chưa được tạo</h2>
-                <button type="button" class="btn btn-primary" [routerLink]="['/receiptnote', id, 'new-receipt']">Tạo
-                    biên lại mới</button>
             </div>
         </div>
         <br /><br /><br />

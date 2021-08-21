@@ -8,11 +8,6 @@
         <jhi-alert-error></jhi-alert-error>
         <p id="jhi-approve-cancelInvoice-heading">Bạn có chắc chắn chấp thuận yêu cầu này?</p>
         <br>
-        <div>
-            <i style="color: red;">{{check}}</i>
-            <label>Lý do:</label>
-            <textarea class="form-group" rows="2" style="resize: none;" [(ngModel)]="note"></textarea>
-        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">

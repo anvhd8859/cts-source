@@ -8,14 +8,11 @@
         <jhi-alert-error></jhi-alert-error>
         <div class="form-group">
             <label class="form-control-label" for="reason">Lý do hủy</label>
-            <textarea   class="form-control"
-                        style="resize: none;"
-                        rows="2"
-                        id="reason"
-                        name="reason"
-                        [(ngModel)]="invoiceHeader.cancelReason">
+            <textarea   class="form-control" style="resize: none;" rows="2"
+                id="reason" name="reason" [(ngModel)]="invoiceHeader.cancelReason">
             </textarea>
         </div>
+        <i style="color: red;">{{check}}</i>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">

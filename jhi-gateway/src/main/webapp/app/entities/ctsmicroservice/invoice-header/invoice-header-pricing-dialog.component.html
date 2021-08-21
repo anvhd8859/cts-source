@@ -1,6 +1,6 @@
 <form name="deleteForm">
     <div class="modal-header">
-        <h4 class="modal-title">Bảng giá dịch vụ vận chuyển cá nhân</h4>
+        <h4 class="modal-title" style="font-weight: 700;">Bảng giá dịch vụ vận chuyển cá nhân</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 (click)="clear()">&times;</button>
     </div>
@@ -13,35 +13,37 @@
             </thead>
             <tbody>
                 <tr>
-                    <td> &lt;= 0.25 kg</td>
+                    <td> Dưới 0.25 kg</td>
                     <td> {{9000 | currency:'VND'}} </td>
                 </tr>
                 <tr>
-                    <td> &lt;= 0.50 kg</td>
+                    <td> Từ 0.25kg đến 0.50 kg</td>
                     <td> {{13000 | currency:'VND'}} </td>
                 </tr>
                 <tr>
-                    <td> &lt;= 1.00 kg</td>
+                    <td> Từ 0.50kg đến 1.00 kg</td>
                     <td> {{16000 | currency:'VND'}} </td>
                 </tr>
                 <tr>
-                    <td> &lt;= 1.50 kg</td>
+                    <td> Từ 1.00kg đến1.50 kg</td>
                     <td> {{25000 | currency:'VND'}} </td>
                 </tr>
                 <tr>
-                    <td> &lt;= 2.00 kg</td>
+                    <td> Từ 1.50kg đến 2.00 kg</td>
                     <td> {{29000 | currency:'VND'}} </td>
                 </tr>
                 <tr>
-                    <td> &lt;= 100.00 kg</td>
+                    <td> Từ 2.00kg đến  10.00 kg</td>
                     <th>({{2600 | currency:'VND'}}) x (Số cân nặng) </th>
                 </tr>
                 <tr>
-                    <td> &lt;= 2.00 kg</td>
+                    <td> Từ 10.05kg đến 20.00 kg</td>
                     <th> ({{1400 | currency:'VND'}}) x (Số cân nặng) </th>
                 </tr>
             </tbody>
         </table>
+        <br>
+        <i>Chúng tôi chỉ nhận kiện hàng tối da 20.00 kg</i>
     </div>
     <div class="modal-footer">
         <div class="row justify-content-center">

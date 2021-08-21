@@ -14,6 +14,7 @@ import { InvoiceHeaderService } from '../invoice-header';
 })
 export class CancelInvoiceRequestDialogComponent {
     invoiceHeader: IInvoiceHeader;
+    check: string;
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -26,23 +27,27 @@ export class CancelInvoiceRequestDialogComponent {
     }
 
     confirmRequest(invoiceHeader: IInvoiceHeader) {
-        invoiceHeader.changeNote = 'request';
-        this.invoiceHeaderService.update(invoiceHeader).subscribe(
-            (response: HttpResponse<IInvoiceHeader>) => {
-                this.eventManager.broadcast({
-                    name: 'invoiceHeaderListModification',
-                    content: 'Send request cancel invoice successfully'
-                });
-                this.activeModal.dismiss(true);
-            },
-            (response: HttpErrorResponse) => {
-                this.eventManager.broadcast({
-                    name: 'invoiceHeaderListModification',
-                    content: 'Error when request cancel invoice'
-                });
-                this.activeModal.dismiss(false);
-            }
-        );
+        if (this.invoiceHeader.cancelReason && this.invoiceHeader.cancelReason.trim()) {
+            invoiceHeader.changeNote = 'request';
+            this.invoiceHeaderService.update(invoiceHeader).subscribe(
+                (response: HttpResponse<IInvoiceHeader>) => {
+                    this.eventManager.broadcast({
+                        name: 'invoiceHeaderListModification',
+                        content: 'Send request cancel invoice successfully'
+                    });
+                    this.activeModal.dismiss(true);
+                },
+                (response: HttpErrorResponse) => {
+                    this.eventManager.broadcast({
+                        name: 'invoiceHeaderListModification',
+                        content: 'Error when request cancel invoice'
+                    });
+                    this.activeModal.dismiss(false);
+                }
+            );
+        } else {
+            this.check = 'Bạn chưa điền lý do hủy đơn';
+        }
     }
 }
 
