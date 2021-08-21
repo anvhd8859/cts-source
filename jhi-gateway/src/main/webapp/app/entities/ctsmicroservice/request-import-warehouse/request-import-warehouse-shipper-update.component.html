@@ -106,7 +106,7 @@
                             <th> Tổng khối lượng </th>
                             <th> Địa chỉ nhận </th>
                             <th> Địa chỉ giao </th>
-                            <th> Thời gian hoàn thành </th>
+                            <th> Hạn giao hàng </th>
                         </thead>
                         <tbody>
                             <tr *ngFor="let object of shipmentInvoices; let i = index">
@@ -120,7 +120,7 @@
                                 <td>{{totalWeight(object.packageList)}} g</td>
                                 <td>{{object.invoiceHeaderDTO.startAddress}} </td>
                                 <td>{{object.invoiceHeaderDTO.destinationAddress}} </td>
-                                <td>{{object.personalShipmentDTO.finishTime | date:'yyyy-MM-dd HH:mm'}} </td>
+                                <td>{{object.invoiceHeaderDTO.dueDate | date:'yyyy-MM-dd HH:mm'}} </td>
                             </tr>
                         </tbody>
                     </table>

@@ -11,70 +11,61 @@
             [routerLink]="['/sub-district/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span>
-                Thêm Phường/Xã
+                Tạo mới
             </span>
         </button>
     </h2>
     <jhi-alert></jhi-alert>
     <br />
-    <div class="table-responsive" *ngIf="subDistricts">
-        <table class="table table-striped">
-            <thead>
-                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <th jhiSortBy="id"><span>Mã số</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th jhiSortBy="subDistrictName"><span>Tên Phường/Xã</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th jhiSortBy="districtIdId"><span>Mã Quận/Huyện</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let subDistrict of subDistricts ;trackBy: trackId">
-                    <td><a [routerLink]="['/sub-district', subDistrict.id, 'view' ]">{{subDistrict.id}}</a></td>
-                    <td>{{subDistrict.subDistrictName}}</td>
-                    <td>
-                        <div *ngIf="subDistrict.districtIdId">
-                            <a
-                                [routerLink]="['../district', subDistrict.districtIdId , 'view' ]">{{subDistrict.districtIdId}}</a>
-                        </div>
-                    </td>
-                    <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
-                            <button type="submit" [routerLink]="['/sub-district', subDistrict.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                                <fa-icon [icon]="'eye'"></fa-icon>
-                                <span class="d-none d-md-inline">Chi tiết</span>
-                            </button>
-                            <button type="submit" [routerLink]="['/sub-district', subDistrict.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                <span class="d-none d-md-inline">Sửa</span>
-                            </button>
-                            <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'sub-district/'+ subDistrict.id + '/delete'} }]"
-                                replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
-                                <fa-icon [icon]="'times'"></fa-icon>
-                                <span class="d-none d-md-inline">Xóa</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div *ngIf="subDistricts && subDistricts.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
-            </jhi-item-count>
+    <div class="col-lg-8">
+        <div class="table-responsive" *ngIf="subDistricts">
+            <table class="table table-striped">
+                <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                        <th><span>Mã số</span></th>
+                        <th><span>Tên Phường/Xã</span></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let subDistrict of subDistricts ;trackBy: trackId">
+                        <td>{{subDistrict.id}}</td>
+                        <td>{{subDistrict.subDistrictName}}</td>
+                        <td class="text-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="submit" [routerLink]="['/sub-district', subDistrict.id, 'view' ]"
+                                    class="btn btn-info btn-sm">
+                                    <fa-icon [icon]="'eye'"></fa-icon>
+                                    <span class="d-none d-md-inline">Chi tiết</span>
+                                </button>
+                                <button type="submit" [routerLink]="['/sub-district', subDistrict.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                    <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                    <span class="d-none d-md-inline">Sửa</span>
+                                </button>
+                                <button type="submit"
+                                    [routerLink]="['/', { outlets: { popup: 'sub-district/'+ subDistrict.id + '/delete'} }]"
+                                    replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                    <span class="d-none d-md-inline">Xóa</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
-                [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        <div *ngIf="subDistricts && subDistricts.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
+                </jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
+                    [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
         </div>
+        <br>
+        <br>
     </div>
 </div>

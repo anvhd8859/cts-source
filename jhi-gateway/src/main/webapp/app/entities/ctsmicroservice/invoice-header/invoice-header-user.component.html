@@ -24,11 +24,10 @@
                             <th># </th>
                             <th>Số hóa đơn </th>
                             <th>Hạn giao ước tính </th>
-                            <th>Ngày nhận hàng </th>
                             <th>Tình trạng đơn </th>
                             <th>Ngày chấp nhận đơn </th>
                             <th>Ngày tạo đơn </th>
-                            <th>Ngày cập nhật </th>
+                            <th>Ghi chú</th>
                             <th class="text-left">Hành động</th>
                         </thead>
                         <tbody>
@@ -36,7 +35,6 @@
                                 <td>{{invoiceHeader.id}} </td>
                                 <td>{{invoiceHeader.invoiceNo}} </td>
                                 <td>{{invoiceHeader.dueDate | date:'yyyy-MM-dd HH:mm': 'vie'}} </td>
-                                <td>{{invoiceHeader.finishDate | date:'yyyy-MM-dd HH:mm': 'vie'}} </td>
                                 <td>{{common.processInvoiceStatus(invoiceHeader.status)}}
                                     <div *ngIf="invoiceHeader.changeNote === 'request' && !invoiceHeader.cancel">
                                         <span>"{{cancelStatus}}"</span>
@@ -44,7 +42,7 @@
                                 </td>
                                 <td>{{invoiceHeader.reviewDate | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
                                 <td>{{invoiceHeader.createDate | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
-                                <td>{{invoiceHeader.updateDate | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
+                                <td>{{invoiceHeader.cancelReason ? invoiceHeader.cancelReason : invoiceHeader.note}}</td>
                                 <td>
                                     <div class="btn-group flex-btn-group-container justify-content-start">
                                         <button type="submit"

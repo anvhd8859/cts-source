@@ -1,76 +1,72 @@
 <div>
     <h2 id="page-heading">
         <br>
-<br>
         <br>
-<br>
+        <br>
+        <br>
         <span>Quản lý danh sách Quận/Huyện</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-district" [routerLink]="['/district/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-district"
+            [routerLink]="['/district/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-            Create new District
+            <span>
+                Tạo mới
             </span>
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    <br/>
-    <div class="table-responsive" *ngIf="districts">
-        <table class="table table-striped">
-            <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>Mã số</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="districtName"><span>Tên Quận/Huyện</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createDate"><span>Ngày khởi tạo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updateDate"><span>Ngày cập nhật</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="provinceIdId"><span>Mã Tỉnh/Thành phố</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let district of districts ;trackBy: trackId">
-                <td><a [routerLink]="['/district', district.id, 'view' ]">{{district.id}}</a></td>
-                <td>{{district.districtName}}</td>
-                <td>{{district.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                <td>{{district.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                <td>
-                    <div *ngIf="district.provinceIdId">
-                        <a [routerLink]="['../province', district.provinceIdId , 'view' ]" >{{district.provinceIdId}}</a>
-                    </div>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/district', district.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">Chi tiết</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/district', district.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Sửa</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'district/'+ district.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Xóa</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div *ngIf="districts && districts.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+    <br />
+    <div class="col-lg-8">
+        <div class="table-responsive" *ngIf="districts">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th><span>Mã số</span></th>
+                        <th><span>Tên Quận/Huyện</span></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let district of districts">
+                        <td>{{district.id}}</td>
+                        <td>{{district.districtName}}</td>
+                        <td>
+                            <div *ngIf="district.provinceIdId">
+                               {{district.provinceIdId}}
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="submit" [routerLink]="['/district', district.id, 'view' ]"
+                                    class="btn btn-info btn-sm">
+                                    <fa-icon [icon]="'eye'"></fa-icon>
+                                    <span class="d-none d-md-inline">Chi tiết</span>
+                                </button>
+                                <button type="submit" [routerLink]="['/district', district.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                    <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                    <span class="d-none d-md-inline">Sửa</span>
+                                </button>
+                                <button type="submit"
+                                    [routerLink]="['/', { outlets: { popup: 'district/'+ district.id + '/delete'} }]"
+                                    replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                    <span class="d-none d-md-inline">Xóa</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        <div *ngIf="districts && districts.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
+                </jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
+                    [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
         </div>
     </div>
 </div>
