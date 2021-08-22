@@ -94,6 +94,7 @@ export class InvoiceHeaderUserUpdateComponent implements OnInit {
         });
         forkJoin(this.principal.identity(), this.accountService.getLstCity()).subscribe(res => {
             this.selectedUser = res[0];
+            this.lstProvinceFrom = res[1].body;
             this.lstProvinceTo = res[1].body;
             this.changeUser();
         });
