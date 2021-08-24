@@ -28,8 +28,8 @@ export class CancelInvoiceDeleteDialogComponent {
 
     confirmDelete(cancelInvoice: ICancelInvoice) {
         this.isSaving = true;
-        cancelInvoice.changeNote = '';
-        cancelInvoice.cancelReason = '';
+        cancelInvoice.changeNote = null;
+        cancelInvoice.cancelReason = null;
         cancelInvoice.cancel = false;
         this.cancelInvoiceService.update(cancelInvoice).subscribe(
             (response: HttpResponse<ICancelInvoice>) => {

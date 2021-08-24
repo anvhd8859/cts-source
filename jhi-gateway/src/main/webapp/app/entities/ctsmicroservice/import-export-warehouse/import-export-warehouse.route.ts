@@ -87,7 +87,7 @@ export const importExportWarehouseRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER', 'ROLE_OFFICER'],
             pageTitle: 'CTS: Xem yêu cầu xuất nhập kho'
         },
         canActivate: [UserRouteAccessService]

@@ -16,15 +16,18 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
       </button>
     </div>
     <div class="modal-body">
-        <h3>
-            Bạn chắc chắn muốn {{action ? 'Chấp thuận' : 'Từ chối'}} đơn hàng này?
-            <span *ngIf="!action">
-                <i style="color: red">{{check}}</i>
-                <label>Lý do: </label>
+        <div>
+            <h3>Bạn chắc chắn muốn {{action ? 'Chấp thuận' : 'Từ chối'}} đơn hàng này?</h3>
+            <br>
+            <div *ngIf="!action">
+                <label >Lý do: </label>
                 <textarea  class="form-control" style="resize: none;" rows="3" cols="60"
                     ([ngModel])="note" type="text"></textarea>
-            </span>
-        </h3>
+                    <br>
+                <i style="color: red">{{check}}</i>
+            </div>
+        </div>
+        <br>
     <div class="modal-footer">
       <button
         style="width: 20%;"
@@ -54,10 +57,14 @@ export class InvoiceHeaderConfirmComponent {
     }
 
     pasBack() {
-        if (this.action || (this.note && this.note.trim())) {
+        if (this.action) {
             this.modal.close(this.note);
         } else {
-            this.check = 'Hãy điền lý do hủy đơn hàng';
+            if (this.note && this.note.trim()) {
+                this.check = 'Hãy điền lý do hủy đơn hàng';
+            } else {
+                this.modal.close(this.note);
+            }
         }
     }
 }
