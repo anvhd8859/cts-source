@@ -1,19 +1,8 @@
 package com.fu.capstone.service.impl;
 
+import com.fu.capstone.domain.*;
+import com.fu.capstone.repository.*;
 import com.fu.capstone.service.InvoiceHeaderService;
-import com.fu.capstone.domain.InvoiceHeader;
-import com.fu.capstone.domain.InvoicePackage;
-import com.fu.capstone.domain.Office;
-import com.fu.capstone.domain.PersonalShipment;
-import com.fu.capstone.domain.Street;
-import com.fu.capstone.domain.WorkingArea;
-import com.fu.capstone.repository.InvoiceDetailsRepository;
-import com.fu.capstone.repository.InvoiceHeaderRepository;
-import com.fu.capstone.repository.InvoicePackageRepository;
-import com.fu.capstone.repository.OfficeRepository;
-import com.fu.capstone.repository.PersonalShipmentRepository;
-import com.fu.capstone.repository.StreetRepository;
-import com.fu.capstone.repository.WorkingAreaRepository;
 import com.fu.capstone.service.dto.*;
 import com.fu.capstone.service.mapper.InvoiceDetailsMapper;
 import com.fu.capstone.service.mapper.InvoiceHeaderMapper;
@@ -27,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,12 +58,15 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
     private PersonalShipmentMapper personalShipmentMapper;
 
+    private PriceRepository priceRepository;
+
     public InvoiceHeaderServiceImpl(InvoiceHeaderRepository invoiceHeaderRepository,
                                     InvoiceHeaderMapper invoiceHeaderMapper, InvoiceDetailsRepository invoiceDetailsRepository,
                                     InvoiceDetailsMapper invoiceDetailsMapper, InvoicePackageRepository invoicePackageRepository,
                                     InvoicePackageMapper invoicePackageMapper, PersonalShipmentRepository personalShipmentRepository,
                                     PersonalShipmentMapper personalShipmentMapper, StreetRepository streetRepository,
-                                    OfficeRepository officeRepository, WorkingAreaRepository workingAreaRepository) {
+                                    OfficeRepository officeRepository, WorkingAreaRepository workingAreaRepository,
+                                    PriceRepository priceRepository) {
         this.invoiceHeaderRepository = invoiceHeaderRepository;
         this.invoiceHeaderMapper = invoiceHeaderMapper;
         this.invoiceDetailsRepository = invoiceDetailsRepository;
@@ -85,6 +78,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
         this.streetRepository = streetRepository;
         this.officeRepository = officeRepository;
         this.workingAreaRepository = workingAreaRepository;
+        this.priceRepository = priceRepository;
     }
 
     /**
@@ -236,7 +230,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
         }
 
         // process data
-        BigDecimal subTotal = calculateSubTotal(lstPackageDetails, fromStreet, toStreet);
+        BigDecimal subTotal = calculateSubTotal(lstPackageDetails);
 
         if (check > 0) {
             // find near office
@@ -254,6 +248,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
             // get employee and add to shipment
             WorkingArea wa = workingAreaRepository.getEmployeeNearBy(fromStreet.getId());
+            if (wa == null) wa = workingAreaRepository.getEmployeeNearBy(toStreet.getId());
             if (wa != null) ps.setEmployeeId(wa.getEmployeeId());
             lstShipment.add(ps);
         } else invoiceHeaderDTO.setStatus("");
@@ -270,12 +265,12 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
         psDelivery.setShipmentType("delivery");
         psDelivery.setCreateDate(instant);
         psDelivery.setUpdateDate(instant);
-        WorkingArea wa = workingAreaRepository.getEmployeeNearBy(toStreet.getId());
+        WorkingArea wa = workingAreaRepository.findDistinctByStreetId(toStreet.getId());
+        if (wa == null) wa = workingAreaRepository.getEmployeeNearBy(toStreet.getId());
 
-        // check online of offline create invoice if it is create by officer set delivery status to new
+        // check online of offline create invoice if it is create by officer
         if (invoiceHeaderDTO.getEmployeeId() != null) {
             invoiceHeaderDTO.setStatus("received");
-            psDelivery.setStatus("new");
         }
 
         // set employee and add delivery
@@ -293,27 +288,22 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
         return invoiceHeaderDTO;
     }
 
-    private BigDecimal calculateSubTotal(List<PackageDetailsDTO> lstPackage, Street fromStreet, Street toStreet) {
-        BigDecimal result;
+    private BigDecimal calculateSubTotal(List<PackageDetailsDTO> lstPackage) {
+        BigDecimal result = null;
         float totalWeight = 0;
         for (PackageDetailsDTO ip : lstPackage) {
             totalWeight += ip.getInvPackage().getWeight();
         }
+        List<Price> priceList = priceRepository.findAll(new Sort(Sort.Direction.ASC, "weight")) ;
         totalWeight /= 1000;
-        if (totalWeight <= 0.25)
-            result = new BigDecimal(9000);
-        else if (totalWeight <= 0.50)
-            result = new BigDecimal(11000);
-        else if (totalWeight <= 1.00)
-            result = new BigDecimal(13000);
-        else if (totalWeight <= 1.50)
-            result = new BigDecimal(17000);
-        else if (totalWeight <= 2.00)
-            result = new BigDecimal(21000);
-        else if (totalWeight <= 10.00)
-            result = new BigDecimal(2600).add(BigDecimal.valueOf(totalWeight));
-        else
-            result = new BigDecimal(1700).add(BigDecimal.valueOf(totalWeight));
+
+        for (Price p : priceList) {
+            if(totalWeight <= p.getWeight() ) {
+                if(p.isMultiply()) result = BigDecimal.valueOf(p.getPrice()).multiply(BigDecimal.valueOf(totalWeight));
+                else result = BigDecimal.valueOf(p.getPrice());
+                break;
+            }
+        }
 
         return result;
     }
@@ -406,8 +396,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
     @Override
     public InvoiceHeaderDTO updateInvoiceHeadersReview(InvoiceHeaderDTO invoice) {
-        List<PersonalShipment> ipList = personalShipmentRepository.findAllByShipmentTypeAndInvoiceHeaderId("collect", invoice.getId());
-        String rs = invoice.getNote().substring(invoice.getNote().length() - 2, invoice.getNote().length());
+        List<PersonalShipment> ipList = personalShipmentRepository.getAllShipmentByHeaderId(invoice.getId());
+        String rs = invoice.getNote().substring(invoice.getNote().length() - 2);
         invoice.setNote(invoice.getNote().substring(0, invoice.getNote().length() - 2));
         if (rs.equalsIgnoreCase("OK")) {
             invoice.setFinish(true);
@@ -417,13 +407,15 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
                 invoice.setStatus("receive");
             }
             for (PersonalShipment ps : ipList) {
-                ps.setStatus("new");
+                if (ps.getShipmentType().equals("collect")) ps.setStatus("new");
             }
         } else {
             invoice.setStatus("cancel");
         }
         invoice.setUpdateDate(Instant.now());
         invoice.setReviewDate(Instant.now());
+
+        personalShipmentRepository.saveAll(ipList);
         return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(invoiceHeaderMapper.toEntity(invoice)));
     }
 

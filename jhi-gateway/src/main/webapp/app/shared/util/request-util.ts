@@ -108,7 +108,7 @@ export class CalculateShipFee {
         for (const ip of lstPackage) {
             totalWeight += ip.invPackage.weight;
         }
-        if (totalWeight === 0) return null;
+        if (totalWeight === 0) return 0;
         totalWeight /= 1000;
         if (totalWeight <= 0.25) {
             result = 9000;

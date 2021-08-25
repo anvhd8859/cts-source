@@ -116,7 +116,9 @@ export class ImportExportWarehouseDetailComponent implements OnInit {
                 let ieRequestDetail = new IERequestDetail();
                 this.importExportWarehouse.keeperConfirm = true;
                 this.importExportWarehouse.keeperId = this.currentAccount.id;
-                this.importExportWarehouse.note = result;
+                if (result) {
+                    this.importExportWarehouse.note = result;
+                }
                 ieRequestDetail.importExportWarehouse = this.importExportWarehouse;
                 if (id === 1) {
                     let check = true;
@@ -225,7 +227,7 @@ export class InvoicePackageDetailDTO {
         style="margin-left: 51%; width: 20%; margin-right:5%"
         type="button"
         class="btn btn-primary"
-        (click)="modal.close(this.note)"
+        (click)="passback()"
       >
         Ok
       </button>
@@ -236,11 +238,24 @@ export class NgbdModalConfirmComponent {
     action: string;
     note: string;
     empty = false;
+    check: string;
 
     constructor(public modal: NgbActiveModal) {
         this.note = '';
         if (this.action === 'từ chối') {
             this.empty = false;
+        }
+    }
+
+    passback() {
+        if (this.action === 'từ chối') {
+            if (!(this.note && this.note.trim())) {
+                this.modal.close(this.note);
+            } else {
+                this.check = 'Hãy điền lý do hủy đơn';
+            }
+        } else {
+            this.modal.close(this.note);
         }
     }
 }
