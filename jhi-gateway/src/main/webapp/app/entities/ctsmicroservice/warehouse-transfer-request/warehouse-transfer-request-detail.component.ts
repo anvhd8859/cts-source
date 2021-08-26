@@ -31,6 +31,7 @@ export class WarehouseTransferRequestDetailComponent implements OnInit {
     all: boolean;
     selectedCheckBox: boolean[] = [];
     common: CommonString;
+    check: string;
 
     constructor(
         private warehouseTransferRequestService: WarehouseTransferRequestService,
@@ -66,11 +67,28 @@ export class WarehouseTransferRequestDetailComponent implements OnInit {
     approve() {
         let selectedRequestInvoices = new Array();
         if (this.selectedCheckBox) {
+            this.check = '';
             for (const i in this.selectedCheckBox) {
                 if (this.selectedCheckBox[i]) {
-                    selectedRequestInvoices.push(this.invoicePackageShipments[i]);
+                    this.invoicePackageShipments[i].transferDetails.status = true;
+                } else {
+                    this.invoicePackageShipments[i].transferDetails.status = false;
+                    this.invoicePackageShipments[i].transferDetails.note = this.invoicePackageShipments[i].transferDetails.note.trim();
+                    if (
+                        !(
+                            this.invoicePackageShipments[i].transferDetails.note &&
+                            this.invoicePackageShipments[i].transferDetails.note.length < 100
+                        )
+                    ) {
+                        this.check =
+                            'Đơn ' + this.invoicePackageShipments[i].invoiceHeader.invoiceNo + ' chưa có lý do từ chối chính xác! <br/>';
+                    }
                 }
+                selectedRequestInvoices.push(this.invoicePackageShipments[i]);
             }
+        }
+        if (this.check) {
+            return;
         }
         const modalRef = this.modalService.open(WarehouseTransferConfirmModalComponent as Component, {
             size: 'lg',

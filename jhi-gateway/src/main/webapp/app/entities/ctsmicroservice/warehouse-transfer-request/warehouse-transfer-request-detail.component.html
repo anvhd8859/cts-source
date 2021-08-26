@@ -54,6 +54,7 @@
                             <th>Tình trạng đơn hàng</th>
                             <th>Số gói hàng</th>
                             <th>Kích thước chi tiết</th>
+                            <th>Ghi chú</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -70,6 +71,7 @@
                                     {{pk.weight}}(g) <br />
                                 </span>
                             </td>
+                            <td><input class="form-control" type="text" id="note{{i}}" [(ngModel)]="object.transferDetails.note"></td>
                             <td class="text-right">
                                 <div class="btn-group flex-btn-group-container">
                                     <button type="submit"

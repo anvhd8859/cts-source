@@ -32,7 +32,7 @@ export class RequestImportWarehouseOfficerUpdateComponent implements OnInit {
     currentAccount: IUser;
     currentProfile: IUserProfile;
     keeperList: IUser[];
-    shipmentInvoices: InvoicePackages[];
+    shipmentInvoices: IInvoicePackageShipment[];
     isSaving: boolean;
     shipDate: string;
     createDate: string;
@@ -161,7 +161,7 @@ export class RequestImportWarehouseOfficerUpdateComponent implements OnInit {
                         for (const i in this.selectedCheckBox) {
                             if (this.selectedCheckBox[i]) {
                                 const rd = new RequestDetailsDTO();
-                                rd.invoicePackageId = this.shipmentInvoices[i].invoice.id;
+                                rd.invoicePackageId = this.shipmentInvoices[i].invoiceHeader.id;
                                 data.requestDetailsList.push(rd);
                             }
                         }
@@ -193,7 +193,7 @@ export class RequestImportWarehouseOfficerUpdateComponent implements OnInit {
         return result;
     }
 
-    private paginateInvoiceHeaders(data: InvoicePackages[], headers: HttpHeaders) {
+    private paginateInvoiceHeaders(data: IInvoicePackageShipment[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.queryCount = this.totalItems;

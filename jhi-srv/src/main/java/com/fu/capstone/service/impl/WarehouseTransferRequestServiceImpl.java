@@ -191,16 +191,21 @@ public class WarehouseTransferRequestServiceImpl implements WarehouseTransferReq
 		List<InvoiceHeaderDTO> ihList = new ArrayList<>();
 		List<InvoicePackageDTO> ipList = new ArrayList<>();
 		body.forEach(obj -> {
-			if (obj.getTransferDetails().getStatus()) {
-				InvoiceHeaderDTO inv = obj.getInvoiceHeader();
-				inv.setStatus("last_import");
+            InvoiceHeaderDTO inv = obj.getInvoiceHeader();
+            if (obj.getTransferDetails().getStatus()) {
+                inv.setStatus("last_import");
 				inv.setUpdateDate(instant);
-				invoiceIds.add(inv.getId());
 				List<InvoicePackageDTO> innerIpList = obj.getInvoicePackageList();
-				ihList.add(inv);
 				ipList.addAll(innerIpList);
+                invoiceIds.add(inv.getId());
 			}
-			tdList.add(obj.getTransferDetails());
+            else {
+                inv.setStatus("lost");
+                inv.setNote(obj.getTransferDetails().getNote());
+                inv.setUpdateDate(instant);
+            }
+            ihList.add(inv);
+            tdList.add(obj.getTransferDetails());
 		});
 
 		ipList.forEach(invoicePackageDTO -> {

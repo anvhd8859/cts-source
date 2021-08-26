@@ -38,7 +38,7 @@
                             <td>{{object.transferRequest.fromWarehouseId}}</td>
                             <td>{{object.invoicePackageList.length}}</td>
                             <td>{{totalPackages(object.invoicePackageList)}}</td>
-                            <td>{{object.transferRequest.status === ''? 'Chưa xác nhận' : 'Đã xác nhận'}}</td>
+                            <td>{{object.transferRequest.status === 'approve'? 'Chấp nhận' : 'Chưa xử lý'}}</td>
                             <td>{{object.transferRequest.createDate | date:'medium'}}</td>
                             <td class="text-right">
                                 <div class="btn-group flex-btn-group-container">

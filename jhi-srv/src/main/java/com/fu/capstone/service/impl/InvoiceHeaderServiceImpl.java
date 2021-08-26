@@ -299,7 +299,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
         for (Price p : priceList) {
             if(totalWeight <= p.getWeight() ) {
-                if(p.isMultiply()) result = BigDecimal.valueOf(p.getPrice()).multiply(BigDecimal.valueOf(totalWeight));
+                if(p.isMultiply()) result = BigDecimal.valueOf(p.getDefaultPrice())
+                    .add(BigDecimal.valueOf(p.getPrice()).multiply(BigDecimal.valueOf(totalWeight)));
                 else result = BigDecimal.valueOf(p.getPrice());
                 break;
             }
@@ -428,10 +429,10 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
     }
 
     @Override
-    public Page<InvoicePackageDetailDTO> getImportInvoiceByOfficer(Long id, Long oid, String invNo, String from,
+    public Page<InvoicePackageShipmentDTO> getImportInvoiceByOfficer(Long id, Long oid, String invNo, String from,
                                                                    String to, Pageable pageable) {
         Page<InvoiceHeader> page = invoiceHeaderRepository.getImportInvoiceByOfficer(id, oid, invNo, from, to, pageable);
-        return page.map(this::converterInvoicePackageDetailDTO);
+        return page.map(this::toInvoicePackageShipmentDTO);
     }
 
     @Override
@@ -462,5 +463,6 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
         dto.setInvoicePackageList(lstPackage);
         return dto;
     }
+
 
 }

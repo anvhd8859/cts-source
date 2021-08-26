@@ -29,6 +29,9 @@ public class Price implements Serializable {
     @Column(name = "multiply")
     private Boolean multiply;
 
+    @Column(name = "default_price")
+    private Float defaultPrice;
+
     @Column(name = "create_date")
     private Instant createDate;
 
@@ -140,5 +143,13 @@ public class Price implements Serializable {
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";
+    }
+
+    public Float getDefaultPrice() {
+        return defaultPrice;
+    }
+
+    public void setDefaultPrice(Float defaultPrice) {
+        this.defaultPrice = defaultPrice;
     }
 }

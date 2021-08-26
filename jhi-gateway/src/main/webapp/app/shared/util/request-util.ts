@@ -42,7 +42,7 @@ export class CommonString {
         { id: 'last_import', text: 'Nhập kho chi nhánh cuối' },
         { id: 'delivering', text: 'Nhân viên đang giao hàng' },
         { id: 'finish', text: 'Giao hàng thành công' },
-        { id: 'lost', text: 'Phát sinh thất lạc ' },
+        { id: 'lost', text: 'Xảy ra vấn đề ' },
         { id: 'cancel', text: 'Hủy' }
     ];
     listStatusPackage: any = [
@@ -52,7 +52,6 @@ export class CommonString {
         { id: 'last_import', text: 'Nhập kho chi nhánh cuối' },
         { id: 'delivering', text: 'Đang giao hàng' },
         { id: 'finish', text: 'Giao thành công' },
-        { id: 'lost', text: 'Phát sinh thất lạc' },
         { id: 'cancel', text: 'Hủy' }
     ];
 
@@ -117,13 +116,13 @@ export class CalculateShipFee {
         } else if (totalWeight <= 1.0) {
             result = 13000;
         } else if (totalWeight <= 1.5) {
-            result = 17000;
+            result = 16000;
         } else if (totalWeight <= 2.0) {
-            result = 21000;
+            result = 20000;
         } else if (totalWeight <= 10.0) {
-            result = 2600.0 * totalWeight;
+            result = 15000 + 2500.0 * totalWeight;
         } else {
-            result = 1700.0 * totalWeight;
+            result = 25000 + 1500.0 * totalWeight;
         }
         return result;
     }

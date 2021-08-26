@@ -60,8 +60,9 @@ export class InvoiceHeaderConfirmComponent {
         if (this.action) {
             this.modal.close(this.note);
         } else {
-            if (this.note && this.note.trim()) {
-                this.check = 'Hãy điền lý do hủy đơn hàng';
+            this.note = this.note.trim();
+            if (this.note && this.note.length > 5 && this.note.length < 50) {
+                this.check = 'Hãy điền lý do hủy đơn hàng chính xác';
             } else {
                 this.modal.close(this.note);
             }

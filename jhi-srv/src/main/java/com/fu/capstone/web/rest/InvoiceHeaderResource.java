@@ -283,10 +283,10 @@ public class InvoiceHeaderResource {
 	// v2
 	@GetMapping("/invoice-headers/import/by-officer")
 	@Timed
-	public ResponseEntity<List<InvoicePackageDetailDTO>> getImportInvoiceByOfficer(
+	public ResponseEntity<List<InvoicePackageShipmentDTO>> getImportInvoiceByOfficer(
 			@RequestParam("id") Long id, @RequestParam("oid") Long oid, @RequestParam("invNo") String invNo,
 			@RequestParam("from") String from, @RequestParam("to") String to, Pageable pageable) {
-		Page<InvoicePackageDetailDTO> page = invoiceHeaderService.getImportInvoiceByOfficer(id, oid, invNo, from, to, pageable);
+		Page<InvoicePackageShipmentDTO> page = invoiceHeaderService.getImportInvoiceByOfficer(id, oid, invNo, from, to, pageable);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-headers/import/by-officer");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}

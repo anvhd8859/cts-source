@@ -29,6 +29,9 @@ public class TransferDetails implements Serializable {
     @Column(name = "status")
     private Boolean status;
 
+    @Column(name = "note")
+    private String note;
+
     @Column(name = "create_date")
     private Instant createDate;
 
@@ -134,5 +137,13 @@ public class TransferDetails implements Serializable {
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

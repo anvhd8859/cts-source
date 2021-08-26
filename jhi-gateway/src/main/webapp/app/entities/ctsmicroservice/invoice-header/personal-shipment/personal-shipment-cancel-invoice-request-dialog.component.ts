@@ -14,6 +14,7 @@ import { InvoiceHeaderService } from '..';
 })
 export class PersonalShipmentCancelInvoiceRequestDialogComponent {
     invoiceHeader: IInvoiceHeader;
+    check: string;
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
@@ -26,23 +27,28 @@ export class PersonalShipmentCancelInvoiceRequestDialogComponent {
     }
 
     confirmRequest(invoiceHeader: IInvoiceHeader) {
-        invoiceHeader.changeNote = 'request';
-        this.invoiceHeaderService.update(invoiceHeader).subscribe(
-            (response: HttpResponse<IInvoiceHeader>) => {
-                this.eventManager.broadcast({
-                    name: 'personalShipmentListModification',
-                    content: 'Send request cancel invoice successfully'
-                });
-                this.activeModal.dismiss(true);
-            },
-            (response: HttpErrorResponse) => {
-                this.eventManager.broadcast({
-                    name: 'personalShipmentListModification',
-                    content: 'Error when request cancel invoice'
-                });
-                this.activeModal.dismiss(false);
-            }
-        );
+        invoiceHeader.cancelReason = invoiceHeader.cancelReason.trim();
+        if (invoiceHeader.cancelReason && invoiceHeader.cancelReason.length > 5 && invoiceHeader.cancelReason.length < 50) {
+            invoiceHeader.changeNote = 'request';
+            this.invoiceHeaderService.update(invoiceHeader).subscribe(
+                (response: HttpResponse<IInvoiceHeader>) => {
+                    this.eventManager.broadcast({
+                        name: 'personalShipmentListModification',
+                        content: 'Send request cancel invoice successfully'
+                    });
+                    this.activeModal.dismiss(true);
+                },
+                (response: HttpErrorResponse) => {
+                    this.eventManager.broadcast({
+                        name: 'personalShipmentListModification',
+                        content: 'Error when request cancel invoice'
+                    });
+                    this.activeModal.dismiss(false);
+                }
+            );
+        } else {
+            this.check = 'Bạn cần  điền lý do hủy chính xác!';
+        }
     }
 }
 

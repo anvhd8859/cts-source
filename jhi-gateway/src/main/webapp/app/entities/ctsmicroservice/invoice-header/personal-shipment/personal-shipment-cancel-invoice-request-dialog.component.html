@@ -1,25 +1,19 @@
 <form name="requestForm" (ngSubmit)="confirmRequest(invoiceHeader)">
     <br>
-<br>
     <br>
-<br>
     <br>
-<br>
+    <br>
     <div class="modal-header">
         <h4 class="modal-title">Gửi yêu cầu hủy đơn hàng</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="clear()">&times;</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
+        <i style="color: red;">{{check}}</i>
         <div class="form-group">
             <label class="form-control-label" for="reason">Lý do hủy</label>
-            <textarea   class="form-control"
-                        style="resize: none;"
-                        rows="2"
-                        id="reason"
-                        name="reason"
-                        [(ngModel)]="invoiceHeader.cancelReason">
+            <textarea class="form-control" style="resize: none;" rows="2" id="reason" name="reason"
+                [(ngModel)]="invoiceHeader.cancelReason">
             </textarea>
         </div>
     </div>
