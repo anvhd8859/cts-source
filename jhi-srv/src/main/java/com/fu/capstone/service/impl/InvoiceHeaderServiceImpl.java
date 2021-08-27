@@ -251,7 +251,9 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
             if (wa == null) wa = workingAreaRepository.getEmployeeNearBy(toStreet.getId());
             if (wa != null) ps.setEmployeeId(wa.getEmployeeId());
             lstShipment.add(ps);
-        } else invoiceHeaderDTO.setStatus("");
+        } else {
+            invoiceHeaderDTO.setStatus("receive");
+        }
         invoiceHeaderDTO.setSubTotal(subTotal);
         invoiceHeaderDTO.setTaxAmount(subTotal.multiply(new BigDecimal("0.1")));
         invoiceHeaderDTO.setTotalDue(subTotal.multiply(new BigDecimal("1.1")));
