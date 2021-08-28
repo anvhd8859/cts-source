@@ -11,7 +11,6 @@
             <strong>Đã lưu thông tin!</strong>
         </div>
         <jhi-alert></jhi-alert>
-        <jhi-alert-error></jhi-alert-error>
 
         <form #form="ngForm" name="form" role="form" (ngSubmit)="save(form)" #settingsForm="ngForm"
             *ngIf="settingsAccount" novalidate>
@@ -192,7 +191,7 @@
                             <div *ngIf="addressInput.errors && form.submitted && !isValidFormSubmitted"
                                 [ngClass]="'error'">
                                 <small class="form-text text-danger" *ngIf="addressInput.errors.pattern">
-                                    Địa chỉ tối thiểu là 4 ký tự và tối đa 100 ký tự
+                                    Địa chỉ tối thiểu là 1 ký tự và tối đa 50 ký tự
                                 </small>
                             </div>
                         </div>

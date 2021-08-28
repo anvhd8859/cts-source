@@ -37,7 +37,7 @@ export class SettingsComponent implements OnInit {
     selectedGender: any;
     user: any;
     vnf_regex = '^(09|03|07|08|05)([0-9]{8})$';
-    adr_regex = '^({4,100})$';
+    adr_regex = '^(.{1,50})$';
     isValidFormSubmitted: any;
 
     constructor(

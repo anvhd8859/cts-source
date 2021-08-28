@@ -302,7 +302,7 @@ public class InvoiceHeaderResource {
 
 	@PutMapping("/invoice-headers/approve-cancel")
 	@Timed
-	public ResponseEntity<InvoiceHeaderDTO> approveCancelInvoiceHeaders(@RequestParam("id") Long id) {
+	public ResponseEntity<InvoiceHeaderDTO> approveCancelInvoiceHeaders(@RequestBody Long id) {
 		InvoiceHeaderDTO data = invoiceHeaderService.approveCancelInvoiceHeaders(id);
 		return ResponseEntity.ok(data);
 	}

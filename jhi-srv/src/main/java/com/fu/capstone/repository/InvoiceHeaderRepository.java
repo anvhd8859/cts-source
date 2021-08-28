@@ -61,7 +61,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 			@Param("status") String status, @Param("fromDate") String fromDate,
 			@Param("toDate") String toDate, Pageable pageable);
 
-	@Query(value = "SELECT i FROM InvoiceHeader i, InvoicePackage p WHERE i.id = p.invoiceHeaderId"
+	@Query(value = "SELECT DISTINCT i FROM InvoiceHeader i, InvoicePackage p WHERE i.id = p.invoiceHeaderId"
 			+ " AND i.officeId = :id "
 			+ " AND i.destinationOfficeId = :tid"
 			+ " AND (i.status = :status) "

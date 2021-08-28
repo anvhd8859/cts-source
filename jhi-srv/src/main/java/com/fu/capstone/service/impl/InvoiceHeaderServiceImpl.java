@@ -314,22 +314,21 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
     @Override
     public List<InvoiceHeaderDTO> saveInvoiceHeadersApproved(List<InvoiceHeaderDTO> invoiceHeadersDTO) {
         List<InvoiceHeader> result = invoiceHeaderMapper.toEntity(invoiceHeadersDTO);
+        List<PersonalShipment> shipmentList = new ArrayList<>();
         for (InvoiceHeader i : result) {
             i.setUpdateDate(Instant.now());
+            i.setCancel(true);
             i.setChangeNote("approved");
-            List<PersonalShipment> shipmentList = personalShipmentRepository.getShipmentByInvoice(i.getId());
-            List<InvoicePackage> packageList = invoicePackageRepository.getInvoicePackageByHeaderId(i.getId());
-            for (InvoicePackage ii : packageList) {
+            List<PersonalShipment> sList = personalShipmentRepository.getShipmentByInvoice(i.getId());
+            for (PersonalShipment ii : sList) {
                 if (!ii.getStatus().equalsIgnoreCase("finish"))
                     ii.setStatus("cancel");
             }
-            for (PersonalShipment ii : shipmentList) {
-                if (!ii.getStatus().equalsIgnoreCase("finish"))
-                    ii.setStatus("cancel");
-            }
+            shipmentList.addAll(sList);
         }
-        result = invoiceHeaderRepository.saveAll(result);
-        return invoiceHeaderMapper.toDto(result);
+
+        personalShipmentRepository.saveAll(shipmentList);
+        return invoiceHeaderMapper.toDto(invoiceHeaderRepository.saveAll(result));
     }
 
     @Override
