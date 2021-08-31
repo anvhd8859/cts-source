@@ -42,7 +42,7 @@
                                 </td>
                                 <td>{{invoiceHeader.reviewDate | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
                                 <td>{{invoiceHeader.createDate | date:'yyyy-MM-dd HH:mm' : 'vie'}} </td>
-                                <td>{{invoiceHeader.cancelReason ? invoiceHeader.cancelReason : invoiceHeader.note}}</td>
+                                <td>{{invoiceHeader.cancel ? invoiceHeader.cancelReason : invoiceHeader.note}}</td>
                                 <td>
                                     <div class="btn-group flex-btn-group-container justify-content-start">
                                         <button type="submit"

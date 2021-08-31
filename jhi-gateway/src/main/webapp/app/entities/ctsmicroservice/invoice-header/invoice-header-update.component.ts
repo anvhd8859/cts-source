@@ -262,8 +262,8 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
                 count++;
                 if (!obj.invPackage.weight) {
                     msg += 'Mục cân nặng của Gói hàng' + count + '  không được để trống! <br>';
-                } else if (obj.invPackage.weight > 20000 || obj.invPackage.weight < 50) {
-                    msg += 'Mục cân nặng của Gói hàng #' + count + ' phải nằm trong khoảng 50g đến 20000g! <br>';
+                } else if (obj.invPackage.weight > 30000 || obj.invPackage.weight < 10) {
+                    msg += 'Mục cân nặng của Gói hàng #' + count + ' phải nằm trong khoảng 10g đến 30000g! <br>';
                 }
 
                 if (!obj.invPackage.height) {
