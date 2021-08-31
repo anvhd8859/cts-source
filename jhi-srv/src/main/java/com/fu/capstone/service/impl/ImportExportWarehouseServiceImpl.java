@@ -335,7 +335,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
                         PersonalShipment ps;
 
                         // first and last import is same office
-                        if (rd.getInvoiceHeader().getOfficeId() == rd.getInvoiceHeader().getDestinationOfficeId()) {
+                        if (rd.getInvoiceHeader().getOfficeId().longValue() == rd.getInvoiceHeader().getDestinationOfficeId().longValue()) {
                             rd.getInvoiceHeader().setStatus("last_import");
                             ps = personalShipmentRepository.getDeliveryShipmentByInvoice(rd.getInvoiceHeader().getId());
                             ps.setStatus("new");

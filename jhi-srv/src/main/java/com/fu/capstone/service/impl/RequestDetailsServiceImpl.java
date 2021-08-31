@@ -44,8 +44,8 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 	private InvoiceDetailsRepository invoiceDetailsRepository;
 
 	private InvoicePackageRepository invoicePackageRepository;
-	
-	private PersonalShipmentRepository personalShipmentRepository; 
+
+	private PersonalShipmentRepository personalShipmentRepository;
 
 	private RequestDetailsMapper requestDetailsMapper;
 
@@ -137,7 +137,7 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 			dto.setPackageList(invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(rd.getInvoicePackageId())));
 			rs.add(dto);
 		}
-		
+
 		return rs;
 	}
 
@@ -147,7 +147,7 @@ public class RequestDetailsServiceImpl implements RequestDetailsService {
 		List<PersonalShipment> psList = personalShipmentRepository.getPersonalShipmentByRequestId(wid);
 		for(InvoicePackageDetailDTO o : body) {
 			for(PersonalShipment ps : psList) {
-				if(o.getInvoice().getId() == ps.getInvoiceHeaderId()) {
+				if(o.getInvoice().getId().longValue() == ps.getInvoiceHeaderId().longValue()) {
 					for(RequestDetails rd : rdList) {
 						if(ps.getId() == rd.getInvoicePackageId()){
 							rd.setKeeperConfirm(true);

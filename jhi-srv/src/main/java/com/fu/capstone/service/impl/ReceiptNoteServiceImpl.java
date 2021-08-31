@@ -173,7 +173,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
             dto.setInvPackage(invoicePackageMapper.toDto(ip));
             dto.setItemList(new ArrayList<>());
             for (InvoiceDetails ids : idtList) {
-                if (ids.getInvoicePackageId() == ip.getId()) {
+                if (ids.getInvoicePackageId().longValue() == ip.getId().longValue()) {
                     dto.getItemList().add(invoiceDetailsMapper.toDto(ids));
                 }
             }
