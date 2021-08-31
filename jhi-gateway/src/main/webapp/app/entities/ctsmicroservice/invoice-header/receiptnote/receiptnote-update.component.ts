@@ -119,13 +119,9 @@ export class ReceiptnoteUpdateComponent implements OnInit {
     }
 
     calculate() {
-        if (this.currentUser.authorities.find(e => e === 'ROLE_SHIPPER') && this.personalShipment.shipmentType === 'collect') {
-            this.invoiceHeader.subTotal = Math.round((this.cal.calculateSubTotal(this.createPackage) * 1.05 + 2500) * 100) / 100;
-        } else {
-            this.invoiceHeader.subTotal = Math.round(this.cal.calculateSubTotal(this.createPackage) * 100) / 100;
-        }
-        this.invoiceHeader.taxAmount = Math.round(0.1 * this.invoiceHeader.subTotal * 100) / 100;
-        this.invoiceHeader.totalDue = Math.round(1.1 * this.invoiceHeader.subTotal * 100) / 100;
+        this.invoiceHeader.subTotal = Math.round(this.cal.calculateSubTotal(this.createPackage));
+        this.invoiceHeader.taxAmount = Math.round(0.1 * this.invoiceHeader.subTotal);
+        this.invoiceHeader.totalDue = Math.round(1.1 * this.invoiceHeader.subTotal);
     }
 
     selectFile(event: any) {
@@ -247,29 +243,26 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                     this.receiptnote.note = this.receiptnote.note ? this.receiptnote.note : '';
                     this.receiptnote.note += ' Nhận hàng từ khách tại văn phòng';
                     this.invoiceHeader.officeId = this.currentProfile.officeId;
-                    this.invoiceService.update(this.invoiceHeader).subscribe(response => {
-                        this.data = new CustomReceipt();
-                        this.receiptnote.receiptType = true;
-                        this.data.receipt = this.receiptnote;
-                        if (!this.invoiceHeader.receiverPay) {
-                            this.data.pay = true;
-                            this.data.payAmount = this.invoiceHeader.totalDue.toString();
+                    this.data = new CustomReceipt();
+                    this.receiptnote.receiptType = true;
+                    this.data.receipt = this.receiptnote;
+                    if (!this.invoiceHeader.receiverPay) {
+                        this.data.pay = true;
+                        this.data.payAmount = this.invoiceHeader.totalDue.toString();
+                    }
+                    for (const obj of this.createPackage) {
+                        this.data.packageList.push(obj);
+                    }
+                    this.receiptnoteService.createReceiptByOfficer(this.data).subscribe(
+                        (res: HttpResponse<IReceiptnote>) => {
+                            this.sendEmail(res.body);
+                            this.isSaving = false;
+                            this.route.navigate([`/receiptnote/${this.invId}/view`]);
+                        },
+                        (res: HttpErrorResponse) => {
+                            this.onSaveError();
                         }
-                        for (const obj of this.createPackage) {
-                            obj.invPackage.status = 'first_import';
-                            this.data.packageList.push(obj);
-                        }
-                        this.receiptnoteService.createReceiptByOfficer(this.data).subscribe(
-                            (res: HttpResponse<IReceiptnote>) => {
-                                this.sendEmail(res.body);
-                                this.isSaving = false;
-                                this.route.navigate([`/receiptnote/${this.invId}/view`]);
-                            },
-                            (res: HttpErrorResponse) => {
-                                this.onSaveError();
-                            }
-                        );
-                    });
+                    );
                 }
             }
         } else {

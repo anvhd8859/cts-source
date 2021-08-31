@@ -187,7 +187,7 @@ public class InvoiceHeaderResource {
 		if (invoiceHeaderDTO.getInvoice().getId() == null) {
 			throw new BadRequestAlertException("A new invoiceHeader cannot already have an ID", ENTITY_NAME, "idnull");
 		}
-		InvoiceHeaderDTO result = invoiceHeaderService.createInvoiceHeaderDetailPackage(invoiceHeaderDTO, 0);
+		InvoiceHeaderDTO result = invoiceHeaderService.saveInvoiceHeaderDetailPackage(invoiceHeaderDTO);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
 				.body(result);
 	}

@@ -225,7 +225,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
                     id.setCreateDate(instant);
                 }
                 id.setUpdateDate(instant);
-                lstDetailDTO.add(id);
+                if (id.getItemName() != null && id.getItemType() != null)
+                    lstDetailDTO.add(id);
             }
         }
 
@@ -296,6 +297,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
         for (PackageDetailsDTO ip : lstPackage) {
             totalWeight += ip.getInvPackage().getWeight();
         }
+
         List<Price> priceList = priceRepository.findAll(new Sort(Sort.Direction.ASC, "weight")) ;
         totalWeight /= 1000;
 
@@ -431,7 +433,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
     @Override
     public Page<InvoicePackageShipmentDTO> getImportInvoiceByOfficer(Long id, Long oid, String invNo, String from,
-                                                                   String to, Pageable pageable) {
+                                                                     String to, Pageable pageable) {
         Page<InvoiceHeader> page = invoiceHeaderRepository.getImportInvoiceByOfficer(id, oid, invNo, from, to, pageable);
         return page.map(this::toInvoicePackageShipmentDTO);
     }
@@ -456,14 +458,26 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
         return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(inv));
     }
 
-    private InvoicePackageShipmentDTO toInvoicePackageShipmentDTO(InvoiceHeader inv) {
-        InvoicePackageShipmentDTO dto = new InvoicePackageShipmentDTO();
-        List<InvoicePackageDTO> lstPackage = invoicePackageMapper
-            .toDto(invoicePackageRepository.getInvoicePackageByHeaderId(inv.getId()));
-        dto.setInvoiceHeader(invoiceHeaderMapper.toDto(inv));
-        dto.setInvoicePackageList(lstPackage);
-        return dto;
-    }
+    @Override
+    public InvoiceHeaderDTO saveInvoiceHeaderDetailPackage(InvoicePackageDetailDTO invoiceHeaderDTO) {
+        InvoiceHeader inv = invoiceHeaderMapper.toEntity(invoiceHeaderDTO.getInvoice());
+        List <InvoiceDetails> invDetails = new ArrayList<>();
+        for (PackageDetailsDTO pd : invoiceHeaderDTO.getPackageList()) {
+            InvoicePackage ip = invoicePackageMapper.toEntity(pd.getInvPackage());
+            ip = invoicePackageRepository.save(ip);
 
+            List<InvoiceDetails> idList = invoiceDetailsMapper.toEntity(pd.getItemList());
+            for (InvoiceDetails id : idList) {
+                if (id.getItemName() != null && id.getItemType() != null) {
+                    id.setInvoiceHeaderId(inv.getId());
+                    id.setInvoicePackageId(ip.getId());
+                    invDetails.add(id);
+                }
+            }
+        }
+
+        invoiceDetailsRepository.saveAll(invDetails);
+        return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(inv));
+    }
 
 }
