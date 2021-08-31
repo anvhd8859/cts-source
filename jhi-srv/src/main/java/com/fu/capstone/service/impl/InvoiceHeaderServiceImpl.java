@@ -60,13 +60,14 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
     private PriceRepository priceRepository;
 
-    public InvoiceHeaderServiceImpl(InvoiceHeaderRepository invoiceHeaderRepository,
-                                    InvoiceHeaderMapper invoiceHeaderMapper, InvoiceDetailsRepository invoiceDetailsRepository,
-                                    InvoiceDetailsMapper invoiceDetailsMapper, InvoicePackageRepository invoicePackageRepository,
-                                    InvoicePackageMapper invoicePackageMapper, PersonalShipmentRepository personalShipmentRepository,
-                                    PersonalShipmentMapper personalShipmentMapper, StreetRepository streetRepository,
-                                    OfficeRepository officeRepository, WorkingAreaRepository workingAreaRepository,
-                                    PriceRepository priceRepository) {
+    public InvoiceHeaderServiceImpl(
+        InvoiceHeaderRepository invoiceHeaderRepository,
+        InvoiceHeaderMapper invoiceHeaderMapper, InvoiceDetailsRepository invoiceDetailsRepository,
+        InvoiceDetailsMapper invoiceDetailsMapper, InvoicePackageRepository invoicePackageRepository,
+        InvoicePackageMapper invoicePackageMapper, PersonalShipmentRepository personalShipmentRepository,
+        PersonalShipmentMapper personalShipmentMapper, StreetRepository streetRepository,
+        OfficeRepository officeRepository, WorkingAreaRepository workingAreaRepository,
+        PriceRepository priceRepository) {
         this.invoiceHeaderRepository = invoiceHeaderRepository;
         this.invoiceHeaderMapper = invoiceHeaderMapper;
         this.invoiceDetailsRepository = invoiceDetailsRepository;
@@ -298,12 +299,12 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
             totalWeight += ip.getInvPackage().getWeight();
         }
 
-        List<Price> priceList = priceRepository.findAll(new Sort(Sort.Direction.ASC, "weight")) ;
+        List<Price> priceList = priceRepository.findAll(new Sort(Sort.Direction.ASC, "weight"));
         totalWeight /= 1000;
 
         for (Price p : priceList) {
-            if(totalWeight <= p.getWeight() ) {
-                if(p.isMultiply()) result = BigDecimal.valueOf(p.getDefaultPrice())
+            if (totalWeight <= p.getWeight()) {
+                if (p.isMultiply()) result = BigDecimal.valueOf(p.getDefaultPrice())
                     .add(BigDecimal.valueOf(p.getPrice()).multiply(BigDecimal.valueOf(totalWeight)));
                 else result = BigDecimal.valueOf(p.getPrice());
                 break;
@@ -461,7 +462,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
     @Override
     public InvoiceHeaderDTO saveInvoiceHeaderDetailPackage(InvoicePackageDetailDTO invoiceHeaderDTO) {
         InvoiceHeader inv = invoiceHeaderMapper.toEntity(invoiceHeaderDTO.getInvoice());
-        List <InvoiceDetails> invDetails = new ArrayList<>();
+        List<InvoiceDetails> invDetails = new ArrayList<>();
         for (PackageDetailsDTO pd : invoiceHeaderDTO.getPackageList()) {
             InvoicePackage ip = invoicePackageMapper.toEntity(pd.getInvPackage());
             ip = invoicePackageRepository.save(ip);
@@ -478,6 +479,15 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
 
         invoiceDetailsRepository.saveAll(invDetails);
         return invoiceHeaderMapper.toDto(invoiceHeaderRepository.save(inv));
+    }
+
+    private InvoicePackageShipmentDTO toInvoicePackageShipmentDTO(InvoiceHeader inv) {
+        InvoicePackageShipmentDTO dto = new InvoicePackageShipmentDTO();
+        List<InvoicePackage> list = invoicePackageRepository.getInvoicePackageByHeaderId(inv.getId());
+
+        dto.setInvoiceHeader(invoiceHeaderMapper.toDto(inv));
+        dto.setInvoicePackageList(invoicePackageMapper.toDto(list));
+        return dto;
     }
 
 }
