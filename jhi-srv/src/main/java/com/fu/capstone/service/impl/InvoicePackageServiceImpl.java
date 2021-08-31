@@ -72,10 +72,9 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
 		Instant instant = Instant.now();
 		if (invoicePackage.getId() == null) {
 			invoicePackage.setCreateDate(instant);
-			invoicePackage.setUpdateDate(instant);
-		} else
-			invoicePackage.setUpdateDate(instant);
-		invoicePackage = invoicePackageRepository.save(invoicePackage);
+        }
+        invoicePackage.setUpdateDate(instant);
+        invoicePackage = invoicePackageRepository.save(invoicePackage);
 		return invoicePackageMapper.toDto(invoicePackage);
 	}
 
@@ -163,8 +162,7 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
 		Page<InvoiceHeaderDTO> pageInvoice = invoiceHeaderRepository
 				.getImportPackageByOfficeId(id, invNo, status, fromDate, toDate, pageable)
 				.map(invoiceHeaderMapper::toDto);
-		Page<InvoicePackageShipmentDTO> page = pageInvoice.map(this::convert);
-		return page;
+        return pageInvoice.map(this::convert);
 	}
 
 	@Override
@@ -205,8 +203,7 @@ public class InvoicePackageServiceImpl implements InvoicePackageService {
 		Page<InvoiceHeaderDTO> pageInvoice = invoiceHeaderRepository
 				.getExportPackageByOfficeId(id, w.getOfficeId(), invNo, status, fromDate, toDate, pageable)
 				.map(invoiceHeaderMapper::toDto);
-		Page<InvoicePackageShipmentDTO> page = pageInvoice.map(this::convert);
-		return page;
+		return pageInvoice.map(this::convert);
 	}
 
 	private InvoicePackageShipmentDTO convert(InvoiceHeaderDTO value) {

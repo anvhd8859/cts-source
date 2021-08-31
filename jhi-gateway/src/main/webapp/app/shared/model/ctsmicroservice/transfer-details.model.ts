@@ -7,6 +7,7 @@ export interface ITransferDetails {
     status?: boolean;
     createDate?: Moment;
     updateDate?: Moment;
+    note?: String;
 }
 
 export class TransferDetails implements ITransferDetails {

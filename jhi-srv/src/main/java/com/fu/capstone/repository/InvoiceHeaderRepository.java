@@ -61,7 +61,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 			@Param("status") String status, @Param("fromDate") String fromDate,
 			@Param("toDate") String toDate, Pageable pageable);
 
-	@Query(value = "SELECT i FROM InvoiceHeader i, InvoicePackage p WHERE i.id = p.invoiceHeaderId"
+	@Query(value = "SELECT DISTINCT i FROM InvoiceHeader i, InvoicePackage p WHERE i.id = p.invoiceHeaderId"
 			+ " AND i.officeId = :id "
 			+ " AND i.destinationOfficeId = :tid"
 			+ " AND (i.status = :status) "
@@ -127,7 +127,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 				 + " AND t.transferId = :id ")
 	List<InvoiceHeader> getInvoiceHeaderByTransferId(@Param("id") Long id);
 
-	@Query(value = "SELECT i FROM InvoiceHeader i, InvoicePackage p WHERE i.id = p.invoiceHeaderId "
+	@Query(value = "SELECT DISTINCT i FROM InvoiceHeader i, InvoicePackage p WHERE i.id = p.invoiceHeaderId "
                  + " AND (i.status = 'first_import' OR i.status = 'last_import') "
 				 + " AND p.warehouseId = :id AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo , '%')) ")
 	Page<InvoiceHeader> getInvoiceByWarehouse(@Param("id") Long id, @Param("invNo") String invNo, Pageable pageable);

@@ -325,7 +325,6 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 		request.setKeeperConfirm(true);
 		request.setStatus("approve");
 		request.setUpdateDate(instant);
-		int[] count = new int[]{0, 0};
 		requestDetails.forEach(rd -> {
 			if (rd.getRequestDetails().getStatus()) {
 			    // import
@@ -337,6 +336,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
 
                         // first and last import is same office
                         if (rd.getInvoiceHeader().getOfficeId() == rd.getInvoiceHeader().getDestinationOfficeId()) {
+                            rd.getInvoiceHeader().setStatus("last_import");
                             ps = personalShipmentRepository.getDeliveryShipmentByInvoice(rd.getInvoiceHeader().getId());
                             ps.setStatus("new");
                             psList.add(ps);
@@ -358,9 +358,7 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
                     }
 
                     // set warehouse
-                    rd.getPackageList().forEach(ip -> {
-                        ip.setWarehouseId(request.getWarehouseId());
-                    });
+                    rd.getPackageList().forEach(ip -> ip.setWarehouseId(request.getWarehouseId()));
                 }
 
                 // export from last import
@@ -369,19 +367,14 @@ public class ImportExportWarehouseServiceImpl implements ImportExportWarehouseSe
                     PersonalShipment ps = personalShipmentRepository.getDeliveryShipmentByInvoice(rd.getInvoiceHeader().getId());
                     ps.setStatus("delivering");
                     psList.add(ps);
-                    rd.getPackageList().forEach(ip -> {
-                        ip.setWarehouseId(null);
-                    });
+                    rd.getPackageList().forEach(ip -> ip.setWarehouseId(null));
                 }
 
 				ihList.add(rd.getInvoiceHeader());
 				ipList.addAll(rd.getPackageList());
-				count[0]++;
 			}
 			rdList.add(rd.getRequestDetails());
-			count[1]++;
 		});
-		request.setNote(String.format("%d/%d", count[0], count[1]));
 
 		requestDetailsRepository.saveAll(requestDetailsMapper.toEntity(rdList));
 		invoiceHeaderRepository.saveAll(invoiceHeaderMapper.toEntity(ihList));

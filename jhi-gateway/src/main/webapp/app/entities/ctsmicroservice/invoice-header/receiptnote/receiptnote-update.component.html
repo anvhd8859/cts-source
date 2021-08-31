@@ -167,7 +167,7 @@
                     </ng-container>
                     <br>
                     <br>
-                    <div class="divider" ></div>
+                    <div class="divider" *ngIf="!(personalShipment && (personalShipment.shipmentType === 'delivery'))"></div>
                     <div class="row" *ngIf="!(personalShipment && (personalShipment.shipmentType === 'delivery'))">
                         <!-- <div style="width: 4%;"></div> -->
                         <div class="col-lg-3 col-md-6 col-sm-6">
@@ -189,7 +189,8 @@
                         <div class="form-group">
                             <label class="form-control-label" for="from-payment" style="font-weight: 500;"><b>Thanh
                                     toán</b></label>
-                            <label class="btn btn-success" (click)="calculate()">
+                            <label *ngIf="personalShipment && personalShipment.shipmentType === 'collect'"
+                                class="btn btn-success" (click)="calculate()">
                                 Tính tiền lại
                             </label>
                             <div>
@@ -219,6 +220,7 @@
                                 <label class="form-control-label" for="from-payment" style="font-weight: 500;">
                                     <b>Ảnh xác nhận </b>
                                 </label>
+                                <i>(Cần chụp rõ các mặt hàng khách gửi để xác nhận)</i>
                             </div>
                             <div>
                                 <div>

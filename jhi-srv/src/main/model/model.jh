@@ -1,14 +1,9 @@
-entity WarehouseTransferRequest {
-	fromWarehouseId Long
-	toWarehouseId Long
-	fromKeeperId Long
-	toKeeperId Long
-	status String
-	receiveDate Instant
+entity Price {
+	weight Float
+	price Float
+	multiply Boolean
 	createDate Instant
 	updateDate Instant
 }
-
-dto * with mapstruct
 
 service all with serviceImpl

@@ -78,6 +78,7 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
             this.lstUser = resp[0].body;
             this.currentAccount = resp[1];
             this.lstShipper = resp[2].body;
+            this.lstUser = this.lstUser.concat(this.lstShipper);
             this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(profile => {
                 this.currentProfile = profile.body;
                 this.officeId = this.currentProfile.officeId;
@@ -111,21 +112,11 @@ export class ImportExportWarehouseComponent implements OnInit, OnDestroy {
                 return obj.lastName + ' ' + obj.firstName;
             }
         }
-        for (const obj of this.lstShipper) {
-            if (obj.id === id) {
-                return obj.lastName + ' ' + obj.firstName;
-            }
-        }
         return '';
     }
 
     getEmail(id: number): string {
         for (const obj of this.lstUser) {
-            if (obj.id === id) {
-                return obj.login;
-            }
-        }
-        for (const obj of this.lstShipper) {
             if (obj.id === id) {
                 return obj.login;
             }

@@ -33,9 +33,7 @@ export class CancelInvoiceService {
     }
 
     updateMany(req?: any): any {
-        return this.http
-            .put<any>(this.resourceUrl + '/approve-invoices', req, { observe: 'response' })
-            .pipe(map((res: any) => this.convertDateArrayFromServer(res)));
+        return this.http.put<any>(this.resourceUrl + '/approve-invoices', req, { observe: 'response' });
     }
 
     find(id: number): Observable<EntityResponseType> {
@@ -57,7 +55,7 @@ export class CancelInvoiceService {
 
     approveCancelInvoiceHeaders(cancelInvoice: ICancelInvoice): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(cancelInvoice);
-        return this.http.put<any>(this.resourceUrl + '/approve-cancel', copy, { observe: 'response' });
+        return this.http.put<any>(this.resourceUrl + '/approve-cancel', copy.id, { observe: 'response' });
     }
 
     private convertDateFromClient(cancelInvoice: ICancelInvoice): ICancelInvoice {

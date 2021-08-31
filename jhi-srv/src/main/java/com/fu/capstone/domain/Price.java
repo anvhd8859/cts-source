@@ -8,11 +8,11 @@ import java.time.Instant;
 import java.util.Objects;
 
 /**
- * A TransferDetails.
+ * A Price.
  */
 @Entity
-@Table(name = "transfer_details")
-public class TransferDetails implements Serializable {
+@Table(name = "price")
+public class Price implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,17 +20,17 @@ public class TransferDetails implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "transfer_id")
-    private Long transferId;
+    @Column(name = "weight")
+    private Float weight;
 
-    @Column(name = "invoice_package_id")
-    private Long invoicePackageId;
+    @Column(name = "price")
+    private Float price;
 
-    @Column(name = "status")
-    private Boolean status;
+    @Column(name = "multiply")
+    private Boolean multiply;
 
-    @Column(name = "note")
-    private String note;
+    @Column(name = "default_price")
+    private Float defaultPrice;
 
     @Column(name = "create_date")
     private Instant createDate;
@@ -47,45 +47,50 @@ public class TransferDetails implements Serializable {
         this.id = id;
     }
 
-    public Long getTransferId() {
-        return transferId;
+    public Float getWeight() {
+        return weight;
     }
 
-    public TransferDetails transferId(Long transferId) {
-        this.transferId = transferId;
+    public Price weight(Float weight) {
+        this.weight = weight;
         return this;
     }
 
-    public void setTransferId(Long transferId) {
-        this.transferId = transferId;
+    public void setWeight(Float weight) {
+        this.weight = weight;
     }
 
-    public Long getInvoicePackageId() {
-        return invoicePackageId;
+    public Float getPrice() {
+        return price;
     }
 
-    public TransferDetails invoicePackageId(Long invoicePackageId) {
-        this.invoicePackageId = invoicePackageId;
+    public Price price(Float price) {
+        this.price = price;
         return this;
     }
 
-    public void setInvoicePackageId(Long invoicePackageId) {
-        this.invoicePackageId = invoicePackageId;
+    public void setPrice(Float price) {
+        this.price = price;
     }
 
-    public Boolean getStatus() {
-        return status;
+    public Boolean isMultiply() {
+        return multiply;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public Price multiply(Boolean multiply) {
+        this.multiply = multiply;
+        return this;
+    }
+
+    public void setMultiply(Boolean multiply) {
+        this.multiply = multiply;
     }
 
     public Instant getCreateDate() {
         return createDate;
     }
 
-    public TransferDetails createDate(Instant createDate) {
+    public Price createDate(Instant createDate) {
         this.createDate = createDate;
         return this;
     }
@@ -98,7 +103,7 @@ public class TransferDetails implements Serializable {
         return updateDate;
     }
 
-    public TransferDetails updateDate(Instant updateDate) {
+    public Price updateDate(Instant updateDate) {
         this.updateDate = updateDate;
         return this;
     }
@@ -116,11 +121,11 @@ public class TransferDetails implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        TransferDetails transferDetails = (TransferDetails) o;
-        if (transferDetails.getId() == null || getId() == null) {
+        Price price = (Price) o;
+        if (price.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), transferDetails.getId());
+        return Objects.equals(getId(), price.getId());
     }
 
     @Override
@@ -130,20 +135,21 @@ public class TransferDetails implements Serializable {
 
     @Override
     public String toString() {
-        return "TransferDetails{" +
+        return "Price{" +
             "id=" + getId() +
-            ", transferId=" + getTransferId() +
-            ", invoicePackageId=" + getInvoicePackageId() +
+            ", weight=" + getWeight() +
+            ", price=" + getPrice() +
+            ", multiply='" + isMultiply() + "'" +
             ", createDate='" + getCreateDate() + "'" +
             ", updateDate='" + getUpdateDate() + "'" +
             "}";
     }
 
-    public String getNote() {
-        return note;
+    public Float getDefaultPrice() {
+        return defaultPrice;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setDefaultPrice(Float defaultPrice) {
+        this.defaultPrice = defaultPrice;
     }
 }

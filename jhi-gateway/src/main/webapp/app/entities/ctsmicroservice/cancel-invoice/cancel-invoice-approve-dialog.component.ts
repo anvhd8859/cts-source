@@ -30,7 +30,6 @@ export class CancelInvoiceApproveDialogComponent {
 
     confirmApprove(cancelInvoice: ICancelInvoice) {
         this.isSaving = true;
-        this.cancelInvoice.cancelReason = this.note;
         this.cancelInvoiceService.approveCancelInvoiceHeaders(cancelInvoice).subscribe(
             (response: HttpResponse<ICancelInvoice>) => {
                 this.isSaving = false;

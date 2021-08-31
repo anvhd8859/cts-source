@@ -17,6 +17,8 @@ public class TransferDetailsDTO implements Serializable {
 
     private Boolean status;
 
+    private String note;
+
     private Instant createDate;
 
     private Instant updateDate;
@@ -67,6 +69,14 @@ public class TransferDetailsDTO implements Serializable {
 
     public void setUpdateDate(Instant updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     @Override
