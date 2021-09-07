@@ -55,7 +55,7 @@ public class WorkingAreaResource {
         if (workingAreaDTO.getId() != null) {
             throw new BadRequestAlertException("A new workingArea cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        WorkingAreaDTO result = workingAreaService.saveAndCheckDeplicate(workingAreaDTO);
+        WorkingAreaDTO result = workingAreaService.saveAndCheckDuplicate(workingAreaDTO);
         return ResponseEntity.created(new URI("/api/working-areas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -129,5 +129,12 @@ public class WorkingAreaResource {
         Page<WorkingAreaStreetDTO> page = workingAreaService.getWorkingAreaByFilter(sid, eid, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/working-areas/filter");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/working-areas/shipper")
+    @Timed
+    public ResponseEntity<List<WorkingAreaStreetDTO>> getWorkingAreaByShipper(@RequestParam("id") Long id) {
+        List<WorkingAreaStreetDTO> page = workingAreaService.getWorkingAreaByShipper(id);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 }

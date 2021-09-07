@@ -12,6 +12,7 @@ import { WorkingAreaUpdateComponent } from './working-area-update.component';
 import { WorkingAreaDeletePopupComponent } from './working-area-delete-dialog.component';
 import { IWorkingArea } from 'app/shared/model/ctsmicroservice/working-area.model';
 import { JhiResolvePagingParams } from 'ng-jhipster';
+import { WorkingAreaShipperComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class WorkingAreaResolve implements Resolve<IWorkingArea> {
@@ -35,7 +36,19 @@ export const workingAreaRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'CTS: Quản lý khi vực làm việc'
+            pageTitle: 'CTS: Quản lý khu vực làm việc'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'working-area-shipper',
+        component: WorkingAreaShipperComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_SHIPPER'],
+            pageTitle: 'CTS:  Khu vực làm việc'
         },
         canActivate: [UserRouteAccessService]
     },

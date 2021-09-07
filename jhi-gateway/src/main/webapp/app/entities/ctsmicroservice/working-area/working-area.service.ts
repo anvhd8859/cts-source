@@ -61,6 +61,10 @@ export class WorkingAreaService {
         return this.http.get<HttpResponse<any>>(this.resourceUrl + '/filter', { params: req, observe: 'response' });
     }
 
+    getWorkingAreaByShipper(req?: any): any {
+        return this.http.get<HttpResponse<any>>(this.resourceUrl + '/shipper', { params: req, observe: 'response' });
+    }
+
     private convertDateFromClient(workingArea: IWorkingArea): IWorkingArea {
         const copy: IWorkingArea = Object.assign({}, workingArea, {
             createDate: workingArea.createDate != null && workingArea.createDate.isValid() ? workingArea.createDate.toJSON() : null,

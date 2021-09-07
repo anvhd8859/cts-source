@@ -1,5 +1,6 @@
 package com.fu.capstone.service.impl;
 
+import com.fu.capstone.domain.Street;
 import com.fu.capstone.service.WorkingAreaService;
 import com.fu.capstone.repository.StreetRepository;
 import com.fu.capstone.domain.WorkingArea;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -114,7 +116,7 @@ public class WorkingAreaServiceImpl implements WorkingAreaService {
 	}
 
 	@Override
-	public WorkingAreaDTO saveAndCheckDeplicate(WorkingAreaDTO workingAreaDTO) {
+	public WorkingAreaDTO saveAndCheckDuplicate(WorkingAreaDTO workingAreaDTO) {
 		WorkingArea wa = workingAreaRepository.findWorkingAreaDuplicate(workingAreaDTO.getEmployeeId(),
 				workingAreaDTO.getStreetId());
 		Instant instant = Instant.now();
@@ -125,4 +127,26 @@ public class WorkingAreaServiceImpl implements WorkingAreaService {
 		else wa = workingAreaRepository.save(workingAreaMapper.toEntity(workingAreaDTO));
 		return workingAreaMapper.toDto(wa);
 	}
+
+    @Override
+    public List<WorkingAreaStreetDTO> getWorkingAreaByShipper(Long id) {
+	    List<WorkingArea> areas = workingAreaRepository.findAllByEmployeeId(id);
+	    List<Long> ids = new ArrayList<>();
+        areas.forEach(a -> ids.add(a.getStreetId()));
+	    List<Street> streets = streetRepository.getAllByIdList(ids);
+        List<WorkingAreaStreetDTO> result = new ArrayList<>();
+        areas.forEach(a -> {
+            WorkingAreaStreetDTO dto = new WorkingAreaStreetDTO();
+            dto.setWorkingArea(workingAreaMapper.toDto(a));
+            for (Street s : streets) {
+                if (s.getId().longValue() == a.getStreetId()) {
+                    dto.setStreetName(s.getStreetName());
+                    break;
+                }
+            }
+            result.add(dto);
+        });
+
+        return result;
+    }
 }

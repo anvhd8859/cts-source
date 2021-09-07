@@ -13,6 +13,7 @@ import {
     workingAreaRoute,
     workingAreaPopupRoute
 } from './';
+import { WorkingAreaShipperComponent } from './working-area-shipper.component';
 
 const ENTITY_STATES = [...workingAreaRoute, ...workingAreaPopupRoute];
 
@@ -23,9 +24,16 @@ const ENTITY_STATES = [...workingAreaRoute, ...workingAreaPopupRoute];
         WorkingAreaDetailComponent,
         WorkingAreaUpdateComponent,
         WorkingAreaDeleteDialogComponent,
-        WorkingAreaDeletePopupComponent
+        WorkingAreaDeletePopupComponent,
+        WorkingAreaShipperComponent
     ],
-    entryComponents: [WorkingAreaComponent, WorkingAreaUpdateComponent, WorkingAreaDeleteDialogComponent, WorkingAreaDeletePopupComponent],
+    entryComponents: [
+        WorkingAreaComponent,
+        WorkingAreaUpdateComponent,
+        WorkingAreaDeleteDialogComponent,
+        WorkingAreaDeletePopupComponent,
+        WorkingAreaShipperComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CtsgatewayWorkingAreaModule {}

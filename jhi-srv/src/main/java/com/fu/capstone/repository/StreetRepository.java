@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface StreetRepository extends JpaRepository<Street, Long> {
-	
+
 	@Query( name = "get-street-by",
 			nativeQuery = true)
 	List<Street> getAllStreetsBySubDistrictId(@Param("id") Long id);
@@ -28,9 +28,11 @@ public interface StreetRepository extends JpaRepository<Street, Long> {
 
 	@Query( value = "SELECT s FROM Street s, Office o WHERE s.id = o.streetId AND o.id = :id")
 	Street getAddressByOfficeId(@Param("id") Long id);
-	
+
 	@Query( name = "get-street-by-param" ,nativeQuery = true)
 	List<Street> getAllStreetByParam(@Param("prvId") Long prvId, @Param("dstId") Long dstId,
 			@Param("sdtId") Long sdtId, @Param("strId") Long strId);
 
+	@Query( value = "SELECT s FROM Street s WHERE s.id IN (:ids)")
+    List<Street> getAllByIdList(@Param("ids") List<Long> ids);
 }

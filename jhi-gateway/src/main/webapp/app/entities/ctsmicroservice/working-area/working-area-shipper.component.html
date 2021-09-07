@@ -1,0 +1,50 @@
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <br>
+        <br>
+        <div>
+            <h2 id="jhi-working-area-heading">Khu vực làm việc</h2>
+            <br>
+            <div class="divider"></div>
+            <!-- END   show employee information -->
+            <!-- START view all areas -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <label><b>Thông tin</b></label>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive" *ngIf="!areas">
+                            <h2>Không có dữ liệu</h2>
+                        </div>
+                        <div class="table-responsive" *ngIf="areas">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th><span>#</span></th>
+                                        <th><span>Tên Đường/Phố</span></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let area of areas ;trackBy:">
+                                        <td>{{area.workingArea.id}}</td>
+                                        <td>{{area.streetName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div *ngIf="areas && areas.length">
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            <!-- END view all areas -->
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+</div>
