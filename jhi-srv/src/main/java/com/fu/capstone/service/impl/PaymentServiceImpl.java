@@ -26,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,12 +120,12 @@ public class PaymentServiceImpl implements PaymentService {
 	// END TuyenVNT 16/04/2021
 
 	@Override
-	public Page<PaymentInvoiceDTO> getPaymentInvoceByParams(Long id, String invoiceNo, String type, String receiveFrom,
-			String receiveTo, String createFrom, String createTo, Pageable pageable) {
+	public Page<PaymentInvoiceDTO> getPaymentInvoiceByParams(Long id, String invoiceNo, String type, String receiveFrom,
+                                                             String receiveTo, String createFrom, String createTo, Pageable pageable) {
 		Boolean tp = null;
 		if(type.equals("1")) tp = true;
 		if(type.equals("0")) tp = false;
-		Page<Payment> page = paymentRepository.getPaymentInvoceByParams(id, invoiceNo, tp, receiveFrom, receiveTo,
+		Page<Payment> page = paymentRepository.getPaymentInvoiceByParams(id, invoiceNo, tp, receiveFrom, receiveTo,
 				createFrom, createTo, pageable);
 		return page.map(this::convert);
 	}
@@ -138,22 +140,22 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public ByteArrayInputStream createPaymentReport(List<PaymentInvoiceDTO> body) throws IOException {
-		String[] HEADERs = { "Payment Id", "Invoice Id", "Invocie No", "Payer", "Total Due", "Total Paid", "Amount Due",
+		String[] HEADERS = { "Payment Id", "Invoice Id", "Invoice No", "Payer", "Total Due", "Total Paid", "Amount Due",
 				"Paid Date", "Invoice Create Date" };
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("Payment report");
 
 		XSSFRow headerRow = sheet.createRow(0);
-		for (int col = 0; col < HEADERs.length; col++) {
+		for (int col = 0; col < HEADERS.length; col++) {
 			XSSFCell cell = headerRow.createCell(col);
-			cell.setCellValue(HEADERs[col]);
+			cell.setCellValue(HEADERS[col]);
 		}
 		int rowIdx = 1;
 		for (PaymentInvoiceDTO dto : body) {
 			XSSFRow row = sheet.createRow(rowIdx++);
 			InvoiceHeaderDTO i = dto.getInvoice();
 			PaymentDTO p = dto.getPayment();
-			
+
 			row.createCell(0).setCellValue(p.getId());
 	        row.createCell(1).setCellValue(i.getId());
 	        row.createCell(2).setCellValue(i.getInvoiceNo());
@@ -176,4 +178,36 @@ public class PaymentServiceImpl implements PaymentService {
 	public PaymentDTO findPaymentByHeaderId(Long id) {
 		return paymentMapper.toDto(paymentRepository.findPaymentByHeaderId(id));
 	}
+
+    @Override
+    public List<PaymentInvoiceDTO> findPaymentByShipperId(Long id) {
+	    String time = Instant.now().toString();
+	    time = time.substring(0, time.indexOf("T"));
+        String from = time + " 00:00:00";
+        String to = time + " 23:59:59";
+	    List<Payment> payments = paymentRepository.findAllByEmployeeId(id, from, to);
+	    List<Long> headers = new ArrayList<>();
+	    payments.forEach(p -> {
+            headers.add(p.getInvoiceHeaderId());
+        });
+        List<InvoiceHeader> invoices = invoiceHeaderRepository.findAllById(headers);
+        List<PaymentInvoiceDTO> results = new ArrayList<>();
+        payments.parallelStream().forEach(p -> {
+            PaymentInvoiceDTO dto = new PaymentInvoiceDTO();
+            for (InvoiceHeader i : invoices) {
+                if (i.getId().longValue() == p.getInvoiceHeaderId().longValue()) {
+                    dto.setInvoice(invoiceHeaderMapper.toDto(i));
+                    break;
+                }
+            }
+            dto.setPayment(paymentMapper.toDto(p));
+            results.add(dto);
+        });
+        return results;
+    }
+
+    @Override
+    public List<PaymentDTO> approveAllPaymentsByOfficer(List<PaymentDTO> body) {
+        return paymentMapper.toDto(paymentRepository.saveAll(paymentMapper.toEntity(body)));
+    }
 }

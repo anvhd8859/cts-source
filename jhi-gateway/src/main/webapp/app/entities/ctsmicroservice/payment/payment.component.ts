@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { IPayment, Payment } from 'app/shared/model/ctsmicroservice/payment.model';
-import { Principal } from 'app/core';
+import { AccountService, IUser, Principal } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { PaymentService } from './payment.service';
@@ -16,13 +16,14 @@ import { InvoiceHeaderService } from '../invoice-header';
 import { InvoicePackageDetailDTO } from '../import-export-warehouse';
 import { Moment } from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { IUserProfile } from 'app/shared/model/user-profile.model';
 
 @Component({
     selector: 'jhi-payment',
     templateUrl: './payment.component.html'
 })
 export class PaymentComponent implements OnInit, OnDestroy {
-    currentAccount: any;
+    currentAccount: IUser;
     payments: PaymentInvoiceDTO[];
     error: any;
     success: any;
@@ -38,90 +39,49 @@ export class PaymentComponent implements OnInit, OnDestroy {
     reverse: any;
     invoiceList: InvoicePackageDetailDTO[];
     common: CommonString;
-    fromPaymentCreate: Moment;
-    toPaymentCreate: Moment;
-    fromInvoiceCreate: Moment;
-    toInvoiceCreate: Moment;
-    lstShipmentType: any = [{ id: '1', text: 'Lấy hàng' }, { id: '0', text: 'Giao hàng' }];
-    selectedTypeShipment: any;
-    selectedInvoiceNumber: any;
+    lstUser: IUser[] = [];
+    selectedUser: IUser;
+    selectedUserProfile: IUserProfile;
+    totalAmount: number = 0;
 
     constructor(
         private paymentService: PaymentService,
-        private parseLinks: JhiParseLinks,
+        private invoiceHeaderService: InvoiceHeaderService,
+        private accountService: AccountService,
         private jhiAlertService: JhiAlertService,
         private principal: Principal,
-        private activatedRoute: ActivatedRoute,
-        private router: Router,
         private eventManager: JhiEventManager,
         private ngxUiLoaderService: NgxUiLoaderService
     ) {
-        this.itemsPerPage = 50;
-        this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.page = data.pagingParams.page;
-            this.previousPage = data.pagingParams.page;
-            this.reverse = data.pagingParams.ascending;
-            this.predicate = data.pagingParams.predicate;
-        });
         this.common = new CommonString();
     }
 
-    clearDatepicker(id: number) {
-        switch (id) {
-            case 1:
-                this.fromInvoiceCreate = null;
-                break;
-            case 2:
-                this.toInvoiceCreate = null;
-                break;
-            case 3:
-                this.fromPaymentCreate = null;
-                break;
-            case 4:
-                this.toPaymentCreate = null;
-                break;
-        }
-    }
-
     loadAll() {
+        this.ngxUiLoaderService.start();
         this.paymentService
-            .findPaymentByParams({
-                eid: this.currentAccount.id,
-                invoiceNo: this.selectedInvoiceNumber ? this.selectedInvoiceNumber : '',
-                type: this.selectedTypeShipment ? this.selectedTypeShipment : '',
-                receiveFrom: this.fromPaymentCreate
-                    ? this.fromPaymentCreate.year() + '-' + (this.fromPaymentCreate.month() + 1) + '-' + this.fromPaymentCreate.date()
-                    : '',
-                receiveTo: this.toPaymentCreate
-                    ? this.toPaymentCreate.year() + '-' + (this.toPaymentCreate.month() + 1) + '-' + this.toPaymentCreate.date()
-                    : '',
-                createFrom: this.fromInvoiceCreate
-                    ? this.fromInvoiceCreate.year() + '-' + (this.fromInvoiceCreate.month() + 1) + '-' + this.fromInvoiceCreate.date()
-                    : '',
-                createTo: this.toInvoiceCreate
-                    ? this.toInvoiceCreate.year() + '-' + (this.toInvoiceCreate.month() + 1) + '-' + this.toInvoiceCreate.date()
-                    : '',
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                sort: this.sort()
+            .findPaymentByShipperId({
+                id: this.selectedUser.id
             })
             .subscribe(
-                (res: HttpResponse<PaymentInvoiceDTO[]>) => this.paginatePayments(res.body, res.headers),
+                (res: HttpResponse<PaymentInvoiceDTO[]>) => {
+                    this.payments = res.body;
+                    for (const p of this.payments) {
+                        this.totalAmount += p.payment.amountPaid;
+                    }
+                    this.ngxUiLoaderService.stop();
+                },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
 
-    loadPage(page: number) {
-        if (page !== this.previousPage) {
-            this.previousPage = page;
-            this.transition();
-        }
+    changeUser() {
+        this.accountService.findByUserID({ id: this.selectedUser.id }).subscribe(res => {
+            this.selectedUserProfile = res.body;
+            this.loadAll();
+        });
     }
 
     boolToString(b: any) {
-        if (b == null) {
-            return 'Thông tin bị thiếu';
-        }
         if (b) {
             return 'Người nhận trả';
         } else {
@@ -129,73 +89,45 @@ export class PaymentComponent implements OnInit, OnDestroy {
         }
     }
 
-    transition() {
-        this.router.navigate(['/payment'], {
-            queryParams: {
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
-        });
-        this.loadAll();
-    }
-
-    clear() {
-        this.page = 0;
-        this.router.navigate([
-            '/payment',
-            {
-                page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
-        ]);
-        this.loadAll();
-    }
-
     ngOnInit() {
+        this.invoiceHeaderService.getListUserByRole({ role: 'ROLE_SHIPPER' }).subscribe(res => {
+            this.lstUser = res.body;
+        });
         this.principal.identity().then(account => {
             this.currentAccount = account;
-            this.loadAll();
         });
         this.registerChangeInPayments();
+    }
+
+    confirm() {
+        let data = new Array();
+        for (const p of this.payments) {
+            p.payment.officerId = this.currentAccount.id;
+            data.push(p.payment);
+        }
+        this.paymentService.approveAllPaymentsByOfficer(data).subscribe(res => {
+            this.loadAll();
+        });
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: IPayment) {
-        return item.id;
-    }
-
     registerChangeInPayments() {
         this.eventSubscriber = this.eventManager.subscribe('paymentListModification', response => this.loadAll());
     }
 
-    sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== 'id') {
-            result.push('id');
-        }
-        return result;
-    }
-
-    private paginatePayments(data: PaymentInvoiceDTO[], headers: HttpHeaders) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-        this.queryCount = this.totalItems;
-        this.payments = data;
-    }
-
     private onError(errorMessage: string) {
         this.jhiAlertService.error('Đã xảy ra lỗi khi thực hiện', null, null);
+        this.ngxUiLoaderService.stop();
     }
 
-    exportExel() {
+    exportExcel() {
         this.ngxUiLoaderService.start();
         this.paymentService.exportToFileExcel(this.payments).subscribe(res => {
-            this.downloadFile(res.body);
             this.ngxUiLoaderService.stop();
+            this.downloadFile(res.body);
         });
     }
 

@@ -60,6 +60,14 @@ export class PaymentService {
         return this.http.post(this.resourceUrl + '/excel', payment, { observe: 'response', responseType: 'blob' }).pipe();
     }
 
+    findPaymentByShipperId(req?: any): Observable<HttpResponse<any[]>> {
+        return this.http.get<any[]>(this.resourceUrl + '/shipper', { params: req, observe: 'response' });
+    }
+
+    approveAllPaymentsByOfficer(req?: any): Observable<HttpResponse<any[]>> {
+        return this.http.put<any[]>(this.resourceUrl + '/officer', req, { observe: 'response' });
+    }
+
     private convertDateFromClient(payment: IPayment): IPayment {
         const copy: IPayment = Object.assign({}, payment, {
             createDate: payment.createDate != null && payment.createDate.isValid() ? payment.createDate.toJSON() : null,

@@ -55,12 +55,6 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="payment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'money-bill-wave-alt'" [fixedWidth]="true"></fa-icon>
-                            <span>Xem chi tiết thanh toán</span>
-                        </a>
-                    </li>
-                    <li>
                         <a class="dropdown-item" routerLink="import-export-warehouse-employee" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'warehouse'" [fixedWidth]="true"></fa-icon>
                             <span>Xem yêu cầu xuất nhập kho</span>
@@ -68,13 +62,13 @@
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="request-import-warehouse-shipper" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'warehouse'" [fixedWidth]="true"></fa-icon>
+                            <fa-icon [icon]="'file-import'" [fixedWidth]="true"></fa-icon>
                             <span>Tạo yêu cầu nhập kho</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="request-export-warehouse-shipper" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon [icon]="'warehouse'" [fixedWidth]="true"></fa-icon>
+                            <fa-icon [icon]="'file-export'" [fixedWidth]="true"></fa-icon>
                             <span>Tạo yêu cầu xuất kho</span>
                         </a>
                     </li>
@@ -148,6 +142,12 @@
                         <a class="dropdown-item" routerLink="invoice-header-review" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'eye'" [fixedWidth]="true"></fa-icon>
                             <span>Duyệt đơn hàng</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="payment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'money-bill-wave-alt'" [fixedWidth]="true"></fa-icon>
+                            <span>Nhận thanh toán từ nhân viên giao hàng</span>
                         </a>
                     </li>
                     <li>

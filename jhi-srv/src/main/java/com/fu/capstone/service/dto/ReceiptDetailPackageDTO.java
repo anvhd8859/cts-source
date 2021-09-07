@@ -10,9 +10,9 @@ public class ReceiptDetailPackageDTO implements Serializable {
 	private ReceiptNoteDTO receipt;
 
 	private List<PackageDetailsDTO> packageList;
-	
+
 	private Boolean pay;
-	
+
 	private String payAmount;
 
 	public List<PackageDetailsDTO> getPackageList() {

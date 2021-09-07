@@ -34,9 +34,9 @@ export const paymentRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OFFICER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Payments'
+            pageTitle: 'Quản lý thanh toán'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -47,8 +47,8 @@ export const paymentRoute: Routes = [
             payment: PaymentResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER'],
-            pageTitle: 'Payments'
+            authorities: ['ROLE_ADMIN', 'ROLE_OFFICER'],
+            pageTitle: 'Quản lý thanh toán'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -60,7 +60,7 @@ export const paymentRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Payments'
+            pageTitle: 'Quản lý thanh toán'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -72,7 +72,7 @@ export const paymentRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Payments'
+            pageTitle: 'Quản lý thanh toán'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -87,7 +87,7 @@ export const paymentPopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Payments'
+            pageTitle: 'Quản lý thanh toán'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

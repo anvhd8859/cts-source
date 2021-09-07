@@ -140,10 +140,9 @@ public class PaymentResource {
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
 	}
 
-	// START TuyenVNT 14/04/2021
 	/**
 	 * GET /payment/by-invoice-header?:id : get the payment by header id.
-	 * 
+	 *
 	 * @param id
 	 *            HeaderId
 	 */
@@ -153,7 +152,6 @@ public class PaymentResource {
 		List<PaymentDTO> page = paymentService.findPaymentListByHeaderId(id, pageable);
 		return new ResponseEntity<>(page, HttpStatus.OK);
 	}
-	// END TuyenVNT 16/04/2021
 
 	@GetMapping("/payments/by-params")
 	@Timed
@@ -162,7 +160,7 @@ public class PaymentResource {
 			@RequestParam("type") String type, @RequestParam("receiveFrom") String receiveFrom,
 			@RequestParam("receiveTo") String receiveTo, @RequestParam("createFrom") String createFrom,
 			@RequestParam("createTo") String createTo, Pageable pageable) {
-		Page<PaymentInvoiceDTO> page = paymentService.getPaymentInvoceByParams(id, invoiceNo, type, receiveFrom, receiveTo,
+		Page<PaymentInvoiceDTO> page = paymentService.getPaymentInvoiceByParams(id, invoiceNo, type, receiveFrom, receiveTo,
 				createFrom, createTo, pageable);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/payments/by-params");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
@@ -176,11 +174,25 @@ public class PaymentResource {
 		header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + "report.xlsx");
 		return ResponseEntity.ok().headers(header).body(new InputStreamResource(res));
 	}
-	
+
 	@GetMapping("/payments/invoice")
 	@Timed
 	public ResponseEntity<PaymentDTO> findPaymentByHeaderId(@RequestParam("id") Long id) {
 		PaymentDTO page = paymentService.findPaymentByHeaderId(id);
 		return new ResponseEntity<>(page, HttpStatus.OK);
 	}
+
+    @GetMapping("/payments/shipper")
+    @Timed
+    public ResponseEntity<List<PaymentInvoiceDTO>> findPaymentByShipperId(@RequestParam("id") Long id) {
+        List<PaymentInvoiceDTO> page = paymentService.findPaymentByShipperId(id);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @PutMapping("/payments/officer")
+    @Timed
+    public ResponseEntity<List<PaymentDTO>> approveAllPaymentsByOfficer(@RequestBody List<PaymentDTO> body) {
+        List<PaymentDTO> page = paymentService.approveAllPaymentsByOfficer(body);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
 }

@@ -27,6 +27,9 @@ public class Payment implements Serializable {
     @Column(name = "employee_id")
     private Long employeeId;
 
+    @Column(name = "officer_id")
+    private Long officerId;
+
     @Column(name = "receipt_note_id")
     private Long receiptNoteId;
 
@@ -83,6 +86,13 @@ public class Payment implements Serializable {
         this.receiptNoteId = receiptNoteId;
     }
 
+    public Long getOfficerId() {
+        return officerId;
+    }
+
+    public void setOfficerId(Long officerId) {
+        this.officerId = officerId;
+    }
 
     public Long getEmployeeId() {
         return employeeId;
@@ -210,6 +220,6 @@ public class Payment implements Serializable {
             ", updateDate='" + getUpdateDate() + "'" +
             "}";
     }
-    
-    
+
+
 }

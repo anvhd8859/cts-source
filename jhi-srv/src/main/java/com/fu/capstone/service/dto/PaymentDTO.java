@@ -16,7 +16,9 @@ public class PaymentDTO implements Serializable {
 
 	private Long invoiceHeaderId;
 
-	private Long employeeId;
+    private Long employeeId;
+
+    private Long officerId;
 
 	private Long receiptNoteId;
 
@@ -104,7 +106,15 @@ public class PaymentDTO implements Serializable {
 		this.updateDate = updateDate;
 	}
 
-	@Override
+    public Long getOfficerId() {
+        return officerId;
+    }
+
+    public void setOfficerId(Long officerId) {
+        this.officerId = officerId;
+    }
+
+    @Override
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;

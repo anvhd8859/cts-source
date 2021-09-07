@@ -312,7 +312,6 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
         return msg;
     }
 
-    // ThangND Start
     changeUser() {
         this.accountService.findByUserID({ id: this.selectedUser.id }).subscribe(res => {
             this.selectedUserProfile = res.body;
@@ -384,7 +383,6 @@ export class InvoiceHeaderUpdateComponent implements OnInit {
             });
         }
     }
-    // ThangND End
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<IInvoiceHeader>>) {
         result.subscribe((res: HttpResponse<IInvoiceHeader>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());

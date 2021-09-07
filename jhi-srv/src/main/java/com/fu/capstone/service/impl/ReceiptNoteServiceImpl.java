@@ -234,6 +234,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
             Payment pm = new Payment();
             pm.setInvoiceHeaderId(inv.getId());
             pm.setEmployeeId(data.getReceipt().getEmployeeId());
+            pm.setSenderPay(!inv.getReceiverPay());
             pm.setCreateDate(instant);
             pm.setUpdateDate(instant);
             pm.setAmountPaid(inv.getTotalDue());
@@ -306,6 +307,7 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
             Payment pm = new Payment();
             pm.setInvoiceHeaderId(inv.getId());
             pm.setEmployeeId(data.getReceipt().getEmployeeId());
+            pm.setSenderPay(!inv.getReceiverPay());
             pm.setCreateDate(instant);
             pm.setUpdateDate(instant);
             pm.setAmountPaid(new BigDecimal(data.getPayAmount()));
@@ -362,6 +364,8 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
             Payment pm = new Payment();
             pm.setInvoiceHeaderId(inv.getId());
             pm.setEmployeeId(data.getReceipt().getEmployeeId());
+            pm.setOfficerId(data.getReceipt().getEmployeeId());
+            pm.setSenderPay(!inv.getReceiverPay());
             pm.setCreateDate(instant);
             pm.setUpdateDate(instant);
             pm.setAmountPaid(new BigDecimal(data.getPayAmount()));

@@ -47,20 +47,22 @@ public interface PaymentService {
      * @param id the id of the entity
      */
     void delete(Long id);
-    
-    // START TuyenVNT 14/04/2021
+
     /**
      * Get the payment by headerId
-     * 
+     *
      * @param id the headerId
      */
     List<PaymentDTO> findPaymentListByHeaderId(Long id, Pageable pageable);
-    // END TuyenVNT 16/04/2021
 
-	Page<PaymentInvoiceDTO> getPaymentInvoceByParams(Long id, String invoiceNo, String type, String receiveFrom, String receiveTo,
-			String createFrom, String createTo, Pageable pageable);
+    Page<PaymentInvoiceDTO> getPaymentInvoiceByParams(Long id, String invoiceNo, String type, String receiveFrom,
+        String receiveTo, String createFrom, String createTo, Pageable pageable);
 
-	ByteArrayInputStream createPaymentReport(List<PaymentInvoiceDTO> body) throws IOException;
+    ByteArrayInputStream createPaymentReport(List<PaymentInvoiceDTO> body) throws IOException;
 
-	PaymentDTO findPaymentByHeaderId(Long id);
+    PaymentDTO findPaymentByHeaderId(Long id);
+
+    List<PaymentInvoiceDTO> findPaymentByShipperId(Long id);
+
+    List<PaymentDTO> approveAllPaymentsByOfficer(List<PaymentDTO> body);
 }

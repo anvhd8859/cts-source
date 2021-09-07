@@ -12,7 +12,8 @@
                     </h2>
                 </div>
                 <div class="col-lg-4 col-md-12 col-md-12">
-                    <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-payment" (click)="exportExel()">
+                    <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-payment"
+                        (click)="exportExcel()">
                         <fa-icon [icon]="'file-download'"></fa-icon>
                         <span>
                             Tải về File Excel
@@ -24,167 +25,102 @@
         <br>
         <br>
         <jhi-alert></jhi-alert>
-        <br />
+        <div class="divider"></div>
         <div class="card">
             <div class="card-header">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <label>Ngày tạo đơn:</label>
-                    </div>
-                    <div class="col-lg-6">
-                        <label>Ngày tạo thanh toán:</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="form-group">
-                            <label for="createOn">Từ ngày</label>
-                            <div class="input-group">
-                                <input class="form-control" placeholder="yyyy-mm-dd" name="fromInvoiceDate"
-                                    [(ngModel)]="this.fromInvoiceCreate" ngbDatepicker #a="ngbDatepicker" readonly>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(1)"
-                                        type="button">
-                                        <fa-icon [icon]="'times'"></fa-icon>
-                                    </button>
-                                </div>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="a.toggle()" type="button">
-                                        <fa-icon [icon]="'calendar-alt'"></fa-icon>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="form-group">
-                            <label for="updateOn">Đến ngày</label>
-                            <div class="input-group">
-                                <input class="form-control" placeholder="yyyy-mm-dd" name="toInvoiceDate"
-                                    [(ngModel)]="this.toInvoiceCreate" ngbDatepicker #b="ngbDatepicker" readonly>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(2)"
-                                        type="button">
-                                        <fa-icon [icon]="'times'"></fa-icon>
-                                    </button>
-                                </div>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="b.toggle()" type="button">
-                                        <fa-icon [icon]="'calendar-alt'"></fa-icon>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="form-group">
-                            <label for="createOn">Từ ngày</label>
-                            <div class="input-group">
-                                <input class="form-control" placeholder="yyyy-mm-dd" name="fromPaymentDate"
-                                    [(ngModel)]="this.fromPaymentCreate" ngbDatepicker #c="ngbDatepicker" readonly>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(3)"
-                                        type="button">
-                                        <fa-icon [icon]="'times'"></fa-icon>
-                                    </button>
-                                </div>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
-                                        <fa-icon [icon]="'calendar-alt'"></fa-icon>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="form-group">
-                            <label for="updateOn">Đến ngày</label>
-                            <div class="input-group">
-                                <input class="form-control" placeholder="yyyy-mm-dd" name="toPaymentDate"
-                                    [(ngModel)]="this.toPaymentCreate" ngbDatepicker #d="ngbDatepicker" readonly>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="this.clearDatepicker(4)"
-                                        type="button">
-                                        <fa-icon [icon]="'times'"></fa-icon>
-                                    </button>
-                                </div>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                                        <fa-icon [icon]="'calendar-alt'"></fa-icon>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="form-group">
-                            <label for="invoiceNumber">Số hóa đơn</label>
-                            <input type="text" class="form-control" placeholder="(ALL)"
-                                [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedInvoiceNumber"
-                                value="{{selectedInvoiceNumber}}">
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="form-group">
-                            <label for="type">Loại đơn chuyển phát</label>
-                            <ng-select [clearable]="true" [hideSelected]="true" [items]="lstShipmentType" bindLabel="text"
-                                bindValue="id" id="type" name="type" [ngModelOptions]="{standalone: true}"
-                                [(ngModel)]="this.selectedTypeShipment" placeholder="(ALL)">
-                                <ng-option *ngFor="let item of common.listTypeShipment">{{item.text}}</ng-option>
-                            </ng-select>
-                        </div>
-                    </div>
-                    <div class="col-lg-1 col-md-6 col-sm-6 text-center">
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 text-center">
-                        <div class="form-group">
-                            <button style="margin-top: 30px" id="search" name="search" class="btn btn-primary"
-                                (click)="this.loadAll()">
-                                <fa-icon [icon]="'search'"></fa-icon>
-                                <span>Tìm kiếm</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <label class="form-control-label" for="from-address" style="font-weight: bolder;">
+                    <b>Thông tin nhân viên giao hàng</b>
+                </label>
             </div>
-            <div class="table-responsive" *ngIf="payments">
-                <table class="table table-striped">
-                    <thead>
+            <div class="card-body" name="from-address">
+                <div class="form-group">
+                    <label class="form-control-label" for="field_customerId">Tài khoản</label>
+                    <ng-select [clearable]="true" [hideSelected]="true" [items]="this.lstUser" bindLabel="email"
+                        id="field_customerId" name="field_customerId" [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="this.selectedUser" (change)="this.changeUser()">
+                        <ng-option *ngFor="let item of lstUser">{{item.email}}</ng-option>
+                    </ng-select>
+                </div>
+                <br>
+                <br>
+                <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="form-control-label"
+                    for="">Thông tin</label>
+                <div *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="col-lg-12">
+                    <table class="table">
                         <tr>
-                            <th><span>Mã đơn thanh toán</span></th>
-                            <th><span>Mã hóa đơn</span></th>
-                            <th><span>Mã số hóa đơn</span></th>
-                            <th><span>Người thanh toán</span></th>
-                            <th><span>Số tiền</span></th>
-                            <th><span>Ngày thanh toán</span></th>
-                            <th><span>Ngày tạo đơn</span></th>
+                            <th class="text-left">Họ và Tên</th>
+                            <td class="text-left">{{this.selectedUser.firstName + ' ' + this.selectedUser.lastName}}
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let p of payments">
-                            <td>{{p.payment.id}}</td>
-                            <td>{{p.payment.invoiceHeaderId}}</td>
-                            <td>{{p.invoice.invoiceNo}}</td>
-                            <td>{{boolToString(p.invoice.receiverPay)}}</td>
-                            <td>{{p.payment.amountPaid}}</td>
-                            <td>{{p.payment.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
-                            <td>{{p.invoice.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                        <tr>
+                            <th class="text-left">Số điện thoại</th>
+                            <td class="text-left">{{this.selectedUserProfile.phoneNumber}}</td>
                         </tr>
-                    </tbody>
-                </table>
+                        <tr>
+                            <th class="text-left">Địa chỉ</th>
+                            <td class="text-left">{{this.selectedUserProfile.address}}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-        <div *ngIf="payments && payments.length">
-            <div class="row justify-content-center">
-                <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage">
-                </jhi-item-count>
+        <br />
+        <div class="divider"></div>
+        <div class="card">
+            <div class="card-header">
+                <label class="form-control-label"></label>
             </div>
-            <div class="row justify-content-center">
-                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
-                    [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+            <div class="card-body">
+                <br>
+                <div class="table-responsive" *ngIf="payments">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th><span>Mã đơn thanh toán</span></th>
+                                <th><span>Mã số hóa đơn</span></th>
+                                <th><span>Người thanh toán</span></th>
+                                <th><span>Ngày thanh toán</span></th>
+                                <th><span>Ngày tạo đơn</span></th>
+                                <th><span>Số tiền</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of payments">
+                                <td>{{p.payment.id}}</td>
+                                <td>{{p.invoice.invoiceNo}}</td>
+                                <td>{{boolToString(p.invoice.receiverPay)}}</td>
+                                <td>{{p.payment.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                                <td>{{p.invoice.createDate | date:'yyyy-MM-dd HH:mm'}}</td>
+                                <td>{{p.payment.amountPaid}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="!payments">
+                    <h3>Không có thanh toán nào cần phải thu</h3>
+                    <br> <br> <br>
+                </div>
+            </div>
+            <br>
+            <hr>
+            <div>
+                <div class="col-lg-12">
+                    <div class="form-group" *ngIf="payments">
+                        <div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_sub">Tổng cộng</label>
+                                <input type="text" class="form-control" name="sub" id="field_sub_toltal"
+                                    [ngModel]="totalAmount" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div >
+                    <button id="save-entity"  class="btn btn-primary float-right" (click)="confirm()" *ngIf="payments">
+                        <fa-icon [icon]="'save'"></fa-icon>&nbsp;&nbsp;<span>Lưu</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

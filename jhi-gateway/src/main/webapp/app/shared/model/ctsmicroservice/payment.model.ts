@@ -4,6 +4,7 @@ export interface IPayment {
     id?: number;
     invoiceHeaderId?: number;
     employeeId?: number;
+    officerId?: number;
     paymentType?: string;
     senderPay?: boolean;
     amountPaid?: number;
@@ -17,6 +18,7 @@ export class Payment implements IPayment {
         public id?: number,
         public invoiceHeaderId?: number,
         public employeeId?: number,
+        public officerId?: number,
         public paymentType?: string,
         public senderPay?: boolean,
         public amountPaid?: number,
