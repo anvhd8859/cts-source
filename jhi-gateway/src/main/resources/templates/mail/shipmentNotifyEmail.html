@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="#{email.shipment.title}">Thông báo có đơn hàng mới</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="shortcut icon" th:href="@{|${baseUrl}/favicon.ico|}" />
+</head>
+<body>
+	<p>
+		<span th:text="'Dear ' + ${shipper.firstName} + ' ' + ${shipper.lastName}"></span>
+	</p>
+	<p>Bạn có đơn hàng mới cần giao</p>
+	<p>
+		<span>Hóa đơn số:</span> <span th:text="${invoice.invoiceNo}"></span>
+	</p>
+	<p>
+		<span>Ngày tạo</span> <span th:text="${invoice.createDate}"></span>
+	</p>
+	<p>
+		<span>Loại hóa đơn: </span> Giao hàng cá nhân
+	</p>
+	<p>
+		<span>Loại vận chuyển: </span>
+        <span th:text="${shipment.shipmentType} == 'collect' ? 'Lấy hàng tại nhà' : 'Giao hàng' "></span>
+	</p>
+	<p>
+		<span>Địa chỉ: </span>
+        <span th:text="${shipment.shipmentType} == 'collect'  ? ${invoice.startAddress} : ${invoice.destinationAddress}"></span>
+	</p>
+	<p>
+		<span th:text="#{email.shipment.text2}">Regards, </span> <br />
+	</p>
+	<h3>
+		<em th:text="#{email.signature}">JHipster CTS service</em>
+	</h3>
+</body>
+</html>

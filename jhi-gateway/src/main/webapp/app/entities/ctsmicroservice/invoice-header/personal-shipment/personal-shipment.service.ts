@@ -62,6 +62,11 @@ export class PersonalShipmentService {
         return this.http.get<IShipmentInvoice[]>(this.resourceUrl + '/request-id', { params: options, observe: 'response' });
     }
 
+    getCollectByShipper(req?: any): Observable<HttpResponse<any>> {
+        const options = createRequestOption(req);
+        return this.http.get<IShipmentInvoice[]>(this.resourceUrl + '/collect/shipper', { params: options, observe: 'response' });
+    }
+
     private convertDateFromClient(personalShipment: IPersonalShipment): IPersonalShipment {
         const copy: IPersonalShipment = Object.assign({}, personalShipment, {
             shipTime: personalShipment.shipTime != null && personalShipment.shipTime.isValid() ? personalShipment.shipTime.toJSON() : null,

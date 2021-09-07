@@ -8,6 +8,7 @@ import com.fu.capstone.security.SecurityUtils;
 import com.fu.capstone.service.MailService;
 import com.fu.capstone.service.UserService;
 import com.fu.capstone.service.dto.PasswordChangeDTO;
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 import com.fu.capstone.service.dto.ReceiptInvoiceDTO;
 import com.fu.capstone.service.dto.UserDTO;
 import com.fu.capstone.web.rest.errors.*;
@@ -208,7 +209,13 @@ public class AccountResource {
 
 	@PostMapping("/sendReceiptNoteEmail")
 	@Timed
-	public void sendReceiptNoteEmail(@RequestBody ReceiptInvoiceDTO data) {		
+	public void sendReceiptNoteEmail(@RequestBody ReceiptInvoiceDTO data) {
 		mailService.sendEmailAndContentFromTemplate(data.getCustomer(), data.getEmployee(), data.getInvoiceHeader(), data.getReceipt(), "mail/receiptNoteEmail", "email.receipt.title");
 	}
+
+    @PostMapping("/sendNotifyShipmentEmail")
+    @Timed
+    public void sendNotifyShipmentEmail(@RequestBody PersonalShipmentInvoiceDTO data) {
+        mailService.sendNotifyShipmentEmail(data.getShipper(), data.getShipment(), data.getInvoice(), "mail/shipmentNotifyEmail", "email.shipment.title");
+    }
 }

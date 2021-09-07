@@ -126,9 +126,9 @@ public class PersonalShipmentResource {
         personalShipmentService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-    
 
-    // START TuyenVNT 
+
+    // START TuyenVNT
     /**
      * GET  /personal-shipment/by-invoice-header?:id : get the personalShipment by header id.
      *
@@ -142,10 +142,10 @@ public class PersonalShipmentResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/personal-shipments/by-invoice-header");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-  
+
     /**
      * GET /personal-shipment/not-assigned : get all personalShipment not assigned
-     * 
+     *
      */
     @GetMapping("/personal-shipments/not-assigned")
     @Timed
@@ -154,31 +154,31 @@ public class PersonalShipmentResource {
     	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/personal-shipments/not-assigned");
     	return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-    // END TuyenVNT 
+    // END TuyenVNT
 
 
-    // new code    
+    // new code
     @GetMapping("/personal-shipments/by-shipper")
     @Timed
-    public ResponseEntity<List<PersonalShipmentInvoiceDTO>> getPersonalShipmentByShipper(@RequestParam("id") Long id, 
+    public ResponseEntity<List<PersonalShipmentInvoiceDTO>> getPersonalShipmentByShipper(@RequestParam("id") Long id,
     		@RequestParam("invNo") String invNo, @RequestParam("status") String status, @RequestParam("type") String type,
     		@RequestParam("from") String from, @RequestParam("to") String to,Pageable pageable) {
     	Page<PersonalShipmentInvoiceDTO> page = personalShipmentService.getPersonalShipmentByShipper(id, invNo, status, type, from, to, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments/by-shipper");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-    
+
     @PostMapping("/personal-shipments/collect-shipment/{id}")
     @Timed
     public ResponseEntity<PersonalShipmentDTO> createCollectPersonalShipmentForInvoice(@PathVariable Long id){
     	PersonalShipmentDTO dto = personalShipmentService.createCollectPersonalShipmentForInvoice(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
-    
+
     @GetMapping("/personal-shipments/get-all")
     @Timed
     public ResponseEntity<List<PersonalShipmentInvoiceDTO>> getAllPersonaShipmentInvoices(@RequestParam("empId") Long empId,
-    		@RequestParam("invNo") String invNo, @RequestParam("prvId") Long prvId, @RequestParam("dstId") Long dstId, 
+    		@RequestParam("invNo") String invNo, @RequestParam("prvId") Long prvId, @RequestParam("dstId") Long dstId,
     		@RequestParam("sdtId") Long sdtId, @RequestParam("strId") Long strId, @RequestParam("type") String type, Pageable pageable) {
     	Page<PersonalShipmentInvoiceDTO> page = personalShipmentService.getAllPersonaShipmentInvoices(empId, invNo, prvId, dstId, sdtId, strId, type,pageable);
     	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments/get-all");
@@ -211,5 +211,12 @@ public class PersonalShipmentResource {
         Page<ShipmentInvoicePackagesDTO> page = personalShipmentService.getExportShipmentByShipper(id, invNo, type, from, to, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/personal-shipments/by-shipper");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/personal-shipments/collect/invoice")
+    @Timed
+    public ResponseEntity<PersonalShipmentDTO> getCollectShipmentByInvoice(@RequestParam("id") Long id) {
+        PersonalShipmentDTO page = personalShipmentService.getCollectShipmentByInvoice(id);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 }

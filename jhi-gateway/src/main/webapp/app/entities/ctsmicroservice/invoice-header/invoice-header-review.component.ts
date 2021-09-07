@@ -1,3 +1,6 @@
+import { IUser } from './../../../core/user/user.model';
+import { IPersonalShipment } from './../../../shared/model/ctsmicroservice/personal-shipment.model';
+import { PersonalShipmentService } from './personal-shipment/personal-shipment.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
@@ -44,6 +47,7 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
 
     constructor(
         private invoiceHeaderService: InvoiceHeaderService,
+        private personalShipmentService: PersonalShipmentService,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
         private accountService: AccountService,
@@ -102,6 +106,19 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
                 updateInvoice.note += 'OK';
                 this.invoiceHeaderService.updateReviewApproveInvoice(updateInvoice).subscribe(
                     (res: HttpResponse<IInvoiceHeader>) => {
+                        const data = new InvoiceShipmentShipper();
+                        data.invoice = res.body;
+                        this.personalShipmentService
+                            .getCollectByInvoice({ id: data.invoice.id })
+                            .subscribe((response: HttpResponse<any>) => {
+                                data.shipment = response.body;
+                                this.invoiceHeaderService
+                                    .getUserByID({ id: data.shipment.employeeId })
+                                    .subscribe((resp: HttpResponse<any>) => {
+                                        data.shipper = resp.body;
+                                    });
+                            });
+                        this.invoiceHeaderService.sendNotifyShipmentEmail(data);
                         this.eventManager.broadcast({
                             name: 'invoiceHeaderListModification',
                             content: 'Approve successful an invoiceHeader'
@@ -243,4 +260,10 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
     private onError(errorMessage: string) {
         this.jhiAlertService.error('Đã xảy ra lỗi khi thực hiện', null, null);
     }
+}
+
+export class InvoiceShipmentShipper {
+    invoice: IInvoiceHeader;
+    shipment: IPersonalShipment;
+    shipper: IUser;
 }

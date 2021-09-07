@@ -21,6 +21,7 @@ export class InvoiceHeaderService {
     public detailResourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-details';
     public resourceUrl = SERVER_API_URL + 'ctsmicroservice/api/invoice-headers';
     public receiptEmailURL = SERVER_API_URL + 'api/sendReceiptNoteEmail';
+    public notifyShipmentEmail = SERVER_API_URL + 'api/sendNotifyShipmentEmail';
 
     constructor(private http: HttpClient) {}
 
@@ -190,6 +191,10 @@ export class InvoiceHeaderService {
 
     sendReceiptNoteEmail(param?: ReceiptInvoice): any {
         return this.http.post<ReceiptInvoice>(this.receiptEmailURL, param, { observe: 'response' });
+    }
+
+    sendNotifyShipmentEmail(param?: any): any {
+        return this.http.post<any>(this.notifyShipmentEmail, param, { observe: 'response' });
     }
 
     getImportInvoiceByOfficer(req?: any): Observable<any> {

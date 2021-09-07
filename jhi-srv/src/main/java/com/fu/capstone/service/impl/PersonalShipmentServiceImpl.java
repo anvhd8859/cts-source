@@ -168,7 +168,7 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 		Instant instant = Instant.now();
 		ps.setCreateDate(instant);
 		ps.setUpdateDate(instant);
-		// re-calculate total due 
+		// re-calculate total due
 		InvoiceHeader inv = invoiceHeaderRepository.findById(id).get();
 		if (inv != null) {
 			BigDecimal subTotal = inv.getSubTotal();
@@ -230,7 +230,13 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
 		return page.map(this::toSipDTO);
 	}
 
-	private ShipmentInvoicePackagesDTO toSipDTO(PersonalShipmentDTO entity) {
+    @Override
+    public PersonalShipmentDTO getCollectShipmentByInvoice(Long id) {
+        return personalShipmentMapper.toDto(
+            personalShipmentRepository.findDistinctByInvoiceHeaderIdAndShipmentType(id, "collect"));
+    }
+
+    private ShipmentInvoicePackagesDTO toSipDTO(PersonalShipmentDTO entity) {
 		ShipmentInvoicePackagesDTO dto = new ShipmentInvoicePackagesDTO();
 		InvoiceHeaderDTO invDTO = invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId()));
 		List<InvoicePackageDTO> list = invoicePackageMapper.toDto(invoicePackageRepository.getInvoicePackageByHeaderId(invDTO.getId()));

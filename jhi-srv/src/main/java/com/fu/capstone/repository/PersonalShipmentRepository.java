@@ -110,4 +110,6 @@ public interface PersonalShipmentRepository extends JpaRepository<PersonalShipme
 	Page<PersonalShipment> getExportShipmentByShipper(@Param("id") Long id,
 			@Param("invNo") String invNo, @Param("type") String type,
 			@Param("from") String from, @Param("to") String to, Pageable pageable);
+
+    PersonalShipment findDistinctByInvoiceHeaderIdAndShipmentType(Long invoiceHeaderId, String shipmentType);
 }
