@@ -183,9 +183,7 @@ public class PaymentServiceImpl implements PaymentService {
     public List<PaymentInvoiceDTO> findPaymentByShipperId(Long id) {
 	    String time = Instant.now().toString();
 	    time = time.substring(0, time.indexOf("T"));
-        String from = time + " 00:00:00";
-        String to = time + " 23:59:59";
-	    List<Payment> payments = paymentRepository.findAllByEmployeeId(id, from, to);
+	    List<Payment> payments = paymentRepository.findAllByEmployeeId(id, time);
 	    List<Long> headers = new ArrayList<>();
 	    payments.forEach(p -> {
             headers.add(p.getInvoiceHeaderId());
