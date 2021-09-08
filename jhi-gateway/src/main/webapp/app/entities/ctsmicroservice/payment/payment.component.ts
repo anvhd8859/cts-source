@@ -109,7 +109,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         modalRef.componentInstance.name = this.selectedUser.firstName + ' ' + this.selectedUser.lastName;
         modalRef.result.then(
             result => {
-                this.confirm();
+                this.doConfirm();
             },
             reason => {}
         );
