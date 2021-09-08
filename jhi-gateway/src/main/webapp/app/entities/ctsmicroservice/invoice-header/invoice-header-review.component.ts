@@ -117,8 +117,8 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
                                     .subscribe((resp: HttpResponse<any>) => {
                                         data.shipper = resp.body;
                                     });
+                                this.invoiceHeaderService.sendNotifyShipmentEmail(data);
                             });
-                        this.invoiceHeaderService.sendNotifyShipmentEmail(data);
                         this.eventManager.broadcast({
                             name: 'invoiceHeaderListModification',
                             content: 'Approve successful an invoiceHeader'
