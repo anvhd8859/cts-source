@@ -7,6 +7,7 @@ import com.fu.capstone.service.dto.InvoicePackageShipmentDTO;
 import java.util.List;
 import java.util.Optional;
 
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -45,17 +46,17 @@ public interface InvoicePackageService {
      * @param id the id of the entity
      */
     void delete(Long id);
-    
+
     // AnhVD new code
 
 	List<InvoicePackageDTO> getInvoicePackageByHeaderId(Long id);
 
-	List<InvoicePackageShipmentDTO> putImportPackageByOfficeId(List<InvoicePackageShipmentDTO> invoicePackageDTO);
+	List<PersonalShipmentInvoiceDTO> putImportPackageByOfficeId(List<InvoicePackageShipmentDTO> invoicePackageDTO);
 
 	InvoiceHeaderDTO putImportOnePackage(Long id);
 
 	Page<InvoicePackageShipmentDTO> getImportPackageByOfficeId(Long id, String invNo, String status, String fromDate, String toDate, Pageable pageable);
-	
+
 	List<InvoicePackageShipmentDTO> putExportPackageByOfficeId(List<InvoicePackageShipmentDTO> invoicePackageDTO);
 
 	InvoiceHeaderDTO putExportOnePackage(Long id);

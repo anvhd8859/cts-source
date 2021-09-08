@@ -46,18 +46,18 @@ public interface PersonalShipmentService {
      * @param id the id of the entity
      */
     void delete(Long id);
-    
+
     // START TuyenVNT
     /**
      * Get the personalShipment by headerId
-     * 
+     *
      * @param id the headerId
      */
     Page<PersonalShipmentDTO> getPersonalShipmentByHeaderId(Long id, Pageable pageable);
-  
+
     /**
      * Get the personalShipment not assigned
-     * 
+     *
      */
     Page<PersonalShipmentDTO> getPersonalShipmentNotAssigned(Pageable pageable);
     // END TuyenVNT
@@ -77,4 +77,6 @@ public interface PersonalShipmentService {
 	Page<ShipmentInvoicePackagesDTO> getExportShipmentByShipper(Long id, String invNo, String type, String from, String to, Pageable pageable);
 
     PersonalShipmentDTO getCollectShipmentByInvoice(Long id);
+
+    PersonalShipmentDTO getDeliveryShipmentByInvoice(Long id);
 }

@@ -1,3 +1,4 @@
+import { InvoiceHeaderService } from './../invoice-header/invoice-header.service';
 import { ImportInvoiceModalWarningComponent } from './import-invoice-modal-warning.component';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonString } from './../../../shared/util/request-util';
@@ -15,6 +16,8 @@ import { IInvoicePackageShipment } from '.';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { Moment } from 'moment';
+import { IShipmentInvoice } from '../invoice-header/personal-shipment';
+import { InvoiceShipmentShipper } from '../invoice-header';
 
 @Component({
     selector: 'jhi-import-invoice-package',
@@ -56,6 +59,7 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
 
     constructor(
         private importInvoicePackageService: ImportInvoicePackageService,
+        private invoiceHeaderService: InvoiceHeaderService,
         private accountService: AccountService,
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
@@ -153,7 +157,20 @@ export class ImportInvoicePackageComponent implements OnInit, OnDestroy {
     }
 
     private subscribeToSaveResponse(result: any) {
-        result.subscribe((res: any) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe(
+            (res: HttpResponse<IShipmentInvoice[]>) => {
+                const data = new Array();
+                for (const obj of res.body) {
+                    const elm = new InvoiceShipmentShipper();
+                    elm.invoice = obj.invoiceHeaderDTO;
+                    elm.shipment = obj.personalShipmentDTO;
+                    data.push(elm);
+                }
+                this.invoiceHeaderService.sendListNotifyShipmentEmail(data);
+                this.onSaveSuccess();
+            },
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
     }
 
     private onSaveSuccess() {

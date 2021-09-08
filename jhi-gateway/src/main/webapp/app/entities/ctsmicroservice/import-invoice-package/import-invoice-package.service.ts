@@ -1,3 +1,4 @@
+import { IShipmentInvoice } from 'app/entities/ctsmicroservice/invoice-header/personal-shipment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -59,14 +60,12 @@ export class ImportInvoicePackageService {
     }
 
     // update list invoice, package, shipment
-    updateImportAllInvoice(req?: any): any {
+    updateImportAllInvoice(req?: any): Observable<HttpResponse<IShipmentInvoice[]>> {
         const copy = req;
-        return this.http
-            .put<any>(this.resourceUrl + '/import-package', copy, { observe: 'response' })
-            .pipe(map((res: any) => this.convertDateArrayFromServer(res)));
+        return this.http.put<IShipmentInvoice[]>(this.resourceUrl + '/import-package', copy, { observe: 'response' });
     }
 
-    updateImportOneInvoice(id: number): any {
+    updateImportOneInvoice(id: number): Observable<HttpResponse<IInvoiceHeader>> {
         return this.http
             .put<IInvoiceHeader>(`${this.resourceUrl + '/import-one-package'}/${id}`, { observe: 'response' })
             .pipe(map((res: any) => this.invoiceDateFromServer(res)));

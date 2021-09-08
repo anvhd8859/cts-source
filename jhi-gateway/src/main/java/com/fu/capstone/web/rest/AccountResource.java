@@ -218,4 +218,21 @@ public class AccountResource {
     public void sendNotifyShipmentEmail(@RequestBody PersonalShipmentInvoiceDTO data) {
         mailService.sendNotifyShipmentEmail(data.getShipper(), data.getShipment(), data.getInvoice(), "mail/shipmentNotifyEmail", "email.shipment.title");
     }
+
+    @PostMapping("/sendListNotifyShipmentEmail")
+    @Timed
+    public void sendListNotifyShipmentEmail(@RequestBody List<PersonalShipmentInvoiceDTO> data) {
+	    List<Long> ids = new ArrayList<>();
+	    data.forEach(d -> ids.add(d.getShipment().getEmployeeId()));
+	    List<User> users = userRepository.getAllUserByIdList(ids);
+        data.forEach(d -> {
+            for (User u : users) {
+                if (u.getId().longValue() == d.getShipment().getEmployeeId().longValue()) {
+                    d.setShipper(new UserDTO(u));
+                    break;
+                }
+            }
+        });
+        mailService.sendListNotifyShipmentEmail(data, "mail/shipmentNotifyEmail", "email.shipment.title");
+    }
 }

@@ -236,6 +236,12 @@ public class PersonalShipmentServiceImpl implements PersonalShipmentService {
             personalShipmentRepository.findDistinctByInvoiceHeaderIdAndShipmentType(id, "collect"));
     }
 
+    @Override
+    public PersonalShipmentDTO getDeliveryShipmentByInvoice(Long id) {
+        return personalShipmentMapper.toDto(
+            personalShipmentRepository.findDistinctByInvoiceHeaderIdAndShipmentType(id, "delivery"));
+    }
+
     private ShipmentInvoicePackagesDTO toSipDTO(PersonalShipmentDTO entity) {
 		ShipmentInvoicePackagesDTO dto = new ShipmentInvoicePackagesDTO();
 		InvoiceHeaderDTO invDTO = invoiceHeaderMapper.toDto(invoiceHeaderRepository.getOne(entity.getInvoiceHeaderId()));

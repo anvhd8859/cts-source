@@ -219,4 +219,11 @@ public class PersonalShipmentResource {
         PersonalShipmentDTO page = personalShipmentService.getCollectShipmentByInvoice(id);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
+
+    @GetMapping("/personal-shipments/delivery/invoice")
+    @Timed
+    public ResponseEntity<PersonalShipmentDTO> getDeliveryShipmentByInvoice(@RequestParam("id") Long id) {
+        PersonalShipmentDTO page = personalShipmentService.getDeliveryShipmentByInvoice(id);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
 }

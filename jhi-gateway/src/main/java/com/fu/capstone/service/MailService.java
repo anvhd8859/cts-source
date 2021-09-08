@@ -1,14 +1,12 @@
 package com.fu.capstone.service;
 
 import com.fu.capstone.domain.User;
-import com.fu.capstone.service.dto.InvoiceHeaderDTO;
-import com.fu.capstone.service.dto.PersonalShipmentDTO;
-import com.fu.capstone.service.dto.ReceiptNoteDTO;
-import com.fu.capstone.service.dto.UserDTO;
+import com.fu.capstone.service.dto.*;
 
 import io.github.jhipster.config.JHipsterProperties;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Locale;
 import javax.mail.internet.MimeMessage;
 
@@ -135,5 +133,10 @@ public class MailService {
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);
         sendEmail(shipper.getEmail(), subject, content, false, true);
+    }
+
+    @Async
+    public void sendListNotifyShipmentEmail(List<PersonalShipmentInvoiceDTO> data, String templateName, String titleKey) {
+        data.parallelStream().forEach(d -> sendNotifyShipmentEmail(d.getShipper(), d.getShipment(), d.getInvoice(), templateName, titleKey));
     }
 }

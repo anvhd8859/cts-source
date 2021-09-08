@@ -2,6 +2,7 @@ package com.fu.capstone.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fu.capstone.service.InvoicePackageService;
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
 import com.fu.capstone.web.rest.util.HeaderUtil;
 import com.fu.capstone.web.rest.util.PaginationUtil;
@@ -122,7 +123,7 @@ public class InvoicePackageResource {
         invoicePackageService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-    
+
     // AnhVD new code
     /**
      * GET  /invoice-packages/by-invoice-header?:id : get the invoicePackage by header id.
@@ -136,7 +137,7 @@ public class InvoicePackageResource {
     	List<InvoicePackageDTO> invoicePackageDTO = invoicePackageService.getInvoicePackageByHeaderId(id);
         return new ResponseEntity<>(invoicePackageDTO, HttpStatus.OK);
     }
-    
+
     @GetMapping("/invoice-packages/import-package")
     @Timed
     public ResponseEntity<List<InvoicePackageShipmentDTO>> getImportPackageByOfficeId(@RequestParam("id") Long id
@@ -146,19 +147,21 @@ public class InvoicePackageResource {
     	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-packages/import-package");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
     @PutMapping("/invoice-packages/import-package")
     @Timed
-    public ResponseEntity<List<InvoicePackageShipmentDTO>> putImportPackageByOfficeId(@RequestBody List<InvoicePackageShipmentDTO> invoicePackageDTO) {
-    	List<InvoicePackageShipmentDTO> result = invoicePackageService.putImportPackageByOfficeId(invoicePackageDTO);
+    public ResponseEntity<List<PersonalShipmentInvoiceDTO>> putImportPackageByOfficeId(@RequestBody List<InvoicePackageShipmentDTO> invoicePackageDTO) {
+    	List<PersonalShipmentInvoiceDTO> result = invoicePackageService.putImportPackageByOfficeId(invoicePackageDTO);
     	String rs = "";
-    	for(InvoicePackageShipmentDTO i : result) {
-    		rs += i.getInvoiceHeader().getId() + ",";
+    	for(PersonalShipmentInvoiceDTO i : result) {
+    		rs += i.getInvoiceHeaderDTO().getId() + ",";
     	}
     	rs = rs.substring(0, rs.length()-1);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rs))
             .body(result);
     }
+
     @PutMapping("/invoice-packages/import-one-package/{id}")
     @Timed
     public ResponseEntity<InvoiceHeaderDTO> putImportOnePackage(@PathVariable Long id) {
@@ -167,7 +170,6 @@ public class InvoicePackageResource {
             .headers(HeaderUtil.createEntityUpdateAlert("ctsmicroserviceInvoiceHeader", result.getId().toString()))
             .body(result);
     }
-
 
     @GetMapping("/invoice-packages/export-package")
     @Timed
@@ -178,6 +180,7 @@ public class InvoicePackageResource {
     	HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoice-packages/export-package");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
     @PutMapping("/invoice-packages/export-package")
     @Timed
     public ResponseEntity<List<InvoicePackageShipmentDTO>> putExportPackageByOfficeId(@RequestBody List<InvoicePackageShipmentDTO> invoicePackageDTO) {
@@ -191,6 +194,7 @@ public class InvoicePackageResource {
             .headers(HeaderUtil.createEntityUpdateAlert("ctsmicroserviceInvoiceHeader", rs))
             .body(result);
     }
+
     @PutMapping("/invoice-packages/export-one-package/{id}")
     @Timed
     public ResponseEntity<InvoiceHeaderDTO> putExportOnePackage(@PathVariable Long id) {
