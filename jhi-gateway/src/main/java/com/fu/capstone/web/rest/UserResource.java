@@ -235,7 +235,7 @@ public class UserResource {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-    @GetMapping("/users/shipper")
+    @GetMapping("/users/shipper-office")
     @Timed
     public ResponseEntity<List<UserDTO>> getListShipperByOfficerId(@RequestParam("id") Long id) {
         final List<UserDTO> page = userService.getListShipperByOfficerId(id);

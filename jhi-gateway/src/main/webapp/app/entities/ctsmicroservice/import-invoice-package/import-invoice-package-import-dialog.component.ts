@@ -38,9 +38,6 @@ export class ImportInvoicePackageImportDialogComponent {
                 data.invoice = response.body;
                 this.personalShipmentService.getCollectByInvoice({ id: data.invoice.id }).subscribe((response: HttpResponse<any>) => {
                     data.shipment = response.body;
-                    this.invoiceHeaderService.getUserByID({ id: data.shipment.employeeId }).subscribe((resp: HttpResponse<any>) => {
-                        data.shipper = resp.body;
-                    });
                     this.invoiceHeaderService.sendNotifyShipmentEmail(data);
                 });
                 this.isSaving = false;

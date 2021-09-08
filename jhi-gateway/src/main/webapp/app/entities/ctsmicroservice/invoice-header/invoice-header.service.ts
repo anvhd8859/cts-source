@@ -82,7 +82,7 @@ export class InvoiceHeaderService {
     }
 
     getListShipperByOfficerId(req?: any): Observable<HttpResponse<IUser[]>> {
-        return this.http.get<IUser[]>(this.userResourceUrl + '/shipper', { params: req, observe: 'response' });
+        return this.http.get<IUser[]>(this.userResourceUrl + '/shipper-office', { params: req, observe: 'response' });
     }
 
     getListKeeperByOffice(req: any): Observable<HttpResponse<IUser[]>> {

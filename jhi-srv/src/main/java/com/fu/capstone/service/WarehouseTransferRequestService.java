@@ -1,5 +1,6 @@
 package com.fu.capstone.service;
 
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 import com.fu.capstone.service.dto.TransferDetailsInvoiceDTO;
 import com.fu.capstone.service.dto.TransferInvoicePackageDTO;
 import com.fu.capstone.service.dto.WarehouseTransferRequestDTO;
@@ -51,5 +52,5 @@ public interface WarehouseTransferRequestService {
 
     List<TransferDetailsInvoiceDTO> getWarehouseTransferData(Long id);
 
-    WarehouseTransferRequestDTO approveTransferRequest(List<TransferDetailsInvoiceDTO> body);
+    List<PersonalShipmentInvoiceDTO> approveTransferRequest(List<TransferDetailsInvoiceDTO> body);
 }

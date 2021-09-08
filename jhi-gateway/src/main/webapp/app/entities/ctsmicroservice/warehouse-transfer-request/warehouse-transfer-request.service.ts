@@ -54,7 +54,7 @@ export class WarehouseTransferRequestService {
     }
 
     approveTransferRequest(param?: any): Observable<HttpResponse<any>> {
-        return this.http.post<IWarehouseTransferRequest>(this.resourceUrl + '/approve', param, { observe: 'response' });
+        return this.http.put<any>(this.resourceUrl + '/approve', param, { observe: 'response' });
     }
 
     private convertDateFromClient(warehouseTransferRequest: IWarehouseTransferRequest): IWarehouseTransferRequest {

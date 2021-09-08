@@ -1,3 +1,4 @@
+import { InvoiceHeaderService } from 'app/entities/ctsmicroservice/invoice-header/invoice-header.service';
 import { WarehouseTransferConfirmModalComponent } from './warehouse-transfer-modal.component';
 import { UserService } from './../../../core/user/user.service';
 import { ITransferDetails } from 'app/shared/model/ctsmicroservice/transfer-details.model';
@@ -17,6 +18,7 @@ import { IInvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.
 import { IInvoicePackage } from 'app/shared/model/ctsmicroservice/invoice-package.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { InvoiceShipmentShipper } from '../invoice-header';
 
 @Component({
     selector: 'jhi-warehouse-transfer-request-detail',
@@ -35,6 +37,7 @@ export class WarehouseTransferRequestDetailComponent implements OnInit {
 
     constructor(
         private warehouseTransferRequestService: WarehouseTransferRequestService,
+        private invoiceHeaderService: InvoiceHeaderService,
         private warehouseService: WarehouseService,
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
@@ -112,6 +115,14 @@ export class WarehouseTransferRequestDetailComponent implements OnInit {
                         }
                         this.warehouseTransferRequestService.approveTransferRequest(data).subscribe(
                             (res: HttpResponse<any>) => {
+                                const data = new Array();
+                                for (const obj of res.body) {
+                                    const elm = new InvoiceShipmentShipper();
+                                    elm.invoice = obj.invoiceHeaderDTO;
+                                    elm.shipment = obj.personalShipmentDTO;
+                                    data.push(elm);
+                                }
+                                this.invoiceHeaderService.sendListNotifyShipmentEmail(data);
                                 this.previousState();
                             },
                             (res: HttpErrorResponse) => {}

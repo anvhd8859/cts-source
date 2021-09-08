@@ -2,6 +2,7 @@ package com.fu.capstone.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fu.capstone.service.WarehouseTransferRequestService;
+import com.fu.capstone.service.dto.PersonalShipmentInvoiceDTO;
 import com.fu.capstone.service.dto.TransferDetailsInvoiceDTO;
 import com.fu.capstone.service.dto.TransferInvoicePackageDTO;
 import com.fu.capstone.web.rest.errors.BadRequestAlertException;
@@ -153,13 +154,13 @@ public class WarehouseTransferRequestResource {
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 
-	@PostMapping("/warehouse-transfer-requests/approve")
+	@PutMapping("/warehouse-transfer-requests/approve")
 	@Timed
-	public ResponseEntity<WarehouseTransferRequestDTO> approveTransferRequest(
+	public ResponseEntity<List<PersonalShipmentInvoiceDTO>> approveTransferRequest(
 			@RequestBody List<TransferDetailsInvoiceDTO> body) throws URISyntaxException {
-		WarehouseTransferRequestDTO result = warehouseTransferRequestService.approveTransferRequest(body);
-		return ResponseEntity.created(new URI("/api/warehouse-transfer-requests/approve" + result.getId()))
-				.headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
+        List<PersonalShipmentInvoiceDTO> result = warehouseTransferRequestService.approveTransferRequest(body);
+		return ResponseEntity.ok()
+				.headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, "1"))
 				.body(result);
 	}
 }
