@@ -1,3 +1,4 @@
+import { PaymentModalWarningComponent } from './payment.component';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -23,9 +24,16 @@ const ENTITY_STATES = [...paymentRoute, ...paymentPopupRoute];
         PaymentDetailComponent,
         PaymentUpdateComponent,
         PaymentDeleteDialogComponent,
-        PaymentDeletePopupComponent
+        PaymentDeletePopupComponent,
+        PaymentModalWarningComponent
     ],
-    entryComponents: [PaymentComponent, PaymentUpdateComponent, PaymentDeleteDialogComponent, PaymentDeletePopupComponent],
+    entryComponents: [
+        PaymentComponent,
+        PaymentUpdateComponent,
+        PaymentDeleteDialogComponent,
+        PaymentDeletePopupComponent,
+        PaymentModalWarningComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CtsgatewayPaymentModule {}

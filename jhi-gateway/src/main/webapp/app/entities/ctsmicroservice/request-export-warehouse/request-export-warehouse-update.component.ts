@@ -188,7 +188,7 @@ export class RequestExportWarehouseUpdateComponent implements OnInit {
         );
         this.accountService.findByUserID({ id: this.currentAccount.id }).subscribe(res => {
             this.currentProfile = res.body;
-            this.invoiceHeaderService.getListKeeperByOfficeID({ id: this.currentProfile.officeId }).subscribe(resp => {
+            this.invoiceHeaderService.getListKeeperByOffice({ id: this.currentProfile.officeId }).subscribe(resp => {
                 this.keeperList = resp.body;
             });
         });
