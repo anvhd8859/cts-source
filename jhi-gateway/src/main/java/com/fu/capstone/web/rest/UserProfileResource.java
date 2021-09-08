@@ -117,7 +117,7 @@ public class UserProfileResource {
         userProfileRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-    
+
     // HaiNM
     @GetMapping("/user-profiles/find-by-user-id")
     @Timed
@@ -140,7 +140,7 @@ public class UserProfileResource {
     @Timed
     public ResponseEntity<List<UserProfile>> getemployeeByRole(@RequestParam("role") String role) {
         log.debug("REST request to get UserProfile : {}", role);
-        List<UserProfile> userProfile = userProfileRepository.getemployeeByRole(role);
+        List<UserProfile> userProfile = userProfileRepository.getEmployeeByRole(role);
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
 }

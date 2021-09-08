@@ -51,7 +51,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     			 + " WHERE (:user = '' OR u.login like CONCAT('%', :user, '%')) "
     			 + " AND (:role = '' OR a.name = :role)")
 	Page<User> getAllUsersByFilter(@Param("user") String user,@Param("role") String role, Pageable pageable);
-    
+
     @Query(value = "SELECT u FROM User u, UserProfile p WHERE u.id = p.userId AND u.login like CONCAT('%', :user, '%')")
     Page<User> getAllShipperUserByFilter(@Param("user") String user, Pageable pageable);
 
@@ -64,4 +64,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT DISTINCT u FROM User u JOIN u.authorities a WHERE a.name = :role ")
 	List<User> getAllUsersByRole(@Param("role") String role);
+
+    @Query(value = "SELECT DISTINCT u FROM User u JOIN u.authorities a, UserProfile p "
+        + " WHERE u.id = p.userId AND p.officeId = :id AND a.name = 'ROLE_SHIPPER' ")
+    List<User> getListShipperByOffice(@Param("id") Long id);
 }

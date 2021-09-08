@@ -148,7 +148,7 @@ public class UserResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-    
+
     /**
      * AnhVD
      * GET /users : get all users by role.
@@ -202,7 +202,7 @@ public class UserResource {
         userService.deleteUser(login);
         return ResponseEntity.ok().headers(HeaderUtil.createAlert( "A user is deleted with identifier " + login, login)).build();
     }
-    
+
     // add code
     @GetMapping("/users/filter")
     @Timed
@@ -211,7 +211,7 @@ public class UserResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/filter");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-    
+
     @GetMapping("/users/shipper")
     @Timed
     public ResponseEntity<List<CustomUserDTO>> getAllShipperUserByFilter(@RequestParam("user") String user, Pageable pageable) {
@@ -219,8 +219,7 @@ public class UserResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/shipper");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-    
-    // HaiNM
+
     @GetMapping("/users/by-id")
     @Timed
     public ResponseEntity<UserDTO> getUserByID(@RequestParam("id") Long id) {
@@ -228,12 +227,18 @@ public class UserResource {
         return ResponseUtil.wrapOrNotFound(
             userService.getUserByID(id).map(UserDTO::new));
     }
-    // HaiNM
-    
+
     @GetMapping("/users/keeper")
     @Timed
-    public ResponseEntity<List<UserDTO>> getAllKeeperUserByOfficeID(@RequestParam("id") Long id) {
+    public ResponseEntity<List<UserDTO>> getAllKeeperUserByOffice(@RequestParam("id") Long id) {
         final List<UserDTO> page = userService.getAllKeeperUserByOfficeID(id);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @GetMapping("/users/shipper")
+    @Timed
+    public ResponseEntity<List<UserDTO>> getListShipperByOfficerId(@RequestParam("id") Long id) {
+        final List<UserDTO> page = userService.getListShipperByOfficerId(id);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 }

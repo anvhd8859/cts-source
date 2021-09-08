@@ -24,6 +24,7 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Long> 
 
 	@Query(value = "SELECT DISTINCT p FROM UserProfile p JOIN User u JOIN u.authorities a "
 				 + " WHERE p.userId = u.id AND a.name = :role ")
-	List<UserProfile> getemployeeByRole(@Param("role") String role);
+	List<UserProfile> getEmployeeByRole(@Param("role") String role);
 
+    UserProfile findDistinctByUserId(Long userId);
 }

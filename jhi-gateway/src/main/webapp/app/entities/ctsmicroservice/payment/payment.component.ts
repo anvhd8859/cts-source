@@ -17,6 +17,7 @@ import { InvoicePackageDetailDTO } from '../import-export-warehouse';
 import { Moment } from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'jhi-payment',
@@ -51,7 +52,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
         private jhiAlertService: JhiAlertService,
         private principal: Principal,
         private eventManager: JhiEventManager,
-        private ngxUiLoaderService: NgxUiLoaderService
+        private ngxUiLoaderService: NgxUiLoaderService,
+        private modal: NgbModal
     ) {
         this.common = new CommonString();
     }
@@ -90,16 +92,30 @@ export class PaymentComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.invoiceHeaderService.getListUserByRole({ role: 'ROLE_SHIPPER' }).subscribe(res => {
-            this.lstUser = res.body;
-        });
         this.principal.identity().then(account => {
             this.currentAccount = account;
+            this.invoiceHeaderService.getListShipperByOfficerId({ id: this.currentAccount.id }).subscribe(res => {
+                this.lstUser = res.body;
+            });
         });
         this.registerChangeInPayments();
     }
 
     confirm() {
+        const modalRef = this.modal.open(PaymentModalWarningComponent as Component, {
+            size: 'lg',
+            backdrop: 'static'
+        });
+        modalRef.componentInstance.name = this.selectedUser.firstName + ' ' + this.selectedUser.lastName;
+        modalRef.result.then(
+            result => {
+                this.confirm();
+            },
+            reason => {}
+        );
+    }
+
+    doConfirm() {
         let data = new Array();
         for (const p of this.payments) {
             p.payment.officerId = this.currentAccount.id;
@@ -151,4 +167,48 @@ export class PaymentInvoiceDTO {
         this.payment = new Payment();
         this.invoice = new InvoiceHeader();
     }
+}
+
+@Component({
+    selector: 'jhi-modal-warning-component',
+    template: `
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">Warning</h4>
+      <button
+        type="button"
+        class="close"
+        aria-describedby="modal-title"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>
+        <strong>Bạn chắc chắn xác nhận Thu tiền cho nhân viên giao hàng {{name}}?</strong>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button
+        style="width: 20%;"
+        type="button"
+        class="btn btn-info"
+        (click)="modal.dismiss('Cancel click')"
+      >
+        Hủy
+      </button>
+      <button
+        style="margin-left: 51%; width: 20%; margin-right:5%"
+        type="button"
+        class="btn btn-primary"
+        (click)="modal.close('Ok click')"
+      >
+        Xác nhận
+      </button>
+    </div>
+  `
+})
+export class PaymentModalWarningComponent {
+    name: any;
+    constructor(public modal: NgbActiveModal) {}
 }

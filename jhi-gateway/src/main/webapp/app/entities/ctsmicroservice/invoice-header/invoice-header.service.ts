@@ -56,7 +56,6 @@ export class InvoiceHeaderService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
-    // ThangND Start
     searchByParam(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http
@@ -81,12 +80,14 @@ export class InvoiceHeaderService {
         return this.http.get<IUser[]>(this.userResourceUrl + '/by-role', { params: options, observe: 'response' });
     }
 
-    getListKeeperByOfficeID(req: any): Observable<HttpResponse<IUser[]>> {
+    getListShipperByOfficerId(req?: any): Observable<HttpResponse<IUser[]>> {
+        return this.http.get<IUser[]>(this.userResourceUrl + '/shipper', { params: req, observe: 'response' });
+    }
+
+    getListKeeperByOffice(req: any): Observable<HttpResponse<IUser[]>> {
         return this.http.get<IUser[]>(this.userResourceUrl + '/keeper', { params: req, observe: 'response' });
     }
-    // ThangND End
 
-    // HaiNM
     createNewInvoice(req?: any, collect?: number): Observable<HttpResponse<any>> {
         return this.http.post<any>(`${this.resourceUrl + '/invoice-detail'}/${collect}`, req, { observe: 'response' });
     }
@@ -113,7 +114,6 @@ export class InvoiceHeaderService {
     getUserByID(req?: any): Observable<HttpResponse<IUser>> {
         return this.http.get<IUser>(this.userResourceUrl + '/by-id', { params: req, observe: 'response' });
     }
-    // HaiNM
 
     updateReviewApproveInvoice(invoiceHeader: IInvoiceHeader): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(invoiceHeader);

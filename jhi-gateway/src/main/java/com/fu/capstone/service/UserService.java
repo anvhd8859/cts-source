@@ -306,16 +306,15 @@ public class UserService {
 		return customDto;
 	}
 
-	// HaiNM
+
 	@Transactional
 	public Optional<User> getUserByID(Long id) {
 		return userRepository.findUserById(id);
 	}
-	// HaiNM
 
 	public List<UserDTO> getAllKeeperUserByOfficeID(Long id) {
 		List<User> list = userRepository.getAllKeeperUserByOfficeID(id);
-		List<UserDTO> rs = new ArrayList<UserDTO>();
+		List<UserDTO> rs = new ArrayList<>();
 		for (User u : list) {
 			rs.add(new UserDTO(u));
 		}
@@ -324,10 +323,20 @@ public class UserService {
 
 	public List<UserDTO> getAllUsersByRole(String role) {
 		List<User> list = userRepository.getAllUsersByRole(role);
-		List<UserDTO> rs = new ArrayList<UserDTO>();
+		List<UserDTO> rs = new ArrayList<>();
 		for (User u : list) {
 			rs.add(new UserDTO(u));
 		}
 		return rs;
 	}
+
+    public List<UserDTO> getListShipperByOfficerId(Long id) {
+	    UserProfile p = userProfileRepository.findDistinctByUserId(id);
+        List<User> list = userRepository.getListShipperByOffice(p.getOfficeId());
+        List<UserDTO> rs = new ArrayList<>();
+        for (User u : list) {
+            rs.add(new UserDTO(u));
+        }
+        return rs;
+    }
 }
