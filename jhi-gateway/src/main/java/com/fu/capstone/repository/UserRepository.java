@@ -71,4 +71,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT DISTINCT u FROM User u WHERE u.id IN (:ids)")
     List<User> getAllUserByIdList(@Param("ids") List<Long> ids);
+
+    @Query(value = "SELECT DISTINCT u FROM User u WHERE u.id = :id")
+    User getUserById(@Param("id") Long ids);
 }

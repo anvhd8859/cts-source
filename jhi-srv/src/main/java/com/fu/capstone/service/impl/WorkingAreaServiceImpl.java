@@ -131,6 +131,7 @@ public class WorkingAreaServiceImpl implements WorkingAreaService {
     @Override
     public List<WorkingAreaStreetDTO> getWorkingAreaByShipper(Long id) {
 	    List<WorkingArea> areas = workingAreaRepository.findAllByEmployeeId(id);
+	    if (areas == null || areas.isEmpty()) return new ArrayList<>();
 	    List<Long> ids = new ArrayList<>();
         areas.forEach(a -> ids.add(a.getStreetId()));
 	    List<Street> streets = streetRepository.getAllByIdList(ids);

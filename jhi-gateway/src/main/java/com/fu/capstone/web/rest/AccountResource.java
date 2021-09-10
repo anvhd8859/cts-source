@@ -216,7 +216,7 @@ public class AccountResource {
     @PostMapping("/sendNotifyShipmentEmail")
     @Timed
     public void sendNotifyShipmentEmail(@RequestBody PersonalShipmentInvoiceDTO data) {
-	    User user = userRepository.getOne(data.getShipment().getEmployeeId());
+	    User user = userRepository.getUserById(data.getShipment().getEmployeeId());
         mailService.sendNotifyShipmentEmail(new UserDTO(user), data.getShipment(), data.getInvoice(), "mail/shipmentNotifyEmail", "email.shipment.title");
     }
 

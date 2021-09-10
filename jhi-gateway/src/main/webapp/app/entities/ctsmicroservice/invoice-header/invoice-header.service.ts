@@ -191,7 +191,7 @@ export class InvoiceHeaderService {
     }
 
     sendReceiptNoteEmail(param?: ReceiptInvoice): any {
-        return this.http.post<ReceiptInvoice>(this.receiptEmailURL, param, { observe: 'response' });
+        return this.http.post<any>(this.receiptEmailURL, param, { observe: 'response' });
     }
 
     sendNotifyShipmentEmail(param?: any): any {

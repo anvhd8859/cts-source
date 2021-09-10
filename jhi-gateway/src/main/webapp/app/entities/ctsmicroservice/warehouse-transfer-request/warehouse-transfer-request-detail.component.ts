@@ -122,7 +122,7 @@ export class WarehouseTransferRequestDetailComponent implements OnInit {
                                     elm.shipment = obj.personalShipmentDTO;
                                     data.push(elm);
                                 }
-                                this.invoiceHeaderService.sendListNotifyShipmentEmail(data);
+                                this.invoiceHeaderService.sendListNotifyShipmentEmail(data).subscribe();
                                 this.previousState();
                             },
                             (res: HttpErrorResponse) => {}

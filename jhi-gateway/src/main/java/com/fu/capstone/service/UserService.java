@@ -333,6 +333,7 @@ public class UserService {
     public List<UserDTO> getListShipperByOfficerId(Long id) {
 	    UserProfile p = userProfileRepository.findDistinctByUserId(id);
         List<User> list = userRepository.getListShipperByOffice(p.getOfficeId());
+        if (list == null || list.isEmpty()) return new ArrayList<>();
         List<UserDTO> rs = new ArrayList<>();
         for (User u : list) {
             rs.add(new UserDTO(u));
