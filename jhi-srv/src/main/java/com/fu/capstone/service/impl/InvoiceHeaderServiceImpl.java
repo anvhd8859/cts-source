@@ -249,8 +249,8 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
             ps.setUpdateDate(instant);
 
             // get employee and add to shipment
-            WorkingArea wa = workingAreaRepository.getEmployeeNearBy(fromStreet.getId());
-            if (wa == null) wa = workingAreaRepository.getEmployeeNearBy(toStreet.getId());
+            WorkingArea wa = workingAreaRepository.findDistinctByStreetId(fromStreet.getId());
+            if (wa == null) wa = workingAreaRepository.getEmployeeNearBy(fromStreet.getId());
             if (wa != null) ps.setEmployeeId(wa.getEmployeeId());
             lstShipment.add(ps);
         } else {
@@ -262,7 +262,7 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
         // finish = true, can import
         invoiceHeaderDTO.setFinish(true);
 
-        // save data
+        // set employee and add delivery
         PersonalShipment psDelivery = new PersonalShipment();
         psDelivery.setInvoiceHeaderId(invoiceHeaderDTO.getId());
         psDelivery.setStatus("");
@@ -271,16 +271,15 @@ public class InvoiceHeaderServiceImpl implements InvoiceHeaderService {
         psDelivery.setUpdateDate(instant);
         WorkingArea wa = workingAreaRepository.findDistinctByStreetId(toStreet.getId());
         if (wa == null) wa = workingAreaRepository.getEmployeeNearBy(toStreet.getId());
+        if (wa != null) psDelivery.setEmployeeId(wa.getEmployeeId());
+        lstShipment.add(psDelivery);
 
         // check online of offline create invoice if it is create by officer
         if (invoiceHeaderDTO.getEmployeeId() != null) {
             invoiceHeaderDTO.setStatus("received");
         }
 
-        // set employee and add delivery
-        if (wa != null) psDelivery.setEmployeeId(wa.getEmployeeId());
-        lstShipment.add(psDelivery);
-
+        // save data
         personalShipmentRepository.saveAll(lstShipment);
         invoiceDetailsRepository.saveAll(invoiceDetailsMapper.toEntity(lstDetailDTO));
 
