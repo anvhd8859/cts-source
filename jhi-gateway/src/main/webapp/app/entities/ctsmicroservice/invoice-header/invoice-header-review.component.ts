@@ -118,6 +118,7 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
                             name: 'invoiceHeaderListModification',
                             content: 'Approve successful an invoiceHeader'
                         });
+                        modalRef.dismiss(true);
                         modalRef = null;
                     },
                     (res: HttpErrorResponse) => {
@@ -125,6 +126,7 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
                             name: 'invoiceHeaderListModification',
                             content: 'Error on approve an invoiceHeader'
                         });
+                        modalRef.dismiss(true);
                         modalRef = null;
                     }
                 );
@@ -152,6 +154,7 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
                             name: 'invoiceHeaderListModification',
                             content: 'Reject successful an invoiceHeader'
                         });
+                        modalRef.dismiss(true);
                         modalRef = null;
                     },
                     (res: HttpErrorResponse) => {
@@ -159,11 +162,13 @@ export class InvoiceHeaderReviewComponent implements OnInit, OnDestroy {
                             name: 'invoiceHeaderListModification',
                             content: 'Error on reject an invoiceHeader'
                         });
+                        modalRef.dismiss(true);
                         modalRef = null;
                     }
                 );
             },
             reason => {
+                modalRef.dismiss(true);
                 modalRef = null;
             }
         );
