@@ -184,6 +184,7 @@ public class PaymentServiceImpl implements PaymentService {
 	    String time = Instant.now().toString();
 	    time = time.substring(0, time.indexOf("T"));
 	    List<Payment> payments = paymentRepository.findAllByEmployeeId(id, time);
+	    if (payments == null || payments.isEmpty()) return new ArrayList<>();
 	    List<Long> headers = new ArrayList<>();
 	    payments.forEach(p -> {
             headers.add(p.getInvoiceHeaderId());
