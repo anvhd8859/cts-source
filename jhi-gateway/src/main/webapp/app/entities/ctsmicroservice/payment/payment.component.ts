@@ -59,6 +59,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+        this.payments = new Array();
         this.ngxUiLoaderService.start();
         this.paymentService
             .findPaymentByShipperId({
