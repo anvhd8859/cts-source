@@ -42,7 +42,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     Payment findPaymentByHeaderId(@Param("id") Long id);
 
     @Query(value = " SELECT p FROM Payment p WHERE p.employeeId = :id "
-        + " AND (p.createDate >= CONCAT(:time, ' 00:00:00') AND p.createDate <= CONCAT(:time, ' 23:59:59')) "
         + " AND p.officerId IS NULL ")
-    List<Payment> findAllByEmployeeId(@Param("id") Long employeeId, @Param("time") String time);
+    List<Payment> findAllByEmployeeId(@Param("id") Long employeeId);
 }

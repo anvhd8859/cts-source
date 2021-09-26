@@ -8,7 +8,7 @@
             <div class="row" style="border-bottom: 2px solid;">
                 <div class="col-lg-8 col-md-12 col-md-12">
                     <h2 style="font-weight: bold;" id="page-heading">
-                        <span>Quản lý thông tin thanh toán</span>
+                        <span>Quản lý thông tin thanh toán chưa giao</span>
                     </h2>
                 </div>
                 <div class="col-lg-4 col-md-12 col-md-12">
@@ -26,52 +26,9 @@
         <br>
         <jhi-alert></jhi-alert>
         <div class="divider"></div>
+        <br>
         <div class="card">
-            <div class="card-header">
-                <label class="form-control-label" for="from-address" style="font-weight: bolder;">
-                    <b>Thông tin nhân viên giao hàng</b>
-                </label>
-            </div>
-            <div class="card-body" name="from-address">
-                <div class="form-group">
-                    <label class="form-control-label" for="field_customerId">Tài khoản</label>
-                    <ng-select [clearable]="true" [hideSelected]="true" [items]="this.lstUser" bindLabel="email"
-                        id="field_customerId" name="field_customerId" [ngModelOptions]="{standalone: true}"
-                        [(ngModel)]="this.selectedUser" (change)="this.changeUser()">
-                        <ng-option *ngFor="let item of lstUser">{{item.email}}</ng-option>
-                    </ng-select>
-                </div>
-                <br>
-                <br>
-                <label *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="form-control-label"
-                    for="">Thông tin</label>
-                <div *ngIf="this.selectedUserProfile && this.selectedUserProfile.id" class="col-lg-12">
-                    <table class="table">
-                        <tr>
-                            <th class="text-left">Họ và Tên</th>
-                            <td class="text-left">{{this.selectedUser.firstName + ' ' + this.selectedUser.lastName}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="text-left">Số điện thoại</th>
-                            <td class="text-left">{{this.selectedUserProfile.phoneNumber}}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left">Địa chỉ</th>
-                            <td class="text-left">{{this.selectedUserProfile.address}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <br />
-        <div class="divider"></div>
-        <div class="card">
-            <div class="card-header">
-                <label class="form-control-label"></label>
-            </div>
             <div class="card-body">
-                <br>
                 <div class="table-responsive" *ngIf="payments && payments.length > 0">
                     <table class="table table-striped">
                         <thead>
@@ -97,7 +54,7 @@
                     </table>
                 </div>
                 <div *ngIf="!payments || payments.length == 0">
-                    <h3>Không có thanh toán nào cần phải thu</h3>
+                    <h3>Không có thanh toán nào</h3>
                     <br> <br> <br>
                 </div>
             </div>
@@ -113,11 +70,8 @@
                 </div>
             </div>
             <br>
-            <div class="col-lg-12">
-                <button id="save-entity"  class="btn btn-primary float-right" style="margin-right: 10px;" (click)="confirm()" *ngIf="payments">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;&nbsp;<span>Xác nhận</span>
-                </button>
-            </div>
+            <br>
+            <br>
         </div>
         <br>
         <br>

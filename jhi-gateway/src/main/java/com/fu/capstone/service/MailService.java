@@ -139,4 +139,16 @@ public class MailService {
     public void sendListNotifyShipmentEmail(List<PersonalShipmentInvoiceDTO> data, String templateName, String titleKey) {
         data.parallelStream().forEach(d -> sendNotifyShipmentEmail(d.getShipper(), d.getShipment(), d.getInvoice(), templateName, titleKey));
     }
+
+    public void sendConfirmPaymentEmail(String shipperName, String money, String officerName, String mail, String templateName, String titleKey) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("shipperName", shipperName);
+        context.setVariable("money", money);
+        context.setVariable("officerName", officerName);
+        context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+        String content = templateEngine.process(templateName, context);
+        String subject = messageSource.getMessage(titleKey, null, locale);
+        sendEmail(mail, subject, content, false, true);
+    }
 }

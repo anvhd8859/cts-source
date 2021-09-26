@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="#{email.confirm.title}">Thông báo xác nhận nộp tiền</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="shortcut icon" th:href="@{|${baseUrl}/favicon.ico|}" />
+</head>
+<body>
+	<p>
+		<span th:text="'Dear ' + ${shipperName}"></span>
+	</p>
+	<p>Bạn đã thanh toán số tiền </p> <span th:text="${money}"></span><span> đ</span>
+	<p>
+		<span>Ngày nộp</span> <span th:text="${date}"></span>
+	</p>
+	<p>
+		<span>Nhân viên nhận: </span><span th:text="${officerName}"></span>
+	</p>
+	<p>
+		<span th:text="#{email.confirm.text2}">Regards, </span> <br />
+	</p>
+	<h3>
+		<em th:text="#{email.signature}">JHipster CTS service</em>
+	</h3>
+</body>
+</html>
