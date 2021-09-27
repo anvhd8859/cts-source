@@ -113,11 +113,12 @@
                 </div>
             </div>
             <br>
-            <div class="col-lg-12">
+            <div class="col-lg-12" *ngIf="payments && payments.length > 0">
                 <button id="save-entity"  class="btn btn-primary float-right" style="margin-right: 10px;" (click)="confirm()" *ngIf="payments">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;&nbsp;<span>Xác nhận</span>
                 </button>
             </div>
+            <br>
         </div>
         <br>
         <br>

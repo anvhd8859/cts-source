@@ -204,7 +204,7 @@ export class InvoiceHeaderService {
     }
 
     sendConfirmPaymentEmail(options?: any): any {
-        return this.http.post<any>(this.confirmPaymentEmail, { params: options, observe: 'response' });
+        return this.http.get<any>(this.confirmPaymentEmail, { params: options, observe: 'response' });
     }
 
     getImportInvoiceByOfficer(req?: any): Observable<any> {

@@ -237,9 +237,9 @@ public class AccountResource {
         mailService.sendListNotifyShipmentEmail(data, "mail/shipmentNotifyEmail", "email.shipment.title");
     }
 
-    @PostMapping("/sendConfirmPaymentEmail")
+    @GetMapping("/sendConfirmPaymentEmail")
     @Timed
     public void sendConfirmPaymentEmail(@RequestParam String shipperName, @RequestParam String money, @RequestParam String officerName, @RequestParam String mail) {
-        mailService.sendConfirmPaymentEmail(shipperName, money, officerName, mail, "mail/sendConfirmPaymentEmail", "email.payment.title");
+        mailService.sendConfirmPaymentEmail(shipperName, money, officerName, mail, "mail/paymentConfirmEmail", "email.confirm.title");
     }
 }

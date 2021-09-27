@@ -56,6 +56,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+        this.totalAmount = 0;
         this.payments = new Array();
         this.ngxUiLoaderService.start();
         this.paymentService
@@ -120,13 +121,14 @@ export class PaymentComponent implements OnInit, OnDestroy {
             data.push(p.payment);
         }
         this.paymentService.approveAllPaymentsByOfficer(data).subscribe(res => {
-            const param = {
-                shipperName: this.selectedUser.firstName + ' ' + this.selectedUser.lastName,
-                money: this.totalAmount,
-                officerName: this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
-                mail: this.selectedUser.email
-            };
-            this.invoiceHeaderService.sendConfirmPaymentEmail(param);
+            this.invoiceHeaderService
+                .sendConfirmPaymentEmail({
+                    shipperName: this.selectedUser.firstName + ' ' + this.selectedUser.lastName,
+                    money: this.totalAmount,
+                    officerName: this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
+                    mail: this.selectedUser.email
+                })
+                .subscribe();
             this.loadAll();
         });
     }
