@@ -6,6 +6,9 @@ import com.fu.capstone.service.dto.*;
 import io.github.jhipster.config.JHipsterProperties;
 
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.mail.internet.MimeMessage;
@@ -146,6 +149,7 @@ public class MailService {
         context.setVariable("shipperName", shipperName);
         context.setVariable("money", money);
         context.setVariable("officerName", officerName);
+        context.setVariable("date", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
         context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);

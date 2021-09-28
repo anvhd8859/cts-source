@@ -73,6 +73,12 @@
                         </a>
                     </li>
                     <li>
+                        <a class="dropdown-item" routerLink="payment-shipper" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon [icon]="'money-bill-wave-alt'" [fixedWidth]="true"></fa-icon>
+                            <span>Thanh toán cần nộp</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="dropdown-item" routerLink="working-area-shipper" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'globe-asia'" [fixedWidth]="true"></fa-icon>
                             <span>Khu vực làm việc</span>
