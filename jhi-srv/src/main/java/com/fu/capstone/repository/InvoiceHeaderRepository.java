@@ -50,7 +50,7 @@ public interface InvoiceHeaderRepository extends JpaRepository<InvoiceHeader, Lo
 
 	@Query( value = "SELECT i FROM InvoiceHeader i WHERE i.customerId = :id ORDER BY i.createDate DESC")
 	Page<InvoiceHeader> getInvoiceHeadersByCustomer(@Param("id") Long id, Pageable pageable);
-
+//vvvvv
 	@Query( value = "SELECT i FROM InvoiceHeader i WHERE (i.destinationOfficeId = :id "
 				  + " AND ((:status = '' AND (i.status = 'transporting' OR i.status = 'delivering')) OR i.status = :status) AND i.cancel != TRUE "
 				  + " AND (:invNo = '' OR i.invoiceNo like CONCAT('%', :invNo, '%'))) "
