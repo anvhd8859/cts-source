@@ -253,7 +253,7 @@ export class ReceiptnoteUpdateComponent implements OnInit {
                     for (const obj of this.createPackage) {
                         this.data.packageList.push(obj);
                     }
-                    this.receiptnoteService.createReceiptByOfficer(this.data).subscribe(
+                    this.receiptnoteService.createReceiptByOfficer(this.currentProfile.officeId, this.data).subscribe(
                         (res: HttpResponse<IReceiptnote>) => {
                             this.sendEmail(res.body);
                             this.isSaving = false;

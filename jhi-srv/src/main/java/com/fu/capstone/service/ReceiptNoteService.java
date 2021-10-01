@@ -58,7 +58,7 @@ public interface ReceiptNoteService {
 
 	ReceiptNoteDTO createReceiptNoteDeliveryShipment(ReceiptDetailPackageDTO data);
 
-	ReceiptNoteDTO createReceiptByOfficer(ReceiptDetailPackageDTO data);
+	ReceiptNoteDTO createReceiptByOfficer(Long id, ReceiptDetailPackageDTO data);
 
 	ReceiptNoteDTO getReceiveNoteByInvoiceId(Long id);
 }

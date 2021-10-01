@@ -121,14 +121,12 @@ export class PaymentComponent implements OnInit, OnDestroy {
             data.push(p.payment);
         }
         this.paymentService.approveAllPaymentsByOfficer(data).subscribe(res => {
-            this.invoiceHeaderService
-                .sendConfirmPaymentEmail({
-                    shipperName: this.selectedUser.firstName + ' ' + this.selectedUser.lastName,
-                    money: this.totalAmount,
-                    officerName: this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
-                    mail: this.selectedUser.email
-                })
-                .subscribe();
+            this.invoiceHeaderService.sendConfirmPaymentEmail({
+                shipperName: this.selectedUser.firstName + ' ' + this.selectedUser.lastName,
+                money: this.totalAmount,
+                officerName: this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
+                mail: this.selectedUser.email
+            });
             this.loadAll();
         });
     }
