@@ -72,7 +72,7 @@ export class ReceiptnoteService {
     }
 
     createReceiptByOfficer(id: number, req?: any): any {
-        return this.http.post<any>(this.resourceUrl + '/officer/' + id, req, { observe: 'response' });
+        return this.http.post<any>(`${this.resourceUrl}/officer/${id}`, req, { observe: 'response' });
     }
 
     private convertDateFromClient(receiptnote: IReceiptnote): IReceiptnote {
