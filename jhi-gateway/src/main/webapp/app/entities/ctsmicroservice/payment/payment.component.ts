@@ -2,19 +2,16 @@ import { InvoiceHeader } from 'app/shared/model/ctsmicroservice/invoice-header.m
 import { IInvoiceHeader } from './../../../shared/model/ctsmicroservice/invoice-header.model';
 import { CommonString } from './../../../shared/util/request-util';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { IPayment, Payment } from 'app/shared/model/ctsmicroservice/payment.model';
 import { AccountService, IUser, Principal } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
 import { PaymentService } from './payment.service';
 import { InvoiceHeaderService } from '../invoice-header';
 import { InvoicePackageDetailDTO } from '../import-export-warehouse';
-import { Moment } from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { IUserProfile } from 'app/shared/model/user-profile.model';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -59,6 +56,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+        this.totalAmount = 0;
         this.payments = new Array();
         this.ngxUiLoaderService.start();
         this.paymentService
@@ -123,6 +121,12 @@ export class PaymentComponent implements OnInit, OnDestroy {
             data.push(p.payment);
         }
         this.paymentService.approveAllPaymentsByOfficer(data).subscribe(res => {
+            this.invoiceHeaderService.sendConfirmPaymentEmail({
+                shipperName: this.selectedUser.firstName + ' ' + this.selectedUser.lastName,
+                money: this.totalAmount,
+                officerName: this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
+                mail: this.selectedUser.email
+            });
             this.loadAll();
         });
     }

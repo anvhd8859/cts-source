@@ -23,6 +23,7 @@ export class InvoiceHeaderService {
     public receiptEmailURL = SERVER_API_URL + 'api/sendReceiptNoteEmail';
     public notifyShipmentEmail = SERVER_API_URL + 'api/sendNotifyShipmentEmail';
     public notifyShipmentEmailList = SERVER_API_URL + 'api/sendListNotifyShipmentEmail';
+    public confirmPaymentEmail = SERVER_API_URL + 'api/sendConfirmPaymentEmail';
 
     constructor(private http: HttpClient) {}
 
@@ -200,6 +201,10 @@ export class InvoiceHeaderService {
 
     sendListNotifyShipmentEmail(param?: any): any {
         return this.http.post<any>(this.notifyShipmentEmailList, param, { observe: 'response' });
+    }
+
+    sendConfirmPaymentEmail(options?: any): any {
+        return this.http.get<any>(this.confirmPaymentEmail, { params: options, observe: 'response' });
     }
 
     getImportInvoiceByOfficer(req?: any): Observable<any> {

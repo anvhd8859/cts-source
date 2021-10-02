@@ -181,9 +181,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentInvoiceDTO> findPaymentByShipperId(Long id) {
-	    String time = Instant.now().toString();
-	    time = time.substring(0, time.indexOf("T"));
-	    List<Payment> payments = paymentRepository.findAllByEmployeeId(id, time);
+	    List<Payment> payments = paymentRepository.findAllByEmployeeId(id);
 	    if (payments == null || payments.isEmpty()) return new ArrayList<>();
 	    List<Long> headers = new ArrayList<>();
 	    payments.forEach(p -> {

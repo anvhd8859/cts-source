@@ -323,10 +323,12 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
     }
 
     @Override
-    public ReceiptNoteDTO createReceiptByOfficer(ReceiptDetailPackageDTO data) {
+    public ReceiptNoteDTO createReceiptByOfficer(Long id, ReceiptDetailPackageDTO data) {
         Instant instant = Instant.now();
         InvoiceHeader inv = invoiceHeaderRepository.getOne(data.getReceipt().getInvoiceHeaderId());
         inv.setStatus("received");
+        inv.setOfficeId(id);
+        inv.setReviewDate(Instant.now());
 
         // delivery receipt and process
         List<InvoiceDetails> detailsList = new ArrayList<>();
@@ -335,14 +337,14 @@ public class ReceiptNoteServiceImpl implements ReceiptNoteService {
             pd.getInvPackage().setUpdateDate(instant);
             pd.getInvPackage().setStatus("received");
             InvoicePackage ip = invoicePackageRepository.save(invoicePackageMapper.toEntity(pd.getInvPackage()));
-            for (InvoiceDetailsDTO id : pd.getItemList()) {
-                if (id.getItemName() != null && id.getItemType() != null) {
-                    if (id.getId() == null)
-                        id.setCreateDate(instant);
-                    id.setUpdateDate(instant);
-                    id.setInvoicePackageId(ip.getId());
-                    id.setInvoiceHeaderId(inv.getId());
-                    detailsList.add(invoiceDetailsMapper.toEntity(id));
+            for (InvoiceDetailsDTO obj : pd.getItemList()) {
+                if (obj.getItemName() != null && obj.getItemType() != null) {
+                    if (obj.getId() == null)
+                        obj.setCreateDate(instant);
+                    obj.setUpdateDate(instant);
+                    obj.setInvoicePackageId(ip.getId());
+                    obj.setInvoiceHeaderId(inv.getId());
+                    detailsList.add(invoiceDetailsMapper.toEntity(obj));
                 }
             }
         }

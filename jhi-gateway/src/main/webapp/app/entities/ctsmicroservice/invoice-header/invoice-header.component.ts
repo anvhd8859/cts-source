@@ -97,7 +97,7 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
             queryParams: {
                 page: this.page,
                 size: this.itemsPerPage,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+                sort: this.predicate + ',' + 'desc'
             }
         });
         this.loadAll();
@@ -109,7 +109,7 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
             '/invoice-header',
             {
                 page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+                sort: this.predicate + ',' + 'desc'
             }
         ]);
         this.loadAll();
@@ -136,7 +136,7 @@ export class InvoiceHeaderComponent implements OnInit, OnDestroy {
     }
 
     sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        const result = [this.predicate + ',' + 'desc'];
         if (this.predicate !== 'id') {
             result.push('id');
         }

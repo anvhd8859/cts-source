@@ -156,9 +156,9 @@ public class ReceiptNoteResource {
 		return new ResponseEntity<>(page, HttpStatus.OK);
 	}
 
-	@PostMapping("/receipt-notes/officer")
+	@PostMapping("/receipt-notes/officer/{id}")
 	@Timed
-	public ResponseEntity<ReceiptNoteDTO> createReceiptByOfficer(@RequestBody ReceiptDetailPackageDTO data)
+	public ResponseEntity<ReceiptNoteDTO> createReceiptByOfficer(@PathVariable Long id,@RequestBody ReceiptDetailPackageDTO data)
 			throws URISyntaxException {
 		log.debug("REST request to update ReceiptNote : {}", data);
 		if (data.getReceipt().getId() != null) {
@@ -167,7 +167,7 @@ public class ReceiptNoteResource {
 		if (data.getPackageList().size() == 0) {
 			throw new BadRequestAlertException("A new item and package cannot blank", ENTITY_NAME, "notexist");
 		}
-		ReceiptNoteDTO result = receiptNoteService.createReceiptByOfficer(data);
+		ReceiptNoteDTO result = receiptNoteService.createReceiptByOfficer(id, data);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
 				.body(result);
 	}

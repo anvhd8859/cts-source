@@ -12,6 +12,7 @@ import { PaymentDetailComponent } from './payment-detail.component';
 import { PaymentUpdateComponent } from './payment-update.component';
 import { PaymentDeletePopupComponent } from './payment-delete-dialog.component';
 import { IPayment } from 'app/shared/model/ctsmicroservice/payment.model';
+import { PaymentShipperComponent } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class PaymentResolve implements Resolve<IPayment> {
@@ -35,6 +36,19 @@ export const paymentRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_OFFICER'],
+            defaultSort: 'id,asc',
+            pageTitle: 'Quản lý thanh toán'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'payment-shipper',
+        component: PaymentShipperComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_ADMIN', 'ROLE_SHIPPER'],
             defaultSort: 'id,asc',
             pageTitle: 'Quản lý thanh toán'
         },

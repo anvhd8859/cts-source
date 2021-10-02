@@ -12,7 +12,8 @@ import {
     PaymentDeletePopupComponent,
     PaymentDeleteDialogComponent,
     paymentRoute,
-    paymentPopupRoute
+    paymentPopupRoute,
+    PaymentShipperComponent
 } from './';
 
 const ENTITY_STATES = [...paymentRoute, ...paymentPopupRoute];
@@ -21,6 +22,7 @@ const ENTITY_STATES = [...paymentRoute, ...paymentPopupRoute];
     imports: [CtsgatewaySharedModule, RouterModule.forChild(ENTITY_STATES), NgSelectModule, FormsModule],
     declarations: [
         PaymentComponent,
+        PaymentShipperComponent,
         PaymentDetailComponent,
         PaymentUpdateComponent,
         PaymentDeleteDialogComponent,
@@ -29,6 +31,7 @@ const ENTITY_STATES = [...paymentRoute, ...paymentPopupRoute];
     ],
     entryComponents: [
         PaymentComponent,
+        PaymentShipperComponent,
         PaymentUpdateComponent,
         PaymentDeleteDialogComponent,
         PaymentDeletePopupComponent,
