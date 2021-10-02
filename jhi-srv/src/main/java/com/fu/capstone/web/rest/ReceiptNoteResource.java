@@ -158,7 +158,7 @@ public class ReceiptNoteResource {
 
 	@PostMapping("/receipt-notes/officer/{id}")
 	@Timed
-	public ResponseEntity<ReceiptNoteDTO> createReceiptByOfficer(@PathVariable Long id,@RequestBody ReceiptDetailPackageDTO data)
+	public ResponseEntity<ReceiptNoteDTO> createReceiptByOfficer(@PathVariable Long id, @RequestBody ReceiptDetailPackageDTO data)
 			throws URISyntaxException {
 		log.debug("REST request to update ReceiptNote : {}", data);
 		if (data.getReceipt().getId() != null) {
